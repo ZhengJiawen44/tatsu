@@ -1,5 +1,9 @@
 This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
+## Introduction
+tatsu is a todo app on steriods. featuring avatars that grow as you complete your todo goals, tracking your long term todos, a notion-like editor, and more!
+
+
 ## Getting Started
 
 First, run the development server:
