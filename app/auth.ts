@@ -6,6 +6,7 @@ import { prisma } from "@/lib/prisma/client";
 
 export const { handlers, signIn, signOut, auth } = NextAuth({
   adapter: PrismaAdapter(prisma),
+  session: { strategy: "jwt" },
   providers: [
     Credentials({
       credentials: { email: {}, password: {} },
@@ -22,11 +23,11 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
 
         let user = null;
         //does user exist?
-        user = prisma.user.findUnique({
+        user = await prisma.user.findUnique({
           where: { email: email },
         });
         if (!user) {
-          //   throw new Error("Invalid credentials.");
+          throw new Error("Invalid credentials.");
         }
         return user;
       },
