@@ -10,6 +10,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
   providers: [
     Credentials({
       credentials: { email: {}, password: {} },
+      //this is called for when signIn method is invoked. params passed are the form data from frontend
       authorize: async (credentials) => {
         //destructure credentials
         const { email, password } = credentials as {
@@ -17,16 +18,18 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
           password: string;
         };
 
-        //hash the password
-        const salt = bcrypt.genSaltSync(10);
-        const hash = bcrypt.hashSync(password, salt);
-
+        //either return a user or null
         let user = null;
         //does user exist?
         user = await prisma.user.findUnique({
           where: { email: email },
         });
-        if (!user) {
+
+        const passwordMatch = bcrypt.compareSync(
+          password,
+          user?.password || ""
+        );
+        if (!user || !passwordMatch) {
           throw new Error("Invalid credentials.");
         }
         return user;

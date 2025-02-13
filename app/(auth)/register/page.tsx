@@ -1,5 +1,4 @@
 "use client";
-import React, { FormEvent } from "react";
 const page = () => {
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -7,10 +6,15 @@ const page = () => {
       const formData = new FormData(e.currentTarget);
       const formObject = Object.fromEntries(formData.entries());
 
-      await fetch("/api/auth/register", {
+      console.log(formObject);
+
+      const res = await fetch("/api/auth/register", {
         method: "POST",
         body: JSON.stringify(formObject),
       });
+
+      const body = await res.json();
+      console.log(body);
     } catch (error) {
       console.log(error);
     }
