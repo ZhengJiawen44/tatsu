@@ -1,9 +1,16 @@
 "use client";
-import React from "react";
+import React, { FormEvent } from "react";
 const page = () => {
-  async function handleSubmit() {
+  async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
+    e.preventDefault();
     try {
-      await fetch("/api/auth/register", { method: "POST" });
+      const formData = new FormData(e.currentTarget);
+      const formObject = Object.fromEntries(formData.entries());
+
+      await fetch("/api/auth/register", {
+        method: "POST",
+        body: JSON.stringify(formObject),
+      });
     } catch (error) {
       console.log(error);
     }
@@ -19,7 +26,9 @@ const page = () => {
       <label>Password</label>
       <input name="password" type="password" />
 
-      <button className="border">register</button>
+      <button className="border" type="submit">
+        register
+      </button>
     </form>
   );
 };
