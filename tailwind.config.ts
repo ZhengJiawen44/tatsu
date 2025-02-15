@@ -23,7 +23,10 @@ export default {
           },
           foreground: "hsl(var(--form-foreground))",
           input: "hsl(var(--input-background))",
-          label: "hsl(var(--form-label))",
+          label: {
+            DEFAULT: "hsl(var(--form-label))",
+            accent: "hsl(var(--form-label-accent))",
+          },
           link: {
             DEFAULT: "hsl(var(--form-link))",
             accent: "hsl(var(--form-link-accent))",

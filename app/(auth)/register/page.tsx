@@ -13,9 +13,11 @@ import {
 } from "@/components/ui/separator";
 import { useForm } from "react-hook-form";
 import { RegisterFormProp } from "@/types/forms";
+import { useState } from "react";
+import EyeToggle from "@/components/ui/eyeToggle";
 
 const page = () => {
-  // setup react-hook-form, toast, and router
+  // setup react-hook-form, toast, router, and password vivibillity toggle
   const {
     register,
     handleSubmit,
@@ -23,6 +25,7 @@ const page = () => {
   } = useForm<RegisterFormProp>({ resolver: zodResolver(registrationSchema) });
   const { toast } = useToast();
   const router = useRouter();
+  const [show, setShow] = useState(false);
 
   // define login page ui
   return (
@@ -93,12 +96,16 @@ const page = () => {
           </div>
 
           <div>
-            <input
-              {...register("password")}
-              type="password"
-              className="text-white bg-form-input rounded-md h-[45px] w-full px-[18px] focus:outline-none focus:outline-form-border"
-              placeholder="Enter your password*"
-            />
+            <div id="PasswordField" className="relative h-[45px]">
+              <input
+                {...register("password")}
+                type={show ? "text" : "password"}
+                className="absolute inset-0 z-0 text-white bg-form-input rounded-md w-full px-[18px] pr-[55px] focus:outline-none focus:outline-form-border"
+                placeholder="Enter your password*"
+              />
+              <EyeToggle show={show} setShow={setShow} />
+            </div>
+
             {errors.password && (
               <p className="text-sm text-white mt-3">
                 {errors.password.message}

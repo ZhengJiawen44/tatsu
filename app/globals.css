@@ -42,6 +42,7 @@ body {
     --form-foreground: 0, 0%, 100%;
     --input-background: 256, 17%, 25%;
     --form-label: 249, 12%, 55%;
+    --form-label-accent: 249, 12%, 90%;
     --form-link: 254, 32%, 74%;
     --form-link-accent: 254, 32%, 90%;
     --form-button: 255, 40%, 52%;
