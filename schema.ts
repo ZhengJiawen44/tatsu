@@ -1,6 +1,11 @@
 import { z } from "zod";
 
 export const registrationSchema = z.object({
+  fname: z
+    .string({ message: "name cannot be left empty" })
+    .trim()
+    .min(2, { message: "first name is atleast two characters" }),
+  lname: z.string().optional(),
   email: z
     .string({ message: "email cannot be left empty" })
     .trim()
@@ -17,14 +22,11 @@ export const registrationSchema = z.object({
 });
 
 export const loginSchema = z.object({
-  name: z
+  fname: z
     .string({ message: "name cannot be left empty" })
     .trim()
-    .min(2, { message: "first name has to be atleast two characters" }),
-  lastname: z
-    .string()
-    .min(2, { message: "last name has to be atleast two characters or none" })
-    .optional(),
+    .min(2, { message: "first name is atleast two characters" }),
+  lname: z.string().optional(),
   email: z.string({ message: "email cannot be left empty" }).trim(),
   password: z.string(),
 });
