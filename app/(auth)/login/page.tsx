@@ -1,50 +1,149 @@
 "use client";
-import { useRouter } from "next/navigation";
 import { signIn } from "next-auth/react";
 import Link from "next/link";
-import { AiOutlineLoading3Quarters as Loading } from "react-icons/ai";
+import Image from "next/image";
+import { loginSchema } from "@/schema";
+import { zodResolver } from "@hookform/resolvers/zod";
+import Spinner from "@/components/ui/spinner";
+import { useToast } from "@/hooks/use-toast";
+import { useRouter } from "next/navigation";
+import {
+  Separator,
+  SeparatorLine,
+  SeparatorWord,
+} from "@/components/ui/separator";
+import { useForm } from "react-hook-form";
+import { LoginFormProp } from "@/types/forms";
 const LoginPage = () => {
-  const router = useRouter();
-
-  const handleSubmit = async (formData: FormData) => {
+  const onSubmit = async (data: LoginFormProp) => {
     try {
-      const email = formData.get("email") as string;
-      const password = formData.get("password") as string;
-
       const result = await signIn("credentials", {
-        email,
-        password,
+        ...data,
         redirect: false,
       });
+      console.log(result);
 
       if (result?.error) {
+        toast({ title: "invalid email or password" });
         console.error(result.error);
       } else {
+        toast({ title: "logged in" });
         router.push("/home");
       }
     } catch (error) {
       console.error(error);
     }
   };
-  return (
-    <>
-      <div>
-        <Loading className="border" />
-      </div>
+  // setup react-hook-form, toast, and router
+  const {
+    register,
+    handleSubmit,
+    formState: { errors, isSubmitting, isLoading },
+  } = useForm<LoginFormProp>({ resolver: zodResolver(loginSchema) });
+  const { toast } = useToast();
+  const router = useRouter();
 
+  // define login page ui
+  return (
+    <div className="flex min-w-screen min-h-screen justify-center items-center">
       <form
-        className="flex flex-col p-8 rounded-lg bg-card w-fit gap-4 m-auto mt-40"
-        action={handleSubmit}
+        onSubmit={handleSubmit(onSubmit)}
+        className="w-screen h-screen bg-form-background md:w-[70%] md:h-fit lg:w-[60%]  xl:w-[50%] 2xl:w-[38%]  md:rounded-xl p-[55px] md:p-[85px]
+        shadow-[0px_1px_4px_hsl(260,15%,28%),_0px_2px_8px_hsl(260,15%,28%),_0px_4px_16px_hsl(260,15%,28%),_0px_8px_32px_hsl(260,15%,28%),_0px_16px_64px_hsl(260,15%,28%)]"
       >
-        <label>Email</label>
-        <input name="email" type="email" required />
-        <label>Password</label>
-        <input name="password" type="password" required />
-        <button className="border" type="submit">
-          Sign In
-        </button>
+        {/* header section */}
+        <h1 className="text-[35px] md:text-[38px] lg:text-[45px] text-white mb-[37px]">
+          Login
+        </h1>
+
+        <div className="flex flex-col gap-9 mb-9">
+          <div id="OauthContainer" className="flex gap-5">
+            <button
+              type="button"
+              className="flex gap-3 justify-center items-center w-1/2 h-[3rem] border border-form-border rounded-md hover:border-form-border-accent transition-all duration-300"
+            >
+              <Image
+                src="google.svg"
+                alt="apple"
+                width={28}
+                height={28}
+                priority={false}
+              />
+              <p className="text-white">Google</p>
+            </button>
+            <button
+              type="button"
+              className="flex gap-3 justify-center items-center w-1/2 h-[3rem] border border-form-border rounded-md hover:border-form-border-accent transition-all duration-300"
+            >
+              <Image
+                src="apple.svg"
+                alt="apple"
+                width={28}
+                height={28}
+                priority={false}
+              />
+              <p className="text-white">Apple</p>
+            </button>
+          </div>
+
+          <Separator>
+            <SeparatorLine />
+            <SeparatorWord>or log in with</SeparatorWord>
+          </Separator>
+        </div>
+
+        {/* form fields */}
+        <div
+          id="formFieldContainer"
+          className="flex flex-col gap-[43px] mb-[15px]"
+        >
+          <div>
+            <input
+              {...register("email")}
+              type="text"
+              className="text-white  bg-form-input rounded-md h-[45px] w-full px-[18px] focus:outline-none focus:outline-form-border"
+              placeholder="Email*"
+            />
+            {errors.email && (
+              <p className="text-sm text-white mt-3">{errors.email.message}</p>
+            )}
+          </div>
+
+          <div>
+            <input
+              {...register("password")}
+              type="password"
+              className="text-white bg-form-input rounded-md h-[45px] w-full px-[18px] focus:outline-none focus:outline-form-border"
+              placeholder="Enter your password*"
+            />
+            {errors.password && (
+              <p className="text-sm text-white mt-3">
+                {errors.password.message}
+              </p>
+            )}
+          </div>
+        </div>
+        <p className="text-[14px] text-form-muted mb-[40px]">
+          Do not have an account?
+          <Link
+            href="/register"
+            className="underline text-form-link hover:text-form-link-accent ml-1"
+          >
+            Register
+          </Link>
+        </p>
+        {/* create account button, Oauth button */}
+        <div id="formActions" className="flex flex-col gap-7">
+          <button
+            disabled={isSubmitting || isLoading}
+            className="flex justify-center items-center gap-2 bg-form-button rounded-md text-white px-[18px] h-11 w-full hover:bg-form-button-accent transition-all duration-300"
+          >
+            {isSubmitting && <Spinner className="w-7 h-7" />}
+            Login
+          </button>
+        </div>
       </form>
-    </>
+    </div>
   );
 };
 

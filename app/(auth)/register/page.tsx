@@ -12,7 +12,7 @@ import {
   SeparatorWord,
 } from "@/components/ui/separator";
 import { useForm } from "react-hook-form";
-import { RegisterFormProp } from "@/types/RegisterForm";
+import { RegisterFormProp } from "@/types/forms";
 
 const page = () => {
   // setup react-hook-form, toast, and router
@@ -56,7 +56,7 @@ const page = () => {
               <input
                 {...register("fname")}
                 type="text"
-                className="w-full bg-form-input rounded-md h-[45px] px-[18px] focus:outline-none focus:outline-form-border"
+                className="text-white w-full bg-form-input rounded-md h-[45px] px-[18px] focus:outline-none focus:outline-form-border"
                 placeholder="First Name*"
               />
               {errors.fname && (
@@ -70,7 +70,7 @@ const page = () => {
               <input
                 {...register("lname")}
                 type="text"
-                className="w-full bg-form-input rounded-md h-[45px] px-[18px] focus:outline-none focus:outline-form-border"
+                className="text-white w-full bg-form-input rounded-md h-[45px] px-[18px] focus:outline-none focus:outline-form-border"
                 placeholder="Last Name"
               />
               {errors.lname && (
@@ -84,7 +84,7 @@ const page = () => {
             <input
               {...register("email")}
               type="text"
-              className="bg-form-input rounded-md h-[45px] w-full px-[18px] focus:outline-none focus:outline-form-border"
+              className="text-white bg-form-input rounded-md h-[45px] w-full px-[18px] focus:outline-none focus:outline-form-border"
               placeholder="Email*"
             />
             {errors.email && (
@@ -96,7 +96,7 @@ const page = () => {
             <input
               {...register("password")}
               type="password"
-              className="bg-form-input rounded-md h-[45px] w-full px-[18px] focus:outline-none focus:outline-form-border"
+              className="text-white bg-form-input rounded-md h-[45px] w-full px-[18px] focus:outline-none focus:outline-form-border"
               placeholder="Enter your password*"
             />
             {errors.password && (

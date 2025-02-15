@@ -4,3 +4,7 @@ export interface RegisterFormProp {
   email: string;
   password: string;
 }
+export interface LoginFormProp {
+  email: string;
+  password: string;
+}

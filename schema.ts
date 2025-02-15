@@ -22,11 +22,9 @@ export const registrationSchema = z.object({
 });
 
 export const loginSchema = z.object({
-  fname: z
-    .string({ message: "name cannot be left empty" })
+  email: z
+    .string({ message: "email cannot be left empty" })
     .trim()
-    .min(2, { message: "first name is atleast two characters" }),
-  lname: z.string().optional(),
-  email: z.string({ message: "email cannot be left empty" }).trim(),
+    .email({ message: "email is incorrect" }),
   password: z.string(),
 });
