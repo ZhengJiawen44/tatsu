@@ -8,12 +8,14 @@ const space_mono = Space_Mono({
   weight: ["400", "700"],
   variable: "--font-mono",
   subsets: ["latin"],
+  display: "swap",
 });
 
 const poppins = Poppins({
   weight: ["400", "500", "600", "700"],
   variable: "--font-poppins",
   subsets: ["latin"],
+  display: "swap",
 });
 
 export default function RootLayout({
@@ -29,7 +31,7 @@ export default function RootLayout({
       <body
         className={clsx(
           `${space_mono.variable} ${poppins.variable} antialiased`,
-          isAuthRoute && "bg-form-background"
+          isAuthRoute && "bg-[hsl(256_11%_43%)]"
         )}
       >
         <QueryProvider>{children}</QueryProvider>

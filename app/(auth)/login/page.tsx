@@ -1,7 +1,7 @@
 "use client";
 import { useRouter } from "next/navigation";
 import { signIn } from "next-auth/react";
-
+import Link from "next/link";
 const LoginPage = () => {
   const router = useRouter();
 
@@ -42,3 +42,6 @@ const LoginPage = () => {
 };
 
 export default LoginPage;
+
+{
+}

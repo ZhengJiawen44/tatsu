@@ -21,8 +21,12 @@ export default {
           foreground: "hsl(var(--form-foreground))",
           input: "hsl(var(--input-background))",
           label: "hsl(var(--form-label))",
-          link: "hsl(var(--form-link))",
+          link: {
+            DEFAULT: "hsl(var(--form-link))",
+            accent: "hsl(var(--form-link-accent))",
+          },
           button: "hsl(var(--form-button))",
+          muted: "hsl(var(--form-muted))",
         },
 
         background: "hsl(var(--background))",
