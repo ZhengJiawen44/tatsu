@@ -4,6 +4,8 @@ import Image from "next/image";
 import { registrationSchema } from "@/schema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Spinner from "@/components/ui/spinner";
+import { useToast } from "@/hooks/use-toast";
+import { useRouter } from "next/navigation";
 import {
   Separator,
   SeparatorLine,
@@ -12,30 +14,17 @@ import {
 import { useForm } from "react-hook-form";
 import { RegisterFormProp } from "@/types/RegisterForm";
 
-// https://www.joshwcomeau.com/css/designing-shadows/
 const page = () => {
-  async function onSubmit(data: RegisterFormProp) {
-    try {
-      const res = await fetch("/api/auth/register", {
-        headers: {
-          "content-type": "application/json",
-        },
-        method: "POST",
-        body: JSON.stringify(data),
-      });
-
-      const body = await res.json();
-      console.log(body);
-    } catch (error) {
-      console.log(error);
-    }
-  }
+  // setup react-hook-form, toast, and router
   const {
     register,
     handleSubmit,
     formState: { errors, isSubmitting, isLoading },
   } = useForm<RegisterFormProp>({ resolver: zodResolver(registrationSchema) });
+  const { toast } = useToast();
+  const router = useRouter();
 
+  // define login page ui
   return (
     <div className="flex min-w-screen min-h-screen justify-center items-center">
       <form
@@ -43,7 +32,7 @@ const page = () => {
         className="w-screen h-screen bg-form-background md:w-[70%] md:h-fit lg:w-[60%]  xl:w-[50%] 2xl:w-[38%]  md:rounded-xl p-[55px] md:p-[85px]
       shadow-[0px_1px_4px_hsl(260,15%,28%),_0px_2px_8px_hsl(260,15%,28%),_0px_4px_16px_hsl(260,15%,28%),_0px_8px_32px_hsl(260,15%,28%),_0px_16px_64px_hsl(260,15%,28%)]"
       >
-        {/* header */}
+        {/* header section */}
         <h1 className="text-[35px] md:text-[38px] lg:text-[45px] text-white mb-[37px]">
           Create an account
         </h1>
@@ -118,7 +107,7 @@ const page = () => {
           </div>
         </div>
 
-        {/* create button, Oauth button */}
+        {/* create account button, Oauth button */}
         <div id="formActions" className="flex flex-col gap-7">
           <button
             disabled={isSubmitting || isLoading}
@@ -163,6 +152,27 @@ const page = () => {
       </form>
     </div>
   );
+
+  // form on submit function
+  async function onSubmit(data: RegisterFormProp) {
+    try {
+      const res = await fetch("/api/auth/register", {
+        headers: {
+          "content-type": "application/json",
+        },
+        method: "POST",
+        body: JSON.stringify(data),
+      });
+      const body = await res.json();
+      const { message } = body;
+      toast({ title: message });
+      if (res.ok) {
+        router.push("/home");
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  }
 };
 
 export default page;

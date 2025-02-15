@@ -40,7 +40,6 @@ export async function POST(req: NextRequest) {
     if (!user) {
       throw new InternalError("user account not created");
     }
-
     return NextResponse.json({ message: "account created" }, { status: 200 });
   } catch (error) {
     console.log(error);

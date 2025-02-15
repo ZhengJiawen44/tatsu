@@ -4,6 +4,7 @@ import { Space_Mono, Poppins } from "next/font/google";
 import clsx from "clsx";
 import "@/app/globals.css";
 import QueryProvider from "@/providers/QueryProvider";
+import { Toaster } from "@/components/ui/toaster";
 const space_mono = Space_Mono({
   weight: ["400", "700"],
   variable: "--font-mono",
@@ -35,6 +36,7 @@ export default function RootLayout({
         )}
       >
         <QueryProvider>{children}</QueryProvider>
+        <Toaster />
       </body>
     </html>
   );

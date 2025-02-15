@@ -84,9 +84,4 @@ body {
     @apply bg-background text-foreground;
   }
 }
-
-/* @layer components {
-  .form {
-    @apply bg-[#2C2638];
-  }
-} */
+/* https://www.joshwcomeau.com/css/designing-shadows/ */
