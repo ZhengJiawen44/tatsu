@@ -8,6 +8,7 @@ body {
 
 @layer base {
   :root {
+    --background-cream: 57, 91%, 91%;
     --background: 261 44% 53%;
     --foreground: 234 11% 67%;
     --card: 235 32% 15%;
@@ -33,6 +34,15 @@ body {
     --chart-4: 43 74% 66%;
     --chart-5: 27 87% 67%;
     --radius: 0.5rem;
+
+    /* form variables */
+    --form-border: 121, 53%, 20%;
+    --form-background: 256, 11%, 43%;
+    --form-foreground: 0, 0%, 100%;
+    --input-background: 256, 17%, 25%;
+    --form-label: 249, 12%, 55%;
+    --form-link: 254, 32%, 74%;
+    --form-button: 255, 40%, 52%;
   }
   .dark {
     --background: 0 0% 3.9%;
@@ -70,3 +80,9 @@ body {
     @apply bg-background text-foreground;
   }
 }
+
+/* @layer components {
+  .form {
+    @apply bg-[#2C2638];
+  }
+} */

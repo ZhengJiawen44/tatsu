@@ -14,7 +14,19 @@ export default {
         poppins: ["var(--font-poppins)"],
       },
       colors: {
+        // form css
+        form: {
+          background: "hsl(var(--form-background))",
+          border: "hsl(var(--form-border))",
+          foreground: "hsl(var(--form-foreground))",
+          input: "hsl(var(--input-background))",
+          label: "hsl(var(--form-label))",
+          link: "hsl(var(--form-link))",
+          button: "hsl(var(--form-button))",
+        },
+
         background: "hsl(var(--background))",
+        cream: "hsl(var(--background-cream))",
         foreground: "hsl(var(--foreground))",
         card: {
           DEFAULT: "hsl(var(--card))",

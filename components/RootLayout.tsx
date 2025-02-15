@@ -1,6 +1,7 @@
 "use client";
-import { useBackgroundColor } from "@/hooks/useBackgroundColor";
+import { usePathname } from "next/navigation";
 import { Space_Mono, Poppins } from "next/font/google";
+import clsx from "clsx";
 import "@/app/globals.css";
 import QueryProvider from "@/providers/QueryProvider";
 const space_mono = Space_Mono({
@@ -20,11 +21,16 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const bg = useBackgroundColor();
+  const path = usePathname();
+  const isAuthRoute = path.startsWith("/login") || path.startsWith("/register");
+
   return (
     <html lang="en">
       <body
-        className={`${space_mono.variable} ${poppins.variable} antialiased ${bg}`}
+        className={clsx(
+          `${space_mono.variable} ${poppins.variable} antialiased`,
+          isAuthRoute && "bg-form-background"
+        )}
       >
         <QueryProvider>{children}</QueryProvider>
       </body>
