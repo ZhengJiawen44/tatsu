@@ -37,6 +37,7 @@ body {
 
     /* form variables */
     --form-border: 256, 15%, 50%;
+    --form-border-accent: 256, 15%, 80%;
     --form-background: 260, 19%, 18%;
     --form-foreground: 0, 0%, 100%;
     --input-background: 256, 17%, 25%;
@@ -44,6 +45,7 @@ body {
     --form-link: 254, 32%, 74%;
     --form-link-accent: 254, 32%, 90%;
     --form-button: 255, 40%, 52%;
+    --form-button-accent: 255, 40%, 55%;
     --form-muted: 240, 7%, 62%;
   }
   .dark {

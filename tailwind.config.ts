@@ -17,7 +17,10 @@ export default {
         // form css
         form: {
           background: "hsl(var(--form-background))",
-          border: "hsl(var(--form-border))",
+          border: {
+            DEFAULT: "hsl(var(--form-border))",
+            accent: "hsl(var(--form-border-accent))",
+          },
           foreground: "hsl(var(--form-foreground))",
           input: "hsl(var(--input-background))",
           label: "hsl(var(--form-label))",
@@ -25,7 +28,10 @@ export default {
             DEFAULT: "hsl(var(--form-link))",
             accent: "hsl(var(--form-link-accent))",
           },
-          button: "hsl(var(--form-button))",
+          button: {
+            DEFAULT: "hsl(var(--form-button))",
+            accent: "hsl(var(--form-button-accent))",
+          },
           muted: "hsl(var(--form-muted))",
         },
 

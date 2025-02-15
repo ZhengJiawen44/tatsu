@@ -1,14 +1,21 @@
-"use server";
+"use client";
 import Link from "next/link";
 import Image from "next/image";
+import { loginSchema } from "@/schema";
+import {
+  Separator,
+  SeparatorLine,
+  SeparatorWord,
+} from "@/components/ui/separator";
+// https://www.joshwcomeau.com/css/designing-shadows/
 const page = () => {
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     try {
       const formData = new FormData(e.currentTarget);
       const formObject = Object.fromEntries(formData.entries());
-
-      console.log(formObject);
+      const parsedObj = loginSchema.safeParse(formObject);
+      console.log(parsedObj);
 
       const res = await fetch("/api/auth/register", {
         method: "POST",
@@ -23,9 +30,15 @@ const page = () => {
   }
   return (
     <div className="flex min-w-screen min-h-screen justify-center items-center">
-      <form className="w-[38%] h-fit bg-form-background rounded-lg p-[85px]">
+      <form
+        onSubmit={handleSubmit}
+        className="w-screen h-screen bg-form-background md:w-[70%] md:h-fit lg:w-[60%]  xl:w-[50%] 2xl:w-[38%]  md:rounded-xl p-[55px] md:p-[85px]
+      shadow-[0px_1px_4px_hsl(260,15%,28%),_0px_2px_8px_hsl(260,15%,28%),_0px_4px_16px_hsl(260,15%,28%),_0px_8px_32px_hsl(260,15%,28%),_0px_16px_64px_hsl(260,15%,28%)]"
+      >
         {/* header */}
-        <h1 className="text-[45px] text-white mb-[37px]">Create an account</h1>
+        <h1 className="text-[35px] md:text-[38px] lg:text-[45px] text-white mb-[37px]">
+          Create an account
+        </h1>
         <p className="text-[14px] text-form-muted mb-[40px]">
           Already have an account?
           <Link
@@ -56,30 +69,28 @@ const page = () => {
           <input
             type="text"
             className="bg-form-input rounded-md h-[45px] w-full px-[18px] focus:outline-none focus:outline-form-border"
-            placeholder="Email"
+            placeholder="Email*"
           ></input>
           <input
             type="text"
             className="bg-form-input rounded-md h-[45px] w-full px-[18px] focus:outline-none focus:outline-form-border"
-            placeholder="Enter your password"
-          ></input>
-          <input
-            type="text"
-            className="bg-form-input rounded-md h-[45px] w-full px-[18px] focus:outline-none focus:outline-form-border"
-            placeholder="Confirm your password"
+            placeholder="Enter your password*"
           ></input>
         </div>
 
         {/* create button, Oauth button */}
-        <div id="formActions" className="flex flex-col gap-5">
-          <button className="bg-form-button rounded-md text-white px-[18px] py-[10px] w-full">
+        <div id="formActions" className="flex flex-col gap-7">
+          <button className="bg-form-button rounded-md text-white px-[18px] py-[10px] w-full hover:bg-form-button-accent transition-all duration-300">
             Create Account
           </button>
-          <p className="m-auto w-fit">or Register with</p>
+          <Separator>
+            <SeparatorLine />
+            <SeparatorWord>or register with</SeparatorWord>
+          </Separator>
           <div id="OauthContainer" className="flex gap-5">
             <button
               type="button"
-              className="flex gap-3 justify-center items-center w-1/2 h-[3rem] border border-form-border rounded-md"
+              className="flex gap-3 justify-center items-center w-1/2 h-[3rem] border border-form-border rounded-md hover:border-form-border-accent transition-all duration-300"
             >
               <Image
                 src="google.svg"
@@ -92,7 +103,7 @@ const page = () => {
             </button>
             <button
               type="button"
-              className="flex gap-3 justify-center items-center w-1/2 h-[3rem] border border-form-border rounded-md"
+              className="flex gap-3 justify-center items-center w-1/2 h-[3rem] border border-form-border rounded-md hover:border-form-border-accent transition-all duration-300"
             >
               <Image
                 src="apple.svg"
@@ -113,18 +124,4 @@ const page = () => {
 export default page;
 
 {
-  /* <form
-className="flex flex-col p-8 rounded-lg bg-card w-fit gap-4 m-auto mt-40"
-onSubmit={handleSubmit}
->
-<label>Email</label>
-<input name="email" type="email" />
-
-<label>Password</label>
-<input name="password" type="password" />
-
-<button className="border" type="submit">
-  register
-</button>
-</form> */
 }
