@@ -15,28 +15,10 @@ import {
 } from "@/components/ui/separator";
 import { useForm } from "react-hook-form";
 import { LoginFormProp } from "@/types/forms";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useSession } from "next-auth/react";
 const LoginPage = () => {
-  const onSubmit = async (data: LoginFormProp) => {
-    try {
-      const result = await signIn("credentials", {
-        ...data,
-        redirect: false,
-      });
-      console.log(result);
-
-      if (result?.error) {
-        toast({ title: "invalid email or password" });
-        console.error(result.error);
-      } else {
-        toast({ title: "logged in" });
-        router.push("/home");
-      }
-    } catch (error) {
-      console.error(error);
-    }
-  };
-  // setup react-hook-form, toast, router, and password vivibillity toggle
+  // setup react-hook-form, toast, router, and password visibillity toggle
   const {
     register,
     handleSubmit,
@@ -46,6 +28,13 @@ const LoginPage = () => {
   const router = useRouter();
   const [show, setShow] = useState(false);
 
+  // redirect to home page if user exists
+  const session = useSession();
+  useEffect(() => {
+    if (session.data?.user) {
+      router.push("/home");
+    }
+  }, []);
   // define login page ui
   return (
     <div className="flex min-w-screen min-h-screen justify-center items-center">
@@ -62,12 +51,13 @@ const LoginPage = () => {
         <div className="flex flex-col gap-9 mb-9">
           <div id="OauthContainer" className="flex gap-5">
             <button
+              onClick={onGoogle}
               type="button"
               className="flex gap-3 justify-center items-center w-1/2 h-[3rem] border border-form-border rounded-md hover:border-form-border-accent transition-all duration-300"
             >
               <Image
                 src="google.svg"
-                alt="apple"
+                alt="google-logo"
                 width={28}
                 height={28}
                 priority={false}
@@ -75,17 +65,18 @@ const LoginPage = () => {
               <p className="text-white">Google</p>
             </button>
             <button
+              onClick={onDiscord}
               type="button"
               className="flex gap-3 justify-center items-center w-1/2 h-[3rem] border border-form-border rounded-md hover:border-form-border-accent transition-all duration-300"
             >
               <Image
-                src="apple.svg"
-                alt="apple"
+                src="discord.svg"
+                alt="discord-logo"
                 width={28}
                 height={28}
                 priority={false}
               />
-              <p className="text-white">Apple</p>
+              <p className="text-white">Discord</p>
             </button>
           </div>
 
@@ -152,9 +143,54 @@ const LoginPage = () => {
       </form>
     </div>
   );
+
+  // login functions
+  async function onGoogle() {
+    try {
+      const result = await signIn("google", { callbackUrl: "/home" });
+      if (result?.error) {
+        toast({ title: "we could not sign you in to google at the moment" });
+        console.error(result.error);
+      }
+    } catch (error) {
+      console.error(error);
+      toast({ title: "we could not sign you in to google at the moment" });
+    }
+  }
+  async function onDiscord() {
+    try {
+      const result = await signIn("discord", { callbackUrl: "/home" });
+      if (result?.error) {
+        toast({ title: "we could not sign you in to discord at the moment" });
+        console.error(result.error);
+      }
+    } catch (error) {
+      console.error(error);
+      toast({ title: "we could not sign you in to discord at the moment" });
+    }
+  }
+  async function onSubmit(data: LoginFormProp) {
+    try {
+      const result = await signIn("credentials", {
+        ...data,
+        redirect: false,
+        callbackUrl: "/home",
+      });
+
+      if (result?.error) {
+        toast({ title: "invalid email or password" });
+        console.error(result.error);
+      }
+    } catch (error) {
+      console.error(error);
+      toast({ title: "we cannot log you in at this moment" });
+    }
+  }
 };
 
 export default LoginPage;
 
 {
 }
+
+//wechat https://mp.weixin.qq.com/debug/cgi-bin/sandboxinfo?action=showinfo&t=sandbox/index

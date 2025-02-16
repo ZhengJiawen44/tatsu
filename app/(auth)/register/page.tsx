@@ -1,4 +1,5 @@
 "use client";
+import { signIn } from "next-auth/react";
 import Link from "next/link";
 import Image from "next/image";
 import { registrationSchema } from "@/schema";
@@ -13,11 +14,11 @@ import {
 } from "@/components/ui/separator";
 import { useForm } from "react-hook-form";
 import { RegisterFormProp } from "@/types/forms";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import EyeToggle from "@/components/ui/eyeToggle";
-
+import { useSession } from "next-auth/react";
 const page = () => {
-  // setup react-hook-form, toast, router, and password vivibillity toggle
+  // setup react-hook-form, toast, router, and password visibillity toggle
   const {
     register,
     handleSubmit,
@@ -26,6 +27,14 @@ const page = () => {
   const { toast } = useToast();
   const router = useRouter();
   const [show, setShow] = useState(false);
+
+  // redirect to home page if user exists
+  const session = useSession();
+  useEffect(() => {
+    if (session.data?.user) {
+      router.push("/home");
+    }
+  }, []);
 
   // define login page ui
   return (
@@ -129,12 +138,13 @@ const page = () => {
           </Separator>
           <div id="OauthContainer" className="flex gap-5">
             <button
+              onClick={onGoogle}
               type="button"
               className="flex gap-3 justify-center items-center w-1/2 h-[3rem] border border-form-border rounded-md hover:border-form-border-accent transition-all duration-300"
             >
               <Image
                 src="google.svg"
-                alt="apple"
+                alt="google-logo"
                 width={28}
                 height={28}
                 priority={false}
@@ -142,17 +152,18 @@ const page = () => {
               <p className="text-white">Google</p>
             </button>
             <button
+              onClick={onDiscord}
               type="button"
               className="flex gap-3 justify-center items-center w-1/2 h-[3rem] border border-form-border rounded-md hover:border-form-border-accent transition-all duration-300"
             >
               <Image
-                src="apple.svg"
-                alt="apple"
+                src="discord.svg"
+                alt="discord-logo"
                 width={28}
                 height={28}
                 priority={false}
               />
-              <p className="text-white">Apple</p>
+              <p className="text-white">Discord</p>
             </button>
           </div>
         </div>
@@ -160,6 +171,31 @@ const page = () => {
     </div>
   );
 
+  // login functions
+  async function onGoogle() {
+    try {
+      const result = await signIn("google", { callbackUrl: "/home" });
+      if (result?.error) {
+        toast({ title: "we could not sign you in to google at the moment" });
+        console.error(result.error);
+      }
+    } catch (error) {
+      console.error(error);
+      toast({ title: "we could not sign you in to google at the moment" });
+    }
+  }
+  async function onDiscord() {
+    try {
+      const result = await signIn("discord", { callbackUrl: "/home" });
+      if (result?.error) {
+        toast({ title: "we could not sign you in to discord at the moment" });
+        console.error(result.error);
+      }
+    } catch (error) {
+      console.error(error);
+      toast({ title: "we could not sign you in to discord at the moment" });
+    }
+  }
   // form on submit function
   async function onSubmit(data: RegisterFormProp) {
     try {
@@ -174,10 +210,11 @@ const page = () => {
       const { message } = body;
       toast({ title: message });
       if (res.ok) {
-        router.push("/home");
+        router.push("/login");
       }
     } catch (error) {
       console.log(error);
+      toast({ title: "we cannot register you at this moment" });
     }
   }
 };

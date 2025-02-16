@@ -4,6 +4,7 @@ import { Space_Mono, Poppins } from "next/font/google";
 import clsx from "clsx";
 import "@/app/globals.css";
 import QueryProvider from "@/providers/QueryProvider";
+import { SessionProvider } from "next-auth/react";
 import { Toaster } from "@/components/ui/toaster";
 const space_mono = Space_Mono({
   weight: ["400", "700"],
@@ -35,7 +36,9 @@ export default function RootLayout({
           isAuthRoute && "bg-[hsl(256_11%_43%)]"
         )}
       >
-        <QueryProvider>{children}</QueryProvider>
+        <SessionProvider>
+          <QueryProvider>{children}</QueryProvider>
+        </SessionProvider>
         <Toaster />
       </body>
     </html>

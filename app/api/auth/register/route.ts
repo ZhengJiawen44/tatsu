@@ -18,7 +18,7 @@ export async function POST(req: NextRequest) {
     if (!parsedObj.success) {
       throw new BadRequestError();
     }
-    const { email, password } = parsedObj.data;
+    const { fname, lname, email, password } = parsedObj.data;
 
     //CASE user registered before
     const userExists = await prisma.user.findUnique({
@@ -34,7 +34,7 @@ export async function POST(req: NextRequest) {
 
     //create the user in data base
     const user = await prisma.user.create({
-      data: { email, password: hashedPassword },
+      data: { name: fname + " " + lname, email, password: hashedPassword },
     });
     //CASE user not created
     if (!user) {

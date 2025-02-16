@@ -1,6 +1,10 @@
 import React from "react";
-
-const page = () => {
+import { auth } from "../auth";
+const page = async () => {
+  const session = await auth();
+  if (session?.user) {
+    return <></>;
+  }
   return <div>page</div>;
 };
 

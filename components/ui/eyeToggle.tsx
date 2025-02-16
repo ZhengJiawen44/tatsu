@@ -13,6 +13,7 @@ const EyeToggle = ({
     <>
       <button
         type="button"
+        aria-label="show-password"
         className={clsx(
           "absolute right-[16px] top-1/2 -translate-y-1/2  stroke-form-label hover:stroke-form-label-accent hover:cursor-pointer",
           !show && "hidden"
@@ -24,6 +25,7 @@ const EyeToggle = ({
         <Eye className="stroke-form-label hover:stroke-form-label-accent transition-all duration-300" />
       </button>
       <button
+        aria-label="hide-password"
         type="button"
         className={clsx(
           "absolute right-[16px] top-1/2 -translate-y-1/2  stroke-form-label hover:stroke-form-label-accent hover:cursor-pointer",
