@@ -1,7 +1,13 @@
-export default function layout({
+import Taskbar from "@/components/Taskbar";
+export default async function layout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  return <div>{children}</div>;
+  return (
+    <>
+      <Taskbar />
+      {children}
+    </>
+  );
 }

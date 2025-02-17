@@ -37,7 +37,7 @@ export default {
           },
           muted: "hsl(var(--form-muted))",
         },
-
+        taskbar: "hsla(var(--taskbar))",
         background: "hsl(var(--background))",
         cream: "hsl(var(--background-cream))",
         foreground: "hsl(var(--foreground))",
@@ -46,7 +46,7 @@ export default {
           foreground: "hsl(var(--card-foreground))",
         },
         popover: {
-          DEFAULT: "hsl(var(--popover))",
+          DEFAULT: "hsla(var(--popover))",
           foreground: "hsl(var(--popover-foreground))",
         },
         primary: {
