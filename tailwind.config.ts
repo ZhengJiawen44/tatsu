@@ -37,13 +37,19 @@ export default {
           },
           muted: "hsl(var(--form-muted))",
         },
+
+        lime: "hsl(var(--lime))",
         taskbar: "hsla(var(--taskbar))",
         background: "hsl(var(--background))",
         cream: "hsl(var(--background-cream))",
         foreground: "hsl(var(--foreground))",
         card: {
           DEFAULT: "hsl(var(--card))",
-          foreground: "hsl(var(--card-foreground))",
+          foreground: {
+            DEFAULT: "hsl(var(--card-foreground))",
+            muted: "hsl(var(--card-foreground-muted))",
+          },
+          muted: "hsl(var(--card-muted))",
         },
         popover: {
           DEFAULT: "hsla(var(--popover))",
@@ -87,5 +93,5 @@ export default {
       },
     },
   },
-  plugins: [require("tailwindcss-animate")],
+  plugins: [require("tailwindcss-animate"), require("tailwind-scrollbar")],
 } satisfies Config;

@@ -3,7 +3,7 @@ import clsx from "clsx";
 import Image from "next/image";
 import { auth } from "@/app/auth";
 import { redirect } from "next/navigation";
-import LogoutBtn from "./logout";
+import LogoutBtn from "./logoutBtn";
 import {
   Popover,
   PopoverContent,
@@ -34,10 +34,12 @@ const Avatar = async () => {
           />
         </div>
       </PopoverTrigger>
-      <PopoverContent className="p-0 w-fit h-fit bg-popover text-white border-none">
+      <PopoverContent className="p-0 w-fit h-fit bg-popover text-white border-none backdrop-blur-lg">
         <div className=" p-4 bg-[#D9D9D9] bg-opacity-10 rounded-t-xl  pr-10">
-          <p className="text-[18px]">{name}</p>
-          <p className="text-[15px] text-muted">{email}</p>
+          <p className="text-[17px]">{name}</p>
+          <p className="text-[15px] text-muted font-extralight opacity-50">
+            {email}
+          </p>
         </div>
         {/* menu items */}
         <div className="flex flex-col gap-2 p-1">
