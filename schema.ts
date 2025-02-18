@@ -28,3 +28,11 @@ export const loginSchema = z.object({
     .email({ message: "email is incorrect" }),
   password: z.string(),
 });
+
+export const todoSchema = z.object({
+  title: z
+    .string({ message: "title cannot be left empty" })
+    .trim()
+    .min(1, { message: "title cannot be left empty" }),
+  description: z.string().optional(),
+});

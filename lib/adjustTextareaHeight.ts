@@ -5,8 +5,6 @@ const adjustTextareaHeight = (
 ) => {
   const textarea = textareaRef.current;
   if (textarea) {
-    console.log(textarea.scrollHeight);
-
     // Reset height to min to accurately calculate new height
     textarea.style.height = "1rem";
     // Set new height based on scrollHeight

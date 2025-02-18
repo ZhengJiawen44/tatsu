@@ -1,15 +1,34 @@
 import { NextRequest, NextResponse } from "next/server";
-import { BaseServerError, UnauthorizedError } from "@/lib/customError";
+import {
+  BaseServerError,
+  UnauthorizedError,
+  BadRequestError,
+  InternalError,
+} from "@/lib/customError";
+import { prisma } from "@/lib/prisma/client";
+import { todoSchema } from "@/schema";
 import { auth } from "@/app/auth";
 
 export async function POST(req: NextRequest) {
   try {
     const session = await auth();
     const user = session?.user;
-    if (!user) {
+    console.log("user", user);
+    if (!user?.id)
       throw new UnauthorizedError("you must be logged in to do this");
-    }
-    return NextResponse.json({ message: "recieved" }, { status: 200 });
+
+    //validate req body
+    const body = await req.json();
+    const parsedObj = todoSchema.safeParse(body);
+    if (!parsedObj.success) throw new BadRequestError();
+
+    //create todo
+    const todo = await prisma.todo.create({
+      data: { ...parsedObj.data, userID: user.id },
+    });
+    if (!todo) throw new InternalError("todo cannot be created at this time");
+
+    return NextResponse.json({ message: "todo created" }, { status: 200 });
   } catch (error) {
     console.log(error);
 

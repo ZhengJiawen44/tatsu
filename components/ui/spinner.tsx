@@ -2,7 +2,7 @@ import Image from "next/image";
 import { cn } from "@/lib/utils";
 import React from "react";
 
-const spinner = ({ className }: { className: string }) => {
+const Spinner = ({ className }: { className?: string }) => {
   return (
     <Image
       src="spinner.svg"
@@ -15,4 +15,4 @@ const spinner = ({ className }: { className: string }) => {
   );
 };
 
-export default spinner;
+export default Spinner;
