@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import { MenuContainer, MenuItem } from "@/components/Menu";
 import Note from "@/components/Note";
 import Vault from "@/components/Vault";
-import Todo from "@/components/Todo";
+import Todo from "@/components/Todo/Todo";
 import clsx from "clsx";
 const page = () => {
   const [activeMenu, setActiveMenu] = useState("Todos");

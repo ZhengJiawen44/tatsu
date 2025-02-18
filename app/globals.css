@@ -8,6 +8,7 @@ body {
 
 @layer base {
   :root {
+    --tooltip: 233, 32%, 10%;
     --lime: 83, 50%, 59%;
     --taskbar: 261, 28%, 27%, 0.56;
     --background: 261 44% 53%;
@@ -15,6 +16,7 @@ body {
     --card: 235 32% 15%;
     --card-muted: 235 32% 14%;
     --card-foreground: 234 10% 63%;
+    --border: 234, 10%, 30%;
     --card-foreground-muted: 234 10% 40%;
     --popover: 261, 28%, 10%, 0.56;
     --popover-foreground: 0 0% 3.9%;
@@ -28,7 +30,6 @@ body {
     --accent-foreground: 0 0% 9%;
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 0 0% 98%;
-    --border: 234 10% 63%;
     --input: 0 0% 89.8%;
     --ring: 0 0% 3.9%;
     --chart-1: 12 76% 61%;

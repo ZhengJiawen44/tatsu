@@ -38,6 +38,7 @@ export default {
           muted: "hsl(var(--form-muted))",
         },
 
+        tooltip: "hsl(var(--tooltip))",
         lime: "hsl(var(--lime))",
         taskbar: "hsla(var(--taskbar))",
         background: "hsl(var(--background))",
