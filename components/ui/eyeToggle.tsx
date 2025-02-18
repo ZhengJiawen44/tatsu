@@ -7,7 +7,7 @@ const EyeToggle = ({
   setShow,
 }: {
   show: boolean;
-  setShow: React.Dispatch<boolean>;
+  setShow: React.Dispatch<React.SetStateAction<boolean>>;
 }) => {
   return (
     <>

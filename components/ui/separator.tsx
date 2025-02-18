@@ -6,7 +6,7 @@ const Separator = ({
   ...props
 }: {
   className?: string;
-  children: React.ReactNode;
+  children?: React.ReactNode;
 }) => {
   return (
     <div className="relative w-full h-4" {...props}>
@@ -40,8 +40,8 @@ const SeparatorLine = ({ className, ...props }: { className?: string }) => {
   return (
     <p
       className={cn(
-        "absolute w-full h-1 border-t-[1px] border-form-border top-1/2 translate-y-[-50%]",
-        className
+        className,
+        "absolute w-full h-1 border-t-[1px] border-form-border top-1/2 translate-y-[-50%]"
       )}
       {...props}
     ></p>

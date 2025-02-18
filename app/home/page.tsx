@@ -9,9 +9,9 @@ const page = () => {
   const [activeMenu, setActiveMenu] = useState("Todos");
 
   return (
-    <div className="grid w-full h-[calc(100vh-148px)] grid-cols-3 grid-rows-2 gap-[40px]">
-      <div className="flex flex-col col-span-2 row-span-2 w-full h-full rounded-2xl bg-card">
-        <MenuContainer className="">
+    <div className="grid w-full h-[calc(100vh-148px)] grid-cols-3 grid-rows-2 gap-[40px] ">
+      <div className="flex flex-col col-span-2 row-span-2 w-full h-full rounded-2xl bg-card ">
+        <MenuContainer className="relative  border-white z-20">
           <MenuItem
             className={
               activeMenu === "Todos"

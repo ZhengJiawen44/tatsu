@@ -4,19 +4,42 @@ import adjustHeight from "@/lib/adjustTextareaHeight";
 import { todoSchema } from "@/schema";
 import { useToast } from "@/hooks/use-toast";
 import Spinner from "../ui/spinner";
+import LineSeparator from "../ui/lineSeparator";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+
+interface TodoItem {
+  id: string;
+  title: string;
+  description?: string;
+}
 interface TodoFormProps {
   displayForm: boolean;
-  setDisplayForm: React.Dispatch<boolean>;
+  setDisplayForm: React.Dispatch<React.SetStateAction<boolean>>;
+  todo?: TodoItem;
 }
 
-const TodoForm = ({ displayForm, setDisplayForm }: TodoFormProps) => {
+const TodoForm = ({ displayForm, setDisplayForm, todo }: TodoFormProps) => {
+  const queryClient = useQueryClient();
+
   const titleRef = useRef<null | HTMLInputElement>(null);
   const textareaRef = useRef<null | HTMLTextAreaElement>(null);
 
-  const [title, setTitle] = useState("");
-  const [desc, setDesc] = useState("");
+  const [title, setTitle] = useState<string>(todo?.title || "");
+  const [desc, setDesc] = useState<string>(todo?.description || "");
 
-  const [loading, setLoading] = useState(false);
+  const { mutate: mutateCreate, isPending: createPending } = useMutation({
+    mutationFn: postTodo,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["todo"] });
+    },
+  });
+
+  const { mutate: mutateEdit, isPending: editPending } = useMutation({
+    mutationFn: patchTodo,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["todo"] });
+    },
+  });
 
   useEffect(() => {
     adjustHeight(textareaRef);
@@ -56,10 +79,15 @@ const TodoForm = ({ displayForm, setDisplayForm }: TodoFormProps) => {
           placeholder="description"
         />
 
-        <div className="mt-1 w-full h-1 border-b-[1px]"></div>
+        <LineSeparator />
         {/* buttons tooltip */}
         <div className="flex justify-between items-center w-full">
-          <Spinner className={clsx("h-5 w-5", !loading && "hidden")} />
+          <Spinner
+            className={clsx(
+              "h-5 w-5",
+              !createPending || !editPending ? "hidden" : ""
+            )}
+          />
           <div className="flex gap-5 items-center mr-0 ml-auto">
             <button
               type="button"
@@ -73,10 +101,11 @@ const TodoForm = ({ displayForm, setDisplayForm }: TodoFormProps) => {
               cancel
             </button>
             <button
+              type="submit"
               disabled={title.length <= 0}
               className="disabled:opacity-40 bg-lime px-1 leading-none py-[2.5px] h-fit rounded-sm text-card font-semibold"
             >
-              add
+              {todo ? "edit" : "add"}
             </button>
           </div>
         </div>
@@ -87,27 +116,63 @@ const TodoForm = ({ displayForm, setDisplayForm }: TodoFormProps) => {
   async function handleForm(e: React.FormEvent) {
     e.preventDefault();
     try {
-      setLoading(true);
-      //validate data
-      const parsedObj = todoSchema.safeParse({ title, description: desc });
-
-      if (!parsedObj.success) return;
-
-      const res = await fetch("/api/todo", {
-        method: "POST",
-        headers: { "content-type": "application/json" },
-        body: JSON.stringify(parsedObj.data),
-      });
-
-      const body = await res.json();
-      const { message } = body;
-
-      toast({ description: message });
+      if (todo?.id) {
+        mutateEdit();
+        return;
+      }
+      mutateCreate();
     } catch (error) {
       if (error instanceof Error) toast({ description: error.message });
-    } finally {
-      setLoading(false);
     }
+  }
+  async function postTodo() {
+    //validate input
+    const parsedObj = todoSchema.safeParse({ title, description: desc });
+
+    if (!parsedObj.success) {
+      console.log(parsedObj.error.errors[0]);
+      return;
+    }
+    const res = await fetch("/api/todo", {
+      method: "POST",
+      headers: { "content-type": "application/json" },
+      body: JSON.stringify(parsedObj.data),
+    });
+
+    const body = await res.json();
+    const { message } = body;
+
+    toast({ description: message });
+    setDesc("");
+    setTitle("");
+    setDisplayForm(!displayForm);
+  }
+  async function patchTodo() {
+    const id = todo?.id;
+    if (!id) {
+      toast({ description: "cannot find todo id" });
+      return;
+    }
+    //validate input
+    const parsedObj = todoSchema.safeParse({ title, description: desc });
+
+    if (!parsedObj.success) {
+      console.log(parsedObj.error.errors[0]);
+      return;
+    }
+    const res = await fetch(`/api/todo/${id}`, {
+      method: "PATCH",
+      headers: { "content-type": "application/json" },
+      body: JSON.stringify(parsedObj.data),
+    });
+
+    const body = await res.json();
+    const { message } = body;
+
+    toast({ description: message });
+    setDesc("");
+    setTitle("");
+    setDisplayForm(!displayForm);
   }
 };
 
