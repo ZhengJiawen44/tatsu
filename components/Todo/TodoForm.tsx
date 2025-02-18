@@ -89,7 +89,8 @@ const TodoForm = ({ displayForm, setDisplayForm }: TodoFormProps) => {
     try {
       setLoading(true);
       //validate data
-      const parsedObj = todoSchema.safeParse({ title, desc });
+      const parsedObj = todoSchema.safeParse({ title, description: desc });
+
       if (!parsedObj.success) return;
 
       const res = await fetch("/api/todo", {
