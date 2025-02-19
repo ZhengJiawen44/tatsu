@@ -1,9 +1,11 @@
-import React from "react";
+import React, { useState } from "react";
 import { cn } from "@/lib/utils";
 import Tooltip from "./Tooltip";
 import TodoList from "./TodoList";
+import Day from "./Day";
 
 const Todo = ({ className }: { className?: string }) => {
+  const [currentDate, setCurrentDate] = useState<Date>(new Date());
   return (
     <div
       className={cn(
@@ -11,8 +13,7 @@ const Todo = ({ className }: { className?: string }) => {
         className
       )}
     >
-      <h1 className="text-center mt-20 text-[3rem]">Monday</h1>
-      <p className="text-center mt-2 text-[1.1rem]">March 23, 2025</p>
+      <Day currentDate={currentDate} setCurrentDate={setCurrentDate} />
       <Tooltip />
       <TodoList />
     </div>

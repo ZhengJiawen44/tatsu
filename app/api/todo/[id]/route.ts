@@ -77,7 +77,7 @@ export async function PATCH(
 
     //for pinning todos
     const isPin = req.nextUrl.searchParams.get("pin");
-    if (isPin) {
+    if (isPin != undefined || null) {
       if (isPin === "true") {
         //pin todo
         await prisma.todo.updateMany({
@@ -88,6 +88,25 @@ export async function PATCH(
         await prisma.todo.updateMany({
           where: { id, userID: user.id },
           data: { pinned: false },
+        });
+      }
+
+      return NextResponse.json({ message: "pin updated" }, { status: 200 });
+    }
+
+    //for completing todos
+    const isComplete = req.nextUrl.searchParams.get("completed");
+    if (isComplete != undefined || null) {
+      if (isComplete === "true") {
+        //complete todo
+        await prisma.todo.updateMany({
+          where: { id, userID: user.id },
+          data: { completed: true },
+        });
+      } else {
+        await prisma.todo.updateMany({
+          where: { id, userID: user.id },
+          data: { completed: false },
         });
       }
 

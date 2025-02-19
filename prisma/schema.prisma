@@ -59,5 +59,6 @@ model Todo{
   user          User            @relation(fields: [userID], references: [id])
   userID        String
   pinned        Boolean         @default(false)
+  completed     Boolean         @default(false)
 }
  
