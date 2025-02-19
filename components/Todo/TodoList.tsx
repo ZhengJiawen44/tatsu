@@ -3,15 +3,20 @@ import { useQuery } from "@tanstack/react-query";
 import TodoListLoading from "./TodoListLoading";
 import TodoItemMenu from "./TodoItemMenu";
 import TodoForm from "./TodoForm";
+import LineSeparator from "../ui/lineSeparator";
 
 interface TodoItem {
   id: string;
   title: string;
   description?: string;
+  pinned: boolean;
 }
 
 const TodoList = () => {
-  const { data, isLoading } = useQuery({
+  // const [pinnedTodos, setPinnedTodos] = useState([]);
+
+  //get all todos
+  const { data: todoList, isLoading } = useQuery({
     queryKey: ["todo"],
     queryFn: async () => {
       const res = await fetch("/api/todo", { method: "GET" });
@@ -21,11 +26,37 @@ const TodoList = () => {
   });
 
   if (isLoading) return <TodoListLoading />;
+
+  const pinnedTodos = todoList.filter((todoItem: TodoItem) => {
+    return todoItem.pinned;
+  });
+  const unpinnedTodos = todoList.filter((todoItem: TodoItem) => {
+    return !todoItem.pinned;
+  });
+
   return (
     <>
-      {data.map(({ id, title, description }: TodoItem) => {
+      {pinnedTodos.map(({ id, title, description, pinned }: TodoItem) => {
         return (
-          <TodoItem key={id} id={id} title={title} description={description} />
+          <TodoItem
+            key={id}
+            id={id}
+            title={title}
+            description={description}
+            pinned={pinned}
+          />
+        );
+      })}
+      <LineSeparator className={pinnedTodos.length <= 0 ? "hidden" : ""} />
+      {unpinnedTodos.map(({ id, title, description, pinned }: TodoItem) => {
+        return (
+          <TodoItem
+            key={id}
+            id={id}
+            title={title}
+            description={description}
+            pinned={pinned}
+          />
         );
       })}
     </>
@@ -33,8 +64,9 @@ const TodoList = () => {
 };
 
 const TodoItem = (todoItem: TodoItem) => {
-  const { id, title, description } = todoItem;
+  const { id, title, description, pinned } = todoItem;
   const [isEdit, setEdit] = useState(false);
+
   if (isEdit) {
     return (
       <TodoForm
@@ -53,7 +85,7 @@ const TodoItem = (todoItem: TodoItem) => {
             {description}
           </p>
         </div>
-        <TodoItemMenu id={id} setDisplayForm={setEdit} />
+        <TodoItemMenu id={id} setDisplayForm={setEdit} pinned={pinned} />
       </div>
     </>
   );

@@ -6,7 +6,6 @@ import { useToast } from "@/hooks/use-toast";
 import Spinner from "../ui/spinner";
 import LineSeparator from "../ui/lineSeparator";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-
 interface TodoItem {
   id: string;
   title: string;
@@ -31,6 +30,7 @@ const TodoForm = ({ displayForm, setDisplayForm, todo }: TodoFormProps) => {
     mutationFn: postTodo,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["todo"] });
+      clearInput();
     },
   });
 
@@ -38,6 +38,7 @@ const TodoForm = ({ displayForm, setDisplayForm, todo }: TodoFormProps) => {
     mutationFn: patchTodo,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["todo"] });
+      clearInput();
     },
   });
 
@@ -92,11 +93,7 @@ const TodoForm = ({ displayForm, setDisplayForm, todo }: TodoFormProps) => {
             <button
               type="button"
               className="bg-card-muted px-1 leading-none py-[2.5px] h-fit rounded-sm font-semibold"
-              onClick={() => {
-                setDesc("");
-                setTitle("");
-                setDisplayForm(!displayForm);
-              }}
+              onClick={clearInput}
             >
               cancel
             </button>
@@ -105,7 +102,7 @@ const TodoForm = ({ displayForm, setDisplayForm, todo }: TodoFormProps) => {
               disabled={title.length <= 0}
               className="disabled:opacity-40 bg-lime px-1 leading-none py-[2.5px] h-fit rounded-sm text-card font-semibold"
             >
-              {todo ? "edit" : "add"}
+              {todo ? "save" : "add"}
             </button>
           </div>
         </div>
@@ -118,61 +115,79 @@ const TodoForm = ({ displayForm, setDisplayForm, todo }: TodoFormProps) => {
     try {
       if (todo?.id) {
         mutateEdit();
-        return;
+      } else {
+        mutateCreate();
       }
-      mutateCreate();
     } catch (error) {
       if (error instanceof Error) toast({ description: error.message });
     }
   }
-  async function postTodo() {
-    //validate input
-    const parsedObj = todoSchema.safeParse({ title, description: desc });
 
-    if (!parsedObj.success) {
-      console.log(parsedObj.error.errors[0]);
-      return;
-    }
-    const res = await fetch("/api/todo", {
-      method: "POST",
-      headers: { "content-type": "application/json" },
-      body: JSON.stringify(parsedObj.data),
-    });
-
-    const body = await res.json();
-    const { message } = body;
-
-    toast({ description: message });
+  function clearInput() {
     setDesc("");
     setTitle("");
     setDisplayForm(!displayForm);
   }
+
+  async function postTodo() {
+    try {
+      //validate input
+      const parsedObj = todoSchema.safeParse({ title, description: desc });
+
+      if (!parsedObj.success) {
+        console.log(parsedObj.error.errors[0]);
+        return;
+      }
+
+      const res = await fetch("/api/todo", {
+        method: "POST",
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify(parsedObj.data),
+      });
+
+      const body = await res.json();
+      const { message } = body;
+
+      toast({ description: message });
+    } catch (error) {
+      toast({
+        description:
+          error instanceof Error ? error.message : "an unknown error occured",
+      });
+    }
+  }
+
   async function patchTodo() {
-    const id = todo?.id;
-    if (!id) {
-      toast({ description: "cannot find todo id" });
-      return;
+    try {
+      const id = todo?.id;
+      if (!id) {
+        toast({ description: "cannot find todo" });
+        return;
+      }
+      //validate input
+      const parsedObj = todoSchema.safeParse({ title, description: desc });
+
+      if (!parsedObj.success) {
+        console.log(parsedObj.error.errors[0]);
+        return;
+      }
+
+      const res = await fetch(`/api/todo/${id}`, {
+        method: "PATCH",
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify(parsedObj.data),
+      });
+
+      const body = await res.json();
+      const { message } = body;
+
+      toast({ description: message });
+    } catch (error) {
+      toast({
+        description:
+          error instanceof Error ? error.message : "an unknown error occured",
+      });
     }
-    //validate input
-    const parsedObj = todoSchema.safeParse({ title, description: desc });
-
-    if (!parsedObj.success) {
-      console.log(parsedObj.error.errors[0]);
-      return;
-    }
-    const res = await fetch(`/api/todo/${id}`, {
-      method: "PATCH",
-      headers: { "content-type": "application/json" },
-      body: JSON.stringify(parsedObj.data),
-    });
-
-    const body = await res.json();
-    const { message } = body;
-
-    toast({ description: message });
-    setDesc("");
-    setTitle("");
-    setDisplayForm(!displayForm);
   }
 };
 

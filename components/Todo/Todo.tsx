@@ -14,7 +14,6 @@ const Todo = ({ className }: { className?: string }) => {
       <h1 className="text-center mt-20 text-[3rem]">Monday</h1>
       <p className="text-center mt-2 text-[1.1rem]">March 23, 2025</p>
       <Tooltip />
-
       <TodoList />
     </div>
   );

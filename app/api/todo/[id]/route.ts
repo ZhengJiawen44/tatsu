@@ -68,13 +68,31 @@ export async function PATCH(
   try {
     const session = await auth();
     const user = session?.user;
-    console.log("user", user);
 
     if (!user?.id)
       throw new UnauthorizedError("You must be logged in to do this");
 
-    const id = params.id;
+    const id = (await params).id;
     if (!id) throw new BadRequestError("Invalid request, ID is required");
+
+    //for pinning todos
+    const isPin = req.nextUrl.searchParams.get("pin");
+    if (isPin) {
+      if (isPin === "true") {
+        //pin todo
+        await prisma.todo.updateMany({
+          where: { id, userID: user.id },
+          data: { pinned: true },
+        });
+      } else {
+        await prisma.todo.updateMany({
+          where: { id, userID: user.id },
+          data: { pinned: false },
+        });
+      }
+
+      return NextResponse.json({ message: "pin updated" }, { status: 200 });
+    }
 
     const body = await req.json();
     const parsedObj = todoSchema.partial().safeParse(body);

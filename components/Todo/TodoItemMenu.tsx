@@ -1,5 +1,6 @@
 import React from "react";
 import Pin from "../ui/icon/pin";
+import Unpin from "../ui/icon/unpin";
 import Edit from "../ui/icon/edit";
 import Trash from "../ui/icon/trash";
 import { MeatballMenu, MenuItem } from "../MeatballMenu";
@@ -9,24 +10,40 @@ import { useToast } from "@/hooks/use-toast";
 const TodoItemMenu = ({
   id,
   setDisplayForm,
+  pinned,
 }: {
   id: string;
   setDisplayForm: React.Dispatch<React.SetStateAction<boolean>>;
+  pinned: boolean;
 }) => {
   const { toast } = useToast();
   const queryClient = useQueryClient();
-  const { mutate, isPending } = useMutation({
+  const { mutate: deleteMutate, isPending: deletePending } = useMutation({
     mutationFn: deleteTodo,
     mutationKey: ["todo"],
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["todo"] });
     },
   });
+  const { mutate: pinMutate, isPending: pinPending } = useMutation({
+    mutationFn: pinned ? unpinTodo : pinTodo,
+    mutationKey: ["todo"],
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["todo"] });
+    },
+  });
+
   return (
     <MeatballMenu>
-      <MenuItem>
-        <Pin className="w-4 h-4" />
-        Pin to top
+      <MenuItem onClick={pinMutate}>
+        {pinPending ? (
+          <Spinner className="w-4 h-4" />
+        ) : !pinned ? (
+          <Pin className="w-4 h-4" />
+        ) : (
+          <Unpin className="w-4 h-4" />
+        )}
+        {pinned ? "unpin" : "Pin to top"}
       </MenuItem>
       <MenuItem
         onClick={() => {
@@ -36,8 +53,8 @@ const TodoItemMenu = ({
         <Edit className="w-4 h-4" />
         Edit
       </MenuItem>
-      <MenuItem onClick={mutate}>
-        {isPending ? (
+      <MenuItem onClick={deleteMutate}>
+        {deletePending ? (
           <Spinner className="w-4 h-4" />
         ) : (
           <Trash className="w-4 h-4" />
@@ -46,6 +63,14 @@ const TodoItemMenu = ({
       </MenuItem>
     </MeatballMenu>
   );
+
+  async function pinTodo() {
+    await fetch(`/api/todo/${id}?pin=true`, { method: "PATCH" });
+  }
+  async function unpinTodo() {
+    await fetch(`/api/todo/${id}?pin=false`, { method: "PATCH" });
+  }
+
   async function deleteTodo() {
     try {
       const res = await fetch(`/api/todo/${id}`, { method: "DELETE" });

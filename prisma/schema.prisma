@@ -12,12 +12,12 @@ model User {
   name          String?
   email         String          @unique
   emailVerified DateTime?
-  password String?
+  password      String?
   image         String?
   accounts      Account[]
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  Todos     Todo[]
+  createdAt     DateTime        @default(now())
+  updatedAt     DateTime        @updatedAt
+  Todos         Todo[]
 }
  
 model Account {
@@ -33,19 +33,19 @@ model Account {
   id_token          String?
   session_state     String?
  
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  createdAt         DateTime      @default(now())
+  updatedAt         DateTime      @updatedAt
  
-  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  user              User          @relation(fields: [userId], references: [id], onDelete: Cascade)
  
   @@id([provider, providerAccountId])
 }
  
  
 model VerificationToken {
-  identifier String
-  token      String
-  expires    DateTime
+  identifier        String
+  token             String
+  expires           DateTime
  
   @@id([identifier, token])
 }
@@ -56,7 +56,8 @@ model Todo{
   title         String
   description   String?
   createdAt     DateTime        @default(now())
-  user          User @relation(fields: [userID], references: [id])
+  user          User            @relation(fields: [userID], references: [id])
   userID        String
+  pinned        Boolean         @default(false)
 }
  
