@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from "react";
-import { TodoItem } from "@/components/Todo/TodoItem";
-import LineSeparator from "@/components/ui/lineSeparator";
-import Ok from "@/components/ui/icon/ok";
+import TodoSidebar from "./TodoSidebar";
 import { useQuery } from "@tanstack/react-query";
+import NoteSidebar from "./NoteSidebar";
 
 interface TodoItemType {
   id: string;
@@ -62,21 +61,9 @@ const index = ({ activeMenu }: { activeMenu: string }) => {
         {time}
       </h1>
       <div className="h-full rounded-3xl bg-card p-16 overflow-y-scroll scrollbar-none">
-        <h2 className="flex gap-2 items-center text-[1.4rem]">
-          Finished todos <Ok className="w-7 h-7" />
-        </h2>
-        <LineSeparator />
-        {todoList.map((item) => {
-          if (item.completed) {
-            return (
-              <TodoItem
-                key={item.id}
-                todoItem={item}
-                variant="completed-todos"
-              />
-            );
-          }
-        })}
+        {activeMenu === "Todo" && <TodoSidebar todoList={todoList} />}
+        {activeMenu === "Vault" && <>Vault</>}
+        {activeMenu === "Note" && <NoteSidebar todoList={todoList} />}
       </div>
     </>
   );

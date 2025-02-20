@@ -12,7 +12,7 @@ import TaskItem from "@tiptap/extension-task-item";
 import TaskList from "@tiptap/extension-task-list";
 import CustomBubbleMenu from "./CustomBubbleMenu";
 import { CustomHighlight } from "./customHighlight";
-
+import { demoContent } from "../demoContent";
 const Tiptap = () => {
   return (
     <EditorProvider
@@ -44,7 +44,7 @@ const Tiptap = () => {
           },
         }),
       ]}
-      content={`<h1>new page</h1>`}
+      content={demoContent}
       editorContainerProps={{
         className: "",
       }}
@@ -52,7 +52,12 @@ const Tiptap = () => {
         attributes: { class: "focus:outline-none focus:border-none" },
       }}
     >
-      {/* <FloatingMenu editor={null}>floating menu</FloatingMenu> */}
+      <FloatingMenu
+        editor={null}
+        className="w-fit flex gap-1 justify-center items-center rounded-lg p-1 leading-0 text-[1.05rem]"
+      >
+        <CustomBubbleMenu />
+      </FloatingMenu>
       <BubbleMenu
         editor={null}
         className="w-fit flex gap-1 bg-card-accent justify-center items-center border rounded-lg p-1 leading-0 text-[1.05rem]"

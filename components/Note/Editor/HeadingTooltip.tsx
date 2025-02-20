@@ -54,11 +54,11 @@ const MenuContents = ({
   return (
     <div
       ref={ref}
-      className="border absolute top-12 right-1/2 translate-x-1/2 p-1 rounded-lg bg-card"
+      className="flex gap-1 border absolute top-12 left-0 p-1 rounded-lg bg-card justify-center items-center shadow-2xl"
     >
       <div>
         <EditorToggle
-          className=""
+          className="flex justify-center items-center"
           title="heading 1"
           isActive={() => {
             return editor!.isActive("heading", { level: 1 });
@@ -74,7 +74,7 @@ const MenuContents = ({
       <div>
         <EditorToggle
           title="heading 2"
-          className=""
+          className="flex justify-center items-center"
           isActive={() => {
             return editor!.isActive("heading", { level: 2 });
           }}
@@ -89,7 +89,7 @@ const MenuContents = ({
       <div>
         <EditorToggle
           title="heading 3"
-          className=""
+          className="flex justify-center items-center"
           isActive={() => {
             return editor!.isActive("heading", { level: 3 });
           }}

@@ -18,6 +18,7 @@ model User {
   createdAt     DateTime        @default(now())
   updatedAt     DateTime        @updatedAt
   Todos         Todo[]
+  Note          Note[]
 }
  
 model Account {
@@ -60,5 +61,15 @@ model Todo{
   userID        String
   pinned        Boolean         @default(false)
   completed     Boolean         @default(false)
+}
+
+
+model Note{
+  id            String          @id @default(cuid())
+  name          String
+  content       String          
+  createdAt     DateTime        @default(now())
+  user          User            @relation(fields: [userID], references: [id])
+  userID        String
 }
  

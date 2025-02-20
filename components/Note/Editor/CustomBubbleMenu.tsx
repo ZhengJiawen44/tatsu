@@ -24,7 +24,6 @@ const CustomBubbleMenu = () => {
   return (
     <>
       <HeadingTooltip />
-
       <EditorToggle
         title="bold"
         isActive={() => {
