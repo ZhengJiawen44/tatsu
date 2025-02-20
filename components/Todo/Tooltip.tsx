@@ -8,7 +8,7 @@ const Tooltip = () => {
   const [displayForm, setDisplayForm] = useState(false);
 
   return (
-    <div className="sticky top-0 pt-10 bg-card z-10">
+    <div className="sticky top-0 bg-card z-10">
       {/* add more icon */}
       <button
         onClick={() => setDisplayForm(!displayForm)}

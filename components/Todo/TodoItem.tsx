@@ -4,6 +4,7 @@ import TodoForm from "./TodoForm";
 import TodoCheckbox from "../TodoCheckbox";
 import { useQueryClient } from "@tanstack/react-query";
 import { useMutation } from "@tanstack/react-query";
+import clsx from "clsx";
 
 interface TodoItem {
   id: string;
@@ -13,11 +14,28 @@ interface TodoItem {
   completed: boolean;
 }
 
-export const TodoItem = ({ todoItem }: { todoItem: TodoItem }) => {
+export const TodoItem = ({
+  todoItem,
+  variant = "DEFAULT",
+}: {
+  todoItem: TodoItem;
+  variant?: "DEFAULT" | "completed-todos";
+}) => {
   const queryClient = useQueryClient();
   const { id, title, description, pinned, completed } = todoItem;
   const [isEdit, setEdit] = useState(false);
   const [todoCompleted, setCompleted] = useState(completed);
+  const { mutate: mutateCompleted } = useMutation({
+    mutationFn: completeTodo,
+    mutationKey: ["todo"],
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["todo"] });
+    },
+  });
+
+  useEffect(() => {
+    mutateCompleted();
+  }, [todoCompleted]);
   if (isEdit) {
     return (
       <TodoForm
@@ -28,22 +46,12 @@ export const TodoItem = ({ todoItem }: { todoItem: TodoItem }) => {
     );
   }
 
-  const { mutate: mutateCompleted } = useMutation({
-    mutationFn: completeTodo,
-    mutationKey: ["todo"],
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["todo"] });
-    },
-  });
   async function completeTodo() {
     await fetch(`/api/todo/${id}?completed=${todoCompleted}`, {
       method: "PATCH",
     });
   }
 
-  useEffect(() => {
-    mutateCompleted();
-  }, [todoCompleted]);
   return (
     <>
       <div className="flex justify-between items-center my-10">
@@ -62,7 +70,12 @@ export const TodoItem = ({ todoItem }: { todoItem: TodoItem }) => {
           </p>
         </div>
 
-        <TodoItemMenu id={id} setDisplayForm={setEdit} pinned={pinned} />
+        <TodoItemMenu
+          id={id}
+          setDisplayForm={setEdit}
+          pinned={pinned}
+          className={clsx(variant === "DEFAULT" ? "" : "hidden")}
+        />
       </div>
     </>
   );

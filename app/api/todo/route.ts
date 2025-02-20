@@ -64,6 +64,7 @@ export async function GET() {
     //get todos
     const todos = await prisma.todo.findMany({
       where: { userID: user.id },
+      orderBy: { createdAt: "desc" },
     });
     if (!todos) throw new InternalError("todo cannot be created at this time");
 

@@ -51,6 +51,7 @@ export default {
             muted: "hsl(var(--card-foreground-muted))",
           },
           muted: "hsl(var(--card-muted))",
+          accent: "hsl(var(--card-accent))",
         },
         popover: {
           DEFAULT: "hsla(var(--popover))",

@@ -8,10 +8,12 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import Spinner from "../ui/spinner";
 import { useToast } from "@/hooks/use-toast";
 const TodoItemMenu = ({
+  className,
   id,
   setDisplayForm,
   pinned,
 }: {
+  className?: string;
   id: string;
   setDisplayForm: React.Dispatch<React.SetStateAction<boolean>>;
   pinned: boolean;
@@ -34,34 +36,36 @@ const TodoItemMenu = ({
   });
 
   return (
-    <MeatballMenu>
-      <MenuItem onClick={pinMutate}>
-        {pinPending ? (
-          <Spinner className="w-4 h-4" />
-        ) : !pinned ? (
-          <Pin className="w-4 h-4" />
-        ) : (
-          <Unpin className="w-4 h-4" />
-        )}
-        {pinned ? "unpin" : "Pin to top"}
-      </MenuItem>
-      <MenuItem
-        onClick={() => {
-          setDisplayForm((prev: boolean) => !prev);
-        }}
-      >
-        <Edit className="w-4 h-4" />
-        Edit
-      </MenuItem>
-      <MenuItem onClick={deleteMutate}>
-        {deletePending ? (
-          <Spinner className="w-4 h-4" />
-        ) : (
-          <Trash className="w-4 h-4" />
-        )}
-        delete
-      </MenuItem>
-    </MeatballMenu>
+    <div className={className}>
+      <MeatballMenu>
+        <MenuItem onClick={pinMutate}>
+          {pinPending ? (
+            <Spinner className="w-4 h-4" />
+          ) : !pinned ? (
+            <Pin className="w-4 h-4" />
+          ) : (
+            <Unpin className="w-4 h-4" />
+          )}
+          {pinned ? "unpin" : "Pin to top"}
+        </MenuItem>
+        <MenuItem
+          onClick={() => {
+            setDisplayForm((prev: boolean) => !prev);
+          }}
+        >
+          <Edit className="w-4 h-4" />
+          Edit
+        </MenuItem>
+        <MenuItem onClick={deleteMutate}>
+          {deletePending ? (
+            <Spinner className="w-4 h-4" />
+          ) : (
+            <Trash className="w-4 h-4" />
+          )}
+          delete
+        </MenuItem>
+      </MeatballMenu>
+    </div>
   );
 
   async function pinTodo() {

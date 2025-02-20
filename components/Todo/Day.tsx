@@ -38,7 +38,7 @@ const Day = ({
     months[currentDate.getMonth() + 1]
   } ${currentDate.getUTCDate()}, ${currentDate.getFullYear()}`;
   return (
-    <div className="flex justify-center items-center gap-20 mt-24 mb-10">
+    <div className="flex justify-center items-center gap-20 mb-10">
       {/* <Pointer
         variant="left"
         onClick={() =>

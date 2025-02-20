@@ -17,11 +17,14 @@ interface TodoItemType {
 // Helper function to group todos by their display date
 const groupTodosByDate = (todos: TodoItemType[]) => {
   return todos.reduce((groups: Record<string, TodoItemType[]>, todo) => {
-    const dateKey = getDisplayDate(todo.createdAt);
-    if (!groups[dateKey]) {
-      groups[dateKey] = [];
+    if (!todo.completed) {
+      // Only include uncompleted todos
+      const dateKey = getDisplayDate(todo.createdAt);
+      if (!groups[dateKey]) {
+        groups[dateKey] = [];
+      }
+      groups[dateKey].push(todo);
     }
-    groups[dateKey].push(todo);
     return groups;
   }, {});
 };
@@ -46,8 +49,7 @@ const TodoList = () => {
 
   if (isLoading) return <TodoListLoading />;
 
-  // Optionally, if you still want to separate pinned and unpinned todos,
-  // you can group each set by date.
+  //group each set by date.
   const pinnedTodos = todoList.filter((todo) => todo.pinned);
   const unpinnedTodos = todoList.filter((todo) => !todo.pinned);
 

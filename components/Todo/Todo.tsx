@@ -3,20 +3,15 @@ import { cn } from "@/lib/utils";
 import Tooltip from "./Tooltip";
 import TodoList from "./TodoList";
 import Day from "./Day";
-
+import AppInnerLayout from "../AppInnerLayout";
 const Todo = ({ className }: { className?: string }) => {
   const [currentDate, setCurrentDate] = useState<Date>(new Date());
   return (
-    <div
-      className={cn(
-        "overflow-y-scroll h-full w-full scrollbar-none px-[114px]",
-        className
-      )}
-    >
+    <AppInnerLayout className={cn(className)}>
       <Day currentDate={currentDate} setCurrentDate={setCurrentDate} />
       <Tooltip />
       <TodoList />
-    </div>
+    </AppInnerLayout>
   );
 };
 
