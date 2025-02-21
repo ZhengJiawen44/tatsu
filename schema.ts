@@ -36,3 +36,11 @@ export const todoSchema = z.object({
     .min(1, { message: "title cannot be left empty" }),
   description: z.string().optional(),
 });
+
+export const noteSchema = z.object({
+  name: z
+    .string({ message: "title cannot be left empty" })
+    .trim()
+    .min(1, { message: "title cannot be left empty" }),
+  content: z.string().optional(),
+});

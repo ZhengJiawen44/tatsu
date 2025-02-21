@@ -11,6 +11,12 @@ interface TodoItemType {
   createdAt: Date;
   completed: boolean;
 }
+interface NoteItemType {
+  id: string;
+  name: string;
+  content?: string;
+  createdAt: Date;
+}
 const index = ({ activeMenu }: { activeMenu: string }) => {
   const [time, setTime] = useState("");
   useEffect(() => {
@@ -39,7 +45,9 @@ const index = ({ activeMenu }: { activeMenu: string }) => {
 
     return () => clearTimeout(initialTimeout);
   }, []);
-  const { data: todoList = [], isLoading } = useQuery<TodoItemType[]>({
+
+  // query todo data
+  const { data: todoList = [] } = useQuery<TodoItemType[]>({
     queryKey: ["todo"],
     queryFn: async () => {
       const res = await fetch(`/api/todo`);
@@ -55,6 +63,24 @@ const index = ({ activeMenu }: { activeMenu: string }) => {
         : [];
     },
   });
+
+  // query note data
+  const { data: noteList = [] } = useQuery<NoteItemType[]>({
+    queryKey: ["note"],
+    queryFn: async () => {
+      const res = await fetch(`/api/note`);
+      if (!res.ok) throw new Error("Failed to fetch notes");
+
+      const data = await res.json();
+
+      return Array.isArray(data.notes)
+        ? data.notes.map((note: NoteItemType) => ({
+            ...note,
+            createdAt: new Date(note.createdAt),
+          }))
+        : [];
+    },
+  });
   return (
     <>
       <h1 className="text-[6rem] font-bold font-mono text-lime w-full h-fit my`-10 text-center rounded-3xl bg-card">
@@ -63,7 +89,7 @@ const index = ({ activeMenu }: { activeMenu: string }) => {
       <div className="h-full rounded-3xl bg-card p-16 overflow-y-scroll scrollbar-none">
         {activeMenu === "Todo" && <TodoSidebar todoList={todoList} />}
         {activeMenu === "Vault" && <>Vault</>}
-        {activeMenu === "Note" && <NoteSidebar todoList={todoList} />}
+        {activeMenu === "Note" && <NoteSidebar noteList={noteList} />}
       </div>
     </>
   );
