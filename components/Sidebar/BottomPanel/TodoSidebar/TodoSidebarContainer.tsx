@@ -2,15 +2,7 @@ import React from "react";
 import { TodoItem } from "@/components/Todo/TodoItem";
 import LineSeparator from "@/components/ui/lineSeparator";
 import Ok from "@/components/ui/icon/ok";
-
-interface TodoItemType {
-  id: string;
-  title: string;
-  description?: string;
-  pinned: boolean;
-  createdAt: Date;
-  completed: boolean;
-}
+import { TodoItemType } from "@/types";
 
 const TodoSidebar = ({ todoList }: { todoList: TodoItemType[] }) => {
   return (

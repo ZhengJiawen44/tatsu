@@ -6,22 +6,16 @@ import React, {
   useEffect,
 } from "react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import { demoContent } from "@/components/Note/demoContent";
+import { demoContent } from "@/lib/demoContent";
+import { NoteItemType } from "@/types";
 
-interface NoteItemType {
-  id: string;
-  name: string;
-  content?: string;
-  createdAt: Date;
-}
-
-interface noteContextType {
+interface NoteContextType {
   currentNote: NoteItemType | null;
   setCurrentNote: React.Dispatch<SetStateAction<NoteItemType | null>>;
   isLoading: boolean;
 }
 
-const NoteContext = createContext<null | noteContextType>(null);
+const NoteContext = createContext<null | NoteContextType>(null);
 
 const fetchNotes = async (): Promise<NoteItemType[]> => {
   const res = await fetch("/api/note");
@@ -44,16 +38,8 @@ const createDemoNote = async (): Promise<NoteItemType> => {
   return note;
 };
 
-export const NoteProvider = ({
-  children,
-  noteObj,
-}: {
-  children: React.ReactNode;
-  noteObj?: NoteItemType;
-}) => {
-  const [currentNote, setCurrentNote] = useState<NoteItemType | null>(
-    noteObj || null
-  );
+export const NoteProvider = ({ children }: { children: React.ReactNode }) => {
+  const [currentNote, setCurrentNote] = useState<NoteItemType | null>(null);
 
   const queryClient = useQueryClient();
 

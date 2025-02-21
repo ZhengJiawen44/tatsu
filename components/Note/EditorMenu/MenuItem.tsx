@@ -1,6 +1,6 @@
 import clsx from "clsx";
 import { cn } from "@/lib/utils";
-export const EditorToggle = ({
+export const MenuItem = ({
   title,
   className,
   children,

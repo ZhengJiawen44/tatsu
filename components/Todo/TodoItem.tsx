@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import TodoItemMenu from "./TodoItemMenu";
 import TodoForm from "./TodoForm";
 import TodoCheckbox from "../TodoCheckbox";
@@ -26,6 +26,12 @@ export const TodoItem = ({
   const [isEdit, setEdit] = useState(false);
   const [todoCompleted, setCompleted] = useState(completed);
 
+  async function completeTodo() {
+    await fetch(`/api/todo/${id}?completed=${todoCompleted}`, {
+      method: "PATCH",
+    });
+  }
+
   const { mutate: mutateCompleted } = useMutation({
     mutationFn: completeTodo,
     mutationKey: ["todo"],
@@ -42,12 +48,6 @@ export const TodoItem = ({
         todo={{ id, title, description }}
       />
     );
-  }
-
-  async function completeTodo() {
-    await fetch(`/api/todo/${id}?completed=${todoCompleted}`, {
-      method: "PATCH",
-    });
   }
 
   return (

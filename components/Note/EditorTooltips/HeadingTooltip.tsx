@@ -1,6 +1,6 @@
 import React, { SetStateAction, useEffect, useRef, useState } from "react";
 
-import { EditorToggle } from "./EditorToggle";
+import { MenuItem } from "../EditorMenu/MenuItem";
 import { Editor, useCurrentEditor } from "@tiptap/react";
 import {
   Heading,
@@ -61,7 +61,7 @@ const MenuContents = ({
       className="flex gap-1 border absolute top-12 left-0 p-1 rounded-lg bg-card justify-center items-center shadow-2xl"
     >
       <div>
-        <EditorToggle
+        <MenuItem
           className="flex justify-center items-center"
           title="heading 1"
           isActive={() => {
@@ -73,10 +73,10 @@ const MenuContents = ({
           }}
         >
           <Heading1 className="w-4 h-4" />
-        </EditorToggle>
+        </MenuItem>
       </div>
       <div>
-        <EditorToggle
+        <MenuItem
           title="heading 2"
           className="flex justify-center items-center"
           isActive={() => {
@@ -88,10 +88,10 @@ const MenuContents = ({
           }}
         >
           <Heading2 className="w-4 h-4" />
-        </EditorToggle>
+        </MenuItem>
       </div>
       <div>
-        <EditorToggle
+        <MenuItem
           title="heading 3"
           className="flex justify-center items-center"
           isActive={() => {
@@ -103,7 +103,7 @@ const MenuContents = ({
           }}
         >
           <Heading3 className="w-4 h-4" />
-        </EditorToggle>
+        </MenuItem>
       </div>
     </div>
   );

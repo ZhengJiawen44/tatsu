@@ -4,15 +4,7 @@ import TodoListLoading from "./TodoListLoading";
 import LineSeparator from "../ui/lineSeparator";
 import { TodoItem } from "./TodoItem";
 import { getDisplayDate } from "@/lib/displayDate";
-
-interface TodoItemType {
-  id: string;
-  title: string;
-  description?: string;
-  pinned: boolean;
-  createdAt: Date;
-  completed: boolean;
-}
+import { TodoItemType } from "@/types";
 
 // Helper function to group todos by their display date
 const groupTodosByDate = (todos: TodoItemType[]) => {
@@ -37,13 +29,7 @@ const TodoList = () => {
       if (!res.ok) throw new Error("Failed to fetch todos");
 
       const data = await res.json();
-
-      return Array.isArray(data.todos)
-        ? data.todos.map((todo: TodoItemType) => ({
-            ...todo,
-            createdAt: new Date(todo.createdAt),
-          }))
-        : [];
+      return data.todos;
     },
   });
 

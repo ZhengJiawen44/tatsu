@@ -1,8 +1,9 @@
 import React, { SetStateAction, useEffect, useRef } from "react";
-import { EditorToggle } from "./EditorToggle";
-import { Editor, useCurrentEditor } from "@tiptap/react";
+import { MenuItem } from "../EditorMenu/MenuItem";
+import { Editor } from "@tiptap/react";
 import LineSeparator from "@/components/ui/lineSeparator";
-const ColorPicker = ({
+
+const ColorTooltip = ({
   setColorTooltip,
   editor,
 }: {
@@ -63,7 +64,7 @@ const ColorPicker = ({
       <div className="grid grid-cols-5 ">
         <UnsetText editor={editor!} />
         {TextColors.map((color, index) => (
-          <EditorToggle
+          <MenuItem
             title={color}
             className="w-fit h-fit p-1"
             key={index}
@@ -78,7 +79,7 @@ const ColorPicker = ({
               className="w-5 h-5 rounded cursor-pointer"
               style={{ backgroundColor: color }}
             />
-          </EditorToggle>
+          </MenuItem>
         ))}
       </div>
       <LineSeparator className="my-2" />
@@ -87,7 +88,7 @@ const ColorPicker = ({
       <p className="text-[0.8rem] mb-2">color</p>
       <UnsetHighlight editor={editor!} />
       {HighlightColors.map((color, index) => (
-        <EditorToggle
+        <MenuItem
           title={color}
           className="w-fit h-fit p-1"
           key={index + 120}
@@ -102,7 +103,7 @@ const ColorPicker = ({
             className="w-5 h-5 rounded cursor-pointer"
             style={{ backgroundColor: color }}
           />
-        </EditorToggle>
+        </MenuItem>
       ))}
 
       <p className="text-[0.8rem] mb-2">opacity</p>
@@ -134,7 +135,7 @@ const updateOpacity = (editor: Editor, newOpacity: number) => {
 };
 const UnsetHighlight = ({ editor }: { editor: Editor }) => {
   return (
-    <EditorToggle
+    <MenuItem
       title="remove highlight"
       className="w-fit h-fit p-1"
       isActive={() => {
@@ -145,12 +146,12 @@ const UnsetHighlight = ({ editor }: { editor: Editor }) => {
       }}
     >
       <div className="w-5 h-5 outline outline-[2px] outline-border   rounded cursor-pointer " />
-    </EditorToggle>
+    </MenuItem>
   );
 };
 const UnsetText = ({ editor }: { editor: Editor }) => {
   return (
-    <EditorToggle
+    <MenuItem
       title="reset color"
       className="w-fit h-fit p-1"
       isActive={() => {
@@ -161,8 +162,8 @@ const UnsetText = ({ editor }: { editor: Editor }) => {
       }}
     >
       <div className="w-5 h-5 outline outline-[2px] outline-border   rounded cursor-pointer " />
-    </EditorToggle>
+    </MenuItem>
   );
 };
 
-export default ColorPicker;
+export default ColorTooltip;

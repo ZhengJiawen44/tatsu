@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useState } from "react";
 import PlusOutline from "../ui/icon/plusOutline";
 import TodoForm from "./TodoForm";
 import LineSeparator from "../ui/lineSeparator";
@@ -8,7 +8,7 @@ const Tooltip = () => {
   const [displayForm, setDisplayForm] = useState(false);
 
   return (
-    <div className="sticky top-0 bg-card z-10">
+    <div className="pt-10 sticky top-0 bg-card z-10">
       {/* add more icon */}
       <button
         onClick={() => setDisplayForm(!displayForm)}

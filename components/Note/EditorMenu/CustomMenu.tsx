@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import { Editor } from "@tiptap/react";
-import ColorTooltip from "./ColorTooltip";
-import { EditorToggle } from "./EditorToggle";
+import ColorTooltip from "../EditorTooltips/ColorTooltip";
+import { MenuItem } from "./MenuItem";
+
 import {
   Bold,
   Italic,
@@ -13,17 +14,17 @@ import {
   DottedList,
   NumbereredList,
   Checkbox,
-} from "../../ui/icon/fonts";
-import HeadingTooltip from "./HeadingTooltip";
+} from "@/components/ui/icon/fonts";
+import HeadingTooltip from "../EditorTooltips/HeadingTooltip";
 
-const CustomBubbleMenu = ({ editor }: { editor: Editor | null }) => {
+const CustomMenu = ({ editor }: { editor: Editor | null }) => {
   const [colorTooltip, setColorTooltip] = useState(false);
 
   if (!editor) return null;
   return (
     <>
       <HeadingTooltip editor={editor} />
-      <EditorToggle
+      <MenuItem
         title="bold"
         isActive={() => {
           return editor.isActive("bold");
@@ -31,8 +32,8 @@ const CustomBubbleMenu = ({ editor }: { editor: Editor | null }) => {
         onClick={() => editor.chain().focus().toggleBold().run()}
       >
         <Bold className="w-4 h-4" />
-      </EditorToggle>
-      <EditorToggle
+      </MenuItem>
+      <MenuItem
         title="italic"
         isActive={() => {
           return editor.isActive("italic");
@@ -40,8 +41,8 @@ const CustomBubbleMenu = ({ editor }: { editor: Editor | null }) => {
         onClick={() => editor.chain().focus().toggleItalic().run()}
       >
         <Italic className="w-4 h-4" />
-      </EditorToggle>
-      <EditorToggle
+      </MenuItem>
+      <MenuItem
         title="underline"
         isActive={() => {
           return editor.isActive("underline");
@@ -49,8 +50,8 @@ const CustomBubbleMenu = ({ editor }: { editor: Editor | null }) => {
         onClick={() => editor.chain().focus().toggleUnderline().run()}
       >
         <Underline className="w-4 h-4" />
-      </EditorToggle>
-      <EditorToggle
+      </MenuItem>
+      <MenuItem
         title="strike through"
         isActive={() => {
           return editor.isActive("strike");
@@ -58,8 +59,8 @@ const CustomBubbleMenu = ({ editor }: { editor: Editor | null }) => {
         onClick={() => editor.chain().focus().toggleStrike().run()}
       >
         <Strikethrough className="w-4 h-4" />
-      </EditorToggle>
-      <EditorToggle
+      </MenuItem>
+      <MenuItem
         title="hyperlink"
         isActive={() => {
           return editor.isActive("link");
@@ -67,10 +68,10 @@ const CustomBubbleMenu = ({ editor }: { editor: Editor | null }) => {
         onClick={() => setLink(editor)}
       >
         <HyperLink className="w-4 h-4" />
-      </EditorToggle>
+      </MenuItem>
 
       <div className="flex relative">
-        <EditorToggle
+        <MenuItem
           title="color"
           className=""
           isActive={() => {
@@ -79,12 +80,12 @@ const CustomBubbleMenu = ({ editor }: { editor: Editor | null }) => {
           onClick={() => setColorTooltip(!colorTooltip)}
         >
           <A className="w-4 h-4" />
-        </EditorToggle>
+        </MenuItem>
         {colorTooltip && (
           <ColorTooltip setColorTooltip={setColorTooltip} editor={editor} />
         )}
       </div>
-      <EditorToggle
+      <MenuItem
         title="line separator"
         isActive={() => {
           return editor.isActive("horizontalRule");
@@ -92,8 +93,8 @@ const CustomBubbleMenu = ({ editor }: { editor: Editor | null }) => {
         onClick={() => editor.chain().focus().setHorizontalRule().run()}
       >
         <Rule className="w-4 h-4" />
-      </EditorToggle>
-      <EditorToggle
+      </MenuItem>
+      <MenuItem
         title="bullet list"
         isActive={() => {
           return editor.isActive("bulletList");
@@ -101,8 +102,8 @@ const CustomBubbleMenu = ({ editor }: { editor: Editor | null }) => {
         onClick={() => editor.chain().focus().toggleBulletList().run()}
       >
         <DottedList className="w-4 h-4" />
-      </EditorToggle>
-      <EditorToggle
+      </MenuItem>
+      <MenuItem
         title="numbered list"
         isActive={() => {
           return editor.isActive("orderedList");
@@ -110,8 +111,8 @@ const CustomBubbleMenu = ({ editor }: { editor: Editor | null }) => {
         onClick={() => editor.chain().focus().toggleOrderedList().run()}
       >
         <NumbereredList className="w-4 h-4" />
-      </EditorToggle>
-      <EditorToggle
+      </MenuItem>
+      <MenuItem
         title="task list"
         isActive={() => {
           return editor.isActive("taskList");
@@ -119,7 +120,7 @@ const CustomBubbleMenu = ({ editor }: { editor: Editor | null }) => {
         onClick={() => editor.chain().focus().toggleTaskList().run()}
       >
         <Checkbox className="w-4 h-4" />
-      </EditorToggle>
+      </MenuItem>
     </>
   );
   function setLink(editor: Editor) {
@@ -136,4 +137,4 @@ const CustomBubbleMenu = ({ editor }: { editor: Editor | null }) => {
   }
 };
 
-export default CustomBubbleMenu;
+export default CustomMenu;

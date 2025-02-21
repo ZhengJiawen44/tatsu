@@ -1,16 +1,11 @@
 import React, { SetStateAction, useEffect, useRef, useState } from "react";
-import File from "../ui/icon/file";
-import { MeatballMenu, MenuItem } from "../MeatballMenu";
+import File from "@/components/ui/icon/file";
+import { MeatballMenu, MenuItem } from "@/components/MeatballMenu";
 import { useCurrentNote } from "@/providers/NoteProvider";
-import { QueryClient } from "@tanstack/react-query";
+import { useQueryClient } from "@tanstack/react-query";
 import { useMutation } from "@tanstack/react-query";
 import clsx from "clsx";
-interface NoteItemType {
-  id: string;
-  name: string;
-  content?: string;
-  createdAt: Date;
-}
+import { NoteItemType } from "@/types";
 interface NoteItemProps {
   note: NoteItemType;
   renameNoteID: string | null;
@@ -18,7 +13,7 @@ interface NoteItemProps {
 }
 
 const NoteItem = ({ note, renameNoteID, setRenameNoteID }: NoteItemProps) => {
-  const queryClient = new QueryClient();
+  const queryClient = useQueryClient();
   const nameInputRef = useRef<HTMLInputElement | null>(null);
   const { currentNote, setCurrentNote, isLoading } = useCurrentNote();
   const [name, setName] = useState(note.name);
@@ -103,7 +98,7 @@ const NoteItem = ({ note, renameNoteID, setRenameNoteID }: NoteItemProps) => {
 
       <MeatballMenu>
         <MenuItem
-          onClick={(e) => {
+          onClick={(e: React.MouseEvent) => {
             e.stopPropagation();
             setRenameNoteID(note.id);
             const name = nameInputRef.current?.value;
@@ -118,7 +113,7 @@ const NoteItem = ({ note, renameNoteID, setRenameNoteID }: NoteItemProps) => {
           rename
         </MenuItem>
         <MenuItem
-          onClick={(e) => {
+          onClick={(e: React.MouseEvent) => {
             // e.stopPropagation();
           }}
         >

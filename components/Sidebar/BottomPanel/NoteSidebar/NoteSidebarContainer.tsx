@@ -1,19 +1,13 @@
-import React, { useRef, useState } from "react";
+import React, { useState } from "react";
 import LineSeparator from "@/components/ui/lineSeparator";
 import Note from "@/components/ui/icon/note";
-import Plus from "../ui/plus";
+import Plus from "@/components/ui/plus";
 import { useMutation } from "@tanstack/react-query";
 import { useQueryClient } from "@tanstack/react-query";
-import Spinner from "../ui/spinner";
+import Spinner from "@/components/ui/spinner";
 import { useCurrentNote } from "@/providers/NoteProvider";
-import NoteItem from "./NoteItem";
-
-interface NoteItemType {
-  id: string;
-  name: string;
-  content?: string;
-  createdAt: Date;
-}
+import NoteItem from "./NoteSidebarItem";
+import { NoteItemType } from "@/types";
 
 const NoteSidebar = ({ noteList }: { noteList: NoteItemType[] }) => {
   const queryClient = useQueryClient();
@@ -37,6 +31,7 @@ const NoteSidebar = ({ noteList }: { noteList: NoteItemType[] }) => {
   if (!currentNote || isLoading) {
     return <>Loading...</>;
   }
+
   return (
     <div>
       <h2 className="flex gap-2 items-center text-[1.4rem]">

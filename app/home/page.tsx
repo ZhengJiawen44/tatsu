@@ -5,7 +5,7 @@ import Note from "@/components/Note";
 import Vault from "@/components/Vault";
 import Todo from "@/components/Todo/Todo";
 import clsx from "clsx";
-import Sidebar from "@/components/Sidebar";
+import Sidebar from "@/components/Sidebar/SidebarContainer";
 import NoteProvider from "@/providers/NoteProvider";
 
 const Page = () => {
@@ -52,7 +52,7 @@ const Page = () => {
             </MenuItem>
           </MenuContainer>
 
-          <Todo className={clsx(activeMenu === "Todo" ? "mt-10" : "hidden")} />
+          <Todo className={clsx(activeMenu !== "Todo" && "hidden")} />
           <Note className={clsx(activeMenu === "Note" ? "mt-5" : "hidden")} />
           <Vault className={clsx(activeMenu === "Vault" ? "" : "hidden")} />
         </div>

@@ -1,5 +1,5 @@
 import React from "react";
-import Pointer from "../ui/icon/pointer";
+import { dayNames, monthNames } from "@/lib/dateConstants";
 const Day = ({
   currentDate,
   setCurrentDate,
@@ -7,38 +7,12 @@ const Day = ({
   currentDate: Date;
   setCurrentDate: React.Dispatch<React.SetStateAction<Date>>;
 }) => {
-  console.log(currentDate);
-
-  const days = [
-    "Sunday",
-    "Monday",
-    "Tuesday",
-    "Wednesday",
-    "Thurday",
-    "Friday",
-    "Saturday",
-  ];
-
-  const months = [
-    "January",
-    "February",
-    "March",
-    "April",
-    "May",
-    "June",
-    "July",
-    "August",
-    "September",
-    "October",
-    "November",
-    "December",
-  ];
-  const currentDay = days[currentDate.getDay()];
+  const currentDay = dayNames[currentDate.getDay()];
   const currentMMDDYYYY = `${
-    months[currentDate.getMonth() + 1]
+    monthNames[currentDate.getMonth() + 1]
   } ${currentDate.getUTCDate()}, ${currentDate.getFullYear()}`;
   return (
-    <div className="flex justify-center items-center gap-20 mb-10">
+    <div className="flex justify-center items-center gap-20 mb-4 mt-24">
       {/* <Pointer
         variant="left"
         onClick={() =>

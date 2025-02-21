@@ -13,7 +13,7 @@ import {
   SeparatorWord,
 } from "@/components/ui/separator";
 import { useForm } from "react-hook-form";
-import { RegisterFormProp } from "@/types/forms";
+import { RegisterFormProp } from "@/types";
 import { useEffect, useState } from "react";
 import EyeToggle from "@/components/ui/eyeToggle";
 import { useSession } from "next-auth/react";

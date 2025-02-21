@@ -14,7 +14,7 @@ import {
   SeparatorWord,
 } from "@/components/ui/separator";
 import { useForm } from "react-hook-form";
-import { LoginFormProp } from "@/types/forms";
+import { LoginFormProp } from "@/types";
 import { useEffect, useState } from "react";
 import { useSession } from "next-auth/react";
 const LoginPage = () => {

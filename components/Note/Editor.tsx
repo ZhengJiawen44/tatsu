@@ -1,6 +1,5 @@
 import React, { useEffect } from "react";
 import {
-  EditorProvider,
   FloatingMenu,
   BubbleMenu,
   useEditor,
@@ -16,12 +15,15 @@ import BulletList from "@tiptap/extension-bullet-list";
 import OrderedList from "@tiptap/extension-ordered-list";
 import TaskItem from "@tiptap/extension-task-item";
 import TaskList from "@tiptap/extension-task-list";
-import CustomBubbleMenu from "./CustomBubbleMenu";
-import { CustomHighlight } from "./customHighlight";
+import CustomMenu from "./EditorMenu/CustomMenu";
+import { CustomHighlight } from "../../lib/customHighlight";
 import { useCurrentNote } from "@/providers/NoteProvider";
-import EditorLoading from "./EditorLoading";
+import EditorLoading from "../Loading/EditorLoading";
+import { useQueryClient } from "@tanstack/react-query";
+import { useMutation } from "@tanstack/react-query";
 
 const Tiptap = () => {
+  const queryClient = useQueryClient();
   const { currentNote, setCurrentNote, isLoading } = useCurrentNote();
   const editor = useEditor({
     extensions: [
@@ -63,17 +65,51 @@ const Tiptap = () => {
     },
   });
 
-  //sync editor with the useNote state
+  //create notes
+  const saveNote = async () => {
+    const res = await fetch(`/api/note/${currentNote!.id}`, {
+      method: "PATCH",
+      body: JSON.stringify({
+        content: currentNote!.content,
+      }),
+    });
+    if (!res.ok) {
+      throw new Error("Failed to create demo note");
+    }
+    const { note } = await res.json();
+    return note;
+  };
+
+  const saveNoteMutation = useMutation({
+    mutationFn: saveNote,
+    onSuccess: (newNote) => {
+      queryClient.invalidateQueries({ queryKey: ["note"] });
+      // setCurrentNote(newNote);
+    },
+  });
+
   useEffect(() => {
+    //save editor contents on ctrl+s
+    const saveOnEnter = (event: KeyboardEvent) => {
+      if ((event.ctrlKey || event.metaKey) && event.key === "s") {
+        event.preventDefault();
+        event.stopPropagation();
+        saveNoteMutation.mutate();
+      }
+    };
+    document.addEventListener("keydown", saveOnEnter);
+
+    //sync editor content with the useCurrentNote content
     if (editor && editor.getHTML() !== currentNote?.content) {
       if (currentNote?.content) {
         editor.commands.setContent(currentNote.content);
-        console.log("displaying new content");
       } else {
         editor.commands.setContent("<h1>new page</h1>");
-        console.log("displaying placeholder");
       }
     }
+    return () => {
+      document.removeEventListener("keydown", saveOnEnter);
+    };
   }, [currentNote?.id]);
 
   if (!currentNote || isLoading) return <EditorLoading />;
@@ -83,13 +119,13 @@ const Tiptap = () => {
         editor={editor}
         className="w-fit flex gap-1 justify-center items-center rounded-lg p-1 leading-0 text-[1.05rem]"
       >
-        <CustomBubbleMenu editor={editor} />
+        <CustomMenu editor={editor} />
       </FloatingMenu>
       <BubbleMenu
         editor={editor}
         className="w-fit flex gap-1 bg-card-accent justify-center items-center border rounded-lg p-1 leading-0 text-[1.05rem]"
       >
-        <CustomBubbleMenu editor={editor} />
+        <CustomMenu editor={editor} />
       </BubbleMenu>
       <EditorContent editor={editor} />
     </>
