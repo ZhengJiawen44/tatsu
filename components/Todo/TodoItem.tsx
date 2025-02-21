@@ -25,6 +25,7 @@ export const TodoItem = ({
   const { id, title, description, pinned, completed } = todoItem;
   const [isEdit, setEdit] = useState(false);
   const [todoCompleted, setCompleted] = useState(completed);
+
   const { mutate: mutateCompleted } = useMutation({
     mutationFn: completeTodo,
     mutationKey: ["todo"],
@@ -33,9 +34,6 @@ export const TodoItem = ({
     },
   });
 
-  useEffect(() => {
-    mutateCompleted();
-  }, [todoCompleted]);
   if (isEdit) {
     return (
       <TodoForm
@@ -59,7 +57,8 @@ export const TodoItem = ({
           <div className="flex items-start gap-3">
             <TodoCheckbox
               onChange={(e) => {
-                setCompleted(e.currentTarget.checked);
+                setCompleted(!completed);
+                mutateCompleted();
               }}
               checked={todoCompleted}
             />

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Editor, useCurrentEditor } from "@tiptap/react";
+import { Editor } from "@tiptap/react";
 import ColorTooltip from "./ColorTooltip";
 import { EditorToggle } from "./EditorToggle";
 import {
@@ -22,7 +22,7 @@ const CustomBubbleMenu = ({ editor }: { editor: Editor | null }) => {
   if (!editor) return null;
   return (
     <>
-      <HeadingTooltip />
+      <HeadingTooltip editor={editor} />
       <EditorToggle
         title="bold"
         isActive={() => {
@@ -80,7 +80,9 @@ const CustomBubbleMenu = ({ editor }: { editor: Editor | null }) => {
         >
           <A className="w-4 h-4" />
         </EditorToggle>
-        {colorTooltip && <ColorTooltip setColorTooltip={setColorTooltip} />}
+        {colorTooltip && (
+          <ColorTooltip setColorTooltip={setColorTooltip} editor={editor} />
+        )}
       </div>
       <EditorToggle
         title="line separator"

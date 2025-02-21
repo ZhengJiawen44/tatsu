@@ -4,6 +4,7 @@ import { MeatballMenu, MenuItem } from "../MeatballMenu";
 import { useCurrentNote } from "@/providers/NoteProvider";
 import { QueryClient } from "@tanstack/react-query";
 import { useMutation } from "@tanstack/react-query";
+import clsx from "clsx";
 interface NoteItemType {
   id: string;
   name: string;
@@ -72,9 +73,6 @@ const NoteItem = ({ note, renameNoteID, setRenameNoteID }: NoteItemProps) => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
   });
-  if (!currentNote || isLoading) {
-    return <>Loading...</>;
-  }
 
   return (
     <div
@@ -82,7 +80,10 @@ const NoteItem = ({ note, renameNoteID, setRenameNoteID }: NoteItemProps) => {
         e.stopPropagation();
         setCurrentNote(note);
       }}
-      className="hover:cursor-pointer hover:bg-border rounded-2xl w-full px-2 py-1 flex justify-between items-center gap-3 my-5"
+      className={clsx(
+        "hover:cursor-pointer hover:bg-border rounded-2xl w-full px-2 py-1 flex justify-between items-center gap-3 my-5",
+        currentNote?.id === note.id && "bg-border"
+      )}
     >
       <div className="flex gap-2">
         <File />

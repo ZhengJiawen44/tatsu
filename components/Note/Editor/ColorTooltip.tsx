@@ -4,10 +4,11 @@ import { Editor, useCurrentEditor } from "@tiptap/react";
 import LineSeparator from "@/components/ui/lineSeparator";
 const ColorPicker = ({
   setColorTooltip,
+  editor,
 }: {
   setColorTooltip: React.Dispatch<SetStateAction<boolean>>;
+  editor: Editor;
 }) => {
-  const { editor } = useCurrentEditor();
   const colorPickerRef = useRef<null | HTMLDivElement>(null);
   const TextColors = [
     "#a2a3b4",

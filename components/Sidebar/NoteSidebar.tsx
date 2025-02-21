@@ -18,7 +18,7 @@ interface NoteItemType {
 const NoteSidebar = ({ noteList }: { noteList: NoteItemType[] }) => {
   const queryClient = useQueryClient();
   const [renameNoteID, setRenameNoteID] = useState<null | string>(null);
-  const { currentNote, setCurrentNote } = useCurrentNote();
+  const { currentNote, setCurrentNote, isLoading } = useCurrentNote();
 
   //create a new note
   const { mutate: mutateCreate, isPending: createPending } = useMutation({
@@ -34,7 +34,9 @@ const NoteSidebar = ({ noteList }: { noteList: NoteItemType[] }) => {
       queryClient.invalidateQueries({ queryKey: ["note"] });
     },
   });
-
+  if (!currentNote || isLoading) {
+    return <>Loading...</>;
+  }
   return (
     <div>
       <h2 className="flex gap-2 items-center text-[1.4rem]">

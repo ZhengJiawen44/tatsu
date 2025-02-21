@@ -1,15 +1,14 @@
 import React, { SetStateAction, useEffect, useRef, useState } from "react";
 
 import { EditorToggle } from "./EditorToggle";
-import { useCurrentEditor } from "@tiptap/react";
+import { Editor, useCurrentEditor } from "@tiptap/react";
 import {
   Heading,
   Heading1,
   Heading2,
   Heading3,
 } from "@/components/ui/icon/fonts";
-
-const HeadingTooltip = () => {
+const HeadingTooltip = ({ editor }: { editor: Editor }) => {
   const [showHeading, setShowHeading] = useState(false);
   const HeadingRef = useRef<null | HTMLDivElement>(null);
   useEffect(() => {
@@ -37,7 +36,11 @@ const HeadingTooltip = () => {
         <Heading className="w-4 h-4" />
       </button>
       {showHeading && (
-        <MenuContents ref={HeadingRef} setShowHeading={setShowHeading} />
+        <MenuContents
+          ref={HeadingRef}
+          setShowHeading={setShowHeading}
+          editor={editor}
+        />
       )}
     </div>
   );
@@ -46,11 +49,12 @@ const HeadingTooltip = () => {
 const MenuContents = ({
   ref,
   setShowHeading,
+  editor,
 }: {
   ref: React.RefObject<null | HTMLDivElement>;
   setShowHeading: React.Dispatch<SetStateAction<boolean>>;
+  editor: Editor;
 }) => {
-  const { editor } = useCurrentEditor();
   return (
     <div
       ref={ref}
