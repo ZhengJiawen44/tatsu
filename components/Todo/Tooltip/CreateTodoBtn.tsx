@@ -1,10 +1,10 @@
 "use client";
 import React, { useState } from "react";
-import PlusOutline from "../ui/icon/plusOutline";
-import TodoForm from "./TodoForm";
-import LineSeparator from "../ui/lineSeparator";
+import PlusOutline from "@/components/ui/icon/plusOutline";
+import TodoForm from "../TodoForm";
+import LineSeparator from "@/components/ui/lineSeparator";
 
-const Tooltip = () => {
+const CreateTodoBtn = () => {
   const [displayForm, setDisplayForm] = useState(false);
 
   return (
@@ -27,4 +27,4 @@ const Tooltip = () => {
   );
 };
 
-export default Tooltip;
+export default CreateTodoBtn;

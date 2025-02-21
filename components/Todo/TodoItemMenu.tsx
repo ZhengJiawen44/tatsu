@@ -3,7 +3,8 @@ import Pin from "../ui/icon/pin";
 import Unpin from "../ui/icon/unpin";
 import Edit from "../ui/icon/edit";
 import Trash from "../ui/icon/trash";
-import { MeatballMenu, MenuItem } from "../MeatballMenu";
+
+import { MeatballMenu, MenuItem } from "../ui/MeatballMenu";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import Spinner from "../ui/spinner";
 import { useToast } from "@/hooks/use-toast";
@@ -38,7 +39,7 @@ const TodoItemMenu = ({
   return (
     <div className={className}>
       <MeatballMenu>
-        <MenuItem onClick={pinMutate}>
+        <MenuItem onClick={() => pinMutate()}>
           {pinPending ? (
             <Spinner className="w-4 h-4" />
           ) : !pinned ? (
@@ -56,7 +57,7 @@ const TodoItemMenu = ({
           <Edit className="w-4 h-4" />
           Edit
         </MenuItem>
-        <MenuItem onClick={deleteMutate}>
+        <MenuItem onClick={() => deleteMutate()}>
           {deletePending ? (
             <Spinner className="w-4 h-4" />
           ) : (

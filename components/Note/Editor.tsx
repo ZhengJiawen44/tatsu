@@ -22,7 +22,7 @@ import EditorLoading from "../Loading/EditorLoading";
 import { useQueryClient } from "@tanstack/react-query";
 import { useMutation } from "@tanstack/react-query";
 
-const Tiptap = () => {
+const Editor = () => {
   const queryClient = useQueryClient();
   const { currentNote, setCurrentNote, isLoading } = useCurrentNote();
   const editor = useEditor({
@@ -132,4 +132,4 @@ const Tiptap = () => {
   );
 };
 
-export default Tiptap;
+export default Editor;

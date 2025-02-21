@@ -1,6 +1,6 @@
 import React, { SetStateAction, useEffect, useRef, useState } from "react";
 import File from "@/components/ui/icon/file";
-import { MeatballMenu, MenuItem } from "@/components/MeatballMenu";
+import { MeatballMenu, MenuItem } from "@/components/ui/MeatballMenu";
 import { useCurrentNote } from "@/providers/NoteProvider";
 import { useQueryClient } from "@tanstack/react-query";
 import { useMutation } from "@tanstack/react-query";

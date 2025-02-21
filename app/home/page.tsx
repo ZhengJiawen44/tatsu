@@ -1,9 +1,9 @@
 "use client";
 import React, { useState } from "react";
-import { MenuContainer, MenuItem } from "@/components/Menu";
-import Note from "@/components/Note";
-import Vault from "@/components/Vault";
-import Todo from "@/components/Todo/Todo";
+import { MenuContainer, MenuItem } from "@/components/TitleBar";
+import Note from "@/components/Note/NoteContainer";
+import Vault from "@/components/Vault/Vault";
+import Todo from "@/components/Todo/TodoContainer";
 import clsx from "clsx";
 import Sidebar from "@/components/Sidebar/SidebarContainer";
 import NoteProvider from "@/providers/NoteProvider";

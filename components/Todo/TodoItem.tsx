@@ -1,7 +1,7 @@
 import { useState } from "react";
 import TodoItemMenu from "./TodoItemMenu";
 import TodoForm from "./TodoForm";
-import TodoCheckbox from "../TodoCheckbox";
+import TodoCheckbox from "../ui/TodoCheckbox";
 import { useQueryClient } from "@tanstack/react-query";
 import { useMutation } from "@tanstack/react-query";
 import clsx from "clsx";

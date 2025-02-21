@@ -1,15 +1,15 @@
 import React, { useState } from "react";
 import { cn } from "@/lib/utils";
-import Tooltip from "./Tooltip";
+import CreateTodoBtn from "./Tooltip/CreateTodoBtn";
 import TodoList from "./TodoList";
-import Day from "./Day";
+import Day from "./Tooltip/Calender";
 import AppInnerLayout from "../AppInnerLayout";
 const Todo = ({ className }: { className?: string }) => {
   const [currentDate, setCurrentDate] = useState<Date>(new Date());
   return (
     <AppInnerLayout className={cn(className)}>
       <Day currentDate={currentDate} setCurrentDate={setCurrentDate} />
-      <Tooltip />
+      <CreateTodoBtn />
       <TodoList />
     </AppInnerLayout>
   );

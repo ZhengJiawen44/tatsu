@@ -1,11 +1,11 @@
 import React from "react";
-import AppInnerLayout from "./AppInnerLayout";
-import Tiptap from "./Note/Editor";
+import AppInnerLayout from "../AppInnerLayout";
+import Editor from "./Editor";
 
 const Note = ({ className }: { className?: string }) => {
   return (
     <AppInnerLayout className={className}>
-      <Tiptap />
+      <Editor />
     </AppInnerLayout>
   );
 };

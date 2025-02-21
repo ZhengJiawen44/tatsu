@@ -1,6 +1,6 @@
 import React from "react";
 import { useQuery } from "@tanstack/react-query";
-import TodoListLoading from "./TodoListLoading";
+import TodoListLoading from "../Loading/TodoListLoading";
 import LineSeparator from "../ui/lineSeparator";
 import { TodoItem } from "./TodoItem";
 import { getDisplayDate } from "@/lib/displayDate";

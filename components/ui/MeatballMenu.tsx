@@ -1,5 +1,5 @@
 import React from "react";
-import Meatball from "./ui/icon/meatball";
+import Meatball from "./icon/meatball";
 import {
   Popover,
   PopoverContent,

@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import LineSeparator from "@/components/ui/lineSeparator";
 import Note from "@/components/ui/icon/note";
-import Plus from "@/components/ui/plus";
+import Plus from "@/components/ui/icon/plus";
 import { useMutation } from "@tanstack/react-query";
 import { useQueryClient } from "@tanstack/react-query";
 import Spinner from "@/components/ui/spinner";
