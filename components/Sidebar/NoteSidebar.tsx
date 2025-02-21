@@ -1,12 +1,12 @@
-import React from "react";
+import React, { useRef, useState } from "react";
 import LineSeparator from "@/components/ui/lineSeparator";
 import Note from "@/components/ui/icon/note";
-import File from "../ui/icon/file";
 import Plus from "../ui/plus";
 import { useMutation } from "@tanstack/react-query";
 import { useQueryClient } from "@tanstack/react-query";
 import Spinner from "../ui/spinner";
-import { useNote } from "@/providers/NoteProvider";
+import { useCurrentNote } from "@/providers/NoteProvider";
+import NoteItem from "./NoteItem";
 
 interface NoteItemType {
   id: string;
@@ -17,7 +17,8 @@ interface NoteItemType {
 
 const NoteSidebar = ({ noteList }: { noteList: NoteItemType[] }) => {
   const queryClient = useQueryClient();
-  const { note, setNote } = useNote();
+  const [renameNoteID, setRenameNoteID] = useState<null | string>(null);
+  const { currentNote, setCurrentNote } = useCurrentNote();
 
   //create a new note
   const { mutate: mutateCreate, isPending: createPending } = useMutation({
@@ -27,7 +28,7 @@ const NoteSidebar = ({ noteList }: { noteList: NoteItemType[] }) => {
         body: JSON.stringify({ name: "new note" }),
       });
       const { note } = await res.json();
-      setNote(note);
+      setCurrentNote(note);
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["note"] });
@@ -42,16 +43,12 @@ const NoteSidebar = ({ noteList }: { noteList: NoteItemType[] }) => {
       <LineSeparator />
       {noteList.map((note) => {
         return (
-          <button
-            type="button"
-            onClick={() => {
-              setNote(note);
-            }}
-            className="hover:bg-border rounded-2xl w-full px-2 py-1 flex justify-start items-center gap-3 my-5"
+          <NoteItem
             key={note.id}
-          >
-            <File /> {note.name}
-          </button>
+            note={note}
+            renameNoteID={renameNoteID}
+            setRenameNoteID={setRenameNoteID}
+          />
         );
       })}
       <button

@@ -18,11 +18,11 @@ import TaskItem from "@tiptap/extension-task-item";
 import TaskList from "@tiptap/extension-task-list";
 import CustomBubbleMenu from "./CustomBubbleMenu";
 import { CustomHighlight } from "./customHighlight";
-import { useNote } from "@/providers/NoteProvider";
+import { useCurrentNote } from "@/providers/NoteProvider";
 import EditorLoading from "./EditorLoading";
 
 const Tiptap = () => {
-  const { note, setNote, isLoading } = useNote();
+  const { currentNote, setCurrentNote, isLoading } = useCurrentNote();
   const editor = useEditor({
     extensions: [
       starterKit,
@@ -52,12 +52,12 @@ const Tiptap = () => {
       }),
     ],
     onUpdate({ editor }) {
-      setNote((prev) => {
+      setCurrentNote((prev) => {
         if (!prev) return prev;
         return { ...prev, content: editor.getHTML() };
       });
     },
-    content: note?.content || "<h1>new page</h1>",
+    content: currentNote?.content || "<h1>new page</h1>",
     editorProps: {
       attributes: { class: "focus:outline-none focus:border-none" },
     },
@@ -65,31 +65,31 @@ const Tiptap = () => {
 
   //sync editor with the useNote state
   useEffect(() => {
-    if (editor && editor.getHTML() !== note?.content) {
-      if (note?.content) {
-        editor.commands.setContent(note.content);
+    if (editor && editor.getHTML() !== currentNote?.content) {
+      if (currentNote?.content) {
+        editor.commands.setContent(currentNote.content);
         console.log("displaying new content");
       } else {
         editor.commands.setContent("<h1>new page</h1>");
         console.log("displaying placeholder");
       }
     }
-  }, [note?.id]);
+  }, [currentNote?.id]);
 
-  if (!note || isLoading) return <EditorLoading />;
+  if (!currentNote || isLoading) return <EditorLoading />;
   return (
     <>
       <FloatingMenu
         editor={editor}
         className="w-fit flex gap-1 justify-center items-center rounded-lg p-1 leading-0 text-[1.05rem]"
       >
-        <CustomBubbleMenu />
+        <CustomBubbleMenu editor={editor} />
       </FloatingMenu>
       <BubbleMenu
         editor={editor}
         className="w-fit flex gap-1 bg-card-accent justify-center items-center border rounded-lg p-1 leading-0 text-[1.05rem]"
       >
-        <CustomBubbleMenu />
+        <CustomBubbleMenu editor={editor} />
       </BubbleMenu>
       <EditorContent editor={editor} />
     </>

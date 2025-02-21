@@ -16,8 +16,7 @@ import {
 } from "../../ui/icon/fonts";
 import HeadingTooltip from "./HeadingTooltip";
 
-const CustomBubbleMenu = () => {
-  const { editor } = useCurrentEditor();
+const CustomBubbleMenu = ({ editor }: { editor: Editor | null }) => {
   const [colorTooltip, setColorTooltip] = useState(false);
 
   if (!editor) return null;

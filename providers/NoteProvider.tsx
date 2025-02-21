@@ -16,8 +16,8 @@ interface NoteItemType {
 }
 
 interface noteContextType {
-  note: NoteItemType | null;
-  setNote: React.Dispatch<SetStateAction<NoteItemType | null>>;
+  currentNote: NoteItemType | null;
+  setCurrentNote: React.Dispatch<SetStateAction<NoteItemType | null>>;
   isLoading: boolean;
 }
 
@@ -51,7 +51,9 @@ export const NoteProvider = ({
   children: React.ReactNode;
   noteObj?: NoteItemType;
 }) => {
-  const [note, setNote] = useState<NoteItemType | null>(noteObj || null);
+  const [currentNote, setCurrentNote] = useState<NoteItemType | null>(
+    noteObj || null
+  );
 
   const queryClient = useQueryClient();
 
@@ -64,7 +66,7 @@ export const NoteProvider = ({
     mutationFn: createDemoNote,
     onSuccess: (newNote) => {
       queryClient.invalidateQueries({ queryKey: ["note"] });
-      setNote(newNote);
+      setCurrentNote(newNote);
     },
   });
 
@@ -77,7 +79,7 @@ export const NoteProvider = ({
           const currentDate = new Date(current.createdAt);
           return currentDate > latestDate ? current : latest;
         }, notes[0]);
-        setNote(latestNote);
+        setCurrentNote(latestNote);
       } else {
         // No notes exist, create initial note
         console.log("no notes, initializing starter note");
@@ -89,8 +91,8 @@ export const NoteProvider = ({
   return (
     <NoteContext.Provider
       value={{
-        note,
-        setNote,
+        currentNote,
+        setCurrentNote,
         isLoading: isLoadingNotes || createNoteMutation.isPending,
       }}
     >
@@ -99,7 +101,7 @@ export const NoteProvider = ({
   );
 };
 
-export const useNote = () => {
+export const useCurrentNote = () => {
   const context = useContext(NoteContext);
   if (!context) {
     throw new Error("useNote must be used in NoteProvider");
