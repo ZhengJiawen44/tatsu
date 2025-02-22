@@ -1,10 +1,11 @@
 import React from "react";
 import { useQuery } from "@tanstack/react-query";
-import TodoListLoading from "../Loading/TodoListLoading";
+import TodoListLoading from "../ui/TodoListLoading";
 import LineSeparator from "../ui/lineSeparator";
 import { TodoItem } from "./TodoItem";
 import { getDisplayDate } from "@/lib/displayDate";
 import { TodoItemType } from "@/types";
+import { useTodo } from "@/hooks/useTodo";
 
 // Helper function to group todos by their display date
 const groupTodosByDate = (todos: TodoItemType[]) => {
@@ -22,22 +23,13 @@ const groupTodosByDate = (todos: TodoItemType[]) => {
 };
 
 const TodoList = () => {
-  const { data: todoList = [], isLoading } = useQuery<TodoItemType[]>({
-    queryKey: ["todo"],
-    queryFn: async () => {
-      const res = await fetch(`/api/todo`);
-      if (!res.ok) throw new Error("Failed to fetch todos");
+  const { todos, todoLoading } = useTodo();
 
-      const data = await res.json();
-      return data.todos;
-    },
-  });
-
-  if (isLoading) return <TodoListLoading />;
+  if (todoLoading) return <TodoListLoading />;
 
   //group each set by date.
-  const pinnedTodos = todoList.filter((todo) => todo.pinned);
-  const unpinnedTodos = todoList.filter((todo) => !todo.pinned);
+  const pinnedTodos = todos.filter((todo) => todo.pinned);
+  const unpinnedTodos = todos.filter((todo) => !todo.pinned);
 
   const groupedPinnedTodos = groupTodosByDate(pinnedTodos);
   const groupedUnpinnedTodos = groupTodosByDate(unpinnedTodos);

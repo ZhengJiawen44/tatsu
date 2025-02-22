@@ -18,7 +18,7 @@ import TaskList from "@tiptap/extension-task-list";
 import CustomMenu from "./EditorMenu/CustomMenu";
 import { CustomHighlight } from "../../lib/customHighlight";
 import { useCurrentNote } from "@/providers/NoteProvider";
-import EditorLoading from "../Loading/EditorLoading";
+import EditorLoading from "../ui/EditorLoading";
 import { useQueryClient } from "@tanstack/react-query";
 import { useMutation } from "@tanstack/react-query";
 

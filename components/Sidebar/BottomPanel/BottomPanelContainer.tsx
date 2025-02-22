@@ -2,20 +2,12 @@ import React from "react";
 import { useQuery } from "@tanstack/react-query";
 import TodoSidebar from "./TodoSidebar/TodoSidebarContainer";
 import NoteSidebar from "./NoteSidebar/NoteSidebarContainer";
-import { TodoItemType } from "@/types";
 import { NoteItemType } from "@/types";
+import { useTodo } from "@/hooks/useTodo";
 
 const BottomPanel = ({ activeMenu }: { activeMenu: string }) => {
   // query todo data
-  const { data: todoList = [] } = useQuery<TodoItemType[]>({
-    queryKey: ["todo"],
-    queryFn: async () => {
-      const res = await fetch(`/api/todo`);
-      if (!res.ok) throw new Error("Failed to fetch todos");
-      const data = await res.json();
-      return data.todos;
-    },
-  });
+  const { todos } = useTodo();
 
   // query note data
   const { data: noteList = [] } = useQuery<NoteItemType[]>({
@@ -30,7 +22,7 @@ const BottomPanel = ({ activeMenu }: { activeMenu: string }) => {
   return (
     <>
       <div className="h-full rounded-3xl bg-card p-16 overflow-y-scroll scrollbar-none">
-        {activeMenu === "Todo" && <TodoSidebar todoList={todoList} />}
+        {activeMenu === "Todo" && <TodoSidebar todoList={todos} />}
         {activeMenu === "Vault" && <>Vault</>}
         {activeMenu === "Note" && <NoteSidebar noteList={noteList} />}
       </div>

@@ -9,7 +9,7 @@ import Sidebar from "@/components/Sidebar/SidebarContainer";
 import NoteProvider from "@/providers/NoteProvider";
 
 const Page = () => {
-  const [activeMenu, setActiveMenu] = useState("Note");
+  const [activeMenu, setActiveMenu] = useState("Todo");
 
   return (
     <div className="grid w-full h-[calc(100vh-148px)] grid-cols-3 grid-rows-2   gap-[40px] ">

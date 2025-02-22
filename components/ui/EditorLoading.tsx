@@ -1,5 +1,6 @@
 import React from "react";
-import TodoListLoading from "@/components/Loading/TodoListLoading";
+import TodoListLoading from "./TodoListLoading";
+
 const EditorLoading = () => {
   return (
     <>
