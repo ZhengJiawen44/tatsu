@@ -25,6 +25,7 @@ import { useMutation } from "@tanstack/react-query";
 const Editor = () => {
   const queryClient = useQueryClient();
   const { currentNote, setCurrentNote, isLoading } = useCurrentNote();
+
   const editor = useEditor({
     extensions: [
       starterKit,
@@ -70,7 +71,7 @@ const Editor = () => {
     const res = await fetch(`/api/note/${currentNote!.id}`, {
       method: "PATCH",
       body: JSON.stringify({
-        content: currentNote!.content,
+        content: currentNote?.content,
       }),
     });
     if (!res.ok) {

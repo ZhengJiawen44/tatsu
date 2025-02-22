@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { MenuContainer, MenuItem } from "@/components/TitleBar";
 import Note from "@/components/Note/NoteContainer";
 import Vault from "@/components/Vault/Vault";
@@ -10,6 +10,12 @@ import NoteProvider from "@/providers/NoteProvider";
 
 const Page = () => {
   const [activeMenu, setActiveMenu] = useState("Todo");
+  useEffect(() => {
+    const prevTab = localStorage.getItem("prevTab");
+    if (prevTab && ["Note", "Todo", "Vault"].includes(prevTab)) {
+      setActiveMenu(prevTab);
+    }
+  }, []);
 
   return (
     <div className="grid w-full h-[calc(100vh-148px)] grid-cols-3 grid-rows-2   gap-[40px] ">
@@ -22,7 +28,10 @@ const Page = () => {
                   ? "text-accent h-full border-b-2 border-lime"
                   : "h-full border-b-2 border-card-muted"
               }
-              onClick={() => setActiveMenu("Todo")}
+              onClick={() => {
+                setActiveMenu("Todo");
+                localStorage.setItem("prevTab", "Todo");
+              }}
             >
               Todos
             </MenuItem>
@@ -34,6 +43,7 @@ const Page = () => {
               }
               onClick={() => {
                 setActiveMenu("Vault");
+                localStorage.setItem("prevTab", "Vault");
               }}
             >
               Vault
@@ -46,14 +56,14 @@ const Page = () => {
               }
               onClick={() => {
                 setActiveMenu("Note");
+                localStorage.setItem("prevTab", "Note");
               }}
             >
               Notes
             </MenuItem>
           </MenuContainer>
-
           <Todo className={clsx(activeMenu !== "Todo" && "hidden")} />
-          <Note className={clsx(activeMenu === "Note" ? "mt-5" : "hidden")} />
+          <Note className={clsx(activeMenu === "Note" ? "pt-20" : "hidden")} />
           <Vault className={clsx(activeMenu === "Vault" ? "" : "hidden")} />
         </div>
         <div className="col-span-1 row-span-2 w-full h-full flex flex-col gap-10">

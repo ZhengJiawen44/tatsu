@@ -6,6 +6,8 @@ import { useQueryClient } from "@tanstack/react-query";
 import { useMutation } from "@tanstack/react-query";
 import clsx from "clsx";
 import { NoteItemType } from "@/types";
+import { useRenameNote, useDeleteNote } from "@/hooks/useNote";
+
 interface NoteItemProps {
   note: NoteItemType;
   renameNoteID: string | null;
@@ -13,32 +15,31 @@ interface NoteItemProps {
 }
 
 const NoteItem = ({ note, renameNoteID, setRenameNoteID }: NoteItemProps) => {
-  const queryClient = useQueryClient();
+  // the current input ref (for focus and setEditable on rename)
   const nameInputRef = useRef<HTMLInputElement | null>(null);
-  const { currentNote, setCurrentNote, isLoading } = useCurrentNote();
+  // manipulate the current Note from sidebar
+  const { currentNote, setCurrentNote } = useCurrentNote();
+  // controlled input from note name
   const [name, setName] = useState(note.name);
 
   //rename a note
-  const { mutate: mutateRename, isPending: renamePending } = useMutation({
-    mutationFn: renameNote,
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["note"] });
+  const { renameMutate, isSuccess: renameSuccess } = useRenameNote();
+  //delete a note
+  const { deleteMutate } = useDeleteNote();
+
+  //after rename clear the rename Note ID
+  useEffect(() => {
+    if (renameSuccess) {
       setRenameNoteID(null);
-    },
-  });
-  // //paranoia
-  async function renameNote() {
-    const res = await fetch(`/api/note/${note.id}?rename=${name}`, {
-      method: "PATCH",
-    });
-    const body = await res.json();
-    console.log(body);
-  }
+    }
+  }, [renameSuccess]);
+
+  //rename on enter and mouse press outside of input
   useEffect(() => {
     const handleKeyPress = (event: KeyboardEvent) => {
       if (event.key === "Enter") {
         if (name.trim().length > 0) {
-          mutateRename();
+          renameMutate({ id: note.id, name });
         } else {
           setName(note.name);
         }
@@ -54,7 +55,7 @@ const NoteItem = ({ note, renameNoteID, setRenameNoteID }: NoteItemProps) => {
       ) {
         setRenameNoteID(null);
         if (name.trim().length > 0) {
-          mutateRename();
+          renameMutate({ id: note.id, name });
         } else {
           setName(note.name);
         }
@@ -67,7 +68,7 @@ const NoteItem = ({ note, renameNoteID, setRenameNoteID }: NoteItemProps) => {
       document.removeEventListener("keypress", handleKeyPress);
       document.removeEventListener("mousedown", handleClickOutside);
     };
-  });
+  }, [name, renameNoteID]);
 
   return (
     <div
@@ -80,23 +81,24 @@ const NoteItem = ({ note, renameNoteID, setRenameNoteID }: NoteItemProps) => {
         currentNote?.id === note.id && "bg-border"
       )}
     >
-      <div className="flex gap-2">
+      <div className="w-full flex gap-2">
         <File />
 
-        <input
-          placeholder="name cannot be empty"
-          ref={nameInputRef}
-          readOnly={renameNoteID !== note.id}
-          onChange={(e) => {
-            setName(e.currentTarget.value);
-          }}
-          type="text"
-          value={name}
-          className="bg-transparent outline-none hover:cursor-pointer placeholder:text-card-foreground-muted"
-        />
+        <div className="relative">
+          <input
+            placeholder="name cannot be empty"
+            ref={nameInputRef}
+            readOnly={renameNoteID !== note.id}
+            onChange={(e) => {
+              setName(e.currentTarget.value);
+            }}
+            type="text"
+            value={name}
+            className="z-10 absolute bg-transparent outline-none hover:cursor-pointer placeholder:text-card-foreground-muted"
+          />
+        </div>
       </div>
-
-      <MeatballMenu>
+      <MeatballMenu className="z-20">
         <MenuItem
           onClick={(e: React.MouseEvent) => {
             e.stopPropagation();
@@ -114,7 +116,10 @@ const NoteItem = ({ note, renameNoteID, setRenameNoteID }: NoteItemProps) => {
         </MenuItem>
         <MenuItem
           onClick={(e: React.MouseEvent) => {
-            // e.stopPropagation();
+            e.stopPropagation();
+            console.log(note.id);
+
+            deleteMutate({ id: note.id });
           }}
         >
           delete
