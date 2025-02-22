@@ -5,9 +5,9 @@ import React, {
   useState,
   useEffect,
 } from "react";
-import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { demoContent } from "@/lib/demoContent";
 import { NoteItemType } from "@/types";
+import { useNote, useCreateNote } from "@/hooks/useNote";
 
 interface NoteContextType {
   currentNote: NoteItemType | null;
@@ -17,47 +17,17 @@ interface NoteContextType {
 
 const NoteContext = createContext<null | NoteContextType>(null);
 
-const fetchNotes = async (): Promise<NoteItemType[]> => {
-  const res = await fetch("/api/note");
-  if (!res.ok) {
-    throw new Error("Failed to fetch notes");
-  }
-  const { notes } = await res.json();
-  return notes;
-};
-
-const createDemoNote = async (): Promise<NoteItemType> => {
-  const res = await fetch("/api/note", {
-    method: "POST",
-    body: JSON.stringify({ name: "Demo Note", content: demoContent }),
-  });
-  if (!res.ok) {
-    throw new Error("Failed to create demo note");
-  }
-  const { note } = await res.json();
-  return note;
-};
-
 export const NoteProvider = ({ children }: { children: React.ReactNode }) => {
   const [currentNote, setCurrentNote] = useState<NoteItemType | null>(null);
-
-  const queryClient = useQueryClient();
-
-  const { data: notes, isLoading: isLoadingNotes } = useQuery({
-    queryKey: ["note"],
-    queryFn: fetchNotes,
-  });
-
-  const createNoteMutation = useMutation({
-    mutationFn: createDemoNote,
-    onSuccess: (newNote) => {
-      queryClient.invalidateQueries({ queryKey: ["note"] });
-      setCurrentNote(newNote);
-    },
+  //Get notes
+  const { notes, notesLoading } = useNote();
+  //create Notes
+  const { createNote, createLoading } = useCreateNote({
+    onSuccess: setCurrentNote,
   });
 
   useEffect(() => {
-    if (!isLoadingNotes && notes) {
+    if (!notesLoading && notes) {
       if (notes.length > 0) {
         // Get the latest note by createdAt
         const latestNote = notes.reduce((latest, current) => {
@@ -69,17 +39,17 @@ export const NoteProvider = ({ children }: { children: React.ReactNode }) => {
       } else {
         // No notes exist, create initial note
         console.log("no notes, initializing starter note");
-        createNoteMutation.mutate();
+        createNote({ name: "Demo Note", content: demoContent });
       }
     }
-  }, [isLoadingNotes]);
+  }, [notesLoading]);
 
   return (
     <NoteContext.Provider
       value={{
         currentNote,
         setCurrentNote,
-        isLoading: isLoadingNotes || createNoteMutation.isPending,
+        isLoading: notesLoading || createLoading,
       }}
     >
       {children}

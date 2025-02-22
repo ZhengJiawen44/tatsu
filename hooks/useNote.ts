@@ -3,11 +3,12 @@ import { useQuery } from "@tanstack/react-query";
 import { useQueryClient } from "@tanstack/react-query";
 import { useErrorNotification } from "./useErrorToast";
 import { useMutation } from "@tanstack/react-query";
+import { postNote } from "@/lib/note/postNote";
 import { patchNote } from "@/lib/note/patchNote";
-import { postTodo } from "@/lib/todo/postTodo";
 import { useToast } from "./use-toast";
 import { renameNote } from "@/lib/note/renameNote";
 import { deleteNote } from "@/lib/note/deleteNote";
+
 export const useNote = () => {
   //get Notes
   const {
@@ -41,30 +42,31 @@ export const useNote = () => {
   return { notes, notesLoading };
 };
 
-//patch note
-// export const useEditNote = () => {
-//   const { toast } = useToast();
-//   const queryClient = useQueryClient();
+// patch note
+export const useEditNote = () => {
+  const { toast } = useToast();
+  const queryClient = useQueryClient();
 
-//   const {
-//     mutate: editNote,
-//     isPending: editLoading,
-//     isSuccess,
-//     isError,
-//     error,
-//   } = useMutation({
-//     mutationFn: (params: { id: string; title: string; desc?: string }) =>
-//       patchNote({ ...params, toast }),
-//     onSuccess: () => {
-//       queryClient.invalidateQueries({ queryKey: ["note"] });
-//     },
-//   });
-//   useErrorNotification(
-//     isError,
-//     error?.message || "an unexpectedd error happened"
-//   );
-//   return { editNote, editLoading, isSuccess };
-// };
+  const {
+    mutate: editNote,
+    isPending: editLoading,
+    isSuccess,
+    isError,
+    error,
+  } = useMutation({
+    mutationFn: (params: { id: string; content?: string | undefined }) =>
+      patchNote({ ...params, toast }),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["note"] });
+    },
+  });
+  useErrorNotification(
+    isError,
+    error?.message || "an unexpectedd error happened"
+  );
+
+  return { editNote, editLoading, isSuccess, isError };
+};
 
 //rename note
 export const useRenameNote = () => {
@@ -115,26 +117,31 @@ export const useDeleteNote = () => {
   return { deleteMutate, deleteLoading, isSuccess };
 };
 
-// //post todo
-// export const useCreateTodo = () => {
-//   const { toast } = useToast();
-//   const queryClient = useQueryClient();
-//   const {
-//     mutate: createTodo,
-//     isPending: createLoading,
-//     isError,
-//     error,
-//     isSuccess,
-//   } = useMutation({
-//     mutationFn: (params: { title: string; desc?: string }) =>
-//       postTodo({ ...params, toast }),
-//     onSuccess: () => {
-//       queryClient.invalidateQueries({ queryKey: ["todo"] });
-//     },
-//   });
-//   useErrorNotification(
-//     isError,
-//     error?.message || "an unexpectedd error happened"
-//   );
-//   return { createTodo, createLoading, isSuccess };
-// };
+//post Note
+export const useCreateNote = ({
+  onSuccess,
+}: {
+  onSuccess?: (newNote: NoteItemType) => void;
+}) => {
+  const { toast } = useToast();
+  const queryClient = useQueryClient();
+  const {
+    mutate: createNote,
+    isPending: createLoading,
+    isError,
+    error,
+    isSuccess,
+  } = useMutation({
+    mutationFn: (params: { name: string; content?: string }) =>
+      postNote({ ...params, toast }),
+    onSuccess: (newNote: NoteItemType) => {
+      queryClient.invalidateQueries({ queryKey: ["note"] });
+      onSuccess && onSuccess(newNote);
+    },
+  });
+  useErrorNotification(
+    isError,
+    error?.message || "an unexpectedd error happened"
+  );
+  return { createNote, createLoading, isSuccess };
+};

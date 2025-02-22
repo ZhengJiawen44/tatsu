@@ -1,4 +1,5 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
+import Spinner from "../ui/spinner";
 import {
   FloatingMenu,
   BubbleMenu,
@@ -19,12 +20,20 @@ import CustomMenu from "./EditorMenu/CustomMenu";
 import { CustomHighlight } from "../../lib/customHighlight";
 import { useCurrentNote } from "@/providers/NoteProvider";
 import EditorLoading from "../ui/EditorLoading";
-import { useQueryClient } from "@tanstack/react-query";
-import { useMutation } from "@tanstack/react-query";
+import { useEditNote } from "@/hooks/useNote";
 
 const Editor = () => {
-  const queryClient = useQueryClient();
   const { currentNote, setCurrentNote, isLoading } = useCurrentNote();
+  //save notes
+  const { editNote, editLoading, isSuccess, isError } = useEditNote();
+  const [showSaveStatus, setShowSaveStatus] = useState(false);
+  useEffect(() => {
+    if (isSuccess || isError) {
+      setShowSaveStatus(true);
+      const timer = setTimeout(() => setShowSaveStatus(false), 4000);
+      return () => clearTimeout(timer); // Cleanup timer on unmount
+    }
+  }, [isSuccess, isError]);
 
   const editor = useEditor({
     extensions: [
@@ -66,36 +75,17 @@ const Editor = () => {
     },
   });
 
-  //create notes
-  const saveNote = async () => {
-    const res = await fetch(`/api/note/${currentNote!.id}`, {
-      method: "PATCH",
-      body: JSON.stringify({
-        content: currentNote?.content,
-      }),
-    });
-    if (!res.ok) {
-      throw new Error("Failed to create demo note");
-    }
-    const { note } = await res.json();
-    return note;
-  };
-
-  const saveNoteMutation = useMutation({
-    mutationFn: saveNote,
-    onSuccess: (newNote) => {
-      queryClient.invalidateQueries({ queryKey: ["note"] });
-      // setCurrentNote(newNote);
-    },
-  });
-
+  //save editor contents on ctrl+s
   useEffect(() => {
-    //save editor contents on ctrl+s
+    console.log("ctrl S");
+
     const saveOnEnter = (event: KeyboardEvent) => {
       if ((event.ctrlKey || event.metaKey) && event.key === "s") {
         event.preventDefault();
         event.stopPropagation();
-        saveNoteMutation.mutate();
+
+        if (currentNote?.content)
+          editNote({ id: currentNote!.id, content: currentNote?.content });
       }
     };
     document.addEventListener("keydown", saveOnEnter);
@@ -111,11 +101,31 @@ const Editor = () => {
     return () => {
       document.removeEventListener("keydown", saveOnEnter);
     };
-  }, [currentNote?.id]);
+  }, [currentNote?.id, currentNote?.content]);
 
   if (!currentNote || isLoading) return <EditorLoading />;
+
   return (
     <>
+      <div className="absolute top-2 right-5 flex gap-2 justify-center items-center">
+        {editLoading ? (
+          <>
+            <Spinner className="w-4 h-4" />
+            <p>Saving</p>
+          </>
+        ) : (
+          ""
+        )}
+        {showSaveStatus &&
+          (isSuccess ? (
+            <p>Saved</p>
+          ) : isError ? (
+            <p className="text-red-500">Save failed</p>
+          ) : (
+            ""
+          ))}
+      </div>
+
       <FloatingMenu
         editor={editor}
         className="w-fit flex gap-1 justify-center items-center rounded-lg p-1 leading-0 text-[1.05rem]"
