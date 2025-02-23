@@ -5,7 +5,7 @@ import { cn } from "@/lib/utils";
 
 const Note = ({ className }: { className?: string }) => {
   return (
-    <AppInnerLayout className={cn("relative", className)}>
+    <AppInnerLayout className={cn("relative pt-20", className)}>
       <Editor />
     </AppInnerLayout>
   );

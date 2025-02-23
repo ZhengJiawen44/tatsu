@@ -20,6 +20,8 @@ model User {
   Todos         Todo[]
   Note          Note[]
   File          File[]
+  maxStorage    Decimal             @default(1000000.0) //default 100 mb of storage
+  usedStoraged  Decimal             @default(0.0)
 }
  
 model Account {
@@ -82,4 +84,5 @@ model File{
   createdAt     DateTime        @default(now())
   user          User            @relation(fields: [userID], references: [id])
   userID        String
+  s3Key         String
 }

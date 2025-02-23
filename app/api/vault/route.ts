@@ -44,7 +44,13 @@ export async function POST(req: NextRequest) {
 
     //upate database with the file entry
     const uploadedFile = await prisma.file.create({
-      data: { name: file.name, url: fileUrl, size: fileSize, userID: user.id },
+      data: {
+        name: file.name,
+        url: fileUrl,
+        size: fileSize,
+        userID: user.id,
+        s3Key: fileName,
+      },
     });
     if (!uploadedFile) {
       throw new InternalError("could not update database");
