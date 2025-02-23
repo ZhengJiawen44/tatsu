@@ -24,3 +24,11 @@ export interface TodoItemType {
   createdAt: Date;
   completed: boolean;
 }
+
+export interface FileItemType {
+  id: string;
+  name: string;
+  size: number;
+  url: string;
+  createdAt: Date;
+}

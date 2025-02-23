@@ -6,10 +6,15 @@ import Clock from "@/components/ui/icon/clock";
 import Star from "@/components/ui/icon/star";
 import Caret from "@/components/ui/icon/caret";
 import { useToast } from "@/hooks/use-toast";
+import { useMutation } from "@tanstack/react-query";
+import { useQueryClient } from "@tanstack/react-query";
+
 const VaultMenuContainer = () => {
+  const queryClient = useQueryClient();
   const { toast } = useToast();
   const [file, setFile] = useState<File | null>(null);
 
+  //post file
   async function handleFileUpload() {
     if (!file) {
       toast({ description: "the given file was not found" });
@@ -23,11 +28,13 @@ const VaultMenuContainer = () => {
     });
     const body = await res.json();
     toast({ description: body.message });
-    console.log(body);
   }
-  useEffect(() => {
-    handleFileUpload();
-  }, [file]);
+  const { mutate } = useMutation({
+    mutationFn: handleFileUpload,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["vault"] });
+    },
+  });
 
   return (
     <div className="mt-24">
@@ -41,6 +48,7 @@ const VaultMenuContainer = () => {
               const files = e.currentTarget.files;
               if (files && files.length > 0) {
                 setFile(files[0]);
+                mutate();
                 // Reset input
                 e.currentTarget.value = "";
               }
@@ -66,7 +74,6 @@ const VaultMenuContainer = () => {
           <Caret className="w-4 h-4" />
         </VaultMenuItem>
       </div>
-      <LineSeparator />
     </div>
   );
 };

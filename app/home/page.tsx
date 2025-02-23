@@ -63,8 +63,8 @@ const Page = () => {
             </MenuItem>
           </MenuContainer>
           <Todo className={clsx(activeMenu !== "Todo" && "hidden")} />
-          <Note className={clsx(activeMenu === "Note" ? "pt-20" : "hidden")} />
-          <Vault className={clsx(activeMenu === "Vault" ? "" : "hidden")} />
+          <Note className={clsx(activeMenu !== "Note" && "hidden")} />
+          <Vault className={clsx(activeMenu !== "Vault" && "hidden")} />
         </div>
         <div className="col-span-1 row-span-2 w-full h-full flex flex-col gap-10">
           <Sidebar activeMenu={activeMenu} />
