@@ -19,6 +19,7 @@ model User {
   updatedAt     DateTime        @updatedAt
   Todos         Todo[]
   Note          Note[]
+  File          File[]
 }
  
 model Account {
@@ -73,3 +74,12 @@ model Note{
   userID        String
 }
  
+model File{
+  id            String          @id @default(cuid())
+  name          String
+  url           String          
+  size          DateTime        @default(now())
+  createdAt     DateTime        @default(now())
+  user          User            @relation(fields: [userID], references: [id])
+  userID        String
+}
