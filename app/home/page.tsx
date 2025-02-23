@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from "react";
 import { MenuContainer, MenuItem } from "@/components/TitleBar";
 import Note from "@/components/Note/NoteContainer";
-import Vault from "@/components/Vault/Vault";
+import Vault from "@/components/Vault/VaultContainer";
 import Todo from "@/components/Todo/TodoContainer";
 import clsx from "clsx";
 import Sidebar from "@/components/Sidebar/SidebarContainer";

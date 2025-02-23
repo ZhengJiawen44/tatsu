@@ -77,8 +77,6 @@ const Editor = () => {
 
   //save editor contents on ctrl+s
   useEffect(() => {
-    console.log("ctrl S");
-
     const saveOnEnter = (event: KeyboardEvent) => {
       if ((event.ctrlKey || event.metaKey) && event.key === "s") {
         event.preventDefault();
