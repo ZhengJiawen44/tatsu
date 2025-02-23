@@ -6,10 +6,10 @@ const ACCESS_KEY_SECRET = process.env.AWS_SECRETACCESSKEY;
 if (!ACCESS_KEY_ID || !ACCESS_KEY_SECRET) {
   throw new Error("AWS S3 configuration has missing credentials");
 }
-const s3Client = new S3Client({
+export const s3 = new S3Client({
   region: process.env.AWS_REGION,
   credentials: {
-    accessKeyId: "process.env.AWS_ACCESSKEYID",
-    secretAccessKey: "process.env.AWS_SECRETACCESSKEY",
+    accessKeyId: ACCESS_KEY_ID,
+    secretAccessKey: ACCESS_KEY_SECRET,
   },
 });
