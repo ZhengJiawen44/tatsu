@@ -69,6 +69,7 @@ const VaultContent = ({ fileList, loading, setPending }: VaultContentProps) => {
   if (loading) {
     return <VaultLoading />;
   }
+  console.log(fileList);
 
   return (
     <div className="overflow-x-auto">

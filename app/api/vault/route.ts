@@ -9,7 +9,6 @@ import { PutObjectCommand } from "@aws-sdk/client-s3";
 import { prisma } from "@/lib/prisma/client";
 import { s3 } from "@/lib/s3";
 import { auth } from "@/app/auth";
-import { Decimal } from "@prisma/client/runtime/library";
 import { Prisma } from "@prisma/client";
 
 export async function POST(req: NextRequest) {
@@ -112,13 +111,35 @@ export async function POST(req: NextRequest) {
   }
 }
 
-export async function GET() {
+export async function GET(req: NextRequest) {
   try {
     const session = await auth();
     const user = session?.user;
 
     if (!user?.id)
       throw new UnauthorizedError("you must be logged in to do this");
+
+    //for search query
+    const keyword = req.nextUrl.searchParams.get("search");
+    if (keyword) {
+      const matchingVault = await prisma.file.findMany({
+        where: {
+          userID: user.id,
+          name: { contains: keyword, mode: "insensitive" },
+        },
+        orderBy: { createdAt: "desc" },
+      });
+      if (!matchingVault) {
+        return NextResponse.json(
+          { message: "nothing found", vault: [] },
+          { status: 200 }
+        );
+      }
+      return NextResponse.json(
+        { message: "sucessfully found", vault: matchingVault },
+        { status: 200 }
+      );
+    }
 
     //get vault
     const vault = await prisma.file.findMany({

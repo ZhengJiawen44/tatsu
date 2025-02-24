@@ -7,28 +7,35 @@ import VaultListItem from "./VaultListItem";
 import { useQuery } from "@tanstack/react-query";
 import { useToast } from "@/hooks/use-toast";
 import { FileItemType } from "@/types";
+import { useDebounce } from "@/hooks/useDebounce";
 
 const Vault = ({ className }: { className?: string }) => {
   const { toast } = useToast();
 
-  //get all vault files
+  const [keyword, setKeyword] = useState<string>("");
+  const debouncedKeyword = useDebounce(keyword, 800);
+  //track loading state for forms
+  const [isPending, setPending] = useState(false);
+
+  //get all vault files, or if keyword is not empty, get the search result
   async function getVault() {
-    const res = await fetch("/api/vault", { method: "GET" });
+    const res = await fetch(`/api/vault?search=${keyword}`, { method: "GET" });
     const body = await res.json();
     if (!res.ok) toast({ description: body.message });
     return body.vault as FileItemType[];
   }
   const { data: fileList, isLoading: fileListLoading } = useQuery({
     queryFn: getVault,
-    queryKey: ["vault"],
+    queryKey: ["vault", debouncedKeyword],
   });
-
-  //track loading state for forms
-  const [isPending, setPending] = useState(false);
 
   return (
     <AppInnerLayout className={cn("mt-20", className)}>
-      <SearchBar />
+      <SearchBar
+        onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+          setKeyword(e.currentTarget.value)
+        }
+      />
       <VaultMenuContainer isPending={isPending} setPending={setPending} />
       <VaultListItem
         fileList={fileList ?? []}

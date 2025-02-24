@@ -6,11 +6,13 @@ import { cn } from "@/lib/utils";
 interface SearchBarProps {
   className?: string;
   onSubmit?: (e: React.FormEvent<HTMLFormElement>) => void;
+  onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
-const SearchBar = ({ className, onSubmit }: SearchBarProps) => {
+const SearchBar = ({ className, onSubmit, onChange }: SearchBarProps) => {
   const [clicked, setClicked] = useState(false);
   const inputRef = useRef<HTMLInputElement | null>(null);
+
   //when mouse clicks outside input or esacpe is pressed hide the shadow
   useEffect(() => {
     function handleMouseDown(e: MouseEvent) {
@@ -57,7 +59,12 @@ const SearchBar = ({ className, onSubmit }: SearchBarProps) => {
         placeholder="Search in Vault"
         onClick={() => setClicked(true)}
         onFocus={() => setClicked(true)}
-      ></input>
+        onChange={(e) => {
+          if (onChange) {
+            onChange(e);
+          }
+        }}
+      />
     </form>
   );
 };
