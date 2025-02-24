@@ -58,6 +58,7 @@ const VaultContent = ({ fileList, loading, setPending }: VaultContentProps) => {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["vault"] });
+      queryClient.invalidateQueries({ queryKey: ["storageMetric"] });
     },
   });
 

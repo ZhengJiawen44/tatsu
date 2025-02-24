@@ -28,7 +28,7 @@ export async function DELETE(
     //find the key from database
     const file = await prisma.file.findUnique({
       where: { id: id, userID: user.id },
-      select: { s3Key: true },
+      select: { s3Key: true, size: true },
     });
 
     if (!file) {
@@ -51,7 +51,14 @@ export async function DELETE(
     });
     if (!deletedFile)
       throw new InternalError("file not found or not authorized to delete");
-
+    //update user's storage usage
+    const updatedUser = await prisma.user.update({
+      where: { id: user.id },
+      data: { usedStoraged: { decrement: file.size } },
+    });
+    if (!updatedUser) {
+      throw new InternalError("could not remove from database");
+    }
     return NextResponse.json({ message: "file deleted" }, { status: 200 });
   } catch (error) {
     console.log(error);

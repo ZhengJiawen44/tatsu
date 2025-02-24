@@ -38,6 +38,7 @@ const VaultMenuContainer = ({
     mutationFn: handleFileUpload,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["vault"] });
+      queryClient.invalidateQueries({ queryKey: ["storageMetric"] });
     },
   });
   useEffect(() => {

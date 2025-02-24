@@ -9,6 +9,8 @@ import { PutObjectCommand } from "@aws-sdk/client-s3";
 import { prisma } from "@/lib/prisma/client";
 import { s3 } from "@/lib/s3";
 import { auth } from "@/app/auth";
+import { Decimal } from "@prisma/client/runtime/library";
+import { Prisma } from "@prisma/client";
 
 export async function POST(req: NextRequest) {
   try {
@@ -33,6 +35,24 @@ export async function POST(req: NextRequest) {
     const arrayBuffer = await file.arrayBuffer();
     buffer = Buffer.from(arrayBuffer);
 
+    //is file size less that maxStorage-usedStorage?
+    const queriedUser = await prisma.user.findUnique({
+      where: { id: user.id },
+      select: { maxStorage: true, usedStoraged: true },
+    });
+
+    if (!queriedUser)
+      throw new InternalError("user not found or not authorized to access");
+
+    const maxStorage = new Prisma.Decimal(queriedUser.maxStorage);
+    const usedStorage = new Prisma.Decimal(queriedUser.usedStoraged);
+    const availableSpace = maxStorage.minus(usedStorage);
+    const availableSpaceNum = availableSpace.toNumber();
+
+    if (availableSpaceNum <= file.size) {
+      throw new BadRequestError("file size exceeds available space");
+    }
+
     const uploadParams = {
       Bucket: process.env.AWS_BUCKET_NAME!,
       Key: fileName,
@@ -42,7 +62,7 @@ export async function POST(req: NextRequest) {
     await s3.send(new PutObjectCommand(uploadParams));
     const fileUrl = `https://${process.env.AWS_BUCKET_NAME}.s3.${process.env.AWS_REGION}.amazonaws.com/${fileName}`;
 
-    //upate database with the file entry
+    //create database with the file entry
     const uploadedFile = await prisma.file.create({
       data: {
         name: file.name,
@@ -52,7 +72,16 @@ export async function POST(req: NextRequest) {
         s3Key: fileName,
       },
     });
+
     if (!uploadedFile) {
+      throw new InternalError("could not update database");
+    }
+    //update user's storage usage
+    const updatedUser = await prisma.user.update({
+      where: { id: user.id },
+      data: { usedStoraged: { increment: fileSize } },
+    });
+    if (!updatedUser) {
       throw new InternalError("could not update database");
     }
 
