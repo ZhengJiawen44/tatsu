@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import AppInnerLayout from "../AppInnerLayout";
 import Editor from "./Editor";
 import { cn } from "@/lib/utils";

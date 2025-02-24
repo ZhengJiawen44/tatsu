@@ -1,5 +1,4 @@
 import React from "react";
-import { useQuery } from "@tanstack/react-query";
 import TodoListLoading from "../ui/TodoListLoading";
 import LineSeparator from "../ui/lineSeparator";
 import { TodoItem } from "./TodoItem";
@@ -23,6 +22,7 @@ const groupTodosByDate = (todos: TodoItemType[]) => {
 };
 
 const TodoList = () => {
+  //see useTodo hook on how todos are fetched and mutated
   const { todos, todoLoading } = useTodo();
 
   if (todoLoading) return <TodoListLoading />;

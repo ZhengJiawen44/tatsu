@@ -4,47 +4,31 @@ import Plus from "@/components/ui/icon/plus";
 import Clock from "@/components/ui/icon/clock";
 import Star from "@/components/ui/icon/star";
 import Caret from "@/components/ui/icon/caret";
-import { useToast } from "@/hooks/use-toast";
-import { useMutation } from "@tanstack/react-query";
-import { useQueryClient } from "@tanstack/react-query";
 import Spinner from "@/components/ui/spinner";
+import { useCreateFile } from "@/hooks/useVault";
+
 const VaultMenuContainer = ({
-  isPending,
-  setPending,
+  isProcessing,
+  setProcessing,
 }: {
-  isPending: boolean;
-  setPending: React.Dispatch<SetStateAction<boolean>>;
+  isProcessing: boolean;
+  setProcessing: React.Dispatch<SetStateAction<boolean>>;
 }) => {
-  const queryClient = useQueryClient();
-  const { toast } = useToast();
   const [file, setFile] = useState<File | null>(null);
 
-  //post file
-  async function handleFileUpload() {
-    if (!file) {
-      toast({ description: "the given file was not found" });
-      return;
-    }
-    const formData = new FormData();
-    formData.append("file", file);
-    const res = await fetch("/api/vault", {
-      method: "POST",
-      body: formData,
-    });
-    const body = await res.json();
-    toast({ description: body.message });
-  }
-  const { mutate, isPending: createPending } = useMutation({
-    mutationFn: handleFileUpload,
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["vault"] });
-      queryClient.invalidateQueries({ queryKey: ["storageMetric"] });
-    },
-  });
+  //upload a file mutation function
+  const { createFile, createLoading } = useCreateFile();
+  // useEffect to trigger upload when file changes
   useEffect(() => {
-    setPending(createPending);
-  }, [createPending]);
+    if (file) {
+      createFile({ file });
+    }
+  }, [file]);
 
+  //update pending state
+  useEffect(() => {
+    setProcessing(createLoading);
+  }, [createLoading]);
   return (
     <div className="mt-24">
       <div className="flex justify-between">
@@ -58,7 +42,6 @@ const VaultMenuContainer = ({
                 const files = e.currentTarget.files;
                 if (files && files.length > 0) {
                   setFile(files[0]);
-                  mutate();
                   // Reset input
                   e.currentTarget.value = "";
                 }
@@ -84,7 +67,7 @@ const VaultMenuContainer = ({
             <Caret className="w-4 h-4" />
           </VaultMenuItem>
         </div>
-        {isPending && <Spinner />}
+        {isProcessing && <Spinner />}
       </div>
     </div>
   );

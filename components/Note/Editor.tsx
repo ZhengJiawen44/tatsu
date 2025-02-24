@@ -23,10 +23,13 @@ import EditorLoading from "../ui/EditorLoading";
 import { useEditNote } from "@/hooks/useNote";
 
 const Editor = () => {
+  //Editor's content depends on useCurrentNote hook.
   const { currentNote, setCurrentNote, isLoading } = useCurrentNote();
   //save notes
   const { editNote, editLoading, isSuccess, isError } = useEditNote();
   const [showSaveStatus, setShowSaveStatus] = useState(false);
+
+  //hide the save status after 4 seconds of display on screen
   useEffect(() => {
     if (isSuccess || isError) {
       setShowSaveStatus(true);
@@ -35,6 +38,7 @@ const Editor = () => {
     }
   }, [isSuccess, isError]);
 
+  //create editor instance
   const editor = useEditor({
     extensions: [
       starterKit,
@@ -63,6 +67,7 @@ const Editor = () => {
         },
       }),
     ],
+    //update currentNote state when editor content changes
     onUpdate({ editor }) {
       setCurrentNote((prev) => {
         if (!prev) return prev;

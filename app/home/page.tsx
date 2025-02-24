@@ -10,6 +10,8 @@ import NoteProvider from "@/providers/NoteProvider";
 
 const Page = () => {
   const [activeMenu, setActiveMenu] = useState("Todo");
+
+  //retrieve user's last visited tab
   useEffect(() => {
     const prevTab = localStorage.getItem("prevTab");
     if (prevTab && ["Note", "Todo", "Vault"].includes(prevTab)) {
@@ -62,6 +64,8 @@ const Page = () => {
               Notes
             </MenuItem>
           </MenuContainer>
+
+          {/* contents to display based on the activeMenu */}
           <Todo className={clsx(activeMenu !== "Todo" && "hidden")} />
           <Note className={clsx(activeMenu !== "Note" && "hidden")} />
           <Vault className={clsx(activeMenu !== "Vault" && "hidden")} />

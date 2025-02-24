@@ -9,6 +9,18 @@ import { demoContent } from "@/lib/demoContent";
 import { NoteItemType } from "@/types";
 import { useNote, useCreateNote } from "@/hooks/useNote";
 
+/*
+ * This context provider aims to track the current note the user is on.
+ *
+ * the idea is simple. When user clicks on a note, it sets the "currentNote" state to that.
+ *
+ * subsequently, the richText Editor's content depends on the currentNote and thus will
+ * be re-rendered to display the current note.
+ *
+ * Currently, this provider initializes the currentNote state to the latest note on page load.
+ * this is not ideal. Future improvements will likely change this to the last opened note.
+ */
+
 interface NoteContextType {
   currentNote: NoteItemType | null;
   setCurrentNote: React.Dispatch<SetStateAction<NoteItemType | null>>;

@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import { Editor } from "@tiptap/react";
 import ColorTooltip from "../EditorTooltips/ColorTooltip";
 import { MenuItem } from "./MenuItem";
-
 import {
   Bold,
   Italic,
@@ -21,6 +20,8 @@ const CustomMenu = ({ editor }: { editor: Editor | null }) => {
   const [colorTooltip, setColorTooltip] = useState(false);
 
   if (!editor) return null;
+
+  //this is the custom menu that allows users to set styles
   return (
     <>
       <HeadingTooltip editor={editor} />

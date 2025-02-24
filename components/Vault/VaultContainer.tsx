@@ -3,31 +3,20 @@ import { cn } from "@/lib/utils";
 import AppInnerLayout from "../AppInnerLayout";
 import SearchBar from "../ui/SearchBar";
 import VaultMenuContainer from "./VaultMenu/VaultMenuContainer";
-import VaultListItem from "./VaultListItem";
-import { useQuery } from "@tanstack/react-query";
-import { useToast } from "@/hooks/use-toast";
-import { FileItemType } from "@/types";
+import VaultListItem from "./VaultTable";
 import { useDebounce } from "@/hooks/useDebounce";
+import { useVault } from "@/hooks/useVault";
 
 const Vault = ({ className }: { className?: string }) => {
-  const { toast } = useToast();
-
+  //searchBar controlled input
   const [keyword, setKeyword] = useState<string>("");
   const debouncedKeyword = useDebounce(keyword, 800);
-  //track loading state for forms
-  const [isPending, setPending] = useState(false);
 
-  //get all vault files, or if keyword is not empty, get the search result
-  async function getVault() {
-    const res = await fetch(`/api/vault?search=${keyword}`, { method: "GET" });
-    const body = await res.json();
-    if (!res.ok) toast({ description: body.message });
-    return body.vault as FileItemType[];
-  }
-  const { data: fileList, isLoading: fileListLoading } = useQuery({
-    queryFn: getVault,
-    queryKey: ["vault", debouncedKeyword],
-  });
+  //track pending state for deleting file and uploading file
+  const [isProcessing, setProcessing] = useState(false);
+
+  //if debouncedKeyword is "", get all files. else get files with name like keyword. this is handled by the backend
+  const { fileList, fileListLoading } = useVault(debouncedKeyword);
 
   return (
     <AppInnerLayout className={cn("mt-20", className)}>
@@ -36,11 +25,14 @@ const Vault = ({ className }: { className?: string }) => {
           setKeyword(e.currentTarget.value)
         }
       />
-      <VaultMenuContainer isPending={isPending} setPending={setPending} />
+      <VaultMenuContainer
+        isProcessing={isProcessing}
+        setProcessing={setProcessing}
+      />
       <VaultListItem
         fileList={fileList ?? []}
         loading={fileListLoading}
-        setPending={setPending}
+        setProcessing={setProcessing}
       />
     </AppInnerLayout>
   );
