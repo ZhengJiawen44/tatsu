@@ -1,5 +1,5 @@
-import { deriveMasterKey } from "../lib/encryption/deriveMasterKey";
-import { deriveStretchedMasterKey } from "../lib/encryption/deriveStretchedMasterKey";
+import { deriveMasterKey } from "../lib/encryption/derive128BitKey";
+import { deriveStretchedMasterKey } from "../lib/encryption/derive256BitKey";
 import { expect, test, describe, jest, beforeEach } from "@jest/globals";
 import { secureGenerator } from "../lib/encryption/secureGenerator";
 

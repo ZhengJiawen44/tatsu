@@ -23,6 +23,8 @@ model User {
   File          File[]
   maxStorage    Decimal             @default(1000000.0) //default 100 mb of storage
   usedStoraged  Decimal             @default(0.0)
+  protectedSymmetricKey String?    
+  enableEncryption      Boolean     @default(true)   
 }
  
 model Account {

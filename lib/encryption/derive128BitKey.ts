@@ -12,7 +12,7 @@ interface DeriveMasterKeyProps {
   rounds?: number;
 }
 
-export async function deriveMasterKey({
+export async function derive128BitKey({
   passkey,
   email,
   rounds = 600_000,
@@ -37,7 +37,8 @@ export async function deriveMasterKey({
       salt: encoder.encode(email),
     },
     baseKey,
-    256
+    128
   );
+
   return masterKey;
 }

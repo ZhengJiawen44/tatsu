@@ -3,25 +3,25 @@
  *
  * results in a 512-bit Master key
  */
-import { secureGenerator } from "./secureGenerator";
-
 interface deriveStretchedMasterKeyProps {
   stretchedPassKey: CryptoKey;
+  email: string;
 }
 
-export async function deriveStretchedMasterKey({
+export async function derive256BitKey({
   stretchedPassKey,
+  email,
 }: deriveStretchedMasterKeyProps): Promise<ArrayBuffer> {
   const encoder = new TextEncoder();
   const derivedKey = await crypto.subtle.deriveBits(
     {
       name: "HKDF",
       hash: "SHA-256",
-      salt: secureGenerator(),
+      salt: encoder.encode(email),
       info: encoder.encode("512 bits stretched master key"),
     },
     stretchedPassKey,
-    512
+    256
   );
 
   return derivedKey;

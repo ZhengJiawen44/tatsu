@@ -6,24 +6,20 @@ import VaultStorageBar from "./VaultStorageBar";
 
 const VaultSidebarContainer = () => {
   const { toast } = useToast();
-  const session = useSession();
-  const userId = session.data?.user?.id;
 
   //get user's storage usage information
   const { data, isLoading } = useQuery({
     queryFn: async () => {
-      if (userId) {
-        const res = await fetch(`/api/user/${userId}`, { method: "GET" });
-        const body = await res.json();
-        if (!res.ok) {
-          toast({ description: body.message });
-          return;
-        }
-        return body.queriedUser;
+      const res = await fetch(`/api/user`, { method: "GET" });
+      const body = await res.json();
+      if (!res.ok) {
+        toast({ description: body.message });
+        return;
       }
+
+      return body.queriedUser;
     },
     queryKey: ["storageMetric"],
-    enabled: !!userId,
   });
 
   if (isLoading || !data) {
