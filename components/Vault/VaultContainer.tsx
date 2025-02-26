@@ -11,9 +11,15 @@ import { useVault } from "@/hooks/useVault";
 import PasskeyForm from "./Encryption/PasskeyForm";
 import { useSession } from "next-auth/react";
 import { usePassKey } from "@/providers/PassKeyProvider";
+
 const Vault = ({ className }: { className?: string }) => {
-  const { passKey, protectedSymmetricKey, enableEncryption, passKeyLoading } =
-    usePassKey();
+  const {
+    symKey,
+    passKey,
+    protectedSymmetricKey,
+    enableEncryption,
+    passKeyLoading,
+  } = usePassKey();
 
   const { data: userData } = useSession();
   const email = userData?.user?.email;
@@ -25,7 +31,13 @@ const Vault = ({ className }: { className?: string }) => {
   const [isProcessing, setProcessing] = useState(false);
 
   //if debouncedKeyword is "", get all files. else get files with name like keyword. this is handled by the backend
-  const { fileList, fileListLoading } = useVault(debouncedKeyword);
+
+  const { fileList, fileListLoading } = useVault({
+    debouncedKeyword,
+    symKey,
+    enableEncryption,
+  });
+  console.log("file: ", fileList);
 
   if (passKeyLoading || !email) {
     return <>loading...</>;

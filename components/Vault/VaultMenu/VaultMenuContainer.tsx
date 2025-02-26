@@ -6,6 +6,7 @@ import Star from "@/components/ui/icon/star";
 import Caret from "@/components/ui/icon/caret";
 import Spinner from "@/components/ui/spinner";
 import { useCreateFile } from "@/hooks/useVault";
+import { usePassKey } from "@/providers/PassKeyProvider";
 
 const VaultMenuContainer = ({
   isProcessing,
@@ -14,14 +15,15 @@ const VaultMenuContainer = ({
   isProcessing: boolean;
   setProcessing: React.Dispatch<SetStateAction<boolean>>;
 }) => {
+  const { symKey, enableEncryption } = usePassKey();
   const [file, setFile] = useState<File | null>(null);
 
   //upload a file mutation function
   const { createFile, createLoading } = useCreateFile();
   // useEffect to trigger upload when file changes
   useEffect(() => {
-    if (file) {
-      createFile({ file });
+    if (file && typeof enableEncryption === "boolean") {
+      createFile({ file, symKey, enableEncryption });
     }
   }, [file]);
 

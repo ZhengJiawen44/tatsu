@@ -9,7 +9,7 @@ import { secureGenerator } from "./secureGenerator";
 
 export async function genSymmetricKey(masterCryptoKey256: CryptoKey) {
   //this is the symmetric key
-  const symmetricKey = secureGenerator(64);
+  const symmetricKey = secureGenerator(32);
   //this is the initial vector
   const iv = secureGenerator(16);
 

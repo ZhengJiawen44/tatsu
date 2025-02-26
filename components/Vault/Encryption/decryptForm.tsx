@@ -21,16 +21,7 @@ const DecryptForm = ({
   const queryClient = useQueryClient();
   const [inputPassKey, setInputPassKey] = useState<string>("");
   const [showPassword, setShowPassword] = useState(false);
-  const { mutate: encMutate } = useMutation({
-    mutationFn: async ({ enable }: { enable: boolean }) => {
-      await fetch(`/api/user?enableEncryption=${enable}`, {
-        method: "PATCH",
-      });
-    },
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["encryption"] });
-    },
-  });
+
   async function decryptSymKey() {
     try {
       //derive the master key form user pass key
@@ -55,7 +46,6 @@ const DecryptForm = ({
       toast({ description: "invalid passkey entered" });
     }
   }
-
   return (
     <AppInnerLayout className={cn("", className)}>
       <div className="flex justify-center items-center h-full w-full">
@@ -89,16 +79,6 @@ const DecryptForm = ({
           >
             Enter
           </button>
-
-          <div className="text-[0.9rem]">
-            you may opt out of End to End Encryption.
-            <button
-              className="ml-2 border hover:underline hover:bg-card-foreground hover:text-black rounded-md px-2"
-              onClick={() => encMutate({ enable: false })}
-            >
-              opt out
-            </button>
-          </div>
         </div>
       </div>
     </AppInnerLayout>

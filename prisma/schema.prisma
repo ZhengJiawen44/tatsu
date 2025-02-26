@@ -49,7 +49,7 @@ model Account {
 }
  
  
-model VerificationToken {
+model VerificationToken { 
   identifier        String
   token             String
   expires           DateTime
