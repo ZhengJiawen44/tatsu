@@ -10,7 +10,6 @@ import { secureGenerator } from "./secureGenerator";
 export async function genSymmetricKey(masterCryptoKey256: CryptoKey) {
   //this is the symmetric key
   const symmetricKey = secureGenerator(64);
-
   //this is the initial vector
   const iv = secureGenerator(16);
 
@@ -26,5 +25,5 @@ export async function genSymmetricKey(masterCryptoKey256: CryptoKey) {
   const finalArray = new Uint8Array(ivLength + keyLength);
   finalArray.set(iv, 0);
   finalArray.set(new Uint8Array(protectedSymmetricKey), iv.byteLength);
-  return finalArray;
+  return [symmetricKey, finalArray];
 }

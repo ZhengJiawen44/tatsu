@@ -5,8 +5,8 @@ import { genSymmetricKey } from "@/lib/encryption/genSymmetricKey";
 import { toast } from "@/hooks/use-toast";
 import AppInnerLayout from "@/components/AppInnerLayout";
 import EyeToggle from "@/components/ui/eyeToggle";
+import { usePassKey } from "@/providers/PassKeyProvider";
 import { cn } from "@/lib/utils";
-
 const PasskeyForm = ({
   className,
   email,
@@ -14,28 +14,38 @@ const PasskeyForm = ({
   className?: string;
   email: string;
 }) => {
-  const [passKey, setPassKey] = useState<string>("");
+  const [inputPassKey, setInputPassKey] = useState<string>("");
   const [showPassword, setShowPassword] = useState(false);
   const queryClient = useQueryClient();
+  const { setPassKey, setSymKey } = usePassKey();
+
+  //mutate for opting out of encryption
   const { mutate: enableEncMutate } = useMutation({
     mutationFn: async ({ enable }: { enable: boolean }) => {
-      const res = await fetch(`/api/user?enableEncryption=${enable}`, {
+      await fetch(`/api/user?enableEncryption=${enable}`, {
         method: "PATCH",
       });
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["encryptionStatus"] });
+      queryClient.invalidateQueries({ queryKey: ["encryption"] });
     },
   });
 
   // mutate for setting a protected symmetric key
   const { mutate } = useMutation({
     mutationFn: async () => {
-      if (email && passKey) {
+      if (email && inputPassKey) {
         //derive master key from user input pass key
-        const masterKey = await stretchMasterKey({ email: email, passKey });
+        const masterKey = await stretchMasterKey({
+          email: email,
+          passKey: inputPassKey,
+        });
         //generate protected symmetric key
-        const protectedSymmetricKey = await genSymmetricKey(masterKey);
+        const [symmetricKey, protectedSymmetricKey] = await genSymmetricKey(
+          masterKey
+        );
+        const symmetricKeyString = btoa(String.fromCharCode(...symmetricKey));
+        setSymKey(symmetricKeyString);
         //base64 encode the string for transport
         const encodedKey = btoa(String.fromCharCode(...protectedSymmetricKey));
 
@@ -49,9 +59,10 @@ const PasskeyForm = ({
       }
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["encryptionStatus"] });
+      queryClient.invalidateQueries({ queryKey: ["encryption"] });
     },
   });
+
   return (
     <AppInnerLayout className={cn("", className)}>
       <div className="flex justify-center items-center h-full w-full">
@@ -64,8 +75,10 @@ const PasskeyForm = ({
 
           <div className="relative h-8">
             <input
-              onChange={(e) => setPassKey(e.currentTarget.value)}
-              value={passKey}
+              onChange={(e) => {
+                setInputPassKey(e.currentTarget.value);
+              }}
+              value={inputPassKey}
               name="passKey"
               required
               type={showPassword !== true ? "password" : "text"}
@@ -79,7 +92,10 @@ const PasskeyForm = ({
           </div>
 
           <button
-            onClick={() => mutate()}
+            onClick={() => {
+              mutate();
+              setPassKey(inputPassKey);
+            }}
             className="mt-4 w-full bg-lime rounded-sm text-black h-8"
           >
             Enter
