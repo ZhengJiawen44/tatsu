@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import DecryptForm from "./Encryption/decryptForm";
+import DecryptForm from "./EncryptionForm/decryptVaultForm";
 import { cn } from "@/lib/utils";
 import AppInnerLayout from "../AppInnerLayout";
 import SearchBar from "../ui/SearchBar";
@@ -8,11 +8,17 @@ import VaultListItem from "./VaultTable";
 import { useDebounce } from "@/hooks/useDebounce";
 import { useVault } from "@/hooks/useVault";
 
-import PasskeyForm from "./Encryption/PasskeyForm";
+import PasskeyForm from "./EncryptionForm/passkeySetupForm";
 import { useSession } from "next-auth/react";
 import { usePassKey } from "@/providers/PassKeyProvider";
 
-const Vault = ({ className }: { className?: string }) => {
+const Vault = ({
+  className,
+  inert,
+}: {
+  className?: string;
+  inert: boolean;
+}) => {
   const {
     symKey,
     passKey,
@@ -31,13 +37,11 @@ const Vault = ({ className }: { className?: string }) => {
   const [isProcessing, setProcessing] = useState(false);
 
   //if debouncedKeyword is "", get all files. else get files with name like keyword. this is handled by the backend
-
   const { fileList, fileListLoading } = useVault({
     debouncedKeyword,
     symKey,
     enableEncryption,
   });
-  console.log("file: ", fileList);
 
   if (passKeyLoading || !email) {
     return <>loading...</>;
@@ -45,15 +49,15 @@ const Vault = ({ className }: { className?: string }) => {
 
   // register a passkey for first-time users
   if (!passKeyLoading && enableEncryption && !protectedSymmetricKey)
-    return <PasskeyForm className={className} email={email} />;
+    return <PasskeyForm className={className} email={email} inert={inert} />;
 
   // users who have encryption enabled need to present their passKey
   if (!passKey && enableEncryption) {
-    return <DecryptForm className={className} email={email} />;
+    return <DecryptForm className={className} email={email} inert={inert} />;
   }
 
   return (
-    <AppInnerLayout className={cn("mt-20", className)}>
+    <AppInnerLayout className={cn("mt-20", className)} inert={inert}>
       <SearchBar
         onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
           setKeyword(e.currentTarget.value)

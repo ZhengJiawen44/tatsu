@@ -19,8 +19,6 @@ export async function DELETE(
 
     if (!user?.id)
       throw new UnauthorizedError("you must be logged in to do this");
-    const a = await params;
-    console.log(a);
 
     const { id } = await params;
     if (!id) throw new BadRequestError("Invalid request, ID is required");

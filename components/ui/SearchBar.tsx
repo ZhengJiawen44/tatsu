@@ -44,7 +44,7 @@ const SearchBar = ({ className, onSubmit, onChange }: SearchBarProps) => {
       onSubmit={(e) => handleSubmit(e)}
       className={cn(
         clsx(
-          "m-auto w-[60%] h-8 rounded-full bg-border flex gap-3 items-center px-2 py-5 transition-all duration-200",
+          "m-auto w-full sm:w-[85%] md:w-[70%] lg:w-[60%] xl:w-full 2xl:w-[60%] h-8 rounded-full bg-border flex gap-3 items-center px-2 py-5 transition-all duration-200",
           clicked && "shadow-[0px_7px_21px_3px_rgba(16,18,40,0.46)] "
         ),
         className

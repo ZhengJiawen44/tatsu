@@ -4,7 +4,9 @@ import NoteSidebar from "./NoteSidebar/NoteSidebarContainer";
 import VaultSidebar from "./VaultSidebar/VaultSidebarContainer";
 import { useTodo } from "@/hooks/useTodo";
 import { useNote } from "@/hooks/useNote";
-const BottomPanel = ({ activeMenu }: { activeMenu: string }) => {
+import { useMenu } from "@/providers/MenuProvider";
+const BottomPanel = () => {
+  const { activeMenu } = useMenu();
   // query todo data
   const { todos } = useTodo();
   // query note data

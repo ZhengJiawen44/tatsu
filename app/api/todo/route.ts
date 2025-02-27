@@ -13,7 +13,7 @@ export async function POST(req: NextRequest) {
   try {
     const session = await auth();
     const user = session?.user;
-    console.log("user", user);
+
     if (!user?.id)
       throw new UnauthorizedError("you must be logged in to do this");
 

@@ -31,8 +31,6 @@ const LoginPage = () => {
   // redirect to home page if user exists
   const session = useSession();
   useEffect(() => {
-    console.log(session.data?.user);
-
     if (session.status !== "loading" && session.data?.user) {
       router.push("/home");
     }

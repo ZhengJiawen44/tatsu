@@ -118,7 +118,6 @@ const ColorTooltip = ({
           e.preventDefault();
 
           updateOpacity(editor!, +e.currentTarget.value);
-          console.log("moved");
         }}
       />
     </div>

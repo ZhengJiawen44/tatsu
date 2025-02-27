@@ -27,14 +27,14 @@ const VaultMenuContainer = ({
     }
   }, [file]);
 
-  //update pending state
+  //update pending state on file upload
   useEffect(() => {
     setProcessing(createLoading);
   }, [createLoading]);
   return (
     <div className="mt-24">
       <div className="flex justify-between">
-        <div className="flex gap-5 mb-5 text-[0.9rem]">
+        <div className="flex gap-5 mb-14 xl:mb-7 text-[0.9rem] flex-wrap">
           <label className="flex justify-center items-center gap-2 bg-border rounded-lg p-1 px-3 hover:cursor-pointer hover:bg-tooltip transition-all duration-150">
             <Plus className="w-5 h-5" />
             <input

@@ -3,9 +3,9 @@ import AppInnerLayout from "../AppInnerLayout";
 import Editor from "./Editor";
 import { cn } from "@/lib/utils";
 
-const Note = ({ className }: { className?: string }) => {
+const Note = ({ className, inert }: { className?: string; inert: boolean }) => {
   return (
-    <AppInnerLayout className={cn("relative pt-20", className)}>
+    <AppInnerLayout className={cn("relative pt-20", className)} inert={inert}>
       <Editor />
     </AppInnerLayout>
   );

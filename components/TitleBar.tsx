@@ -12,7 +12,7 @@ const MenuContainer = ({
   return (
     <div
       className={cn(
-        "flex gap-8 text-[1.1rem] bg-card-muted w-full h-[45px] rounded-tr-3xl rounded-tl-2xl shadow-[0px_7px_7px_-5px_hsl(235,32%,10%)] justify-center items-end",
+        "xl:flex gap-8 text-[1.1rem] xl:bg-card-muted w-full h-[45px] rounded-tr-3xl rounded-tl-2xl xl:shadow-[0px_7px_7px_-5px_hsl(235,32%,10%)] justify-center items-end",
 
         className
       )}

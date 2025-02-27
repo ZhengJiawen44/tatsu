@@ -1,6 +1,7 @@
 import Taskbar from "@/components/Taskbar";
 import { auth } from "@/app/auth";
 import { redirect } from "next/navigation";
+import { MenuProvider } from "@/providers/MenuProvider";
 export default async function layout({
   children,
 }: Readonly<{
@@ -11,9 +12,11 @@ export default async function layout({
     redirect("/login");
   }
   return (
-    <div className="h-screen flex flex-col">
-      <Taskbar />
-      <div className="w-full p-[50px] px-[80px] h-full">{children}</div>
-    </div>
+    <MenuProvider>
+      <div className="h-screen flex flex-col">
+        <Taskbar />
+        <div className="w-full xl:p-[50px] xl:px-[80px] h-full">{children}</div>
+      </div>
+    </MenuProvider>
   );
 }

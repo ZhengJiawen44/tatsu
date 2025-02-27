@@ -1,3 +1,6 @@
+/* this is the initial form that registers a user's passkey
+ * provides an option to skip encryption all together
+ */
 import React, { useState } from "react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { stretchMasterKey } from "@/lib/encryption/stretchMasterKey";
@@ -10,9 +13,11 @@ import { cn } from "@/lib/utils";
 const PasskeyForm = ({
   className,
   email,
+  inert,
 }: {
   className?: string;
   email: string;
+  inert?: boolean;
 }) => {
   const [inputPassKey, setInputPassKey] = useState<string>("");
   const [showPassword, setShowPassword] = useState(false);
@@ -64,9 +69,9 @@ const PasskeyForm = ({
   });
 
   return (
-    <AppInnerLayout className={cn("", className)}>
+    <AppInnerLayout className={cn("", className)} inert={inert}>
       <div className="flex justify-center items-center h-full w-full">
-        <div className="flex flex-col border p-9 w-1/2 gap-4 rounded-xl">
+        <div className="flex flex-col border p-9 w-full sm:w-[85%] md:w-[70%] lg:w-[60%] xl:w-full 2xl:w-1/2 gap-4 rounded-xl">
           <h3>encryption passkey</h3>
           <div className="block">
             we encrypt your files if you provide a passkey. keep this secure as

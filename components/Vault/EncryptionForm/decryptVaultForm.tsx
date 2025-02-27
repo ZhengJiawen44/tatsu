@@ -1,8 +1,12 @@
+/* this form appears on initial page load.
+ * it collects user passkey and sets up some values for the passKeyProvider
+ * to use for decrypting/encrypting vault items
+ * */
+
 import React, { useState } from "react";
 import { cn } from "@/lib/utils";
 import AppInnerLayout from "@/components/AppInnerLayout";
 import EyeToggle from "@/components/ui/eyeToggle";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { usePassKey } from "@/providers/PassKeyProvider";
 import { stretchMasterKey } from "@/lib/encryption/stretchMasterKey";
 import base64Encode from "@/lib/encryption/base64Encode";
@@ -12,13 +16,14 @@ import { useToast } from "@/hooks/use-toast";
 const DecryptForm = ({
   className,
   email,
+  inert,
 }: {
   className?: string;
   email: string;
+  inert?: boolean;
 }) => {
   const { toast } = useToast();
   const { setPassKey, protectedSymmetricKey, setSymKey, symKey } = usePassKey();
-  const queryClient = useQueryClient();
   const [inputPassKey, setInputPassKey] = useState<string>("");
   const [showPassword, setShowPassword] = useState(false);
 
@@ -47,9 +52,9 @@ const DecryptForm = ({
     }
   }
   return (
-    <AppInnerLayout className={cn("", className)}>
+    <AppInnerLayout className={cn("", className)} inert={inert}>
       <div className="flex justify-center items-center h-full w-full">
-        <div className="flex flex-col border p-9 w-1/2 gap-4 rounded-xl">
+        <div className="flex flex-col border p-9 w-full sm:w-[85%] md:w-[70%] lg:w-[60%] xl:w-full 2xl:w-1/2  gap-4 rounded-xl">
           <h3>Passkey</h3>
           <div className="block">
             we need your pass key to decrypt your files

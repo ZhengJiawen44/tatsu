@@ -117,7 +117,6 @@ const NoteItem = ({ note, renameNoteID, setRenameNoteID }: NoteItemProps) => {
         <MenuItem
           onClick={(e: React.MouseEvent) => {
             e.stopPropagation();
-            console.log(note.id);
 
             deleteMutate({ id: note.id });
           }}

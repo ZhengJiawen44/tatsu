@@ -6,7 +6,6 @@ import { useToast } from "./use-toast";
 import { FileItemType } from "@/types";
 import { postVault } from "@/lib/vault/postVault";
 import { deleteVault } from "@/lib/vault/deleteVault";
-import { stretchMasterKey } from "@/lib/encryption/stretchMasterKey";
 import { base64Decode } from "@/lib/encryption/base64Decode";
 
 export const useVault = ({
@@ -44,17 +43,18 @@ export const useVault = ({
           data.message || `bad server response: Did not recieve todo`
         );
       }
-      console.log("fork");
 
-      //decrypt data if user enabled Encryption
+      //decrypt data if user enabled Encryption and has setup symmetric key
       if (symKey && enableEncryption === true) {
         const decryptedVault = await Promise.all(
           vault.map(async (file) => {
+            //for each aws url, fetch the cipher and create a uint8Array copy
             const res = await fetch(file.url);
             const body = await res.blob();
             const encryptedFile = new Uint8Array(await body.arrayBuffer());
 
-            //extract the cipher key iv, encrypted cipher key, encrypted file iv, and the encrypted iv
+            //extract the <16_byte cipher_key_iv> <32_byte encrypted_cipher_key> <16_byte encrypted_file_iv> <x_byte encrypted_file>
+            //from the cipher
             const cipherKeyIv = encryptedFile.slice(0, 16);
             const encCipherKey = encryptedFile.slice(16, 48);
             const encFileIv = encryptedFile.slice(48, 64);
@@ -62,6 +62,7 @@ export const useVault = ({
 
             //decode and crypto key the symKey
             const decodedSymKey = base64Decode(symKey);
+
             const decodedSymCryptoKey = await crypto.subtle.importKey(
               "raw",
               decodedSymKey,
@@ -95,7 +96,6 @@ export const useVault = ({
             //change file to the deoded file
             // Convert decrypted buffer into a Blob (assuming original file was binary)
             const decryptedFile = new File([decryptedFileBuffer], file.name);
-            console.log(URL.createObjectURL(decryptedFile));
 
             // Replace the original file in the vault
             return {
@@ -109,6 +109,8 @@ export const useVault = ({
 
       return vault as FileItemType[];
     },
+    enabled:
+      (enableEncryption === true && !!symKey) || enableEncryption === false,
   });
   useErrorNotification(
     isError,

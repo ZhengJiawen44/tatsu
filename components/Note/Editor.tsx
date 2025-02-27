@@ -131,13 +131,13 @@ const Editor = () => {
 
       <FloatingMenu
         editor={editor}
-        className="w-fit flex gap-1 justify-center items-center rounded-lg p-1 leading-0 text-[1.05rem]"
+        className="w-fit flex gap-1 justify-start items-center rounded-lg p-1 leading-0 text-[1.05rem] flex-wrap border bg-card-accent xl:flex-nowrap xl:bg-transparent  xl:border-transparent"
       >
         <CustomMenu editor={editor} />
       </FloatingMenu>
       <BubbleMenu
         editor={editor}
-        className="w-fit flex gap-1 bg-card-accent justify-center items-center border rounded-lg p-1 leading-0 text-[1.05rem]"
+        className="mb-12 xl:mb-0 w-fit flex gap-1 bg-card-accent xl:justify-center items-center border rounded-lg p-1 leading-0 text-[1.05rem] flex-wrap xl:flex-nowrap justify-start"
       >
         <CustomMenu editor={editor} />
       </BubbleMenu>
