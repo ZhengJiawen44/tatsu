@@ -2,6 +2,7 @@ export const downloadFile = async (url: string, fileName: string) => {
   try {
     // Fetch the file
     const response = await fetch(url);
+
     const blob = await response.blob();
 
     // Create a URL for the blob

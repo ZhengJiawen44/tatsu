@@ -5,11 +5,14 @@ import {
   CollapsibleContent,
 } from "@radix-ui/react-collapsible";
 import clsx from "clsx";
-import React, { SetStateAction } from "react";
+import React, { SetStateAction, useState } from "react";
 import { useMenu } from "@/providers/MenuProvider";
-import { useNote } from "@/hooks/useNote";
+import { useCreateNote, useNote } from "@/hooks/useNote";
 import { useCurrentNote } from "@/providers/NoteProvider";
-import File from "@/components/ui/icon/file";
+import Plus from "@/components/ui/icon/plus";
+import Spinner from "@/components/ui/spinner";
+import NoteItem from "../BottomPanel/NoteSidebar/NoteSidebarItem";
+import CaretOutline from "@/components/ui/icon/caretOutline";
 
 interface NoteCollapsibleProps {
   openSection: string | null;
@@ -19,18 +22,24 @@ const NoteCollapsible = ({
   openSection,
   setOpenSection,
 }: NoteCollapsibleProps) => {
-  const { setCurrentNote } = useCurrentNote();
   const { activeMenu, setActiveMenu, setShowMobileSidebar } = useMenu();
-
   const toggleOpen = (section: string) => {
     setOpenSection((prev) => (prev === section ? null : section));
   };
+
+  const { setCurrentNote } = useCurrentNote();
+  //create a new note
+  const { createNote, createLoading } = useCreateNote({
+    onSuccess: (newNote) => setCurrentNote(newNote),
+  });
+  //get all notes
   const { notes } = useNote();
+
   return (
     <Collapsible
       open={openSection === "Note"}
       onOpenChange={() => toggleOpen("Note")}
-      className=" text-[1.3rem]"
+      className="w-full "
     >
       <CollapsibleTrigger
         className={clsx(
@@ -39,32 +48,39 @@ const NoteCollapsible = ({
         )}
       >
         <div className="flex gap-1 justify-center items-center">
-          <Caret
+          <CaretOutline
             className={clsx(
-              "w-5 h-5 transition-transform duration-300",
-              openSection === "Note" ? "rotate-0" : "-rotate-90"
+              "w-5 h-5 transition-transform duration-300 stroke-card-foreground",
+              openSection === "Note" && "rotate-90"
             )}
           />
           Note
         </div>
       </CollapsibleTrigger>
-      <CollapsibleContent className="ml-7 border-card-foreground-muted flex flex-col gap-2 my-2">
+      <CollapsibleContent className="max-h-72 w-full ml-7 flex flex-col gap-2 overflow-y-scroll scrollbar-thin scrollbar-track-transparent scrollbar-thumb-border mb-3">
+        <button
+          className="flex pl-2 gap-3 justify-start items-center hover:text-white pt-3"
+          onClick={() => createNote({ name: "new page" })}
+        >
+          {createLoading ? (
+            <Spinner className="w-5 h-5" />
+          ) : (
+            <Plus className="w-5 h-5" />
+          )}
+          create
+        </button>
         {notes.map((note) => {
           return (
-            <button
-              key={note.id}
-              className="flex justify-center items-center gap-2 w-fit hover:text-white text-[1.1rem]"
+            <NoteItem
               onClick={() => {
-                setActiveMenu("Note");
                 setShowMobileSidebar(false);
+                setActiveMenu("Note");
                 localStorage.setItem("prevTab", "Note");
                 localStorage.setItem("prevNote", note.id);
-                setCurrentNote(note);
               }}
-            >
-              <File />
-              {note.name}
-            </button>
+              key={note.id}
+              note={note}
+            />
           );
         })}
       </CollapsibleContent>

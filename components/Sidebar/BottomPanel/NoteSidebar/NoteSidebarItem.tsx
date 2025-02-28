@@ -8,15 +8,15 @@ import { useRenameNote, useDeleteNote } from "@/hooks/useNote";
 
 interface NoteItemProps {
   note: NoteItemType;
-  renameNoteID: string | null;
-  setRenameNoteID: React.Dispatch<SetStateAction<string | null>>;
+  onClick?: () => void;
 }
 
-const NoteItem = ({ note, renameNoteID, setRenameNoteID }: NoteItemProps) => {
+const NoteItem = ({ note, onClick }: NoteItemProps) => {
   // the current input ref (for focus and setEditable on rename)
   const nameInputRef = useRef<HTMLInputElement | null>(null);
   // manipulate the current Note from sidebar
-  const { currentNote, setCurrentNote } = useCurrentNote();
+  const { currentNote, setCurrentNote, renameNoteID, setRenameNoteID } =
+    useCurrentNote();
   // controlled input from note name
   const [name, setName] = useState(note.name);
 
@@ -73,9 +73,12 @@ const NoteItem = ({ note, renameNoteID, setRenameNoteID }: NoteItemProps) => {
       onClick={(e) => {
         e.stopPropagation();
         setCurrentNote(note);
+        if (onClick) {
+          onClick();
+        }
       }}
       className={clsx(
-        "hover:cursor-pointer hover:bg-border rounded-2xl w-full px-2 py-1 flex justify-between items-center gap-3 my-5",
+        "hover:cursor-pointer xl:hover:bg-border rounded-md xl:rounded-2xl w-full px-2 py-1 flex justify-between items-center gap-3 my-1 xl:my-5",
         currentNote?.id === note.id && "bg-border"
       )}
     >
@@ -95,7 +98,7 @@ const NoteItem = ({ note, renameNoteID, setRenameNoteID }: NoteItemProps) => {
             }}
             type="text"
             value={name}
-            className="z-10 absolute bg-transparent outline-none hover:cursor-pointer placeholder:text-card-foreground-muted"
+            className="w-[10rem] sm:w-[15rem] md:w-[20rem] overflow-ellipsis text-[1rem] z-10 absolute bg-transparent outline-none hover:cursor-pointer placeholder:text-card-foreground-muted"
           />
         </div>
       </div>

@@ -13,7 +13,7 @@ const AppInnerLayout = ({
     <div
       inert={inert}
       className={cn(
-        "overflow-y-scroll h-full w-full scrollbar-none xl:px-[114px] px-3",
+        "overflow-y-scroll h-full w-full scrollbar-none xl:px-[114px] px-1",
         className
       )}
     >

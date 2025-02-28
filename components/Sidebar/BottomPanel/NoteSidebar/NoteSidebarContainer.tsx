@@ -28,14 +28,7 @@ const NoteSidebar = ({ noteList }: { noteList: NoteItemType[] }) => {
       </h2>
       <LineSeparator />
       {noteList.map((note) => {
-        return (
-          <NoteItem
-            key={note.id}
-            note={note}
-            renameNoteID={renameNoteID}
-            setRenameNoteID={setRenameNoteID}
-          />
-        );
+        return <NoteItem key={note.id} note={note} />;
       })}
       <button
         onClick={() => createNote({ name: "new page" })}

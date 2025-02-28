@@ -20,7 +20,7 @@ const VaultCollapsible = () => {
     <div className="flex items-end leading-none gap-2">
       <button
         className={clsx(
-          "text-[1.3rem] w-fit hover:text-white ml-1",
+          " w-fit hover:text-white ml-1",
           activeMenu === "Vault" && "text-white"
         )}
         onClick={() => {

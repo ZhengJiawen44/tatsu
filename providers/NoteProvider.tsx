@@ -23,6 +23,8 @@ interface NoteContextType {
   currentNote: NoteItemType | null;
   setCurrentNote: React.Dispatch<SetStateAction<NoteItemType | null>>;
   isLoading: boolean;
+  renameNoteID: string | null;
+  setRenameNoteID: React.Dispatch<SetStateAction<string | null>>;
 }
 
 const NoteContext = createContext<null | NoteContextType>(null);
@@ -35,6 +37,8 @@ export const NoteProvider = ({ children }: { children: React.ReactNode }) => {
   const { createNote, createLoading } = useCreateNote({
     onSuccess: setCurrentNote,
   });
+  //rename notes
+  const [renameNoteID, setRenameNoteID] = useState<null | string>(null);
 
   useEffect(() => {
     if (!notesLoading && notes) {
@@ -71,6 +75,8 @@ export const NoteProvider = ({ children }: { children: React.ReactNode }) => {
         currentNote,
         setCurrentNote,
         isLoading: notesLoading || createLoading,
+        renameNoteID,
+        setRenameNoteID,
       }}
     >
       {children}

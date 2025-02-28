@@ -10,6 +10,7 @@ import NoteProvider from "@/providers/NoteProvider";
 import PassKeyProvider from "@/providers/PassKeyProvider";
 import MobileMenuContainer from "@/components/Sidebar/mobileMenu/MobileMenuContainer";
 import { useMenu } from "@/providers/MenuProvider";
+import CompletedTodoContainer from "@/components/CompletedTodos/CompletedTodoContainer";
 
 const Page = () => {
   const { activeMenu, setActiveMenu, showMobileSideBar } = useMenu();
@@ -62,6 +63,10 @@ const Page = () => {
             </MenuContainer>
 
             {/* contents to display based on the activeMenu */}
+            <CompletedTodoContainer
+              className={clsx(activeMenu !== "CompletedTodo" && "hidden")}
+              inert={showMobileSideBar}
+            />
             <Todo
               className={clsx(activeMenu !== "Todo" && "hidden")}
               inert={showMobileSideBar}

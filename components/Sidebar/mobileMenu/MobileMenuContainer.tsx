@@ -16,20 +16,20 @@ const MobileMenuContainer = ({}) => {
   const handleTouchMove = (e: React.TouchEvent) => {
     touchEndX.current = e.touches[0].clientX;
   };
-  const handleTouchEnd = () => {
-    if (touchStartX.current - touchEndX.current > 100) {
-      // Swipe left to close
-      setShowMobileSidebar(false);
-    }
-  };
+  // const handleTouchEnd = () => {
+  //   if (touchStartX.current - touchEndX.current > 100) {
+  //     // Swipe left to close
+  //     setShowMobileSidebar(false);
+  //   }
+  // };
   //diable scrolling when mobile menu is out
-  useEffect(() => {
-    if (showMobileSideBar === true) {
-      document.body.style.overflowY = "hidden";
-    } else {
-      document.body.style.overflowY = "scroll";
-    }
-  }, [showMobileSideBar]);
+  // useEffect(() => {
+  //   if (showMobileSideBar === true) {
+  //     document.body.style.overflowY = "hidden";
+  //   } else {
+  //     document.body.style.overflowY = "scroll";
+  //   }
+  // }, [showMobileSideBar]);
   return (
     <>
       {/* mobile sidebar */}
@@ -55,9 +55,9 @@ const MobileMenuContainer = ({}) => {
         {/* Mobile menu container */}
         <div
           id="mobile_menu_container"
-          onTouchStart={handleTouchStart}
-          onTouchMove={handleTouchMove}
-          onTouchEnd={handleTouchEnd}
+          // onTouchStart={handleTouchStart}
+          // onTouchMove={handleTouchMove}
+          // onTouchEnd={handleTouchEnd}
           className={clsx(
             "fixed top-0 left-0 z-30 h-full w-[80%] bg-card transition-transform duration-300 transform p-5 pt-10",
             !showMobileSideBar && "-translate-x-full"
