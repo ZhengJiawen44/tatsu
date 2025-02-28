@@ -11,14 +11,17 @@ import PassKeyProvider from "@/providers/PassKeyProvider";
 import MobileMenuContainer from "@/components/Sidebar/mobileMenu/MobileMenuContainer";
 import { useMenu } from "@/providers/MenuProvider";
 import CompletedTodoContainer from "@/components/CompletedTodos/CompletedTodoContainer";
+import { useMediaQuery } from "@/hooks/useMediaQuery";
 
 const Page = () => {
+  const isXLScreen = useMediaQuery("(min-width: 1280px)");
+  const isMobileScreen = !isXLScreen;
   const { activeMenu, setActiveMenu, showMobileSideBar } = useMenu();
   return (
     <div className="xl:grid w-full  xl:h-[calc(100vh-148px)] grid-cols-3 grid-rows-2 gap-[40px]">
       <PassKeyProvider>
         <NoteProvider>
-          <MobileMenuContainer />
+          {isMobileScreen && <MobileMenuContainer />}
           <div className="flex flex-col col-span-2 row-span-2 w-full h-screen xl:h-full xl:rounded-2xl bg-card p-10 xl:p-0">
             <MenuContainer className="hidden relative border-white z-20 xl:show">
               <MenuItem
@@ -82,13 +85,16 @@ const Page = () => {
           </div>
 
           {/* sidebar content */}
-          <div
-            className={clsx(
-              "col-span-1 row-span-2 w-full h-full flex-col gap-10 hidden xl:flex"
-            )}
-          >
-            <Sidebar />
-          </div>
+
+          {isXLScreen && (
+            <div
+              className={clsx(
+                "col-span-1 row-span-2 w-full h-full flex-col gap-10 hidden xl:flex"
+              )}
+            >
+              <Sidebar />
+            </div>
+          )}
         </NoteProvider>
       </PassKeyProvider>
     </div>

@@ -44,7 +44,7 @@ const Vault = ({
   });
 
   if (passKeyLoading || !email) {
-    return <>loading...</>;
+    return <></>;
   }
 
   // register a passkey for first-time users

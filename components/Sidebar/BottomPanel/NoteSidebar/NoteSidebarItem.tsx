@@ -1,10 +1,11 @@
-import React, { SetStateAction, useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import File from "@/components/ui/icon/file";
 import { MeatballMenu, MenuItem } from "@/components/ui/MeatballMenu";
 import { useCurrentNote } from "@/providers/NoteProvider";
 import clsx from "clsx";
 import { NoteItemType } from "@/types";
 import { useRenameNote, useDeleteNote } from "@/hooks/useNote";
+import { useEditNote } from "@/hooks/useNote";
 
 interface NoteItemProps {
   note: NoteItemType;
@@ -24,6 +25,8 @@ const NoteItem = ({ note, onClick }: NoteItemProps) => {
   const { renameMutate, isSuccess: renameSuccess } = useRenameNote();
   //delete a note
   const { deleteMutate } = useDeleteNote();
+  //edit a note
+  const { editNote } = useEditNote();
 
   //after rename clear the rename Note ID
   useEffect(() => {
@@ -34,6 +37,9 @@ const NoteItem = ({ note, onClick }: NoteItemProps) => {
 
   //rename on enter and mouse press outside of input
   useEffect(() => {
+    const inputRef = nameInputRef.current;
+    if (!inputRef) return;
+
     const handleKeyPress = (event: KeyboardEvent) => {
       if (event.key === "Enter") {
         if (name.trim().length > 0) {
@@ -45,9 +51,7 @@ const NoteItem = ({ note, onClick }: NoteItemProps) => {
     };
 
     const handleClickOutside = (event: MouseEvent) => {
-      const inputRef = nameInputRef.current;
       if (
-        inputRef &&
         !inputRef.contains(event.target as Node) &&
         renameNoteID === note.id
       ) {
@@ -59,6 +63,7 @@ const NoteItem = ({ note, onClick }: NoteItemProps) => {
         }
       }
     };
+
     document.addEventListener("mousedown", handleClickOutside);
     document.addEventListener("keypress", handleKeyPress);
 
@@ -72,7 +77,11 @@ const NoteItem = ({ note, onClick }: NoteItemProps) => {
     <div
       onClick={(e) => {
         e.stopPropagation();
+        if (currentNote) {
+          editNote({ id: currentNote?.id, content: currentNote.content });
+        }
         setCurrentNote(note);
+
         if (onClick) {
           onClick();
         }
@@ -90,6 +99,11 @@ const NoteItem = ({ note, onClick }: NoteItemProps) => {
 
         <div className="relative">
           <input
+            onClick={(e) => {
+              if (renameNoteID === note.id) {
+                e.stopPropagation();
+              }
+            }}
             placeholder="name cannot be empty"
             ref={nameInputRef}
             readOnly={renameNoteID !== note.id}
@@ -107,6 +121,7 @@ const NoteItem = ({ note, onClick }: NoteItemProps) => {
           onClick={(e: React.MouseEvent) => {
             e.stopPropagation();
             setRenameNoteID(note.id);
+
             const name = nameInputRef.current?.value;
             nameInputRef.current?.setSelectionRange(
               0,

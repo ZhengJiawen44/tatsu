@@ -10,14 +10,14 @@ const VaultCollapsible = () => {
   const { data, isLoading } = useStorage();
 
   if (isLoading || !data) {
-    return <p>loading...</p>;
+    return <></>;
   }
   const maxStorage = data.maxStorage;
   const usedStorage = data.usedStoraged;
   const percentage = ((usedStorage / maxStorage) * 100).toFixed(2);
 
   return (
-    <div className="flex items-end leading-none gap-2">
+    <div className="flex items-end leading-none gap-2 mb-3">
       <button
         className={clsx(
           " w-fit hover:text-white ml-1",

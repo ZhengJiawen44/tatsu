@@ -18,7 +18,7 @@ const NoteSidebar = ({ noteList }: { noteList: NoteItemType[] }) => {
   });
 
   if (!currentNote || isLoading) {
-    return <>Loading...</>;
+    return <></>;
   }
 
   return (

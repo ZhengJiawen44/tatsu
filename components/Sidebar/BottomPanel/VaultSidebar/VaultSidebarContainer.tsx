@@ -7,7 +7,7 @@ const VaultSidebarContainer = () => {
   const { data, isLoading } = useStorage();
 
   if (isLoading || !data) {
-    return <p>loading...</p>;
+    return <></>;
   }
   const maxStorage = data.maxStorage;
   const usedStorage = data.usedStoraged;

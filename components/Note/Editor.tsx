@@ -40,6 +40,7 @@ const Editor = () => {
 
   //create editor instance
   const editor = useEditor({
+    immediatelyRender: false,
     extensions: [
       starterKit,
       Underline,
@@ -93,7 +94,7 @@ const Editor = () => {
     };
     document.addEventListener("keydown", saveOnEnter);
 
-    //sync editor content with the useCurrentNote content
+    //sync editor content with the new useCurrentNote content
     if (editor && editor.getHTML() !== currentNote?.content) {
       if (currentNote?.content) {
         editor.commands.setContent(currentNote.content);
@@ -101,10 +102,21 @@ const Editor = () => {
         editor.commands.setContent("<h1>new page</h1>");
       }
     }
+
     return () => {
       document.removeEventListener("keydown", saveOnEnter);
     };
   }, [currentNote?.id, currentNote?.content]);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      if (currentNote) {
+        editNote({ id: currentNote?.id, content: currentNote.content });
+      }
+    }, 5000);
+
+    return () => clearTimeout(timer);
+  }, [currentNote?.content]);
 
   if (!currentNote || isLoading) return <EditorLoading />;
 

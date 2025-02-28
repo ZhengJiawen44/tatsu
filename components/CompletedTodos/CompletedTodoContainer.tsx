@@ -13,9 +13,15 @@ const CompletedTodoContainer = ({
   inert: boolean;
 }) => {
   const { todos, todoLoading } = useTodo();
+  const hasCompletedOne = todos.some((todo) => todo.completed);
 
   return (
     <AppInnerLayout className={cn(className, "mt-20")} inert={inert}>
+      {hasCompletedOne ? (
+        <h3>🎉 hurray! you completed your todos</h3>
+      ) : (
+        <h3>{`৻( •̀ ᗜ •́ ৻) complete a todo and come back`}</h3>
+      )}
       {todos.map((todo) => {
         if (todo.completed) {
           return (
