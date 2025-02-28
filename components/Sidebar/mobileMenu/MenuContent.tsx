@@ -4,9 +4,9 @@ import clsx from "clsx";
 import { useMenu } from "@/providers/MenuProvider";
 import TodoCollapsible from "./TodoCollapsible";
 import NoteCollapsible from "./NoteCollapsible";
+import VaultCollapsible from "./VaultCollapsible";
 
 const UserPanel = () => {
-  const { activeMenu, setActiveMenu, setShowMobileSidebar } = useMenu();
   const session = useSession()?.data;
   const user = session?.user;
 
@@ -36,19 +36,7 @@ const UserPanel = () => {
           />
 
           {/* Vault Section */}
-          <button
-            className={clsx(
-              "text-[1.3rem] w-fit hover:text-white ml-1",
-              activeMenu === "Vault" && "text-white"
-            )}
-            onClick={() => {
-              setActiveMenu("Vault");
-              setShowMobileSidebar(false);
-              localStorage.setItem("prevTab", "Vault");
-            }}
-          >
-            Vault
-          </button>
+          <VaultCollapsible />
         </div>
       </div>
     </div>

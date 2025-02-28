@@ -49,6 +49,7 @@ const TodoCollapsible = ({
           onClick={() => {
             setActiveMenu("Todo");
             setShowMobileSidebar(false);
+            localStorage.setItem("prevTab", "Todo");
           }}
         >
           todo list

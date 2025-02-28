@@ -12,8 +12,7 @@ import MobileMenuContainer from "@/components/Sidebar/mobileMenu/MobileMenuConta
 import { useMenu } from "@/providers/MenuProvider";
 
 const Page = () => {
-  const { activeMenu, setActiveMenu, showMobileSideBar, setShowMobileSidebar } =
-    useMenu();
+  const { activeMenu, setActiveMenu, showMobileSideBar } = useMenu();
   return (
     <div className="xl:grid w-full  xl:h-[calc(100vh-148px)] grid-cols-3 grid-rows-2 gap-[40px]">
       <PassKeyProvider>
@@ -76,9 +75,11 @@ const Page = () => {
               inert={showMobileSideBar}
             />
           </div>
+
+          {/* sidebar content */}
           <div
             className={clsx(
-              "col-span-1 row-span-2 w-full h-full  flex-col gap-10 hidden xl:flex"
+              "col-span-1 row-span-2 w-full h-full flex-col gap-10 hidden xl:flex"
             )}
           >
             <Sidebar />

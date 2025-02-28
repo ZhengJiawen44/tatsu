@@ -17,8 +17,6 @@ import { useNote, useCreateNote } from "@/hooks/useNote";
  * subsequently, the richText Editor's content depends on the currentNote and thus will
  * be re-rendered to display the current note.
  *
- * Currently, this provider initializes the currentNote state to the latest note on page load.
- * this is not ideal. Future improvements will likely change this to the last opened note.
  */
 
 interface NoteContextType {
@@ -41,7 +39,18 @@ export const NoteProvider = ({ children }: { children: React.ReactNode }) => {
   useEffect(() => {
     if (!notesLoading && notes) {
       if (notes.length > 0) {
-        // Get the latest note by createdAt
+        //get the last opened note if any
+        const lastOpenedId = localStorage.getItem("prevNote");
+        if (lastOpenedId) {
+          const note = notes.find((note) => note.id === lastOpenedId);
+
+          if (note) {
+            setCurrentNote(note);
+            return;
+          }
+        }
+
+        // else Get the latest note by createdAt
         const latestNote = notes.reduce((latest, current) => {
           const latestDate = new Date(latest.createdAt);
           const currentDate = new Date(current.createdAt);

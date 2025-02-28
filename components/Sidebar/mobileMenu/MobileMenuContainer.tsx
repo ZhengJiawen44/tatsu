@@ -34,7 +34,7 @@ const MobileMenuContainer = ({}) => {
     <>
       {/* mobile sidebar */}
       <div className="xl:hidden">
-        {/* Mobile menu trigger button - remains visible */}
+        {/* Mobile menu trigger button */}
         <div
           className={clsx(
             "fixed z-20 bg-black inset-0 opacity-50",
@@ -63,7 +63,6 @@ const MobileMenuContainer = ({}) => {
             !showMobileSideBar && "-translate-x-full"
           )}
         >
-          {/* Menu content inside the sliding panel */}
           <MenuContent />
         </div>
       </div>

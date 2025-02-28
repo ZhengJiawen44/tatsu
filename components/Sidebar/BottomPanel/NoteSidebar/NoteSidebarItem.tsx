@@ -2,8 +2,6 @@ import React, { SetStateAction, useEffect, useRef, useState } from "react";
 import File from "@/components/ui/icon/file";
 import { MeatballMenu, MenuItem } from "@/components/ui/MeatballMenu";
 import { useCurrentNote } from "@/providers/NoteProvider";
-import { useQueryClient } from "@tanstack/react-query";
-import { useMutation } from "@tanstack/react-query";
 import clsx from "clsx";
 import { NoteItemType } from "@/types";
 import { useRenameNote, useDeleteNote } from "@/hooks/useNote";
@@ -81,7 +79,10 @@ const NoteItem = ({ note, renameNoteID, setRenameNoteID }: NoteItemProps) => {
         currentNote?.id === note.id && "bg-border"
       )}
     >
-      <div className="w-full flex gap-2">
+      <div
+        className="w-full flex gap-2"
+        onClick={() => localStorage.setItem("prevNote", note.id)}
+      >
         <File />
 
         <div className="relative">
