@@ -8,8 +8,6 @@ import {
 } from "react";
 
 type MenuContextType = {
-  showMobileSideBar: boolean;
-  setShowMobileSidebar: React.Dispatch<SetStateAction<boolean>>;
   activeMenu: string;
   setActiveMenu: React.Dispatch<SetStateAction<string>>;
 };
@@ -17,7 +15,6 @@ type MenuContextType = {
 const MenuContext = createContext<MenuContextType | undefined>(undefined);
 
 export const MenuProvider = ({ children }: { children: React.ReactNode }) => {
-  const [showMobileSideBar, setShowMobileSidebar] = useState(false);
   const [activeMenu, setActiveMenu] = useState("Todo");
   //retrieve user's last visited tab
   useEffect(() => {
@@ -30,8 +27,6 @@ export const MenuProvider = ({ children }: { children: React.ReactNode }) => {
   return (
     <MenuContext.Provider
       value={{
-        showMobileSideBar,
-        setShowMobileSidebar,
         activeMenu,
         setActiveMenu,
       }}

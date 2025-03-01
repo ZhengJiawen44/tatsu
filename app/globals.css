@@ -10,9 +10,9 @@ body {
   :root {
     --tooltip: 233, 32%, 10%;
     --lime: 83, 50%, 59%;
-    --taskbar: 261, 28%, 27%, 0.56;
+    --sidebar: 235, 28%, 19%;
     --background: 261 44% 53%;
-    --foreground: 234 11% 67%;
+    --foreground: 234 11% 90%;
     --card: 235 32% 15%;
     --card-accent: 235 32% 16%;
     --card-muted: 235 32% 14%;
