@@ -1,40 +1,43 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Tatsu - The Ultimate Todo App
+
+This is a Next.js project bootstrapped with create-next-app. A live preview of this is available on []
 
 ## Introduction
-tatsu is a todo app on steriods. featuring avatars that grow as you complete your todo goals, tracking your long term todos, a notion-like editor, and more!
 
+Tatsu is a todo app on steroids, designed to keep you motivated and productive. Key features include:
 
-## Getting Started
+**Evolving Avatars**: Your avatar grows as you complete your todo goals (TBD).
 
-First, run the development server:
+**Long-term Todo Tracking** : Stay on top of your big-picture tasks (TBD).
 
-```bash
+**Notion-like Editor **: A powerful, intuitive interface for note-taking.
+
+**End-to-End Encrypted File Uploads** : Securely store and manage your files.
+
+More exciting features coming soon! ✨
+
+🛠 Getting Started
+
+To run the development server, use one of the following commands:
+
 npm run dev
+
 # or
+
 yarn dev
+
 # or
+
 pnpm dev
+
 # or
+
 bun dev
-```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Then, open http://localhost:3000 in your browser.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+You can start editing the app by modifying app/page.tsx. Changes are reflected in real-time.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+🔤 Fonts
 
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+This project uses next/font for optimized font loading. It features Poppins, a modern and elegant font from Google.
