@@ -1,6 +1,6 @@
 # Tatsu - The Ultimate Todo App
 
-This is a Next.js project bootstrapped with create-next-app. A live preview of this is available on []
+This is a Next.js project bootstrapped with create-next-app. A live preview of this is available on [tatsu-gg.vercel.app](https://tatsu-gg.vercel.app/)
 
 ## Introduction
 
