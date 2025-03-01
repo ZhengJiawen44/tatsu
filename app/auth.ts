@@ -1,10 +1,12 @@
 import NextAuth from "next-auth";
 import Credentials from "next-auth/providers/credentials";
-import bcrypt from "bcryptjs";
 import { PrismaAdapter } from "@auth/prisma-adapter";
 import { prisma } from "@/lib/prisma/client";
 import Google from "next-auth/providers/google";
 import Discord from "next-auth/providers/discord";
+import { sha256 } from "@noble/hashes/sha256";
+import { pbkdf2 } from "@noble/hashes/pbkdf2";
+import { hexToBytes, bytesToHex } from "@noble/hashes/utils";
 
 export const { handlers, signIn, signOut, auth } = NextAuth({
   adapter: PrismaAdapter(prisma),
@@ -13,43 +15,65 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
     Google,
     Discord,
     Credentials({
-      credentials: { email: {}, password: {} },
-      //this is called for when signIn method is invoked. params passed are the form data from frontend
+      credentials: {
+        email: {},
+        password: {},
+      },
       authorize: async (credentials) => {
-        //destructure credentials
         const { email, password } = credentials as {
           email: string;
           password: string;
         };
 
-        //either return a user or null
         let user = null;
-        //does user exist?
+
+        // Find the user
         user = await prisma.user.findUnique({
           where: { email: email },
         });
 
-        const passwordMatch = bcrypt.compareSync(
-          password,
-          user?.password || ""
-        );
-        if (!user || !passwordMatch) {
+        if (!user || !user.password) {
           throw new Error("Invalid credentials.");
         }
-        return user;
+
+        try {
+          // Check if this is a new format password (has a colon separator)
+          if (user.password.includes(":")) {
+            // Split the stored password to get the salt and hash
+            const [saltHex, storedHashHex] = user.password.split(":");
+            const salt = hexToBytes(saltHex);
+
+            // Recreate the hash with the provided password and stored salt
+            const calculatedHash = pbkdf2(sha256, password, salt, {
+              c: 10000,
+              dkLen: 32,
+            });
+            const calculatedHex = bytesToHex(calculatedHash);
+
+            // Compare calculated hash with stored hash
+            if (calculatedHex !== storedHashHex) {
+              throw new Error("Invalid credentials.");
+            }
+          } else {
+            // This is an old bcrypt hash - we can't verify it in Edge
+            throw new Error("Please reset your password to continue.");
+          }
+
+          return user;
+        } catch (error) {
+          throw new Error("Authentication failed.");
+        }
       },
     }),
   ],
   callbacks: {
     jwt({ token, user, account }) {
-      //user is available only on signin
       if (user) {
         token.id = user.id;
         if (account?.provider === "credentials") {
           token.name = user.name;
         }
       }
-
       return token;
     },
     session({ session, token }) {

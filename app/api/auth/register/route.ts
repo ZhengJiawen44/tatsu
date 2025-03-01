@@ -1,26 +1,29 @@
 import { NextRequest, NextResponse } from "next/server";
 import { registrationSchema } from "@/schema";
-import bcrypt from "bcryptjs";
 import { prisma } from "@/lib/prisma/client";
 import {
   BaseServerError,
   BadRequestError,
   InternalError,
 } from "@/lib/customError";
+import { sha256 } from "@noble/hashes/sha256";
+import { pbkdf2 } from "@noble/hashes/pbkdf2";
+import { randomBytes } from "@noble/hashes/utils";
+import { bytesToHex } from "@noble/hashes/utils";
 
 export async function POST(req: NextRequest) {
   try {
-    //await the req body
+    // await the req body
     const body = await req.json();
 
-    //validate the body with zod
+    // validate the body with zod
     const parsedObj = registrationSchema.safeParse(body);
     if (!parsedObj.success) {
       throw new BadRequestError();
     }
     const { fname, lname, email, password } = parsedObj.data;
 
-    //CASE user registered before
+    // CASE user registered before
     const userExists = await prisma.user.findUnique({
       where: { email: email },
     });
@@ -28,23 +31,35 @@ export async function POST(req: NextRequest) {
       throw new BadRequestError("this email is taken");
     }
 
-    //hash the password
-    const salt = bcrypt.genSaltSync();
-    const hashedPassword = bcrypt.hashSync(password, salt);
+    // Generate salt and hash password
+    const salt = randomBytes(16);
+    const saltHex = bytesToHex(salt);
 
-    //create the user in data base
+    // Use PBKDF2 for password hashing (more secure than single-pass SHA-256)
+    const passwordHash = pbkdf2(sha256, password, salt, {
+      c: 10000,
+      dkLen: 32,
+    });
+    const passwordHex = bytesToHex(passwordHash);
+
+    // Store salt:hash
+    const hashedPassword = `${saltHex}:${passwordHex}`;
+
+    // create the user in database
     const user = await prisma.user.create({
       data: { name: fname + " " + lname, email, password: hashedPassword },
     });
-    //CASE user not created
+
+    // CASE user not created
     if (!user) {
       throw new InternalError("user account not created");
     }
+
     return NextResponse.json({ message: "account created" }, { status: 200 });
   } catch (error) {
     console.log(error);
 
-    //handle custom error
+    // handle custom error
     if (error instanceof BaseServerError) {
       return NextResponse.json(
         { message: error.message },
@@ -52,7 +67,7 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    //handle generic error
+    // handle generic error
     return NextResponse.json(
       {
         message:
