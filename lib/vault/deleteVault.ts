@@ -1,6 +1,5 @@
 export async function deleteVault({
   id,
-  toast,
 }: {
   id: string;
   toast: (options: { description: string }) => void;

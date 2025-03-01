@@ -2,7 +2,6 @@ import React from "react";
 import { dayNames, monthNames } from "@/lib/dateConstants";
 const Day = ({
   currentDate,
-  setCurrentDate,
 }: {
   currentDate: Date;
   setCurrentDate: React.Dispatch<React.SetStateAction<Date>>;

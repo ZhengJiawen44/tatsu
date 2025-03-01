@@ -1,11 +1,10 @@
-import Caret from "@/components/ui/icon/caret";
 import {
   Collapsible,
   CollapsibleTrigger,
   CollapsibleContent,
 } from "@radix-ui/react-collapsible";
 import clsx from "clsx";
-import React, { SetStateAction, useState } from "react";
+import React, { SetStateAction } from "react";
 import { useMenu } from "@/providers/MenuProvider";
 import { useCreateNote, useNote } from "@/hooks/useNote";
 import { useCurrentNote } from "@/providers/NoteProvider";

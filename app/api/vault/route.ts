@@ -29,9 +29,8 @@ export async function POST(req: NextRequest) {
     const fileSize = file.size;
     const fileName = `${Date.now()}-${file.name}`;
     //convert to Buffer
-    let buffer: Buffer;
     const arrayBuffer = await file.arrayBuffer();
-    buffer = Buffer.from(arrayBuffer);
+    const buffer = Buffer.from(arrayBuffer);
 
     //is file size less that maxStorage-usedStorage?
     const queriedUser = await prisma.user.findUnique({

@@ -1,5 +1,5 @@
 import clsx from "clsx";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import adjustHeight from "@/lib/adjustTextareaHeight";
 import { useToast } from "@/hooks/use-toast";
 import Spinner from "../ui/spinner";
@@ -18,6 +18,15 @@ interface TodoFormProps {
 }
 
 const TodoForm = ({ displayForm, setDisplayForm, todo }: TodoFormProps) => {
+  const clearInput = useCallback(
+    function clearInput() {
+      setDesc("");
+      setTitle("");
+      setDisplayForm(!displayForm);
+    },
+    [displayForm, setDisplayForm]
+  );
+
   const titleRef = useRef<null | HTMLInputElement>(null);
   const textareaRef = useRef<null | HTMLTextAreaElement>(null);
 
@@ -33,9 +42,9 @@ const TodoForm = ({ displayForm, setDisplayForm, todo }: TodoFormProps) => {
 
   //clear form on succesful mutation
   useEffect(() => {
-    editSuccess && clearInput();
-    createSuccess && clearInput();
-  }, [editSuccess, createSuccess]);
+    if (editSuccess) clearInput();
+    if (createSuccess) clearInput();
+  }, [editSuccess, createSuccess, clearInput]);
 
   useEffect(() => {
     adjustHeight(textareaRef);
@@ -116,12 +125,6 @@ const TodoForm = ({ displayForm, setDisplayForm, todo }: TodoFormProps) => {
     } catch (error) {
       if (error instanceof Error) toast({ description: error.message });
     }
-  }
-
-  function clearInput() {
-    setDesc("");
-    setTitle("");
-    setDisplayForm(!displayForm);
   }
 };
 

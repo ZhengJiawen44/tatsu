@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import LineSeparator from "@/components/ui/lineSeparator";
 import Note from "@/components/ui/icon/note";
 import Plus from "@/components/ui/icon/plus";
@@ -9,7 +9,6 @@ import { NoteItemType } from "@/types";
 import { useCreateNote } from "@/hooks/useNote";
 
 const NoteSidebar = ({ noteList }: { noteList: NoteItemType[] }) => {
-  const [renameNoteID, setRenameNoteID] = useState<null | string>(null);
   const { currentNote, setCurrentNote, isLoading } = useCurrentNote();
 
   //create a new note

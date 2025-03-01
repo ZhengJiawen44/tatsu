@@ -17,7 +17,7 @@ import { RegisterFormProp } from "@/types";
 import { useEffect, useState } from "react";
 import EyeToggle from "@/components/ui/eyeToggle";
 import { useSession } from "next-auth/react";
-const page = () => {
+const Page = () => {
   // setup react-hook-form, toast, router, and password visibillity toggle
   const {
     register,
@@ -34,7 +34,7 @@ const page = () => {
     if (session.data?.user) {
       router.push("/home");
     }
-  }, []);
+  }, [session.data?.user, router]);
 
   // define login page ui
   return (
@@ -219,7 +219,7 @@ const page = () => {
   }
 };
 
-export default page;
+export default Page;
 
 {
 }

@@ -9,7 +9,7 @@ const Separator = ({
   children?: React.ReactNode;
 }) => {
   return (
-    <div className="relative w-full h-4" {...props}>
+    <div className={cn("relative w-full h-4", className)} {...props}>
       {children}
     </div>
   );

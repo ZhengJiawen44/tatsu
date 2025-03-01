@@ -25,12 +25,12 @@ const VaultMenuContainer = ({
     if (file && typeof enableEncryption === "boolean") {
       createFile({ file, symKey, enableEncryption });
     }
-  }, [file]);
+  }, [file, createFile, enableEncryption, symKey]);
 
   //update pending state on file upload
   useEffect(() => {
     setProcessing(createLoading);
-  }, [createLoading]);
+  }, [createLoading, setProcessing]);
   return (
     <div className="mt-24">
       <div className="flex justify-between">

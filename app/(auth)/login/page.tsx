@@ -34,7 +34,7 @@ const LoginPage = () => {
     if (session.status !== "loading" && session.data?.user) {
       router.push("/home");
     }
-  }, []);
+  }, [router, session.status, session.data?.user]);
   // define login page ui
   return (
     <div className="flex min-w-screen min-h-screen justify-center items-center">

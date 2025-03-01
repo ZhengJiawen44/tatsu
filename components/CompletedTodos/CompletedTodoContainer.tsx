@@ -1,6 +1,5 @@
 import React from "react";
 import { TodoItem } from "../Todo/TodoItem";
-import TodoListLoading from "../ui/TodoListLoading";
 import { useTodo } from "@/hooks/useTodo";
 import { cn } from "@/lib/utils";
 import AppInnerLayout from "../AppInnerLayout";
@@ -12,7 +11,7 @@ const CompletedTodoContainer = ({
   className?: string;
   inert: boolean;
 }) => {
-  const { todos, todoLoading } = useTodo();
+  const { todos } = useTodo();
   const hasCompletedOne = todos.some((todo) => todo.completed);
 
   return (

@@ -56,7 +56,7 @@ export const TodoItem = ({
         <div>
           <div className="flex items-start gap-3">
             <TodoCheckbox
-              onChange={(e) => {
+              onChange={() => {
                 setCompleted(!completed);
                 mutateCompleted();
               }}

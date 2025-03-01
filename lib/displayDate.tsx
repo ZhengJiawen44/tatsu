@@ -1,15 +1,6 @@
 export function getDisplayDate(createdAt: Date) {
   const today = new Date();
   const createdDate = new Date(createdAt);
-  const days = [
-    "Sunday",
-    "Monday",
-    "Tuesday",
-    "Wednesday",
-    "Thurday",
-    "Friday",
-    "Saturday",
-  ];
 
   const months = [
     "January",

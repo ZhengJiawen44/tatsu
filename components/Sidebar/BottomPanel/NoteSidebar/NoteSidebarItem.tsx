@@ -33,7 +33,7 @@ const NoteItem = ({ note, onClick }: NoteItemProps) => {
     if (renameSuccess) {
       setRenameNoteID(null);
     }
-  }, [renameSuccess]);
+  }, [renameSuccess, setRenameNoteID]);
 
   //rename on enter and mouse press outside of input
   useEffect(() => {
@@ -71,7 +71,7 @@ const NoteItem = ({ note, onClick }: NoteItemProps) => {
       document.removeEventListener("keypress", handleKeyPress);
       document.removeEventListener("mousedown", handleClickOutside);
     };
-  }, [name, renameNoteID]);
+  }, [name, renameNoteID, note.id, note.name, renameMutate, setRenameNoteID]);
 
   return (
     <div

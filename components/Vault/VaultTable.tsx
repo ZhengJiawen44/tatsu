@@ -22,7 +22,7 @@ const VaultContent = ({
 
   useEffect(() => {
     setProcessing(deletePending);
-  }, [deletePending]);
+  }, [deletePending, setProcessing]);
 
   if (loading) {
     return <VaultLoading />;

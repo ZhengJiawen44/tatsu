@@ -106,7 +106,7 @@ const Editor = () => {
     return () => {
       document.removeEventListener("keydown", saveOnEnter);
     };
-  }, [currentNote?.id, currentNote?.content]);
+  }, [currentNote?.id, currentNote?.content, currentNote, editNote, editor]);
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -116,7 +116,7 @@ const Editor = () => {
     }, 5000);
 
     return () => clearTimeout(timer);
-  }, [currentNote?.content]);
+  }, [currentNote?.content, currentNote, editNote]);
 
   if (!currentNote || isLoading) return <EditorLoading />;
 

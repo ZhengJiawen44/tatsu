@@ -23,7 +23,7 @@ const DecryptForm = ({
   inert?: boolean;
 }) => {
   const { toast } = useToast();
-  const { setPassKey, protectedSymmetricKey, setSymKey, symKey } = usePassKey();
+  const { setPassKey, protectedSymmetricKey, setSymKey } = usePassKey();
   const [inputPassKey, setInputPassKey] = useState<string>("");
   const [showPassword, setShowPassword] = useState(false);
 
@@ -47,7 +47,8 @@ const DecryptForm = ({
       );
       setSymKey(base64Encode(decryptedSymKey));
       setPassKey(inputPassKey);
-    } catch (e) {
+    } catch (error) {
+      console.log(error);
       toast({ description: "invalid passkey entered" });
     }
   }

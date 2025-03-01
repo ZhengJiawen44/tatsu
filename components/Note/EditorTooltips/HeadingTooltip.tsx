@@ -1,7 +1,7 @@
 import React, { SetStateAction, useEffect, useRef, useState } from "react";
 
 import { MenuItem } from "../EditorMenu/MenuItem";
-import { Editor, useCurrentEditor } from "@tiptap/react";
+import { Editor } from "@tiptap/react";
 import {
   Heading,
   Heading1,

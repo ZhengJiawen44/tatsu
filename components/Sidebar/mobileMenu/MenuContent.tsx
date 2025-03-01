@@ -5,6 +5,7 @@ import NoteCollapsible from "./NoteCollapsible";
 import VaultCollapsible from "./VaultCollapsible";
 import LogoutBtn from "@/components/ui/logoutBtn";
 import LineSeparator from "@/components/ui/lineSeparator";
+import Image from "next/image";
 
 const UserPanel = () => {
   const session = useSession()?.data;
@@ -17,7 +18,13 @@ const UserPanel = () => {
     <div>
       <div className="ml-1 flex gap-3 justify-start items-start w-full ">
         {user?.image ? (
-          <img src={user.image} className="w-10 h-10 rounded-full"></img>
+          <Image
+            alt="user image"
+            src={user.image}
+            width={40}
+            height={40}
+            className="w-10 h-10 rounded-full"
+          />
         ) : (
           ""
         )}
