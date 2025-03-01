@@ -11,6 +11,7 @@ import { hexToBytes, bytesToHex } from "@noble/hashes/utils";
 export const { handlers, signIn, signOut, auth } = NextAuth({
   adapter: PrismaAdapter(prisma),
   session: { strategy: "jwt" },
+  basePath: process.env.NEXTAUTH_URL,
   providers: [
     Google,
     Discord,
