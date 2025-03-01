@@ -42,5 +42,5 @@ export const noteSchema = z.object({
     .string({ message: "title cannot be left empty" })
     .trim()
     .min(1, { message: "title cannot be left empty" }),
-  content: z.string().optional(),
+  content: z.string().nullable().optional(),
 });

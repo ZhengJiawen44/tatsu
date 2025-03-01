@@ -18,11 +18,11 @@ const Page = () => {
   const isMobileScreen = !isXLScreen;
   const { activeMenu, setActiveMenu, showMobileSideBar } = useMenu();
   return (
-    <div className="xl:grid w-full  xl:h-[calc(100vh-148px)] grid-cols-3 grid-rows-2 gap-[40px]">
+    <div className="xl:grid w-full h-full xl:h-[calc(100vh-148px)] grid-cols-3 grid-rows-2 gap-[40px]">
       <PassKeyProvider>
         <NoteProvider>
           {isMobileScreen && <MobileMenuContainer />}
-          <div className="flex flex-col col-span-2 row-span-2 w-full h-screen xl:h-full xl:rounded-2xl bg-card p-10 xl:p-0">
+          <div className="flex flex-col col-span-2 row-span-2 w-full h-screen xl:h-full xl:rounded-2xl bg-card px-10 pt-10 xl:p-0">
             <MenuContainer className="hidden relative border-white z-20 xl:show">
               <MenuItem
                 className={

@@ -22,9 +22,9 @@ const TodoForm = ({ displayForm, setDisplayForm, todo }: TodoFormProps) => {
     function clearInput() {
       setDesc("");
       setTitle("");
-      setDisplayForm(!displayForm);
+      setDisplayForm(false);
     },
-    [displayForm, setDisplayForm]
+    [setDisplayForm]
   );
 
   const titleRef = useRef<null | HTMLInputElement>(null);

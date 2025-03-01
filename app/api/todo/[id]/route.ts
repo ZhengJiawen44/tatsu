@@ -9,7 +9,10 @@ import { prisma } from "@/lib/prisma/client";
 import { auth } from "@/app/auth";
 import { todoSchema } from "@/schema";
 
-export async function DELETE(req: NextRequest) {
+export async function DELETE(
+  req: NextRequest,
+  { params }: { params: Promise<{ id: string }> }
+) {
   try {
     const session = await auth();
     const user = session?.user;
@@ -17,7 +20,7 @@ export async function DELETE(req: NextRequest) {
     if (!user?.id)
       throw new UnauthorizedError("you must be logged in to do this");
 
-    const id = req.nextUrl.pathname.split("/").pop();
+    const { id } = await params;
     if (!id) throw new BadRequestError("Invalid request, ID is required");
 
     // Find and delete the todo item
@@ -56,7 +59,10 @@ export async function DELETE(req: NextRequest) {
   }
 }
 
-export async function PATCH(req: NextRequest) {
+export async function PATCH(
+  req: NextRequest,
+  { params }: { params: Promise<{ id: string }> }
+) {
   try {
     const session = await auth();
     const user = session?.user;
@@ -64,7 +70,7 @@ export async function PATCH(req: NextRequest) {
     if (!user?.id)
       throw new UnauthorizedError("You must be logged in to do this");
 
-    const id = req.nextUrl.pathname.split("/").pop();
+    const { id } = await params;
     if (!id) throw new BadRequestError("Invalid request, ID is required");
 
     //for pinning todos

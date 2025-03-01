@@ -89,7 +89,10 @@ const Editor = () => {
         event.stopPropagation();
 
         if (currentNote?.content)
-          editNote({ id: currentNote!.id, content: currentNote?.content });
+          editNote({
+            id: currentNote!.id,
+            content: currentNote?.content,
+          });
       }
     };
     document.addEventListener("keydown", saveOnEnter);

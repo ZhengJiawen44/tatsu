@@ -78,7 +78,10 @@ const NoteItem = ({ note, onClick }: NoteItemProps) => {
       onClick={(e) => {
         e.stopPropagation();
         if (currentNote) {
-          editNote({ id: currentNote?.id, content: currentNote.content });
+          editNote({
+            id: currentNote?.id,
+            content: currentNote.content,
+          });
         }
         setCurrentNote(note);
 

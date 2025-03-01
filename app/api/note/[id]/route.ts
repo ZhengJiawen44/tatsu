@@ -9,7 +9,10 @@ import { prisma } from "@/lib/prisma/client";
 import { auth } from "@/app/auth";
 import { noteSchema } from "@/schema";
 
-export async function DELETE(req: NextRequest) {
+export async function DELETE(
+  req: NextRequest,
+  { params }: { params: Promise<{ id: string }> }
+) {
   try {
     const session = await auth();
     const user = session?.user;
@@ -18,7 +21,7 @@ export async function DELETE(req: NextRequest) {
       throw new UnauthorizedError("you must be logged in to do this");
 
     // Extract `id` from URL params
-    const id = req.nextUrl.pathname.split("/").pop();
+    const { id } = await params;
     if (!id) throw new BadRequestError("Invalid request, ID is required");
 
     // Find and delete the note item
@@ -57,7 +60,10 @@ export async function DELETE(req: NextRequest) {
   }
 }
 
-export async function PATCH(req: NextRequest) {
+export async function PATCH(
+  req: NextRequest,
+  { params }: { params: Promise<{ id: string }> }
+) {
   try {
     const session = await auth();
     const user = session?.user;
@@ -65,7 +71,7 @@ export async function PATCH(req: NextRequest) {
     if (!user?.id)
       throw new UnauthorizedError("You must be logged in to do this");
 
-    const id = req.nextUrl.pathname.split("/").pop();
+    const { id } = await params;
     if (!id) throw new BadRequestError("Invalid request, ID is required");
 
     //for renaming
@@ -74,7 +80,6 @@ export async function PATCH(req: NextRequest) {
       throw new BadRequestError("name cannot be empty");
     }
     if (isRename?.trim().length > 0) {
-      //pin todo
       await prisma.note.update({
         where: { id, userID: user.id },
         data: { name: isRename },
