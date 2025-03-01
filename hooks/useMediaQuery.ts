@@ -1,8 +1,8 @@
 // hooks/useMediaQuery.js
 "use client";
-import { useState, useEffect } from "react";
+import { useState, useEffect, ChangeEvent } from "react";
 
-export function useMediaQuery(query) {
+export function useMediaQuery(query: string) {
   const [matches, setMatches] = useState(false);
 
   useEffect(() => {
@@ -12,7 +12,7 @@ export function useMediaQuery(query) {
     setMatches(media.matches);
 
     // Create listener function
-    const listener = (e) => setMatches(e.matches);
+    const listener = (e: MediaQueryListEvent) => setMatches(e.matches);
 
     // Add listener
     media.addEventListener("change", listener);

@@ -11,10 +11,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { DeleteObjectCommand } from "@aws-sdk/client-s3";
 import { s3 } from "@/lib/s3";
 
-export async function DELETE(
-  req: NextRequest,
-  { params }: { params: { id: string } }
-) {
+export async function DELETE(req: NextRequest) {
   try {
     const session = await auth();
     const user = session?.user;
@@ -22,7 +19,7 @@ export async function DELETE(
     if (!user?.id)
       throw new UnauthorizedError("you must be logged in to do this");
 
-    const { id } = await params;
+    const id = req.nextUrl.pathname.split("/").pop();
     if (!id) throw new BadRequestError("Invalid request, ID is required");
 
     //find the key from database
