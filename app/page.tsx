@@ -1,7 +1,6 @@
 import React from "react";
 import Link from "next/link";
 import ErrorBoundary from "@/components/ErrorBoundary";
-import BrokenComponent from "@/components/Broken";
 import { Button } from "@/components/ui/button";
 
 const LandingPage = () => {
@@ -9,7 +8,7 @@ const LandingPage = () => {
     <ErrorBoundary
       fallback={
         <p className="text-red-500 text-center">
-          Something went wrong, but don't worry, we sent an error report.
+          Something went wrong, but don&apost worry, we sent an error report.
         </p>
       }
     >
