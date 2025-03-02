@@ -75,7 +75,10 @@ export default {
           DEFAULT: "hsl(var(--destructive))",
           foreground: "hsl(var(--destructive-foreground))",
         },
-        border: "hsla(var(--border))",
+        border: {
+          DEFAULT: "hsla(var(--border))",
+          muted: "hsla(var(--border-muted))",
+        },
         input: "hsl(var(--input))",
         ring: "hsl(var(--ring))",
         chart: {

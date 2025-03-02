@@ -1,109 +1,85 @@
-"use client";
-import React, { useEffect, useRef, useState } from "react";
-import UserCard from "./Account/UserCard";
 import clsx from "clsx";
-import {
-  Collapsible,
-  CollapsibleTrigger,
-  CollapsibleContent,
-} from "@radix-ui/react-collapsible";
-import CaretOutline from "../ui/icon/caretOutline";
-import OK from "../ui/icon/ok";
-import Note from "../ui/icon/note";
+import React, { useRef, useState } from "react";
 import { useMenu } from "@/providers/MenuProvider";
 
-const Sidebar = () => {
-  //resizable sidebar states
-  const resizeHandleRef = useRef<HTMLDivElement | null>(null);
+const SidebarContainer = ({ children }: { children: React.ReactNode }) => {
   const sidebarRef = useRef<HTMLDivElement | null>(null);
-  const [isResizing, setIsResizing] = useState(false);
-  const [sidebarWidth, setSidebarWidth] = useState("20%"); // Initial width
+  const { isResizing, setIsResizing, showMenu } = useMenu();
+  const [sidebarWidth, setSidebarWidth] = useState(400);
 
-  const [open, setOpen] = useState(false);
+  const startResizing = React.useCallback(() => {
+    setIsResizing(true);
+  }, []);
 
-  //active menu tabs
-  const { activeMenu, setActiveMenu } = useMenu();
+  const stopResizing = React.useCallback(() => {
+    setIsResizing(false);
+  }, []);
 
-  //resizable sidebar logic
-  useEffect(() => {
-    function onMouseMove(e: MouseEvent) {
-      if (isResizing && sidebarRef.current) {
-        setSidebarWidth(`${e.clientX}px`);
+  const resize = React.useCallback(
+    (mouseMoveEvent: MouseEvent) => {
+      if (isResizing) {
+        setSidebarWidth(
+          mouseMoveEvent.clientX -
+            sidebarRef.current!.getBoundingClientRect().left
+        );
       }
-    }
-    function onMouseUp() {
-      setIsResizing(false);
-    }
-    document.addEventListener("mousemove", onMouseMove);
-    document.addEventListener("mouseup", onMouseUp);
+    },
+    [isResizing]
+  );
+
+  React.useEffect(() => {
+    window.addEventListener("mousemove", resize);
+    window.addEventListener("mouseup", stopResizing);
     return () => {
-      document.removeEventListener("mousemove", onMouseMove);
-      document.removeEventListener("mouseup", onMouseUp);
+      window.removeEventListener("mousemove", resize);
+      window.removeEventListener("mouseup", stopResizing);
     };
-  }, [isResizing]);
+  }, [resize, stopResizing]);
 
   return (
-    <div
-      id="sidebar_container"
-      ref={sidebarRef}
-      className="relative h-full bg-sidebar min-w-[200px] max-w-[400px] p-4 pt-6"
-      style={{ width: `${sidebarWidth}` }}
-    >
+    <>
+      <Overlay />
       <div
-        id="resize_handle"
-        ref={resizeHandleRef}
+        id="sidebar_container"
+        ref={sidebarRef}
         className={clsx(
-          "absolute right-0 top-0 h-full w-1 cursor-col-resize  hover:bg-gray-600"
+          "fixed inset-0 md:relative flex flex-row   max-w-[500px] flex-shrink-0 bg-sidebar border-r z-20 justify-between duration-200",
+          !showMenu
+            ? "-translate-x-full  min-w-0 overflow-hidden  transition-all"
+            : "min-w-[200px]  transition-transform"
         )}
-        onMouseDown={() => setIsResizing(true)}
-      />
-      <UserCard />
-      <div className="flex flex-col w-full gap-2 my-6">
-        <Collapsible className="w-full" open={open} onOpenChange={setOpen}>
-          <CollapsibleTrigger
-            onClick={() => {
-              setActiveMenu("Todo");
-              localStorage.setItem("prevTab", "Todo");
-            }}
-            className={clsx(
-              "flex gap-1 justify-start items-center w-full py-1 px-2 rounded-md hover:bg-border hover:bg-opacity-85",
-              activeMenu === "Todo" && "bg-border"
-            )}
-          >
-            <CaretOutline
-              className={clsx(
-                "w-3 h-3 transition-transform duration-300 stroke-card-foreground",
-                open && "rotate-90"
-              )}
-            />
-            <Note className="w-5 h-5" />
-            todo
-          </CollapsibleTrigger>
-          <CollapsibleContent>
-            <div className="flex flex-col gap-2 my-2">
-              <div className="pl-12 py-1 px-2 rounded-md hover:bg-border">
-                completed
-              </div>
-            </div>
-          </CollapsibleContent>
-        </Collapsible>
-
-        <div
-          className="border py-1 px-6 w-full"
-          onClick={() => setActiveMenu("Note")}
-        >
-          <div className="flex gap-1 justify-start items-center w-full">
-            <Note className="w-5 h-5" />
-            todo
-          </div>
-        </div>
-        <div
-          className="border py-1 px-6 w-full"
-          onClick={() => setActiveMenu("Note")}
-        ></div>
+        style={{ width: showMenu ? `${sidebarWidth}px` : "0px" }}
+        onMouseDown={(e) => e.preventDefault()}
+      >
+        <div className="flex flex-col flex-1 p-2 min-w-0 gap-2">{children}</div>
+        <ResizeHandle isResizing={isResizing} startResizing={startResizing} />
       </div>
-    </div>
+    </>
   );
 };
 
-export default Sidebar;
+export default SidebarContainer;
+
+const Overlay = () => {
+  return (
+    <div className="fixed w-screen h-screen bg-black z-10 md:hidden opacity-50" />
+  );
+};
+
+const ResizeHandle = ({
+  isResizing,
+  startResizing,
+}: {
+  isResizing: boolean;
+  startResizing: () => void;
+}) => {
+  return (
+    <div
+      className={clsx(
+        "w-1 cursor-col-resize hover:bg-border",
+        isResizing && "bg-border"
+      )}
+      onMouseDown={startResizing}
+    />
+  );
+};

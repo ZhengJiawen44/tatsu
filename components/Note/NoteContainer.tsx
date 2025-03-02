@@ -1,5 +1,5 @@
 import React from "react";
-import AppInnerLayout from "../AppInnerLayout";
+import AppInnerLayout from "../AppLayout";
 import Editor from "./Editor";
 import { cn } from "@/lib/utils";
 

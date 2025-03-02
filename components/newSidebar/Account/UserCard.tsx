@@ -2,8 +2,10 @@ import React from "react";
 import { useSession } from "next-auth/react";
 import Image from "next/image";
 import UserCardLoading from "./UserCardLoading";
-
-const UserCard = () => {
+import SidebarIcon from "@/components/ui/icon/sidebar";
+import Sidebar from "@/components/ui/SidebarToggle";
+import { cn } from "@/lib/utils";
+const UserCard = ({ className }: { className?: string }) => {
   const { data } = useSession();
   if (!data) {
     return <UserCardLoading />;
@@ -12,17 +14,27 @@ const UserCard = () => {
 
   return (
     <>
-      <div className=" flex gap-2 justify-center items-center w-fit select-none hover:cursor-pointer hover:bg-border rounded-md py-1 px-2 transition-all duration-200">
-        {user?.image && (
-          <Image
-            src={user?.image}
-            alt="user image"
-            width={28}
-            height={28}
-            className="rounded-full"
-          />
+      <div
+        className={cn(
+          "flex justify-between items-center hover:cursor-pointer hover:bg-border-muted rounded-md py-1 px-2 transition-all duration-200",
+          className
         )}
-        <p>{user?.name || user?.email}</p>
+      >
+        <div className="overflow-hidden flex gap-2 justify-start items-center select-none">
+          {user?.image && (
+            <Image
+              src={user?.image}
+              alt="user image"
+              width={28}
+              height={28}
+              className="rounded-full"
+            />
+          )}
+          <p className="truncate">{user?.name || user?.email?.split("@")[0]}</p>
+        </div>
+        <Sidebar>
+          <SidebarIcon className="w-6 h-6" />
+        </Sidebar>
       </div>
     </>
   );

@@ -5,7 +5,7 @@
 
 import React, { useState } from "react";
 import { cn } from "@/lib/utils";
-import AppInnerLayout from "@/components/AppInnerLayout";
+import AppInnerLayout from "@/components/AppLayout";
 import EyeToggle from "@/components/ui/eyeToggle";
 import { usePassKey } from "@/providers/PassKeyProvider";
 import { stretchMasterKey } from "@/lib/encryption/stretchMasterKey";

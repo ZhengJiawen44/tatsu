@@ -6,7 +6,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { stretchMasterKey } from "@/lib/encryption/stretchMasterKey";
 import { genSymmetricKey } from "@/lib/encryption/genSymmetricKey";
 import { toast } from "@/hooks/use-toast";
-import AppInnerLayout from "@/components/AppInnerLayout";
+import AppInnerLayout from "@/components/AppLayout";
 import EyeToggle from "@/components/ui/eyeToggle";
 import { usePassKey } from "@/providers/PassKeyProvider";
 import { cn } from "@/lib/utils";

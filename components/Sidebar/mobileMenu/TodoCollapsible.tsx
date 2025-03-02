@@ -18,7 +18,7 @@ const TodoCollapsible = ({
   openSection,
   setOpenSection,
 }: TodoCollapsibleProps) => {
-  const { activeMenu, setActiveMenu, setShowMobileSidebar } = useMenu();
+  const { activeMenu, setActiveMenu } = useMenu();
 
   const toggleOpen = (section: string) => {
     setOpenSection((prev) => (prev === section ? null : section));

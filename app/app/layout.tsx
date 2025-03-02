@@ -1,9 +1,10 @@
-import Sidebar from "@/components/newSidebar/SidebarContainer";
 import { auth } from "@/app/auth";
 import { redirect } from "next/navigation";
 import { MenuProvider } from "@/providers/MenuProvider";
 import { SessionProvider } from "next-auth/react";
 import QueryProvider from "@/providers/QueryProvider";
+import AppLayout from "@/components/AppLayout";
+
 export default async function Layout({
   children,
 }: Readonly<{
@@ -13,14 +14,12 @@ export default async function Layout({
   if (!session?.user) {
     redirect("/login");
   }
+
   return (
     <QueryProvider>
       <SessionProvider>
         <MenuProvider>
-          <div className="h-screen w-screen bg-card flex">
-            <Sidebar />
-            {children}
-          </div>
+          <AppLayout>{children}</AppLayout>
         </MenuProvider>
       </SessionProvider>
     </QueryProvider>

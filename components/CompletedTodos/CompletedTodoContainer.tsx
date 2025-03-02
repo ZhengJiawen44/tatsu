@@ -2,7 +2,7 @@ import React from "react";
 import { TodoItem } from "../Todo/TodoItem";
 import { useTodo } from "@/hooks/useTodo";
 import { cn } from "@/lib/utils";
-import AppInnerLayout from "../AppInnerLayout";
+import AppInnerLayout from "../AppLayout";
 
 const CompletedTodoContainer = ({
   className,

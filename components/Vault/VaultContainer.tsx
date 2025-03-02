@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import DecryptForm from "./EncryptionForm/decryptVaultForm";
 import { cn } from "@/lib/utils";
-import AppInnerLayout from "../AppInnerLayout";
+import AppInnerLayout from "../AppLayout";
 import SearchBar from "../ui/SearchBar";
 import VaultMenuContainer from "./VaultMenu/VaultMenuContainer";
 import VaultListItem from "./VaultTable";
