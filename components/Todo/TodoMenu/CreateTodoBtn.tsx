@@ -8,7 +8,7 @@ const CreateTodoBtn = () => {
   const [displayForm, setDisplayForm] = useState(false);
 
   return (
-    <div className="pt-10 sticky top-0 bg-card z-10">
+    <div className="pt-10 sticky -top-20 bg-card z-10">
       {/* add more icon */}
       <button
         onClick={() => setDisplayForm(!displayForm)}

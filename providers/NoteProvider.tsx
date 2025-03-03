@@ -25,6 +25,7 @@ interface NoteContextType {
   isLoading: boolean;
   renameNoteID: string | null;
   setRenameNoteID: React.Dispatch<SetStateAction<string | null>>;
+  notes: NoteItemType[];
 }
 
 const NoteContext = createContext<null | NoteContextType>(null);
@@ -32,7 +33,7 @@ const NoteContext = createContext<null | NoteContextType>(null);
 export const NoteProvider = ({ children }: { children: React.ReactNode }) => {
   const [currentNote, setCurrentNote] = useState<NoteItemType | null>(null);
   //Get notes
-  const { notes, notesLoading } = useNote();
+  const { notes, notesLoading } = useNote(true);
   //create Notes
   const { createNote, createLoading } = useCreateNote({
     onSuccess: setCurrentNote,
@@ -77,6 +78,7 @@ export const NoteProvider = ({ children }: { children: React.ReactNode }) => {
         isLoading: notesLoading || createLoading,
         renameNoteID,
         setRenameNoteID,
+        notes,
       }}
     >
       {children}

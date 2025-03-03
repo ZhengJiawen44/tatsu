@@ -9,13 +9,15 @@ import { useToast } from "./use-toast";
 import { renameNote } from "@/lib/note/renameNote";
 import { deleteNote } from "@/lib/note/deleteNote";
 
-export const useNote = () => {
+export const useNote = (enabled?: boolean) => {
   //get Notes
   const {
     data: notes = [],
     isLoading: notesLoading,
     isError,
     error,
+    isFetching,
+    isPending,
   } = useQuery<NoteItemType[]>({
     queryKey: ["note"],
     queryFn: async () => {
@@ -34,12 +36,13 @@ export const useNote = () => {
       }
       return notes;
     },
+    enabled: enabled || false,
   });
   useErrorNotification(
     isError,
     error?.message || "an unexpectedd error happened"
   );
-  return { notes, notesLoading };
+  return { notes, notesLoading, isFetching, isPending };
 };
 
 // patch note

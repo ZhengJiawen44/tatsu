@@ -5,7 +5,7 @@ import { useMenu } from "@/providers/MenuProvider";
 const SidebarContainer = ({ children }: { children: React.ReactNode }) => {
   const sidebarRef = useRef<HTMLDivElement | null>(null);
   const { isResizing, setIsResizing, showMenu } = useMenu();
-  const [sidebarWidth, setSidebarWidth] = useState(400);
+  const [sidebarWidth, setSidebarWidth] = useState(300);
 
   const startResizing = React.useCallback(() => {
     setIsResizing(true);
@@ -43,7 +43,7 @@ const SidebarContainer = ({ children }: { children: React.ReactNode }) => {
         id="sidebar_container"
         ref={sidebarRef}
         className={clsx(
-          "fixed inset-0 md:relative flex flex-row   max-w-[500px] flex-shrink-0 bg-sidebar border-r z-20 justify-between duration-200",
+          "fixed inset-0  md:relative flex flex-row   max-w-[500px] flex-shrink-0 bg-sidebar border-r z-20 justify-between duration-200",
           !showMenu
             ? "-translate-x-full  min-w-0 overflow-hidden  transition-all"
             : "min-w-[200px]  transition-transform"
@@ -61,8 +61,15 @@ const SidebarContainer = ({ children }: { children: React.ReactNode }) => {
 export default SidebarContainer;
 
 const Overlay = () => {
+  const { showMenu, setShowMenu } = useMenu();
   return (
-    <div className="fixed w-screen h-screen bg-black z-10 md:hidden opacity-50" />
+    <div
+      className={clsx(
+        "fixed w-screen h-screen bg-black z-10 md:hidden opacity-50",
+        !showMenu && "hidden"
+      )}
+      onClick={() => setShowMenu(false)}
+    />
   );
 };
 
@@ -76,7 +83,7 @@ const ResizeHandle = ({
   return (
     <div
       className={clsx(
-        "w-1 cursor-col-resize hover:bg-border",
+        "hidden md:block w-1 cursor-col-resize hover:bg-border",
         isResizing && "bg-border"
       )}
       onMouseDown={startResizing}

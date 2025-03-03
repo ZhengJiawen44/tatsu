@@ -1,21 +1,24 @@
+"use client";
 import React from "react";
 import { TodoItem } from "../Todo/TodoItem";
 import { useTodo } from "@/hooks/useTodo";
-import { cn } from "@/lib/utils";
-import AppInnerLayout from "../AppLayout";
+import { Skeleton } from "../ui/skeleton";
 
-const CompletedTodoContainer = ({
-  className,
-  inert,
-}: {
-  className?: string;
-  inert: boolean;
-}) => {
-  const { todos } = useTodo();
+const CompletedTodoContainer = ({ className }: { className?: string }) => {
+  const { todos, todoLoading } = useTodo();
   const hasCompletedOne = todos.some((todo) => todo.completed);
 
+  if (todoLoading)
+    return (
+      <>
+        <Skeleton className="w-[20rem] h-[2rem]" />
+        <br />
+        <Skeleton className="w-[10rem] h-[1rem]" />
+      </>
+    );
+
   return (
-    <AppInnerLayout className={cn(className, "mt-20")} inert={inert}>
+    <>
       {hasCompletedOne ? (
         <h3>🎉 hurray! you completed your todos</h3>
       ) : (
@@ -28,7 +31,7 @@ const CompletedTodoContainer = ({
           );
         }
       })}
-    </AppInnerLayout>
+    </>
   );
 };
 

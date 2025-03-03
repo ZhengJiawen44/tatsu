@@ -25,7 +25,7 @@ export const MenuProvider = ({ children }: { children: React.ReactNode }) => {
   //retrieve user's last visited tab
   useEffect(() => {
     const prevTab = localStorage.getItem("prevTab");
-    if (prevTab && ["Note", "Todo", "Vault"].includes(prevTab)) {
+    if (prevTab && ["Note", "Todo", "Vault", "Completed"].includes(prevTab)) {
       setActiveMenu(prevTab);
     }
   }, []);

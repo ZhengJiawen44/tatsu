@@ -1,4 +1,3 @@
-import CaretOutline from "@/components/ui/icon/caretOutline";
 import {
   Collapsible,
   CollapsibleTrigger,
@@ -9,17 +8,25 @@ import React, { useState } from "react";
 import Note from "@/components/ui/icon/note";
 import { useMenu } from "@/providers/MenuProvider";
 import PlusCircle from "@/components/ui/icon/plusCircle";
+import CaretOutline from "@/components/ui/icon/caretOutline";
+import Spinner from "@/components/ui/spinner";
+import { useNote } from "@/hooks/useNote";
+import Link from "next/link";
+import NoteLoading from "./NoteLoading";
 
 const NoteCollapsible = () => {
   const { activeMenu, setActiveMenu } = useMenu();
   const [showPlus, setShowPlus] = useState(false);
+  const [fetchNotes, setFetchNotes] = useState(false);
   const [open, setOpen] = useState(false);
+  const { notes, isPending } = useNote(fetchNotes);
   return (
     <Collapsible className="w-full" open={open} onOpenChange={setOpen}>
       <CollapsibleTrigger
         onMouseEnter={() => setShowPlus(true)}
         onMouseLeave={() => setShowPlus(false)}
         onClick={() => {
+          setFetchNotes(true);
           setActiveMenu("Note");
           localStorage.setItem("prevTab", "Note");
         }}
@@ -48,16 +55,22 @@ const NoteCollapsible = () => {
         )}
       </CollapsibleTrigger>
       <CollapsibleContent>
-        <div className="flex flex-col gap-2 mt-2 ">
-          <div className="pl-12 py-2 px-2 rounded-lg hover:bg-border-muted hover:cursor-pointer">
-            note 1
-          </div>
-          <div className="pl-12 py-2 px-2 rounded-lg hover:bg-border-muted hover:cursor-pointer">
-            note 2
-          </div>
-          <div className="pl-12 py-2 px-2 rounded-lg hover:bg-border-muted hover:cursor-pointer">
-            note 3
-          </div>
+        <div>
+          {isPending ? (
+            <NoteLoading />
+          ) : (
+            notes.map((note) => (
+              <Link
+                className="flex flex-col gap-2 mt-2"
+                key={note.id}
+                href={`/app/note/${note.id}`}
+              >
+                <div className="pl-12 py-2 px-2 rounded-lg hover:bg-border-muted hover:cursor-pointer">
+                  {note.name}
+                </div>
+              </Link>
+            ))
+          )}
         </div>
       </CollapsibleContent>
     </Collapsible>

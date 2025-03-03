@@ -28,8 +28,8 @@ const TodoList = () => {
   if (todoLoading) return <TodoListLoading />;
 
   //group each set by date.
-  const pinnedTodos = todos.filter((todo) => todo.pinned);
-  const unpinnedTodos = todos.filter((todo) => !todo.pinned);
+  const pinnedTodos = todos.filter((todo) => todo.pinned && !todo.completed);
+  const unpinnedTodos = todos.filter((todo) => !todo.pinned && !todo.completed);
 
   const groupedPinnedTodos = groupTodosByDate(pinnedTodos);
   const groupedUnpinnedTodos = groupTodosByDate(unpinnedTodos);

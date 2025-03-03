@@ -4,14 +4,16 @@ import SidebarContainer from "./newSidebar/SidebarContainer";
 import UserCard from "./newSidebar/Account/UserCard";
 import VaultItem from "./newSidebar/SidebarItems/VaultItem";
 import NoteCollapsible from "./newSidebar/SidebarItems/NoteCollapsible";
-import TodoCollapsible from "./newSidebar/SidebarItems/TodoCollapsible";
+import TodoItem from "./newSidebar/SidebarItems/TodoItem";
+import CompletedItem from "./newSidebar/SidebarItems/CompletedItem";
 
 const AppLayout = ({ children }: { children: React.ReactNode }) => {
   return (
     <div className="flex min-h-screen h-screen">
       <SidebarContainer>
         <UserCard className="mb-3" />
-        <TodoCollapsible />
+        <TodoItem />
+        <CompletedItem />
         <NoteCollapsible />
         <VaultItem />
       </SidebarContainer>
