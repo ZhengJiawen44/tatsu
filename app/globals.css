@@ -20,8 +20,8 @@ body {
     --border: 234, 10%, 30%, 0.5;
     --border-muted: 234, 10%, 30%, 0.2;
     --card-foreground-muted: 234 10% 40%;
-    --popover: 261, 28%, 10%, 0.56;
-    --popover-foreground: 0 0% 3.9%;
+    --popover: 235, 30%, 30%;
+    --popover-foreground: 235, 30%, 22%;
     --primary: 0 0% 9%;
     --primary-foreground: 0 0% 98%;
     --secondary: 0 0% 96.1%;

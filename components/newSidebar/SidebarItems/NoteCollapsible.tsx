@@ -14,6 +14,7 @@ import Link from "next/link";
 import NoteLoading from "./NoteLoading";
 import { useCreateNote } from "@/hooks/useNote";
 import Spinner from "@/components/ui/spinner";
+import NoteItem from "@/components/Sidebar/BottomPanel/NoteSidebar/NoteSidebarItem";
 
 const NoteCollapsible = () => {
   const { activeMenu, setActiveMenu } = useMenu();
@@ -67,28 +68,7 @@ const NoteCollapsible = () => {
           {isPending ? (
             <NoteLoading />
           ) : (
-            notes.map((note) => (
-              <Link
-                className={clsx(
-                  "flex flex-col gap-2 mt-2",
-                  activeMenu.children?.name === note.id &&
-                    "bg-border-muted rounded-lg"
-                )}
-                key={note.id}
-                href={`/app/note/${note.id}`}
-                onClick={() =>
-                  setActiveMenu({
-                    name: "Note",
-                    open: true,
-                    children: { name: note.id },
-                  })
-                }
-              >
-                <div className="pl-12 py-2 px-2 rounded-lg hover:bg-border-muted hover:cursor-pointer ">
-                  {note.name}
-                </div>
-              </Link>
-            ))
+            notes.map((note) => <NoteItem note={note} key={note.id} />)
           )}
         </div>
       </CollapsibleContent>
