@@ -107,6 +107,7 @@ body {
     @apply bg-background text-foreground;
   }
 }
+
 @layer utilities {
   h1 {
     font-size: 3rem;
@@ -117,8 +118,7 @@ body {
   h3 {
     font-size: 2rem;
   }
-
-  * {
+  p {
     font-size: 15px;
   }
 

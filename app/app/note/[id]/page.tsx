@@ -1,15 +1,24 @@
 "use client";
 import { useParams } from "next/navigation";
-import React, { useEffect } from "react";
+import React from "react";
 import { useNote } from "@/hooks/useNote";
-
+import Editor from "@/components/Note/Editor";
+import NoteLoading from "@/components/newSidebar/SidebarItems/NoteLoading";
+import { notFound } from "next/navigation";
 const page = () => {
   const params = useParams();
 
-  const { notes } = useNote(true);
-  console.log(notes.filter(({ id }) => id === params.id));
+  const { notes, notesLoading } = useNote(true);
+  const note = notes.find(({ id }) => id === params.id);
 
-  return <div>page</div>;
+  if (notesLoading) return <NoteLoading />;
+
+  if (!note) {
+    console.log("not found");
+
+    notFound();
+  }
+  return <Editor note={note} />;
 };
 
 export default page;

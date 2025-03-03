@@ -21,10 +21,9 @@ import { CustomHighlight } from "../../lib/customHighlight";
 import { useCurrentNote } from "@/providers/NoteProvider";
 import EditorLoading from "../ui/EditorLoading";
 import { useEditNote } from "@/hooks/useNote";
+import { NoteItemType } from "@/types";
 
-const Editor = () => {
-  //Editor's content depends on useCurrentNote hook.
-  const { currentNote, setCurrentNote, isLoading } = useCurrentNote();
+const Editor = ({ note }: { note: NoteItemType }) => {
   //save notes
   const { editNote, editLoading, isSuccess, isError } = useEditNote();
   const [showSaveStatus, setShowSaveStatus] = useState(false);
@@ -42,7 +41,11 @@ const Editor = () => {
   const editor = useEditor({
     immediatelyRender: false,
     extensions: [
-      starterKit,
+      starterKit.configure({
+        bulletList: false,
+        horizontalRule: false,
+        orderedList: false,
+      }),
       Underline,
       Color,
       TaskItem.configure({
@@ -68,14 +71,11 @@ const Editor = () => {
         },
       }),
     ],
-    //update currentNote state when editor content changes
+    //update note content when editor content changes
     onUpdate({ editor }) {
-      setCurrentNote((prev) => {
-        if (!prev) return prev;
-        return { ...prev, content: editor.getHTML() };
-      });
+      note.content = editor.getHTML();
     },
-    content: currentNote?.content || "<h1>new page</h1>",
+    content: note.content || "<h1>new page</h1>",
     editorProps: {
       attributes: { class: "focus:outline-none focus:border-none" },
     },
@@ -88,43 +88,35 @@ const Editor = () => {
         event.preventDefault();
         event.stopPropagation();
 
-        if (currentNote?.content)
+        if (note)
           editNote({
-            id: currentNote!.id,
-            content: currentNote?.content,
+            id: note.id,
+            content: note.content,
           });
       }
     };
     document.addEventListener("keydown", saveOnEnter);
 
-    //sync editor content with the new useCurrentNote content
-    if (editor && editor.getHTML() !== currentNote?.content) {
-      if (currentNote?.content) {
-        editor.commands.setContent(currentNote.content);
-      } else {
-        editor.commands.setContent("<h1>new page</h1>");
-      }
-    }
-
     return () => {
       document.removeEventListener("keydown", saveOnEnter);
     };
-  }, [currentNote?.id, currentNote?.content, currentNote, editNote, editor]);
+  }, [editNote, editor]);
 
+  //save note every 2 second after on change
   useEffect(() => {
     const timer = setTimeout(() => {
-      if (currentNote) {
-        editNote({ id: currentNote?.id, content: currentNote.content });
+      if (note) {
+        editNote({ id: note?.id, content: note.content });
       }
-    }, 5000);
+    }, 2000);
 
     return () => clearTimeout(timer);
-  }, [currentNote?.content, currentNote, editNote]);
+  }, [note?.content, editNote]);
 
-  if (!currentNote || isLoading) return <EditorLoading />;
+  if (!note) return <EditorLoading />;
 
   return (
-    <>
+    <div id="editor">
       <div className="absolute top-2 right-5 flex gap-2 justify-center items-center">
         {editLoading ? (
           <>
@@ -157,7 +149,7 @@ const Editor = () => {
         <CustomMenu editor={editor} />
       </BubbleMenu>
       <EditorContent editor={editor} />
-    </>
+    </div>
   );
 };
 

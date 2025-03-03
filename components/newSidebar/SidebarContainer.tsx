@@ -43,7 +43,7 @@ const SidebarContainer = ({ children }: { children: React.ReactNode }) => {
         id="sidebar_container"
         ref={sidebarRef}
         className={clsx(
-          "fixed inset-0  md:relative flex flex-row   max-w-[500px] flex-shrink-0 bg-sidebar border-r z-20 justify-between duration-200",
+          "fixed inset-0 overflow-y-scroll scrollbar-thin scrollbar-track-transparent scrollbar-thumb-border-muted  md:relative flex flex-row   max-w-[500px] flex-shrink-0 bg-sidebar border-r z-20 justify-between duration-200",
           !showMenu
             ? "-translate-x-full  min-w-0 overflow-hidden  transition-all"
             : "min-w-[200px]  transition-transform"
@@ -52,8 +52,8 @@ const SidebarContainer = ({ children }: { children: React.ReactNode }) => {
         onMouseDown={(e) => e.preventDefault()}
       >
         <div className="flex flex-col flex-1 p-2 min-w-0 gap-2">{children}</div>
-        <ResizeHandle isResizing={isResizing} startResizing={startResizing} />
       </div>
+      <ResizeHandle isResizing={isResizing} startResizing={startResizing} />
     </>
   );
 };

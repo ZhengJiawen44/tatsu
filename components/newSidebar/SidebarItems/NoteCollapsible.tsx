@@ -12,12 +12,15 @@ import CaretOutline from "@/components/ui/icon/caretOutline";
 import { useNote } from "@/hooks/useNote";
 import Link from "next/link";
 import NoteLoading from "./NoteLoading";
+import { useCreateNote } from "@/hooks/useNote";
+import Spinner from "@/components/ui/spinner";
 
 const NoteCollapsible = () => {
   const { activeMenu, setActiveMenu } = useMenu();
   const [showPlus, setShowPlus] = useState(false);
 
   const { notes, isPending } = useNote(activeMenu.open);
+  const { createNote, createLoading } = useCreateNote({ onSuccess: () => {} });
   return (
     <Collapsible
       className="w-full"
@@ -43,15 +46,20 @@ const NoteCollapsible = () => {
         />
         <Note className="w-5 h-5" />
         Note
-        {showPlus && (
-          <div
-            className="mr-0 ml-auto"
-            onClick={(e: React.MouseEvent<HTMLDivElement>) => {
-              e.stopPropagation();
-            }}
-          >
-            <PlusCircle className="w-5 h-5 stroke-card-foreground hover:stroke-white" />
-          </div>
+        {createLoading ? (
+          <Spinner className="mr-0 ml-auto w-5 h-5" />
+        ) : (
+          showPlus && (
+            <div
+              className="mr-0 ml-auto"
+              onClick={(e: React.MouseEvent<HTMLDivElement>) => {
+                e.stopPropagation();
+                createNote({ name: "new note" });
+              }}
+            >
+              <PlusCircle className="w-5 h-5 stroke-card-foreground hover:stroke-white" />
+            </div>
+          )
         )}
       </CollapsibleTrigger>
       <CollapsibleContent>
@@ -63,7 +71,8 @@ const NoteCollapsible = () => {
               <Link
                 className={clsx(
                   "flex flex-col gap-2 mt-2",
-                  activeMenu.children?.name === note.id && "bg-border-muted"
+                  activeMenu.children?.name === note.id &&
+                    "bg-border-muted rounded-lg"
                 )}
                 key={note.id}
                 href={`/app/note/${note.id}`}

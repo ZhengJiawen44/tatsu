@@ -8,11 +8,10 @@ const VaultItem = () => {
     <nav
       className={clsx(
         "py-2 px-6 w-full rounded-lg hover:cursor-pointer hover:bg-border-muted",
-        activeMenu === "Vault" && "bg-border"
+        activeMenu.name === "Vault" && "bg-border"
       )}
       onClick={() => {
-        setActiveMenu("Vault");
-        localStorage.setItem("prevTab", "Vault");
+        setActiveMenu({ name: "Vault" });
       }}
     >
       <div className="flex gap-1 justify-start items-center w-full  select-none">

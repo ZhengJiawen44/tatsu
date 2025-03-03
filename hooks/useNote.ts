@@ -38,6 +38,7 @@ export const useNote = (enabled?: boolean) => {
     },
     enabled: enabled || false,
   });
+
   useErrorNotification(
     isError,
     error?.message || "an unexpectedd error happened"
