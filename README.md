@@ -16,6 +16,11 @@ Tatsu is a todo app on steroids, designed to keep you motivated and productive. 
 
 More exciting features coming soon! ✨
 
+## End to End encryption
+
+All files are end to end encrypted and stored in a aws s3 bucket. the module desgnated for retrieval, and encryption/decryption of files is called "Vault" in the app. you can read more about how I implemented it [here](https://excalidraw.com/#room=8feca98c331feac8d27b,XeidBTw8Bp2qXTVBjf41Yg)
+![e2ee](images/e2ee1.png)![e2ee](images/e2ee2.png)
+
 🛠 Getting Started
 
 To run the development server, use one of the following commands:
