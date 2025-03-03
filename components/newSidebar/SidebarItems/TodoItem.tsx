@@ -11,11 +11,11 @@ const TodoItem = () => {
       href="/app/todo"
       className={clsx(
         "flex gap-1 items-center py-2 px-6 w-full rounded-lg hover:cursor-pointer hover:bg-border-muted",
-        activeMenu === "Todo" && "bg-border"
+        activeMenu.name === "Todo" && "bg-border"
       )}
       onClick={() => {
-        setActiveMenu("Todo");
-        localStorage.setItem("prevTab", "Todo");
+        setActiveMenu({ name: "Todo" });
+        localStorage.setItem("tab", JSON.stringify({ name: "Todo" }));
       }}
     >
       <Pencil className="w-5 h-5" />

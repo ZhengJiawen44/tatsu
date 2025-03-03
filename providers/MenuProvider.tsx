@@ -7,9 +7,15 @@ import {
   useState,
 } from "react";
 
+type MenuState = {
+  name: string;
+  open?: boolean;
+  children?: MenuState;
+};
+
 type MenuContextType = {
-  activeMenu: string;
-  setActiveMenu: React.Dispatch<SetStateAction<string>>;
+  activeMenu: MenuState;
+  setActiveMenu: React.Dispatch<SetStateAction<MenuState>>;
   showMenu: boolean;
   setShowMenu: React.Dispatch<SetStateAction<boolean>>;
   isResizing: boolean;
@@ -19,16 +25,22 @@ type MenuContextType = {
 const MenuContext = createContext<MenuContextType | undefined>(undefined);
 
 export const MenuProvider = ({ children }: { children: React.ReactNode }) => {
-  const [activeMenu, setActiveMenu] = useState("Todo");
+  const [activeMenu, setActiveMenu] = useState({ name: "Todo" });
   const [showMenu, setShowMenu] = useState(true);
   const [isResizing, setIsResizing] = useState(false);
   //retrieve user's last visited tab
   useEffect(() => {
-    const prevTab = localStorage.getItem("prevTab");
-    if (prevTab && ["Note", "Todo", "Vault", "Completed"].includes(prevTab)) {
-      setActiveMenu(prevTab);
+    let tab = localStorage.getItem("tab");
+    if (tab) {
+      const tabObj = JSON.parse(tab);
+      setActiveMenu(tabObj);
     }
   }, []);
+
+  //sync local menu state with local storage when menu state changes
+  useEffect(() => {
+    localStorage.setItem("tab", JSON.stringify(activeMenu));
+  }, [activeMenu]);
 
   return (
     <MenuContext.Provider
