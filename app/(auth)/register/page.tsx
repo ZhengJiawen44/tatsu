@@ -32,7 +32,7 @@ const Page = () => {
   const session = useSession();
   useEffect(() => {
     if (session.data?.user) {
-      router.push("/app");
+      router.push("/app/todo");
     }
   }, [session.data?.user, router]);
 

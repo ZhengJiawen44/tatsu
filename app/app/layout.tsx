@@ -2,7 +2,6 @@ import { auth } from "@/app/auth";
 import { redirect } from "next/navigation";
 import { MenuProvider } from "@/providers/MenuProvider";
 import { SessionProvider } from "next-auth/react";
-import QueryProvider from "@/providers/QueryProvider";
 import AppLayout from "@/components/AppLayout";
 
 export default async function Layout({
@@ -16,12 +15,10 @@ export default async function Layout({
   }
 
   return (
-    <QueryProvider>
-      <SessionProvider>
-        <MenuProvider>
-          <AppLayout>{children}</AppLayout>
-        </MenuProvider>
-      </SessionProvider>
-    </QueryProvider>
+    <SessionProvider>
+      <MenuProvider>
+        <AppLayout>{children}</AppLayout>
+      </MenuProvider>
+    </SessionProvider>
   );
 }

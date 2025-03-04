@@ -32,7 +32,7 @@ const LoginPage = () => {
   const session = useSession();
   useEffect(() => {
     if (session.status !== "loading" && session.data?.user) {
-      router.push("/app");
+      router.push("/app/todo");
     }
   }, [router, session.status, session.data?.user]);
   // define login page ui
