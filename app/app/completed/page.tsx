@@ -1,5 +1,5 @@
 import React from "react";
-import CompletedTodoContainer from "@/components/CompletedTodos/CompletedTodoContainer";
+import CompletedTodoContainer from "@/components/Completed/CompletedContainer";
 const page = () => {
   return <CompletedTodoContainer />;
 };

@@ -75,7 +75,6 @@ const TodoItemMenu = ({
   async function unpinTodo() {
     await fetch(`/api/todo/${id}?pin=false`, { method: "PATCH" });
   }
-
   async function deleteTodo() {
     try {
       const res = await fetch(`/api/todo/${id}`, { method: "DELETE" });

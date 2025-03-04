@@ -1,7 +1,6 @@
 import React from "react";
 import Link from "next/link";
 import ErrorBoundary from "@/components/ErrorBoundary";
-import BrokenComponent from "@/components/Broken";
 const page = () => {
   return (
     <>
@@ -20,7 +19,6 @@ const page = () => {
             register
           </Link>
         </div>
-        <BrokenComponent />
       </ErrorBoundary>
     </>
   );

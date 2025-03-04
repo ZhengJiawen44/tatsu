@@ -5,7 +5,7 @@ import { useMenu } from "@/providers/MenuProvider";
 import { NoteItemType } from "@/types";
 import clsx from "clsx";
 import Link from "next/link";
-import React, { useCallback, useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import Spinner from "@/components/ui/spinner";
 
 const NoteItem = ({ note }: { note: NoteItemType }) => {

@@ -1,11 +1,11 @@
 "use client";
 import React from "react";
-import SidebarContainer from "./newSidebar/SidebarContainer";
-import UserCard from "./newSidebar/Account/UserCard";
-import VaultItem from "./newSidebar/SidebarItems/VaultItem";
-import NoteCollapsible from "./newSidebar/SidebarItems/NoteCollapsible";
-import TodoItem from "./newSidebar/SidebarItems/TodoItem";
-import CompletedItem from "./newSidebar/SidebarItems/CompletedItem";
+import SidebarContainer from "./Sidebar/SidebarContainer";
+import UserCard from "./Sidebar/User/UserCard";
+import VaultItem from "./Sidebar/Vault/VaultItem";
+import NoteCollapsible from "./Sidebar/Note/NoteCollapsible";
+import TodoItem from "./Sidebar/Todo/TodoItem";
+import CompletedItem from "./Sidebar/Completed/CompletedItem";
 import PassKeyProvider from "@/providers/PassKeyProvider";
 
 const AppLayout = ({ children }: { children: React.ReactNode }) => {
@@ -20,7 +20,7 @@ const AppLayout = ({ children }: { children: React.ReactNode }) => {
           <VaultItem />
         </SidebarContainer>
         <div className="flex flex-col flex-1 z-0">{children}</div>
-      </div>{" "}
+      </div>
     </PassKeyProvider>
   );
 };

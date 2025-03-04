@@ -3,8 +3,7 @@ import { useParams, useRouter } from "next/navigation";
 import React, { useEffect } from "react";
 import { useNote } from "@/hooks/useNote";
 import Editor from "@/components/Note/Editor";
-import NoteLoading from "@/components/newSidebar/SidebarItems/NoteLoading";
-
+import NoteLoading from "@/components/Sidebar/Note/NoteLoading";
 const Page = () => {
   const router = useRouter();
   const params = useParams();

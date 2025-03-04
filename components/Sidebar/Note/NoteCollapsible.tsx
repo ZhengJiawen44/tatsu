@@ -10,11 +10,10 @@ import { useMenu } from "@/providers/MenuProvider";
 import PlusCircle from "@/components/ui/icon/plusCircle";
 import CaretOutline from "@/components/ui/icon/caretOutline";
 import { useNote } from "@/hooks/useNote";
-import Link from "next/link";
 import NoteLoading from "./NoteLoading";
 import { useCreateNote } from "@/hooks/useNote";
 import Spinner from "@/components/ui/spinner";
-import NoteItem from "@/components/Sidebar/BottomPanel/NoteSidebar/NoteSidebarItem";
+import NoteItem from "../Note/NoteItem";
 
 const NoteCollapsible = () => {
   const { activeMenu, setActiveMenu } = useMenu();
