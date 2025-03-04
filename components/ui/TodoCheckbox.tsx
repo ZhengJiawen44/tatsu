@@ -14,7 +14,7 @@ export default function TodoCheckbox({
         onChange={onChange}
         defaultChecked={checked}
       />
-      <div className="w-6 h-6 border-2 border-lime rounded-full flex items-center hover:cursor-pointer justify-center hover:bg-lime peer-checked:bg-lime peer-checked:border-lime"></div>
+      <div className="w-[1rem] h-[1rem] border border-lime rounded-full flex items-center hover:cursor-pointer justify-center hover:bg-lime peer-checked:bg-lime peer-checked:border-lime"></div>
     </label>
   );
 }

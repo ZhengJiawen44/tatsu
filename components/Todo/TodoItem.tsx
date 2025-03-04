@@ -52,9 +52,9 @@ export const TodoItem = ({
 
   return (
     <>
-      <div className="flex justify-between items-center my-10">
+      <div className="  flex justify-between items-center my-10">
         <div>
-          <div className="flex items-start gap-3">
+          <div className=" flex  items-start gap-3">
             <TodoCheckbox
               onChange={() => {
                 setCompleted(!completed);
@@ -62,11 +62,13 @@ export const TodoItem = ({
               }}
               checked={todoCompleted}
             />
-            <p className="text-card-foreground text-[1rem]">{title}</p>
+            <div>
+              <p className="leading-none select-none text-card-foreground mb-1">
+                {title}
+              </p>
+              <p className="text-card-foreground-muted ">{description}</p>
+            </div>
           </div>
-          <p className="text-card-foreground-muted text-[0.9rem] ml-10">
-            {description}
-          </p>
         </div>
 
         <TodoItemMenu

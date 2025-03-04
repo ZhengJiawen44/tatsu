@@ -32,11 +32,11 @@ export function getDisplayDate(createdAt: Date) {
     return "day before yesterday";
   } else if (today.getFullYear() === createdDate.getFullYear()) {
     return `${String(createdDate.getDate()).padStart(2, "0")} ${String(
-      months[createdDate.getMonth() + 1]
+      months[createdDate.getMonth()]
     ).padStart(2, "0")}`;
   } else {
     return `${String(createdDate.getDate()).padStart(2, "0")} ${String(
-      months[createdDate.getMonth() + 1]
+      months[createdDate.getMonth()]
     ).padStart(2, "0")} ${createdDate.getFullYear()}`;
   }
 }
