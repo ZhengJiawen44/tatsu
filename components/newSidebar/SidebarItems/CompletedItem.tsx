@@ -10,7 +10,7 @@ const CompletedItem = () => {
     <Link
       href="/app/completed"
       className={clsx(
-        "flex items-center py-2 px-6 w-full rounded-lg hover:cursor-pointer hover:bg-border-muted gap-1",
+        "select-none flex items-center py-2 px-6 w-full rounded-lg hover:cursor-pointer hover:bg-border-muted gap-1",
         activeMenu.name === "Completed" && "bg-border"
       )}
       onClick={() => {

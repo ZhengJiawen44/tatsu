@@ -10,7 +10,7 @@ const TodoItem = () => {
     <Link
       href="/app/todo"
       className={clsx(
-        "flex gap-1 items-center py-2 px-6 w-full rounded-lg hover:cursor-pointer hover:bg-border-muted",
+        "select-none flex gap-1 items-center py-2 px-6 w-full rounded-lg hover:cursor-pointer hover:bg-border-muted",
         activeMenu.name === "Todo" && "bg-border"
       )}
       onClick={() => {

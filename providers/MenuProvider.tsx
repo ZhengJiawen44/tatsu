@@ -6,6 +6,8 @@ import {
   useEffect,
   useState,
 } from "react";
+import { usePathname } from "next/navigation";
+import path from "path";
 
 type MenuState = {
   name: string;
@@ -25,11 +27,32 @@ type MenuContextType = {
 const MenuContext = createContext<MenuContextType | undefined>(undefined);
 
 export const MenuProvider = ({ children }: { children: React.ReactNode }) => {
-  const [activeMenu, setActiveMenu] = useState({ name: "Todo" });
+  const pathName = usePathname();
+  const [activeMenu, setActiveMenu] = useState<MenuState>({ name: "Todo" });
   const [showMenu, setShowMenu] = useState(true);
   const [isResizing, setIsResizing] = useState(false);
-  //retrieve user's last visited tab
+  //infer last visited tab from pathname or retrieve from local storage
   useEffect(() => {
+    if (pathName.includes("vault")) {
+      setActiveMenu({ name: "Vault" });
+      return;
+    }
+    if (pathName.includes("note")) {
+      if (pathName.endsWith("note")) {
+        setActiveMenu({ name: "Note", open: true });
+        return;
+      } else {
+        const path = pathName.split("/");
+        const noteID = path[path.length - 1];
+        setActiveMenu({ name: "Note", open: true, children: { name: noteID } });
+        return;
+      }
+    }
+    if (pathName.includes("todo")) {
+      setActiveMenu({ name: "Todo" });
+      return;
+    }
+
     let tab = localStorage.getItem("tab");
     if (tab) {
       const tabObj = JSON.parse(tab);

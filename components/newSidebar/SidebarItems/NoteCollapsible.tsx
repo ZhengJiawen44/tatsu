@@ -25,7 +25,7 @@ const NoteCollapsible = () => {
   return (
     <Collapsible
       className="w-full"
-      open={activeMenu.open}
+      open={activeMenu.open === true}
       onOpenChange={(open) => {
         setActiveMenu({ name: "Note", open });
       }}
@@ -35,7 +35,7 @@ const NoteCollapsible = () => {
         onMouseLeave={() => setShowPlus(false)}
         onClick={() => {}}
         className={clsx(
-          "flex gap-1 justify-start items-center w-full py-2 px-2 rounded-lg hover:bg-border-muted hover:bg-opacity-85 select-none",
+          "flex gap-1 justify-start items-center w-full py-2 px-2 rounded-lg hover:bg-border-muted hover:bg-opacity-85 ",
           activeMenu.name === "Note" && "bg-border"
         )}
       >
@@ -46,7 +46,7 @@ const NoteCollapsible = () => {
           )}
         />
         <Note className="w-5 h-5" />
-        Note
+        <p className="select-none">Note</p>
         {createLoading ? (
           <Spinner className="mr-0 ml-auto w-5 h-5" />
         ) : (
@@ -56,6 +56,7 @@ const NoteCollapsible = () => {
               onClick={(e: React.MouseEvent<HTMLDivElement>) => {
                 e.stopPropagation();
                 createNote({ name: "new note" });
+                setActiveMenu({ name: "Note", open: true });
               }}
             >
               <PlusCircle className="w-5 h-5 stroke-card-foreground hover:stroke-white" />

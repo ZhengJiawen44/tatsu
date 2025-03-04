@@ -39,7 +39,8 @@ const SidebarContainer = ({ children }: { children: React.ReactNode }) => {
   return (
     <>
       <Overlay />
-      <div
+
+      <nav
         id="sidebar_container"
         ref={sidebarRef}
         className={clsx(
@@ -49,10 +50,12 @@ const SidebarContainer = ({ children }: { children: React.ReactNode }) => {
             : "min-w-[200px]  transition-transform"
         )}
         style={{ width: showMenu ? `${sidebarWidth}px` : "0px" }}
-        onMouseDown={(e) => e.preventDefault()}
+        onMouseDown={(e) => {
+          isResizing && e.preventDefault();
+        }}
       >
         <div className="flex flex-col flex-1 p-2 min-w-0 gap-2">{children}</div>
-      </div>
+      </nav>
       <ResizeHandle isResizing={isResizing} startResizing={startResizing} />
     </>
   );

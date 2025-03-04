@@ -67,7 +67,7 @@ const PassKeyProvider = ({ children }: { children: React.ReactNode }) => {
 export function usePassKey() {
   const context = useContext(passKeyContext);
   if (!context) {
-    throw new Error("useNote must be used in NoteProvider");
+    throw new Error("usePassKey must be used in NoteProvider");
   }
   return context;
 }

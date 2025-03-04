@@ -7,7 +7,8 @@ import clsx from "clsx";
 import React from "react";
 
 const layout = ({ children }: { children: React.ReactNode }) => {
-  const { showMenu, isResizing } = useMenu();
+  const { showMenu, isResizing, setActiveMenu } = useMenu();
+
   return (
     <div
       className={clsx(

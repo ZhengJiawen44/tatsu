@@ -118,8 +118,8 @@ body {
   h3 {
     font-size: 2rem;
   }
-  p {
-    font-size: 15px;
+  nav {
+    font-size: 14px;
   }
 
   ::selection {

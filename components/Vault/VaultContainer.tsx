@@ -1,24 +1,15 @@
 import React, { useState } from "react";
 import DecryptForm from "./EncryptionForm/decryptVaultForm";
-import { cn } from "@/lib/utils";
-import AppInnerLayout from "../AppLayout";
 import SearchBar from "../ui/SearchBar";
 import VaultMenuContainer from "./VaultMenu/VaultMenuContainer";
 import VaultListItem from "./VaultTable";
 import { useDebounce } from "@/hooks/useDebounce";
 import { useVault } from "@/hooks/useVault";
-
 import PasskeyForm from "./EncryptionForm/passkeySetupForm";
 import { useSession } from "next-auth/react";
 import { usePassKey } from "@/providers/PassKeyProvider";
 
-const Vault = ({
-  className,
-  inert,
-}: {
-  className?: string;
-  inert: boolean;
-}) => {
+const Vault = ({}: {}) => {
   const {
     symKey,
     passKey,
@@ -49,15 +40,15 @@ const Vault = ({
 
   // register a passkey for first-time users
   if (!passKeyLoading && enableEncryption && !protectedSymmetricKey)
-    return <PasskeyForm className={className} email={email} inert={inert} />;
+    return <PasskeyForm email={email} />;
 
   // users who have encryption enabled need to present their passKey
   if (!passKey && enableEncryption) {
-    return <DecryptForm className={className} email={email} inert={inert} />;
+    return <DecryptForm email={email} />;
   }
 
   return (
-    <AppInnerLayout className={cn("mt-20", className)} inert={inert}>
+    <>
       <SearchBar
         onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
           setKeyword(e.currentTarget.value)
@@ -72,7 +63,7 @@ const Vault = ({
         loading={fileListLoading}
         setProcessing={setProcessing}
       />
-    </AppInnerLayout>
+    </>
   );
 };
 
