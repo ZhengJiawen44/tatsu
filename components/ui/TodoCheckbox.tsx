@@ -7,8 +7,9 @@ export default function TodoCheckbox({
   checked: boolean;
 }) {
   return (
-    <label className="">
+    <label className="" onPointerDown={(e) => e.stopPropagation()}>
       <input
+        onPointerDown={(e) => e.stopPropagation()}
         type="checkbox"
         className="peer hidden"
         onChange={onChange}

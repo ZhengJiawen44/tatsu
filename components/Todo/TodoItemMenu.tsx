@@ -3,11 +3,11 @@ import Pin from "../ui/icon/pin";
 import Unpin from "../ui/icon/unpin";
 import Edit from "../ui/icon/edit";
 import Trash from "../ui/icon/trash";
-
 import { MeatballMenu, MenuItem } from "../ui/MeatballMenu";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import Spinner from "../ui/spinner";
 import { useToast } from "@/hooks/use-toast";
+
 const TodoItemMenu = ({
   className,
   id,
@@ -37,7 +37,7 @@ const TodoItemMenu = ({
   });
 
   return (
-    <div className={className}>
+    <div className={className} onPointerDown={(e) => e.stopPropagation()}>
       <MeatballMenu>
         <MenuItem onClick={() => pinMutate()}>
           {pinPending ? (

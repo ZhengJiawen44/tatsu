@@ -1,49 +1,53 @@
-import React, { useEffect, useState } from "react";
-import TodoListLoading from "../ui/TodoListLoading";
+import React, { useState } from "react";
+import { groupTodosByDate } from "@/lib/todo/groupTodo";
 import LineSeparator from "../ui/lineSeparator";
 import { TodoItem } from "./TodoItem";
-import { getDisplayDate } from "@/lib/displayDate";
 import { TodoItemType } from "@/types";
-import { useTodo } from "@/hooks/useTodo";
 import CaretOutline from "../ui/icon/caretOutline";
 import clsx from "clsx";
-
-// Helper function to group todos by their display date
-const groupTodosByDate = (todos: TodoItemType[]) => {
-  return todos.reduce((groups: Record<string, TodoItemType[]>, todo) => {
-    if (!todo.completed) {
-      // Only include uncompleted todos
-      const dateKey = getDisplayDate(todo.createdAt);
-      if (!groups[dateKey]) {
-        groups[dateKey] = [];
-      }
-      groups[dateKey].push(todo);
-    }
-    return groups;
-  }, {});
-};
+import GroupedTodo from "./GroupedTodo";
 
 const TodoList = ({ todos }: { todos: TodoItemType[] }) => {
-  //group each set by date.
+  //separate the pinned from unpinned todos
   const pinnedTodos = todos.filter((todo) => todo.pinned && !todo.completed);
   const unpinnedTodos = todos.filter((todo) => !todo.pinned && !todo.completed);
 
-  const groupedPinnedTodos = groupTodosByDate(pinnedTodos);
-  const groupedUnpinnedTodos = groupTodosByDate(unpinnedTodos);
+  //group the pinned and unpinned todos. creates an object like {"today": [todos], "march 6": [todos]}
+  const groupedPinnedTodos = groupTodosByDate(pinnedTodos) as Record<
+    string,
+    TodoItemType[]
+  >;
 
-  //create a map to keep track of openstates of grouped dates
+  const groupedUnpinnedTodos = groupTodosByDate(unpinnedTodos) as Record<
+    string,
+    TodoItemType[]
+  >;
+
+  //sort the todos
+  Object.entries(groupedPinnedTodos).forEach(([date, todoList]) => {
+    todoList.sort((a, b) => a.order - b.order);
+  });
+  Object.entries(groupedUnpinnedTodos).forEach(([date, todoList]) => {
+    todoList.sort((a, b) => a.order - b.order);
+  });
+
+  console.log(groupedUnpinnedTodos);
+
+  //initializes a mapping between dates and open state to keep track of open states of grouped dates
   const initialOpenState = Object.keys(groupedUnpinnedTodos).reduce(
     (acc, curr) => {
-      if (curr === "today") {
-        acc[curr] = true;
+      if (curr !== "today") {
+        acc[curr] = false;
         return acc;
       }
-      acc[curr] = false;
+      //today's todos are opened by default
+      acc[curr] = true;
       return acc;
     },
     {} as Record<string, boolean>
   );
 
+  //state to control the mapping
   const [openDetails, setOpenDetails] =
     useState<Record<string, boolean>>(initialOpenState);
 
@@ -80,7 +84,7 @@ const TodoList = ({ todos }: { todos: TodoItemType[] }) => {
               <div className="flex w-fit items-center gap-2 cursor-pointer">
                 <CaretOutline
                   className={clsx(
-                    "w-4 h-4 absolute -left-6",
+                    "w-6 h-6 absolute -left-7 hover:bg-border rounded-md p-1 transition-all duration-200",
                     openDetails[date] === true && "rotate-90"
                   )}
                 />
@@ -89,10 +93,13 @@ const TodoList = ({ todos }: { todos: TodoItemType[] }) => {
               </div>
               <LineSeparator className="flex-1" />
             </summary>
-
-            {todos.map((todo) => (
-              <TodoItem key={todo.id} todoItem={todo} />
-            ))}
+            <div
+              onClick={(e) => {
+                e.stopPropagation();
+              }}
+            >
+              <GroupedTodo todos={todos} />
+            </div>
           </details>
         </div>
       ))}

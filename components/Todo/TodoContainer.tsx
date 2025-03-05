@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import CreateTodoBtn from "./TodoMenu/CreateTodoBtn";
-import TodoList from "./TodoList";
+import TodoList from "./GroupedTodoContainer";
 import Day from "./TodoMenu/Day";
 import { useTodo } from "@/hooks/useTodo";
 import TodoListLoading from "../ui/TodoListLoading";
@@ -18,7 +18,7 @@ const Todo = ({
   return (
     <>
       <Day currentDate={currentDate} setCurrentDate={setCurrentDate} />
-      {/* <CreateTodoBtn /> */}
+      <CreateTodoBtn />
       {!todoLoading ? <TodoList todos={todos} /> : <TodoListLoading />}
     </>
   );
