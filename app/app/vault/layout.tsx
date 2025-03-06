@@ -6,8 +6,8 @@ import clsx from "clsx";
 
 import React from "react";
 
-const layout = ({ children }: { children: React.ReactNode }) => {
-  const { showMenu, isResizing, setActiveMenu } = useMenu();
+const Layout = ({ children }: { children: React.ReactNode }) => {
+  const { showMenu, isResizing } = useMenu();
 
   return (
     <div
@@ -26,4 +26,4 @@ const layout = ({ children }: { children: React.ReactNode }) => {
   );
 };
 
-export default layout;
+export default Layout;

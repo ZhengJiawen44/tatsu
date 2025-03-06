@@ -24,10 +24,10 @@ const TodoList = ({ todos }: { todos: TodoItemType[] }) => {
   >;
 
   //sort the todos
-  Object.entries(groupedPinnedTodos).forEach(([date, todoList]) => {
+  Object.values(groupedUnpinnedTodos).forEach((todoList) => {
     todoList.sort((a, b) => a.order - b.order);
   });
-  Object.entries(groupedUnpinnedTodos).forEach(([date, todoList]) => {
+  Object.values(groupedPinnedTodos).forEach((todoList) => {
     todoList.sort((a, b) => a.order - b.order);
   });
 
@@ -51,9 +51,6 @@ const TodoList = ({ todos }: { todos: TodoItemType[] }) => {
 
   const TodayTodo = Object.entries(groupedUnpinnedTodos).filter(
     ([date]) => date === "today"
-  );
-  const previousTodo = Object.entries(groupedUnpinnedTodos).filter(
-    ([date]) => date !== "today"
   );
 
   return (

@@ -21,10 +21,22 @@ const GroupedTodo = ({ todos }: { todos: TodoItemType[] }) => {
     setItems(todos);
   }, [todos]);
 
+  async function reorderTodo(
+    body: Record<string, { id: string; order: number }[]>
+  ) {
+    const res = await fetch("/api/todo/reorder", {
+      method: "PATCH",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(body),
+    });
+    if (res.ok) queryClient.invalidateQueries({ queryKey: ["todo"] });
+  }
+
   //changes to local state will update database
   useEffect(() => {
     //find which todo order changed
-    let changeTodo = [] as { id: string; order: number }[];
+    const changeTodo = [] as { id: string; order: number }[];
+
     items.forEach((todo, index) => {
       if (todo.id !== todos[index].id) {
         changeTodo.push({ id: todo.id, order: todos[index].order });
@@ -33,21 +45,13 @@ const GroupedTodo = ({ todos }: { todos: TodoItemType[] }) => {
     if (changeTodo.length > 0) {
       reorderTodo({ changedTodos: changeTodo });
     }
-  }, [items]);
+  }, [todos, items, queryClient]);
 
   const sensors = useSensors(
     useSensor(PointerSensor),
     useSensor(KeyboardSensor)
   );
 
-  async function reorderTodo(body: Record<string, any[]>) {
-    const res = await fetch("/api/todo/reorder", {
-      method: "PATCH",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(body),
-    });
-    if (res.ok) queryClient.invalidateQueries({ queryKey: ["todo"] });
-  }
   function handleDragEnd(event: DragEndEvent) {
     const { active, over } = event;
     if (!over) return;

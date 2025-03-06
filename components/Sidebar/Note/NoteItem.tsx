@@ -50,7 +50,7 @@ const NoteItem = ({ note }: { note: NoteItemType }) => {
       document.removeEventListener("keydown", onEnterKeyPress);
       document.removeEventListener("mousedown", onClickOutside);
     };
-  }, [name, isRenaming]);
+  }, [note.id, renameMutate, name, isRenaming]);
 
   return (
     <>

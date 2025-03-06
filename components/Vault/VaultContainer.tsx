@@ -9,7 +9,7 @@ import PasskeyForm from "./EncryptionForm/passkeySetupForm";
 import { useSession } from "next-auth/react";
 import { usePassKey } from "@/providers/PassKeyProvider";
 
-const Vault = ({}: {}) => {
+const Vault = () => {
   const {
     symKey,
     passKey,

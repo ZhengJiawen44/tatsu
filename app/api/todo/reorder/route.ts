@@ -6,7 +6,6 @@ import {
   BaseServerError,
 } from "@/lib/customError";
 import { prisma } from "@/lib/prisma/client";
-import { todoSchema } from "@/schema";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function PATCH(req: NextRequest) {

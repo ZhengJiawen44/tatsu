@@ -2,7 +2,7 @@ import CaretOutline from "@/components/ui/icon/caretOutline";
 import LineSeparator from "@/components/ui/lineSeparator";
 import { TodoItemType } from "@/types";
 import clsx from "clsx";
-import React, { SetStateAction, useState } from "react";
+import React, { useState } from "react";
 import GroupedTodo from "./GroupedTodo";
 
 interface PreviousTodoProps {

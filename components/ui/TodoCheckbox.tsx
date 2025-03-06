@@ -11,9 +11,10 @@ export default function TodoCheckbox({
   checked: boolean;
 }) {
   const [expand, setExpand] = useState(false);
-  const pop = new Audio("/pop.mp3");
-  const unpop = new Audio("/unPop.mp3");
+
   useEffect(() => {
+    const pop = new Audio("/pop.mp3");
+    const unpop = new Audio("/unPop.mp3");
     if (expand) {
       if (complete) {
         unpop.play();
@@ -24,7 +25,7 @@ export default function TodoCheckbox({
       const timeout = setTimeout(() => setExpand(false), 150); // Slightly longer for visibility
       return () => clearTimeout(timeout);
     }
-  }, [expand]);
+  }, [complete, expand]);
 
   return (
     <label onPointerDown={(e) => e.stopPropagation()}>

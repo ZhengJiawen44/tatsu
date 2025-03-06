@@ -18,7 +18,6 @@ import TaskItem from "@tiptap/extension-task-item";
 import TaskList from "@tiptap/extension-task-list";
 import CustomMenu from "./EditorMenu/CustomMenu";
 import { CustomHighlight } from "../../lib/customHighlight";
-import { useCurrentNote } from "@/providers/NoteProvider";
 import EditorLoading from "../ui/EditorLoading";
 import { useEditNote } from "@/hooks/useNote";
 import { NoteItemType } from "@/types";
@@ -100,7 +99,7 @@ const Editor = ({ note }: { note: NoteItemType }) => {
     return () => {
       document.removeEventListener("keydown", saveOnEnter);
     };
-  }, [editNote, editor]);
+  }, [editNote, editor, note]);
 
   //save note every 2 second after on change
   useEffect(() => {
@@ -111,7 +110,7 @@ const Editor = ({ note }: { note: NoteItemType }) => {
     }, 2000);
 
     return () => clearTimeout(timer);
-  }, [note?.content, editNote]);
+  }, [note, note?.content, editNote]);
 
   if (!note) return <EditorLoading />;
 

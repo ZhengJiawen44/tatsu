@@ -12,7 +12,7 @@ const TodoItem = () => {
 
   // Count only todos created today
   const todayTodoCount = todos
-    ? todos.filter(({ createdAt, completed }) => isToday(createdAt)).length
+    ? todos.filter(({ createdAt }) => isToday(createdAt)).length
     : 0;
 
   return (

@@ -9,11 +9,11 @@ const SidebarContainer = ({ children }: { children: React.ReactNode }) => {
 
   const startResizing = React.useCallback(() => {
     setIsResizing(true);
-  }, []);
+  }, [setIsResizing]);
 
   const stopResizing = React.useCallback(() => {
     setIsResizing(false);
-  }, []);
+  }, [setIsResizing]);
 
   const resize = React.useCallback(
     (mouseMoveEvent: MouseEvent) => {
@@ -51,7 +51,7 @@ const SidebarContainer = ({ children }: { children: React.ReactNode }) => {
         )}
         style={{ width: showMenu ? `${sidebarWidth}px` : "0px" }}
         onMouseDown={(e) => {
-          isResizing && e.preventDefault();
+          if (isResizing) e.preventDefault();
         }}
       >
         <div className="flex flex-col flex-1 p-2 min-w-0 gap-2">{children}</div>

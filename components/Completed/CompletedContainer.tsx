@@ -4,7 +4,7 @@ import { TodoItem } from "../Todo/TodoItem/TodoItemContainer";
 import { useTodo } from "@/hooks/useTodo";
 import { Skeleton } from "../ui/skeleton";
 
-const CompletedTodoContainer = ({ className }: { className?: string }) => {
+const CompletedTodoContainer = () => {
   const { todos, todoLoading } = useTodo();
   const hasCompletedOne = todos.some((todo) => todo.completed);
 
