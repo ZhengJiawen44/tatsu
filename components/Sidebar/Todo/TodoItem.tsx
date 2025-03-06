@@ -7,7 +7,7 @@ import { useTodo } from "@/hooks/useTodo";
 
 const TodoItem = () => {
   const { activeMenu, setActiveMenu } = useMenu();
-  const { todos, todoLoading } = useTodo();
+  const { todos } = useTodo();
   // Get today's date string
   const todayString = new Date().toDateString();
 

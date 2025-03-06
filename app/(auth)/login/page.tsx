@@ -31,7 +31,7 @@ const LoginPage = () => {
   // redirect to app page if user exists
   const session = useSession();
   useEffect(() => {
-    if (session.status !== "loading" && session.data?.user) {
+    if (session.status !== "loading" && session.status === "authenticated") {
       router.push("/app/todo");
     }
   }, [router, session.status, session.data?.user]);

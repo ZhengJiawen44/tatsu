@@ -6,6 +6,8 @@ import { TodoItemType } from "@/types";
 import CaretOutline from "../ui/icon/caretOutline";
 import clsx from "clsx";
 import GroupedTodo from "./GroupedTodo";
+import isToday from "@/lib/date/isToday";
+import CreateTodoBtn from "./TodoMenu/CreateTodoBtn";
 
 const TodoList = ({ todos }: { todos: TodoItemType[] }) => {
   //separate the pinned from unpinned todos
@@ -30,8 +32,6 @@ const TodoList = ({ todos }: { todos: TodoItemType[] }) => {
   Object.entries(groupedUnpinnedTodos).forEach(([date, todoList]) => {
     todoList.sort((a, b) => a.order - b.order);
   });
-
-  console.log(groupedUnpinnedTodos);
 
   //initializes a mapping between dates and open state to keep track of open states of grouped dates
   const initialOpenState = Object.keys(groupedUnpinnedTodos).reduce(
@@ -67,42 +67,57 @@ const TodoList = ({ todos }: { todos: TodoItemType[] }) => {
       <LineSeparator className={pinnedTodos.length === 0 ? "hidden" : ""} />
 
       {/* Render Unpinned Todos */}
-      {Object.entries(groupedUnpinnedTodos).map(([date, todos]) => (
-        <div key={date}>
-          <details
-            name={date}
-            className="rounded-md p-2"
-            open={openDetails[date] === true}
-            onClick={(e) => {
-              e.preventDefault();
-              setOpenDetails((prev) => {
-                return { ...prev, [date]: !prev[date] };
-              });
-            }}
-          >
-            <summary className="relative flex items-center gap-2 text-lg font-medium">
-              <div className="flex w-fit items-center gap-2 cursor-pointer">
-                <CaretOutline
-                  className={clsx(
-                    "w-6 h-6 absolute -left-7 hover:bg-border rounded-md p-1 transition-all duration-200",
-                    openDetails[date] === true && "rotate-90"
-                  )}
-                />
-
+      {Object.entries(groupedUnpinnedTodos).map(([date, todos]) => {
+        if (date === "today") {
+          return (
+            <div key={date} className="mt-10">
+              <div className="flex items-center gap-2">
                 <h3 className="text-lg font-semibold select-none">{date}</h3>
+                <LineSeparator className="flex-1" />
               </div>
-              <LineSeparator className="flex-1" />
-            </summary>
-            <div
+
+              <GroupedTodo todos={todos} />
+              <CreateTodoBtn />
+            </div>
+          );
+        }
+        return (
+          <div key={date}>
+            <details
+              name={date}
+              className="rounded-md p-2"
+              open={openDetails[date] === true}
               onClick={(e) => {
-                e.stopPropagation();
+                e.preventDefault();
+                setOpenDetails((prev) => {
+                  return { ...prev, [date]: !prev[date] };
+                });
               }}
             >
-              <GroupedTodo todos={todos} />
-            </div>
-          </details>
-        </div>
-      ))}
+              <summary className="relative flex items-center gap-2 text-lg font-medium">
+                <div className="flex w-fit items-center gap-2 cursor-pointer">
+                  <CaretOutline
+                    className={clsx(
+                      "w-6 h-6 absolute -left-7 hover:bg-border rounded-md p-1 transition-all duration-200",
+                      openDetails[date] === true && "rotate-90"
+                    )}
+                  />
+
+                  <h3 className="text-lg font-semibold select-none">{date}</h3>
+                </div>
+                <LineSeparator className="flex-1" />
+              </summary>
+              <div
+                onClick={(e) => {
+                  e.stopPropagation();
+                }}
+              >
+                <GroupedTodo todos={todos} />
+              </div>
+            </details>
+          </div>
+        );
+      })}
     </>
   );
 };

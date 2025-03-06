@@ -16,11 +16,10 @@ const Todo = ({
   //see useTodo hook on how todos are fetched and mutated
   const { todos, todoLoading } = useTodo();
   return (
-    <>
+    <div className="select-none">
       <Day currentDate={currentDate} setCurrentDate={setCurrentDate} />
-      <CreateTodoBtn />
       {!todoLoading ? <TodoList todos={todos} /> : <TodoListLoading />}
-    </>
+    </div>
   );
 };
 

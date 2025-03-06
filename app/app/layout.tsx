@@ -15,7 +15,7 @@ export default async function Layout({
   }
 
   return (
-    <SessionProvider>
+    <SessionProvider session={session}>
       <MenuProvider>
         <AppLayout>{children}</AppLayout>
       </MenuProvider>

@@ -5,11 +5,13 @@ import UserCardLoading from "./UserCardLoading";
 import SidebarIcon from "@/components/ui/icon/sidebar";
 import Sidebar from "@/components/ui/SidebarToggle";
 import { cn } from "@/lib/utils";
+import { redirect } from "next/navigation";
 const UserCard = ({ className }: { className?: string }) => {
-  const { data } = useSession();
-  if (!data) {
-    return <UserCardLoading />;
-  }
+  const { data, status } = useSession();
+
+  if (status === "loading") return <UserCardLoading />;
+  if (!data) return redirect("/login");
+
   const { user } = data;
 
   return (

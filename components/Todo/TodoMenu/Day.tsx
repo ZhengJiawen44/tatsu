@@ -1,5 +1,5 @@
 import React from "react";
-import { dayNames, monthNames } from "@/lib/dateConstants";
+import { dayNames, monthNames } from "@/lib/date/dateConstants";
 import Dot from "@/components/ui/icon/dot";
 const Day = ({
   currentDate,

@@ -16,10 +16,10 @@ body {
     --card: 235 32% 15%;
     --card-accent: 235 32% 16%;
     --card-muted: 235 32% 14%;
-    --card-foreground: 234 10% 63%;
+    --card-foreground: 234 10% 93%;
     --border: 234, 10%, 30%, 0.5;
     --border-muted: 234, 10%, 30%, 0.2;
-    --card-foreground-muted: 234 10% 49%;
+    --card-foreground-muted: 234 10% 65%;
     --popover: 235, 30%, 30%;
     --popover-foreground: 235, 30%, 22%;
     --primary: 0 0% 9%;

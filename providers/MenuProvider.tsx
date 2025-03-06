@@ -65,6 +65,19 @@ export const MenuProvider = ({ children }: { children: React.ReactNode }) => {
     localStorage.setItem("tab", JSON.stringify(activeMenu));
   }, [activeMenu]);
 
+  // toggle menu on ctrl+b
+  useEffect(() => {
+    function closeOnKey(e: KeyboardEvent) {
+      if (e.ctrlKey && e.key.toLowerCase() === "b") {
+        setShowMenu((prev) => !prev);
+      }
+    }
+    document.addEventListener("keydown", closeOnKey);
+    return () => {
+      document.removeEventListener("keydown", closeOnKey);
+    };
+  }, []);
+
   return (
     <MenuContext.Provider
       value={{
