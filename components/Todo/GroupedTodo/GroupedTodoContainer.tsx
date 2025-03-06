@@ -1,13 +1,11 @@
 import React, { useState } from "react";
 import { groupTodosByDate } from "@/lib/todo/groupTodo";
-import LineSeparator from "../ui/lineSeparator";
-import { TodoItem } from "./TodoItem";
+import LineSeparator from "../../ui/lineSeparator";
+import { TodoItem } from "../TodoItem/TodoItemContainer";
 import { TodoItemType } from "@/types";
-import CaretOutline from "../ui/icon/caretOutline";
-import clsx from "clsx";
 import GroupedTodo from "./GroupedTodo";
-import isToday from "@/lib/date/isToday";
-import CreateTodoBtn from "./TodoMenu/CreateTodoBtn";
+import CreateTodoBtn from "../TodoMenu/CreateTodoBtn";
+import PreviousTodo from "./PreviousTodo";
 
 const TodoList = ({ todos }: { todos: TodoItemType[] }) => {
   //separate the pinned from unpinned todos
@@ -51,8 +49,21 @@ const TodoList = ({ todos }: { todos: TodoItemType[] }) => {
   const [openDetails, setOpenDetails] =
     useState<Record<string, boolean>>(initialOpenState);
 
+  const TodayTodo = Object.entries(groupedUnpinnedTodos).filter(
+    ([date]) => date === "today"
+  );
+  const previousTodo = Object.entries(groupedUnpinnedTodos).filter(
+    ([date]) => date !== "today"
+  );
+
   return (
     <>
+      {/* Render Unpinned previous todos */}
+      <PreviousTodo
+        groupedUnpinnedTodos={groupedUnpinnedTodos}
+        openDetails={openDetails}
+        setOpenDetails={setOpenDetails}
+      />
       {/* Render Pinned Todos */}
       {Object.entries(groupedPinnedTodos).map(([date, todos]) => (
         <div key={date}>
@@ -64,10 +75,11 @@ const TodoList = ({ todos }: { todos: TodoItemType[] }) => {
       ))}
 
       {/* Show separator if there are pinned todos */}
-      <LineSeparator className={pinnedTodos.length === 0 ? "hidden" : ""} />
+      {/* <LineSeparator className={pinnedTodos.length === 0 ? "hidden" : ""} /> */}
 
-      {/* Render Unpinned Todos */}
-      {Object.entries(groupedUnpinnedTodos).map(([date, todos]) => {
+      {TodayTodo.length <= 0 && <CreateTodoBtn />}
+      {/* Render Unpinned today's Todos */}
+      {TodayTodo.map(([date, todos]) => {
         if (date === "today") {
           return (
             <div key={date} className="mt-10">
@@ -81,42 +93,6 @@ const TodoList = ({ todos }: { todos: TodoItemType[] }) => {
             </div>
           );
         }
-        return (
-          <div key={date}>
-            <details
-              name={date}
-              className="rounded-md p-2"
-              open={openDetails[date] === true}
-              onClick={(e) => {
-                e.preventDefault();
-                setOpenDetails((prev) => {
-                  return { ...prev, [date]: !prev[date] };
-                });
-              }}
-            >
-              <summary className="relative flex items-center gap-2 text-lg font-medium">
-                <div className="flex w-fit items-center gap-2 cursor-pointer">
-                  <CaretOutline
-                    className={clsx(
-                      "w-6 h-6 absolute -left-7 hover:bg-border rounded-md p-1 transition-all duration-200",
-                      openDetails[date] === true && "rotate-90"
-                    )}
-                  />
-
-                  <h3 className="text-lg font-semibold select-none">{date}</h3>
-                </div>
-                <LineSeparator className="flex-1" />
-              </summary>
-              <div
-                onClick={(e) => {
-                  e.stopPropagation();
-                }}
-              >
-                <GroupedTodo todos={todos} />
-              </div>
-            </details>
-          </div>
-        );
       })}
     </>
   );

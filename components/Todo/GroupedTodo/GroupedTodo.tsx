@@ -9,9 +9,8 @@ import { arrayMove } from "@dnd-kit/sortable";
 import { verticalListSortingStrategy } from "@dnd-kit/sortable";
 import { TodoItemType } from "@/types";
 import { useEffect, useState } from "react";
-import { TodoItem } from "./TodoItem";
+import { TodoItem } from "../TodoItem/TodoItemContainer";
 import { useQueryClient } from "@tanstack/react-query";
-import CreateTodoBtn from "./TodoMenu/CreateTodoBtn";
 
 const GroupedTodo = ({ todos }: { todos: TodoItemType[] }) => {
   const queryClient = useQueryClient();

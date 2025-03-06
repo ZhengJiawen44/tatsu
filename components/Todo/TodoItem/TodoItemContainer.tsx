@@ -1,14 +1,14 @@
 import { useState } from "react";
 import TodoItemMenu from "./TodoItemMenu";
-import TodoForm from "./TodoForm";
-import TodoCheckbox from "../ui/TodoCheckbox";
+import TodoForm from "../TodoForm";
+import TodoCheckbox from "@/components/ui/TodoCheckbox";
 import { useQueryClient } from "@tanstack/react-query";
 import { useMutation } from "@tanstack/react-query";
 import clsx from "clsx";
 import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
 import { TodoItemType } from "@/types";
-import GripVertical from "../ui/icon/gripVertical";
+import GripVertical from "@/components/ui/icon/gripVertical";
 
 export const TodoItem = ({
   todoItem,
@@ -30,6 +30,7 @@ export const TodoItem = ({
   const [todoCompleted, setCompleted] = useState(completed);
 
   const [showHandle, setShowHandle] = useState(false);
+  const [isGrabbing, setGrabbing] = useState(false);
 
   async function completeTodo() {
     await fetch(`/api/todo/${id}?completed=${todoCompleted}`, {
@@ -60,7 +61,12 @@ export const TodoItem = ({
       <div
         ref={setNodeRef}
         style={style}
-        className="relative flex justify-between items-start my-10 h-fit"
+        className={clsx(
+          "relative flex justify-between items-center my-4 h-fit bg-card py-2 rounded-md",
+          isGrabbing && variant === "DEFAULT"
+            ? "shadow-[0px_10px_30px_rgba(6,8,30,0.3)] z-30 border border-border-muted"
+            : "shadow-none"
+        )}
         onClick={(e) => {
           e.stopPropagation();
         }}
@@ -68,13 +74,16 @@ export const TodoItem = ({
         {...listeners}
         onMouseEnter={() => setShowHandle(true)}
         onMouseLeave={() => setShowHandle(false)}
+        onMouseDown={() => setGrabbing(true)}
+        onMouseUp={() => setGrabbing(false)}
       >
         <div
           {...attributes}
           {...listeners}
           className={clsx(
-            "cursor-grabbing absolute -left-7 px-1 pb-2 -top-1",
-            showHandle === true ? "text-card-foreground" : "text-transparent"
+            "cursor-grabbing absolute -left-7 top-2",
+            showHandle === true ? "text-card-foreground" : "text-transparent",
+            variant === "completed-todos" && "hidden"
           )}
           onMouseEnter={() => setShowHandle(true)}
           onMouseLeave={() => setShowHandle(false)}
@@ -82,8 +91,9 @@ export const TodoItem = ({
           <GripVertical className=" w-5 h-5 " />
         </div>
         <div>
-          <div className="flex items-start gap-3 ">
+          <div className="flex items-start gap-3">
             <TodoCheckbox
+              complete={completed}
               onChange={() => {
                 setCompleted(!completed);
                 mutateCompleted();

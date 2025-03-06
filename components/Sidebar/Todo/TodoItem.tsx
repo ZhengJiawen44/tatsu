@@ -4,19 +4,15 @@ import { useMenu } from "@/providers/MenuProvider";
 import Link from "next/link";
 import Pencil from "@/components/ui/icon/pencil";
 import { useTodo } from "@/hooks/useTodo";
-
+import isToday from "@/lib/date/isToday";
 const TodoItem = () => {
   const { activeMenu, setActiveMenu } = useMenu();
   const { todos } = useTodo();
   // Get today's date string
-  const todayString = new Date().toDateString();
 
   // Count only todos created today
   const todayTodoCount = todos
-    ? todos.filter(
-        ({ createdAt, completed }) =>
-          new Date(createdAt).toDateString() === todayString && !completed
-      ).length
+    ? todos.filter(({ createdAt, completed }) => isToday(createdAt)).length
     : 0;
 
   return (
@@ -32,7 +28,7 @@ const TodoItem = () => {
       }}
     >
       <Pencil className="w-5 h-5 mb-[1px]" />
-      Todo
+      Today
       <p
         className={clsx(
           "mr-0 ml-auto",

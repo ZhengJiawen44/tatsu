@@ -1,11 +1,11 @@
 import React from "react";
-import Pin from "../ui/icon/pin";
-import Unpin from "../ui/icon/unpin";
-import Edit from "../ui/icon/edit";
-import Trash from "../ui/icon/trash";
-import { MeatballMenu, MenuItem } from "../ui/MeatballMenu";
+import Pin from "@/components/ui/icon/pin";
+import Unpin from "@/components/ui/icon/unpin";
+import Edit from "@/components/ui/icon/edit";
+import Trash from "@/components/ui/icon/trash";
+import { MeatballMenu, MenuItem } from "@/components/ui/MeatballMenu";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import Spinner from "../ui/spinner";
+import Spinner from "@/components/ui/spinner";
 import { useToast } from "@/hooks/use-toast";
 
 const TodoItemMenu = ({
@@ -13,6 +13,7 @@ const TodoItemMenu = ({
   id,
   setDisplayForm,
   pinned,
+  ...props
 }: {
   className?: string;
   id: string;
@@ -37,8 +38,13 @@ const TodoItemMenu = ({
   });
 
   return (
-    <div className={className} onPointerDown={(e) => e.stopPropagation()}>
-      <MeatballMenu>
+    <div
+      className={className}
+      onPointerDown={(e) => e.stopPropagation()}
+      onMouseDown={(e) => e.stopPropagation()}
+      {...props}
+    >
+      <MeatballMenu className="flex">
         <MenuItem onClick={() => pinMutate()}>
           {pinPending ? (
             <Spinner className="w-4 h-4" />

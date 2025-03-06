@@ -1,6 +1,5 @@
 import React, { useState } from "react";
-import CreateTodoBtn from "./TodoMenu/CreateTodoBtn";
-import TodoList from "./GroupedTodoContainer";
+import TodoList from "./GroupedTodo/GroupedTodoContainer";
 import Day from "./TodoMenu/Day";
 import { useTodo } from "@/hooks/useTodo";
 import TodoListLoading from "../ui/TodoListLoading";

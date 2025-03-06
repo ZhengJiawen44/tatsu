@@ -1,6 +1,6 @@
 "use client";
 import React from "react";
-import { TodoItem } from "../Todo/TodoItem";
+import { TodoItem } from "../Todo/TodoItem/TodoItemContainer";
 import { useTodo } from "@/hooks/useTodo";
 import { Skeleton } from "../ui/skeleton";
 
@@ -27,7 +27,7 @@ const CompletedTodoContainer = ({ className }: { className?: string }) => {
       {todos.map((todo) => {
         if (todo.completed) {
           return (
-            <TodoItem key={todo.id} todoItem={todo} variant="completed-todos" />
+            <TodoItem key={todo.id} variant="completed-todos" todoItem={todo} />
           );
         }
       })}
