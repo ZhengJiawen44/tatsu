@@ -21,19 +21,18 @@ const GroupedTodo = ({ todos }: { todos: TodoItemType[] }) => {
     setItems(todos);
   }, [todos]);
 
-  async function reorderTodo(
-    body: Record<string, { id: string; order: number }[]>
-  ) {
-    const res = await fetch("/api/todo/reorder", {
-      method: "PATCH",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(body),
-    });
-    if (res.ok) queryClient.invalidateQueries({ queryKey: ["todo"] });
-  }
-
   //changes to local state will update database
   useEffect(() => {
+    async function reorderTodo(
+      body: Record<string, { id: string; order: number }[]>
+    ) {
+      const res = await fetch("/api/todo/reorder", {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(body),
+      });
+      if (res.ok) queryClient.invalidateQueries({ queryKey: ["todo"] });
+    }
     //find which todo order changed
     const changeTodo = [] as { id: string; order: number }[];
 
