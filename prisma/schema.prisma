@@ -67,6 +67,7 @@ model Todo{
   userID        String
   pinned        Boolean         @default(false)
   completed     Boolean         @default(false)
+  order         Int             @default(autoincrement())
 }
 
 

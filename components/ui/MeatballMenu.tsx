@@ -21,7 +21,7 @@ const MeatballMenu = ({
         <Meatball className="fill-card-foreground hover:fill-white" />
       </PopoverTrigger>
       <PopoverContent
-        className="flex flex-col gap-1 px-1  w-fit h-fit bg-popover text-white border backdrop-blur-sm"
+        className="bg-popover min-w-36 flex flex-col gap-1 px-1  w-fit h-fit  text-white border backdrop-blur-sm"
         onClick={(e) => {
           e.preventDefault();
         }}
@@ -47,7 +47,7 @@ const MenuItem = ({
           onClick(e);
         }
       }}
-      className="flex justify-start items-center gap-2 hover:cursor-pointer p-1 hover:bg-card-foreground-muted rounded-xl px-2 pr-10"
+      className="flex justify-start items-center gap-2 hover:cursor-pointer p-1 hover:bg-popover-foreground rounded-md px-2 pr-10"
     >
       {children}
     </div>

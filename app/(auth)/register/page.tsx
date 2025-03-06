@@ -28,11 +28,11 @@ const Page = () => {
   const router = useRouter();
   const [show, setShow] = useState(false);
 
-  // redirect to home page if user exists
+  // redirect to app page if user exists
   const session = useSession();
   useEffect(() => {
     if (session.data?.user) {
-      router.push("/home");
+      router.push("/app/todo");
     }
   }, [session.data?.user, router]);
 
@@ -174,7 +174,7 @@ const Page = () => {
   // login functions
   async function onGoogle() {
     try {
-      const result = await signIn("google", { callbackUrl: "/home" });
+      const result = await signIn("google", { callbackUrl: "/app" });
       if (result?.error) {
         toast({ title: "we could not sign you in to google at the moment" });
         console.error(result.error);
@@ -186,7 +186,7 @@ const Page = () => {
   }
   async function onDiscord() {
     try {
-      const result = await signIn("discord", { callbackUrl: "/home" });
+      const result = await signIn("discord", { callbackUrl: "/app" });
       if (result?.error) {
         toast({ title: "we could not sign you in to discord at the moment" });
         console.error(result.error);

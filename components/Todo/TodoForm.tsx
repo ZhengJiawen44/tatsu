@@ -55,11 +55,16 @@ const TodoForm = ({ displayForm, setDisplayForm, todo }: TodoFormProps) => {
 
   const { toast } = useToast();
   return (
-    <div>
+    <div
+      className=""
+      onClick={(e) => {
+        e.stopPropagation();
+      }}
+    >
       <form
         onSubmit={handleForm}
         className={clsx(
-          "flex flex-col my-4 border rounded-md p-3 gap-3",
+          "flex border flex-col my-4 rounded-md p-3 gap-3",
           !displayForm && "hidden"
         )}
       >

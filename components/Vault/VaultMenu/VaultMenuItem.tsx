@@ -5,7 +5,7 @@ const VaultMenuItem = ({ children }: { children: React.ReactNode }) => {
     <button
       disabled={true}
       title="coming soon"
-      className="flex justify-center items-center gap-2 bg-border rounded-lg p-1 px-3 hover:cursor-not-allowed"
+      className="select-none flex justify-center items-center gap-2 bg-border rounded-lg p-1 px-3 hover:cursor-not-allowed"
     >
       {children}
     </button>

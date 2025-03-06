@@ -1,17 +1,18 @@
 import React, { useState } from "react";
-import { cn } from "@/lib/utils";
-import CreateTodoBtn from "./TodoMenu/CreateTodoBtn";
-import TodoList from "./TodoList";
-import Day from "./TodoMenu/Calender";
-import AppInnerLayout from "../AppInnerLayout";
-const Todo = ({ className, inert }: { className?: string; inert: boolean }) => {
+import TodoList from "./GroupedTodo/GroupedTodoContainer";
+import Day from "./TodoMenu/Day";
+import { useTodo } from "@/hooks/useTodo";
+import TodoListLoading from "../ui/TodoListLoading";
+
+const Todo = () => {
   const [currentDate, setCurrentDate] = useState<Date>(new Date());
+  //see useTodo hook on how todos are fetched and mutated
+  const { todos, todoLoading } = useTodo();
   return (
-    <AppInnerLayout className={cn(className)} inert={inert}>
+    <div className="select-none">
       <Day currentDate={currentDate} setCurrentDate={setCurrentDate} />
-      <CreateTodoBtn />
-      <TodoList />
-    </AppInnerLayout>
+      {!todoLoading ? <TodoList todos={todos} /> : <TodoListLoading />}
+    </div>
   );
 };
 

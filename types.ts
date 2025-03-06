@@ -23,6 +23,7 @@ export interface TodoItemType {
   pinned: boolean;
   createdAt: Date;
   completed: boolean;
+  order: number;
 }
 
 export interface FileItemType {

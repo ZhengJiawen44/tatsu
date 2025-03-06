@@ -5,7 +5,7 @@ import React from "react";
 const Spinner = ({ className }: { className?: string }) => {
   return (
     <Image
-      src="spinner.svg"
+      src="/spinner.svg"
       alt="spinner"
       priority={false}
       height={28}
