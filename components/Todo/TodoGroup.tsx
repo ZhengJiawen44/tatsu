@@ -9,11 +9,18 @@ import { arrayMove } from "@dnd-kit/sortable";
 import { verticalListSortingStrategy } from "@dnd-kit/sortable";
 import { TodoItemType } from "@/types";
 import { useCallback, useEffect, useState } from "react";
-import { TodoItem } from "../TodoItem/TodoItemContainer";
-import { useQueryClient } from "@tanstack/react-query";
+import { TodoItem } from "./TodoItem/TodoItemContainer";
 import { useReorderTodo } from "@/hooks/useTodo";
+import LineSeparator from "../ui/lineSeparator";
+import CreateTodoBtn from "./CreateTodoBtn";
 
-const GroupedTodo = ({ todos }: { todos: TodoItemType[] }) => {
+const TodoGroup = ({
+  todos,
+  showDay = false,
+}: {
+  todos: TodoItemType[];
+  showDay?: boolean;
+}) => {
   const { mutateReorder } = useReorderTodo();
   const [items, setItems] = useState(todos);
 
@@ -22,6 +29,7 @@ const GroupedTodo = ({ todos }: { todos: TodoItemType[] }) => {
     setItems(todos);
   }, [todos]);
 
+  //function to detect any changes between items and todos. creates an array that describes how the new todos should be arranged
   const reorderDiff = useCallback(() => {
     //find which todo order changed
     const reorderList = [] as { id: string; order: number }[];
@@ -36,9 +44,14 @@ const GroupedTodo = ({ todos }: { todos: TodoItemType[] }) => {
   //changes to local state will update database
   useEffect(() => {
     const reorderList = reorderDiff();
-
     if (reorderList.length > 0) {
-      mutateReorder({ body: { changedTodos: reorderList } });
+      const timer = setTimeout(
+        () => mutateReorder({ body: { changedTodos: reorderList } }),
+        3000
+      );
+      return () => {
+        clearTimeout(timer);
+      };
     }
   }, [items]);
 
@@ -66,6 +79,13 @@ const GroupedTodo = ({ todos }: { todos: TodoItemType[] }) => {
 
   return (
     <>
+      {showDay && (
+        <div className="flex items-center gap-2 mt-10">
+          <h3 className="text-lg font-semibold select-none">Today</h3>
+          <LineSeparator className="flex-1" />
+        </div>
+      )}
+
       <DndContext
         sensors={sensors}
         collisionDetection={closestCenter}
@@ -81,4 +101,4 @@ const GroupedTodo = ({ todos }: { todos: TodoItemType[] }) => {
   );
 };
 
-export default GroupedTodo;
+export default TodoGroup;

@@ -1,12 +1,8 @@
-import React from "react";
+import React, { useState } from "react";
 import { dayNames, monthNames } from "@/lib/date/dateConstants";
 import Dot from "@/components/ui/icon/dot";
-const Day = ({
-  currentDate,
-}: {
-  currentDate: Date;
-  setCurrentDate: React.Dispatch<React.SetStateAction<Date>>;
-}) => {
+const Day = () => {
+  const currentDate = new Date();
   const currentDay = dayNames[currentDate.getDay()];
   const currentMMDDYYYY = `${
     monthNames[currentDate.getMonth() + 1]

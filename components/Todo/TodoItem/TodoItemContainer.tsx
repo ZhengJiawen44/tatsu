@@ -1,6 +1,6 @@
 import { useState } from "react";
-import TodoItemMenu from "./TodoItemMenu";
-import TodoForm from "../TodoForm";
+import TodoItemMenu from "./TodoMenu/TodoItemMenu";
+import TodoForm from "./TodoForm";
 import TodoCheckbox from "@/components/ui/TodoCheckbox";
 import clsx from "clsx";
 import { useSortable } from "@dnd-kit/sortable";
