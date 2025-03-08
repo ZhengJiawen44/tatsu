@@ -2,8 +2,8 @@ import clsx from "clsx";
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import adjustHeight from "@/lib/adjustTextareaHeight";
 import { useToast } from "@/hooks/use-toast";
-import Spinner from "../ui/spinner";
-import LineSeparator from "../ui/lineSeparator";
+import Spinner from "../../ui/spinner";
+import LineSeparator from "../../ui/lineSeparator";
 import { useEditTodo, useCreateTodo } from "@/hooks/useTodo";
 
 interface TodoItem {

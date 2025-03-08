@@ -3,7 +3,7 @@ import LineSeparator from "@/components/ui/lineSeparator";
 import { TodoItemType } from "@/types";
 import clsx from "clsx";
 import React, { useState } from "react";
-import GroupedTodo from "./GroupedTodo";
+import TodoGroup from "./TodoGroup";
 
 interface PreviousTodoProps {
   openDetails: Record<string, boolean>;
@@ -75,7 +75,7 @@ const PreviousTodo = ({
                       e.stopPropagation();
                     }}
                   >
-                    <GroupedTodo todos={todos} />
+                    <TodoGroup todos={todos} />
                   </div>
                 </details>
               </div>

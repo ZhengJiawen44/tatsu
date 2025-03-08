@@ -1,6 +1,6 @@
 "use client";
 import React, { useState } from "react";
-import TodoForm from "../TodoForm";
+import TodoForm from "./TodoItem/TodoForm";
 import Plus from "@/components/ui/icon/plus";
 
 const CreateTodoBtn = () => {

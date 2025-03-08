@@ -1,6 +1,52 @@
 import { TodoItemType } from "@/types";
 import { getDisplayDate } from "../date/displayDate";
 
+export const groupTodo = ({ todos }: { todos: TodoItemType[] }) => {
+  // Define the type for our accumulator
+  type TodoAccumulator = {
+    groupedPinnedTodos: Record<string, TodoItemType[]>;
+    groupedUnPinnedTodos: Record<string, TodoItemType[]>;
+  };
+
+  // Process todos in one pass - filter, categorize, group by date, and sort
+  const result = todos.reduce(
+    (acc, todo) => {
+      // Skip completed todos
+      if (todo.completed) return acc;
+
+      // Determine category key for the accumulator
+      const category = todo.pinned
+        ? "groupedPinnedTodos"
+        : "groupedUnPinnedTodos";
+
+      // Get date key
+      const dateKey = getDisplayDate(todo.createdAt);
+
+      // Initialize nested objects if needed
+      if (!acc[category][dateKey]) {
+        acc[category][dateKey] = [];
+      }
+
+      // Add todo to appropriate group
+      acc[category][dateKey].push(todo);
+
+      // Sort immediately after inserting (maintains sorted order with each insertion)
+      acc[category][dateKey].sort((a, b) => a.order - b.order);
+
+      return acc;
+    },
+    {
+      groupedPinnedTodos: {} as Record<string, TodoItemType[]>,
+      groupedUnPinnedTodos: {} as Record<string, TodoItemType[]>,
+    } as TodoAccumulator
+  );
+
+  return {
+    groupedPinnedTodos: result.groupedPinnedTodos,
+    groupedUnPinnedTodos: result.groupedUnPinnedTodos,
+  };
+};
+
 export const groupTodosByDate = (todos: TodoItemType[]) => {
   return todos.reduce((groups: Record<string, TodoItemType[]>, todo) => {
     if (!todo.completed) {

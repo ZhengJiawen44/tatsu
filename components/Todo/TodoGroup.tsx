@@ -8,12 +8,20 @@ import { closestCenter } from "@dnd-kit/core";
 import { arrayMove } from "@dnd-kit/sortable";
 import { verticalListSortingStrategy } from "@dnd-kit/sortable";
 import { TodoItemType } from "@/types";
-import { useEffect, useState } from "react";
-import { TodoItem } from "../TodoItem/TodoItemContainer";
-import { useQueryClient } from "@tanstack/react-query";
+import { useCallback, useEffect, useState } from "react";
+import { TodoItem } from "./TodoItem/TodoItemContainer";
+import { useReorderTodo } from "@/hooks/useTodo";
+import LineSeparator from "../ui/lineSeparator";
+import CreateTodoBtn from "./CreateTodoBtn";
 
-const GroupedTodo = ({ todos }: { todos: TodoItemType[] }) => {
-  const queryClient = useQueryClient();
+const TodoGroup = ({
+  todos,
+  showDay = false,
+}: {
+  todos: TodoItemType[];
+  showDay?: boolean;
+}) => {
+  const { mutateReorder } = useReorderTodo();
   const [items, setItems] = useState(todos);
 
   //update local state
@@ -21,30 +29,31 @@ const GroupedTodo = ({ todos }: { todos: TodoItemType[] }) => {
     setItems(todos);
   }, [todos]);
 
-  //changes to local state will update database
-  useEffect(() => {
-    async function reorderTodo(
-      body: Record<string, { id: string; order: number }[]>
-    ) {
-      const res = await fetch("/api/todo/reorder", {
-        method: "PATCH",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(body),
-      });
-      if (res.ok) queryClient.invalidateQueries({ queryKey: ["todo"] });
-    }
+  //function to detect any changes between items and todos. creates an array that describes how the new todos should be arranged
+  const reorderDiff = useCallback(() => {
     //find which todo order changed
-    const changeTodo = [] as { id: string; order: number }[];
-
+    const reorderList = [] as { id: string; order: number }[];
     items.forEach((todo, index) => {
       if (todo.id !== todos[index].id) {
-        changeTodo.push({ id: todo.id, order: todos[index].order });
+        reorderList.push({ id: todo.id, order: todos[index].order });
       }
     });
-    if (changeTodo.length > 0) {
-      reorderTodo({ changedTodos: changeTodo });
+    return reorderList;
+  }, [items, todos]);
+
+  //changes to local state will update database
+  useEffect(() => {
+    const reorderList = reorderDiff();
+    if (reorderList.length > 0) {
+      const timer = setTimeout(
+        () => mutateReorder({ body: { changedTodos: reorderList } }),
+        3000
+      );
+      return () => {
+        clearTimeout(timer);
+      };
     }
-  }, [todos, items, queryClient]);
+  }, [items]);
 
   const sensors = useSensors(
     useSensor(PointerSensor),
@@ -70,6 +79,13 @@ const GroupedTodo = ({ todos }: { todos: TodoItemType[] }) => {
 
   return (
     <>
+      {showDay && (
+        <div className="flex items-center gap-2 mt-10">
+          <h3 className="text-lg font-semibold select-none">Today</h3>
+          <LineSeparator className="flex-1" />
+        </div>
+      )}
+
       <DndContext
         sensors={sensors}
         collisionDetection={closestCenter}
@@ -85,4 +101,4 @@ const GroupedTodo = ({ todos }: { todos: TodoItemType[] }) => {
   );
 };
 
-export default GroupedTodo;
+export default TodoGroup;

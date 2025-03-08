@@ -30,6 +30,7 @@ export const useTodo = () => {
           data.message || `bad server response: Did not recieve todo`
         );
       }
+
       return todos;
     },
   });
@@ -87,4 +88,74 @@ export const useCreateTodo = () => {
     error?.message || "an unexpectedd error happened"
   );
   return { createTodo, createLoading, isSuccess };
+};
+
+//complete todo
+export const useCompleteTodo = () => {
+  const queryClient = useQueryClient();
+  const {
+    mutate: mutateCompleted,
+    isPending,
+    isError,
+    error,
+  } = useMutation({
+    mutationFn: async ({
+      id,
+      completed,
+    }: {
+      id: string;
+      completed: boolean;
+    }) => {
+      const res = await fetch(`/api/todo/${id}?completed=${completed}`, {
+        method: "PATCH",
+      });
+      if (!res.ok) {
+        const body = await res.json();
+        throw new Error(body.message || "server responded with error");
+      }
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["todo"] });
+    },
+  });
+  useErrorNotification(
+    isError,
+    error?.message || "an unexpectedd error happened"
+  );
+  return { mutateCompleted, isPending };
+};
+
+//reorderTodo
+export const useReorderTodo = () => {
+  const queryClient = useQueryClient();
+  const {
+    mutate: mutateReorder,
+    isPending,
+    isError,
+    error,
+  } = useMutation({
+    mutationFn: async ({
+      body,
+    }: {
+      body: Record<string, { id: string; order: number }[]>;
+    }) => {
+      const res = await fetch("/api/todo/reorder", {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(body),
+      });
+      if (!res.ok) {
+        const body = await res.json();
+        throw new Error(body.message || "server responded with error");
+      }
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["todo"] });
+    },
+  });
+  useErrorNotification(
+    isError,
+    error?.message || "an unexpectedd error happened"
+  );
+  return { mutateReorder, isPending };
 };
