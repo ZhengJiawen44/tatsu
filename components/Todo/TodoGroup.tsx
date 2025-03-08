@@ -31,7 +31,6 @@ const TodoGroup = ({
 
   //function to detect any changes between items and todos. creates an array that describes how the new todos should be arranged
   const reorderDiff = useCallback(() => {
-    //find which todo order changed
     const reorderList = [] as { id: string; order: number }[];
     items.forEach((todo, index) => {
       if (todo.id !== todos[index].id) {

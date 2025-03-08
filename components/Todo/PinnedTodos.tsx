@@ -10,8 +10,13 @@ const PinnedTodos = ({
   if (!groupedPinnedTodos) return <></>;
 
   return Object.entries(groupedPinnedTodos).map(([date, todos]) => (
-    <div key={date} className="mt-10 border rounded-md p-2">
-      <h3 className="text-lg font-bold my-4">pinned</h3>
+    <div
+      key={date}
+      className="relative mt-10 rounded-md p-2 bg-card-muted border border-border-muted"
+    >
+      {/* <p className="absolute -top-[1.1rem] left-2 text-sm text-card-foreground-muted bg-card">
+        pinned
+      </p> */}
       <TodoGroup todos={todos} />
     </div>
   ));

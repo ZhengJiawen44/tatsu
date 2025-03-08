@@ -42,7 +42,7 @@ const TodoContainer = () => {
 
   if (todoLoading) <TodoListLoading />;
   return (
-    <div className="select-none">
+    <div className="select-none bg-card">
       <Day />
 
       {/* Render Unpinned previous todos */}
@@ -55,6 +55,7 @@ const TodoContainer = () => {
       {/* Render Pinned Todos */}
       <PinnedTodos groupedPinnedTodos={groupedPinnedTodos} />
 
+      {/* render creare todo btn incase no todos for today */}
       {TodayTodoList.length <= 0 && <CreateTodoBtn />}
 
       {/* Render Unpinned today's Todos */}

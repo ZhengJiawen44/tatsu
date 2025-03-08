@@ -12,9 +12,11 @@ import { useCompleteTodo } from "@/hooks/useTodo";
 export const TodoItem = ({
   todoItem,
   variant = "DEFAULT",
+  className,
 }: {
   todoItem: TodoItemType;
   variant?: "DEFAULT" | "completed-todos";
+  className?: string;
 }) => {
   //dnd kit setups
   const { attributes, listeners, setNodeRef, transform, transition } =
@@ -27,17 +29,20 @@ export const TodoItem = ({
   const { id, title, description, pinned, completed } = todoItem;
 
   const [isEdit, setEdit] = useState(false);
+
   const [showHandle, setShowHandle] = useState(false);
   const [isGrabbing, setGrabbing] = useState(false);
 
   const { mutateCompleted } = useCompleteTodo();
 
   if (isEdit)
-    <TodoForm
-      displayForm={true}
-      setDisplayForm={setEdit}
-      todo={{ id, title, description }}
-    />;
+    return (
+      <TodoForm
+        displayForm={true}
+        setDisplayForm={setEdit}
+        todo={{ id, title, description }}
+      />
+    );
 
   return (
     <>
@@ -45,7 +50,7 @@ export const TodoItem = ({
         ref={setNodeRef}
         style={style}
         className={clsx(
-          "relative flex justify-between items-center my-4 h-fit bg-card py-2 rounded-md",
+          "relative flex justify-between items-center my-4 h-fit bg-inherit py-2 rounded-md",
           isGrabbing && variant === "DEFAULT"
             ? "shadow-[0px_10px_30px_rgba(6,8,30,0.3)] z-30 border border-border-muted"
             : "shadow-none"
@@ -83,10 +88,12 @@ export const TodoItem = ({
               checked={completed}
             />
             <div>
-              <p className="leading-none select-none text-card-foreground mb-1">
+              <p className="leading-none select-none text-card-foreground mb-1 text-sm">
                 {title}
               </p>
-              <p className="text-card-foreground-muted ">{description}</p>
+              <p className="text-card-foreground-muted text-sm">
+                {description}
+              </p>
             </div>
           </div>
         </div>

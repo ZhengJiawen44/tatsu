@@ -55,11 +55,7 @@ const TodoItemMenu = ({
           )}
           {pinned ? "unpin" : "Pin to top"}
         </MenuItem>
-        <MenuItem
-          onClick={() => {
-            setDisplayForm((prev: boolean) => !prev);
-          }}
-        >
+        <MenuItem onClick={() => setDisplayForm((prev: boolean) => !prev)}>
           <Edit className="w-4 h-4" />
           Edit
         </MenuItem>
