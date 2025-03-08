@@ -8,12 +8,13 @@ import { closestCenter } from "@dnd-kit/core";
 import { arrayMove } from "@dnd-kit/sortable";
 import { verticalListSortingStrategy } from "@dnd-kit/sortable";
 import { TodoItemType } from "@/types";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { TodoItem } from "../TodoItem/TodoItemContainer";
 import { useQueryClient } from "@tanstack/react-query";
+import { useReorderTodo } from "@/hooks/useTodo";
 
 const GroupedTodo = ({ todos }: { todos: TodoItemType[] }) => {
-  const queryClient = useQueryClient();
+  const { mutateReorder } = useReorderTodo();
   const [items, setItems] = useState(todos);
 
   //update local state
@@ -21,30 +22,25 @@ const GroupedTodo = ({ todos }: { todos: TodoItemType[] }) => {
     setItems(todos);
   }, [todos]);
 
-  //changes to local state will update database
-  useEffect(() => {
-    async function reorderTodo(
-      body: Record<string, { id: string; order: number }[]>
-    ) {
-      const res = await fetch("/api/todo/reorder", {
-        method: "PATCH",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(body),
-      });
-      if (res.ok) queryClient.invalidateQueries({ queryKey: ["todo"] });
-    }
+  const reorderDiff = useCallback(() => {
     //find which todo order changed
-    const changeTodo = [] as { id: string; order: number }[];
-
+    const reorderList = [] as { id: string; order: number }[];
     items.forEach((todo, index) => {
       if (todo.id !== todos[index].id) {
-        changeTodo.push({ id: todo.id, order: todos[index].order });
+        reorderList.push({ id: todo.id, order: todos[index].order });
       }
     });
-    if (changeTodo.length > 0) {
-      reorderTodo({ changedTodos: changeTodo });
+    return reorderList;
+  }, [items, todos]);
+
+  //changes to local state will update database
+  useEffect(() => {
+    const reorderList = reorderDiff();
+
+    if (reorderList.length > 0) {
+      mutateReorder({ body: { changedTodos: reorderList } });
     }
-  }, [todos, items, queryClient]);
+  }, [items]);
 
   const sensors = useSensors(
     useSensor(PointerSensor),

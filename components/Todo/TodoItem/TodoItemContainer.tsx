@@ -2,13 +2,12 @@ import { useState } from "react";
 import TodoItemMenu from "./TodoItemMenu";
 import TodoForm from "../TodoForm";
 import TodoCheckbox from "@/components/ui/TodoCheckbox";
-import { useQueryClient } from "@tanstack/react-query";
-import { useMutation } from "@tanstack/react-query";
 import clsx from "clsx";
 import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
 import { TodoItemType } from "@/types";
 import GripVertical from "@/components/ui/icon/gripVertical";
+import { useCompleteTodo } from "@/hooks/useTodo";
 
 export const TodoItem = ({
   todoItem,
@@ -17,6 +16,7 @@ export const TodoItem = ({
   todoItem: TodoItemType;
   variant?: "DEFAULT" | "completed-todos";
 }) => {
+  //dnd kit setups
   const { attributes, listeners, setNodeRef, transform, transition } =
     useSortable({ id: todoItem.id });
   const style = {
@@ -24,37 +24,20 @@ export const TodoItem = ({
     transition,
   };
 
-  const queryClient = useQueryClient();
   const { id, title, description, pinned, completed } = todoItem;
-  const [isEdit, setEdit] = useState(false);
-  const [todoCompleted, setCompleted] = useState(completed);
 
+  const [isEdit, setEdit] = useState(false);
   const [showHandle, setShowHandle] = useState(false);
   const [isGrabbing, setGrabbing] = useState(false);
 
-  async function completeTodo() {
-    await fetch(`/api/todo/${id}?completed=${todoCompleted}`, {
-      method: "PATCH",
-    });
-  }
+  const { mutateCompleted } = useCompleteTodo();
 
-  const { mutate: mutateCompleted } = useMutation({
-    mutationFn: completeTodo,
-    mutationKey: ["todo"],
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["todo"] });
-    },
-  });
-
-  if (isEdit) {
-    return (
-      <TodoForm
-        displayForm={true}
-        setDisplayForm={setEdit}
-        todo={{ id, title, description }}
-      />
-    );
-  }
+  if (isEdit)
+    <TodoForm
+      displayForm={true}
+      setDisplayForm={setEdit}
+      todo={{ id, title, description }}
+    />;
 
   return (
     <>
@@ -95,10 +78,9 @@ export const TodoItem = ({
             <TodoCheckbox
               complete={completed}
               onChange={() => {
-                setCompleted(!completed);
-                mutateCompleted();
+                mutateCompleted({ id, completed: !completed });
               }}
-              checked={todoCompleted}
+              checked={completed}
             />
             <div>
               <p className="leading-none select-none text-card-foreground mb-1">

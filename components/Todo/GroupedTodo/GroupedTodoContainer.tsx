@@ -49,9 +49,9 @@ const TodoList = ({ todos }: { todos: TodoItemType[] }) => {
   const [openDetails, setOpenDetails] =
     useState<Record<string, boolean>>(initialOpenState);
 
-  const TodayTodo = Object.entries(groupedUnpinnedTodos).filter(
-    ([date]) => date === "today"
-  );
+  const TodayTodo = Object.entries(groupedUnpinnedTodos).filter(([date]) => {
+    return date === "today";
+  });
 
   return (
     <>
