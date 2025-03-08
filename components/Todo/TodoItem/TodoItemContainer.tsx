@@ -9,14 +9,12 @@ import { TodoItemType } from "@/types";
 import GripVertical from "@/components/ui/icon/gripVertical";
 import { useCompleteTodo } from "@/hooks/useTodo";
 
-export const TodoItem = ({
+export const TodoItemContainer = ({
   todoItem,
   variant = "DEFAULT",
-  className,
 }: {
   todoItem: TodoItemType;
   variant?: "DEFAULT" | "completed-todos";
-  className?: string;
 }) => {
   //dnd kit setups
   const { attributes, listeners, setNodeRef, transform, transition } =

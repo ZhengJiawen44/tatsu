@@ -34,7 +34,7 @@ const PreviousTodo = ({
               openPrevious === true && "rotate-90"
             )}
           />
-          <p>previous</p>
+          <p>Previous</p>
           <LineSeparator className="flex-1" />
         </div>
       </summary>

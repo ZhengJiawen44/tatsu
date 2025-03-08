@@ -17,6 +17,7 @@ const PinnedTodos = ({
       {/* <p className="absolute -top-[1.1rem] left-2 text-sm text-card-foreground-muted bg-card">
         pinned
       </p> */}
+
       <TodoGroup todos={todos} />
     </div>
   ));

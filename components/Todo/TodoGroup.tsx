@@ -9,10 +9,9 @@ import { arrayMove } from "@dnd-kit/sortable";
 import { verticalListSortingStrategy } from "@dnd-kit/sortable";
 import { TodoItemType } from "@/types";
 import { useCallback, useEffect, useState } from "react";
-import { TodoItem } from "./TodoItem/TodoItemContainer";
+import { TodoItemContainer } from "./TodoItem/TodoItemContainer";
 import { useReorderTodo } from "@/hooks/useTodo";
 import LineSeparator from "../ui/lineSeparator";
-import CreateTodoBtn from "./CreateTodoBtn";
 
 const TodoGroup = ({
   todos,
@@ -92,7 +91,7 @@ const TodoGroup = ({
       >
         <SortableContext items={items} strategy={verticalListSortingStrategy}>
           {items.map((item) => (
-            <TodoItem key={item.id} todoItem={item} />
+            <TodoItemContainer key={item.id} todoItem={item} />
           ))}
         </SortableContext>
       </DndContext>
