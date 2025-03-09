@@ -10,6 +10,7 @@ import { useToast } from "@/hooks/use-toast";
 import LineSeparator from "@/components/ui/lineSeparator";
 import clsx from "clsx";
 import { cn } from "@/lib/utils";
+import { useTodoMenu } from "@/providers/TodoMenuProvider";
 
 const TodoItemMenu = ({
   className,
@@ -41,6 +42,8 @@ const TodoItemMenu = ({
       queryClient.invalidateQueries({ queryKey: ["todo"] });
     },
   });
+
+  const { setShowContent } = useTodoMenu();
 
   return (
     <div
@@ -76,7 +79,12 @@ const TodoItemMenu = ({
           )}
           {pinned ? "unpin" : "Pin to top"}
         </MenuItem>
-        <MenuItem onClick={() => setDisplayForm((prev: boolean) => !prev)}>
+        <MenuItem
+          onClick={() => {
+            setDisplayForm((prev: boolean) => !prev);
+            setShowContent(false);
+          }}
+        >
           <Edit className="w-4 h-4" />
           Edit
         </MenuItem>
