@@ -7,14 +7,18 @@ import {
 import { cn } from "@/lib/utils";
 import clsx from "clsx";
 import { useTodoMenu } from "@/providers/TodoMenuProvider";
+import { SetStateAction } from "react";
 const MeatballMenu = ({
   children,
   className,
+  showContent,
+  setShowContent,
 }: {
   children: React.ReactNode;
   className?: string;
+  showContent?: boolean;
+  setShowContent?: React.Dispatch<SetStateAction<boolean>>;
 }) => {
-  const { showContent, setShowContent } = useTodoMenu();
   return (
     <Popover open={showContent} onOpenChange={setShowContent}>
       <PopoverTrigger

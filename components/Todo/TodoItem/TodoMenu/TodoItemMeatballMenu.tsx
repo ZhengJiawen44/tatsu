@@ -12,10 +12,14 @@ import { PriorityIndicator } from "../PriorityIndicator";
 function TodoItemMeatballMenu() {
   const { deleteMutate, deletePending } = useDeleteTodo();
   const { pinMutate, pinPending } = usePinTodo();
-  const { setShowContent } = useTodoMenu();
-  const { id, pinned, setDisplayForm } = useTodoMenu();
+  const { id, pinned, setDisplayForm, setShowContent, showContent } =
+    useTodoMenu();
   return (
-    <MeatballMenu className="flex">
+    <MeatballMenu
+      className="flex"
+      setShowContent={setShowContent}
+      showContent={showContent}
+    >
       <MenuItem onClick={() => pinMutate({ id, pin: !pinned })}>
         {pinPending ? (
           <Spinner className="w-4 h-4" />

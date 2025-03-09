@@ -3,6 +3,7 @@ import React from "react";
 import { TodoItemContainer } from "../Todo/TodoItem/TodoItemContainer";
 import { useTodo } from "@/hooks/useTodo";
 import { Skeleton } from "../ui/skeleton";
+import TodoMenuProvider from "@/providers/TodoMenuProvider";
 
 const CompletedTodoContainer = () => {
   const { todos, todoLoading } = useTodo();
@@ -27,11 +28,9 @@ const CompletedTodoContainer = () => {
       {todos.map((todo) => {
         if (todo.completed) {
           return (
-            <TodoItemContainer
-              key={todo.id}
-              variant="completed-todos"
-              todoItem={todo}
-            />
+            <TodoMenuProvider id={todo.id} pinned={todo.pinned} key={todo.id}>
+              <TodoItemContainer variant="completed-todos" todoItem={todo} />
+            </TodoMenuProvider>
           );
         }
       })}
