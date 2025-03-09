@@ -1,4 +1,3 @@
-import React, { SetStateAction } from "react";
 import Meatball from "./icon/meatball";
 import {
   Popover,
@@ -7,24 +6,22 @@ import {
 } from "@/components/ui/popover";
 import { cn } from "@/lib/utils";
 import clsx from "clsx";
+import { useTodoMenu } from "@/providers/TodoMenuProvider";
 const MeatballMenu = ({
   children,
   className,
-  contentVisible,
-  setContentVisible,
 }: {
   children: React.ReactNode;
   className?: string;
-  contentVisible: boolean;
-  setContentVisible: React.Dispatch<SetStateAction<boolean>>;
 }) => {
+  const { showContent, setShowContent } = useTodoMenu();
   return (
-    <Popover open={contentVisible} onOpenChange={setContentVisible}>
+    <Popover open={showContent} onOpenChange={setShowContent}>
       <PopoverTrigger
         className={cn(
           clsx(
             " hover:bg-border rounded-md p-1",
-            contentVisible && "bg-border",
+            showContent && "bg-border",
             className
           )
         )}
@@ -35,7 +32,7 @@ const MeatballMenu = ({
         <Meatball className="fill-card-foreground hover:fill-white w-[17px] h-[17px]" />
       </PopoverTrigger>
       <PopoverContent
-        className=" bg-popover min-w-36 flex flex-col gap-1 p-1 w-fit h-fit  text-white border backdrop-blur-sm"
+        className=" bg-popover min-w-40 flex flex-col gap-1 p-1 w-fit h-fit  text-white border backdrop-blur-sm"
         onClick={(e) => {
           e.preventDefault();
         }}

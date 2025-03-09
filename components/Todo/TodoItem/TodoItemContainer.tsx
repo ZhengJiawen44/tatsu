@@ -8,6 +8,7 @@ import { CSS } from "@dnd-kit/utilities";
 import { TodoItemType } from "@/types";
 import GripVertical from "@/components/ui/icon/gripVertical";
 import { useCompleteTodo } from "@/hooks/useTodo";
+import TodoMenuProvider, { useTodoMenu } from "@/providers/TodoMenuProvider";
 
 export const TodoItemContainer = ({
   todoItem,
@@ -29,7 +30,7 @@ export const TodoItemContainer = ({
   const [isEdit, setEdit] = useState(false);
 
   const [showHandle, setShowHandle] = useState(false);
-  const [contentVisible, setContentVisible] = useState(false);
+  const { showContent } = useTodoMenu();
   const [isGrabbing, setGrabbing] = useState(false);
 
   const { mutateCompleted } = useCompleteTodo();
@@ -106,10 +107,8 @@ export const TodoItemContainer = ({
             pinned={pinned}
             className={clsx(
               "flex items-center gap-2",
-              !showHandle && !contentVisible && "opacity-0"
+              !showHandle && !showContent && "opacity-0"
             )}
-            contentVisible={contentVisible}
-            setContentVisible={setContentVisible}
           />
         )}
       </div>
