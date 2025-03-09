@@ -1,11 +1,12 @@
-import { MenuItem } from "@/components/TitleBar";
 import Unpin from "@/components/ui/icon/unpin";
 import LineSeparator from "@/components/ui/lineSeparator";
-import { MeatballMenu } from "@/components/ui/MeatballMenu";
+import { MeatballMenu, MenuItem } from "@/components/ui/MeatballMenu";
 import Spinner from "@/components/ui/spinner";
 import { useDeleteTodo, usePinTodo } from "@/hooks/useTodo";
 import { useTodoMenu } from "@/providers/TodoMenuProvider";
-import { Pin, Edit, Trash } from "lucide-react";
+import Pin from "@/components/ui/icon/pin";
+import Edit from "@/components/ui/icon/edit";
+import Trash from "@/components/ui/icon/trash";
 import { PriorityIndicator } from "../PriorityIndicator";
 
 function TodoItemMeatballMenu() {
