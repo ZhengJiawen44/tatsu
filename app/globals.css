@@ -10,6 +10,8 @@ body {
   :root {
     --tooltip: 233, 32%, 10%;
     --lime: 83, 50%, 59%;
+    --orange: 34, 93%, 48%;
+    --red: 4, 62%, 53%;
     --sidebar: 235, 28%, 19%;
     --background: 235 32% 15%;
     --foreground: 234 11% 70%;

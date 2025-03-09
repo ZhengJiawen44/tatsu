@@ -38,6 +38,8 @@ export default {
         },
         tooltip: "hsl(var(--tooltip))",
         lime: "hsl(var(--lime))",
+        orange: "hsl(var(--orange))",
+        red: "hsl(var(--red))",
         sidebar: "hsla(var(--sidebar))",
         background: "hsl(var(--background))",
         cream: "hsl(var(--background-cream))",

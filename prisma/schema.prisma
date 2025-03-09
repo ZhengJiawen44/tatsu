@@ -73,7 +73,7 @@ model Todo{
   pinned        Boolean         @default(false)
   completed     Boolean         @default(false)
   order         Int             @default(autoincrement())
-  Priority      Priority        @default(Low)
+  priority      Priority        @default(Low)
 }
 
 

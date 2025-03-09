@@ -21,8 +21,8 @@ export function PriorityIndicator({
           level === 1
             ? "border-lime"
             : level === 2
-            ? "border-yellow-500"
-            : "border-orange-700 "
+            ? "border-orange"
+            : "border-red"
         )}
       >
         {level}

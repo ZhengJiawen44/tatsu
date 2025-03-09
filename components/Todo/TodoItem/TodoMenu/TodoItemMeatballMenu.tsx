@@ -2,7 +2,7 @@ import Unpin from "@/components/ui/icon/unpin";
 import LineSeparator from "@/components/ui/lineSeparator";
 import { MeatballMenu, MenuItem } from "@/components/ui/MeatballMenu";
 import Spinner from "@/components/ui/spinner";
-import { useDeleteTodo, usePinTodo } from "@/hooks/useTodo";
+import { useDeleteTodo, usePinTodo, usePrioritizeTodo } from "@/hooks/useTodo";
 import { useTodoMenu } from "@/providers/TodoMenuProvider";
 import Pin from "@/components/ui/icon/pin";
 import Edit from "@/components/ui/icon/edit";
@@ -12,6 +12,7 @@ import { PriorityIndicator } from "../PriorityIndicator";
 function TodoItemMeatballMenu() {
   const { deleteMutate, deletePending } = useDeleteTodo();
   const { pinMutate, pinPending } = usePinTodo();
+  const { mutatePrioritize } = usePrioritizeTodo();
   const { id, pinned, setDisplayForm, setShowContent, showContent } =
     useTodoMenu();
   return (
@@ -53,9 +54,27 @@ function TodoItemMeatballMenu() {
         className="flex w-full px-2 hover:bg-transparent gap-4 text-xs"
         onClick={() => {}}
       >
-        <PriorityIndicator level={1} onClick={() => {}} />
-        <PriorityIndicator level={2} onClick={() => {}} />
-        <PriorityIndicator level={3} onClick={() => {}} />
+        <PriorityIndicator
+          level={1}
+          onClick={() => {
+            mutatePrioritize({ id, level: "Low" });
+            setShowContent(false);
+          }}
+        />
+        <PriorityIndicator
+          level={2}
+          onClick={() => {
+            mutatePrioritize({ id, level: "Medium" });
+            setShowContent(false);
+          }}
+        />
+        <PriorityIndicator
+          level={3}
+          onClick={() => {
+            mutatePrioritize({ id, level: "High" });
+            setShowContent(false);
+          }}
+        />
       </MenuItem>
     </MeatballMenu>
   );

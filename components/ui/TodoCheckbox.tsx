@@ -5,10 +5,12 @@ export default function TodoCheckbox({
   complete,
   onChange,
   checked,
+  priority,
 }: {
   complete: boolean;
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   checked: boolean;
+  priority: "Low" | "Medium" | "High";
 }) {
   const [expand, setExpand] = useState(false);
 
@@ -45,10 +47,15 @@ export default function TodoCheckbox({
           setExpand(true);
         }}
         className={clsx(
-          "w-[1rem] h-[1rem] border border-lime rounded-full flex items-center justify-center",
+          "w-[1rem] h-[1rem] rounded-full flex items-center justify-center border-2",
           "hover:cursor-pointer hover:bg-lime peer-checked:bg-lime peer-checked:border-lime",
           "transition-transform duration-200 ease-out",
-          expand && "scale-125"
+          expand && "scale-125",
+          priority === "Low"
+            ? "border-lime"
+            : priority === "Medium"
+            ? " border-orange"
+            : " border-red"
         )}
       ></div>
     </label>

@@ -25,7 +25,7 @@ export const TodoItemContainer = ({
     transition,
   };
 
-  const { id, title, description, pinned, completed } = todoItem;
+  const { id, title, description, completed, priority } = todoItem;
 
   const { displayForm, setDisplayForm } = useTodoMenu();
   const [showHandle, setShowHandle] = useState(false);
@@ -82,6 +82,7 @@ export const TodoItemContainer = ({
         <div>
           <div className="flex items-start gap-3">
             <TodoCheckbox
+              priority={priority}
               complete={completed}
               onChange={() => {
                 mutateCompleted({ id, completed: !completed });
