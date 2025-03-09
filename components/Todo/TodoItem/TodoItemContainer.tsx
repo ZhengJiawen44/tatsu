@@ -29,6 +29,7 @@ export const TodoItemContainer = ({
   const [isEdit, setEdit] = useState(false);
 
   const [showHandle, setShowHandle] = useState(false);
+  const [contentVisible, setContentVisible] = useState(false);
   const [isGrabbing, setGrabbing] = useState(false);
 
   const { mutateCompleted } = useCompleteTodo();
@@ -48,7 +49,7 @@ export const TodoItemContainer = ({
         ref={setNodeRef}
         style={style}
         className={clsx(
-          "relative flex justify-between items-center my-4 h-fit bg-inherit py-2 rounded-md",
+          "min-h-11 relative flex justify-between items-center my-4 bg-inherit py-2 rounded-md",
           isGrabbing && variant === "DEFAULT"
             ? "shadow-[0px_10px_30px_rgba(6,8,30,0.3)] z-30 border border-border-muted"
             : "shadow-none"
@@ -58,7 +59,9 @@ export const TodoItemContainer = ({
         }}
         {...attributes}
         {...listeners}
-        onMouseEnter={() => setShowHandle(true)}
+        onMouseEnter={() => {
+          setShowHandle(true);
+        }}
         onMouseLeave={() => setShowHandle(false)}
         onMouseDown={() => setGrabbing(true)}
         onMouseUp={() => setGrabbing(false)}
@@ -96,12 +99,19 @@ export const TodoItemContainer = ({
           </div>
         </div>
 
-        <TodoItemMenu
-          id={id}
-          setDisplayForm={setEdit}
-          pinned={pinned}
-          className={clsx(variant === "DEFAULT" ? "" : "hidden")}
-        />
+        {variant === "DEFAULT" && (
+          <TodoItemMenu
+            id={id}
+            setDisplayForm={setEdit}
+            pinned={pinned}
+            className={clsx(
+              "flex items-center gap-2",
+              !showHandle && !contentVisible && "opacity-0"
+            )}
+            contentVisible={contentVisible}
+            setContentVisible={setContentVisible}
+          />
+        )}
       </div>
     </>
   );

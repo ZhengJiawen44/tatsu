@@ -57,6 +57,11 @@ model VerificationToken {
   @@id([identifier, token])
 }
 
+enum Priority{
+  Low
+  Medium
+  High
+}
 
 model Todo{
   id            String          @id @default(cuid())
@@ -68,6 +73,7 @@ model Todo{
   pinned        Boolean         @default(false)
   completed     Boolean         @default(false)
   order         Int             @default(autoincrement())
+  Priority      Priority        @default(Low)
 }
 
 
