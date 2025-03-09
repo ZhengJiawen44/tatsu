@@ -159,3 +159,42 @@ export const useReorderTodo = () => {
   );
   return { mutateReorder, isPending };
 };
+
+//pin todo
+export function usePinTodo() {
+  const queryClient = useQueryClient();
+  const {
+    mutate: pinMutate,
+    isPending: pinPending,
+    error,
+    isError,
+  } = useMutation({
+    mutationFn: async ({ id, pin }: { id: string; pin: boolean }) => {
+      await fetch(`/api/todo/${id}?pin=${pin}`, { method: "PATCH" });
+    },
+    mutationKey: ["todo"],
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["todo"] });
+    },
+  });
+  useErrorNotification(
+    isError,
+    error?.message || "an unexpectedd error happened"
+  );
+  return { pinMutate, pinPending };
+}
+
+//delete todo
+export const useDeleteTodo = () => {
+  const queryClient = useQueryClient();
+  const { mutate: deleteMutate, isPending: deletePending } = useMutation({
+    mutationFn: async ({ id }: { id: string }) => {
+      const res = await fetch(`/api/todo/${id}`, { method: "DELETE" });
+    },
+    mutationKey: ["todo"],
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["todo"] });
+    },
+  });
+  return { deleteMutate, deletePending };
+};

@@ -1,5 +1,5 @@
 import { useState } from "react";
-import TodoItemMenu from "./TodoMenu/TodoItemMenu";
+import TodoItemMenuContainer from "./TodoMenu/TodoItemMenuContainer";
 import TodoForm from "./TodoForm";
 import TodoCheckbox from "@/components/ui/TodoCheckbox";
 import clsx from "clsx";
@@ -27,19 +27,18 @@ export const TodoItemContainer = ({
 
   const { id, title, description, pinned, completed } = todoItem;
 
-  const [isEdit, setEdit] = useState(false);
-
+  const { displayForm, setDisplayForm } = useTodoMenu();
   const [showHandle, setShowHandle] = useState(false);
   const { showContent } = useTodoMenu();
   const [isGrabbing, setGrabbing] = useState(false);
 
   const { mutateCompleted } = useCompleteTodo();
 
-  if (isEdit)
+  if (displayForm)
     return (
       <TodoForm
         displayForm={true}
-        setDisplayForm={setEdit}
+        setDisplayForm={setDisplayForm}
         todo={{ id, title, description }}
       />
     );
@@ -101,10 +100,7 @@ export const TodoItemContainer = ({
         </div>
 
         {variant === "DEFAULT" && (
-          <TodoItemMenu
-            id={id}
-            setDisplayForm={setEdit}
-            pinned={pinned}
+          <TodoItemMenuContainer
             className={clsx(
               "flex items-center gap-2",
               !showHandle && !showContent && "opacity-0"

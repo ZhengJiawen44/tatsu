@@ -1,0 +1,59 @@
+import { MenuItem } from "@/components/TitleBar";
+import Unpin from "@/components/ui/icon/unpin";
+import LineSeparator from "@/components/ui/lineSeparator";
+import { MeatballMenu } from "@/components/ui/MeatballMenu";
+import Spinner from "@/components/ui/spinner";
+import { useDeleteTodo, usePinTodo } from "@/hooks/useTodo";
+import { useTodoMenu } from "@/providers/TodoMenuProvider";
+import { Pin, Edit, Trash } from "lucide-react";
+import { PriorityIndicator } from "../PriorityIndicator";
+
+function TodoItemMeatballMenu() {
+  const { deleteMutate, deletePending } = useDeleteTodo();
+  const { pinMutate, pinPending } = usePinTodo();
+  const { setShowContent } = useTodoMenu();
+  const { id, pinned, setDisplayForm } = useTodoMenu();
+  return (
+    <MeatballMenu className="flex">
+      <MenuItem onClick={() => pinMutate({ id, pin: !pinned })}>
+        {pinPending ? (
+          <Spinner className="w-4 h-4" />
+        ) : !pinned ? (
+          <Pin className="w-4 h-4" />
+        ) : (
+          <Unpin className="w-4 h-4" />
+        )}
+        {pinned ? "unpin" : "Pin to top"}
+      </MenuItem>
+      <MenuItem
+        onClick={() => {
+          setDisplayForm((prev: boolean) => !prev);
+          setShowContent(false);
+        }}
+      >
+        <Edit className="w-4 h-4" />
+        Edit
+      </MenuItem>
+      <MenuItem onClick={() => deleteMutate({ id })}>
+        {deletePending ? (
+          <Spinner className="w-4 h-4" />
+        ) : (
+          <Trash className="w-4 h-4" />
+        )}
+        delete
+      </MenuItem>
+      <LineSeparator className="border-card-foreground-muted my-2 w-[95%]" />
+      <p className="text-sm text-card-foreground-muted ">priority</p>
+      <MenuItem
+        className="flex w-full px-2 hover:bg-transparent gap-4 text-xs"
+        onClick={() => {}}
+      >
+        <PriorityIndicator level={1} onClick={() => {}} />
+        <PriorityIndicator level={2} onClick={() => {}} />
+        <PriorityIndicator level={3} onClick={() => {}} />
+      </MenuItem>
+    </MeatballMenu>
+  );
+}
+
+export default TodoItemMeatballMenu;
