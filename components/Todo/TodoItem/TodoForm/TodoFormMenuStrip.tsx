@@ -1,6 +1,6 @@
 import clsx from "clsx";
-import DayPicker from "./DayPicker";
-import { PriorityIndicator } from "./PriorityIndicator";
+import DayPicker from "../DayPicker";
+import { PriorityIndicator } from "../PriorityIndicator";
 import { TodoItemType } from "@/types";
 import React, { SetStateAction } from "react";
 import { DateRange } from "react-day-picker";

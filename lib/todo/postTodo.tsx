@@ -1,4 +1,5 @@
 import { todoSchema } from "@/schema";
+import { endOfDay } from "date-fns";
 import { DateRange } from "react-day-picker";
 export async function postTodo({
   title,
@@ -10,10 +11,27 @@ export async function postTodo({
   title: string;
   desc?: string;
   priority: "Low" | "Medium" | "High";
-  dateRange: DateRange;
+  dateRange?: DateRange;
 
   toast: (options: { description: string }) => void;
 }) {
+  // if date picker value is undefined.
+  if (!dateRange) {
+    const today = new Date();
+    dateRange = { to: today, from: endOfDay(today) };
+  }
+
+  //if end date is undefined
+  if (!dateRange.to && dateRange.from) {
+    dateRange.to = endOfDay(dateRange.from);
+  }
+
+  //if start date is undefined
+  if (!dateRange.from) {
+    dateRange.from = new Date();
+    dateRange.to = endOfDay(dateRange.from);
+  }
+
   try {
     //validate input
     const parsedObj = todoSchema.safeParse({

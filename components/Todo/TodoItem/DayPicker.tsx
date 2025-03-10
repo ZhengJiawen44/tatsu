@@ -19,7 +19,6 @@ interface DayPickerProps {
 }
 const DayPicker = ({ todo, date, setDate }: DayPickerProps) => {
   //get date from todo or set to default
-
   return (
     <Popover>
       <PopoverTrigger className="flex justify-center items-center gap-1">

@@ -2,21 +2,25 @@ import clsx from "clsx";
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import adjustHeight from "@/lib/adjustTextareaHeight";
 import { useToast } from "@/hooks/use-toast";
-import Spinner from "../../ui/spinner";
-import LineSeparator from "../../ui/lineSeparator";
+import Spinner from "../../../ui/spinner";
+import LineSeparator from "../../../ui/lineSeparator";
 import { useEditTodo, useCreateTodo } from "@/hooks/useTodo";
 import { TodoItemType } from "@/types";
 import { DateRange } from "react-day-picker";
-import DayPicker from "./DayPicker";
+import DayPicker from "../DayPicker";
 import { addDays, endOfDay } from "date-fns";
 import TodoFormMenuStrip from "./TodoFormMenuStrip";
-interface TodoFormProps {
+interface TodoFormConrtainerProps {
   displayForm: boolean;
   setDisplayForm: React.Dispatch<React.SetStateAction<boolean>>;
   todo?: TodoItemType;
 }
 
-const TodoForm = ({ displayForm, setDisplayForm, todo }: TodoFormProps) => {
+const TodoFormConrtainer = ({
+  displayForm,
+  setDisplayForm,
+  todo,
+}: TodoFormConrtainerProps) => {
   const clearInput = useCallback(
     function clearInput() {
       setDesc("");
@@ -139,9 +143,9 @@ const TodoForm = ({ displayForm, setDisplayForm, todo }: TodoFormProps) => {
     e.preventDefault();
     try {
       if (todo?.id) {
-        editTodo({ id: todo.id, title, desc, priority, dateRange: date! });
+        editTodo({ id: todo.id, title, desc, priority, dateRange: date });
       } else {
-        createTodo({ title, desc, priority, dateRange: date! });
+        createTodo({ title, desc, priority, dateRange: date });
       }
     } catch (error) {
       if (error instanceof Error) toast({ description: error.message });
@@ -149,4 +153,4 @@ const TodoForm = ({ displayForm, setDisplayForm, todo }: TodoFormProps) => {
   }
 };
 
-export default TodoForm;
+export default TodoFormConrtainer;
