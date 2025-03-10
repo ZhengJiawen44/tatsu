@@ -22,8 +22,8 @@ const DayPicker = ({ todo, date, setDate }: DayPickerProps) => {
 
   return (
     <Popover>
-      <PopoverTrigger className="flex gap-1 hover:text-white">
-        <CalenderIcon />
+      <PopoverTrigger className="flex justify-center items-center gap-1">
+        <CalenderIcon className="w-5 h-5" />
         {todo?.startedAt && isEqual(todo.startedAt, new Date())
           ? "today"
           : todo &&
