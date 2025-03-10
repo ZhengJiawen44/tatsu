@@ -25,6 +25,8 @@ export interface TodoItemType {
   completed: boolean;
   order: number;
   priority: "Low" | "Medium" | "High";
+  startedAt: Date;
+  expiresAt: Date;
 }
 
 export interface FileItemType {

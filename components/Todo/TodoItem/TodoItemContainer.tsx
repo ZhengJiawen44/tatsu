@@ -39,7 +39,7 @@ export const TodoItemContainer = ({
       <TodoForm
         displayForm={true}
         setDisplayForm={setDisplayForm}
-        todo={{ id, title, description }}
+        todo={todoItem}
       />
     );
 

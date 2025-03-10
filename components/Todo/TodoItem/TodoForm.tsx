@@ -5,16 +5,16 @@ import { useToast } from "@/hooks/use-toast";
 import Spinner from "../../ui/spinner";
 import LineSeparator from "../../ui/lineSeparator";
 import { useEditTodo, useCreateTodo } from "@/hooks/useTodo";
+import { PriorityIndicator } from "./PriorityIndicator";
+import { TodoItemType } from "@/types";
+import { DateRange } from "react-day-picker";
+import DayPicker from "./DayPicker";
+import { addDays, endOfDay } from "date-fns";
 
-interface TodoItem {
-  id: string;
-  title: string;
-  description?: string;
-}
 interface TodoFormProps {
   displayForm: boolean;
   setDisplayForm: React.Dispatch<React.SetStateAction<boolean>>;
-  todo?: TodoItem;
+  todo?: TodoItemType;
 }
 
 const TodoForm = ({ displayForm, setDisplayForm, todo }: TodoFormProps) => {
@@ -23,6 +23,10 @@ const TodoForm = ({ displayForm, setDisplayForm, todo }: TodoFormProps) => {
       setDesc("");
       setTitle("");
       setDisplayForm(false);
+      setDate({
+        from: todo?.startedAt ? todo.startedAt : new Date(),
+        to: todo?.expiresAt ? todo.expiresAt : addDays(new Date(), 0),
+      });
     },
     [setDisplayForm]
   );
@@ -32,6 +36,12 @@ const TodoForm = ({ displayForm, setDisplayForm, todo }: TodoFormProps) => {
 
   const [title, setTitle] = useState<string>(todo?.title || "");
   const [desc, setDesc] = useState<string>(todo?.description || "");
+  const [priority, setPriority] = useState(todo?.priority || "Low");
+  // Then use it in your component:
+  const [date, setDate] = useState<DateRange | undefined>({
+    from: todo?.startedAt ? todo.startedAt : new Date(),
+    to: todo?.expiresAt ? todo.expiresAt : endOfDay(new Date()),
+  });
 
   const { editTodo, editLoading, isSuccess: editSuccess } = useEditTodo();
   const {
@@ -98,6 +108,35 @@ const TodoForm = ({ displayForm, setDisplayForm, todo }: TodoFormProps) => {
               displayForm && !editLoading && !createLoading ? "hidden" : ""
             )}
           />
+
+          <DayPicker todo={todo} date={date} setDate={setDate} />
+          <div className="flex gap-1">
+            <PriorityIndicator
+              level={1}
+              onClick={() => setPriority("Low")}
+              className={clsx(
+                "h-6 w-6",
+                priority === "Low" && "bg-lime text-black"
+              )}
+            />
+            <PriorityIndicator
+              level={2}
+              onClick={() => setPriority("Medium")}
+              className={clsx(
+                "h-6 w-6",
+                priority === "Medium" && "bg-orange text-black"
+              )}
+            />
+            <PriorityIndicator
+              level={3}
+              onClick={() => setPriority("High")}
+              className={clsx(
+                "h-6 w-6",
+                priority === "High" && "bg-red text-black"
+              )}
+            />
+          </div>
+
           <div className="flex gap-5 items-center mr-0 ml-auto">
             <button
               type="button"
@@ -123,9 +162,9 @@ const TodoForm = ({ displayForm, setDisplayForm, todo }: TodoFormProps) => {
     e.preventDefault();
     try {
       if (todo?.id) {
-        editTodo({ id: todo.id, title, desc });
+        editTodo({ id: todo.id, title, desc, priority });
       } else {
-        createTodo({ title, desc });
+        createTodo({ title, desc, priority, dateRange: date! });
       }
     } catch (error) {
       if (error instanceof Error) toast({ description: error.message });

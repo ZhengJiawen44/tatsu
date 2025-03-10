@@ -1,16 +1,28 @@
 import { todoSchema } from "@/schema";
+import { DateRange } from "react-day-picker";
 export async function postTodo({
   title,
   desc,
+  priority,
+  dateRange,
   toast,
 }: {
   title: string;
   desc?: string;
+  priority: "Low" | "Medium" | "High";
+  dateRange: DateRange;
+
   toast: (options: { description: string }) => void;
 }) {
   try {
     //validate input
-    const parsedObj = todoSchema.safeParse({ title, description: desc });
+    const parsedObj = todoSchema.safeParse({
+      title,
+      description: desc,
+      priority,
+      startedAt: dateRange.from,
+      expiresAt: dateRange.to,
+    });
 
     if (!parsedObj.success) {
       console.log(parsedObj.error.errors[0]);

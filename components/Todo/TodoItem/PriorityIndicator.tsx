@@ -11,18 +11,18 @@ export function PriorityIndicator({
   onClick: () => void;
 }) {
   return (
-    <div
-      className={cn("hover:bg-card rounded-md", className)}
-      onClick={onClick}
-    >
+    <div className={cn("rounded-md hover:cursor-pointer")} onClick={onClick}>
       <div
         className={clsx(
-          "w-5 h-5 border-2 rounded-md flex justify-center items-center",
+          cn(
+            "w-5 h-5 border-2 rounded-md flex justify-center items-center",
+            className
+          ),
           level === 1
             ? "border-lime"
             : level === 2
             ? "border-orange"
-            : "border-red"
+            : "border-red "
         )}
       >
         {level}

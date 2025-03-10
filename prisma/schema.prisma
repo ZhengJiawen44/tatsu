@@ -74,8 +74,9 @@ model Todo{
   completed     Boolean         @default(false)
   order         Int             @default(autoincrement())
   priority      Priority        @default(Low)
+  startedAt     DateTime        @default(now())
+  expiresAt     DateTime        @default(now())
 }
-
 
 model Note{
   id            String          @id @default(cuid())

@@ -6,6 +6,7 @@ import { useMutation } from "@tanstack/react-query";
 import { patchTodo } from "@/lib/todo/patchTodo";
 import { postTodo } from "@/lib/todo/postTodo";
 import { useToast } from "./use-toast";
+import { DateRange } from "react-day-picker";
 
 export const useTodo = () => {
   //get todos
@@ -24,14 +25,22 @@ export const useTodo = () => {
         throw new Error(
           data.message || `error ${res.status}: failed to get Todos`
         );
-      const { todos } = data;
+      const { todos }: { todos: TodoItemType[] } = data;
       if (!todos) {
         throw new Error(
           data.message || `bad server response: Did not recieve todo`
         );
       }
 
-      return todos;
+      const todoWithFormattedDates = todos.map((todo) => {
+        return {
+          ...todo,
+          startedAt: new Date(todo.startedAt),
+          createdAt: new Date(todo.createdAt),
+          expiresAt: new Date(todo.expiresAt),
+        };
+      });
+      return todoWithFormattedDates;
     },
   });
   useErrorNotification(
@@ -53,8 +62,12 @@ export const useEditTodo = () => {
     isError,
     error,
   } = useMutation({
-    mutationFn: (params: { id: string; title: string; desc?: string }) =>
-      patchTodo({ ...params, toast }),
+    mutationFn: (params: {
+      id: string;
+      title: string;
+      desc?: string;
+      priority: "Low" | "Medium" | "High";
+    }) => patchTodo({ ...params, toast }),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["todo"] });
     },
@@ -77,8 +90,12 @@ export const useCreateTodo = () => {
     error,
     isSuccess,
   } = useMutation({
-    mutationFn: (params: { title: string; desc?: string }) =>
-      postTodo({ ...params, toast }),
+    mutationFn: (params: {
+      title: string;
+      desc?: string;
+      priority: "Low" | "Medium" | "High";
+      dateRange: DateRange;
+    }) => postTodo({ ...params, toast }),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["todo"] });
     },

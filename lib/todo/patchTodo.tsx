@@ -4,11 +4,13 @@ export async function patchTodo({
   id,
   title,
   desc,
+  priority,
   toast,
 }: {
   id: string;
   title: string;
   desc?: string;
+  priority: "Low" | "Medium" | "High";
   toast: (options: { description: string }) => void;
 }) {
   try {
@@ -18,7 +20,11 @@ export async function patchTodo({
     }
 
     //validate input
-    const parsedObj = todoSchema.safeParse({ title, description: desc });
+    const parsedObj = todoSchema.safeParse({
+      title,
+      description: desc,
+      priority,
+    });
     if (!parsedObj.success) {
       console.log(parsedObj.error.errors[0]);
       return;

@@ -133,10 +133,15 @@ export async function PATCH(
     const parsedObj = todoSchema.partial().safeParse(body);
     if (!parsedObj.success) throw new BadRequestError("Invalid request body");
 
+    const { title, description, priority: newPriority } = parsedObj.data;
     // Update todo
     const updatedTodo = await prisma.todo.updateMany({
       where: { id, userID: user.id },
-      data: parsedObj.data,
+      data: {
+        title: title,
+        description: description,
+        priority: newPriority as Priority,
+      },
     });
 
     if (updatedTodo.count === 0)
