@@ -1,16 +1,19 @@
 import { todoSchema } from "@/schema";
+import { DateRange } from "react-day-picker";
 
 export async function patchTodo({
   id,
   title,
   desc,
   priority,
+  dateRange,
   toast,
 }: {
   id: string;
   title: string;
   desc?: string;
   priority: "Low" | "Medium" | "High";
+  dateRange: DateRange;
   toast: (options: { description: string }) => void;
 }) {
   try {
@@ -24,6 +27,8 @@ export async function patchTodo({
       title,
       description: desc,
       priority,
+      startedAt: dateRange.from,
+      expiresAt: dateRange.to,
     });
     if (!parsedObj.success) {
       console.log(parsedObj.error.errors[0]);

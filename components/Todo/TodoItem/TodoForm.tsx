@@ -162,7 +162,7 @@ const TodoForm = ({ displayForm, setDisplayForm, todo }: TodoFormProps) => {
     e.preventDefault();
     try {
       if (todo?.id) {
-        editTodo({ id: todo.id, title, desc, priority });
+        editTodo({ id: todo.id, title, desc, priority, dateRange: date! });
       } else {
         createTodo({ title, desc, priority, dateRange: date! });
       }

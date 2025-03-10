@@ -67,6 +67,7 @@ export const useEditTodo = () => {
       title: string;
       desc?: string;
       priority: "Low" | "Medium" | "High";
+      dateRange: DateRange;
     }) => patchTodo({ ...params, toast }),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["todo"] });
