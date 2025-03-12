@@ -1,6 +1,6 @@
 import { useState } from "react";
 import TodoItemMenuContainer from "./TodoMenu/TodoItemMenuContainer";
-import TodoFormConrtainer from "./TodoForm/TodoFormConrtainer";
+import TodoFormConrtainer from "./TodoForm/TodoFormContainer";
 import TodoCheckbox from "@/components/ui/TodoCheckbox";
 import clsx from "clsx";
 import { useSortable } from "@dnd-kit/sortable";
@@ -93,9 +93,10 @@ export const TodoItemContainer = ({
               <p className="leading-none select-none text-card-foreground mb-1 text-sm">
                 {title}
               </p>
-              <p className="text-card-foreground-muted text-sm">
+
+              <pre className="text-card-foreground-muted text-sm flex">
                 {description}
-              </p>
+              </pre>
             </div>
           </div>
         </div>

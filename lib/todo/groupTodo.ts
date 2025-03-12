@@ -20,7 +20,7 @@ export const groupTodo = ({ todos }: { todos: TodoItemType[] }) => {
         : "groupedUnPinnedTodos";
 
       // Get date key
-      const dateKey = getDisplayDate(todo.createdAt);
+      const dateKey = getDisplayDate(todo.startedAt);
 
       // Initialize nested objects if needed
       if (!acc[category][dateKey]) {

@@ -7,7 +7,7 @@ import LineSeparator from "../../../ui/lineSeparator";
 import { useEditTodo, useCreateTodo } from "@/hooks/useTodo";
 import { TodoItemType } from "@/types";
 import { DateRange } from "react-day-picker";
-import DayPicker from "../DayPicker";
+import DayPicker from "../DayMenu";
 import { addDays, endOfDay } from "date-fns";
 import TodoFormMenuStrip from "./TodoFormMenuStrip";
 interface TodoFormConrtainerProps {
@@ -28,7 +28,7 @@ const TodoFormConrtainer = ({
       setDisplayForm(false);
       setDate({
         from: todo?.startedAt ? todo.startedAt : new Date(),
-        to: todo?.expiresAt ? todo.expiresAt : addDays(new Date(), 0),
+        to: todo?.expiresAt ? todo.expiresAt : endOfDay(new Date()),
       });
     },
     [setDisplayForm]

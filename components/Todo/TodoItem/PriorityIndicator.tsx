@@ -8,7 +8,7 @@ export function PriorityIndicator({
 }: {
   className?: string;
   level: number;
-  onClick: () => void;
+  onClick?: () => void;
 }) {
   return (
     <div className={cn("rounded-md hover:cursor-pointer")} onClick={onClick}>

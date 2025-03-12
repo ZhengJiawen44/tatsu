@@ -13,7 +13,7 @@ import { useNote } from "@/hooks/useNote";
 import NoteLoading from "./NoteLoading";
 import { useCreateNote } from "@/hooks/useNote";
 import Spinner from "@/components/ui/spinner";
-import NoteItem from "../Note/NoteItem";
+import NoteSidebarItem from "./NoteSidebarItem";
 
 const NoteCollapsible = () => {
   const { activeMenu, setActiveMenu } = useMenu();
@@ -68,7 +68,7 @@ const NoteCollapsible = () => {
           {isPending ? (
             <NoteLoading />
           ) : (
-            notes.map((note) => <NoteItem note={note} key={note.id} />)
+            notes.map((note) => <NoteSidebarItem note={note} key={note.id} />)
           )}
         </div>
       </CollapsibleContent>

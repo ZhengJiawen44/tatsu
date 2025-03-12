@@ -1,6 +1,6 @@
 import React, { SetStateAction, useEffect } from "react";
 import { FileItemType } from "@/types";
-import { MeatballMenu, MenuItem } from "../ui/MeatballMenu";
+import { MenuContainer, MenuItem } from "../ui/Menu";
 import VaultLoading from "./VaultLoading";
 import { useDeleteFile } from "@/hooks/useVault";
 import { downloadFile } from "@/lib/downloadFile";
@@ -63,7 +63,7 @@ const VaultContent = ({
                   {new Date(createdAt).toLocaleDateString()}
                 </td>
                 <td className="px-4 py-2">
-                  <MeatballMenu>
+                  <MenuContainer>
                     <MenuItem onClick={() => downloadFile(url, name)}>
                       Download
                     </MenuItem>
@@ -75,7 +75,7 @@ const VaultContent = ({
                     >
                       Delete
                     </MenuItem>
-                  </MeatballMenu>
+                  </MenuContainer>
                 </td>
               </tr>
             );

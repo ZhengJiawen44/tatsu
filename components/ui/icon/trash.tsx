@@ -7,6 +7,7 @@ const Trash = ({ className }: { className?: string }) => {
       height="13"
       viewBox="0 0 13 13"
       stroke="currentColor"
+      fill="none"
       xmlns="http://www.w3.org/2000/svg"
       className={className || ""}
     >
