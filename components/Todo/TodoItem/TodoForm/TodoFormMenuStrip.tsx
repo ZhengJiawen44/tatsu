@@ -45,7 +45,7 @@ const TodoFormMenuStrip = ({
                 : "text-red"
             )}
           />
-          priority
+          <p className="hidden sm:block">Priority</p>
         </MenuTrigger>
         <MenuContent>
           <MenuItem onClick={() => setPriority("Low")}>
@@ -64,7 +64,7 @@ const TodoFormMenuStrip = ({
       </MenuContainer>
       <div className="flex gap-2 p-1 border rounded-sm text-sm hover:bg-border hover:text-white hover:cursor-pointer">
         <Repeat className="w-5 h-5" />
-        Repeat
+        <p className="hidden sm:block">Repeat</p>
       </div>
     </div>
   );

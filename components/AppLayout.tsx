@@ -4,7 +4,7 @@ import SidebarContainer from "./Sidebar/SidebarContainer";
 import UserCard from "./Sidebar/User/UserCard";
 import VaultItem from "./Sidebar/Vault/VaultItem";
 import NoteCollapsible from "./Sidebar/Note/NoteCollapsible";
-import TodoItem from "./Sidebar/Todo/TodoItem";
+import TodoItem from "./Sidebar/Todo/TodoSidebarItem";
 import CompletedItem from "./Sidebar/Completed/CompletedItem";
 import PassKeyProvider from "@/providers/PassKeyProvider";
 import { useMenu } from "@/providers/MenuProvider";

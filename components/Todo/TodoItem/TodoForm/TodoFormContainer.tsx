@@ -10,6 +10,7 @@ import { DateRange } from "react-day-picker";
 import DayPicker from "../DayMenu";
 import { addDays, endOfDay } from "date-fns";
 import TodoFormMenuStrip from "./TodoFormMenuStrip";
+import Ok from "@/components/ui/icon/ok";
 interface TodoFormConrtainerProps {
   displayForm: boolean;
   setDisplayForm: React.Dispatch<React.SetStateAction<boolean>>;
@@ -68,7 +69,7 @@ const TodoFormConrtainer = ({
   const { toast } = useToast();
   return (
     <div
-      className=""
+      className="w-full"
       onClick={(e) => {
         e.stopPropagation();
       }}
@@ -76,7 +77,7 @@ const TodoFormConrtainer = ({
       <form
         onSubmit={handleForm}
         className={clsx(
-          "flex border flex-col my-4 rounded-md p-3 gap-3",
+          "flex border flex-col my-4 rounded-md p-4 gap-3 w-full",
           !displayForm && "hidden"
         )}
       >
@@ -84,7 +85,7 @@ const TodoFormConrtainer = ({
           value={title}
           onChange={(e) => setTitle(e.target.value)}
           ref={titleRef}
-          className="bg-transparent placeholder-card-foreground-muted text-card-foreground text-[1.2rem] font-semibold focus:outline-none"
+          className="w-full bg-transparent placeholder-card-foreground-muted text-card-foreground text-[1.2rem] font-semibold focus:outline-none"
           type="text"
           name="title"
           placeholder="finish chapter 5 in 7 days"
@@ -96,14 +97,14 @@ const TodoFormConrtainer = ({
             setDesc(e.target.value);
             adjustHeight(textareaRef);
           }}
-          className="overflow-hidden bg-transparent placeholder-card-foreground-muted text-card-foreground font-extralight focus:outline-none resize-none"
+          className="w-full overflow-hidden bg-transparent placeholder-card-foreground-muted text-card-foreground font-extralight focus:outline-none resize-none"
           name="description"
           placeholder="description"
         />
 
         <LineSeparator />
         {/* footer tooltip */}
-        <div className="flex justify-between items-center w-full">
+        <div className="max-w-full flex justify-between items-center overflow-clip text-sm sm:text-[1rem]">
           <TodoFormMenuStrip
             todo={todo}
             date={date}
@@ -118,20 +119,21 @@ const TodoFormConrtainer = ({
             )}
           />
 
-          <div className="flex gap-5 items-center mr-0 ml-auto">
+          <div className="flex gap-2 items-center">
             <button
               type="button"
-              className="bg-card-muted px-1 leading-none py-[2.5px] h-fit rounded-sm font-semibold"
+              className="border hover:bg-border px-2 bg-red text-card sm:px-1 leading-none py-[2.5px] h-fit rounded-sm font-semibold"
               onClick={clearInput}
             >
-              cancel
+              <p className="hidden sm:block">cancel</p>
+              <p className="sm:hidden">X</p>
             </button>
             <button
               type="submit"
               disabled={title.length <= 0}
               className="flex gap-2 disabled:opacity-40 bg-lime px-1 leading-none py-[2.5px] h-fit rounded-sm text-card font-semibold"
             >
-              {todo ? "save" : "add"}
+              <p>{todo ? "save" : "add"}</p>
             </button>
           </div>
         </div>

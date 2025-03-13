@@ -25,7 +25,6 @@ interface DayMenuProps {
 const DayMenu = ({ todo, date, setDate }: DayMenuProps) => {
   const nextWeek = nextMonday(date?.from || new Date());
   const tomorrow = addDays(date?.from || new Date(), 1);
-  console.log(date);
 
   //get date from todo or set to default
   return (

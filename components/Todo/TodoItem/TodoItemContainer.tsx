@@ -49,7 +49,7 @@ export const TodoItemContainer = ({
         ref={setNodeRef}
         style={style}
         className={clsx(
-          "min-h-11 relative flex justify-between items-center my-4 bg-inherit py-2 rounded-md",
+          " w-full min-h-11 relative flex justify-between items-center my-4 bg-inherit py-2 rounded-md",
           isGrabbing && variant === "DEFAULT"
             ? "shadow-[0px_10px_30px_rgba(6,8,30,0.3)] z-30 border border-border-muted"
             : "shadow-none"
@@ -79,7 +79,8 @@ export const TodoItemContainer = ({
         >
           <GripVertical className=" w-5 h-5 " />
         </div>
-        <div>
+
+        <div className="w-full">
           <div className="flex items-start gap-3">
             <TodoCheckbox
               priority={priority}
@@ -89,12 +90,12 @@ export const TodoItemContainer = ({
               }}
               checked={completed}
             />
-            <div>
+            <div className="w-full">
               <p className="leading-none select-none text-card-foreground mb-1 text-sm">
                 {title}
               </p>
 
-              <pre className="text-card-foreground-muted text-sm flex">
+              <pre className="text-card-foreground-muted text-sm flex whitespace-pre-wrap">
                 {description}
               </pre>
             </div>

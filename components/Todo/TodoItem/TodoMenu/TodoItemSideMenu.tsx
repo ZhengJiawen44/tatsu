@@ -11,7 +11,7 @@ const TodoItemSideMenu = () => {
   const { deleteMutate, deletePending } = useDeleteTodo();
   const { pinMutate, pinPending } = usePinTodo();
   return (
-    <>
+    <div className="hidden sm:flex items-center gap-2">
       <div
         className="hover:bg-border text-card-foreground-muted hover:text-white p-1 rounded-md"
         onClick={() => {
@@ -43,7 +43,7 @@ const TodoItemSideMenu = () => {
           <Trash className="w-[17px] h-[17px]" />
         )}
       </div>
-    </>
+    </div>
   );
 };
 
