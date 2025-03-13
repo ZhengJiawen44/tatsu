@@ -7,10 +7,9 @@ import LineSeparator from "../../../ui/lineSeparator";
 import { useEditTodo, useCreateTodo } from "@/hooks/useTodo";
 import { TodoItemType } from "@/types";
 import { DateRange } from "react-day-picker";
-import DayPicker from "../DayMenu";
-import { addDays, endOfDay } from "date-fns";
+import { endOfDay } from "date-fns";
 import TodoFormMenuStrip from "./TodoFormMenuStrip";
-import Ok from "@/components/ui/icon/ok";
+
 interface TodoFormConrtainerProps {
   displayForm: boolean;
   setDisplayForm: React.Dispatch<React.SetStateAction<boolean>>;
@@ -24,7 +23,7 @@ const TodoFormConrtainer = ({
 }: TodoFormConrtainerProps) => {
   const clearInput = useCallback(
     function clearInput() {
-      setDesc("");
+      if (todo?.startedAt) setDesc("");
       setTitle("");
       setDisplayForm(false);
       setDate({
@@ -32,7 +31,7 @@ const TodoFormConrtainer = ({
         to: todo?.expiresAt ? todo.expiresAt : endOfDay(new Date()),
       });
     },
-    [setDisplayForm]
+    [setDisplayForm, todo?.expiresAt, todo?.startedAt]
   );
 
   const titleRef = useRef<null | HTMLInputElement>(null);
@@ -122,7 +121,7 @@ const TodoFormConrtainer = ({
           <div className="flex gap-2 items-center">
             <button
               type="button"
-              className="border hover:bg-border px-2 bg-red text-card sm:px-1 leading-none py-[2.5px] h-fit rounded-sm font-semibold"
+              className="border  px-2 bg-red hover:brightness-125 text-card sm:px-1 leading-none py-[2.5px] h-fit rounded-sm font-semibold"
               onClick={clearInput}
             >
               <p className="hidden sm:block">cancel</p>
@@ -131,7 +130,7 @@ const TodoFormConrtainer = ({
             <button
               type="submit"
               disabled={title.length <= 0}
-              className="flex gap-2 disabled:opacity-40 bg-lime px-1 leading-none py-[2.5px] h-fit rounded-sm text-card font-semibold"
+              className="flex gap-2 disabled:opacity-40 bg-lime hover:brightness-125 px-1 leading-none py-[2.5px] h-fit rounded-sm text-card font-semibold"
             >
               <p>{todo ? "save" : "add"}</p>
             </button>

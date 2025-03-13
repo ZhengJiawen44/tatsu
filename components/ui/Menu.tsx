@@ -1,4 +1,3 @@
-import Meatball from "./icon/meatball";
 import {
   Popover,
   PopoverContent,
@@ -9,12 +8,10 @@ import clsx from "clsx";
 import { SetStateAction } from "react";
 const MenuContainer = ({
   children,
-  className,
   showContent,
   setShowContent,
 }: {
   children: React.ReactNode;
-  className?: string;
   showContent?: boolean;
   setShowContent?: React.Dispatch<SetStateAction<boolean>>;
 }) => {

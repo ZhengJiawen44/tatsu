@@ -8,7 +8,7 @@ import { CSS } from "@dnd-kit/utilities";
 import { TodoItemType } from "@/types";
 import GripVertical from "@/components/ui/icon/gripVertical";
 import { useCompleteTodo } from "@/hooks/useTodo";
-import TodoMenuProvider, { useTodoMenu } from "@/providers/TodoMenuProvider";
+import { useTodoMenu } from "@/providers/TodoMenuProvider";
 
 export const TodoItemContainer = ({
   todoItem,

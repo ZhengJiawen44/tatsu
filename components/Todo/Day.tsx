@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { dayNames, monthNames } from "@/lib/date/dateConstants";
 import Dot from "@/components/ui/icon/dot";
 const Day = () => {
