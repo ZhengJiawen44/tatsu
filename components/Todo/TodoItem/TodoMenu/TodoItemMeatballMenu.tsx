@@ -22,11 +22,7 @@ function TodoItemMeatballMenu() {
   const { id, pinned, setDisplayForm, setShowContent, showContent } =
     useTodoMenu();
   return (
-    <MenuContainer
-      className="flex"
-      setShowContent={setShowContent}
-      showContent={showContent}
-    >
+    <MenuContainer setShowContent={setShowContent} showContent={showContent}>
       <MenuTrigger>
         <Meatball className="w-5 h-5" />
       </MenuTrigger>

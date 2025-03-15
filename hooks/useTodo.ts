@@ -155,7 +155,7 @@ export const useReorderTodo = () => {
     mutationFn: async ({
       body,
     }: {
-      body: Record<string, { id: string; order: number }[]>;
+      body: Record<"changedTodos", { id: string; order: number }[]>;
     }) => {
       const res = await fetch("/api/todo/reorder", {
         method: "PATCH",
@@ -167,7 +167,8 @@ export const useReorderTodo = () => {
         throw new Error(body.message || "server responded with error");
       }
     },
-    onSuccess: () => {
+    // Always refetch after error or success:
+    onSettled: () => {
       queryClient.invalidateQueries({ queryKey: ["todo"] });
     },
   });

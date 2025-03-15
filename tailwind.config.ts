@@ -56,6 +56,7 @@ export default {
         popover: {
           DEFAULT: "hsla(var(--popover))",
           foreground: "hsl(var(--popover-foreground))",
+          accent: "hsl(var(--popover-accent))",
         },
         primary: {
           DEFAULT: "hsl(var(--primary))",

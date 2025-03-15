@@ -32,7 +32,7 @@ const MenuContent = ({
   return (
     <PopoverContent
       className={cn(
-        "bg-popover min-w-40 flex flex-col gap-1 p-1 w-fit h-fit  text-white border backdrop-blur-sm text-sm",
+        "bg-popover min-w-40 flex flex-col p-0 py-1 w-fit h-fit  text-card-foreground border backdrop-blur-sm text-sm",
         className
       )}
       onClick={(e) => {
@@ -90,7 +90,7 @@ const MenuItem = ({
         }
       }}
       className={cn(
-        "text-sm flex justify-start items-center gap-2 hover:cursor-pointer p-1 hover:bg-popover-foreground rounded-sm px-1",
+        "text-sm mx-1 mt-0 flex justify-start items-center gap-2 hover:cursor-pointer py-1.5 hover:bg-popover-foreground rounded-sm px-2",
         className
       )}
     >

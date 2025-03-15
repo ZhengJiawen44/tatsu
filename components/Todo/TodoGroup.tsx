@@ -42,6 +42,8 @@ const TodoGroup = ({
 
   //changes to local state will update database
   useEffect(() => {
+    //wait for [items] to sync with [todos]
+    if (todos.length !== items.length) return;
     const reorderList = reorderDiff();
     if (reorderList.length > 0) {
       const timer = setTimeout(
@@ -52,7 +54,7 @@ const TodoGroup = ({
         clearTimeout(timer);
       };
     }
-  }, [items]);
+  }, [items, todos, reorderDiff, mutateReorder]);
 
   const sensors = useSensors(
     useSensor(PointerSensor),

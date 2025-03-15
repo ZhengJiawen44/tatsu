@@ -20,14 +20,22 @@ export const groupTodo = ({ todos }: { todos: TodoItemType[] }) => {
         : "groupedUnPinnedTodos";
 
       // Get date key
-      const dateKey = getDisplayDate(todo.startedAt);
+      const today = new Date();
+      let dateKey;
+      //is the todo valid for today?
+      if (
+        today.getTime() <= todo.expiresAt.getTime() &&
+        todo.startedAt.getTime() < today.getTime()
+      ) {
+        dateKey = "today";
+      } else {
+        dateKey = getDisplayDate(todo.startedAt);
+      }
 
       // Initialize nested objects if needed
       if (!acc[category][dateKey]) {
         acc[category][dateKey] = [];
       }
-
-      // Add todo to appropriate group
       acc[category][dateKey].push(todo);
 
       // Sort immediately after inserting (maintains sorted order with each insertion)

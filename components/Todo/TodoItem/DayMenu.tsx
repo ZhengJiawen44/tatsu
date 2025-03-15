@@ -28,7 +28,7 @@ const DayMenu = ({ todo, date, setDate }: DayMenuProps) => {
 
   //get date from todo or set to default
   return (
-    <MenuContainer className="p-0">
+    <MenuContainer>
       <MenuTrigger className="flex justify-center items-center gap-1 p-0">
         <CalenderIcon className="w-5 h-5" />
         {todo?.startedAt && isEqual(todo.startedAt, new Date())
@@ -42,7 +42,7 @@ const DayMenu = ({ todo, date, setDate }: DayMenuProps) => {
                 : ""
             }`}
       </MenuTrigger>
-      <MenuContent className="p-0 pt-2 font-extralight">
+      <MenuContent className="p-0 pt-2 font-extralight border-popover-accent">
         <div className="p-1 flex flex-col justify-start items-start gap-1">
           <MenuItem
             className="justify-between w-full"
@@ -122,7 +122,7 @@ const DayMenu = ({ todo, date, setDate }: DayMenuProps) => {
           </MenuItem>
         </div>
 
-        <LineSeparator className="border-card-foreground-muted" />
+        <LineSeparator className="border-popover-accent" />
         <MenuItem className="hover:bg-inherit">
           <Calendar
             className="p-1"

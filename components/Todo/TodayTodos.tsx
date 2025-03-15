@@ -6,7 +6,7 @@ import { TodoItemType } from "@/types";
 const TodayTodos = ({ todos }: { todos: TodoItemType[] }) => {
   return (
     <>
-      <TodoGroup todos={todos} showDay={true} /> <CreateTodoBtn />
+      <TodoGroup todos={todos} isToday={true} /> <CreateTodoBtn />
     </>
   );
 };
