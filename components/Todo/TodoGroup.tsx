@@ -16,10 +16,10 @@ import TodoMenuProvider from "@/providers/TodoMenuProvider";
 
 const TodoGroup = ({
   todos,
-  showDay = false,
+  isToday = false,
 }: {
   todos: TodoItemType[];
-  showDay?: boolean;
+  isToday?: boolean;
 }) => {
   const { mutateReorder } = useReorderTodo();
   const [items, setItems] = useState(todos);
@@ -80,7 +80,7 @@ const TodoGroup = ({
 
   return (
     <>
-      {showDay && (
+      {isToday && (
         <div className="flex items-center gap-2 mt-10">
           <h3 className="text-lg font-semibold select-none">Today</h3>
           <LineSeparator className="flex-1" />
