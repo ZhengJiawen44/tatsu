@@ -3,19 +3,20 @@ import React from "react";
 import { useMenu } from "@/providers/MenuProvider";
 import Link from "next/link";
 import Pencil from "@/components/ui/icon/pencil";
-import { useTodo } from "@/hooks/useTodo";
 import isToday from "@/lib/date/isToday";
+import { useTodo } from "@/features/todos/api/get-todo";
 
 const TodoItem = () => {
   const { activeMenu, setActiveMenu } = useMenu();
   const { todos } = useTodo();
   // Get today's date string
 
+  const today = new Date();
   // Count only todos created today
-
   const todayTodoCount = todos
-    ? todos.filter(({ startedAt, completed }) => {
-        return isToday(startedAt) && !completed;
+    ? todos.filter(({ title, expiresAt, completed }) => {
+        console.log(title, expiresAt.getHours());
+        return today.getTime() <= expiresAt.getTime() && !completed;
       }).length
     : 0;
 

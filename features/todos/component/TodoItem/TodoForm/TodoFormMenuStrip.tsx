@@ -1,5 +1,5 @@
 import clsx from "clsx";
-import DayMenu from "../DayMenu";
+import DayMenu from "./DayMenu";
 import { PriorityIndicator } from "../PriorityIndicator";
 import { TodoItemType } from "@/types";
 import React, { SetStateAction } from "react";

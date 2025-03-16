@@ -3,7 +3,7 @@ import React from "react";
 import OK from "@/components/ui/icon/ok";
 import { useMenu } from "@/providers/MenuProvider";
 import Link from "next/link";
-import { useTodo } from "@/hooks/useTodo";
+import { useTodo } from "@/features/todos/api/get-todo";
 
 const CompletedItem = () => {
   const { activeMenu, setActiveMenu } = useMenu();

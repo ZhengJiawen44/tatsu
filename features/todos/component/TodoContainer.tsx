@@ -1,12 +1,22 @@
 import React, { useState } from "react";
 import CreateTodoBtn from "./CreateTodoBtn";
 import PreviousTodo from "./PreviousTodo";
-import { useTodo } from "@/hooks/useTodo";
+import { useTodo } from "../api/get-todo";
 import Day from "./Day";
-import TodoListLoading from "../ui/TodoListLoading";
+import TodoListLoading from "./TodoListLoading";
 import { groupTodo } from "@/lib/todo/groupTodo";
 import TodayTodos from "./TodayTodos";
 import PinnedTodos from "./PinnedTodos";
+
+// import React, { useState } from "react";
+// import CreateTodoBtn from "./CreateTodoBtn";
+// import PreviousTodo from "./PreviousTodo";
+// import { useTodo } from "@/hooks/useTodo";
+// import Day from "./Day";
+// import TodoListLoading from "../ui/TodoListLoading";
+// import { groupTodo } from "@/lib/todo/groupTodo";
+// import TodayTodos from "./TodayTodos";
+// import PinnedTodos from "./PinnedTodos";
 
 const TodoContainer = () => {
   //get all todos
@@ -44,7 +54,6 @@ const TodoContainer = () => {
   return (
     <div className="select-none bg-card">
       <Day />
-
       {/* Render Unpinned previous todos */}
       <PreviousTodo
         groupedUnpinnedTodos={groupedUnPinnedTodos}

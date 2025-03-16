@@ -1,13 +1,13 @@
 import { useState } from "react";
 import TodoItemMenuContainer from "./TodoMenu/TodoItemMenuContainer";
-import TodoFormConrtainer from "./TodoForm/TodoFormContainer";
+import TodoFormContainer from "./TodoForm/TodoFormContainer";
 import TodoCheckbox from "@/components/ui/TodoCheckbox";
 import clsx from "clsx";
 import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
 import { TodoItemType } from "@/types";
 import GripVertical from "@/components/ui/icon/gripVertical";
-import { useCompleteTodo } from "@/hooks/useTodo";
+import { useCompleteTodo } from "../../api/complete-todo";
 import { useTodoMenu } from "@/providers/TodoMenuProvider";
 
 export const TodoItemContainer = ({
@@ -36,7 +36,7 @@ export const TodoItemContainer = ({
 
   if (displayForm)
     return (
-      <TodoFormConrtainer
+      <TodoFormContainer
         displayForm={true}
         setDisplayForm={setDisplayForm}
         todo={todoItem}

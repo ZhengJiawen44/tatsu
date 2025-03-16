@@ -7,7 +7,9 @@ import {
   MenuContent,
 } from "@/components/ui/Menu";
 import Spinner from "@/components/ui/spinner";
-import { useDeleteTodo, usePinTodo, usePrioritizeTodo } from "@/hooks/useTodo";
+import { useDeleteTodo } from "@/features/todos/api/delete-todo";
+import { usePinTodo } from "@/features/todos/api/pin-todo";
+import { usePrioritizeTodo } from "@/features/todos/api/prioritize-todo";
 import { useTodoMenu } from "@/providers/TodoMenuProvider";
 import Pin from "@/components/ui/icon/pin";
 import Edit from "@/components/ui/icon/edit";

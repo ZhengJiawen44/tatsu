@@ -1,7 +1,7 @@
 "use client";
 import React from "react";
-import { TodoItemContainer } from "../Todo/TodoItem/TodoItemContainer";
-import { useTodo } from "@/hooks/useTodo";
+import { TodoItemContainer } from "@/features/todos/component/TodoItem/TodoItemContainer";
+import { useTodo } from "@/features/todos/api/get-todo";
 import { Skeleton } from "../ui/skeleton";
 import TodoMenuProvider from "@/providers/TodoMenuProvider";
 

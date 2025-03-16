@@ -10,9 +10,9 @@ import { verticalListSortingStrategy } from "@dnd-kit/sortable";
 import { TodoItemType } from "@/types";
 import { useCallback, useEffect, useState } from "react";
 import { TodoItemContainer } from "./TodoItem/TodoItemContainer";
-import { useReorderTodo } from "@/hooks/useTodo";
-import LineSeparator from "../ui/lineSeparator";
+import { useReorderTodo } from "../api/reorder-todo";
 import TodoMenuProvider from "@/providers/TodoMenuProvider";
+import LineSeparator from "@/components/ui/lineSeparator";
 
 const TodoGroup = ({
   todos,

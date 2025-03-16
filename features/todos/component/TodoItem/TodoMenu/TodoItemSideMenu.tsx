@@ -3,7 +3,8 @@ import Edit from "@/components/ui/icon/edit";
 import Trash from "@/components/ui/icon/trash";
 import React from "react";
 import { useTodoMenu } from "@/providers/TodoMenuProvider";
-import { useDeleteTodo, usePinTodo } from "@/hooks/useTodo";
+import { useDeleteTodo } from "@/features/todos/api/delete-todo";
+import { usePinTodo } from "@/features/todos/api/pin-todo";
 import Spinner from "@/components/ui/spinner";
 
 const TodoItemSideMenu = () => {

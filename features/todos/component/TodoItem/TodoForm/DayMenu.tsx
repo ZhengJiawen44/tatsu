@@ -52,9 +52,11 @@ const DayMenu = ({ todo, date, setDate }: DayMenuProps) => {
                   from: new Date(),
                   to:
                     prev?.to && prev.from
-                      ? addDays(
-                          new Date(),
-                          differenceInDays(prev?.to, prev?.from)
+                      ? endOfDay(
+                          addDays(
+                            new Date(),
+                            differenceInDays(prev?.to, prev?.from)
+                          )
                         )
                       : endOfDay(new Date()),
                 };
@@ -77,9 +79,11 @@ const DayMenu = ({ todo, date, setDate }: DayMenuProps) => {
                   from: tomorrow,
                   to:
                     prev?.to && prev?.from
-                      ? addDays(
-                          tomorrow,
-                          differenceInDays(prev?.to, prev?.from)
+                      ? endOfDay(
+                          addDays(
+                            tomorrow,
+                            differenceInDays(prev?.to, prev?.from)
+                          )
                         )
                       : endOfDay(tomorrow),
                 };
@@ -105,9 +109,11 @@ const DayMenu = ({ todo, date, setDate }: DayMenuProps) => {
                   from: nextWeek,
                   to:
                     prev?.to && prev?.from
-                      ? addDays(
-                          nextWeek,
-                          differenceInDays(prev?.to, prev?.from)
+                      ? endOfDay(
+                          addDays(
+                            nextWeek,
+                            differenceInDays(prev?.to, prev?.from)
+                          )
                         )
                       : endOfDay(nextWeek),
                 };
