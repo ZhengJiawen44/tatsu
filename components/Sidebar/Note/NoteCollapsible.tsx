@@ -9,9 +9,9 @@ import Note from "@/components/ui/icon/note";
 import { useMenu } from "@/providers/MenuProvider";
 import PlusCircle from "@/components/ui/icon/plusCircle";
 import CaretOutline from "@/components/ui/icon/caretOutline";
-import { useNote } from "@/hooks/useNote";
+import { useNote } from "@/features/notes/api/get-notes";
 import NoteLoading from "./NoteLoading";
-import { useCreateNote } from "@/hooks/useNote";
+import { useCreateNote } from "@/features/notes/api/create-note";
 import Spinner from "@/components/ui/spinner";
 import NoteSidebarItem from "./NoteSidebarItem";
 

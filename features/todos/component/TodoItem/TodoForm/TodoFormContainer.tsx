@@ -1,6 +1,6 @@
 import clsx from "clsx";
 import React, { useCallback, useEffect, useRef, useState } from "react";
-import adjustHeight from "@/lib/adjustTextareaHeight";
+import adjustHeight from "@/features/todos/lib/adjustTextareaHeight";
 import { useToast } from "@/hooks/use-toast";
 import Spinner from "@/components/ui/spinner";
 import LineSeparator from "@/components/ui/lineSeparator";

@@ -1,6 +1,6 @@
-import { secureGenerator } from "../encryption/secureGenerator";
-import { base64Decode } from "../encryption/base64Decode";
-import { concatUint8Array } from "../encryption/concatUint8Array";
+import { secureGenerator } from "../../features/vault/lib/encryption/secureGenerator";
+import { base64Decode } from "../../features/vault/lib/encryption/base64Decode";
+import { concatUint8Array } from "../../features/vault/lib/encryption/concatUint8Array";
 export async function postVault({
   file,
   symKey,

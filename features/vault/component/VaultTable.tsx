@@ -1,10 +1,16 @@
 import React, { SetStateAction, useEffect } from "react";
 import { FileItemType } from "@/types";
-import { MenuContainer, MenuItem } from "../ui/Menu";
+import {
+  MenuContainer,
+  MenuTrigger,
+  MenuContent,
+  MenuItem,
+} from "@/components/ui/Menu";
+import Meatball from "@/components/ui/icon/meatball";
 import VaultLoading from "./VaultLoading";
-import { useDeleteFile } from "@/hooks/useVault";
-import { downloadFile } from "@/lib/downloadFile";
-import { getDisplaySize } from "../getDisplaySize";
+import { downloadFile } from "@/features/vault/lib/downloadFile";
+import { useDeleteFile } from "../api/delete-file";
+import { getDisplaySize } from "@/features/vault/lib/getDisplaySize";
 
 interface VaultContentProps {
   fileList: FileItemType[];
@@ -64,17 +70,21 @@ const VaultContent = ({
                 </td>
                 <td className="px-4 py-2">
                   <MenuContainer>
-                    <MenuItem onClick={() => downloadFile(url, name)}>
-                      Download
-                    </MenuItem>
-                    {/* <MenuItem>Favourite</MenuItem> */}
-                    <MenuItem
-                      onClick={() => {
-                        deleteMutate({ id });
-                      }}
-                    >
-                      Delete
-                    </MenuItem>
+                    <MenuTrigger>
+                      <Meatball />
+                    </MenuTrigger>
+                    <MenuContent>
+                      <MenuItem onClick={() => downloadFile(url, name)}>
+                        Download
+                      </MenuItem>
+                      <MenuItem
+                        onClick={() => {
+                          deleteMutate({ id });
+                        }}
+                      >
+                        Delete
+                      </MenuItem>
+                    </MenuContent>
                   </MenuContainer>
                 </td>
               </tr>

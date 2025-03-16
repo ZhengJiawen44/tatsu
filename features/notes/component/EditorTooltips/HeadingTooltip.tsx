@@ -1,5 +1,4 @@
 import React, { SetStateAction, useEffect, useRef, useState } from "react";
-
 import { MenuItem } from "../EditorMenu/MenuItem";
 import { Editor } from "@tiptap/react";
 import {

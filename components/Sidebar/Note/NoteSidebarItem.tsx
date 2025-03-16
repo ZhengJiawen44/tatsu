@@ -4,8 +4,8 @@ import {
   MenuItem,
   MenuTrigger,
 } from "@/components/ui/Menu";
-import { useDeleteNote } from "@/hooks/useNote";
-import { useRenameNote } from "@/hooks/useNote";
+import { useDeleteNote } from "@/features/notes/api/delete-note";
+import { useRenameNote } from "@/features/notes/api/rename-note";
 import { useMenu } from "@/providers/MenuProvider";
 import { NoteItemType } from "@/types";
 import clsx from "clsx";

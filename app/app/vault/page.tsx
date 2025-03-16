@@ -1,6 +1,6 @@
 "use client";
 import React from "react";
-import Vault from "@/components/Vault/VaultContainer";
+import Vault from "@/features/vault/component/VaultContainer";
 const Page = () => {
   return <Vault />;
 };

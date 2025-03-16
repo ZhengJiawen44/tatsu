@@ -1,5 +1,5 @@
 import { TodoItemType } from "@/types";
-import { getDisplayDate } from "../date/displayDate";
+import { getDisplayDate } from "@/lib/date/displayDate";
 
 export const groupTodo = ({ todos }: { todos: TodoItemType[] }) => {
   // Define the type for our accumulator

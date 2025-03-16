@@ -3,10 +3,9 @@
  */
 import React, { useState } from "react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { stretchMasterKey } from "@/lib/encryption/stretchMasterKey";
-import { genSymmetricKey } from "@/lib/encryption/genSymmetricKey";
+import { stretchMasterKey } from "@/features/vault/lib/encryption/stretchMasterKey";
+import { genSymmetricKey } from "@/features/vault/lib/encryption/genSymmetricKey";
 import { toast } from "@/hooks/use-toast";
-
 import EyeToggle from "@/components/ui/eyeToggle";
 import { usePassKey } from "@/providers/PassKeyProvider";
 

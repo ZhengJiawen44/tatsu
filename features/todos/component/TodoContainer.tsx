@@ -4,19 +4,9 @@ import PreviousTodo from "./PreviousTodo";
 import { useTodo } from "../api/get-todo";
 import Day from "./Day";
 import TodoListLoading from "./TodoListLoading";
-import { groupTodo } from "@/lib/todo/groupTodo";
+import { groupTodo } from "@/features/todos/lib/groupTodo";
 import TodayTodos from "./TodayTodos";
 import PinnedTodos from "./PinnedTodos";
-
-// import React, { useState } from "react";
-// import CreateTodoBtn from "./CreateTodoBtn";
-// import PreviousTodo from "./PreviousTodo";
-// import { useTodo } from "@/hooks/useTodo";
-// import Day from "./Day";
-// import TodoListLoading from "../ui/TodoListLoading";
-// import { groupTodo } from "@/lib/todo/groupTodo";
-// import TodayTodos from "./TodayTodos";
-// import PinnedTodos from "./PinnedTodos";
 
 const TodoContainer = () => {
   //get all todos

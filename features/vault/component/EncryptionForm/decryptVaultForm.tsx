@@ -6,9 +6,9 @@
 import React, { useState } from "react";
 import EyeToggle from "@/components/ui/eyeToggle";
 import { usePassKey } from "@/providers/PassKeyProvider";
-import { stretchMasterKey } from "@/lib/encryption/stretchMasterKey";
-import base64Encode from "@/lib/encryption/base64Encode";
-import { base64Decode } from "@/lib/encryption/base64Decode";
+import { stretchMasterKey } from "@/features/vault/lib/encryption/stretchMasterKey";
+import base64Encode from "@/features/vault/lib/encryption/base64Encode";
+import { base64Decode } from "@/features/vault/lib/encryption/base64Decode";
 import { useToast } from "@/hooks/use-toast";
 
 const DecryptForm = ({ email }: { email: string }) => {

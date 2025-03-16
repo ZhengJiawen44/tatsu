@@ -5,7 +5,7 @@ import Clock from "@/components/ui/icon/clock";
 import Star from "@/components/ui/icon/star";
 import Caret from "@/components/ui/icon/caret";
 import Spinner from "@/components/ui/spinner";
-import { useCreateFile } from "@/hooks/useVault";
+import { useCreateFile } from "../../api/create-file";
 import { usePassKey } from "@/providers/PassKeyProvider";
 
 const VaultMenuContainer = ({

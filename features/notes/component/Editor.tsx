@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import Spinner from "../ui/spinner";
+import Spinner from "@/components/ui/spinner";
 import {
   FloatingMenu,
   BubbleMenu,
@@ -17,9 +17,9 @@ import OrderedList from "@tiptap/extension-ordered-list";
 import TaskItem from "@tiptap/extension-task-item";
 import TaskList from "@tiptap/extension-task-list";
 import CustomMenu from "./EditorMenu/CustomMenu";
-import { CustomHighlight } from "../../lib/customHighlight";
-import EditorLoading from "../ui/EditorLoading";
-import { useEditNote } from "@/hooks/useNote";
+import { CustomHighlight } from "@/features/notes/lib/customHighlight";
+import EditorLoading from "@/components/ui/EditorLoading";
+import { useEditNote } from "../api/update-note";
 import { NoteItemType } from "@/types";
 
 const Editor = ({ note }: { note: NoteItemType }) => {

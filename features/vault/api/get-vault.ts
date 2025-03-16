@@ -1,12 +1,7 @@
-import { useQuery } from "@tanstack/react-query";
-import { useQueryClient } from "@tanstack/react-query";
-import { useErrorNotification } from "./useErrorToast";
-import { useMutation } from "@tanstack/react-query";
-import { useToast } from "./use-toast";
+import { useErrorNotification } from "@/hooks/useErrorToast";
 import { FileItemType } from "@/types";
-import { postVault } from "@/lib/vault/postVault";
-import { deleteVault } from "@/lib/vault/deleteVault";
-import { base64Decode } from "@/lib/encryption/base64Decode";
+import { useQuery } from "@tanstack/react-query";
+import { base64Decode } from "../lib/encryption/base64Decode";
 
 export const useVault = ({
   debouncedKeyword,
@@ -118,76 +113,3 @@ export const useVault = ({
   );
   return { fileList, fileListLoading };
 };
-
-//post file
-export const useCreateFile = () => {
-  const { toast } = useToast();
-  const queryClient = useQueryClient();
-  const {
-    mutate: createFile,
-    isPending: createLoading,
-    isError,
-    error,
-    isSuccess,
-  } = useMutation({
-    mutationFn: (params: {
-      file: File;
-      symKey?: string;
-      enableEncryption: boolean;
-    }) => postVault({ ...params, toast }),
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["vault"] });
-      queryClient.invalidateQueries({ queryKey: ["storageMetric"] });
-    },
-  });
-  useErrorNotification(
-    isError,
-    error?.message || "an unexpectedd error happened"
-  );
-  return { createFile, createLoading, isSuccess };
-};
-
-//delete file
-export const useDeleteFile = () => {
-  const { toast } = useToast();
-  const queryClient = useQueryClient();
-  const {
-    mutate: deleteMutate,
-    isPending: deletePending,
-    isError,
-    error,
-  } = useMutation({
-    mutationFn: (params: { id: string }) => deleteVault({ ...params, toast }),
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["vault"] });
-      queryClient.invalidateQueries({ queryKey: ["storageMetric"] });
-    },
-  });
-  useErrorNotification(
-    isError,
-    error?.message || "an unexpectedd error happened"
-  );
-  return { deleteMutate, deletePending };
-};
-
-//get storage information
-export function useStorage() {
-  const { toast } = useToast();
-
-  const { data, isLoading, isError, error } = useQuery({
-    queryFn: async () => {
-      const res = await fetch(`/api/user`);
-      const body = await res.json();
-      if (!res.ok) {
-        throw new Error(body.message); // Throw an error instead of handling it inside queryFn
-      }
-      return body.queriedUser;
-    },
-    queryKey: ["storageMetric"],
-  });
-  if (isError) {
-    toast({ description: error.message });
-  }
-
-  return { data, isLoading };
-}
