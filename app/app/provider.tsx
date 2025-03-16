@@ -1,18 +1,18 @@
 "use client";
 import React from "react";
-import SidebarContainer from "./Sidebar/SidebarContainer";
-import UserCard from "./Sidebar/User/UserCard";
-import VaultItem from "./Sidebar/Vault/VaultItem";
-import NoteCollapsible from "./Sidebar/Note/NoteCollapsible";
-import TodoItem from "./Sidebar/Todo/TodoSidebarItem";
-import CompletedItem from "./Sidebar/Completed/CompletedItem";
+import SidebarContainer from "@/components/Sidebar/SidebarContainer";
+import UserCard from "@/components/Sidebar/User/UserCard";
+import VaultItem from "@/components/Sidebar/Vault/VaultItem";
+import NoteCollapsible from "@/components/Sidebar/Note/NoteCollapsible";
+import TodoItem from "@/components/Sidebar/Todo/TodoSidebarItem";
+import CompletedItem from "@/components/Sidebar/Completed/CompletedItem";
 import PassKeyProvider from "@/providers/PassKeyProvider";
 import { useMenu } from "@/providers/MenuProvider";
 import clsx from "clsx";
-import SidebarToggle from "./ui/SidebarToggle";
-import SidebarIcon from "./ui/icon/sidebar";
+import SidebarIcon from "@/components/ui/icon/sidebar";
+import SidebarToggle from "@/components/ui/SidebarToggle";
 
-const AppLayout = ({ children }: { children: React.ReactNode }) => {
+const Provider = ({ children }: { children: React.ReactNode }) => {
   const { showMenu, isResizing } = useMenu();
   return (
     <PassKeyProvider>
@@ -44,4 +44,4 @@ const AppLayout = ({ children }: { children: React.ReactNode }) => {
   );
 };
 
-export default AppLayout;
+export default Provider;

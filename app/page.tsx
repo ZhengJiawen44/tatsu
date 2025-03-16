@@ -32,7 +32,6 @@ const LandingPage = () => {
             </Button>
           </Link>
         </div>
-
       </div>
     </ErrorBoundary>
   );

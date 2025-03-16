@@ -3,7 +3,6 @@ import React from "react";
 import { useMenu } from "@/providers/MenuProvider";
 import Link from "next/link";
 import Pencil from "@/components/ui/icon/pencil";
-import isToday from "@/lib/date/isToday";
 import { useTodo } from "@/features/todos/api/get-todo";
 
 const TodoItem = () => {
