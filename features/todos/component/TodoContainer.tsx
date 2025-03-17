@@ -7,11 +7,14 @@ import TodoListLoading from "./TodoListLoading";
 import { groupTodo } from "@/features/todos/lib/groupTodo";
 import TodayTodos from "./TodayTodos";
 import PinnedTodos from "./PinnedTodos";
+import { useNotificaton } from "@/providers/NotificationProvider";
+import { useToast } from "@/hooks/use-toast";
 
 const TodoContainer = () => {
   //get all todos
+  const { toast } = useToast();
   const { todos, todoLoading } = useTodo();
-
+  const { notification, setNotification } = useNotificaton();
   // Destructure the result for cleaner access
   const { groupedPinnedTodos, groupedUnPinnedTodos } = groupTodo({ todos });
 
@@ -41,8 +44,19 @@ const TodoContainer = () => {
   );
 
   if (todoLoading) <TodoListLoading />;
+
   return (
     <div className="select-none bg-card">
+      <button
+        onClick={() => {
+          setNotification({
+            title: "",
+            description: "the red rabbit ran faster than fate",
+          });
+        }}
+      >
+        notif
+      </button>
       <Day />
       {/* Render Unpinned previous todos */}
       <PreviousTodo

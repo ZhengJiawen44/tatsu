@@ -13,8 +13,7 @@ const TodoItem = () => {
   const today = new Date();
   // Count only todos created today
   const todayTodoCount = todos
-    ? todos.filter(({ title, expiresAt, completed }) => {
-        console.log(title, expiresAt.getHours());
+    ? todos.filter(({ expiresAt, completed }) => {
         return today.getTime() <= expiresAt.getTime() && !completed;
       }).length
     : 0;

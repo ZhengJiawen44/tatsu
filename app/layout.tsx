@@ -30,7 +30,9 @@ export default function RootLayout({
       </head> */}
       <QueryProvider>
         <SessionProvider>
-          <body className={`${poppins.variable} antialiased`}>{children}</body>
+          <body className={`${poppins.variable} antialiased`}>
+            <main>{children}</main>
+          </body>
         </SessionProvider>
       </QueryProvider>
     </html>

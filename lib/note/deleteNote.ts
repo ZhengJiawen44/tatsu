@@ -15,10 +15,6 @@ export async function deleteNote({
       throw new Error(
         data.message || `error ${res.status}: failed to delete Note`
       );
-
-    //all quiet
-    // const { message } = data;
-    // toast({ description: message });
   } catch (error) {
     toast({
       description:
