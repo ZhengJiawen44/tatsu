@@ -47,16 +47,6 @@ const TodoContainer = () => {
 
   return (
     <div className="select-none bg-card">
-      <button
-        onClick={() => {
-          setNotification({
-            title: "",
-            description: "the red rabbit ran faster than fate",
-          });
-        }}
-      >
-        notif
-      </button>
       <Day />
       {/* Render Unpinned previous todos */}
       <PreviousTodo
