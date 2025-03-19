@@ -1,8 +1,9 @@
-import { useErrorNotification } from "@/hooks/useErrorToast";
 import { FileItemType } from "@/types";
 import { useQuery } from "@tanstack/react-query";
 import { base64Decode } from "../lib/encryption/base64Decode";
-
+import { api } from "@/lib/api-client";
+import { useEffect } from "react";
+import { useToast } from "@/hooks/use-toast";
 export const useVault = ({
   debouncedKeyword,
   enableEncryption,
@@ -12,6 +13,7 @@ export const useVault = ({
   enableEncryption?: boolean;
   symKey?: string;
 }) => {
+  const { toast } = useToast();
   //get files
   const {
     data: fileList = [],
@@ -20,18 +22,11 @@ export const useVault = ({
     error,
   } = useQuery<FileItemType[]>({
     queryKey: ["vault", debouncedKeyword],
-
+    retry: 2,
     queryFn: async () => {
-      const res = await fetch(`/api/vault?search=${debouncedKeyword}`, {
-        method: "GET",
+      const data = await api.GET({
+        url: `/api/vault?search=${debouncedKeyword}`,
       });
-
-      const data = await res.json();
-      if (!res.ok)
-        throw new Error(
-          data.message || `error ${res.status}: failed to get Todos`
-        );
-
       const { vault }: { vault: FileItemType[] } = data;
       if (!vault) {
         throw new Error(
@@ -107,9 +102,11 @@ export const useVault = ({
     enabled:
       (enableEncryption === true && !!symKey) || enableEncryption === false,
   });
-  useErrorNotification(
-    isError,
-    error?.message || "an unexpectedd error happened"
-  );
+
+  useEffect(() => {
+    if (isError) {
+      toast({ description: error.message, variant: "destructive" });
+    }
+  }, [isError]);
   return { fileList, fileListLoading };
 };

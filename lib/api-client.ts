@@ -1,10 +1,12 @@
 type fetchOptions = {
   method: string;
   headers?: object;
-  body?: string;
+  body?: string | FormData;
 };
 
 const fetchApi = async (url: string, options: fetchOptions) => {
+  console.log(options.body);
+
   const res = await fetch(url, {
     method: options.method,
     body: options.body,
@@ -42,7 +44,7 @@ export const api = {
     body,
   }: {
     url: string;
-    headers: fetchOptions["headers"];
+    headers?: fetchOptions["headers"];
     body: fetchOptions["body"];
   }) {
     return fetchApi(url, { method: "POST", headers, body });

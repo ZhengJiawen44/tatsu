@@ -1,23 +1,24 @@
 import { useToast } from "@/hooks/use-toast";
 import { useQuery } from "@tanstack/react-query";
+import { api } from "@/lib/api-client";
+import { useEffect } from "react";
 
 export function useStorage() {
   const { toast } = useToast();
 
   const { data, isLoading, isError, error } = useQuery({
     queryFn: async () => {
-      const res = await fetch(`/api/user`);
-      const body = await res.json();
-      if (!res.ok) {
-        throw new Error(body.message); // Throw an error instead of handling it inside queryFn
-      }
-      return body.queriedUser;
+      const { queriedUser } = await api.GET({ url: "/api/user" });
+      return queriedUser;
     },
     queryKey: ["storageMetric"],
+    retry: 2,
   });
-  if (isError) {
-    toast({ description: error.message });
-  }
+  useEffect(() => {
+    if (isError) {
+      toast({ description: error.message });
+    }
+  }, [isError]);
 
   return { data, isLoading };
 }
