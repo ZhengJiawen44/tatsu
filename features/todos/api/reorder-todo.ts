@@ -1,37 +1,29 @@
-import { useErrorNotification } from "@/hooks/useErrorToast";
 import { useQueryClient, useMutation } from "@tanstack/react-query";
+import { api } from "@/lib/api-client";
+import { useToast } from "@/hooks/use-toast";
 
 export const useReorderTodo = () => {
+  const { toast } = useToast();
   const queryClient = useQueryClient();
-  const {
-    mutate: mutateReorder,
-    isPending,
-    isError,
-    error,
-  } = useMutation({
+  const { mutate: mutateReorder, isPending } = useMutation({
     mutationFn: async ({
       body,
     }: {
       body: Record<"changedTodos", { id: string; order: number }[]>;
     }) => {
-      const res = await fetch("/api/todo/reorder", {
-        method: "PATCH",
+      await api.PATCH({
+        url: "/api/todo/reorder",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(body),
       });
-      if (!res.ok) {
-        const body = await res.json();
-        throw new Error(body.message || "server responded with error");
-      }
     },
-    // Always refetch after error or success:
-    onSettled: () => {
+    onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["todo"] });
     },
+    onError: (error) => {
+      toast({ description: error.message, variant: "destructive" });
+    },
   });
-  useErrorNotification(
-    isError,
-    error?.message || "an unexpectedd error happened"
-  );
+
   return { mutateReorder, isPending };
 };

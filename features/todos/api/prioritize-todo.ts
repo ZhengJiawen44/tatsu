@@ -1,14 +1,11 @@
-import { useErrorNotification } from "@/hooks/useErrorToast";
 import { useQueryClient, useMutation } from "@tanstack/react-query";
+import { api } from "@/lib/api-client";
+import { useToast } from "@/hooks/use-toast";
 
 export const usePrioritizeTodo = () => {
+  const { toast } = useToast();
   const queryClient = useQueryClient();
-  const {
-    mutate: mutatePrioritize,
-    isPending,
-    isError,
-    error,
-  } = useMutation({
+  const { mutate: mutatePrioritize, isPending } = useMutation({
     mutationFn: async ({
       id,
       level,
@@ -16,21 +13,15 @@ export const usePrioritizeTodo = () => {
       id: string;
       level: "Low" | "Medium" | "High";
     }) => {
-      const res = await fetch(`/api/todo/${id}?priority=${level}`, {
-        method: "PATCH",
-      });
-      if (!res.ok) {
-        const body = await res.json();
-        throw new Error(body.message || "server responded with error");
-      }
+      await api.PATCH({ url: `/api/todo/${id}?priority=${level}` });
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["todo"] });
     },
+    onError: (error) => {
+      toast({ description: error.message, variant: "destructive" });
+    },
   });
-  useErrorNotification(
-    isError,
-    error?.message || "an unexpectedd error happened"
-  );
+
   return { mutatePrioritize, isPending };
 };

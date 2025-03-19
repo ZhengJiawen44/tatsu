@@ -1,25 +1,22 @@
-import { useErrorNotification } from "@/hooks/useErrorToast";
 import { useQueryClient, useMutation } from "@tanstack/react-query";
+import { api } from "@/lib/api-client";
+import { useToast } from "@/hooks/use-toast";
 
 export function usePinTodo() {
+  const { toast } = useToast();
   const queryClient = useQueryClient();
-  const {
-    mutate: pinMutate,
-    isPending: pinPending,
-    error,
-    isError,
-  } = useMutation({
+  const { mutate: pinMutate, isPending: pinPending } = useMutation({
     mutationFn: async ({ id, pin }: { id: string; pin: boolean }) => {
-      await fetch(`/api/todo/${id}?pin=${pin}`, { method: "PATCH" });
+      await api.PATCH({ url: `/api/todo/${id}?pin=${pin}` });
     },
     mutationKey: ["todo"],
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["todo"] });
     },
+    onError: (error) => {
+      toast({ description: error.message, variant: "destructive" });
+    },
   });
-  useErrorNotification(
-    isError,
-    error?.message || "an unexpectedd error happened"
-  );
+
   return { pinMutate, pinPending };
 }
