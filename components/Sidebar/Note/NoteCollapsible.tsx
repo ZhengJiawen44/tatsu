@@ -20,7 +20,7 @@ const NoteCollapsible = () => {
   const [showPlus, setShowPlus] = useState(false);
 
   const { notes, isPending } = useNote(activeMenu.open);
-  const { createNote, createLoading } = useCreateNote({ onSuccess: () => {} });
+  const { createNote, createLoading } = useCreateNote();
   return (
     <Collapsible
       className="w-full"

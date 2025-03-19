@@ -1,8 +1,11 @@
-import { useErrorNotification } from "@/hooks/useErrorToast";
 import { TodoItemType } from "@/types";
 import { useQuery } from "@tanstack/react-query";
+import { api } from "@/lib/api-client";
+import { useToast } from "@/hooks/use-toast";
+import { useEffect } from "react";
 
 export const useTodo = () => {
+  const { toast } = useToast();
   //get todos
   const {
     data: todos = [],
@@ -11,21 +14,15 @@ export const useTodo = () => {
     error,
   } = useQuery<TodoItemType[]>({
     queryKey: ["todo"],
+    retry: 2,
     queryFn: async () => {
-      const res = await fetch(`/api/todo`);
-      const data = await res.json();
-
-      if (!res.ok)
-        throw new Error(
-          data.message || `error ${res.status}: failed to get Todos`
-        );
+      const data = await api.GET({ url: `/api/todo` });
       const { todos }: { todos: TodoItemType[] } = data;
       if (!todos) {
         throw new Error(
           data.message || `bad server response: Did not recieve todo`
         );
       }
-
       const todoWithFormattedDates = todos.map((todo) => {
         return {
           ...todo,
@@ -37,9 +34,11 @@ export const useTodo = () => {
       return todoWithFormattedDates;
     },
   });
-  useErrorNotification(
-    isError,
-    error?.message || "an unexpectedd error happened"
-  );
+  useEffect(() => {
+    if (isError === true) {
+      toast({ description: error.message, variant: "destructive" });
+    }
+  }, [isError]);
+
   return { todos, todoLoading };
 };

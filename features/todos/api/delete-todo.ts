@@ -6,7 +6,7 @@ export const useDeleteTodo = () => {
   const queryClient = useQueryClient();
   const { mutate: deleteMutate, isPending: deletePending } = useMutation({
     mutationFn: async ({ id }: { id: string }) => {
-      await api.DELETE(`/api/todo/${id}`);
+      await api.DELETE({ url: `/api/todo/${id}` });
     },
     mutationKey: ["todo"],
     onError: (error) => {
@@ -19,6 +19,7 @@ export const useDeleteTodo = () => {
       });
     },
     onSuccess: () => {
+      toast({ description: "todo deleted" });
       queryClient.invalidateQueries({ queryKey: ["todo"] });
     },
   });

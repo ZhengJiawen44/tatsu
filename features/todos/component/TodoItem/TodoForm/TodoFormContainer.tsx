@@ -150,7 +150,8 @@ const TodoFormConrtainer = ({
         createTodo({ title, desc, priority, dateRange: date });
       }
     } catch (error) {
-      if (error instanceof Error) toast({ description: error.message });
+      if (error instanceof Error)
+        toast({ description: error.message, variant: "destructive" });
     }
   }
 };

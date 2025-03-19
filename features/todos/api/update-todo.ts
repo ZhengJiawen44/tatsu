@@ -50,11 +50,11 @@ async function patchTodo({
     console.log(parsedObj.error.errors[0]);
     return;
   }
-  await api.PATCH(
-    `/api/todo/${id}`,
-    { "Content-Type": "application/json" },
-    JSON.stringify(parsedObj.data)
-  );
+  await api.PATCH({
+    url: `/api/todo/${id}`,
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(parsedObj.data),
+  });
 }
 
 export const useEditTodo = () => {
@@ -74,10 +74,11 @@ export const useEditTodo = () => {
       dateRange?: DateRange;
     }) => patchTodo(params),
     onSuccess: () => {
+      toast({ description: "todo updated" });
       queryClient.invalidateQueries({ queryKey: ["todo"] });
     },
     onError: (error) => {
-      toast({ description: error.message });
+      toast({ description: error.message, variant: "destructive" });
     },
   });
   return { editTodo, editLoading, isSuccess };

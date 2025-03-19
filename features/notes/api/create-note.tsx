@@ -1,33 +1,34 @@
 import { useToast } from "@/hooks/use-toast";
-import { useErrorNotification } from "@/hooks/useErrorToast";
-import { postNote } from "@/lib/note/postNote";
 import { NoteItemType } from "@/types";
 import { useQueryClient, useMutation } from "@tanstack/react-query";
+import { api } from "@/lib/api-client";
 
-export const useCreateNote = ({
-  onSuccess,
-}: {
-  onSuccess?: (newNote: NoteItemType) => void;
-}) => {
+async function postNote({ name, content }: { name: string; content?: string }) {
+  const { note } = await api.POST({
+    url: "/api/note",
+    headers: { "content-type": "application/json" },
+    body: JSON.stringify({ name, content }),
+  });
+  return note;
+}
+
+export const useCreateNote = () => {
   const { toast } = useToast();
   const queryClient = useQueryClient();
   const {
     mutate: createNote,
     isPending: createLoading,
-    isError,
-    error,
     isSuccess,
   } = useMutation({
     mutationFn: (params: { name: string; content?: string }) =>
-      postNote({ ...params, toast }),
+      postNote({ ...params }),
     onSuccess: (newNote: NoteItemType) => {
       queryClient.invalidateQueries({ queryKey: ["note"] });
-      onSuccess && onSuccess(newNote);
+    },
+    onError: (error) => {
+      toast({ description: error.message, variant: "destructive" });
     },
   });
-  useErrorNotification(
-    isError,
-    error?.message || "an unexpectedd error happened"
-  );
+
   return { createNote, createLoading, isSuccess };
 };

@@ -7,10 +7,10 @@ type fetchOptions = {
 const fetchApi = async (url: string, options: fetchOptions) => {
   const res = await fetch(url, {
     method: options.method,
+    body: options.body,
   });
 
   if (!res.ok) {
-    console.log(res.ok);
     const message =
       (await res.json()).message || `a ${res.statusText} error ocurred`;
     throw new Error(message);
@@ -19,20 +19,32 @@ const fetchApi = async (url: string, options: fetchOptions) => {
 };
 
 export const api = {
-  GET(url: string) {
+  GET({ url }: { url: string }) {
     return fetchApi(url, { method: "GET" });
   },
-  PATCH(
-    url: string,
-    headers: fetchOptions["headers"],
-    body: fetchOptions["body"]
-  ) {
+  PATCH({
+    url,
+    headers,
+    body,
+  }: {
+    url: string;
+    headers?: fetchOptions["headers"];
+    body?: fetchOptions["body"];
+  }) {
     return fetchApi(url, { method: "PATCH", headers, body });
   },
-  DELETE(url: string) {
+  DELETE({ url }: { url: string }) {
     return fetchApi(url, { method: "DELETE" });
   },
-  POST(url: string) {
-    return fetchApi(url, { method: "POST" });
+  POST({
+    url,
+    headers,
+    body,
+  }: {
+    url: string;
+    headers: fetchOptions["headers"];
+    body: fetchOptions["body"];
+  }) {
+    return fetchApi(url, { method: "POST", headers, body });
   },
 };

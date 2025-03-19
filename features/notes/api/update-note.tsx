@@ -1,7 +1,17 @@
 import { useToast } from "@/hooks/use-toast";
-import { useErrorNotification } from "@/hooks/useErrorToast";
-import { patchNote } from "@/lib/note/patchNote";
 import { useQueryClient, useMutation } from "@tanstack/react-query";
+import { api } from "@/lib/api-client";
+async function patchNote({ id, content }: { id: string; content?: string }) {
+  if (!id) {
+    throw new Error("this Note is missing");
+  }
+
+  await api.PATCH({
+    url: `/api/note/${id}`,
+    headers: { "content-type": "application/json" },
+    body: JSON.stringify({ content }),
+  });
+}
 
 export const useEditNote = () => {
   const { toast } = useToast();
@@ -12,18 +22,16 @@ export const useEditNote = () => {
     isPending: editLoading,
     isSuccess,
     isError,
-    error,
   } = useMutation({
     mutationFn: (params: { id: string; content?: string | undefined }) =>
-      patchNote({ ...params, toast }),
+      patchNote({ ...params }),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["note"] });
     },
+    onError: (error) => {
+      toast({ description: error.message, variant: "destructive" });
+    },
   });
-  useErrorNotification(
-    isError,
-    error?.message || "an unexpectedd error happened"
-  );
 
   return { editNote, editLoading, isSuccess, isError };
 };
