@@ -9,9 +9,6 @@ import TodayTodos from "./TodayTodos";
 import PinnedTodos from "./PinnedTodos";
 import { useNotificaton } from "@/providers/NotificationProvider";
 import { useToast } from "@/hooks/use-toast";
-import Plus from "@/components/ui/icon/plus";
-import clsx from "clsx";
-import LineSeparator from "@/components/ui/lineSeparator";
 
 const TodoContainer = () => {
   //get all todos

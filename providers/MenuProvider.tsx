@@ -52,6 +52,10 @@ export const MenuProvider = ({ children }: { children: React.ReactNode }) => {
       setActiveMenu({ name: "Todo" });
       return;
     }
+    if (pathName.includes("completed")) {
+      setActiveMenu({ name: "Completed" });
+      return;
+    }
 
     let tab = localStorage.getItem("tab");
     if (tab) {
