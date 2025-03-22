@@ -5,8 +5,6 @@ type fetchOptions = {
 };
 
 const fetchApi = async (url: string, options: fetchOptions) => {
-  console.log(options.body);
-
   const res = await fetch(url, {
     method: options.method,
     body: options.body,
