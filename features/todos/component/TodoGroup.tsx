@@ -40,7 +40,7 @@ const TodoGroup = ({
     return reorderList;
   }, [items, todos]);
 
-  //changes to local state will update database
+  //changes to local todo arrangement will update database
   useEffect(() => {
     //wait for [items] to sync with [todos]
     if (todos.length !== items.length) return;

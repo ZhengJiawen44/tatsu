@@ -22,11 +22,13 @@ export const groupTodo = ({ todos }: { todos: TodoItemType[] }) => {
       // Get date key
       const today = new Date();
       let dateKey;
+
       //is the todo valid for today?
       if (
         today.getTime() <= todo.expiresAt.getTime() &&
         todo.startedAt.getTime() < today.getTime()
       ) {
+        // console.log(todo.expiresAt);
         dateKey = "today";
       } else {
         dateKey = getDisplayDate(todo.startedAt);

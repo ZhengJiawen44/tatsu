@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import CreateTodoBtn from "./CreateTodoBtn";
 import PreviousTodo from "./PreviousTodo";
 import { useTodo } from "../api/get-todo";
@@ -7,14 +7,10 @@ import TodoListLoading from "./TodoListLoading";
 import { groupTodo } from "@/features/todos/lib/groupTodo";
 import TodayTodos from "./TodayTodos";
 import PinnedTodos from "./PinnedTodos";
-import { useNotificaton } from "@/providers/NotificationProvider";
-import { useToast } from "@/hooks/use-toast";
 
 const TodoContainer = () => {
   //get all todos
-  const { toast } = useToast();
   const { todos, todoLoading } = useTodo();
-  const { notification, setNotification } = useNotificaton();
   // Destructure the result for cleaner access
   const { groupedPinnedTodos, groupedUnPinnedTodos } = groupTodo({ todos });
 
@@ -32,7 +28,7 @@ const TodoContainer = () => {
     {} as Record<string, boolean>
   );
 
-  //state to control the mapping, genrated a maping of  Record<date:boolean>
+  //state to control the mapping, genrated a mapping of  Record<date:boolean>
   const [openGroupedTodoMap, setOpenGroupedTodoMap] =
     useState<Record<string, boolean>>(initialOpenState);
 

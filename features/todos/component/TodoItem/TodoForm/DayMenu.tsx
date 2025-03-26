@@ -138,7 +138,10 @@ const DayMenu = ({ todo, date, setDate }: DayMenuProps) => {
               return date <= addDays(new Date(), -1);
             }}
             selected={date}
-            onSelect={setDate}
+            onSelect={(range) => {
+              if (range?.from && range?.to)
+                setDate({ from: range.from, to: endOfDay(range.to) });
+            }}
             numberOfMonths={1}
           />
         </MenuItem>
