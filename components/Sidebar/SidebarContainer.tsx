@@ -44,17 +44,19 @@ const SidebarContainer = ({ children }: { children: React.ReactNode }) => {
         id="sidebar_container"
         ref={sidebarRef}
         className={clsx(
-          "fixed inset-0 overflow-y-scroll scrollbar-thin scrollbar-track-transparent scrollbar-thumb-border-muted  md:relative flex flex-row   max-w-[500px] flex-shrink-0 bg-sidebar border-r z-20 justify-between duration-200",
+          "h-full fixed inset-0  md:relative flex flex-row max-w-[500px] flex-shrink-0 bg-sidebar border-r z-20 justify-between duration-200",
           !showMenu
-            ? "-translate-x-full  min-w-0 overflow-hidden  transition-all"
-            : "min-w-[200px]  transition-transform"
+            ? "-translate-x-full  min-w-0 overflow-hidden transition-all"
+            : "min-w-[200px] transition-transform overflow-visible"
         )}
         style={{ width: showMenu ? `${sidebarWidth}px` : "0px" }}
         onMouseDown={(e) => {
           if (isResizing) e.preventDefault();
         }}
       >
-        <div className="flex flex-col flex-1 p-2 min-w-0 gap-2">{children}</div>
+        <div className="flex flex-col flex-1 pl-2 min-w-0 gap-2 m-0 p-0">
+          {children}
+        </div>
       </nav>
       <ResizeHandle isResizing={isResizing} startResizing={startResizing} />
     </>

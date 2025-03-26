@@ -23,11 +23,13 @@ const Provider = ({ children }: { children: React.ReactNode }) => {
         <div className="flex min-h-screen h-screen">
           <SidebarContainer>
             <UserCard className="mb-3" />
-            <TodoItem />
-            <CompletedItem />
-            <NoteCollapsible />
-            <VaultItem />
-            <Toaster />
+            <div className="flex flex-col gap-2 overflow-y-scroll h-full scrollbar-thin scrollbar-track-transparent scrollbar-thumb-border-muted">
+              <TodoItem />
+              <CompletedItem />
+              <NoteCollapsible />
+              <VaultItem />
+              <Toaster />
+            </div>
           </SidebarContainer>
           <div className="flex flex-col flex-1 z-0">
             <div
@@ -38,7 +40,7 @@ const Provider = ({ children }: { children: React.ReactNode }) => {
             >
               {!showMenu && <Toaster />}
               {!showMenu && (
-                <SidebarToggle className="fixed left-4 md:left-10 top-[10px]">
+                <SidebarToggle className="fixed left-4 md:left-10 top-[6px]">
                   <SidebarIcon className="w-6 h-6" />
                 </SidebarToggle>
               )}
