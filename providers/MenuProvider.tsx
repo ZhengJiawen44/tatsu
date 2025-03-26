@@ -72,7 +72,7 @@ export const MenuProvider = ({ children }: { children: React.ReactNode }) => {
   // toggle menu on ctrl+b
   useEffect(() => {
     function closeOnKey(e: KeyboardEvent) {
-      if (e.ctrlKey && e.key.toLowerCase() === "b") {
+      if (e.ctrlKey && e.key.toLowerCase() === "`") {
         setShowMenu((prev) => !prev);
       }
     }
