@@ -45,6 +45,7 @@ const TodoFormConrtainer = ({
     from: todo?.startedAt ? todo.startedAt : new Date(),
     to: todo?.expiresAt ? todo.expiresAt : endOfDay(new Date()),
   });
+  const [expireTime, setExpireTime] = useState<string>("23:59");
 
   const { editTodo, editLoading, isSuccess: editSuccess } = useEditTodo();
   const {
@@ -52,6 +53,8 @@ const TodoFormConrtainer = ({
     createLoading,
     isSuccess: createSuccess,
   } = useCreateTodo();
+
+  console.log(expireTime);
 
   //clear form on succesful mutation
   useEffect(() => {
@@ -109,6 +112,8 @@ const TodoFormConrtainer = ({
             todo={todo}
             date={date}
             setDate={setDate}
+            expireTime={expireTime}
+            setExpireTime={setExpireTime}
             priority={priority}
             setPriority={setPriority}
           />
