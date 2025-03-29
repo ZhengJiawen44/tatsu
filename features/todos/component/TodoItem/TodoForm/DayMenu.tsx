@@ -38,7 +38,9 @@ const DayMenu = ({
   const nextWeek = nextMonday(date?.from || new Date());
   const tomorrow = addDays(date?.from || new Date(), 1);
   const hours = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
-  const minutes = Array.from({ length: 60 }, (_, i) => i + 1);
+  const minutes = Array.from({ length: 60 }, (_, i) =>
+    i.toString().padStart(2, "0")
+  );
 
   const [showTimePicker, setTimePicker] = useState(false);
   //get date from todo or set to default
@@ -183,8 +185,11 @@ const DayMenu = ({
               <div className="flex w-full h-full justify-evenly">
                 <ScrollArea className="flex-1">
                   {hours.map((hour) => (
-                    <div className={"mb-2 rounded-sm text-center relative"}>
-                      {+expireTime.slice(0, 1) === hour && (
+                    <div
+                      className="mb-2 rounded-sm text-center relative"
+                      key={hour}
+                    >
+                      {+expireTime.slice(0, 2) === hour && (
                         <Check className="w-4 h-4 absolute top-1/2 -translate-y-1/2 m-0 left-0" />
                       )}
                       {hour}
@@ -193,8 +198,11 @@ const DayMenu = ({
                 </ScrollArea>
                 <ScrollArea className="flex-1">
                   {minutes.map((minute) => (
-                    <div className="text-center mb-2 rounded-sm relative">
-                      {+expireTime.slice(3, 5) === minute && (
+                    <div
+                      className="text-center mb-2 rounded-sm relative"
+                      key={minute}
+                    >
+                      {expireTime.slice(3, 5) === minute && (
                         <Check className="w-4 h-4 absolute top-1/2 -translate-y-1/2 m-0 left-0" />
                       )}
                       {minute}

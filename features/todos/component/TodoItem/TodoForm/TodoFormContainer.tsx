@@ -10,6 +10,7 @@ import { TodoItemType } from "@/types";
 import { DateRange } from "react-day-picker";
 import { endOfDay } from "date-fns";
 import TodoFormMenuStrip from "./TodoFormMenuStrip";
+import { format } from "date-fns";
 
 interface TodoFormConrtainerProps {
   displayForm: boolean;
@@ -45,8 +46,9 @@ const TodoFormConrtainer = ({
     from: todo?.startedAt ? todo.startedAt : new Date(),
     to: todo?.expiresAt ? todo.expiresAt : endOfDay(new Date()),
   });
-  const [expireTime, setExpireTime] = useState<string>("23:59");
-
+  const [expireTime, setExpireTime] = useState<string>(
+    todo?.expiresAt.toTimeString().slice(0, 5) || "23:59"
+  );
   const { editTodo, editLoading, isSuccess: editSuccess } = useEditTodo();
   const {
     createTodo,
@@ -54,8 +56,9 @@ const TodoFormConrtainer = ({
     isSuccess: createSuccess,
   } = useCreateTodo();
 
-  console.log(expireTime);
+  if (todo?.expiresAt) console.log(format(todo?.expiresAt, "hh:mm:a"));
 
+  // console.log(expireTime);
   //clear form on succesful mutation
   useEffect(() => {
     if (editSuccess) clearInput();
