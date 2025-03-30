@@ -1,3 +1,4 @@
+"use client";
 import clsx from "clsx";
 import Plus from "./ui/icon/plus";
 import React, { useEffect, useState } from "react";
@@ -10,9 +11,11 @@ const AnnouncementBanner = ({
   children: React.ReactNode;
   className?: string;
 }) => {
-  const [showAnnoucement, setshowAnnoucement] = useState(() => {
-    return JSON.parse(localStorage.getItem("showAnnoucement") || "true");
-  });
+  const [showAnnoucement, setshowAnnoucement] = useState(true);
+  useEffect(() => {
+    const showAnnoucement = localStorage.getItem("showAnnoucement");
+    if (showAnnoucement) setshowAnnoucement(showAnnoucement === "true");
+  }, []);
   useEffect(() => {
     localStorage.setItem("showAnnoucement", JSON.stringify(showAnnoucement));
   }, [showAnnoucement]);
