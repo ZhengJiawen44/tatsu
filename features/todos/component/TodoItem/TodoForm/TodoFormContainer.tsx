@@ -66,12 +66,27 @@ const TodoFormConrtainer = ({
     }
   }, [editSuccess, createSuccess, clearInput]);
 
+  //adjust height of the todo description based on content size
   useEffect(() => {
     adjustHeight(textareaRef);
     if (displayForm) {
       titleRef.current?.focus();
     }
   }, [displayForm]);
+
+  //submit form on ctrl + Enter
+  useEffect(() => {
+    const onCtrlEnter = (e: KeyboardEvent) => {
+      if (e.ctrlKey && e.key === "Enter") {
+        console.log("submit");
+        if (title && displayForm) {
+          handleForm();
+        }
+      }
+    };
+    document.addEventListener("keydown", onCtrlEnter);
+    return () => document.removeEventListener("keydown", onCtrlEnter);
+  }, [title, desc, dateRange, priority]);
 
   const { toast } = useToast();
   return (
@@ -122,24 +137,28 @@ const TodoFormConrtainer = ({
             setPriority={setPriority}
           />
 
-          <div className="flex gap-2 items-center">
+          <div className="flex gap-2 items-center text-sm">
             <button
               type="button"
-              className="border  px-2 bg-red hover:brightness-125 text-card sm:px-1 leading-none py-[2.5px] h-fit rounded-sm font-semibold"
+              className="bg-card hover:bg-border hover:text-white text-card-foreground py-2 px-2 min-w-[4rem] leading-none h-fit rounded-md "
               onClick={() => {
                 clearInput();
                 setDisplayForm(false);
               }}
             >
-              <p className="hidden sm:block">cancel</p>
-              <p className="sm:hidden">X</p>
+              <p>cancel</p>
             </button>
             <button
               type="submit"
               disabled={title.length <= 0}
-              className="flex gap-2 disabled:opacity-40 bg-lime hover:brightness-125 px-1 leading-none py-[2.5px] h-fit rounded-sm text-card font-semibold"
+              className={clsx(
+                "py-2 px-2 leading-none min-w-[4rem] h-fit rounded-md text-white bg-border",
+                title.length > 0
+                  ? "hover:bg-lime hover:text-black"
+                  : "disabled opacity-40"
+              )}
             >
-              <p>{todo ? "save" : "add"}</p>
+              <p title="ctrl+enter">{todo ? "save" : "add"}</p>
             </button>
           </div>
         </div>
@@ -147,8 +166,8 @@ const TodoFormConrtainer = ({
     </div>
   );
 
-  async function handleForm(e: React.FormEvent) {
-    e.preventDefault();
+  async function handleForm(e?: React.FormEvent) {
+    if (e) e.preventDefault();
     try {
       if (todo?.id) {
         editTodo({ id: todo.id, title, desc, priority, dateRange: dateRange });
