@@ -11,10 +11,14 @@ const AnnouncementBanner = ({
   children: React.ReactNode;
   className?: string;
 }) => {
-  const [showAnnoucement, setshowAnnoucement] = useState(true);
+  const [showAnnoucement, setshowAnnoucement] = useState(false);
   useEffect(() => {
     const showAnnoucement = localStorage.getItem("showAnnoucement");
-    if (showAnnoucement) setshowAnnoucement(showAnnoucement === "true");
+    if (showAnnoucement) {
+      setshowAnnoucement(showAnnoucement === "true");
+    } else {
+      setshowAnnoucement(true);
+    }
   }, []);
   useEffect(() => {
     localStorage.setItem("showAnnoucement", JSON.stringify(showAnnoucement));

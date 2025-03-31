@@ -28,7 +28,7 @@ const TodoFormConrtainer = ({
       if (todo?.startedAt) setDesc("");
       setTitle("");
       setDisplayForm(false);
-      setDate({
+      setDateRange({
         from: todo?.startedAt ? todo.startedAt : new Date(),
         to: todo?.expiresAt ? todo.expiresAt : endOfDay(new Date()),
       });
@@ -42,7 +42,7 @@ const TodoFormConrtainer = ({
   const [title, setTitle] = useState<string>(todo?.title || "");
   const [desc, setDesc] = useState<string>(todo?.description || "");
   const [priority, setPriority] = useState(todo?.priority || "Low");
-  const [date, setDate] = useState<DateRange | undefined>({
+  const [dateRange, setDateRange] = useState<DateRange | undefined>({
     from: todo?.startedAt ? todo.startedAt : new Date(),
     to: todo?.expiresAt ? todo.expiresAt : endOfDay(new Date()),
   });
@@ -113,8 +113,8 @@ const TodoFormConrtainer = ({
         <div className="max-w-full flex justify-between items-center overflow-clip text-sm sm:text-[1rem]">
           <TodoFormMenuStrip
             todo={todo}
-            date={date}
-            setDate={setDate}
+            date={dateRange}
+            setDate={setDateRange}
             expireTime={expireTime}
             setExpireTime={setExpireTime}
             priority={priority}
@@ -153,9 +153,9 @@ const TodoFormConrtainer = ({
     e.preventDefault();
     try {
       if (todo?.id) {
-        editTodo({ id: todo.id, title, desc, priority, dateRange: date });
+        editTodo({ id: todo.id, title, desc, priority, dateRange: dateRange });
       } else {
-        createTodo({ title, desc, priority, dateRange: date });
+        createTodo({ title, desc, priority, dateRange: dateRange });
       }
     } catch (error) {
       if (error instanceof Error)

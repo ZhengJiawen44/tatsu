@@ -24,6 +24,7 @@ export const useCompleteTodo = () => {
       queryClient.invalidateQueries({ queryKey: ["todo"] });
     },
   });
+
   useEffect(() => {
     if (isError) {
       toast({ description: error.message, variant: "destructive" });

@@ -5,6 +5,8 @@ import { DateRange } from "react-day-picker";
 import { endOfDay } from "date-fns";
 import { todoSchema } from "@/schema";
 import { api } from "@/lib/api-client";
+import { useEffect } from "react";
+import { TodoItemType } from "@/types";
 
 async function postTodo({
   title,
@@ -60,8 +62,6 @@ export const useCreateTodo = () => {
   const {
     mutate: createTodo,
     isPending: createLoading,
-    isError,
-    error,
     isSuccess,
   } = useMutation({
     mutationFn: (params: {
@@ -70,16 +70,31 @@ export const useCreateTodo = () => {
       priority: "Low" | "Medium" | "High";
       dateRange?: DateRange;
     }) => postTodo({ ...params }),
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["todo"] });
+    onMutate: async (newTodo) => {
+      await queryClient.cancelQueries({ queryKey: ["todo"] });
+      const oldTodos = queryClient.getQueryData(["todo"]);
+
+      queryClient.setQueryData(["todo"], (old: TodoItemType[]) => [
+        ...old,
+        {
+          id: crypto.randomUUID(),
+          title: newTodo.title,
+          description: newTodo.desc,
+          priority: newTodo.priority,
+          createdAt: new Date(),
+          startedAt: newTodo.dateRange?.from,
+          expiresAt: newTodo.dateRange?.to,
+        },
+      ]);
+      return { oldTodos };
     },
-    onError: (error) => {
+    onError: (error, newTodo, context) => {
+      queryClient.setQueryData(["todo"], context?.oldTodos);
       toast({ description: error.message, variant: "destructive" });
     },
+    onSettled: () => {
+      queryClient.invalidateQueries({ queryKey: ["todo"] });
+    },
   });
-  useErrorNotification(
-    isError,
-    error?.message || "an unexpectedd error happened"
-  );
   return { createTodo, createLoading, isSuccess };
 };
