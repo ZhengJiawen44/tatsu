@@ -22,21 +22,21 @@ import Sun from "@/components/ui/icon/sun";
 import Tommorrow from "@/components/ui/icon/tommorrow";
 
 interface DayMenuProps {
-  date: DateRange | undefined;
-  setDate: React.Dispatch<SetStateAction<DateRange | undefined>>;
+  dateRange: DateRange | undefined;
+  setDateRange: React.Dispatch<SetStateAction<DateRange | undefined>>;
   expireTime: string;
   setExpireTime: React.Dispatch<SetStateAction<string>>;
   todo?: TodoItemType;
 }
 const DayMenu = ({
   todo,
-  date,
-  setDate,
+  dateRange,
+  setDateRange,
   expireTime,
   setExpireTime,
 }: DayMenuProps) => {
-  const nextWeek = nextMonday(date?.from || new Date());
-  const tomorrow = addDays(date?.from || new Date(), 1);
+  const nextWeek = nextMonday(dateRange?.from || new Date());
+  const tomorrow = addDays(dateRange?.from || new Date(), 1);
   const hours = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
   const minutes = Array.from({ length: 60 }, (_, i) =>
     i.toString().padStart(2, "0")
@@ -63,7 +63,7 @@ const DayMenu = ({
         <MenuItem
           className="flex justify-between w-full m-0"
           onClick={() =>
-            setDate((prev) => {
+            setDateRange((prev) => {
               return {
                 from: new Date(),
                 to:
@@ -90,7 +90,7 @@ const DayMenu = ({
         <MenuItem
           className="justify-between w-full m-0"
           onClick={() =>
-            setDate((prev) => {
+            setDateRange((prev) => {
               return {
                 from: tomorrow,
                 to:
@@ -112,7 +112,9 @@ const DayMenu = ({
           </div>
           <p className="text-xs text-card-foreground-muted">
             {format(
-              date?.from ? addDays(date.from, 1) : new Date().getDate() + 1,
+              dateRange?.from
+                ? addDays(dateRange.from, 1)
+                : new Date().getDate() + 1,
               "EEE"
             )}
           </p>
@@ -120,7 +122,7 @@ const DayMenu = ({
         <MenuItem
           className="justify-between w-full m-0"
           onClick={() => {
-            setDate((prev) => {
+            setDateRange((prev) => {
               return {
                 from: nextWeek,
                 to:
@@ -152,8 +154,8 @@ const DayMenu = ({
             disabled={(date) => {
               return date <= addDays(new Date(), -1);
             }}
-            selected={date}
-            onSelect={setDate}
+            selected={dateRange}
+            onSelect={setDateRange}
             numberOfMonths={1}
           />
           <div className="relative flex justify-between w-full rounded-sm p-1 border">

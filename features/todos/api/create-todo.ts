@@ -1,12 +1,19 @@
 import { useToast } from "@/hooks/use-toast";
-import { useErrorNotification } from "@/hooks/useErrorToast";
 import { useQueryClient, useMutation } from "@tanstack/react-query";
 import { DateRange } from "react-day-picker";
 import { endOfDay } from "date-fns";
 import { todoSchema } from "@/schema";
 import { api } from "@/lib/api-client";
-import { useEffect } from "react";
 import { TodoItemType } from "@/types";
+import { SetStateAction } from "react";
+
+interface useCreateTodoProps {
+  setTitle: React.Dispatch<SetStateAction<string>>;
+  setDesc: React.Dispatch<SetStateAction<string>>;
+  setDateRange: React.Dispatch<SetStateAction<DateRange | undefined>>;
+  setPriority: React.Dispatch<SetStateAction<"Low" | "Medium" | "High">>;
+  clearInput: Function;
+}
 
 async function postTodo({
   title,
@@ -56,7 +63,13 @@ async function postTodo({
   });
 }
 
-export const useCreateTodo = () => {
+export const useCreateTodo = ({
+  setTitle,
+  setDesc,
+  setDateRange,
+  setPriority,
+  clearInput,
+}: useCreateTodoProps) => {
   const { toast } = useToast();
   const queryClient = useQueryClient();
   const {
@@ -82,13 +95,20 @@ export const useCreateTodo = () => {
           description: newTodo.desc,
           priority: newTodo.priority,
           createdAt: new Date(),
-          startedAt: newTodo.dateRange?.from,
-          expiresAt: newTodo.dateRange?.to,
+          startedAt: newTodo.dateRange!.from,
+          expiresAt: newTodo.dateRange!.to,
         },
       ]);
+      //clear form inputs
+      clearInput();
       return { oldTodos };
     },
+    //if fetch error then revert optimistic updates including form states
     onError: (error, newTodo, context) => {
+      setTitle(newTodo.title);
+      setDesc(newTodo.desc || "");
+      setPriority(newTodo.priority);
+      setDateRange(newTodo.dateRange);
       queryClient.setQueryData(["todo"], context?.oldTodos);
       toast({ description: error.message, variant: "destructive" });
     },

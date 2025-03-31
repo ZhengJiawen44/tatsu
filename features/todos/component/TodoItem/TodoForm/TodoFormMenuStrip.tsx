@@ -17,8 +17,8 @@ import {
 import LineSeparator from "@/components/ui/lineSeparator";
 interface TodoFormMenuStripProps {
   todo?: TodoItemType;
-  date: DateRange | undefined;
-  setDate: React.Dispatch<SetStateAction<DateRange | undefined>>;
+  dateRange: DateRange | undefined;
+  setDateRange: React.Dispatch<SetStateAction<DateRange | undefined>>;
   expireTime: string;
   setExpireTime: React.Dispatch<SetStateAction<string>>;
   priority: "Low" | "Medium" | "High";
@@ -27,10 +27,10 @@ interface TodoFormMenuStripProps {
 
 const TodoFormMenuStrip = ({
   todo,
-  date,
+  dateRange,
   expireTime,
   setExpireTime,
-  setDate,
+  setDateRange,
   priority,
   setPriority,
 }: TodoFormMenuStripProps) => {
@@ -39,8 +39,8 @@ const TodoFormMenuStrip = ({
       <div className="p-1 border rounded-sm text-sm hover:bg-border hover:text-white">
         <DayMenu
           todo={todo}
-          date={date}
-          setDate={setDate}
+          dateRange={dateRange}
+          setDateRange={setDateRange}
           expireTime={expireTime}
           setExpireTime={setExpireTime}
         />

@@ -12,6 +12,7 @@ import { auth } from "@/app/auth";
 
 export async function POST(req: NextRequest) {
   try {
+    // throw new Error("expected error happened");
     const session = await auth();
     const user = session?.user;
 
