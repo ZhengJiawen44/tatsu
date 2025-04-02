@@ -27,6 +27,7 @@ export interface TodoItemType {
   priority: "Low" | "Medium" | "High";
   startedAt: Date;
   expiresAt: Date;
+  userID: string;
 }
 
 export interface FileItemType {

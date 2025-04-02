@@ -9,6 +9,7 @@ import { TodoItemType } from "@/types";
 import { DateRange } from "react-day-picker";
 import { endOfDay } from "date-fns";
 import TodoFormMenuStrip from "./TodoFormMenuStrip";
+import { useSession } from "next-auth/react";
 
 interface TodoFormConrtainerProps {
   displayForm: boolean;
@@ -45,11 +46,12 @@ const TodoFormConrtainer = ({
     from: todo?.startedAt ? todo.startedAt : new Date(),
     to: todo?.expiresAt ? todo.expiresAt : endOfDay(new Date()),
   });
+
   const [expireTime, setExpireTime] = useState<string>(
     todo?.expiresAt.toTimeString().slice(0, 5) || "23:59"
   );
-  const { editTodo, isSuccess: editSuccess } = useEditTodo();
-  const { createTodo, isSuccess: createSuccess } = useCreateTodo({
+  const { editTodo } = useEditTodo(setDisplayForm);
+  const { createTodo } = useCreateTodo({
     setTitle,
     setDesc,
     setDateRange,
@@ -57,14 +59,7 @@ const TodoFormConrtainer = ({
     clearInput,
   });
 
-  // console.log(expireTime);
-  //clear form on succesful mutation
-  useEffect(() => {
-    if (editSuccess) {
-      clearInput();
-      setDisplayForm(false);
-    }
-  }, [editSuccess, createSuccess, clearInput]);
+  const { user } = useSession().data!;
 
   //adjust height of the todo description based on content size
   useEffect(() => {
@@ -168,11 +163,44 @@ const TodoFormConrtainer = ({
 
   async function handleForm(e?: React.FormEvent) {
     if (e) e.preventDefault();
+    // if date picker value is undefined.
+    let startedAt = dateRange?.from || new Date();
+    let expiresAt = dateRange?.to || endOfDay(new Date());
+    if (!dateRange?.from && !dateRange?.to) {
+      const today = new Date();
+      startedAt = today;
+      expiresAt = endOfDay(today);
+    }
+
+    //if end date is undefined
+    if (!dateRange?.to && dateRange?.from) {
+      expiresAt = endOfDay(dateRange?.from);
+    }
+
     try {
       if (todo?.id) {
-        editTodo({ id: todo.id, title, desc, priority, dateRange: dateRange });
+        editTodo({
+          ...todo,
+          title,
+          description: desc,
+          priority,
+          startedAt: startedAt,
+          expiresAt: expiresAt,
+        });
       } else {
-        createTodo({ title, desc, priority, dateRange: dateRange });
+        createTodo({
+          id: crypto.randomUUID(),
+          title,
+          description: desc,
+          priority,
+          startedAt,
+          expiresAt,
+          order: Number.MAX_VALUE,
+          userID: user!.id!,
+          pinned: false,
+          createdAt: new Date(),
+          completed: false,
+        });
       }
     } catch (error) {
       if (error instanceof Error)

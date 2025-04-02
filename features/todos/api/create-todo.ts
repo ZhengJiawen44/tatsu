@@ -1,7 +1,6 @@
 import { useToast } from "@/hooks/use-toast";
 import { useQueryClient, useMutation } from "@tanstack/react-query";
 import { DateRange } from "react-day-picker";
-import { endOfDay } from "date-fns";
 import { todoSchema } from "@/schema";
 import { api } from "@/lib/api-client";
 import { TodoItemType } from "@/types";
@@ -15,41 +14,14 @@ interface useCreateTodoProps {
   clearInput: Function;
 }
 
-async function postTodo({
-  title,
-  desc,
-  priority,
-  dateRange,
-}: {
-  title: string;
-  desc?: string;
-  priority: "Low" | "Medium" | "High";
-  dateRange?: DateRange;
-}) {
-  // if date picker value is undefined.
-  if (!dateRange) {
-    const today = new Date();
-    dateRange = { to: today, from: endOfDay(today) };
-  }
-
-  //if end date is undefined
-  if (!dateRange.to && dateRange.from) {
-    dateRange.to = endOfDay(dateRange.from);
-  }
-
-  //if start date is undefined
-  if (!dateRange.from) {
-    dateRange.from = new Date();
-    dateRange.to = endOfDay(dateRange.from);
-  }
-
+async function postTodo({ todo }: { todo: TodoItemType }) {
   //validate input
   const parsedObj = todoSchema.safeParse({
-    title,
-    description: desc,
-    priority,
-    startedAt: dateRange.from,
-    expiresAt: dateRange.to,
+    title: todo.title,
+    description: todo.description,
+    priority: todo.priority,
+    startedAt: todo.startedAt,
+    expiresAt: todo.expiresAt,
   });
 
   if (!parsedObj.success) {
@@ -77,27 +49,16 @@ export const useCreateTodo = ({
     isPending: createLoading,
     isSuccess,
   } = useMutation({
-    mutationFn: (params: {
-      title: string;
-      desc?: string;
-      priority: "Low" | "Medium" | "High";
-      dateRange?: DateRange;
-    }) => postTodo({ ...params }),
+    mutationFn: (todo: TodoItemType) => postTodo({ todo }),
     onMutate: async (newTodo) => {
+      console.log(newTodo);
+
       await queryClient.cancelQueries({ queryKey: ["todo"] });
       const oldTodos = queryClient.getQueryData(["todo"]);
 
       queryClient.setQueryData(["todo"], (old: TodoItemType[]) => [
         ...old,
-        {
-          id: crypto.randomUUID(),
-          title: newTodo.title,
-          description: newTodo.desc,
-          priority: newTodo.priority,
-          createdAt: new Date(),
-          startedAt: newTodo.dateRange!.from,
-          expiresAt: newTodo.dateRange!.to,
-        },
+        newTodo,
       ]);
       //clear form inputs
       clearInput();
@@ -106,9 +67,9 @@ export const useCreateTodo = ({
     //if fetch error then revert optimistic updates including form states
     onError: (error, newTodo, context) => {
       setTitle(newTodo.title);
-      setDesc(newTodo.desc || "");
+      setDesc(newTodo.description || "");
       setPriority(newTodo.priority);
-      setDateRange(newTodo.dateRange);
+      setDateRange({ from: newTodo.startedAt, to: newTodo.expiresAt });
       queryClient.setQueryData(["todo"], context?.oldTodos);
       toast({ description: error.message, variant: "destructive" });
     },
