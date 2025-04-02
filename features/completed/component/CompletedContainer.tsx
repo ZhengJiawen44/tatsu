@@ -28,7 +28,7 @@ const CompletedTodoContainer = () => {
       {todos.map((todo) => {
         if (todo.completed) {
           return (
-            <TodoMenuProvider id={todo.id} pinned={todo.pinned} key={todo.id}>
+            <TodoMenuProvider todoItem={todo} key={todo.id}>
               <TodoItemContainer variant="completed-todos" todoItem={todo} />
             </TodoMenuProvider>
           );

@@ -1,15 +1,40 @@
 import { useQueryClient, useMutation } from "@tanstack/react-query";
 import { api } from "@/lib/api-client";
 import { useToast } from "@/hooks/use-toast";
+import { TodoItemType } from "@/types";
 
-export function usePinTodo() {
+export function usePinTodo(todoItem: TodoItemType) {
+  // console.log(todoItem);
+
   const { toast } = useToast();
   const queryClient = useQueryClient();
   const { mutate: pinMutate, isPending: pinPending } = useMutation({
-    mutationFn: async ({ id, pin }: { id: string; pin: boolean }) => {
-      await api.PATCH({ url: `/api/todo/${id}?pin=${pin}` });
+    mutationFn: async () => {
+      await api.PATCH({
+        url: `/api/todo/${todoItem.id}?pin=${!todoItem.pinned}`,
+      });
     },
-    mutationKey: ["todo"],
+
+    onMutate: async () => {
+      await queryClient.cancelQueries({ queryKey: ["todo"] });
+
+      const oldTodos = queryClient.getQueryData(["todo"]);
+      queryClient.setQueryData(["todo"], (oldTodos: TodoItemType[]) =>
+        oldTodos.map((oldTodo) => {
+          if (oldTodo.id === todoItem.id) {
+            return {
+              ...todoItem,
+              pinned: !todoItem.pinned,
+            };
+          }
+          return oldTodo;
+        })
+      );
+
+      console.log(queryClient.getQueryData(["todo"]));
+
+      return { oldTodos };
+    },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["todo"] });
     },

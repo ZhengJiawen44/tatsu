@@ -18,26 +18,25 @@ import { PriorityIndicator } from "../PriorityIndicator";
 import Meatball from "@/components/ui/icon/meatball";
 
 function TodoItemMeatballMenu() {
-  const { deleteMutate, deletePending } = useDeleteTodo();
-  const { pinMutate, pinPending } = usePinTodo();
-  const { mutatePrioritize } = usePrioritizeTodo();
-  const { id, pinned, setDisplayForm, setShowContent, showContent } =
+  const { todoItem, setDisplayForm, setShowContent, showContent } =
     useTodoMenu();
+  const { mutatePrioritize } = usePrioritizeTodo(todoItem);
+
+  const { deleteMutate, deletePending } = useDeleteTodo();
+  const { pinMutate } = usePinTodo(todoItem);
   return (
     <MenuContainer setShowContent={setShowContent} showContent={showContent}>
       <MenuTrigger>
         <Meatball className="w-5 h-5" />
       </MenuTrigger>
       <MenuContent>
-        <MenuItem onClick={() => pinMutate({ id, pin: !pinned })}>
-          {pinPending ? (
-            <Spinner className="w-4 h-4" />
-          ) : !pinned ? (
+        <MenuItem onClick={() => pinMutate()}>
+          {!todoItem.pinned ? (
             <Pin className="w-4 h-4" />
           ) : (
             <Unpin className="w-4 h-4" />
           )}
-          {pinned ? "unpin" : "Pin to top"}
+          {todoItem.pinned ? "unpin" : "Pin to top"}
         </MenuItem>
         <MenuItem
           onClick={() => {
@@ -48,7 +47,7 @@ function TodoItemMeatballMenu() {
           <Edit className="w-4 h-4" />
           Edit
         </MenuItem>
-        <MenuItem onClick={() => deleteMutate({ id })}>
+        <MenuItem onClick={() => deleteMutate({ id: todoItem.id })}>
           {deletePending ? (
             <Spinner className="w-4 h-4" />
           ) : (
@@ -65,21 +64,21 @@ function TodoItemMeatballMenu() {
           <PriorityIndicator
             level={1}
             onClick={() => {
-              mutatePrioritize({ id, level: "Low" });
+              mutatePrioritize({ level: "Low" });
               setShowContent(false);
             }}
           />
           <PriorityIndicator
             level={2}
             onClick={() => {
-              mutatePrioritize({ id, level: "Medium" });
+              mutatePrioritize({ level: "Medium" });
               setShowContent(false);
             }}
           />
           <PriorityIndicator
             level={3}
             onClick={() => {
-              mutatePrioritize({ id, level: "High" });
+              mutatePrioritize({ level: "High" });
               setShowContent(false);
             }}
           />

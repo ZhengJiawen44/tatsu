@@ -1,3 +1,4 @@
+import { TodoItemType } from "@/types";
 import React, {
   createContext,
   SetStateAction,
@@ -7,18 +8,16 @@ import React, {
 
 //  types for context values
 interface TodoMenuContextType {
-  id: string;
+  todoItem: TodoItemType;
   showContent: boolean;
   setShowContent: React.Dispatch<SetStateAction<boolean>>;
   displayForm: boolean;
   setDisplayForm: React.Dispatch<SetStateAction<boolean>>;
-  pinned: boolean;
 }
 
 //  props for the provider
 interface TodoMenuProviderProps {
-  id: string;
-  pinned: boolean;
+  todoItem: TodoItemType;
   children: React.ReactNode;
 }
 
@@ -26,19 +25,13 @@ const todoMenuContext = createContext<TodoMenuContextType | undefined>(
   undefined
 );
 
-const TodoMenuProvider = ({
-  children,
-  id,
-
-  pinned,
-}: TodoMenuProviderProps) => {
+const TodoMenuProvider = ({ children, todoItem }: TodoMenuProviderProps) => {
   const [showContent, setShowContent] = useState<boolean>(false);
   const [displayForm, setDisplayForm] = useState<boolean>(false);
   const contextValue = {
-    id,
+    todoItem,
     showContent,
     setShowContent,
-    pinned,
     displayForm,
     setDisplayForm,
   };

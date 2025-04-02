@@ -1,19 +1,34 @@
 import { useQueryClient, useMutation } from "@tanstack/react-query";
 import { api } from "@/lib/api-client";
 import { useToast } from "@/hooks/use-toast";
+import { TodoItemType } from "@/types";
 
-export const usePrioritizeTodo = () => {
+export const usePrioritizeTodo = (todoItem: TodoItemType) => {
   const { toast } = useToast();
   const queryClient = useQueryClient();
   const { mutate: mutatePrioritize, isPending } = useMutation({
-    mutationFn: async ({
-      id,
-      level,
-    }: {
-      id: string;
-      level: "Low" | "Medium" | "High";
-    }) => {
-      await api.PATCH({ url: `/api/todo/${id}?priority=${level}` });
+    mutationFn: async ({ level }: { level: "Low" | "Medium" | "High" }) => {
+      await api.PATCH({ url: `/api/todo/${todoItem.id}?priority=${level}` });
+    },
+    onMutate: async ({ level }) => {
+      await queryClient.cancelQueries({ queryKey: ["todo"] });
+
+      const oldTodos = queryClient.getQueryData(["todo"]);
+      queryClient.setQueryData(["todo"], (oldTodos: TodoItemType[]) =>
+        oldTodos.map((oldTodo) => {
+          if (oldTodo.id === todoItem.id) {
+            return {
+              ...todoItem,
+              priority: level,
+            };
+          }
+          return oldTodo;
+        })
+      );
+
+      console.log(queryClient.getQueryData(["todo"]));
+
+      return { oldTodos };
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["todo"] });

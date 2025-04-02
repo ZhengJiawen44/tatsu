@@ -25,14 +25,14 @@ export const TodoItemContainer = ({
     transition,
   };
 
-  const { id, title, description, completed, priority } = todoItem;
+  const { title, description, completed, priority } = todoItem;
 
   const { displayForm, setDisplayForm } = useTodoMenu();
   const [showHandle, setShowHandle] = useState(false);
   const { showContent } = useTodoMenu();
   const [isGrabbing, setGrabbing] = useState(false);
 
-  const { mutateCompleted } = useCompleteTodo();
+  const { mutateCompleted } = useCompleteTodo(todoItem);
 
   if (displayForm)
     return (
@@ -86,7 +86,7 @@ export const TodoItemContainer = ({
               priority={priority}
               complete={completed}
               onChange={() => {
-                mutateCompleted({ id, completed: !completed });
+                mutateCompleted();
               }}
               checked={completed}
             />

@@ -94,7 +94,7 @@ const TodoGroup = ({
       >
         <SortableContext items={items} strategy={verticalListSortingStrategy}>
           {items.map((item) => (
-            <TodoMenuProvider key={item.id} id={item.id} pinned={item.pinned}>
+            <TodoMenuProvider todoItem={item} key={item.id}>
               <TodoItemContainer todoItem={item} />
             </TodoMenuProvider>
           ))}

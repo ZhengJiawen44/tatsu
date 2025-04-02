@@ -8,22 +8,18 @@ import { usePinTodo } from "@/features/todos/api/pin-todo";
 import Spinner from "@/components/ui/spinner";
 
 const TodoItemSideMenu = () => {
-  const { id, pinned, setDisplayForm } = useTodoMenu();
+  const { todoItem, setDisplayForm } = useTodoMenu();
   const { deleteMutate, deletePending } = useDeleteTodo();
-  const { pinMutate, pinPending } = usePinTodo();
+  const { pinMutate } = usePinTodo(todoItem);
   return (
     <div className="hidden sm:flex items-center gap-2">
       <div
         className="hover:bg-border text-card-foreground-muted hover:text-white p-1 rounded-md"
         onClick={() => {
-          pinMutate({ id, pin: !pinned });
+          pinMutate();
         }}
       >
-        {pinPending ? (
-          <Spinner className="w-4 h-4" />
-        ) : (
-          <Pin className="w-[17px] h-[17px]" />
-        )}
+        <Pin className="w-[17px] h-[17px]" />
       </div>
 
       <div
@@ -35,7 +31,7 @@ const TodoItemSideMenu = () => {
       <div
         className="hover:bg-border text-card-foreground-muted hover:text-white p-1 rounded-md"
         onClick={() => {
-          deleteMutate({ id });
+          deleteMutate({ id: todoItem.id });
         }}
       >
         {deletePending ? (

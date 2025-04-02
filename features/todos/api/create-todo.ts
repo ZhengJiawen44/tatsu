@@ -51,8 +51,6 @@ export const useCreateTodo = ({
   } = useMutation({
     mutationFn: (todo: TodoItemType) => postTodo({ todo }),
     onMutate: async (newTodo) => {
-      console.log(newTodo);
-
       await queryClient.cancelQueries({ queryKey: ["todo"] });
       const oldTodos = queryClient.getQueryData(["todo"]);
 
