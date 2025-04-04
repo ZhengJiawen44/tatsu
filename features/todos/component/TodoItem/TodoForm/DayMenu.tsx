@@ -3,21 +3,18 @@ import { addDays, endOfDay } from "date-fns";
 import { Calendar } from "@/components/ui/calendar";
 import React, { SetStateAction, useState } from "react";
 import CalenderIcon from "@/components/ui/icon/calender";
-import Selector from "@/components/ui/icon/selector";
 import { isEqual } from "@/lib/date/isEqual";
 import { monthNames } from "@/lib/date/dateConstants";
 import { DateRange } from "react-day-picker";
 import { format, nextMonday, differenceInDays } from "date-fns";
-import Check from "@/components/ui/icon/check";
 import LineSeparator from "@/components/ui/lineSeparator";
-import clsx from "clsx";
+import TimePicker from "./TimePicker";
 import {
   MenuContainer,
   MenuItem,
   MenuTrigger,
   MenuContent,
 } from "@/components/ui/Menu";
-import { ScrollArea } from "@/components/ui/scroll-area";
 import Sun from "@/components/ui/icon/sun";
 import Tommorrow from "@/components/ui/icon/tommorrow";
 
@@ -37,12 +34,7 @@ const DayMenu = ({
 }: DayMenuProps) => {
   const nextWeek = nextMonday(dateRange?.from || new Date());
   const tomorrow = addDays(dateRange?.from || new Date(), 1);
-  const hours = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
-  const minutes = Array.from({ length: 60 }, (_, i) =>
-    i.toString().padStart(2, "0")
-  );
 
-  const [showTimePicker, setTimePicker] = useState(false);
   //get date from todo or set to default
   return (
     <MenuContainer>
@@ -158,66 +150,7 @@ const DayMenu = ({
             onSelect={setDateRange}
             numberOfMonths={1}
           />
-          <div className="relative flex justify-between w-full rounded-sm p-1 border">
-            end time
-            <label className="relative m-0 p-0">
-              <div
-                className="absolute inset-y-0 right-0 flex items-center justify-center p-1"
-                onClick={(e) => {
-                  e.stopPropagation();
-                  e.preventDefault();
-                  setTimePicker(!showTimePicker);
-                }}
-              >
-                <Selector className="w-5 h-5 bg-popover stroke-1 hover:bg-border rounded-sm hover:cursor-pointer" />
-              </div>
-              <input
-                value={expireTime}
-                onChange={(e) => setExpireTime(e.currentTarget.value)}
-                type="time"
-                className="select-none bg-inherit outline-none hover:cursor-pointer"
-              />
-            </label>
-            <div
-              className={clsx(
-                "absolute bottom-10 left-0 w-full bg-popover rounded-sm overflow-hidden transition-all duration-300 shadow-md",
-                showTimePicker ? "max-h-52 h-52 border p-2" : "max-h-0 h-0"
-              )}
-            >
-              <div className="flex w-full h-full justify-evenly">
-                <ScrollArea className="flex-1">
-                  {hours.map((hour) => (
-                    <div
-                      className="mb-2 rounded-sm text-center relative"
-                      key={hour}
-                    >
-                      {+expireTime.slice(0, 2) === hour && (
-                        <Check className="w-4 h-4 absolute top-1/2 -translate-y-1/2 m-0 left-0" />
-                      )}
-                      {hour}
-                    </div>
-                  ))}
-                </ScrollArea>
-                <ScrollArea className="flex-1">
-                  {minutes.map((minute) => (
-                    <div
-                      className="text-center mb-2 rounded-sm relative"
-                      key={minute}
-                    >
-                      {expireTime.slice(3, 5) === minute && (
-                        <Check className="w-4 h-4 absolute top-1/2 -translate-y-1/2 m-0 left-0" />
-                      )}
-                      {minute}
-                    </div>
-                  ))}
-                </ScrollArea>
-                <div className="flex-1 flex flex-col items-center gap-2">
-                  <div>AM</div>
-                  <div>PM</div>
-                </div>
-              </div>
-            </div>
-          </div>
+          <TimePicker expireTime={expireTime} setExpireTime={setExpireTime} />
         </MenuItem>
       </MenuContent>
     </MenuContainer>
