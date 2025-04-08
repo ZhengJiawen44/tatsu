@@ -1,8 +1,9 @@
 import Selector from "@/components/ui/icon/selector";
-import { ScrollArea } from "@radix-ui/react-scroll-area";
+import { ScrollArea } from "@/components/ui/scroll-area";
 import clsx from "clsx";
 import Check from "@/components/ui/icon/check";
 import React, { useState } from "react";
+import { format } from "date-fns";
 
 const TimePicker = ({
   expireTime,
@@ -16,6 +17,9 @@ const TimePicker = ({
   const minutes = Array.from({ length: 60 }, (_, i) =>
     i.toString().padStart(2, "0")
   );
+
+  console.log(format(expireTime, "hh"));
+
   return (
     <div className="relative flex justify-between w-full rounded-sm p-1 border">
       end time
@@ -46,7 +50,7 @@ const TimePicker = ({
             <ScrollArea className="flex-1">
               {hours.map((hour) => (
                 <div
-                  className="mb-2 rounded-sm text-center relative"
+                  className="mb-2 rounded-sm text-center relative hover:bg-border hover:cursor-pointer"
                   key={hour}
                 >
                   {+expireTime.slice(0, 2) === hour && (
@@ -59,7 +63,7 @@ const TimePicker = ({
             <ScrollArea className="flex-1">
               {minutes.map((minute) => (
                 <div
-                  className="text-center mb-2 rounded-sm relative"
+                  className="text-center mb-2 rounded-sm relative hover:bg-border hover:cursor-pointer"
                   key={minute}
                 >
                   {expireTime.slice(3, 5) === minute && (
@@ -69,9 +73,13 @@ const TimePicker = ({
                 </div>
               ))}
             </ScrollArea>
-            <div className="flex-1 flex flex-col items-center gap-2">
-              <div>AM</div>
-              <div>PM</div>
+            <div className="flex-1 flex flex-col items-center gap-2 ">
+              <div className=" w-full rounded-sm text-center hover:bg-border hover:cursor-pointer">
+                AM
+              </div>
+              <div className=" w-full rounded-sm text-center hover:bg-border hover:cursor-pointer">
+                PM
+              </div>
             </div>
           </div>
         </div>

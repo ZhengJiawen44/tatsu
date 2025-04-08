@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import TodoItemMenuContainer from "./TodoMenu/TodoItemMenuContainer";
 import TodoFormContainer from "./TodoForm/TodoFormContainer";
 import TodoCheckbox from "@/components/ui/TodoCheckbox";
@@ -8,7 +8,7 @@ import { CSS } from "@dnd-kit/utilities";
 import { TodoItemType } from "@/types";
 import GripVertical from "@/components/ui/icon/gripVertical";
 import { useCompleteTodo } from "../../api/complete-todo";
-import { useTodoMenu } from "@/providers/TodoMenuProvider";
+import { useTodoForm } from "@/providers/TodoFormProvider";
 
 export const TodoItemContainer = ({
   todoItem,
@@ -27,12 +27,18 @@ export const TodoItemContainer = ({
 
   const { title, description, completed, priority } = todoItem;
 
-  const { displayForm, setDisplayForm } = useTodoMenu();
+  const { displayForm, setDisplayForm } = useTodoForm();
   const [showHandle, setShowHandle] = useState(false);
-  const { showContent } = useTodoMenu();
+
   const [isGrabbing, setGrabbing] = useState(false);
 
   const { mutateCompleted } = useCompleteTodo(todoItem);
+
+  useEffect(() => {
+    if (!displayForm) {
+      setShowHandle(false);
+    }
+  }, [displayForm]);
 
   if (displayForm)
     return (
@@ -49,7 +55,7 @@ export const TodoItemContainer = ({
         ref={setNodeRef}
         style={style}
         className={clsx(
-          " w-full min-h-11 relative flex justify-between items-center my-4 bg-inherit py-2 rounded-md",
+          "border w-full min-h-11 relative flex justify-between items-center my-4 bg-inherit py-2 rounded-md",
           isGrabbing && variant === "DEFAULT"
             ? "shadow-[0px_10px_30px_rgba(6,8,30,0.3)] z-30 border border-border-muted"
             : "shadow-none"
@@ -59,9 +65,7 @@ export const TodoItemContainer = ({
         }}
         {...attributes}
         {...listeners}
-        onMouseEnter={() => {
-          setShowHandle(true);
-        }}
+        onMouseEnter={() => setShowHandle(true)}
         onMouseLeave={() => setShowHandle(false)}
         onMouseDown={() => setGrabbing(true)}
         onMouseUp={() => setGrabbing(false)}
@@ -74,8 +78,6 @@ export const TodoItemContainer = ({
             showHandle === true ? "text-card-foreground" : "text-transparent",
             variant === "completed-todos" && "hidden"
           )}
-          onMouseEnter={() => setShowHandle(true)}
-          onMouseLeave={() => setShowHandle(false)}
         >
           <GripVertical className=" w-5 h-5 " />
         </div>
@@ -106,7 +108,7 @@ export const TodoItemContainer = ({
           <TodoItemMenuContainer
             className={clsx(
               "flex items-center gap-2",
-              !showHandle && !showContent && "opacity-0"
+              !showHandle && "opacity-0"
             )}
           />
         )}

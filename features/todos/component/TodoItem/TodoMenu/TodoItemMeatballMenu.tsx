@@ -10,7 +10,7 @@ import Spinner from "@/components/ui/spinner";
 import { useDeleteTodo } from "@/features/todos/api/delete-todo";
 import { usePinTodo } from "@/features/todos/api/pin-todo";
 import { usePrioritizeTodo } from "@/features/todos/api/prioritize-todo";
-import { useTodoMenu } from "@/providers/TodoMenuProvider";
+import { useTodoForm } from "@/providers/TodoFormProvider";
 import Pin from "@/components/ui/icon/pin";
 import Edit from "@/components/ui/icon/edit";
 import Trash from "@/components/ui/icon/trash";
@@ -18,14 +18,13 @@ import { PriorityIndicator } from "../PriorityIndicator";
 import Meatball from "@/components/ui/icon/meatball";
 
 function TodoItemMeatballMenu() {
-  const { todoItem, setDisplayForm, setShowContent, showContent } =
-    useTodoMenu();
+  const { todoItem, setDisplayForm } = useTodoForm();
   const { mutatePrioritize } = usePrioritizeTodo(todoItem);
 
   const { deleteMutate, deletePending } = useDeleteTodo();
   const { pinMutate } = usePinTodo(todoItem);
   return (
-    <MenuContainer setShowContent={setShowContent} showContent={showContent}>
+    <MenuContainer>
       <MenuTrigger>
         <Meatball className="w-5 h-5" />
       </MenuTrigger>
@@ -41,7 +40,6 @@ function TodoItemMeatballMenu() {
         <MenuItem
           onClick={() => {
             setDisplayForm((prev: boolean) => !prev);
-            setShowContent(false);
           }}
         >
           <Edit className="w-4 h-4" />
@@ -65,21 +63,18 @@ function TodoItemMeatballMenu() {
             level={1}
             onClick={() => {
               mutatePrioritize({ level: "Low" });
-              setShowContent(false);
             }}
           />
           <PriorityIndicator
             level={2}
             onClick={() => {
               mutatePrioritize({ level: "Medium" });
-              setShowContent(false);
             }}
           />
           <PriorityIndicator
             level={3}
             onClick={() => {
               mutatePrioritize({ level: "High" });
-              setShowContent(false);
             }}
           />
         </MenuItem>

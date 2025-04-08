@@ -2,13 +2,13 @@ import Pin from "@/components/ui/icon/pin";
 import Edit from "@/components/ui/icon/edit";
 import Trash from "@/components/ui/icon/trash";
 import React from "react";
-import { useTodoMenu } from "@/providers/TodoMenuProvider";
+import { useTodoForm } from "@/providers/TodoFormProvider";
 import { useDeleteTodo } from "@/features/todos/api/delete-todo";
 import { usePinTodo } from "@/features/todos/api/pin-todo";
 import Spinner from "@/components/ui/spinner";
 
 const TodoItemSideMenu = () => {
-  const { todoItem, setDisplayForm } = useTodoMenu();
+  const { todoItem, setDisplayForm } = useTodoForm();
   const { deleteMutate, deletePending } = useDeleteTodo();
   const { pinMutate } = usePinTodo(todoItem);
   return (

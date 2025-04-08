@@ -15,11 +15,7 @@ const MenuContainer = ({
   showContent?: boolean;
   setShowContent?: React.Dispatch<SetStateAction<boolean>>;
 }) => {
-  return (
-    <Popover open={showContent} onOpenChange={setShowContent}>
-      {children}
-    </Popover>
-  );
+  return <Popover>{children}</Popover>;
 };
 
 const MenuContent = ({

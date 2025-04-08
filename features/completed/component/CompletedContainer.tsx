@@ -3,7 +3,7 @@ import React from "react";
 import { TodoItemContainer } from "@/features/todos/component/TodoItem/TodoItemContainer";
 import { useTodo } from "@/features/todos/api/get-todo";
 import { Skeleton } from "@/components/ui/skeleton";
-import TodoMenuProvider from "@/providers/TodoMenuProvider";
+import TodoMenuProvider from "@/providers/TodoFormProvider";
 
 const CompletedTodoContainer = () => {
   const { todos, todoLoading } = useTodo();
