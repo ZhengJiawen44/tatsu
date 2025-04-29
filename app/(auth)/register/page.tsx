@@ -174,7 +174,7 @@ const Page = () => {
   // login functions
   async function onGoogle() {
     try {
-      const result = await signIn("google", { callbackUrl: "/app" });
+      const result = await signIn("google", { callbackUrl: "/app/todo" });
       if (result?.error) {
         toast({ title: "we could not sign you in to google at the moment" });
         console.error(result.error);
@@ -186,7 +186,7 @@ const Page = () => {
   }
   async function onDiscord() {
     try {
-      const result = await signIn("discord", { callbackUrl: "/app" });
+      const result = await signIn("discord", { callbackUrl: "/app/todo" });
       if (result?.error) {
         toast({ title: "we could not sign you in to discord at the moment" });
         console.error(result.error);

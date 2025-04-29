@@ -147,7 +147,7 @@ const LoginPage = () => {
   // login functions
   async function onGoogle() {
     try {
-      const result = await signIn("google", { callbackUrl: "/app" });
+      const result = await signIn("google", { callbackUrl: "/app/todo" });
       if (result?.error) {
         toast({ title: "we could not sign you in to google at the moment" });
         console.error(result.error);
@@ -159,7 +159,7 @@ const LoginPage = () => {
   }
   async function onDiscord() {
     try {
-      const result = await signIn("discord", { callbackUrl: "/app" });
+      const result = await signIn("discord", { callbackUrl: "/app/todo" });
       if (result?.error) {
         toast({ title: "we could not sign you in to discord at the moment" });
         console.error(result.error);
@@ -174,7 +174,7 @@ const LoginPage = () => {
       const result = await signIn("credentials", {
         ...data,
         redirect: false,
-        callbackUrl: "/app",
+        callbackUrl: "/app/todo",
       });
 
       if (result?.error) {
@@ -192,5 +192,3 @@ export default LoginPage;
 
 {
 }
-
-//wechat https://mp.weixin.qq.com/debug/cgi-bin/sandboxinfo?action=showinfo&t=sandbox/index
