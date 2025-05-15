@@ -5,7 +5,7 @@ import {
 } from "@/components/ui/popover";
 import { cn } from "@/lib/utils";
 import clsx from "clsx";
-import { SetStateAction } from "react";
+import { HTMLAttributes, SetStateAction } from "react";
 const MenuContainer = ({
   children,
   showContent,
@@ -68,15 +68,11 @@ const MenuTrigger = ({
   );
 };
 
-const MenuItem = ({
-  className,
-  children,
-  onClick,
-}: {
+interface MenuItemType extends HTMLAttributes<HTMLDivElement> {
   className?: string;
   children: React.ReactNode;
-  onClick?: (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => void;
-}) => {
+}
+const MenuItem = ({ className, children, onClick, ...props }: MenuItemType) => {
   return (
     <div
       onClick={(e) => {
@@ -89,6 +85,7 @@ const MenuItem = ({
         "text-sm mx-1 mt-0 flex justify-start items-center gap-2 hover:cursor-pointer py-1.5 hover:bg-popover-foreground rounded-sm px-2",
         className
       )}
+      {...props}
     >
       {children}
     </div>

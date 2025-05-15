@@ -58,26 +58,34 @@ const TodoFormMenuStrip = () => {
           <p className="hidden sm:block text-sm">Repeat</p>
         </MenuTrigger>
         <MenuContent className="border-popover-accent">
-          <MenuItem>daily</MenuItem>
-          <MenuItem className="flex justify-between items-center">
+          <MenuItem className="hover:cursor-not-allowed" title="coming soon!">
+            daily
+          </MenuItem>
+          <MenuItem
+            className="flex justify-between items-cente hover:cursor-not-allowed"
+            title="coming soon!"
+          >
             weekly
             <p className="text-xs text-card-foreground-muted">
               {format(new Date(), "EEE")}
             </p>
           </MenuItem>
-          <MenuItem className="flex justify-between items-center">
+          <MenuItem
+            className="flex justify-between items-center hover:cursor-not-allowed"
+            title="coming soon!"
+          >
             monthly
             <p className="text-xs text-card-foreground-muted">
               {format(new Date(), "do")}
             </p>
           </MenuItem>
           <LineSeparator className="border-popover-accent w-full mb-1" />
-          <MenuItem>
+          <MenuItem className="hover:cursor-not-allowed" title="coming soon!">
             every weekday
             <p className="text-xs text-card-foreground-muted">(Mon-Fri)</p>
           </MenuItem>
           <LineSeparator className="border-popover-accent mb-2" />
-          <MenuItem>
+          <MenuItem className="hover:cursor-not-allowed" title="coming soon!">
             custom
             <p className="text-xs text-card-foreground-muted"></p>
           </MenuItem>

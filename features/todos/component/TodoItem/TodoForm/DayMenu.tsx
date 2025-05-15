@@ -2,11 +2,11 @@ import { addDays, endOfDay } from "date-fns";
 import { Calendar } from "@/components/ui/calendar";
 import React from "react";
 import CalenderIcon from "@/components/ui/icon/calender";
-import { isEqual } from "@/lib/date/isEqual";
-import { monthNames } from "@/lib/date/dateConstants";
+// import { isEqual } from "@/lib/date/isEqual";
+// import { monthNames } from "@/lib/date/dateConstants";
 import { format, nextMonday, differenceInDays } from "date-fns";
 import LineSeparator from "@/components/ui/lineSeparator";
-import TimePicker from "./TimePicker";
+// import TimePicker from "./TimePicker";
 import {
   MenuContainer,
   MenuItem,
@@ -146,7 +146,7 @@ const DayMenu = () => {
             }}
             numberOfMonths={1}
           />
-          <TimePicker />
+          {/* <TimePicker /> */}
         </MenuItem>
       </MenuContent>
     </MenuContainer>
