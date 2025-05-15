@@ -15,7 +15,7 @@ export function getDisplayDate(createdAt: Date) {
     return "today";
   } else if (diffInDays === -1) {
     return "yesterday";
-  } else if (diffInDays === 2) {
+  } else if (diffInDays === -2) {
     return "day before yesterday";
   } else if (today.getFullYear() === createdDate.getFullYear()) {
     return `${String(createdDate.getDate()).padStart(2, "0")} ${String(

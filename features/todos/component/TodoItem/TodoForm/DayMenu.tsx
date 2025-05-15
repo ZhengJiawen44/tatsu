@@ -1,6 +1,6 @@
-import { addDays, endOfDay } from "date-fns";
+import { addDays, endOfDay, startOfDay } from "date-fns";
 import { Calendar } from "@/components/ui/calendar";
-import React from "react";
+import React, { useEffect } from "react";
 import CalenderIcon from "@/components/ui/icon/calender";
 // import { isEqual } from "@/lib/date/isEqual";
 // import { monthNames } from "@/lib/date/dateConstants";
@@ -19,6 +19,9 @@ import { useTodoForm } from "@/providers/TodoFormProvider";
 
 const DayMenu = () => {
   const { todoItem: todo, dateRange, setDateRange } = useTodoForm();
+  useEffect(() => {
+    console.log(dateRange);
+  }, [dateRange]);
   const nextWeek = nextMonday(dateRange?.from || new Date());
   const tomorrow = addDays(dateRange?.from || new Date(), 1);
 
@@ -77,7 +80,9 @@ const DayMenu = () => {
                 from: tomorrow,
                 to:
                   prev?.to && prev?.from
-                    ? addDays(tomorrow, differenceInDays(prev.to, prev.from))
+                    ? endOfDay(
+                        addDays(tomorrow, differenceInDays(prev.to, prev.from))
+                      )
                     : endOfDay(tomorrow),
               };
             })
@@ -133,14 +138,24 @@ const DayMenu = () => {
             }}
             selected={dateRange}
             onSelect={(newDateRange) => {
+              // console.log("new: ", newDateRange);
+
               setDateRange((old) => {
-                const from = newDateRange?.from;
-                let to = newDateRange?.to;
+                const from =
+                  newDateRange?.from && startOfDay(newDateRange.from);
+                let to;
+                if (newDateRange?.to) {
+                  to = endOfDay(newDateRange.to);
+                } else if (newDateRange?.from) {
+                  to = endOfDay(newDateRange.from);
+                }
+
                 if (to && old?.to) {
                   const adjustedTo = new Date(to);
                   adjustedTo.setHours(old.to.getHours(), old.to.getMinutes());
                   to = adjustedTo;
                 }
+
                 return { from, to };
               });
             }}
