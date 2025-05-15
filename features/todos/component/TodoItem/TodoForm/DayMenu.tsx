@@ -19,9 +19,6 @@ import { useTodoForm } from "@/providers/TodoFormProvider";
 
 const DayMenu = () => {
   const { todoItem: todo, dateRange, setDateRange } = useTodoForm();
-  useEffect(() => {
-    console.log(dateRange);
-  }, [dateRange]);
   const nextWeek = nextMonday(dateRange?.from || new Date());
   const tomorrow = addDays(dateRange?.from || new Date(), 1);
 

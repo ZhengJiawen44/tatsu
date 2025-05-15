@@ -5,15 +5,15 @@ import {
 } from "@/components/ui/popover";
 import { cn } from "@/lib/utils";
 import clsx from "clsx";
-import { HTMLAttributes, SetStateAction } from "react";
+import { HTMLAttributes } from "react";
 const MenuContainer = ({
   children,
-  showContent,
-  setShowContent,
-}: {
+}: // showContent,
+// setShowContent,
+{
   children: React.ReactNode;
-  showContent?: boolean;
-  setShowContent?: React.Dispatch<SetStateAction<boolean>>;
+  // showContent?: boolean;
+  // setShowContent?: React.Dispatch<SetStateAction<boolean>>;
 }) => {
   return <Popover>{children}</Popover>;
 };
