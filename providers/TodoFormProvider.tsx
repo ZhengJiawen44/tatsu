@@ -1,40 +1,63 @@
 import { TodoItemType } from "@/types";
+import { endOfDay } from "date-fns";
 import React, {
   createContext,
   SetStateAction,
   useContext,
   useState,
 } from "react";
+import { DateRange } from "react-day-picker";
 
-//  types for context values
+// Types for context values
 interface TodoFormContextType {
-  todoItem: TodoItemType;
-  displayForm: boolean;
-  setDisplayForm: React.Dispatch<SetStateAction<boolean>>;
+  todoItem?: TodoItemType;
+  title: string;
+  setTitle: React.Dispatch<SetStateAction<string>>;
+  desc: string;
+  setDesc: React.Dispatch<SetStateAction<string>>;
+  priority: "Low" | "Medium" | "High";
+  setPriority: React.Dispatch<SetStateAction<"Low" | "Medium" | "High">>;
+  dateRange: DateRange | undefined;
+  setDateRange: React.Dispatch<SetStateAction<DateRange | undefined>>;
 }
 
-//  props for the provider
+// Props for the provider
 interface TodoFormProviderProps {
-  todoItem: TodoItemType;
+  todoItem?: TodoItemType;
   children: React.ReactNode;
 }
 
-const todoFormContext = createContext<TodoFormContextType | undefined>(
+const TodoFormContext = createContext<TodoFormContextType | undefined>(
   undefined
 );
 
 const TodoFormProvider = ({ children, todoItem }: TodoFormProviderProps) => {
-  const [displayForm, setDisplayForm] = useState<boolean>(false);
-  const contextValue = {
+  const [title, setTitle] = useState<string>(todoItem?.title || "");
+  const [desc, setDesc] = useState<string>(todoItem?.description || "");
+  const [priority, setPriority] = useState<"Low" | "Medium" | "High">(
+    todoItem?.priority || "Low"
+  );
+  const [dateRange, setDateRange] = useState<DateRange | undefined>({
+    from: todoItem?.startedAt ?? new Date(),
+    to: todoItem?.expiresAt ?? endOfDay(new Date()),
+  });
+
+  const contextValue: TodoFormContextType = {
     todoItem,
-    displayForm,
-    setDisplayForm,
+    title,
+    setTitle,
+    desc,
+    setDesc,
+    priority,
+    setPriority,
+    dateRange,
+    setDateRange,
   };
 
   return (
-    <todoFormContext.Provider value={contextValue}>
+    <TodoFormContext.Provider value={contextValue}>
       {children}
-    </todoFormContext.Provider>
+    </TodoFormContext.Provider>
   );
 };
 
@@ -42,7 +65,7 @@ export default TodoFormProvider;
 
 // Custom hook to use the TodoForm context
 export function useTodoForm() {
-  const context = useContext(todoFormContext);
+  const context = useContext(TodoFormContext);
   if (!context) {
     throw new Error("useTodoForm must be used within TodoFormProvider");
   }

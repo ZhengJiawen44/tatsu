@@ -1,12 +1,11 @@
 import clsx from "clsx";
 import DayMenu from "./DayMenu";
 import { PriorityIndicator } from "../PriorityIndicator";
-import { TodoItemType } from "@/types";
-import React, { SetStateAction } from "react";
-import { DateRange } from "react-day-picker";
+import React from "react";
 import Repeat from "@/components/ui/icon/repeat";
 import LaurelWreath from "@/components/ui/icon/laurelWreath";
 import { format } from "date-fns";
+import { useTodoForm } from "@/providers/TodoFormProvider";
 //1. hk sg elastic ip address 2. global accelrator
 import {
   MenuContainer,
@@ -15,35 +14,13 @@ import {
   MenuTrigger,
 } from "@/components/ui/Menu";
 import LineSeparator from "@/components/ui/lineSeparator";
-interface TodoFormMenuStripProps {
-  todo?: TodoItemType;
-  dateRange: DateRange | undefined;
-  setDateRange: React.Dispatch<SetStateAction<DateRange | undefined>>;
-  expireTime: string;
-  setExpireTime: React.Dispatch<SetStateAction<string>>;
-  priority: "Low" | "Medium" | "High";
-  setPriority: React.Dispatch<SetStateAction<"Low" | "Medium" | "High">>;
-}
 
-const TodoFormMenuStrip = ({
-  todo,
-  dateRange,
-  expireTime,
-  setExpireTime,
-  setDateRange,
-  priority,
-  setPriority,
-}: TodoFormMenuStripProps) => {
+const TodoFormMenuStrip = () => {
+  const { todoItem: todo, priority, setPriority } = useTodoForm();
   return (
     <div className="flex justify-center items-center gap-2">
       <div className="p-1 border rounded-sm text-sm hover:bg-border hover:text-white">
-        <DayMenu
-          todo={todo}
-          dateRange={dateRange}
-          setDateRange={setDateRange}
-          expireTime={expireTime}
-          setExpireTime={setExpireTime}
-        />
+        <DayMenu />
       </div>
       <MenuContainer>
         <MenuTrigger className="hover:text-white border text-sm">

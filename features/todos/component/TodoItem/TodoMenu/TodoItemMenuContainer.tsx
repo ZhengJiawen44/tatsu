@@ -1,8 +1,20 @@
 import React from "react";
 import TodoItemMeatballMenu from "./TodoItemMeatballMenu";
 import TodoItemSideMenu from "./TodoItemSideMenu";
+import { TodoItemType } from "@/types";
 
-const TodoItemMenu = ({ className, ...props }: { className?: string }) => {
+const TodoItemMenu = ({
+  className,
+  todo,
+  displayForm,
+  setDisplayForm,
+  ...props
+}: {
+  className?: string;
+  todo: TodoItemType;
+  displayForm: boolean;
+  setDisplayForm: React.Dispatch<React.SetStateAction<boolean>>;
+}) => {
   return (
     <div
       className={className}
@@ -14,8 +26,8 @@ const TodoItemMenu = ({ className, ...props }: { className?: string }) => {
       }}
       {...props}
     >
-      <TodoItemSideMenu />
-      <TodoItemMeatballMenu />
+      <TodoItemSideMenu setDisplayForm={setDisplayForm} todo={todo} />
+      <TodoItemMeatballMenu setDisplayForm={setDisplayForm} todo={todo} />
     </div>
   );
 };

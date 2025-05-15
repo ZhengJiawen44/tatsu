@@ -16,13 +16,19 @@ import Edit from "@/components/ui/icon/edit";
 import Trash from "@/components/ui/icon/trash";
 import { PriorityIndicator } from "../PriorityIndicator";
 import Meatball from "@/components/ui/icon/meatball";
+import { TodoItemType } from "@/types";
 
-function TodoItemMeatballMenu() {
-  const { todoItem, setDisplayForm } = useTodoForm();
-  const { mutatePrioritize } = usePrioritizeTodo(todoItem);
+function TodoItemMeatballMenu({
+  todo,
+  setDisplayForm,
+}: {
+  todo: TodoItemType;
+  setDisplayForm: React.Dispatch<React.SetStateAction<boolean>>;
+}) {
+  const { mutatePrioritize } = usePrioritizeTodo(todo);
 
   const { deleteMutate, deletePending } = useDeleteTodo();
-  const { pinMutate } = usePinTodo(todoItem);
+  const { pinMutate } = usePinTodo(todo);
   return (
     <MenuContainer>
       <MenuTrigger>
@@ -30,12 +36,12 @@ function TodoItemMeatballMenu() {
       </MenuTrigger>
       <MenuContent>
         <MenuItem onClick={() => pinMutate()}>
-          {!todoItem.pinned ? (
+          {!todo.pinned ? (
             <Pin className="w-4 h-4" />
           ) : (
             <Unpin className="w-4 h-4" />
           )}
-          {todoItem.pinned ? "unpin" : "Pin to top"}
+          {todo.pinned ? "unpin" : "Pin to top"}
         </MenuItem>
         <MenuItem
           onClick={() => {
@@ -45,7 +51,7 @@ function TodoItemMeatballMenu() {
           <Edit className="w-4 h-4" />
           Edit
         </MenuItem>
-        <MenuItem onClick={() => deleteMutate({ id: todoItem.id })}>
+        <MenuItem onClick={() => deleteMutate({ id: todo.id })}>
           {deletePending ? (
             <Spinner className="w-4 h-4" />
           ) : (

@@ -1,11 +1,9 @@
-import { TodoItemType } from "@/types";
 import { addDays, endOfDay } from "date-fns";
 import { Calendar } from "@/components/ui/calendar";
-import React, { SetStateAction, useState } from "react";
+import React from "react";
 import CalenderIcon from "@/components/ui/icon/calender";
 import { isEqual } from "@/lib/date/isEqual";
 import { monthNames } from "@/lib/date/dateConstants";
-import { DateRange } from "react-day-picker";
 import { format, nextMonday, differenceInDays } from "date-fns";
 import LineSeparator from "@/components/ui/lineSeparator";
 import TimePicker from "./TimePicker";
@@ -17,39 +15,31 @@ import {
 } from "@/components/ui/Menu";
 import Sun from "@/components/ui/icon/sun";
 import Tommorrow from "@/components/ui/icon/tommorrow";
+import { useTodoForm } from "@/providers/TodoFormProvider";
 
-interface DayMenuProps {
-  dateRange: DateRange | undefined;
-  setDateRange: React.Dispatch<SetStateAction<DateRange | undefined>>;
-  expireTime: string;
-  setExpireTime: React.Dispatch<SetStateAction<string>>;
-  todo?: TodoItemType;
-}
-const DayMenu = ({
-  todo,
-  dateRange,
-  setDateRange,
-  expireTime,
-  setExpireTime,
-}: DayMenuProps) => {
+const DayMenu = () => {
+  const { todoItem: todo, dateRange, setDateRange } = useTodoForm();
   const nextWeek = nextMonday(dateRange?.from || new Date());
   const tomorrow = addDays(dateRange?.from || new Date(), 1);
+
+  function getDisplayDate(date: Date) {
+    const formattedDate = format(date, "MMM dd yyyy");
+    return date.getFullYear() === new Date().getFullYear()
+      ? formattedDate.replace(` ${date.getFullYear()}`, "")
+      : formattedDate;
+  }
+  if (dateRange?.to && dateRange?.from) console.log(dateRange);
 
   //get date from todo or set to default
   return (
     <MenuContainer>
       <MenuTrigger className="flex justify-center items-center gap-1 p-0">
         <CalenderIcon className="w-5 h-5" />
-        {todo?.startedAt && isEqual(todo.startedAt, new Date())
-          ? "today"
-          : todo &&
-            `${
-              monthNames[todo.startedAt.getMonth()]
-            } ${todo?.startedAt.getDate()} ${
-              todo?.startedAt.getFullYear() !== new Date().getFullYear()
-                ? ` ${todo?.startedAt.getFullYear()}`
-                : ""
-            }`}
+        {dateRange?.from
+          ? getDisplayDate(dateRange.from)
+          : todo?.startedAt
+          ? getDisplayDate(todo.startedAt)
+          : "today"}
       </MenuTrigger>
       <MenuContent className="flex flex-col gap-1 p-1 font-extralight border-popover-accent">
         <MenuItem
@@ -60,11 +50,11 @@ const DayMenu = ({
                 from: new Date(),
                 to:
                   prev?.to && prev.from
-                    ? endOfDay(
+                    ? new Date(
                         addDays(
                           new Date(),
-                          differenceInDays(prev?.to, prev?.from)
-                        )
+                          differenceInDays(prev.to, prev.from)
+                        ).setHours(prev.to.getHours(), prev.to.getMinutes())
                       )
                     : endOfDay(new Date()),
               };
@@ -87,12 +77,7 @@ const DayMenu = ({
                 from: tomorrow,
                 to:
                   prev?.to && prev?.from
-                    ? endOfDay(
-                        addDays(
-                          tomorrow,
-                          differenceInDays(prev?.to, prev?.from)
-                        )
-                      )
+                    ? addDays(tomorrow, differenceInDays(prev.to, prev.from))
                     : endOfDay(tomorrow),
               };
             })
@@ -119,11 +104,11 @@ const DayMenu = ({
                 from: nextWeek,
                 to:
                   prev?.to && prev?.from
-                    ? endOfDay(
+                    ? new Date(
                         addDays(
                           nextWeek,
                           differenceInDays(prev?.to, prev?.from)
-                        )
+                        ).setHours(prev.to.getHours(), prev.to.getMinutes())
                       )
                     : endOfDay(nextWeek),
               };
@@ -147,10 +132,21 @@ const DayMenu = ({
               return date <= addDays(new Date(), -1);
             }}
             selected={dateRange}
-            onSelect={setDateRange}
+            onSelect={(newDateRange) => {
+              setDateRange((old) => {
+                const from = newDateRange?.from;
+                let to = newDateRange?.to;
+                if (to && old?.to) {
+                  const adjustedTo = new Date(to);
+                  adjustedTo.setHours(old.to.getHours(), old.to.getMinutes());
+                  to = adjustedTo;
+                }
+                return { from, to };
+              });
+            }}
             numberOfMonths={1}
           />
-          <TimePicker expireTime={expireTime} setExpireTime={setExpireTime} />
+          <TimePicker />
         </MenuItem>
       </MenuContent>
     </MenuContainer>

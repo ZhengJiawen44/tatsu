@@ -11,7 +11,6 @@ import { TodoItemType } from "@/types";
 import { useCallback, useEffect, useState } from "react";
 import { TodoItemContainer } from "./TodoItem/TodoItemContainer";
 import { useReorderTodo } from "../api/reorder-todo";
-import TodoFormProvider from "@/providers/TodoFormProvider";
 import LineSeparator from "@/components/ui/lineSeparator";
 
 const TodoGroup = ({
@@ -94,9 +93,7 @@ const TodoGroup = ({
       >
         <SortableContext items={items} strategy={verticalListSortingStrategy}>
           {items.map((item) => (
-            <TodoFormProvider todoItem={item} key={item.id}>
-              <TodoItemContainer todoItem={item} />
-            </TodoFormProvider>
+            <TodoItemContainer todoItem={item} key={item.id} />
           ))}
         </SortableContext>
       </DndContext>

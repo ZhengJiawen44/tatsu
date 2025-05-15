@@ -6,11 +6,17 @@ import { useTodoForm } from "@/providers/TodoFormProvider";
 import { useDeleteTodo } from "@/features/todos/api/delete-todo";
 import { usePinTodo } from "@/features/todos/api/pin-todo";
 import Spinner from "@/components/ui/spinner";
+import { TodoItemType } from "@/types";
 
-const TodoItemSideMenu = () => {
-  const { todoItem, setDisplayForm } = useTodoForm();
+const TodoItemSideMenu = ({
+  todo,
+  setDisplayForm,
+}: {
+  todo: TodoItemType;
+  setDisplayForm: React.Dispatch<React.SetStateAction<boolean>>;
+}) => {
   const { deleteMutate, deletePending } = useDeleteTodo();
-  const { pinMutate } = usePinTodo(todoItem);
+  const { pinMutate } = usePinTodo(todo);
   return (
     <div className="hidden sm:flex items-center gap-2">
       <div
@@ -31,7 +37,7 @@ const TodoItemSideMenu = () => {
       <div
         className="hover:bg-border text-card-foreground-muted hover:text-white p-1 rounded-md"
         onClick={() => {
-          deleteMutate({ id: todoItem.id });
+          deleteMutate({ id: todo.id });
         }}
       >
         {deletePending ? (

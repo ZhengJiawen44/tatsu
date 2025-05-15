@@ -8,7 +8,6 @@ import { CSS } from "@dnd-kit/utilities";
 import { TodoItemType } from "@/types";
 import GripVertical from "@/components/ui/icon/gripVertical";
 import { useCompleteTodo } from "../../api/complete-todo";
-import { useTodoForm } from "@/providers/TodoFormProvider";
 
 export const TodoItemContainer = ({
   todoItem,
@@ -27,7 +26,7 @@ export const TodoItemContainer = ({
 
   const { title, description, completed, priority } = todoItem;
 
-  const { displayForm, setDisplayForm } = useTodoForm();
+  const [displayForm, setDisplayForm] = useState(false);
   const [showHandle, setShowHandle] = useState(false);
 
   const [isGrabbing, setGrabbing] = useState(false);
@@ -55,7 +54,7 @@ export const TodoItemContainer = ({
         ref={setNodeRef}
         style={style}
         className={clsx(
-          "border w-full min-h-11 relative flex justify-between items-center my-4 bg-inherit py-2 rounded-md",
+          "w-full min-h-11 relative flex justify-between items-center my-4 bg-inherit py-2 rounded-md",
           isGrabbing && variant === "DEFAULT"
             ? "shadow-[0px_10px_30px_rgba(6,8,30,0.3)] z-30 border border-border-muted"
             : "shadow-none"
@@ -106,6 +105,9 @@ export const TodoItemContainer = ({
 
         {variant === "DEFAULT" && (
           <TodoItemMenuContainer
+            todo={todoItem}
+            displayForm={displayForm}
+            setDisplayForm={setDisplayForm}
             className={clsx(
               "flex items-center gap-2",
               !showHandle && "opacity-0"
