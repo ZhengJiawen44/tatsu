@@ -13,7 +13,7 @@ export function getDisplayDate(createdAt: Date) {
 
   if (diffInDays === 0) {
     return "today";
-  } else if (diffInDays === 1) {
+  } else if (diffInDays === -1) {
     return "yesterday";
   } else if (diffInDays === 2) {
     return "day before yesterday";

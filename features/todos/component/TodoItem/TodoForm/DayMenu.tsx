@@ -28,7 +28,7 @@ const DayMenu = () => {
       ? formattedDate.replace(` ${date.getFullYear()}`, "")
       : formattedDate;
   }
-  if (dateRange?.to && dateRange?.from) console.log(dateRange);
+  // if (dateRange?.to && dateRange?.from) console.log(dateRange);
 
   //get date from todo or set to default
   return (

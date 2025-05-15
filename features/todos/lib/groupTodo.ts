@@ -1,7 +1,10 @@
 import { TodoItemType } from "@/types";
 import { getDisplayDate } from "@/lib/date/displayDate";
+import { log } from "console";
 
 export const groupTodo = ({ todos }: { todos: TodoItemType[] }) => {
+  // console.log(todos);
+
   // Define the type for our accumulator
   type TodoAccumulator = {
     groupedPinnedTodos: Record<string, TodoItemType[]>;
@@ -28,7 +31,6 @@ export const groupTodo = ({ todos }: { todos: TodoItemType[] }) => {
         today.getTime() <= todo.expiresAt.getTime() &&
         todo.startedAt.getTime() < today.getTime()
       ) {
-        // console.log(todo.expiresAt);
         dateKey = "today";
       } else {
         dateKey = getDisplayDate(todo.startedAt);

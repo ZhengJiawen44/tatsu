@@ -5,17 +5,17 @@ import clsx from "clsx";
 import React, { useState } from "react";
 import TodoGroup from "./TodoGroup";
 
-interface PreviousTodoProps {
+interface InboxProps {
   openDetails: Record<string, boolean>;
   setOpenDetails: React.Dispatch<React.SetStateAction<Record<string, boolean>>>;
   groupedUnpinnedTodos: Record<string, TodoItemType[]>;
 }
 
-const PreviousTodo = ({
+const Inbox = ({
   openDetails,
   setOpenDetails,
   groupedUnpinnedTodos,
-}: PreviousTodoProps) => {
+}: InboxProps) => {
   const [openPrevious, setOpenPrevious] = useState(false);
 
   return (
@@ -34,7 +34,9 @@ const PreviousTodo = ({
               openPrevious === true && "rotate-90"
             )}
           />
-          <p>Previous</p>
+          <p title="the inbox contains all your incomplete/future todos">
+            Inbox
+          </p>
           <LineSeparator className="flex-1" />
         </div>
       </summary>
@@ -87,4 +89,4 @@ const PreviousTodo = ({
   );
 };
 
-export default PreviousTodo;
+export default Inbox;

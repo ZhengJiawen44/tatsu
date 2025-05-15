@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import CreateTodoBtn from "./CreateTodoBtn";
-import PreviousTodo from "./PreviousTodo";
+import Inbox from "./Inbox";
 import { useTodo } from "../api/get-todo";
 import Day from "./Day";
 import TodoListLoading from "./TodoListLoading";
@@ -11,6 +11,7 @@ import PinnedTodos from "./PinnedTodos";
 const TodoContainer = () => {
   //get all todos
   const { todos, todoLoading } = useTodo();
+
   // Destructure the result for cleaner access
   const { groupedPinnedTodos, groupedUnPinnedTodos } = groupTodo({ todos });
 
@@ -45,7 +46,7 @@ const TodoContainer = () => {
     <div className="select-none bg-card">
       <Day />
       {/* Render Unpinned previous todos */}
-      <PreviousTodo
+      <Inbox
         groupedUnpinnedTodos={groupedUnPinnedTodos}
         openDetails={openGroupedTodoMap}
         setOpenDetails={setOpenGroupedTodoMap}

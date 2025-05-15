@@ -23,6 +23,7 @@ export const useTodo = () => {
           data.message || `bad server response: Did not recieve todo`
         );
       }
+
       const todoWithFormattedDates = todos.map((todo) => {
         return {
           ...todo,
@@ -31,6 +32,7 @@ export const useTodo = () => {
           expiresAt: new Date(todo.expiresAt),
         };
       });
+
       return todoWithFormattedDates;
     },
   });

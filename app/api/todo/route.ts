@@ -21,6 +21,7 @@ export async function POST(req: NextRequest) {
 
     //validate req body
     let body = await req.json();
+
     body = {
       ...body,
       startedAt: new Date(body.startedAt),
@@ -44,6 +45,7 @@ export async function POST(req: NextRequest) {
       },
     });
     if (!todo) throw new InternalError("todo cannot be created at this time");
+    // console.log(todo);
 
     return NextResponse.json({ message: "todo created" }, { status: 200 });
   } catch (error) {
