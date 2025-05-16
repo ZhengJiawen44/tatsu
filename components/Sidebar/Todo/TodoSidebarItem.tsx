@@ -19,7 +19,7 @@ const TodoItem = () => {
         return (
           today.getTime() <= expiresAt.getTime() &&
           !completed &&
-          today.getTime() <= startedAt.getTime()
+          today.getTime() >= startedAt.getTime()
         );
       }).length
     : 0;
