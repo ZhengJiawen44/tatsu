@@ -4,6 +4,7 @@ import { useSensor } from "@dnd-kit/core";
 import { useSensors } from "@dnd-kit/core";
 import { PointerSensor } from "@dnd-kit/core";
 import { KeyboardSensor } from "@dnd-kit/core";
+import { TouchSensor } from "@dnd-kit/core";
 import { closestCenter } from "@dnd-kit/core";
 import { arrayMove } from "@dnd-kit/sortable";
 import { verticalListSortingStrategy } from "@dnd-kit/sortable";
@@ -57,6 +58,7 @@ const TodoGroup = ({
 
   const sensors = useSensors(
     useSensor(PointerSensor),
+    useSensor(TouchSensor),
     useSensor(KeyboardSensor)
   );
 

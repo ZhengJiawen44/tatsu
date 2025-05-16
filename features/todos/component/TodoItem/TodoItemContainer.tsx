@@ -20,7 +20,7 @@ export const TodoItemContainer = ({
   const { attributes, listeners, setNodeRef, transform, transition } =
     useSortable({ id: todoItem.id });
   const style = {
-    transform: CSS.Transform.toString(transform),
+    transform: CSS.Translate.toString(transform),
     transition,
   };
 
@@ -54,7 +54,7 @@ export const TodoItemContainer = ({
         ref={setNodeRef}
         style={style}
         className={clsx(
-          "w-full min-h-11 relative flex justify-between items-center my-4 bg-inherit py-2 rounded-md",
+          "touch-none w-full min-h-11 relative flex justify-between items-center my-4 bg-inherit py-2 rounded-md",
           isGrabbing && variant === "DEFAULT"
             ? "shadow-[0px_10px_30px_rgba(6,8,30,0.3)] z-30 border border-border-muted"
             : "shadow-none"
