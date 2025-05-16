@@ -1,3 +1,4 @@
+"use client";
 import React from "react";
 import Link from "next/link";
 import ErrorBoundary from "@/components/ErrorBoundary";
@@ -12,22 +13,24 @@ const LandingPage = () => {
         </p>
       }
     >
-      <div className="min-h-screen flex flex-col items-center justify-center bg-gradient-to-br from-purple-600 to-indigo-800 text-white text-center px-6">
-        <h1 className="text-5xl font-extrabold mb-6">
-          Tatsu - The Ultimate Todo App
+      <div className="min-h-screen flex flex-col items-center justify-center bg-gradient-to-br from-gray-800 to-gray-400 text-white text-center px-6">
+        <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAiIGhlaWdodD0iMjAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGRlZnM+PHBhdHRlcm4gaWQ9ImRvdHMiIHdpZHRoPSIyMCIgaGVpZ2h0PSIyMCIgcGF0dGVyblVuaXRzPSJ1c2VyU3BhY2VPblVzZSI+PGNpcmNsZSBjeD0iMTAiIGN5PSIxMCIgcj0iMS41IiBmaWxsPSJyZ2JhKDI1NSwgMjU1LCAyNTUsIDAuMykiLz48L3BhdHRlcm4+PC9kZWZzPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9InVybCgjZG90cykiLz48L3N2Zz4=')] opacity-20" />
+
+        <h1 className="z-50 text-5xl font-extrabold mb-6">
+          Sanity - The Ultimate Todo App
         </h1>
-        <p className="text-lg max-w-2xl mb-8">
-          Supercharge your productivity with evolving avatars, long-term goal
-          tracking, a Notion-like editor, encrypted file uploads, and more!
+        <p className="z-50 text-lg max-w-2xl mb-8">
+          A todo app for the not so sane — with a Notion-style editor,
+          top-secret encrypted file uploads, and a bunch of nifty extras!
         </p>
         <div className="flex gap-4">
-          <Link href="/login">
-            <Button className="px-6 py-3 text-lg font-semibold bg-white text-indigo-700 rounded-lg shadow-md hover:bg-gray-200 transition">
+          <Link href="/login" className="z-50">
+            <Button className="px-6 py-3 text-lg font-semibold bg-white text-gray-800 rounded-lg shadow-md hover:bg-gray-200 transition">
               Login
             </Button>
           </Link>
-          <Link href="/register">
-            <Button className="px-6 py-3 text-lg font-semibold bg-white text-indigo-700 rounded-lg shadow-md hover:bg-gray-200 transition">
+          <Link href="/register" className="z-50">
+            <Button className="px-6 py-3 text-lg font-semibold bg-white text-gray-800 rounded-lg shadow-md hover:bg-gray-200 transition">
               Register
             </Button>
           </Link>

@@ -5,7 +5,7 @@
 body {
   font-family: var(--font-poppins), Arial, Helvetica, sans-serif;
 }
-
+/* hsl(235, 28%, 22%) */
 @layer base {
   :root {
     --tooltip: 233, 32%, 10%;
@@ -22,9 +22,9 @@ body {
     --border: 234, 10%, 30%, 0.5;
     --border-muted: 234, 10%, 30%, 0.2;
     --card-foreground-muted: 234 10% 65%;
-    --popover: 235, 35%, 14%;
-    --popover-foreground: 235, 30%, 50%;
-    --popover-accent: 233, 10%, 20ouu%;
+    --popover: 235, 28%, 22%;
+    --popover-foreground: 235, 22%, 32%;
+    --popover-accent: 233, 10%, 30%;
     --primary: 235, 32%, 14%;
     --primary-foreground: 0 0% 98%;
     --secondary: 0 0% 96.1%;
@@ -47,9 +47,9 @@ body {
     /* form variables */
     --form-border: 256, 15%, 50%;
     --form-border-accent: 256, 15%, 80%;
-    --form-background: 260, 19%, 18%;
+    --form-background: 240 28% 20%;
     --form-foreground: 0, 0%, 100%;
-    --input-background: 256, 17%, 25%;
+    --input-background: 240, 26%, 27%;
     --form-label: 249, 12%, 55%;
     --form-label-accent: 249, 12%, 90%;
     --form-link: 254, 32%, 74%;
