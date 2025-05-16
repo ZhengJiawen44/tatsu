@@ -13,7 +13,7 @@ import clsx from "clsx";
 import SidebarIcon from "@/components/ui/icon/sidebar";
 import SidebarToggle from "@/components/ui/SidebarToggle";
 import { Toaster } from "@/components/ui/toaster";
-import AnnouncementBanner from "@/components/AnnouncementBanner";
+// import AnnouncementBanner from "@/components/AnnouncementBanner";
 
 const Provider = ({ children }: { children: React.ReactNode }) => {
   const { showMenu, isResizing } = useMenu();
@@ -23,7 +23,7 @@ const Provider = ({ children }: { children: React.ReactNode }) => {
         <div className="flex min-h-screen h-screen">
           <SidebarContainer>
             <UserCard className="mb-3" />
-            <div className="flex flex-col gap-2 overflow-y-scroll h-full scrollbar-thin scrollbar-track-transparent scrollbar-thumb-border-muted">
+            <div className="flex flex-col gap-2 overflow-y-scroll h-full scrollbar-none">
               <TodoItem />
               <CompletedItem />
               <NoteCollapsible />
@@ -44,7 +44,7 @@ const Provider = ({ children }: { children: React.ReactNode }) => {
                   <SidebarIcon className="w-6 h-6" />
                 </SidebarToggle>
               )}
-              <AnnouncementBanner>
+              {/* <AnnouncementBanner>
                 <p className="mb-1">
                   Thank you for trying out
                   <span className="font-semibold text-white">
@@ -62,7 +62,7 @@ const Provider = ({ children }: { children: React.ReactNode }) => {
                   conflicts with the rich text editor’s bold command.
                   <span className="italic"> You have my gratitude.</span>
                 </p>
-              </AnnouncementBanner>
+              </AnnouncementBanner> */}
               {children}
             </div>
           </div>

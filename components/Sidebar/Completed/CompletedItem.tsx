@@ -4,9 +4,11 @@ import OK from "@/components/ui/icon/ok";
 import { useMenu } from "@/providers/MenuProvider";
 import Link from "next/link";
 import { useTodo } from "@/features/todos/api/get-todo";
+import useWindowSize from "@/hooks/useWindowSize";
 
 const CompletedItem = () => {
-  const { activeMenu, setActiveMenu } = useMenu();
+  const { width } = useWindowSize();
+  const { activeMenu, setActiveMenu, setShowMenu } = useMenu();
   const { todos } = useTodo();
   // Get today's date string
 
@@ -16,6 +18,7 @@ const CompletedItem = () => {
         return completed;
       }).length
     : 0;
+
   return (
     <Link
       href="/app/completed"
@@ -25,6 +28,7 @@ const CompletedItem = () => {
       )}
       onClick={() => {
         setActiveMenu({ name: "Completed" });
+        if (width <= 766) setShowMenu(false);
       }}
     >
       <OK className="w-5 h-5" />

@@ -44,7 +44,7 @@ const SidebarContainer = ({ children }: { children: React.ReactNode }) => {
         id="sidebar_container"
         ref={sidebarRef}
         className={clsx(
-          "h-full fixed inset-0  md:relative flex flex-row max-w-[500px] flex-shrink-0 bg-sidebar border-r z-20 justify-between duration-200",
+          " border-r h-full fixed inset-0  md:relative flex flex-row max-w-[500px] flex-shrink-0 bg-sidebar  z-20 justify-between duration-200",
           !showMenu
             ? "-translate-x-full  min-w-0 overflow-hidden transition-all"
             : "min-w-[200px] transition-transform overflow-visible"
@@ -54,7 +54,7 @@ const SidebarContainer = ({ children }: { children: React.ReactNode }) => {
           if (isResizing) e.preventDefault();
         }}
       >
-        <div className="flex flex-col flex-1 pl-2 min-w-0 gap-2 m-0 p-0">
+        <div className="flex flex-col flex-1 px-2 min-w-0 gap-2 m-0 p-0">
           {children}
         </div>
       </nav>

@@ -40,17 +40,17 @@ const TodoContainer = () => {
     }
   );
 
-  if (todoLoading) <TodoListLoading />;
-
   return (
     <div className="select-none bg-card">
       <Day />
+
       {/* Render Unpinned previous todos */}
       <Inbox
         groupedUnpinnedTodos={groupedUnPinnedTodos}
         openDetails={openGroupedTodoMap}
         setOpenDetails={setOpenGroupedTodoMap}
       />
+      {todoLoading && <TodoListLoading />}
 
       {/* Render Pinned Todos */}
       <PinnedTodos groupedPinnedTodos={groupedPinnedTodos} />

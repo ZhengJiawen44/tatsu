@@ -21,7 +21,7 @@ const ToastViewport = React.forwardRef<
       ref={ref}
       className={clsx(
         cn(
-          " top-0 z-[100] flex max-h-screen w-full flex-col-reverse sm:bottom-5 sm:top-auto sm:flex-col md:max-w-[420px]",
+          "top-5 right-1/2 translate-x-1/2 z-[100] flex max-h-screen w-full flex-col-reverse sm:bottom-5 sm:top-auto sm:flex-col md:max-w-[420px]",
           showMenu
             ? "px-[clamp(0px,3%,10px)] absolute"
             : "fixed sm:left-1/2 sm:-translate-x-1/2",

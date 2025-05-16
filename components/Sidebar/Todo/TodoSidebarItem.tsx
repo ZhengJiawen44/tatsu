@@ -4,9 +4,11 @@ import { useMenu } from "@/providers/MenuProvider";
 import Link from "next/link";
 import Pencil from "@/components/ui/icon/pencil";
 import { useTodo } from "@/features/todos/api/get-todo";
+import useWindowSize from "@/hooks/useWindowSize";
 
 const TodoItem = () => {
-  const { activeMenu, setActiveMenu } = useMenu();
+  const { width } = useWindowSize();
+  const { activeMenu, setActiveMenu, setShowMenu } = useMenu();
   const { todos } = useTodo();
   // Get today's date string
 
@@ -31,7 +33,7 @@ const TodoItem = () => {
       )}
       onClick={() => {
         setActiveMenu({ name: "Todo" });
-        localStorage.setItem("tab", JSON.stringify({ name: "Todo" }));
+        if (width <= 766) setShowMenu(false);
       }}
     >
       <Pencil className="w-5 h-5 mb-[1px]" />
