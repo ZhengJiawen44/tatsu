@@ -7,12 +7,13 @@ import {
 } from "@/lib/customError";
 import { PutObjectCommand } from "@aws-sdk/client-s3";
 import { prisma } from "@/lib/prisma/client";
-import { s3 } from "@/lib/s3";
+import { getS3Client } from "@/lib/s3";
 import { auth } from "@/app/auth";
 import { Prisma } from "@prisma/client";
 
 export async function POST(req: NextRequest) {
   try {
+    const s3 = getS3Client();
     const session = await auth();
     const user = session?.user;
     if (!user?.id)
