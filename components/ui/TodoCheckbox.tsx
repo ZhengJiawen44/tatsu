@@ -5,10 +5,12 @@ export default function TodoCheckbox({
   complete,
   onChange,
   checked,
+  priority,
 }: {
   complete: boolean;
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   checked: boolean;
+  priority: "Low" | "Medium" | "High";
 }) {
   const [expand, setExpand] = useState(false);
 
@@ -22,7 +24,7 @@ export default function TodoCheckbox({
         pop.play();
       }
 
-      const timeout = setTimeout(() => setExpand(false), 150); // Slightly longer for visibility
+      const timeout = setTimeout(() => setExpand(false), 150);
       return () => clearTimeout(timeout);
     }
   }, [complete, expand]);
@@ -34,10 +36,10 @@ export default function TodoCheckbox({
         type="checkbox"
         className="peer hidden"
         onChange={(e) => {
-          setExpand(true); // Trigger animation on change
+          setExpand(true);
           onChange(e);
         }}
-        checked={checked} // Ensure reactivity
+        checked={checked}
       />
       <div
         onMouseDown={(e) => {
@@ -45,10 +47,14 @@ export default function TodoCheckbox({
           setExpand(true);
         }}
         className={clsx(
-          "w-[1rem] h-[1rem] border border-lime rounded-full flex items-center justify-center",
-          "hover:cursor-pointer hover:bg-lime peer-checked:bg-lime peer-checked:border-lime",
-          "transition-transform duration-200 ease-out",
-          expand && "scale-125"
+          "w-[1rem] h-[1rem] rounded-full flex items-center justify-center border-2",
+          "hover:cursor-pointer transition-transform duration-200 ease-out",
+          expand && "scale-125",
+          priority === "Low" &&
+            "border-lime peer-checked:bg-lime hover:bg-lime/40",
+          priority === "Medium" &&
+            "border-orange peer-checked:bg-orange hover-orange",
+          priority === "High" && "border-red peer-checked:bg-red hover-red"
         )}
       ></div>
     </label>

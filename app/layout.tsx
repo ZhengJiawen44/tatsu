@@ -22,9 +22,17 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
+      {/* <head>
+        <script
+          crossOrigin="anonymous"
+          src="//unpkg.com/react-scan/dist/auto.global.js"
+        />
+      </head> */}
       <QueryProvider>
         <SessionProvider>
-          <body className={`${poppins.variable} antialiased`}>{children}</body>
+          <body className={`${poppins.variable} antialiased`}>
+            <main>{children}</main>
+          </body>
         </SessionProvider>
       </QueryProvider>
     </html>

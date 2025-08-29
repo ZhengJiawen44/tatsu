@@ -1,7 +1,7 @@
-import { deriveMasterKey } from "../lib/encryption/derive128BitKey";
-import { deriveStretchedMasterKey } from "../lib/encryption/derive256BitKey";
+import { deriveMasterKey } from "../features/vault/lib/encryption/derive128BitKey";
+import { deriveStretchedMasterKey } from "../features/vault/lib/encryption/derive256BitKey";
 import { expect, test, describe, jest, beforeEach } from "@jest/globals";
-import { secureGenerator } from "../lib/encryption/secureGenerator";
+import { secureGenerator } from "../features/vault/lib/encryption/secureGenerator";
 
 // Mock secureGenerator for consistent testing
 jest.mock("../lib/encryption/secureGenerator");

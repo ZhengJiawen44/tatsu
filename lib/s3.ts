@@ -1,15 +1,25 @@
+// lib/s3.ts
 import { S3Client } from "@aws-sdk/client-s3";
 
-const ACCESS_KEY_ID = process.env.AWS_ACCESSKEYID;
-const ACCESS_KEY_SECRET = process.env.AWS_SECRETACCESSKEY;
+let s3: S3Client | null = null;
 
-if (!ACCESS_KEY_ID || !ACCESS_KEY_SECRET) {
-  throw new Error("AWS S3 configuration has missing credentials");
+export function getS3Client() {
+  if (!s3) {
+    const accessKeyId = process.env.AWS_ACCESSKEYID;
+    const secretAccessKey = process.env.AWS_SECRETACCESSKEY;
+    const region = process.env.AWS_REGION;
+
+    if (!accessKeyId || !secretAccessKey || !region) {
+      throw new Error("AWS S3 configuration has missing credentials");
+    }
+
+    s3 = new S3Client({
+      region,
+      credentials: {
+        accessKeyId,
+        secretAccessKey,
+      },
+    });
+  }
+  return s3;
 }
-export const s3 = new S3Client({
-  region: process.env.AWS_REGION,
-  credentials: {
-    accessKeyId: ACCESS_KEY_ID,
-    secretAccessKey: ACCESS_KEY_SECRET,
-  },
-});

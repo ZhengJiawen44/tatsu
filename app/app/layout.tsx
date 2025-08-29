@@ -2,8 +2,7 @@ import { auth } from "@/app/auth";
 import { redirect } from "next/navigation";
 import { MenuProvider } from "@/providers/MenuProvider";
 import { SessionProvider } from "next-auth/react";
-import AppLayout from "@/components/AppLayout";
-
+import Provider from "./provider";
 export default async function Layout({
   children,
 }: Readonly<{
@@ -17,7 +16,7 @@ export default async function Layout({
   return (
     <SessionProvider session={session}>
       <MenuProvider>
-        <AppLayout>{children}</AppLayout>
+        <Provider>{children}</Provider>
       </MenuProvider>
     </SessionProvider>
   );

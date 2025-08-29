@@ -18,7 +18,7 @@ const UserCard = ({ className }: { className?: string }) => {
     <>
       <div
         className={cn(
-          "flex justify-between items-center hover:cursor-pointer hover:bg-border-muted rounded-md py-1 px-2 transition-all duration-200",
+          "mr-2 mt-2 flex justify-between items-center hover:cursor-pointer hover:bg-border-muted rounded-md py-1 px-2 transition-all duration-200",
           className
         )}
       >

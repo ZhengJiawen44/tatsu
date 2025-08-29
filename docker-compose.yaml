@@ -1,0 +1,28 @@
+services:
+  database:
+    image: postgres:15
+    container_name: postgres_db
+    restart: always
+    environment:
+      POSTGRES_USER: myuser
+      POSTGRES_PASSWORD: mypass
+      POSTGRES_DB: mydb
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  tatsu:
+    build: .
+    container_name: tatsu_app
+    restart: always
+    ports:
+      - "3000:3000"
+    env_file:
+      - .env
+    command: sh -c "npx prisma migrate deploy && npm run start"
+    depends_on:
+      - database
+
+volumes:
+  postgres_data:
