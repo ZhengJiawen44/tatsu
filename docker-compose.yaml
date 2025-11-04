@@ -3,6 +3,11 @@ services:
     image: postgres:15
     container_name: postgres_db
     restart: always
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready"]
+      interval: 1s
+      timeout: 5s
+      retries: 10
     environment:
       POSTGRES_USER: myuser
       POSTGRES_PASSWORD: mypass
@@ -22,7 +27,8 @@ services:
       - .env
     command: sh -c "npx prisma migrate deploy && npm run start"
     depends_on:
-      - database
+      database:
+        condition: service_healthy
 
 volumes:
   postgres_data:
