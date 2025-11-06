@@ -177,7 +177,7 @@ const TodoForm = ({ displayForm, setDisplayForm }: TodoFormProps) => {
         });
       } else {
         createTodo({
-          id: crypto.randomUUID(),
+          id: "-1",
           title,
           description: desc,
           priority,
