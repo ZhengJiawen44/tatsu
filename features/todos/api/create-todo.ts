@@ -28,11 +28,16 @@ async function postTodo({ todo }: { todo: TodoItemType }) {
     throw new Error(parsedObj.error.errors[0].message);
   }
 
-  await api.POST({
+  const res = await api.POST({
     url: "/api/todo",
     headers: { "content-type": "application/json" },
     body: JSON.stringify(parsedObj.data),
   });
+
+  //convert todo expiresAt from string to time
+  res.todo.expiresAt = new Date(res.todo.expiresAt);
+  res.todo.startedAt = new Date(res.todo.startedAt);
+  return res.todo;
 }
 
 export const useCreateTodo = ({
@@ -71,8 +76,16 @@ export const useCreateTodo = ({
       queryClient.setQueryData(["todo"], context?.oldTodos);
       toast({ description: error.message, variant: "destructive" });
     },
-    onSettled: () => {
-      queryClient.invalidateQueries({ queryKey: ["todo"] });
+    onSettled: (newTodo) => {
+      queryClient.setQueryData<TodoItemType[]>(["todo"], (oldTodos = []) => {
+        console.log(oldTodos);
+        oldTodos.forEach((todo) => {
+          if (todo.id == "-1") {
+            todo.id = newTodo.id;
+          }
+        });
+        return oldTodos;
+      });
     },
   });
   return { createTodo, createLoading, isSuccess };
