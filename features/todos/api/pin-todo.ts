@@ -30,13 +30,10 @@ export function usePinTodo(todoItem: TodoItemType) {
           return oldTodo;
         })
       );
-
-      console.log(queryClient.getQueryData(["todo"]));
-
       return { oldTodos };
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["todo"] });
+      // queryClient.invalidateQueries({ queryKey: ["todo"] });
     },
     onError: (error) => {
       toast({ description: error.message, variant: "destructive" });
