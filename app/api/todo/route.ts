@@ -47,7 +47,10 @@ export async function POST(req: NextRequest) {
     if (!todo) throw new InternalError("todo cannot be created at this time");
     // console.log(todo);
 
-    return NextResponse.json({ message: "todo created" }, { status: 200 });
+    return NextResponse.json(
+      { message: "todo created", todo },
+      { status: 200 }
+    );
   } catch (error) {
     console.log(error);
 
