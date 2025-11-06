@@ -78,13 +78,14 @@ export const useCreateTodo = ({
     },
     onSettled: (newTodo) => {
       queryClient.setQueryData<TodoItemType[]>(["todo"], (oldTodos = []) => {
-        console.log(oldTodos);
-        oldTodos.forEach((todo) => {
-          if (todo.id == "-1") {
-            todo.id = newTodo.id;
-          }
-        });
-        return oldTodos;
+        const index = oldTodos.findIndex((todo) => todo.id == "-1");
+        if (index == -1) {
+          console.log("could not find todo to create for optimistic update");
+          return oldTodos;
+        }
+        let newTodos = [...oldTodos];
+        newTodos[index] = newTodo;
+        return newTodos;
       });
     },
   });
