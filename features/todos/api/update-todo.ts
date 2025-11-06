@@ -69,7 +69,7 @@ export const useEditTodo = (
       return { oldTodos };
     },
     onSettled: () => {
-      queryClient.invalidateQueries({ queryKey: ["todo"] });
+      //queryClient.invalidateQueries({ queryKey: ["todo"] });
     },
     onError: (error, newTodo, context) => {
       setDisplayForm(true);

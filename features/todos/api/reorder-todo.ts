@@ -18,7 +18,7 @@ export const useReorderTodo = () => {
       });
     },
     onSuccess: () => {
-      // queryClient.invalidateQueries({ queryKey: ["todo"] });
+      queryClient.invalidateQueries({ queryKey: ["todo"] });
     },
     onError: (error) => {
       toast({ description: error.message, variant: "destructive" });
