@@ -64,8 +64,8 @@ export const TodoItemContainer = ({
         }}
         {...attributes}
         {...listeners}
-        onMouseEnter={() => setShowHandle(true)}
-        onMouseLeave={() => setShowHandle(false)}
+        onMouseOver={() => setShowHandle(true)}
+        onMouseOut={() => setShowHandle(false)}
         onMouseDown={() => setGrabbing(true)}
         onMouseUp={() => setGrabbing(false)}
       >
