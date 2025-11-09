@@ -21,16 +21,6 @@ export async function PATCH(req: NextRequest) {
       await req.json();
     if (!changedTodos) throw new BadRequestError("Invalid request body");
 
-    // Run all updates in a transaction
-    // const updatedTodos = await prisma.$transaction(
-    //   changedTodos.map(({ id, order }) =>
-    //     prisma.todo.update({
-    //       where: { id },
-    //       data: { order },
-    //     })
-    //   )
-    // );
-
     //run all updates in bulk
     const updatedTodos = await prisma.$executeRaw`
       UPDATE "Todo" SET "order" = updates.new_order
