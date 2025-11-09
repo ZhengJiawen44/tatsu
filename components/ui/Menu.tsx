@@ -82,7 +82,7 @@ const MenuItem = ({ className, children, onClick, ...props }: MenuItemType) => {
         }
       }}
       className={cn(
-        "text-sm mx-1 mt-0 flex justify-start items-center gap-2 hover:cursor-pointer py-1.5 hover:bg-popover-foreground rounded-sm px-2",
+        "text-sm mx-1 mt-0 flex justify-start items-center gap-2 hover:cursor-pointer py-1.5 hover:bg-accent hover:text-accent-foreground rounded-sm px-2",
         className
       )}
       {...props}

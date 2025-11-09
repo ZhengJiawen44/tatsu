@@ -43,7 +43,7 @@ const SidebarContainer = ({ children }: { children: React.ReactNode }) => {
         id="sidebar_container"
         ref={sidebarRef}
         className={clsx(
-          "flex border-r h-full fixed inset-0  md:relative max-w-[500px] flex-shrink-0 bg-sidebar  z-20 duration-200",
+          "flex border-r h-full fixed inset-0 md:relative max-w-[500px] flex-shrink-0 bg-sidebar  z-20 duration-200",
           !showMenu
             ? "-translate-x-full  min-w-0 overflow-hidden transition-all"
             : "min-w-[200px] transition-transform overflow-visible"

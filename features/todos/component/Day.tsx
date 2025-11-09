@@ -9,7 +9,9 @@ const Day = () => {
   } ${currentDate.getUTCDate()}, ${currentDate.getFullYear()}`;
   return (
     <div className="flex justify-start items-center mb-10 gap-2">
-      <h1 className=" leading-none text-[2rem] text-white">{currentDay}</h1>
+      <h1 className=" leading-none text-[2rem] text-foreground">
+        {currentDay}
+      </h1>
       <Dot className="w-4 h-4" />
       <p className=" text-[1rem]">{currentMMDDYYYY}</p>
     </div>

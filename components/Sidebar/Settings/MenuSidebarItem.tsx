@@ -15,6 +15,7 @@ import {
 import clsx from "clsx";
 import { MdOutlineLogout } from "react-icons/md";
 import { MdOutlineWbSunny } from "react-icons/md";
+import { HiOutlineMoon } from "react-icons/hi";
 const MenuSidebarItem = () => {
   const [menuClicked, setMenuClicked] = useState(false);
   const { data } = useSession();
@@ -60,12 +61,16 @@ const MenuSidebarItem = () => {
           Log out
         </DropdownMenuItem>
         <DropdownMenuItem
-          onClick={() => {
-            if (theme == "dark") setTheme("light");
-            setTheme("dark");
+          onClick={(e) => {
+            e.preventDefault();
+            if (theme == "dark") {
+              setTheme("light");
+            } else {
+              setTheme("dark");
+            }
           }}
         >
-          <MdOutlineWbSunny />
+          {theme == "light" ? <MdOutlineWbSunny /> : <HiOutlineMoon />}
           Theme
         </DropdownMenuItem>
       </DropdownMenuContent>
