@@ -39,10 +39,7 @@ const SeparatorWord = ({
 const SeparatorLine = ({ className, ...props }: { className?: string }) => {
   return (
     <p
-      className={cn(
-        className,
-        "absolute w-full h-1 border-t-[1px] border-form-border top-1/2 translate-y-[-50%]"
-      )}
+      className={cn(className, "w-full h-1 border-t-[1px] border-form-border")}
       {...props}
     ></p>
   );

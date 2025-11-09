@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Poppins } from "next/font/google";
 import QueryProvider from "@/providers/QueryProvider";
 import { SessionProvider } from "next-auth/react";
+import { ThemeProvider } from "@/providers/ThemeProvider";
 import "@/app/globals.css";
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -21,17 +22,25 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
       {/* <head>
         <script
           crossOrigin="anonymous"
           src="//unpkg.com/react-scan/dist/auto.global.js"
         />
       </head> */}
+
       <QueryProvider>
         <SessionProvider>
           <body className={`${poppins.variable} antialiased`}>
-            <main>{children}</main>
+            <ThemeProvider
+              attribute="class"
+              defaultTheme="dark"
+              enableSystem
+              disableTransitionOnChange
+            >
+              <main>{children}</main>
+            </ThemeProvider>
           </body>
         </SessionProvider>
       </QueryProvider>

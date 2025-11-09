@@ -31,8 +31,8 @@ body {
     --secondary-foreground: 0 0% 9%;
     --muted: 235, 30%, 10%;
     --muted-foreground: 0 0% 45.1%;
-    --accent: 0 0% 96.1%;
-    --accent-foreground: 0 0% 9%;
+    --accent: 235, 22%, 32%;
+    --accent-foreground: 234 11% 70%;
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 0 0% 98%;
     --input: 0 0% 89.8%;
@@ -45,7 +45,7 @@ body {
     --radius: 0.5rem;
 
     /* form variables */
-    --form-border: 256, 15%, 50%;
+    --form-border: 234, 18%, 30%;
     --form-border-accent: 256, 15%, 80%;
     --form-background: 240 28% 20%;
     --form-foreground: 0, 0%, 100%;

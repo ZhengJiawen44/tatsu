@@ -1,7 +1,6 @@
 import clsx from "clsx";
 import React, { useRef, useState } from "react";
 import { useMenu } from "@/providers/MenuProvider";
-
 const SidebarContainer = ({ children }: { children: React.ReactNode }) => {
   const sidebarRef = useRef<HTMLDivElement | null>(null);
   const { isResizing, setIsResizing, showMenu } = useMenu();
@@ -44,7 +43,7 @@ const SidebarContainer = ({ children }: { children: React.ReactNode }) => {
         id="sidebar_container"
         ref={sidebarRef}
         className={clsx(
-          " border-r h-full fixed inset-0  md:relative flex flex-row max-w-[500px] flex-shrink-0 bg-sidebar  z-20 justify-between duration-200",
+          "flex border-r h-full fixed inset-0  md:relative max-w-[500px] flex-shrink-0 bg-sidebar  z-20 duration-200",
           !showMenu
             ? "-translate-x-full  min-w-0 overflow-hidden transition-all"
             : "min-w-[200px] transition-transform overflow-visible"
@@ -54,7 +53,7 @@ const SidebarContainer = ({ children }: { children: React.ReactNode }) => {
           if (isResizing) e.preventDefault();
         }}
       >
-        <div className="flex flex-col flex-1 px-2 min-w-0 gap-2 m-0 p-0">
+        <div className="flex flex-col justify-between flex-1 px-2 min-w-0 gap-2 m-0 p-0">
           {children}
         </div>
       </nav>

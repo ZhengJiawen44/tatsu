@@ -6,6 +6,7 @@ import VaultItem from "@/components/Sidebar/Vault/VaultItem";
 import NoteCollapsible from "@/components/Sidebar/Note/NoteCollapsible";
 import TodoItem from "@/components/Sidebar/Todo/TodoSidebarItem";
 import CompletedItem from "@/components/Sidebar/Completed/CompletedItem";
+import MenuSidebarItem from "@/components/Sidebar/Settings/MenuSidebarItem";
 import PassKeyProvider from "@/providers/PassKeyProvider";
 import NotificationProvider from "@/providers/NotificationProvider";
 import { useMenu } from "@/providers/MenuProvider";
@@ -30,7 +31,9 @@ const Provider = ({ children }: { children: React.ReactNode }) => {
               <VaultItem />
               <Toaster />
             </div>
+            <MenuSidebarItem />
           </SidebarContainer>
+
           <div className="flex flex-col flex-1 z-0">
             <div
               className={clsx(
