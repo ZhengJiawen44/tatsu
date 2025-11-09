@@ -6,6 +6,7 @@ import {
   BaseServerError,
 } from "@/lib/customError";
 import { prisma } from "@/lib/prisma/client";
+import { Prisma } from "@prisma/client";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function PATCH(req: NextRequest) {
@@ -21,17 +22,27 @@ export async function PATCH(req: NextRequest) {
     if (!changedTodos) throw new BadRequestError("Invalid request body");
 
     // Run all updates in a transaction
-    const updatedTodos = await prisma.$transaction(
-      changedTodos.map(({ id, order }) =>
-        prisma.todo.update({
-          where: { id },
-          data: { order },
-        })
-      )
-    );
+    // const updatedTodos = await prisma.$transaction(
+    //   changedTodos.map(({ id, order }) =>
+    //     prisma.todo.update({
+    //       where: { id },
+    //       data: { order },
+    //     })
+    //   )
+    // );
 
+    //run all updates in bulk
+    const updatedTodos = await prisma.$executeRaw`
+      UPDATE "Todo" SET "order" = updates.new_order
+      FROM (VALUES ${Prisma.join(
+        changedTodos.map((t) => Prisma.sql`(${t.id}, ${t.order})`)
+      )})
+      AS updates(id, new_order)
+      WHERE "Todo".id = updates.id
+    `;
+    console.log(updatedTodos);
     // Check if all updates were successful
-    const allUpdated = updatedTodos.length === changedTodos.length;
+    const allUpdated = updatedTodos === changedTodos.length;
 
     if (!allUpdated) {
       throw new InternalError("Failed to update todo order");
