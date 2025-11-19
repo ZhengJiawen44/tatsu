@@ -10,7 +10,7 @@ Tatsu is a todo app on steroids, designed to keep you motivated and productive. 
 
 **Long-term Todo Tracking** : Stay on top of your big-picture tasks (TBD).
 
-**Notion-like Editor**: A powerful, intuitive interface for note-taking.
+**Notion-like Editor**: A powerful, intuitive interface for note taking.
 
 **End-to-End Encrypted File Uploads** : Securely store and manage your files.
 
