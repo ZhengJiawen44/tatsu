@@ -8,6 +8,7 @@ import {
 import { prisma } from "@/lib/prisma/client";
 import { auth } from "@/app/auth";
 import { todoSchema } from "@/schema";
+import { Priority } from "@prisma/client";
 
 export async function DELETE(
   req: NextRequest,
@@ -111,14 +112,49 @@ export async function PATCH(
       return NextResponse.json({ message: "pin updated" }, { status: 200 });
     }
 
-    const body = await req.json();
+    //for updating todos priority
+    const priority = req.nextUrl.searchParams.get("priority");
+
+    if (priority && ["Low", "Medium", "High"].includes(priority)) {
+      //patch todo priority
+      await prisma.todo.updateMany({
+        where: { id, userID: user.id },
+        data: { priority: priority as Priority },
+      });
+
+      return NextResponse.json(
+        { message: "priority updated" },
+        { status: 200 }
+      );
+    }
+
+    //update todo
+    let body = await req.json();
+    body = {
+      ...body,
+      startedAt: new Date(body.startedAt),
+      expiresAt: new Date(body.expiresAt),
+    };
     const parsedObj = todoSchema.partial().safeParse(body);
     if (!parsedObj.success) throw new BadRequestError("Invalid request body");
 
+    const {
+      title,
+      description,
+      priority: newPriority,
+      startedAt,
+      expiresAt,
+    } = parsedObj.data;
     // Update todo
     const updatedTodo = await prisma.todo.updateMany({
       where: { id, userID: user.id },
-      data: parsedObj.data,
+      data: {
+        title: title,
+        description: description,
+        priority: newPriority as Priority,
+        startedAt,
+        expiresAt,
+      },
     });
 
     if (updatedTodo.count === 0)
