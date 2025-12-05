@@ -85,6 +85,7 @@ body {
     --card: 235 32% 15%;
     --card-foreground: 234 10% 93%;
     --card-accent: 235 32% 16%;
+    --card-muted: 236 28% 17%;
     --popover: 235, 28%, 22%;
     --popover-foreground: 235, 22%, 32%;
     --popover-accent: 233, 10%, 30%;
