@@ -19,6 +19,7 @@ import { useTodoForm } from "@/providers/TodoFormProvider";
 
 const DayMenu = () => {
   const { todoItem: todo, dateRange, setDateRange } = useTodoForm();
+  console.log("initial: ", dateRange);
   const nextWeek = nextMonday(dateRange?.from || new Date());
   const tomorrow = addDays(dateRange?.from || new Date(), 1);
 
@@ -38,8 +39,8 @@ const DayMenu = () => {
         {dateRange?.from
           ? getDisplayDate(dateRange.from)
           : todo?.startedAt
-          ? getDisplayDate(todo.startedAt)
-          : "today"}
+            ? getDisplayDate(todo.startedAt)
+            : "today"}
       </MenuTrigger>
       <MenuContent className="flex flex-col gap-1 p-1 font-extralight border-popover-accent">
         <MenuItem
@@ -51,11 +52,11 @@ const DayMenu = () => {
                 to:
                   prev?.to && prev.from
                     ? new Date(
-                        addDays(
-                          new Date(),
-                          differenceInDays(prev.to, prev.from)
-                        ).setHours(prev.to.getHours(), prev.to.getMinutes())
-                      )
+                      addDays(
+                        new Date(),
+                        differenceInDays(prev.to, prev.from)
+                      ).setHours(prev.to.getHours(), prev.to.getMinutes())
+                    )
                     : endOfDay(new Date()),
               };
             })
@@ -78,8 +79,8 @@ const DayMenu = () => {
                 to:
                   prev?.to && prev?.from
                     ? endOfDay(
-                        addDays(tomorrow, differenceInDays(prev.to, prev.from))
-                      )
+                      addDays(tomorrow, differenceInDays(prev.to, prev.from))
+                    )
                     : endOfDay(tomorrow),
               };
             })
@@ -107,11 +108,11 @@ const DayMenu = () => {
                 to:
                   prev?.to && prev?.from
                     ? new Date(
-                        addDays(
-                          nextWeek,
-                          differenceInDays(prev?.to, prev?.from)
-                        ).setHours(prev.to.getHours(), prev.to.getMinutes())
-                      )
+                      addDays(
+                        nextWeek,
+                        differenceInDays(prev?.to, prev?.from)
+                      ).setHours(prev.to.getHours(), prev.to.getMinutes())
+                    )
                     : endOfDay(nextWeek),
               };
             });
@@ -135,24 +136,10 @@ const DayMenu = () => {
             }}
             selected={dateRange}
             onSelect={(newDateRange) => {
-              // console.log("new: ", newDateRange);
 
-              setDateRange((old) => {
-                const from =
-                  newDateRange?.from && startOfDay(newDateRange.from);
-                let to;
-                if (newDateRange?.to) {
-                  to = endOfDay(newDateRange.to);
-                } else if (newDateRange?.from) {
-                  to = endOfDay(newDateRange.from);
-                }
-
-                if (to && old?.to) {
-                  const adjustedTo = new Date(to);
-                  adjustedTo.setHours(old.to.getHours(), old.to.getMinutes());
-                  to = adjustedTo;
-                }
-
+              setDateRange(() => {
+                const from = startOfDay(newDateRange?.from || new Date());
+                const to = endOfDay(newDateRange?.to || from);
                 return { from, to };
               });
             }}

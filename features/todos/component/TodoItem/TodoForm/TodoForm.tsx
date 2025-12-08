@@ -151,19 +151,9 @@ const TodoForm = ({ displayForm, setDisplayForm }: TodoFormProps) => {
 
   async function handleForm(e?: React.FormEvent) {
     if (e) e.preventDefault();
-    // if date picker value is undefined.
-    let startedAt = dateRange?.from || new Date();
-    let expiresAt = dateRange?.to || endOfDay(new Date());
-    if (!dateRange?.from && !dateRange?.to) {
-      const today = new Date();
-      startedAt = today;
-      expiresAt = endOfDay(today);
-    }
-
-    //if end date is undefined
-    if (!dateRange?.to && dateRange?.from) {
-      expiresAt = endOfDay(dateRange?.from);
-    }
+    console.log("rec: ", dateRange);
+    let startedAt = dateRange!.from
+    let expiresAt = dateRange!.to
 
     try {
       if (todo?.id) {

@@ -1,5 +1,5 @@
 import { TodoItemType } from "@/types";
-import { endOfDay } from "date-fns";
+import { endOfDay, startOfDay } from "date-fns";
 import React, {
   createContext,
   SetStateAction,
@@ -17,8 +17,8 @@ interface TodoFormContextType {
   setDesc: React.Dispatch<SetStateAction<string>>;
   priority: "Low" | "Medium" | "High";
   setPriority: React.Dispatch<SetStateAction<"Low" | "Medium" | "High">>;
-  dateRange: DateRange | undefined;
-  setDateRange: React.Dispatch<SetStateAction<DateRange | undefined>>;
+  dateRange: DateRange;
+  setDateRange: React.Dispatch<SetStateAction<DateRange>>;
 }
 
 // Props for the provider
@@ -37,8 +37,8 @@ const TodoFormProvider = ({ children, todoItem }: TodoFormProviderProps) => {
   const [priority, setPriority] = useState<"Low" | "Medium" | "High">(
     todoItem?.priority || "Low"
   );
-  const [dateRange, setDateRange] = useState<DateRange | undefined>({
-    from: todoItem?.startedAt ?? new Date(),
+  const [dateRange, setDateRange] = useState<DateRange>({
+    from: todoItem?.startedAt ?? startOfDay(new Date()),
     to: todoItem?.expiresAt ?? endOfDay(new Date()),
   });
 
