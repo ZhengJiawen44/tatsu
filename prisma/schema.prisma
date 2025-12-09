@@ -77,6 +77,7 @@ model Todo{
   priority      Priority        @default(Low)
   startedAt     DateTime        @default(now())
   expiresAt     DateTime        @default(now())
+  nextRepeatDate  DateTime?
 }
 
 model CompletedTodo{

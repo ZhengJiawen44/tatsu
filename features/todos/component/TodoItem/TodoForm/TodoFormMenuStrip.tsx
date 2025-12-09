@@ -30,8 +30,8 @@ const TodoFormMenuStrip = () => {
               priority === "Low"
                 ? "text-lime"
                 : priority === "Medium"
-                ? "text-orange"
-                : "text-red"
+                  ? "text-orange"
+                  : "text-red"
             )}
           />
           <p className="hidden sm:block">Priority</p>
@@ -58,12 +58,11 @@ const TodoFormMenuStrip = () => {
           <p className="hidden sm:block text-sm">Repeat</p>
         </MenuTrigger>
         <MenuContent className="border-popover-accent">
-          <MenuItem className="hover:cursor-not-allowed" title="coming soon!">
+          <MenuItem className="">
             daily
           </MenuItem>
           <MenuItem
-            className="flex justify-between items-cente hover:cursor-not-allowed"
-            title="coming soon!"
+            className="flex justify-between items-center"
           >
             weekly
             <p className="text-xs text-card-foreground-muted">
@@ -71,8 +70,7 @@ const TodoFormMenuStrip = () => {
             </p>
           </MenuItem>
           <MenuItem
-            className="flex justify-between items-center hover:cursor-not-allowed"
-            title="coming soon!"
+            className="flex justify-between items-center"
           >
             monthly
             <p className="text-xs text-card-foreground-muted">
@@ -80,12 +78,12 @@ const TodoFormMenuStrip = () => {
             </p>
           </MenuItem>
           <LineSeparator className="border-popover-accent w-full mb-1" />
-          <MenuItem className="hover:cursor-not-allowed" title="coming soon!">
+          <MenuItem className="">
             every weekday
             <p className="text-xs text-card-foreground-muted">(Mon-Fri)</p>
           </MenuItem>
           <LineSeparator className="border-popover-accent mb-2" />
-          <MenuItem className="hover:cursor-not-allowed" title="coming soon!">
+          <MenuItem className="">
             custom
             <p className="text-xs text-card-foreground-muted"></p>
           </MenuItem>
