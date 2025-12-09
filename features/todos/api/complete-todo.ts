@@ -8,7 +8,7 @@ export const useCompleteTodo = (todoItem: TodoItemType) => {
   const { mutate: mutateCompleted, isPending } = useMutation({
     mutationFn: async () => {
       await api.PATCH({
-        url: `/api/todo/${todoItem.id}?completed=${!todoItem.completed}`,
+        url: `/api/todo/${todoItem.id}/completeTodo`,
       });
     },
     onMutate: async () => {
@@ -19,7 +19,7 @@ export const useCompleteTodo = (todoItem: TodoItemType) => {
           if (oldTodo.id === todoItem.id) {
             return {
               ...todoItem,
-              completed: !todoItem.completed,
+              completed: true,
             };
           }
           return oldTodo;

@@ -93,25 +93,6 @@ export async function PATCH(
       return NextResponse.json({ message: "pin updated" }, { status: 200 });
     }
 
-    //for completing todos
-    const isComplete = req.nextUrl.searchParams.get("completed");
-    if (isComplete != undefined || null) {
-      if (isComplete === "true") {
-        //complete todo
-        await prisma.todo.updateMany({
-          where: { id, userID: user.id },
-          data: { completed: true },
-        });
-      } else {
-        await prisma.todo.updateMany({
-          where: { id, userID: user.id },
-          data: { completed: false },
-        });
-      }
-
-      return NextResponse.json({ message: "pin updated" }, { status: 200 });
-    }
-
     //for updating todos priority
     const priority = req.nextUrl.searchParams.get("priority");
 
