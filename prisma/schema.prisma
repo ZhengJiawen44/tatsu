@@ -19,7 +19,7 @@ model User {
   createdAt     DateTime        @default(now())
   updatedAt     DateTime        @updatedAt
   Todos         Todo[]
-  completedTodo completedTodo[]
+  CompletedTodo CompletedTodo[]
   Note          Note[]
   File          File[]
   maxStorage    Decimal             @default(1000000.0) //default 100 mb of storage
@@ -79,11 +79,11 @@ model Todo{
   expiresAt     DateTime        @default(now())
 }
 
-model completedTodo{
+model CompletedTodo{
   id            String          @id @default(cuid())
   originalTodoID  String
   title         String
-  description   String
+  description   String?
   priority      Priority
   completedAt   DateTime        @default(now())
   createdAt     DateTime
