@@ -35,6 +35,10 @@ const LandingPage = () => {
             </Button>
           </Link>
         </div>
+        <img
+          src="/showcase2.png"
+          className=" rounded-[10px] w-[1000px] h-auto shadow-2xl [transform:perspective(1000px)_rotateX(20deg)_rotateY(0deg)]"
+        />
       </div>
     </ErrorBoundary>
   );
