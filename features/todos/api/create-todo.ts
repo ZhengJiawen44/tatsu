@@ -9,7 +9,7 @@ import { SetStateAction } from "react";
 interface useCreateTodoProps {
   setTitle: React.Dispatch<SetStateAction<string>>;
   setDesc: React.Dispatch<SetStateAction<string>>;
-  setDateRange: React.Dispatch<SetStateAction<DateRange | undefined>>;
+  setDateRange: React.Dispatch<SetStateAction<DateRange>>;
   setPriority: React.Dispatch<SetStateAction<"Low" | "Medium" | "High">>;
   clearInput: Function;
 }

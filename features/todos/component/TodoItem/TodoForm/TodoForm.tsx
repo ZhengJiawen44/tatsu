@@ -151,9 +151,8 @@ const TodoForm = ({ displayForm, setDisplayForm }: TodoFormProps) => {
 
   async function handleForm(e?: React.FormEvent) {
     if (e) e.preventDefault();
-    console.log("rec: ", dateRange);
-    let startedAt = dateRange!.from
-    let expiresAt = dateRange!.to
+    const startedAt = dateRange.from as Date
+    const expiresAt = dateRange.to as Date
 
     try {
       if (todo?.id) {
@@ -162,8 +161,8 @@ const TodoForm = ({ displayForm, setDisplayForm }: TodoFormProps) => {
           title,
           description: desc,
           priority,
-          startedAt: startedAt,
-          expiresAt: expiresAt,
+          startedAt,
+          expiresAt,
         });
       } else {
         createTodo({
