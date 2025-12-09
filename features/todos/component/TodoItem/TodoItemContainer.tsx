@@ -83,14 +83,16 @@ export const TodoItemContainer = ({
 
         <div className="w-full">
           <div className="flex items-start gap-3">
-            <TodoCheckbox
-              priority={priority}
-              complete={completed}
-              onChange={() => {
-                mutateCompleted();
-              }}
-              checked={completed}
-            />
+            {variant == "DEFAULT" &&
+              <TodoCheckbox
+                priority={priority}
+                complete={completed}
+                onChange={() => {
+                  mutateCompleted();
+                }}
+                checked={completed}
+              />
+            }
             <div className="w-full">
               <p className="leading-none select-none text-card-foreground mb-1 text-sm">
                 {title}
