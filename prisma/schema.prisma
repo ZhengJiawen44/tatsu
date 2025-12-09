@@ -90,7 +90,7 @@ model CompletedTodo{
   startedAt     DateTime
   expiresAt     DateTime
   completedOnTime Boolean
-  daysToComplete  Int
+  daysToComplete  Decimal
   wasRepeating  Boolean
   user          User            @relation(fields: [userID], references: [id])
   userID        String
