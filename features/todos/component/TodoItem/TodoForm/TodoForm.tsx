@@ -6,7 +6,7 @@ import LineSeparator from "@/components/ui/lineSeparator";
 import { useEditTodo } from "@/features/todos/api/update-todo";
 import { useCreateTodo } from "@/features/todos/api/create-todo";
 import { TodoItemType } from "@/types";
-import { endOfDay } from "date-fns";
+import { endOfDay, startOfDay } from "date-fns";
 import TodoFormMenuStrip from "./TodoFormMenuStrip";
 import { useSession } from "next-auth/react";
 import { useTodoForm } from "@/providers/TodoFormProvider";
@@ -30,6 +30,8 @@ const TodoForm = ({ displayForm, setDisplayForm }: TodoFormProps) => {
     setDesc,
     dateRange,
     setDateRange,
+    repeatInterval,
+    setRepeatInterval,
   } = useTodoForm();
 
   const clearInput = useCallback(
@@ -37,10 +39,12 @@ const TodoForm = ({ displayForm, setDisplayForm }: TodoFormProps) => {
       setDesc("");
       setTitle("");
       setDateRange({
-        from: todo?.startedAt ? todo.startedAt : new Date(),
+        from: todo?.startedAt ? todo.startedAt : startOfDay(new Date()),
         to: todo?.expiresAt ? todo.expiresAt : endOfDay(new Date()),
       });
       setPriority("Low");
+      setRepeatInterval(null);
+
       titleRef.current?.focus();
     },
     [setDisplayForm, todo?.expiresAt, todo?.startedAt]
@@ -153,7 +157,6 @@ const TodoForm = ({ displayForm, setDisplayForm }: TodoFormProps) => {
     if (e) e.preventDefault();
     const startedAt = dateRange.from as Date
     const expiresAt = dateRange.to as Date
-
     try {
       if (todo?.id) {
         editTodo({
@@ -177,6 +180,7 @@ const TodoForm = ({ displayForm, setDisplayForm }: TodoFormProps) => {
           pinned: false,
           createdAt: new Date(),
           completed: false,
+          repeatInterval
         });
       }
     } catch (error) {

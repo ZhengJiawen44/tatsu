@@ -14,7 +14,6 @@ const TodoContainer = () => {
 
   // Destructure the result for cleaner access
   const { groupedPinnedTodos, groupedUnPinnedTodos } = groupTodo({ todos });
-
   //initializes a mapping between dates and open state to keep track of open states of grouped dates
   const initialOpenState = Object.keys(groupedUnPinnedTodos).reduce(
     (acc, curr) => {

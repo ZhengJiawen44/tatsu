@@ -5,6 +5,7 @@ import { todoSchema } from "@/schema";
 import { api } from "@/lib/api-client";
 import { TodoItemType } from "@/types";
 import { SetStateAction } from "react";
+import { getNextRepeatDate } from "../lib/getNextRepeatDate";
 
 interface useCreateTodoProps {
   setTitle: React.Dispatch<SetStateAction<string>>;
@@ -13,8 +14,14 @@ interface useCreateTodoProps {
   setPriority: React.Dispatch<SetStateAction<"Low" | "Medium" | "High">>;
   clearInput: Function;
 }
+type TodoWithRepeat = TodoItemType & {
+  repeatInterval: "daily" | "weekly" | "monthly" | "weekdays" | null;
+};
 
-async function postTodo({ todo }: { todo: TodoItemType }) {
+async function postTodo({ todo }: { todo: TodoWithRepeat }) {
+
+  //convert the repeat Intervals to actual dates
+  const nextRepeatDate = getNextRepeatDate(todo.startedAt, todo.repeatInterval);
   //validate input
   const parsedObj = todoSchema.safeParse({
     title: todo.title,
@@ -22,6 +29,7 @@ async function postTodo({ todo }: { todo: TodoItemType }) {
     priority: todo.priority,
     startedAt: todo.startedAt,
     expiresAt: todo.expiresAt,
+    nextRepeatDate,
   });
 
   if (!parsedObj.success) {
@@ -54,7 +62,7 @@ export const useCreateTodo = ({
     isPending: createLoading,
     isSuccess,
   } = useMutation({
-    mutationFn: (todo: TodoItemType) => postTodo({ todo }),
+    mutationFn: (todo: TodoWithRepeat) => postTodo({ todo }),
     onMutate: async (newTodo) => {
       await queryClient.cancelQueries({ queryKey: ["todo"] });
       const oldTodos = queryClient.getQueryData(["todo"]);

@@ -29,7 +29,7 @@ export const groupTodo = ({ todos }: { todos: TodoItemType[] }) => {
       //is the todo valid for today?
       if (
         today.getTime() <= todo.expiresAt.getTime() &&
-        todo.startedAt.getTime() < today.getTime()
+        todo.startedAt < today
       ) {
         dateKey = "today";
       } else {
