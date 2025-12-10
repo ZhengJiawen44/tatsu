@@ -9,12 +9,12 @@ import { HTMLAttributes } from "react";
 const MenuContainer = ({
   children,
 }: // showContent,
-// setShowContent,
-{
-  children: React.ReactNode;
-  // showContent?: boolean;
-  // setShowContent?: React.Dispatch<SetStateAction<boolean>>;
-}) => {
+  // setShowContent,
+  {
+    children: React.ReactNode;
+    // showContent?: boolean;
+    // setShowContent?: React.Dispatch<SetStateAction<boolean>>;
+  }) => {
   return <Popover>{children}</Popover>;
 };
 

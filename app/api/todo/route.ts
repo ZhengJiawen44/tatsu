@@ -31,7 +31,7 @@ export async function POST(req: NextRequest) {
     const parsedObj = todoSchema.safeParse(body);
     if (!parsedObj.success) throw new BadRequestError();
 
-    const { title, description, priority, startedAt, expiresAt } =
+    const { title, description, priority, startedAt, expiresAt, nextRepeatDate } =
       parsedObj.data;
     //create todo
     const todo = await prisma.todo.create({
@@ -42,6 +42,7 @@ export async function POST(req: NextRequest) {
         priority: priority as Priority,
         startedAt,
         expiresAt,
+        nextRepeatDate
       },
     });
     if (!todo) throw new InternalError("todo cannot be created at this time");

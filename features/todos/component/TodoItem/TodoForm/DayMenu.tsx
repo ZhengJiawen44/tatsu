@@ -19,9 +19,8 @@ import { useTodoForm } from "@/providers/TodoFormProvider";
 
 const DayMenu = () => {
   const { todoItem: todo, dateRange, setDateRange } = useTodoForm();
-  console.log("initial: ", dateRange);
-  const nextWeek = nextMonday(dateRange?.from || new Date());
-  const tomorrow = addDays(dateRange?.from || new Date(), 1);
+  const nextWeek = nextMonday(dateRange?.from || startOfDay(new Date()));
+  const tomorrow = addDays(dateRange?.from || startOfDay(new Date()), 1);
 
   function getDisplayDate(date: Date) {
     const formattedDate = format(date, "MMM dd yyyy");
@@ -48,7 +47,7 @@ const DayMenu = () => {
           onClick={() =>
             setDateRange((prev) => {
               return {
-                from: new Date(),
+                from: startOfDay(new Date()),
                 to:
                   prev?.to && prev.from
                     ? new Date(

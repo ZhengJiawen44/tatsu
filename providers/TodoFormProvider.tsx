@@ -19,6 +19,8 @@ interface TodoFormContextType {
   setPriority: React.Dispatch<SetStateAction<"Low" | "Medium" | "High">>;
   dateRange: DateRange;
   setDateRange: React.Dispatch<SetStateAction<DateRange>>;
+  repeatInterval: "daily" | "weekly" | "monthly" | "weekdays" | null;
+  setRepeatInterval: React.Dispatch<SetStateAction<"daily" | "weekly" | "monthly" | "weekdays" | null>>;
 }
 
 // Props for the provider
@@ -41,6 +43,7 @@ const TodoFormProvider = ({ children, todoItem }: TodoFormProviderProps) => {
     from: todoItem?.startedAt ?? startOfDay(new Date()),
     to: todoItem?.expiresAt ?? endOfDay(new Date()),
   });
+  const [repeatInterval, setRepeatInterval] = useState<"daily" | "weekly" | "monthly" | "weekdays" | null>(null);
 
   const contextValue: TodoFormContextType = {
     todoItem,
@@ -52,6 +55,8 @@ const TodoFormProvider = ({ children, todoItem }: TodoFormProviderProps) => {
     setPriority,
     dateRange,
     setDateRange,
+    repeatInterval,
+    setRepeatInterval
   };
 
   return (

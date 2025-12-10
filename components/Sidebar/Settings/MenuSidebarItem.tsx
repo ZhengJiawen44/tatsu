@@ -21,7 +21,6 @@ const MenuSidebarItem = () => {
   const { data } = useSession();
   const { setTheme, theme } = useTheme();
 
-  console.log(theme);
   const handleLogout = async () => {
     await signOut({ redirectTo: "/login" });
   };
@@ -55,7 +54,7 @@ const MenuSidebarItem = () => {
         <DropdownMenuLabel>
           {data?.user?.email || data?.user?.name || "user settings"}
         </DropdownMenuLabel>
-        <DropdownMenuSeparator className="bg-border" />
+        <DropdownMenuSeparator />
         <DropdownMenuItem onClick={() => handleLogout()}>
           <MdOutlineLogout className="w-6 h-6" />
           Log out
