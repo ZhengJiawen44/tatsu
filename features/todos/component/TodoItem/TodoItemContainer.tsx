@@ -8,7 +8,6 @@ import { CSS } from "@dnd-kit/utilities";
 import { TodoItemType } from "@/types";
 import GripVertical from "@/components/ui/icon/gripVertical";
 import { useCompleteTodo } from "../../api/complete-todo";
-
 export const TodoItemContainer = ({
   todoItem,
   variant = "DEFAULT",
@@ -24,7 +23,7 @@ export const TodoItemContainer = ({
     transition,
   };
 
-  const { title, description, completed, priority } = todoItem;
+  const { title, description, completed, priority, repeatInterval, nextRepeatDate } = todoItem;
 
   const [displayForm, setDisplayForm] = useState(false);
   const [showHandle, setShowHandle] = useState(false);
@@ -73,12 +72,12 @@ export const TodoItemContainer = ({
           {...attributes}
           {...listeners}
           className={clsx(
-            "cursor-grabbing absolute -left-7 top-2",
+            "cursor-grabbing absolute -left-7 bottom-1/2 translate-y-1/2",
             showHandle === true ? "text-card-foreground" : "text-transparent",
             variant === "completed-todos" && "hidden"
           )}
         >
-          <GripVertical className=" w-5 h-5 " />
+          <GripVertical className=" w-5 h-5" />
         </div>
 
         <div className="w-full">
@@ -91,6 +90,7 @@ export const TodoItemContainer = ({
                   mutateCompleted();
                 }}
                 checked={completed}
+                variant={repeatInterval && nextRepeatDate ? "repeat" : "outline"}
               />
             }
             <div className="w-full">

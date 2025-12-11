@@ -1,11 +1,12 @@
 import React from "react";
 import { dayNames, monthNames } from "@/lib/date/dateConstants";
+import { format } from "date-fns";
 import Dot from "@/components/ui/icon/dot";
 const Day = () => {
   const currentDate = new Date();
   const currentDay = dayNames[currentDate.getDay()];
   const currentMMDDYYYY = `${monthNames[currentDate.getMonth()]
-    } ${currentDate.getUTCDate()}, ${currentDate.getFullYear()}`;
+    } ${format(currentDate, "dd")}, ${currentDate.getFullYear()}`;
   return (
     <div className="flex justify-start items-center mb-10 gap-2">
       <h1 className=" leading-none text-[2rem] text-foreground">

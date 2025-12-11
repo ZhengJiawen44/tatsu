@@ -32,6 +32,8 @@ const TodoForm = ({ displayForm, setDisplayForm }: TodoFormProps) => {
     setDateRange,
     repeatInterval,
     setRepeatInterval,
+    nextRepeatDate,
+    setNextRepeatDate
   } = useTodoForm();
 
   const clearInput = useCallback(
@@ -44,6 +46,7 @@ const TodoForm = ({ displayForm, setDisplayForm }: TodoFormProps) => {
       });
       setPriority("Low");
       setRepeatInterval(null);
+      setNextRepeatDate(null);
 
       titleRef.current?.focus();
     },
@@ -166,6 +169,8 @@ const TodoForm = ({ displayForm, setDisplayForm }: TodoFormProps) => {
           priority,
           startedAt,
           expiresAt,
+          repeatInterval,
+          nextRepeatDate
         });
       } else {
         createTodo({
@@ -180,7 +185,8 @@ const TodoForm = ({ displayForm, setDisplayForm }: TodoFormProps) => {
           pinned: false,
           createdAt: new Date(),
           completed: false,
-          repeatInterval
+          repeatInterval,
+          nextRepeatDate
         });
       }
     } catch (error) {
