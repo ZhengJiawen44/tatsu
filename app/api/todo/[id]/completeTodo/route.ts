@@ -3,6 +3,7 @@ import { auth } from "@/app/auth";
 import { UnauthorizedError, BadRequestError } from "@/lib/customError";
 import { prisma } from "@/lib/prisma/client";
 import { Prisma } from "@prisma/client";
+import { update } from "lodash";
 export async function PATCH(req: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   try {
     const session = await auth();
@@ -33,7 +34,7 @@ export async function PATCH(req: NextRequest, { params }: { params: Promise<{ id
         completedAt: new Date(),
         completedOnTime,
         daysToComplete: new Prisma.Decimal(daysToComplete),
-        wasRepeating: false,
+        wasRepeating: updatedTodo.repeatInterval && updatedTodo.nextRepeatDate ? true : false,
         userID: updatedTodo.userID
       }
     })
