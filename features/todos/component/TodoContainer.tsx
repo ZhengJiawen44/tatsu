@@ -9,10 +9,8 @@ import TodayTodos from "./TodayTodos";
 import PinnedTodos from "./PinnedTodos";
 
 const TodoContainer = () => {
-  //get all todos
   const { todos, todoLoading } = useTodo();
 
-  // Destructure the result for cleaner access
   const { groupedPinnedTodos, groupedUnPinnedTodos } = groupTodo({ todos });
   //initializes a mapping between dates and open state to keep track of open states of grouped dates
   const initialOpenState = Object.keys(groupedUnPinnedTodos).reduce(
