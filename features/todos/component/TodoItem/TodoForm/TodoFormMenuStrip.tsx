@@ -1,12 +1,14 @@
-
 import clsx from "clsx";
 import DayMenu from "./DayMenu";
 import { PriorityIndicator } from "../PriorityIndicator";
-import React from "react";
+import React, { useEffect } from "react";
 import Repeat from "@/components/ui/icon/repeat";
 import LaurelWreath from "@/components/ui/icon/laurelWreath";
-import { format } from "date-fns";
+import { format, isTomorrow } from "date-fns";
 import { useTodoForm } from "@/providers/TodoFormProvider";
+import { TbRefreshDot } from "react-icons/tb";
+import Trash from "@/components/ui/icon/trash";
+import { getNextRepeatDate } from "@/features/todos/lib/getNextRepeatDate";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -14,10 +16,14 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-
+import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
 const TodoFormMenuStrip = () => {
-  const { priority, setPriority, setRepeatInterval } = useTodoForm();
 
+  const { priority, setPriority, repeatInterval, setRepeatInterval, dateRange, nextRepeatDate, setNextRepeatDate } = useTodoForm();
+  useEffect(() => {
+    const repeatDate = getNextRepeatDate(dateRange.from!, repeatInterval);
+    setNextRepeatDate(repeatDate);
+  }, [repeatInterval, dateRange.from])
   return (
     <div className="flex justify-center items-center gap-2">
       <div className="p-1 border rounded-sm text-sm hover:bg-border hover:text-white">
@@ -62,6 +68,7 @@ const TodoFormMenuStrip = () => {
           <p className="hidden sm:block text-sm">Repeat</p>
         </DropdownMenuTrigger>
         <DropdownMenuContent className="min-w-[150px] text-foreground">
+
           <DropdownMenuItem onClick={() => setRepeatInterval("daily")} >
             daily
           </DropdownMenuItem>
@@ -82,8 +89,36 @@ const TodoFormMenuStrip = () => {
             every weekday
             <p className="text-xs text-card-foreground-muted">(Mon-Fri)</p>
           </DropdownMenuItem>
+          {repeatInterval &&
+            <>
+              <DropdownMenuSeparator />
+              <DropdownMenuItem className="text-red gap-1" onClick={() => setRepeatInterval(null)}>
+                <Trash />
+                reset
+              </DropdownMenuItem>
+            </>
+          }
         </DropdownMenuContent>
       </DropdownMenu>
+      {repeatInterval && nextRepeatDate &&
+        <Tooltip>
+          <TooltipTrigger onClick={(e) => { e.preventDefault() }}>
+            <TbRefreshDot className={clsx("w-4 h-4 text-orange cursor-pointer hover:-rotate-180 transition-rotate duration-500")} />
+          </TooltipTrigger>
+          <TooltipContent>
+            <p>
+              This todo is next scheduled for{" "}
+              {isTomorrow(nextRepeatDate!)
+                ? "Tomorrow"
+                : format(
+                  nextRepeatDate!,
+                  nextRepeatDate!.getFullYear() === new Date().getFullYear() ? "dd MMM" : "dd MMM yy"
+                )}{" "}
+              ({repeatInterval})
+            </p>
+          </TooltipContent>
+        </Tooltip>
+      }
     </div>
   );
 };

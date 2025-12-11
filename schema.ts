@@ -42,6 +42,7 @@ export const todoSchema = z.object({
   startedAt: z.date({ message: "start date is not identified" }),
   expiresAt: z.date({ message: "end date is not identified" }),
   nextRepeatDate: asDate,
+  repeatInterval: z.enum(["daily", "weekly", "monthly", "weekdays"]).nullable()
 });
 
 export const noteSchema = z.object({

@@ -125,6 +125,8 @@ export async function PATCH(
       priority: newPriority,
       startedAt,
       expiresAt,
+      nextRepeatDate,
+      repeatInterval
     } = parsedObj.data;
     // Update todo
     const updatedTodo = await prisma.todo.updateMany({
@@ -135,6 +137,8 @@ export async function PATCH(
         priority: newPriority as Priority,
         startedAt,
         expiresAt,
+        nextRepeatDate,
+        repeatInterval
       },
     });
 

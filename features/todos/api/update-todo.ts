@@ -4,6 +4,7 @@ import { api } from "@/lib/api-client";
 import { todoSchema } from "@/schema";
 import { TodoItemType } from "@/types";
 
+
 import React from "react";
 async function patchTodo({ todo }: { todo: TodoItemType }) {
   if (!todo.id) {
@@ -17,6 +18,8 @@ async function patchTodo({ todo }: { todo: TodoItemType }) {
     priority: todo.priority,
     startedAt: todo.startedAt,
     expiresAt: todo.expiresAt,
+    nextRepeatDate: todo.nextRepeatDate,
+    repeatInterval: todo.repeatInterval
   });
   if (!parsedObj.success) {
     console.log(parsedObj.error.errors[0]);
@@ -61,15 +64,18 @@ export const useEditTodo = (
               expiresAt: newTodo.expiresAt,
               startedAt: newTodo.startedAt,
               createdAt: new Date(),
+              repeatInterval: newTodo.repeatInterval,
+              nextRepeatDate: newTodo.nextRepeatDate
             };
           }
           return oldTodo;
         })
+
       );
       return { oldTodos };
     },
     onSettled: () => {
-      //queryClient.invalidateQueries({ queryKey: ["todo"] });
+      // queryClient.invalidateQueries({ queryKey: ["todo"] });
     },
     onError: (error, newTodo, context) => {
       setDisplayForm(true);

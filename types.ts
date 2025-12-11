@@ -28,6 +28,8 @@ export interface TodoItemType {
   startedAt: Date;
   expiresAt: Date;
   userID: string;
+  repeatInterval: "daily" | "weekly" | "monthly" | "weekdays" | null;
+  nextRepeatDate: Date | null;
 }
 
 export interface FileItemType {

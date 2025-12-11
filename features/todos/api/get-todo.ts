@@ -30,6 +30,7 @@ export const useTodo = () => {
           startedAt: new Date(todo.startedAt),
           createdAt: new Date(todo.createdAt),
           expiresAt: new Date(todo.expiresAt),
+          nextRepeatDate: todo.nextRepeatDate ? new Date(todo.nextRepeatDate) : null
         };
       });
 

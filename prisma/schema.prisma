@@ -63,6 +63,12 @@ enum Priority{
   Medium
   High
 }
+enum RepeatInterval{
+    daily
+    weekly
+    monthly
+    weekdays
+}
 
 model Todo{
   id            String          @id @default(cuid())
@@ -78,6 +84,7 @@ model Todo{
   startedAt     DateTime        @default(now())
   expiresAt     DateTime        @default(now())
   nextRepeatDate  DateTime?
+  repeatInterval  RepeatInterval?
 }
 
 model CompletedTodo{
