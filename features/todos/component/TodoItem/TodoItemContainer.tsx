@@ -10,10 +10,8 @@ import GripVertical from "@/components/ui/icon/gripVertical";
 import { useCompleteTodo } from "../../api/complete-todo";
 export const TodoItemContainer = ({
   todoItem,
-  variant = "DEFAULT",
 }: {
   todoItem: TodoItemType;
-  variant?: "DEFAULT" | "completed-todos";
 }) => {
   //dnd kit setups
   const { attributes, listeners, setNodeRef, transform, transition } =
@@ -54,7 +52,7 @@ export const TodoItemContainer = ({
         style={style}
         className={clsx(
           "touch-none w-full min-h-11 relative flex justify-between items-center my-4 bg-inherit py-2 rounded-md",
-          isGrabbing && variant === "DEFAULT"
+          isGrabbing
             ? "shadow-[0px_10px_30px_rgba(6,8,30,0.3)] z-30 border border-border-muted"
             : "shadow-none"
         )}
@@ -74,7 +72,6 @@ export const TodoItemContainer = ({
           className={clsx(
             "cursor-grabbing absolute -left-7 bottom-1/2 translate-y-1/2",
             showHandle === true ? "text-card-foreground" : "text-transparent",
-            variant === "completed-todos" && "hidden"
           )}
         >
           <GripVertical className=" w-5 h-5" />
@@ -82,17 +79,17 @@ export const TodoItemContainer = ({
 
         <div className="w-full">
           <div className="flex items-start gap-3">
-            {variant == "DEFAULT" &&
-              <TodoCheckbox
-                priority={priority}
-                complete={completed}
-                onChange={() => {
-                  mutateCompleted();
-                }}
-                checked={completed}
-                variant={repeatInterval && nextRepeatDate ? "repeat" : "outline"}
-              />
-            }
+
+            <TodoCheckbox
+              priority={priority}
+              complete={completed}
+              onChange={() => {
+                mutateCompleted();
+              }}
+              checked={completed}
+              variant={repeatInterval && nextRepeatDate ? "repeat" : "outline"}
+            />
+
             <div className="w-full">
               <p className="leading-none select-none text-card-foreground mb-1 text-sm">
                 {title}
@@ -105,17 +102,16 @@ export const TodoItemContainer = ({
           </div>
         </div>
 
-        {variant === "DEFAULT" && (
-          <TodoItemMenuContainer
-            todo={todoItem}
-            displayForm={displayForm}
-            setDisplayForm={setDisplayForm}
-            className={clsx(
-              "flex items-center gap-2",
-              !showHandle && "opacity-0"
-            )}
-          />
-        )}
+
+        <TodoItemMenuContainer
+          todo={todoItem}
+          displayForm={displayForm}
+          setDisplayForm={setDisplayForm}
+          className={clsx(
+            "flex items-center gap-2",
+            !showHandle && "opacity-0"
+          )}
+        />
       </div>
     </>
   );
