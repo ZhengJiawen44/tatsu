@@ -1,13 +1,11 @@
 "use client";
 import React from "react";
-import { TodoItemContainer } from "@/features/todos/component/TodoItem/TodoItemContainer";
-import { useTodo } from "@/features/todos/api/get-todo";
 import { Skeleton } from "@/components/ui/skeleton";
-import TodoMenuProvider from "@/providers/TodoFormProvider";
+import { useCompletedTodo } from "../api/get-completedTodo";
+import { CompletedTodoItemContainer } from "./CompletedTodoItemContainer";
 
 const CompletedTodoContainer = () => {
-  const { todos, todoLoading } = useTodo();
-  const hasCompletedOne = todos.some((todo) => todo.completed);
+  const { completedTodos, todoLoading } = useCompletedTodo();
 
   if (todoLoading)
     return (
@@ -20,19 +18,15 @@ const CompletedTodoContainer = () => {
 
   return (
     <>
-      {hasCompletedOne ? (
+      {completedTodos.length == 0 ? (
         <h3>🎉 hurray! you completed your todos</h3>
       ) : (
         <h3>{`৻( •̀ ᗜ •́ ৻) complete a todo and come back`}</h3>
       )}
-      {todos.map((todo) => {
-        if (todo.completed) {
-          return (
-            <TodoMenuProvider todoItem={todo} key={todo.id}>
-              <TodoItemContainer variant="completed-todos" todoItem={todo} />
-            </TodoMenuProvider>
-          );
-        }
+      {completedTodos.map((todo) => {
+        return (
+          <CompletedTodoItemContainer completedTodoItem={todo} key={todo.id} />
+        );
       })}
     </>
   );

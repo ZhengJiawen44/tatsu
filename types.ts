@@ -32,6 +32,21 @@ export interface TodoItemType {
   nextRepeatDate: Date | null;
 }
 
+export interface CompletedTodoItemType {
+  id: string;
+  originalTodoID: string | null;
+  title: string;
+  description?: string;
+  createdAt: Date;
+  completedAt: Date;
+  priority: "Low" | "Medium" | "High";
+  startedAt: Date;
+  expiresAt: Date;
+  userID: string;
+  wasRepeating: boolean
+}
+
+
 export interface FileItemType {
   id: string;
   name: string;
