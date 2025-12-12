@@ -123,3 +123,10 @@ model File{
   userID        String
   s3Key         String
 }
+
+model CronLog{
+  id            String          @id @default(cuid())
+  runAt         DateTime
+  success       Boolean
+  log           String
+}
