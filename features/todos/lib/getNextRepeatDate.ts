@@ -1,4 +1,4 @@
-import { addDays, addMonths } from "date-fns";
+import { addDays, addMonths, startOfDay } from "date-fns";
 
 type RepeatInterval = "daily" | "weekly" | "monthly" | "weekdays" | null;
 
@@ -13,25 +13,59 @@ export function getNextRepeatDate(
   repeatInterval: RepeatInterval
 ): Date | null {
   const nextDate = new Date(startDate);
+  const today = startOfDay(new Date());
 
   switch (repeatInterval) {
     case "daily":
-      return addDays(nextDate, 1);
+      let dailyScheduledDate = addDays(nextDate, 1);
+      //if the scheduled date is in the past, it needs to be readjusted to the future
+      if (dailyScheduledDate <= today) {
+        return addDays(today, 1);
+      }
+      return dailyScheduledDate;
 
     case "weekly":
-      return addDays(nextDate, 7);
+      let weeklyScheduledDate = addDays(nextDate, 7);
+      if (weeklyScheduledDate <= today) {
+        //introducing loop here can cause infinte looping but this code is well tested
+        while (weeklyScheduledDate <= today) {
+          weeklyScheduledDate = addDays(weeklyScheduledDate, 7);
+        }
+      }
+      return weeklyScheduledDate;
+
 
     case "monthly":
-      return addMonths(nextDate, 1);
+      let monthlyScheduledDate = addMonths(nextDate, 1);
+      if (monthlyScheduledDate <= today) {
+        while (monthlyScheduledDate <= today) {
+          monthlyScheduledDate = addMonths(monthlyScheduledDate, 1);
+        }
+      }
+      return monthlyScheduledDate;
+
 
     case "weekdays":
-      const day = nextDate.getDay();
-      if (day === 5) return addDays(nextDate, 3); // Friday -> Monday
-      if (day === 6) return addDays(nextDate, 2); // Saturday -> Monday
-      return addDays(nextDate, 1); // Other days -> next day
+      let scheduledWeekdayDate = getNextWeekdayDate(nextDate);
+      if (scheduledWeekdayDate <= today) {
+        scheduledWeekdayDate = getNextWeekdayDate(today);
+      }
+      return scheduledWeekdayDate;
 
     default:
       return null;
   }
 }
 
+function getNextWeekdayDate(date: Date) {
+  const day = date.getDay();
+  let nextWeekdayDate = addDays(date, 1);
+  if (day == 5) {
+    nextWeekdayDate = addDays(nextWeekdayDate, 2);
+  }
+  else if (day == 6) {
+    nextWeekdayDate = addDays(nextWeekdayDate, 1);
+  }
+  return nextWeekdayDate;
+
+}
