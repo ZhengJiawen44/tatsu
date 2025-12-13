@@ -26,6 +26,7 @@ model User {
   usedStoraged  Decimal             @default(0.0)
   protectedSymmetricKey String?
   enableEncryption      Boolean     @default(true)
+  timeZone  String?
 }
  
 model Account {

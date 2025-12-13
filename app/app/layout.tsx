@@ -3,12 +3,14 @@ import { redirect } from "next/navigation";
 import { MenuProvider } from "@/providers/MenuProvider";
 import { SessionProvider } from "next-auth/react";
 import Provider from "./provider";
+
 export default async function Layout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
   const session = await auth();
+
   if (!session?.user) {
     redirect("/login");
   }
@@ -16,8 +18,33 @@ export default async function Layout({
   return (
     <SessionProvider session={session}>
       <MenuProvider>
-        <Provider>{children}</Provider>
+        <Provider>
+          {children}
+
+          {/* Timezone bootstrap (runs once per page load) */}
+          <script
+            async
+            dangerouslySetInnerHTML={{
+              __html: `
+                (function () {
+                  try {
+                    const tz = Intl.DateTimeFormat().resolvedOptions().timeZone;
+
+                    fetch("/api/timezone", {
+                      method: "GET",
+                      headers: {
+                        "X-User-Timezone": tz,
+                      },
+                      credentials: "same-origin",
+                    });
+                  } catch (_) {}
+                })();
+              `,
+            }}
+          />
+        </Provider>
       </MenuProvider>
     </SessionProvider>
   );
 }
+

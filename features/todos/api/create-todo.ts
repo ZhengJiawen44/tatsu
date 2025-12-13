@@ -27,6 +27,7 @@ async function postTodo({ todo }: { todo: TodoItemType }) {
     repeatInterval: todo.repeatInterval
   });
 
+
   if (!parsedObj.success) {
     throw new Error(parsedObj.error.errors[0].message);
   }
@@ -40,6 +41,7 @@ async function postTodo({ todo }: { todo: TodoItemType }) {
   //convert todo expiresAt from string to time
   res.todo.expiresAt = new Date(res.todo.expiresAt);
   res.todo.startedAt = new Date(res.todo.startedAt);
+  res.todo.nextRepeatDate = res.todo.nextRepeatDate ? new Date(res.todo.nextRepeatDate) : null
   return res.todo;
 }
 
