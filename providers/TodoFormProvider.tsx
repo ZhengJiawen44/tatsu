@@ -46,7 +46,7 @@ const TodoFormProvider = ({ children, todoItem }: TodoFormProviderProps) => {
     to: todoItem?.expiresAt ?? endOfDay(new Date()),
   });
   const [repeatInterval, setRepeatInterval] = useState<"daily" | "weekly" | "monthly" | "weekdays" | null>(todoItem?.repeatInterval || null);
-  const [nextRepeatDate, setNextRepeatDate] = useState<Date | null>(todoItem?.nextRepeatDate || null);
+  const [nextRepeatDate, setNextRepeatDate] = useState<Date | null>(todoItem?.nextRepeatDate && new Date(todoItem.nextRepeatDate) || null);
   const contextValue: TodoFormContextType = {
     todoItem,
     title,
