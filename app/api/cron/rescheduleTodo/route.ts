@@ -1,12 +1,36 @@
 import { prisma } from "@/lib/prisma/client";
 import { differenceInDays, addDays } from "date-fns";
-import { BaseServerError, InternalError } from "@/lib/customError";
-import { NextResponse } from "next/server";
+import { BaseServerError, InternalError, UnauthorizedError } from "@/lib/customError";
+import { NextRequest, NextResponse } from "next/server";
 import { getNextRepeatDate } from "@/features/todos/lib/getNextRepeatDate";
 import { endOfDay } from "date-fns";
-export async function GET() {
+export async function GET(req: NextRequest) {
 
   try {
+
+    //validate cron request
+    const cronHeader = req.headers.get("x-cronsecret");
+    const userAgent = req.headers.get("user-agent");
+
+    const reqDump = `
+      START LINE:
+      ${req.method} ${req.url}
+      HEADERS:
+      ${Array.from(req.headers.entries())
+        .map(([k, v]) => `${k}: ${v}`)
+        .join("\n")}
+    `;
+    if (cronHeader !== process.env.CRONJOB_SECRET) {
+      const reason = !cronHeader
+        ? "missing cron secret header"
+        : "cron secret header does not match";
+      throw new UnauthorizedError(`
+        user-agent: ${userAgent}
+        failed-reason: ${reason}
+        request-dump: ${reqDump}
+      `);
+    }
+
     // 1. find todo that has nextRepeatDate > date now
     // 2. edit started at to nextRepeatDate and expires at to old startedAt - old expiresAt
     // 3. edit nextRepeatDate to new nextRepeatDate
@@ -30,7 +54,7 @@ export async function GET() {
       todos.map(todo => ({
         id: todo.id,
         title: todo.title,
-        startedAt: todo.startedAt.toLocaleString("zh-CN"), // <- local time
+        startedAt: todo.startedAt.toLocaleString("zh-CN"),
         expiresAt: todo.expiresAt.toLocaleString("zh-CN"),
         nextRepeatDate: todo.nextRepeatDate!.toLocaleString("zh-CN"),
         RepeatInterval: todo.repeatInterval
@@ -42,9 +66,8 @@ export async function GET() {
     //reschedule the selected todos 
     const updateOperations = todos.map((todo) => {
       const duration = differenceInDays(todo.expiresAt, todo.startedAt);
-      const nextRepeatDate = getNextRepeatDate(todo.startedAt, todo.repeatInterval);
 
-      const newStartedAt = nextRepeatDate!;
+      const newStartedAt = getNextRepeatDate(todo.startedAt, todo.repeatInterval)!;
       const newExpiresAt = endOfDay(addDays(newStartedAt, duration));
       const newNextRepeatDate = getNextRepeatDate(newStartedAt, todo.repeatInterval);
 
@@ -56,7 +79,8 @@ export async function GET() {
         data: {
           startedAt: newStartedAt,
           expiresAt: newExpiresAt,
-          nextRepeatDate: newNextRepeatDate
+          nextRepeatDate: newNextRepeatDate,
+          completed: false
         }
       })
     });

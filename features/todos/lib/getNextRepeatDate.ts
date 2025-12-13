@@ -18,17 +18,19 @@ export function getNextRepeatDate(
   switch (repeatInterval) {
     case "daily":
       let dailyScheduledDate = addDays(nextDate, 1);
-      //if the scheduled date is in the past, it needs to be readjusted to the future
-      if (dailyScheduledDate <= today) {
-        return addDays(today, 1);
+      //if the scheduled date is in the past, it needs to be readjusted to today
+      if (dailyScheduledDate < today) {
+        return today
       }
       return dailyScheduledDate;
 
     case "weekly":
       let weeklyScheduledDate = addDays(nextDate, 7);
-      if (weeklyScheduledDate <= today) {
+      if (weeklyScheduledDate < today) {
+        // if today is the week day, schedule it to today
+        if (weeklyScheduledDate.getDay() == today.getDay()) return today;
         //introducing loop here can cause infinte looping but this code is well tested
-        while (weeklyScheduledDate <= today) {
+        while (weeklyScheduledDate < today) {
           weeklyScheduledDate = addDays(weeklyScheduledDate, 7);
         }
       }
@@ -37,8 +39,10 @@ export function getNextRepeatDate(
 
     case "monthly":
       let monthlyScheduledDate = addMonths(nextDate, 1);
-      if (monthlyScheduledDate <= today) {
-        while (monthlyScheduledDate <= today) {
+      if (monthlyScheduledDate < today) {
+        //if today is the date, schedule it now
+        if (monthlyScheduledDate.getDate() == today.getDate()) return today;
+        while (monthlyScheduledDate < today) {
           monthlyScheduledDate = addMonths(monthlyScheduledDate, 1);
         }
       }
@@ -47,7 +51,7 @@ export function getNextRepeatDate(
 
     case "weekdays":
       let scheduledWeekdayDate = getNextWeekdayDate(nextDate);
-      if (scheduledWeekdayDate <= today) {
+      if (scheduledWeekdayDate < today) {
         scheduledWeekdayDate = getNextWeekdayDate(today);
       }
       return scheduledWeekdayDate;
