@@ -8,6 +8,7 @@ import {
 import { prisma } from "@/lib/prisma/client";
 import { auth } from "@/app/auth";
 import { todoSchema } from "@/schema";
+import { Priority } from "@prisma/client";
 
 export async function DELETE(
   req: NextRequest,
@@ -92,33 +93,53 @@ export async function PATCH(
       return NextResponse.json({ message: "pin updated" }, { status: 200 });
     }
 
-    //for completing todos
-    const isComplete = req.nextUrl.searchParams.get("completed");
-    if (isComplete != undefined || null) {
-      if (isComplete === "true") {
-        //complete todo
-        await prisma.todo.updateMany({
-          where: { id, userID: user.id },
-          data: { completed: true },
-        });
-      } else {
-        await prisma.todo.updateMany({
-          where: { id, userID: user.id },
-          data: { completed: false },
-        });
-      }
+    //for updating todos priority
+    const priority = req.nextUrl.searchParams.get("priority");
 
-      return NextResponse.json({ message: "pin updated" }, { status: 200 });
+    if (priority && ["Low", "Medium", "High"].includes(priority)) {
+      //patch todo priority
+      await prisma.todo.updateMany({
+        where: { id, userID: user.id },
+        data: { priority: priority as Priority },
+      });
+
+      return NextResponse.json(
+        { message: "priority updated" },
+        { status: 200 }
+      );
     }
 
-    const body = await req.json();
+    //update todo
+    let body = await req.json();
+    body = {
+      ...body,
+      startedAt: new Date(body.startedAt),
+      expiresAt: new Date(body.expiresAt),
+    };
     const parsedObj = todoSchema.partial().safeParse(body);
     if (!parsedObj.success) throw new BadRequestError("Invalid request body");
 
+    const {
+      title,
+      description,
+      priority: newPriority,
+      startedAt,
+      expiresAt,
+      nextRepeatDate,
+      repeatInterval
+    } = parsedObj.data;
     // Update todo
     const updatedTodo = await prisma.todo.updateMany({
       where: { id, userID: user.id },
-      data: parsedObj.data,
+      data: {
+        title: title,
+        description: description,
+        priority: newPriority as Priority,
+        startedAt,
+        expiresAt,
+        nextRepeatDate,
+        repeatInterval
+      },
     });
 
     if (updatedTodo.count === 0)

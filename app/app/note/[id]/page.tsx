@@ -1,8 +1,8 @@
 "use client";
 import { useParams, useRouter } from "next/navigation";
 import React, { useEffect } from "react";
-import { useNote } from "@/hooks/useNote";
-import Editor from "@/components/Note/Editor";
+import { useNote } from "@/features/notes/api/get-notes";
+import Editor from "@/features/notes/component/Editor";
 import NoteLoading from "@/components/Sidebar/Note/NoteLoading";
 const Page = () => {
   const router = useRouter();

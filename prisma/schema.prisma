@@ -19,12 +19,14 @@ model User {
   createdAt     DateTime        @default(now())
   updatedAt     DateTime        @updatedAt
   Todos         Todo[]
+  CompletedTodo CompletedTodo[]
   Note          Note[]
   File          File[]
   maxStorage    Decimal             @default(1000000.0) //default 100 mb of storage
   usedStoraged  Decimal             @default(0.0)
-  protectedSymmetricKey String?    
-  enableEncryption      Boolean     @default(true)   
+  protectedSymmetricKey String?
+  enableEncryption      Boolean     @default(true)
+  timeZone  String?
 }
  
 model Account {
@@ -57,6 +59,17 @@ model VerificationToken {
   @@id([identifier, token])
 }
 
+enum Priority{
+  Low
+  Medium
+  High
+}
+enum RepeatInterval{
+    daily
+    weekly
+    monthly
+    weekdays
+}
 
 model Todo{
   id            String          @id @default(cuid())
@@ -68,13 +81,34 @@ model Todo{
   pinned        Boolean         @default(false)
   completed     Boolean         @default(false)
   order         Int             @default(autoincrement())
+  priority      Priority        @default(Low)
+  startedAt     DateTime        @default(now())
+  expiresAt     DateTime        @default(now())
+  nextRepeatDate  DateTime?
+  repeatInterval  RepeatInterval?
 }
 
+model CompletedTodo{
+  id            String          @id @default(cuid())
+  originalTodoID  String
+  title         String
+  description   String?
+  priority      Priority
+  completedAt   DateTime        @default(now())
+  createdAt     DateTime
+  startedAt     DateTime
+  expiresAt     DateTime
+  completedOnTime Boolean
+  daysToComplete  Decimal @db.Decimal(10, 2)
+  wasRepeating  Boolean
+  user          User            @relation(fields: [userID], references: [id])
+  userID        String
+}
 
 model Note{
   id            String          @id @default(cuid())
   name          String
-  content       String?          
+  content       String?
   createdAt     DateTime        @default(now())
   user          User            @relation(fields: [userID], references: [id])
   userID        String
@@ -83,10 +117,17 @@ model Note{
 model File{
   id            String          @id @default(cuid())
   name          String
-  url           String          
-  size          Int        
+  url           String
+  size          Int
   createdAt     DateTime        @default(now())
   user          User            @relation(fields: [userID], references: [id])
   userID        String
   s3Key         String
+}
+
+model CronLog{
+  id            String          @id @default(cuid())
+  runAt         DateTime
+  success       Boolean
+  log           String
 }

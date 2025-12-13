@@ -3,9 +3,22 @@ import React from "react";
 import OK from "@/components/ui/icon/ok";
 import { useMenu } from "@/providers/MenuProvider";
 import Link from "next/link";
+import { useTodo } from "@/features/todos/api/get-todo";
+import useWindowSize from "@/hooks/useWindowSize";
 
 const CompletedItem = () => {
-  const { activeMenu, setActiveMenu } = useMenu();
+  const { width } = useWindowSize();
+  const { activeMenu, setActiveMenu, setShowMenu } = useMenu();
+  const { todos } = useTodo();
+  // Get today's date string
+
+  // Count only todos created today
+  const completedTodoCount = todos
+    ? todos.filter(({ completed }) => {
+        return completed;
+      }).length
+    : 0;
+
   return (
     <Link
       href="/app/completed"
@@ -15,10 +28,21 @@ const CompletedItem = () => {
       )}
       onClick={() => {
         setActiveMenu({ name: "Completed" });
+        if (width <= 766) setShowMenu(false);
       }}
     >
       <OK className="w-5 h-5" />
-      Completed
+      Complete
+      <p
+        className={clsx(
+          "mr-0 ml-auto",
+          activeMenu.name === "Todo"
+            ? "text-card-foreground"
+            : "text-card-foreground-muted"
+        )}
+      >
+        {completedTodoCount}
+      </p>
     </Link>
   );
 };

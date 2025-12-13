@@ -9,18 +9,18 @@ import Note from "@/components/ui/icon/note";
 import { useMenu } from "@/providers/MenuProvider";
 import PlusCircle from "@/components/ui/icon/plusCircle";
 import CaretOutline from "@/components/ui/icon/caretOutline";
-import { useNote } from "@/hooks/useNote";
+import { useNote } from "@/features/notes/api/get-notes";
 import NoteLoading from "./NoteLoading";
-import { useCreateNote } from "@/hooks/useNote";
+import { useCreateNote } from "@/features/notes/api/create-note";
 import Spinner from "@/components/ui/spinner";
-import NoteItem from "../Note/NoteItem";
+import NoteSidebarItem from "./NoteSidebarItem";
 
 const NoteCollapsible = () => {
   const { activeMenu, setActiveMenu } = useMenu();
   const [showPlus, setShowPlus] = useState(false);
 
   const { notes, isPending } = useNote(activeMenu.open);
-  const { createNote, createLoading } = useCreateNote({ onSuccess: () => {} });
+  const { createNote, createLoading } = useCreateNote();
   return (
     <Collapsible
       className="w-full"
@@ -68,7 +68,7 @@ const NoteCollapsible = () => {
           {isPending ? (
             <NoteLoading />
           ) : (
-            notes.map((note) => <NoteItem note={note} key={note.id} />)
+            notes.map((note) => <NoteSidebarItem note={note} key={note.id} />)
           )}
         </div>
       </CollapsibleContent>
