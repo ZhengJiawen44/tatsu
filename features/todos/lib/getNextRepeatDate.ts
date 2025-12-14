@@ -78,10 +78,13 @@ function getNextWeekdayDate(date: Date) {
 function getToday(timeZone?: string | null) {
   if (!timeZone)
     return startOfDay(new Date());
-  //store user's date time in the date object
+
+  // Get current time in user's timezone
   const nowInUserTZ = toZonedTime(new Date(), timeZone);
-  //today is startOfDay of the user's date time, expressed in UTC
-  return startOfDay(nowInUserTZ);
+  // Get start of day in user's timezone
+  const todayInUserTZ = startOfDay(nowInUserTZ);
+  // Convert back to UTC 
+  return fromZonedTime(todayInUserTZ, timeZone);
 }
 
 /*

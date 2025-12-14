@@ -4,7 +4,7 @@ import { BaseServerError, InternalError, UnauthorizedError } from "@/lib/customE
 import { NextRequest, NextResponse } from "next/server";
 import { getNextRepeatDate } from "@/features/todos/lib/getNextRepeatDate";
 import { endOfDay as endOfDayUTC } from "date-fns";
-import { toZonedTime } from "date-fns-tz";
+import { toZonedTime, fromZonedTime } from "date-fns-tz";
 
 export async function GET(req: NextRequest) {
   try {
@@ -78,7 +78,7 @@ export async function GET(req: NextRequest) {
       if (!user) continue;
 
       const newStartedAt = getNextRepeatDate(todo.startedAt, todo.repeatInterval, user.timeZone)!;
-      const newExpiresAt = endOfDay(addDays(newStartedAt, duration));
+      const newExpiresAt = endOfDay(addDays(newStartedAt, duration), user.timeZone);
       const newNextRepeatDate = getNextRepeatDate(newStartedAt, todo.repeatInterval, user.timeZone);
 
       log += `scheduled: \n id: ${todo.id}\n title: ${todo.title}\n startedtAt: ${newStartedAt}\n expiresAt: ${newExpiresAt}\n nextRepeatDate: ${newNextRepeatDate} \n`;
@@ -148,6 +148,8 @@ function endOfDay(date: Date, timeZone?: string | null): Date {
   // Convert to user's timezone
   const dateInUserTZ = toZonedTime(date, timeZone);
   // Get end of day in user's timezone
-  return endOfDayUTC(dateInUserTZ);
+  const endOfDayInUserTZ = endOfDayUTC(dateInUserTZ);
+  // Convert back to UTC 
+  return fromZonedTime(endOfDayInUserTZ, timeZone);
 }
 
