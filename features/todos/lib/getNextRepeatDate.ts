@@ -11,7 +11,7 @@ type RepeatInterval = "daily" | "weekly" | "monthly" | "weekdays" | null;
 export function getNextRepeatDate(
   startDate: Date,
   repeatInterval: RepeatInterval,
-  timeZone: string | null
+  timeZone?: string | null
 ): Date | null {
   const nextDate = new Date(startDate);
   let today = getToday(timeZone);
@@ -75,7 +75,7 @@ function getNextWeekdayDate(date: Date) {
 }
 
 //timeZone aware getToday
-function getToday(timeZone: string | null) {
+function getToday(timeZone?: string | null) {
   if (!timeZone)
     return startOfDay(new Date());
   //store user's date time in the date object
