@@ -54,9 +54,9 @@ export async function GET(req: NextRequest) {
       todos.map(todo => ({
         id: todo.id,
         title: todo.title,
-        startedAt: todo.startedAt.toLocaleString("zh-CN"),
-        expiresAt: todo.expiresAt.toLocaleString("zh-CN"),
-        nextRepeatDate: todo.nextRepeatDate!.toLocaleString("zh-CN"),
+        startedAt: todo.startedAt,
+        expiresAt: todo.expiresAt,
+        nextRepeatDate: todo.nextRepeatDate!,
         RepeatInterval: todo.repeatInterval
       })),
       null,
