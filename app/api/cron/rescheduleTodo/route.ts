@@ -3,11 +3,11 @@ import { differenceInDays, addDays } from "date-fns";
 import { BaseServerError, InternalError, UnauthorizedError } from "@/lib/customError";
 import { NextRequest, NextResponse } from "next/server";
 import { getNextRepeatDate } from "@/features/todos/lib/getNextRepeatDate";
-import { endOfDay } from "date-fns";
+import { endOfDay as endOfDayUTC } from "date-fns";
+import { toZonedTime } from "date-fns-tz";
+
 export async function GET(req: NextRequest) {
-
   try {
-
     //validate cron request
     const cronHeader = req.headers.get("x-cronsecret");
     const userAgent = req.headers.get("user-agent");
@@ -64,26 +64,38 @@ export async function GET(req: NextRequest) {
     )}\n`;
 
     //reschedule the selected todos 
-    const updateOperations = todos.map((todo) => {
+    const updateOperations = [];
+
+    for (const todo of todos) {
       const duration = differenceInDays(todo.expiresAt, todo.startedAt);
 
-      const newStartedAt = getNextRepeatDate(todo.startedAt, todo.repeatInterval)!;
-      const newExpiresAt = endOfDay(addDays(newStartedAt, duration));
-      const newNextRepeatDate = getNextRepeatDate(newStartedAt, todo.repeatInterval);
-
-      log += `scheduled: \n id: ${todo.id}\n title: ${todo.title}\n startedtAt: ${newStartedAt}\n expiresAt: ${newExpiresAt}\n nextRepeatDate: ${newNextRepeatDate} \n`
-      log += `duration data: ${duration}\n`
-
-      return prisma.todo.update({
-        where: { id: todo.id },
-        data: {
-          startedAt: newStartedAt,
-          expiresAt: newExpiresAt,
-          nextRepeatDate: newNextRepeatDate,
-          completed: false
+      const user = await prisma.user.findUnique({
+        where: {
+          id: todo.userID
         }
-      })
-    });
+      });
+
+      if (!user) continue;
+
+      const newStartedAt = getNextRepeatDate(todo.startedAt, todo.repeatInterval, user.timeZone)!;
+      const newExpiresAt = endOfDay(addDays(newStartedAt, duration));
+      const newNextRepeatDate = getNextRepeatDate(newStartedAt, todo.repeatInterval, user.timeZone);
+
+      log += `scheduled: \n id: ${todo.id}\n title: ${todo.title}\n startedtAt: ${newStartedAt}\n expiresAt: ${newExpiresAt}\n nextRepeatDate: ${newNextRepeatDate} \n`;
+      log += `duration data: ${duration}\n`;
+
+      updateOperations.push(
+        prisma.todo.update({
+          where: { id: todo.id },
+          data: {
+            startedAt: newStartedAt,
+            expiresAt: newExpiresAt,
+            nextRepeatDate: newNextRepeatDate,
+            completed: false
+          }
+        })
+      );
+    }
     await prisma.$transaction(updateOperations);
 
     //produce a log of the operation
@@ -128,3 +140,14 @@ export async function GET(req: NextRequest) {
   }
 
 }
+//timezone aware end of day
+function endOfDay(date: Date, timeZone?: string | null): Date {
+  if (!timeZone) {
+    return endOfDayUTC(date);
+  }
+  // Convert to user's timezone
+  const dateInUserTZ = toZonedTime(date, timeZone);
+  // Get end of day in user's timezone
+  return endOfDayUTC(dateInUserTZ);
+}
+
