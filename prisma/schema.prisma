@@ -131,3 +131,10 @@ model CronLog{
   success       Boolean
   log           String
 }
+
+model eventLog{
+    id          String          @id @default(cuid())
+    capturedTime DateTime @default(now())
+    eventName   String
+    log         String
+  }
