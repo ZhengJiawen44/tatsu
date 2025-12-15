@@ -76,7 +76,6 @@ export async function GET(req: NextRequest) {
       });
 
       if (!user) continue;
-
       const newStartedAt = getNextRepeatDate(todo.startedAt, todo.repeatInterval, user.timeZone)!;
       const newExpiresAt = endOfDay(addDays(newStartedAt, duration), user.timeZone);
       const newNextRepeatDate = getNextRepeatDate(newStartedAt, todo.repeatInterval, user.timeZone);
