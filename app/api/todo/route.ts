@@ -94,7 +94,6 @@ export async function GET() {
 
     return NextResponse.json({ todos }, { status: 200 });
   } catch (error) {
-    console.log(error);
 
     //handle custom error
     if (error instanceof BaseServerError) {
