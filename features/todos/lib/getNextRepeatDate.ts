@@ -14,6 +14,7 @@ export function getNextRepeatDate(
   timeZone?: string | null
 ): Date | null {
   const nextDate = new Date(startDate);
+  //today is the utc date of user's local today
   let today = getToday(timeZone);
 
   switch (repeatInterval) {
@@ -51,9 +52,9 @@ export function getNextRepeatDate(
 
 
     case "weekdays":
-      let scheduledWeekdayDate = getNextWeekdayDate(nextDate);
+      let scheduledWeekdayDate = getNextWeekdayDate(addDays(nextDate, 1), timeZone);
       if (scheduledWeekdayDate < today) {
-        scheduledWeekdayDate = getNextWeekdayDate(today);
+        scheduledWeekdayDate = getNextWeekdayDate(today, timeZone);
       }
       return scheduledWeekdayDate;
 
@@ -62,13 +63,17 @@ export function getNextRepeatDate(
   }
 }
 
-function getNextWeekdayDate(date: Date) {
-  const day = date.getDay();
-  let nextWeekdayDate = addDays(date, 1);
-  if (day == 5) {
+//accepts a date and skips saturday and sunday
+function getNextWeekdayDate(date: Date, timeZone?: string | null) {
+  let day = timeZone
+    ? toZonedTime(date, timeZone).getDay()
+    : date.getDay();
+
+  let nextWeekdayDate = new Date(date);
+  if (day == 6) {
     nextWeekdayDate = addDays(nextWeekdayDate, 2);
   }
-  else if (day == 6) {
+  else if (day == 0) {
     nextWeekdayDate = addDays(nextWeekdayDate, 1);
   }
   return nextWeekdayDate;
