@@ -13,14 +13,14 @@ export async function GET(req: NextRequest) {
     const timeZone = req.headers.get("x-user-timezone");
 
     if (!timeZone)
-      throw new BadRequestError("missing time zone header");
+      throw new BadRequestError(`missing time zone header! recieved: ${timeZone} for timeZone header`);
 
     const VALID_TIMEZONES = Intl.supportedValuesOf('timeZone')
     if (!VALID_TIMEZONES.includes(timeZone))
-      throw new BadRequestError("Invalid timezone");
+      throw new BadRequestError(`Invalid timezone! recieved ${timeZone} as timezone`);
 
     if (!/^[A-Za-z_]+\/[A-Za-z_]+$/.test(timeZone))
-      throw new BadRequestError("Invalid timezone format");
+      throw new BadRequestError(`Invalid timezone format recieved ${timeZone} as timezone`);
 
 
     const queriedUser = await prisma.user.findUnique({
@@ -44,16 +44,29 @@ export async function GET(req: NextRequest) {
     return NextResponse.json({ status: 200 });
 
   } catch (error) {
-    console.log(error);
 
     //handle custom error
     if (error instanceof BaseServerError) {
+      await prisma.eventLog.create({
+        data: {
+          eventName: "timezone.error",
+          capturedTime: new Date(),
+          log: error.message.slice(0, 500),
+        }
+      })
       return NextResponse.json(
         { message: error.message },
         { status: error.status }
       );
     }
 
+    await prisma.eventLog.create({
+      data: {
+        eventName: "timezone.error",
+        capturedTime: new Date(),
+        log: String(error),
+      }
+    })
     //handle generic error
     return NextResponse.json(
       {
