@@ -5,7 +5,6 @@ import { useToast } from "@/hooks/use-toast";
 import LineSeparator from "@/components/ui/lineSeparator";
 import { useEditTodo } from "@/features/todos/api/update-todo";
 import { useCreateTodo } from "@/features/todos/api/create-todo";
-import { TodoItemType } from "@/types";
 import { endOfDay, startOfDay } from "date-fns";
 import TodoFormMenuStrip from "./TodoFormMenuStrip";
 import { useSession } from "next-auth/react";

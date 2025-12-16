@@ -54,3 +54,7 @@ export interface FileItemType {
   url: string;
   createdAt: Date;
 }
+export type NonNullableDateRange = {
+  from: Date;
+  to: Date;
+};
