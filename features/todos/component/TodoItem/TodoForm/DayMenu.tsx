@@ -1,12 +1,9 @@
 import { addDays, endOfDay, startOfDay } from "date-fns";
 import { Calendar } from "@/components/ui/calendar";
-import React, { useEffect } from "react";
+import React from "react";
 import CalenderIcon from "@/components/ui/icon/calender";
-// import { isEqual } from "@/lib/date/isEqual";
-// import { monthNames } from "@/lib/date/dateConstants";
 import { format, nextMonday, differenceInDays } from "date-fns";
 import LineSeparator from "@/components/ui/lineSeparator";
-// import TimePicker from "./TimePicker";
 import {
   MenuContainer,
   MenuItem,
@@ -28,12 +25,11 @@ const DayMenu = () => {
       ? formattedDate.replace(` ${date.getFullYear()}`, "")
       : formattedDate;
   }
-  // if (dateRange?.to && dateRange?.from) console.log(dateRange);
 
   //get date from todo or set to default
   return (
     <MenuContainer>
-      <MenuTrigger className="flex justify-center items-center gap-1 p-0">
+      <MenuTrigger className="flex justify-center items-center gap-1 p-1 w-full h-full hover:bg-none">
         <CalenderIcon className="w-5 h-5" />
         {dateRange?.from
           ? getDisplayDate(dateRange.from)
@@ -135,7 +131,6 @@ const DayMenu = () => {
             }}
             selected={dateRange}
             onSelect={(newDateRange) => {
-
               setDateRange(() => {
                 const from = startOfDay(newDateRange?.from || new Date());
                 const to = endOfDay(newDateRange?.to || from);
