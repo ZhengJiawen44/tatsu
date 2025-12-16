@@ -24,11 +24,11 @@ function Calendar({
           "flex flex-col sm:flex-row space-y-4 sm:space-x-4 sm:space-y-0 text-sm",
         month: "space-y-4 text-white ",
         caption: "flex justify-center pt-1 relative items-center",
-        caption_label: "text-sm font-medium",
+        caption_label: "text-sm font-medium text-foreground",
         nav: "space-x-1 flex items-center",
         nav_button: cn(
           buttonVariants({ variant: "outline" }),
-          "h-7 w-7 bg-transparent p-0 opacity-50 hover:opacity-100"
+          "h-7 w-7 bg-transparent p-0 opacity-50 hover:opacity-100 text-foreground"
         ),
         nav_button_previous: "absolute left-1",
         nav_button_next: "absolute right-1",
@@ -39,18 +39,18 @@ function Calendar({
         cell: "h-7 w-7 text-center text-sm  p-0 relative [&:has([aria-selected].day-range-end)]:rounded-r-md  [&:has([aria-selected].day-outside)]:bg-accent/50 [&:has([aria-selected])]:bg-lime  first:[&:has([aria-selected])]:rounded-l-md last:[&:has([aria-selected])]:rounded-r-md focus-within:relative focus-within:z-20",
         day: cn(
           buttonVariants({ variant: "ghost" }),
-          "h-7 w-7 p-0 font-normal aria-selected:opacity-100 text-xs"
+          "h-7 w-7 p-0 font-normal aria-selected:opacity-100 text-xs text-foreground"
         ),
         day_range_start: "outline outline-lime",
         day_range_end: "outline outline-lime",
         day_selected:
-          "bg-primary text-primary-foreground hover:bg-primary hover:text-primary-foreground focus:bg-primary focus:text-primary-foreground",
+          " bg-primary text-primary-foreground hover:bg-primary hover:text-primary-foreground focus:bg-primary focus:text-primary-foreground",
         day_today: "bg-accent text-accent-foreground",
         day_outside:
           "day-outside text-muted-foreground aria-selected:bg-accent/50 aria-selected:text-muted-foreground",
         day_disabled: "text-muted-foreground opacity-50",
         day_range_middle:
-          "aria-selected:bg-lime aria-selected:text-accent-foreground",
+          "aria-selected:bg-lime aria-selected:text-white",
         day_hidden: "invisible",
         ...classNames,
       }}

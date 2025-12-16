@@ -43,7 +43,9 @@ const TodoFormMenuStrip = () => {
 
   return (
     <div className="flex justify-center items-center gap-2">
-      <div className="p-1 border rounded-sm text-sm hover:bg-border hover:text-white">
+
+      {/* day picker*/}
+      <div className="border rounded-sm text-sm hover:bg-border hover:text-white cursor-pointer">
         <DayMenu />
       </div>
 
