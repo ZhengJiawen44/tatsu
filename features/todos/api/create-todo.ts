@@ -1,6 +1,6 @@
 import { useToast } from "@/hooks/use-toast";
 import { useQueryClient, useMutation } from "@tanstack/react-query";
-import { DateRange } from "react-day-picker";
+import { NonNullableDateRange } from "@/types";
 import { todoSchema } from "@/schema";
 import { api } from "@/lib/api-client";
 import { TodoItemType } from "@/types";
@@ -9,7 +9,7 @@ import { SetStateAction } from "react";
 interface useCreateTodoProps {
   setTitle: React.Dispatch<SetStateAction<string>>;
   setDesc: React.Dispatch<SetStateAction<string>>;
-  setDateRange: React.Dispatch<SetStateAction<DateRange>>;
+  setDateRange: React.Dispatch<SetStateAction<NonNullableDateRange>>;
   setPriority: React.Dispatch<SetStateAction<"Low" | "Medium" | "High">>;
   clearInput: Function;
 }

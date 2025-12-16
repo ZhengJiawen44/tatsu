@@ -6,7 +6,8 @@ import React, {
   useContext,
   useState,
 } from "react";
-import { DateRange } from "react-day-picker";
+import { NonNullableDateRange } from "@/types";
+
 
 // Types for context values
 interface TodoFormContextType {
@@ -17,8 +18,8 @@ interface TodoFormContextType {
   setDesc: React.Dispatch<SetStateAction<string>>;
   priority: "Low" | "Medium" | "High";
   setPriority: React.Dispatch<SetStateAction<"Low" | "Medium" | "High">>;
-  dateRange: DateRange;
-  setDateRange: React.Dispatch<SetStateAction<DateRange>>;
+  dateRange: NonNullableDateRange;
+  setDateRange: React.Dispatch<SetStateAction<NonNullableDateRange>>;
   repeatInterval: "daily" | "weekly" | "monthly" | "weekdays" | null;
   setRepeatInterval: React.Dispatch<SetStateAction<"daily" | "weekly" | "monthly" | "weekdays" | null>>;
   nextRepeatDate: Date | null;
@@ -41,7 +42,7 @@ const TodoFormProvider = ({ children, todoItem }: TodoFormProviderProps) => {
   const [priority, setPriority] = useState<"Low" | "Medium" | "High">(
     todoItem?.priority || "Low"
   );
-  const [dateRange, setDateRange] = useState<DateRange>({
+  const [dateRange, setDateRange] = useState<NonNullableDateRange>({
     from: todoItem?.startedAt ?? startOfDay(new Date()),
     to: todoItem?.expiresAt ?? endOfDay(new Date()),
   });
