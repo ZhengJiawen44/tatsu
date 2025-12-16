@@ -4,7 +4,7 @@ import { PriorityIndicator } from "../PriorityIndicator";
 import React, { useEffect } from "react";
 import Repeat from "@/components/ui/icon/repeat";
 import LaurelWreath from "@/components/ui/icon/laurelWreath";
-import { format, isTomorrow } from "date-fns";
+import { addDays, differenceInDays, endOfDay, format, isTomorrow } from "date-fns";
 import { useTodoForm } from "@/providers/TodoFormProvider";
 import { TbRefreshDot } from "react-icons/tb";
 import Trash from "@/components/ui/icon/trash";
@@ -17,13 +17,30 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
+import { startOfDay } from "date-fns";
 const TodoFormMenuStrip = () => {
 
-  const { priority, setPriority, repeatInterval, setRepeatInterval, dateRange, nextRepeatDate, setNextRepeatDate } = useTodoForm();
+  const { priority, setPriority, repeatInterval, setRepeatInterval, dateRange, setDateRange, nextRepeatDate, setNextRepeatDate } = useTodoForm();
   useEffect(() => {
-    const repeatDate = getNextRepeatDate(dateRange.from!, repeatInterval);
-    setNextRepeatDate(repeatDate);
-  }, [repeatInterval, dateRange.from])
+    if (!repeatInterval) {
+      setNextRepeatDate(null);
+      return;
+    }
+
+    //if the todo was in the past, bring it to the present
+    if (dateRange.from < startOfDay(new Date())) {
+      const duration = differenceInDays(dateRange.to, dateRange.from);
+      const newFrom = getNextRepeatDate(dateRange.from, repeatInterval) as Date;
+      const newTo = endOfDay(addDays(new Date(newFrom), duration));
+      setDateRange({ from: newFrom, to: newTo });
+      setNextRepeatDate(getNextRepeatDate(newFrom, repeatInterval));
+    } else {
+      //if todo is in the present then just set its nextRepeatDate
+      setNextRepeatDate(getNextRepeatDate(dateRange.from, repeatInterval));
+    }
+
+  }, [repeatInterval, dateRange.from]);
+
   return (
     <div className="flex justify-center items-center gap-2">
       <div className="p-1 border rounded-sm text-sm hover:bg-border hover:text-white">
