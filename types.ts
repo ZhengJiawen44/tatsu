@@ -1,3 +1,6 @@
+import { Prisma } from "@prisma/client";
+
+
 export interface RegisterFormProp {
   fname: string;
   lname?: string;
@@ -58,3 +61,15 @@ export type NonNullableDateRange = {
   from: Date;
   to: Date;
 };
+
+
+export type User = Prisma.UserGetPayload<{
+  include: {
+    accounts: true;
+    Todos: true;
+    CompletedTodo: true;
+    Note: true;
+    File: true;
+  };
+}>;
+

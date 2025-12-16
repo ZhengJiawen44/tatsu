@@ -5,6 +5,8 @@ import { NextRequest, NextResponse } from "next/server";
 import { getNextRepeatDate } from "@/features/todos/lib/getNextRepeatDate";
 import { endOfDay as endOfDayUTC } from "date-fns";
 import { toZonedTime, fromZonedTime } from "date-fns-tz";
+import { WeakLRUCache } from "weak-lru-cache";
+import { User } from "@/types"
 
 export async function GET(req: NextRequest) {
   try {
@@ -12,15 +14,18 @@ export async function GET(req: NextRequest) {
     const cronHeader = req.headers.get("x-cronsecret");
     const userAgent = req.headers.get("user-agent");
 
-    const reqDump = `
+
+
+    //unauthorized access to cron api
+    if (cronHeader !== process.env.CRONJOB_SECRET) {
+      const reqDump = `
       START LINE:
       ${req.method} ${req.url}
       HEADERS:
       ${Array.from(req.headers.entries())
-        .map(([k, v]) => `${k}: ${v}`)
-        .join("\n")}
+          .map(([k, v]) => `${k}: ${v}`)
+          .join("\n")}
     `;
-    if (cronHeader !== process.env.CRONJOB_SECRET) {
       const reason = !cronHeader
         ? "missing cron secret header"
         : "cron secret header does not match";
@@ -65,17 +70,24 @@ export async function GET(req: NextRequest) {
 
     //reschedule the selected todos 
     const updateOperations = [];
-
+    const userTableCache = new WeakLRUCache<string, User>({ cacheSize: 1000 });
     for (const todo of todos) {
       const duration = differenceInDays(todo.expiresAt, todo.startedAt);
+      let user: User;
+      const cachedUser = userTableCache.getValue(todo.userID);
+      if (cachedUser) {
+        user = cachedUser
+      } else {
+        const queriedUser = await prisma.user.findUnique({
+          where: {
+            id: todo.userID
+          }
+        });
+        if (!queriedUser) continue;
+        user = queriedUser as User;
+        userTableCache.setValue(user.id, user)
+      }
 
-      const user = await prisma.user.findUnique({
-        where: {
-          id: todo.userID
-        }
-      });
-
-      if (!user) continue;
       const newStartedAt = getNextRepeatDate(todo.startedAt, todo.repeatInterval, user.timeZone)!;
       const newExpiresAt = endOfDay(addDays(newStartedAt, duration), user.timeZone);
       const newNextRepeatDate = getNextRepeatDate(newStartedAt, todo.repeatInterval, user.timeZone);
