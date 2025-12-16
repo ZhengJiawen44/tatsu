@@ -60,6 +60,7 @@
     "tailwind-merge": "^3.0.1",
     "tailwind-scrollbar": "^3.0.0",
     "tailwindcss-animate": "^1.0.7",
+    "weak-lru-cache": "^1.2.2",
     "zod": "^3.24.2"
   },
   "devDependencies": {
