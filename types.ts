@@ -1,3 +1,6 @@
+import { Prisma } from "@prisma/client";
+
+
 export interface RegisterFormProp {
   fname: string;
   lname?: string;
@@ -24,7 +27,28 @@ export interface TodoItemType {
   createdAt: Date;
   completed: boolean;
   order: number;
+  priority: "Low" | "Medium" | "High";
+  startedAt: Date;
+  expiresAt: Date;
+  userID: string;
+  repeatInterval: "daily" | "weekly" | "monthly" | "weekdays" | null;
+  nextRepeatDate: Date | null;
 }
+
+export interface CompletedTodoItemType {
+  id: string;
+  originalTodoID: string | null;
+  title: string;
+  description?: string;
+  createdAt: Date;
+  completedAt: Date;
+  priority: "Low" | "Medium" | "High";
+  startedAt: Date;
+  expiresAt: Date;
+  userID: string;
+  wasRepeating: boolean
+}
+
 
 export interface FileItemType {
   id: string;
@@ -33,3 +57,19 @@ export interface FileItemType {
   url: string;
   createdAt: Date;
 }
+export type NonNullableDateRange = {
+  from: Date;
+  to: Date;
+};
+
+
+export type User = Prisma.UserGetPayload<{
+  include: {
+    accounts: true;
+    Todos: true;
+    CompletedTodo: true;
+    Note: true;
+    File: true;
+  };
+}>;
+

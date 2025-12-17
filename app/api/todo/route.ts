@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
+import { Priority } from "@prisma/client";
 import {
   BaseServerError,
   UnauthorizedError,
@@ -11,6 +12,7 @@ import { auth } from "@/app/auth";
 
 export async function POST(req: NextRequest) {
   try {
+    // throw new Error("expected error happened");
     const session = await auth();
     const user = session?.user;
 
@@ -18,18 +20,39 @@ export async function POST(req: NextRequest) {
       throw new UnauthorizedError("you must be logged in to do this");
 
     //validate req body
-    const body = await req.json();
+    let body = await req.json();
+
+    body = {
+      ...body,
+      startedAt: new Date(body.startedAt),
+      expiresAt: new Date(body.expiresAt),
+    };
+
     const parsedObj = todoSchema.safeParse(body);
     if (!parsedObj.success) throw new BadRequestError();
 
-    const { title, description } = parsedObj.data;
+    const { title, description, priority, startedAt, expiresAt, nextRepeatDate, repeatInterval } =
+      parsedObj.data;
     //create todo
     const todo = await prisma.todo.create({
-      data: { userID: user.id, title, description },
+      data: {
+        userID: user.id,
+        title,
+        description,
+        priority: priority as Priority,
+        startedAt,
+        expiresAt,
+        nextRepeatDate,
+        repeatInterval
+      },
     });
     if (!todo) throw new InternalError("todo cannot be created at this time");
+    // console.log(todo);
 
-    return NextResponse.json({ message: "todo created" }, { status: 200 });
+    return NextResponse.json(
+      { message: "todo created", todo },
+      { status: 200 }
+    );
   } catch (error) {
     console.log(error);
 
@@ -71,7 +94,6 @@ export async function GET() {
 
     return NextResponse.json({ todos }, { status: 200 });
   } catch (error) {
-    console.log(error);
 
     //handle custom error
     if (error instanceof BaseServerError) {
