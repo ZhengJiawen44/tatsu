@@ -79,13 +79,31 @@ model Todo{
   user          User            @relation(fields: [userID], references: [id])
   userID        String
   pinned        Boolean         @default(false)
-  completed     Boolean         @default(false)
   order         Int             @default(autoincrement())
   priority      Priority        @default(Low)
+
+  //RFC 5545 iCalender reshceduling fields
   startedAt     DateTime        @default(now())
-  expiresAt     DateTime        @default(now())
-  nextRepeatDate  DateTime?
-  repeatInterval  RepeatInterval?
+  durationMinutes Int           @default(30)
+  rrule         String?
+  timeZone      String          @default("UTC")
+
+  instances     TodoInstances[]
+}
+
+model TodoInstances{
+  id            String          @id @default(cuid())
+  todoId        String
+  todo          Todo            @relation(fields: [todoId], references: [id], onDelete: Cascade)
+  originalDate  DateTime
+
+  title         String?
+  description   String?
+  scheduledStart  DateTime?
+  durationMinutes Int?
+  completedAt   DateTime?
+  isCancelled   Boolean         @default(false)
+  @@unique([todoId, originalDate])
 }
 
 model CompletedTodo{
@@ -138,3 +156,4 @@ model eventLog{
     eventName   String
     log         String
   }
+
