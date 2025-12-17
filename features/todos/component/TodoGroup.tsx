@@ -11,14 +11,11 @@ import { TodoItemType } from "@/types";
 import { useCallback, useEffect, useState } from "react";
 import { TodoItemContainer } from "./TodoItem/TodoItemContainer";
 import { useReorderTodo } from "../api/reorder-todo";
-import LineSeparator from "@/components/ui/lineSeparator";
 
 const TodoGroup = ({
   todos,
-  isToday = false,
 }: {
   todos: TodoItemType[];
-  isToday?: boolean;
 }) => {
   const { mutateReorder } = useReorderTodo();
   const [items, setItems] = useState(todos);
@@ -79,13 +76,6 @@ const TodoGroup = ({
 
   return (
     <>
-      {isToday && (
-        <div className="flex items-center gap-2 mt-10">
-          <h3 className="text-lg font-semibold select-none">Today</h3>
-          <LineSeparator className="flex-1" />
-        </div>
-      )}
-
       <DndContext
         sensors={sensors}
         collisionDetection={closestCenter}
