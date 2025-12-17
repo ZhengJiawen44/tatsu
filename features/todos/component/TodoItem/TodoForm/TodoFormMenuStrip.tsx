@@ -45,13 +45,13 @@ const TodoFormMenuStrip = () => {
     <div className="flex justify-center items-center gap-2">
 
       {/* day picker*/}
-      <div className="border rounded-sm text-sm hover:bg-border hover:text-white cursor-pointer">
+      <div className="border rounded-sm text-sm hover:bg-accent hover:text-white cursor-pointer">
         <DayMenu />
       </div>
 
       {/*priority menu*/}
       <DropdownMenu>
-        <DropdownMenuTrigger className="border text-sm flex justify-center items-center gap-2 hover:bg-border rounded-md p-1 hover:text-white">
+        <DropdownMenuTrigger className="border text-sm flex justify-center items-center gap-2 hover:bg-accent rounded-md p-1 hover:text-white">
           <LaurelWreath
             className={clsx(
               "w-5 h-5 transition-text duration-200 ease-out",
@@ -82,7 +82,7 @@ const TodoFormMenuStrip = () => {
 
       {/*repeat menu*/}
       <DropdownMenu>
-        <DropdownMenuTrigger className="border text-sm flex justify-center items-center gap-2 hover:bg-border rounded-md p-1 hover:text-white">
+        <DropdownMenuTrigger className="border text-sm flex justify-center items-center gap-2 hover:bg-accent rounded-md p-1 hover:text-white">
           <Repeat className="w-5 h-5" />
           <p className="hidden sm:block text-sm">Repeat</p>
         </DropdownMenuTrigger>

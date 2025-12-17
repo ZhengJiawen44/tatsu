@@ -38,7 +38,7 @@ const TodoContainer = () => {
   );
 
   return (
-    <div className="select-none bg-card">
+    <div className="select-none bg-inherit">
       <Day />
 
       {/* Render Unpinned previous todos */}

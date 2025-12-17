@@ -22,7 +22,7 @@ body {
     --lime: 83, 40%, 45%;
     --orange: 34, 93%, 48%;
     --red: 4, 70%, 52%;
-    --sidebar: 42, 30%, 92%;
+    --sidebar: 42, 38%, 90%;
     --background: 42, 38%, 92%;
     --foreground: 230 10% 18%;
     --card: 42, 38%, 92%;
@@ -35,13 +35,13 @@ body {
     --popover: 42 30% 97%;
     --popover-foreground: 230 10% 20%;
     --popover-accent: 42 20% 94%;
-    --primary: 220, 70%, 50%;
+    --primary: 40, 80%, 50%;
     --primary-foreground: 0 0% 98%;
     --secondary: 42, 25%, 90%;
     --secondary-foreground: 230, 10%, 25%;
     --muted: 42, 20%, 80%;
     --muted-foreground: 230, 5%, 45%;
-    --accent: 220, 70%, 50%;
+    --accent: 40, 80%, 50%;
     --accent-foreground: 0 0% 98%;
     --destructive: 0, 72%, 50%;
     --destructive-foreground: 0 0% 98%;

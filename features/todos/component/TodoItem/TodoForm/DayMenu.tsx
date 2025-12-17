@@ -29,7 +29,7 @@ const DayMenu = () => {
   //get date from todo or set to default
   return (
     <MenuContainer>
-      <MenuTrigger className="flex justify-center items-center gap-1 p-1 w-full h-full hover:bg-none">
+      <MenuTrigger className="flex justify-center items-center gap-1 p-1 w-full h-full hover:bg-accent">
         <CalenderIcon className="w-5 h-5" />
         {dateRange?.from
           ? getDisplayDate(dateRange.from)
