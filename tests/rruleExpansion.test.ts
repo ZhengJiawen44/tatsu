@@ -3,7 +3,7 @@ import { genRule } from "@/lib/generateTodosFromRRule";
 
 /**
  * These tests assume user is in China and the server uses UTC as its timezone.
- * these tests test {genRule}, which is time zone aware. 
+ * these tests test {genRule}, which is time zone aware.
  * Calculations are done in user's time zone and returned in UTC format
  */
 
@@ -110,4 +110,3 @@ test("Weekly repeat with until date set to 2 weeks from now", () => {
     new Date("2025-12-29T17:00:00.000Z"),
   ]);
 });
-

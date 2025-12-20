@@ -9,14 +9,14 @@ type bounds = {
 /**
  * generates in-memory instances of todo based on the RRule field in todo.
  *
- * @param recurringParents array of todos with the rrule and instances field
+ * @param recurringParents array of todos with the rrule and optional instances field
  * @param timeZone user timeZone in standard IANA format
  * @param bounds time in UTC of user's start and end of day
  * @returns an array of "ghost" todos
  */
 
 export default function generateTodosFromRRule(
-  recurringParents: recurringTodoWithInstance[],
+  recurringParents: recurringTodoWithInstance[] | TodoItemType[],
   timeZone: string,
   bounds: bounds,
 ): TodoItemType[] {
