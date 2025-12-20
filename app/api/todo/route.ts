@@ -108,6 +108,7 @@ export async function GET(req: NextRequest) {
         userID: user.id,
         rrule: { not: null },
         dtstart: { lte: bounds.todayEndUTC },
+        completed: false,
       },
       include: { instances: true },
     });

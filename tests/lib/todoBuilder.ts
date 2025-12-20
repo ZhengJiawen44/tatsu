@@ -1,4 +1,5 @@
 import { TodoItemType } from "@/types";
+
 export class TodoBuilder {
   public todo: TodoItemType;
 
@@ -11,11 +12,13 @@ export class TodoBuilder {
       createdAt: new Date(),
       order: 0,
       priority: "Low",
-      startedAt: new Date(),
+      dtstart: new Date(),
       durationMinutes: 30,
       rrule: "",
       timeZone: "Asia/Shanghai",
       userID: crypto.randomUUID(),
+      due: null,
+      completed: false,
     };
   }
 
@@ -29,8 +32,8 @@ export class TodoBuilder {
     return this;
   }
 
-  withStartedAt(startedAt: Date): this {
-    this.todo.startedAt = startedAt;
+  withdtstart(dtstart: Date): this {
+    this.todo.dtstart = dtstart;
     return this;
   }
 

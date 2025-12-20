@@ -4,7 +4,7 @@ import generateTodosFromRRule from "@/lib/generateTodosFromRRule";
 
 /**
  * These tests assume user is in China and the server uses UTC as its timezone.
- * these tests test {generateTodosFromRRule}, which is time zone aware. 
+ * these tests test {generateTodosFromRRule}, which is time zone aware.
  * Calculations are done in user's time zone and returned in UTC format
  */
 
@@ -13,13 +13,13 @@ test("daily repeat generates a correct todo", () => {
   jest.useFakeTimers();
   jest.setSystemTime(fixedTime);
   const { todo } = new TodoBuilder()
-    .withStartedAt(new Date("2025-10-10T16:00:00Z")) // Oct-11-00:00 in China
+    .withdtstart(new Date("2025-10-10T16:00:00Z")) // Oct-11-00:00 in China
     .withRRule("FREQ=DAILY;WKST=MO");
   const bounds = getTodayBoundaries(todo.timeZone);
   const todoInstance = generateTodosFromRRule([todo], todo.timeZone, bounds)[0];
 
   //expecting an instance to be generated with dtStart at Oct-13-00:00 in China
-  expect(todoInstance.startedAt).toEqual(new Date("2025-10-12T16:00:00.000Z"));
+  expect(todoInstance.dtstart).toEqual(new Date("2025-10-12T16:00:00.000Z"));
 });
 
 test("weekly repeat on Tuesdays generates the correct todo", () => {
@@ -27,12 +27,12 @@ test("weekly repeat on Tuesdays generates the correct todo", () => {
   jest.useFakeTimers();
   jest.setSystemTime(fixedTime);
   const { todo } = new TodoBuilder()
-    .withStartedAt(new Date("2025-12-01T16:00:00Z")) // Dec-02 Tu in china
+    .withdtstart(new Date("2025-12-01T16:00:00Z")) // Dec-02 Tu in china
     .withRRule("FREQ=WEEKLY;BYDAY=TU");
   const bounds = getTodayBoundaries(todo.timeZone);
   const todoInstance = generateTodosFromRRule([todo], todo.timeZone, bounds)[0];
   //expecting an instance to be generated with dtStart at Dec-09 China
-  expect(todoInstance.startedAt).toEqual(new Date("2025-12-08T16:00:00.000Z"));
+  expect(todoInstance.dtstart).toEqual(new Date("2025-12-08T16:00:00.000Z"));
 });
 
 test("weekly repeat on Tuesdays generates the correct todo", () => {
@@ -40,13 +40,16 @@ test("weekly repeat on Tuesdays generates the correct todo", () => {
   jest.useFakeTimers();
   jest.setSystemTime(fixedTime);
   const { todo } = new TodoBuilder()
-    .withStartedAt(new Date("2025-12-01T16:00:00Z")) // Dec-02 Tu in china
+    .withdtstart(new Date("2025-12-01T16:00:00Z")) // Dec-02 Tu in china
     .withRRule("FREQ=WEEKLY;BYDAY=TU,TH");
   const bounds = getTodayBoundaries(todo.timeZone);
-  bounds.todayEndUTC = new Date("2025-12-10T16:00:00Z") // Dec-11 Th in china
+  bounds.todayEndUTC = new Date("2025-12-10T16:00:00Z"); // Dec-11 Th in china
   const todoInstances = generateTodosFromRRule([todo], todo.timeZone, bounds);
   //expecting 2 instance to be generated with dtStart at Dec-09 Tu China and Dec-11 Th China
-  expect(todoInstances.map(({startedAt})=>startedAt)).toEqual([new Date("2025-12-08T16:00:00.000Z"), new Date("2025-12-10T16:00:00.000Z")]);
+  expect(todoInstances.map(({ dtstart }) => dtstart)).toEqual([
+    new Date("2025-12-08T16:00:00.000Z"),
+    new Date("2025-12-10T16:00:00.000Z"),
+  ]);
 });
 
 test("weekly repeat on Tuesdays generates the correct todo", () => {
@@ -54,13 +57,16 @@ test("weekly repeat on Tuesdays generates the correct todo", () => {
   jest.useFakeTimers();
   jest.setSystemTime(fixedTime);
   const { todo } = new TodoBuilder()
-    .withStartedAt(new Date("2025-12-01T16:00:00Z")) // Dec-02 Tu in china
+    .withdtstart(new Date("2025-12-01T16:00:00Z")) // Dec-02 Tu in china
     .withRRule("FREQ=WEEKLY;BYDAY=TU,TH");
   const bounds = getTodayBoundaries(todo.timeZone);
-  bounds.todayEndUTC = new Date("2025-12-10T16:00:00Z") // Dec-11 Th in china
+  bounds.todayEndUTC = new Date("2025-12-10T16:00:00Z"); // Dec-11 Th in china
   const todoInstances = generateTodosFromRRule([todo], todo.timeZone, bounds);
   //expecting 2 instance to be generated with dtStart at Dec-09 Tu China and Dec-11 Th China
-  expect(todoInstances.map(({startedAt})=>startedAt)).toEqual([new Date("2025-12-08T16:00:00.000Z"), new Date("2025-12-10T16:00:00.000Z")]);
+  expect(todoInstances.map(({ dtstart }) => dtstart)).toEqual([
+    new Date("2025-12-08T16:00:00.000Z"),
+    new Date("2025-12-10T16:00:00.000Z"),
+  ]);
 });
 
 test("daily repeat at midnight boundary generates correct todo instance", () => {
@@ -68,13 +74,13 @@ test("daily repeat at midnight boundary generates correct todo instance", () => 
   jest.useFakeTimers();
   jest.setSystemTime(fixedTime);
   const { todo } = new TodoBuilder()
-    .withStartedAt(new Date("2025-10-11T16:00:00Z")) // Oct-12-00:00 in China
+    .withdtstart(new Date("2025-10-11T16:00:00Z")) // Oct-12-00:00 in China
     .withRRule("FREQ=DAILY;WKST=MO");
   const bounds = getTodayBoundaries(todo.timeZone);
   const todoInstance = generateTodosFromRRule([todo], todo.timeZone, bounds)[0];
 
   // Expecting an instance to be generated with dtStart at Oct-14-00:00 in China
-  expect(todoInstance.startedAt).toEqual(new Date("2025-10-13T16:00:00.000Z"));
+  expect(todoInstance.dtstart).toEqual(new Date("2025-10-13T16:00:00.000Z"));
 });
 
 test("daily repeat one second before midnight generates correct todo", () => {
@@ -82,13 +88,13 @@ test("daily repeat one second before midnight generates correct todo", () => {
   jest.useFakeTimers();
   jest.setSystemTime(fixedTime);
   const { todo } = new TodoBuilder()
-    .withStartedAt(new Date("2025-10-11T16:00:00Z")) // Oct-12-00:00 in China
+    .withdtstart(new Date("2025-10-11T16:00:00Z")) // Oct-12-00:00 in China
     .withRRule("FREQ=DAILY;WKST=MO");
   const bounds = getTodayBoundaries(todo.timeZone);
   const todoInstance = generateTodosFromRRule([todo], todo.timeZone, bounds)[0];
 
   // Expecting an instance to be generated with dtStart at Oct-13-00:00 in China (today's instance)
-  expect(todoInstance.startedAt).toEqual(new Date("2025-10-12T16:00:00.000Z"));
+  expect(todoInstance.dtstart).toEqual(new Date("2025-10-12T16:00:00.000Z"));
 });
 
 test("daily repeat one second after midnight generates correct todo", () => {
@@ -96,13 +102,13 @@ test("daily repeat one second after midnight generates correct todo", () => {
   jest.useFakeTimers();
   jest.setSystemTime(fixedTime);
   const { todo } = new TodoBuilder()
-    .withStartedAt(new Date("2025-10-11T16:00:00Z")) // Oct-12-00:00 in China
+    .withdtstart(new Date("2025-10-11T16:00:00Z")) // Oct-12-00:00 in China
     .withRRule("FREQ=DAILY;WKST=MO");
   const bounds = getTodayBoundaries(todo.timeZone);
   const todoInstance = generateTodosFromRRule([todo], todo.timeZone, bounds)[0];
 
   // Expecting an instance to be generated with dtStart at Oct-14-00:00 in China (today's instance)
-  expect(todoInstance.startedAt).toEqual(new Date("2025-10-13T16:00:00.000Z"));
+  expect(todoInstance.dtstart).toEqual(new Date("2025-10-13T16:00:00.000Z"));
 });
 
 test("every January on Satuday generates and correct occurrence", () => {
@@ -110,13 +116,13 @@ test("every January on Satuday generates and correct occurrence", () => {
   jest.useFakeTimers();
   jest.setSystemTime(fixedTime);
   const { todo } = new TodoBuilder()
-    .withStartedAt(new Date("2025-01-17T16:00:00Z")) // Jan-18-00:00 Sat in China
+    .withdtstart(new Date("2025-01-17T16:00:00Z")) // Jan-18-00:00 Sat in China
     .withRRule("FREQ=MONTHLY;COUNT=30;WKST=MO;BYDAY=SA;BYMONTH=1");
-const bounds = getTodayBoundaries(todo.timeZone);
- const todoInstance = generateTodosFromRRule([todo], todo.timeZone, bounds)[0];
+  const bounds = getTodayBoundaries(todo.timeZone);
+  const todoInstance = generateTodosFromRRule([todo], todo.timeZone, bounds)[0];
 
   // Expecting an instance to be generated with dtStart at Jan-25-00:00 in China (today's instance)
-  expect(todoInstance.startedAt).toEqual(new Date("2025-01-24T16:00:00.000Z"));
+  expect(todoInstance.dtstart).toEqual(new Date("2025-01-24T16:00:00.000Z"));
 });
 
 // COUNT and UNTIL limits
@@ -128,13 +134,13 @@ test("daily repeat with count=3 generates correct todo on day 2", () => {
   jest.useFakeTimers();
   jest.setSystemTime(fixedTime);
   const { todo } = new TodoBuilder()
-    .withStartedAt(new Date("2025-01-12T16:00:00Z")) // Jan-13-00:00 in China
+    .withdtstart(new Date("2025-01-12T16:00:00Z")) // Jan-13-00:00 in China
     .withRRule("FREQ=DAILY;COUNT=3;WKST=MO");
   const bounds = getTodayBoundaries(todo.timeZone);
   const todoInstance = generateTodosFromRRule([todo], todo.timeZone, bounds)[0];
-  
+
   // Expecting an instance to be generated with dtStart at Jan-14-00:00 in China
-  expect(todoInstance.startedAt).toEqual(new Date("2025-01-13T16:00:00.000Z"));
+  expect(todoInstance.dtstart).toEqual(new Date("2025-01-13T16:00:00.000Z"));
 });
 
 test("daily repeat with count=3 generates no todo after count exhausted", () => {
@@ -142,11 +148,11 @@ test("daily repeat with count=3 generates no todo after count exhausted", () => 
   jest.useFakeTimers();
   jest.setSystemTime(fixedTime);
   const { todo } = new TodoBuilder()
-    .withStartedAt(new Date("2025-01-12T16:00:00Z")) // Jan-13-00:00 in China
+    .withdtstart(new Date("2025-01-12T16:00:00Z")) // Jan-13-00:00 in China
     .withRRule("FREQ=DAILY;COUNT=3;WKST=MO");
   const bounds = getTodayBoundaries(todo.timeZone);
   const todoInstances = generateTodosFromRRule([todo], todo.timeZone, bounds);
-  
+
   // Expecting no instances since count is exhausted (only 3 occurrences: Jan-13, Jan-14, Jan-15)
   expect(todoInstances.length).toEqual(0);
 });
@@ -156,13 +162,13 @@ test("weekly repeat with until generates correct todo on week 3", () => {
   jest.useFakeTimers();
   jest.setSystemTime(fixedTime);
   const { todo } = new TodoBuilder()
-    .withStartedAt(new Date("2025-12-01T17:00:00Z")) // Dec-02-01:00 Tu in China
+    .withdtstart(new Date("2025-12-01T17:00:00Z")) // Dec-02-01:00 Tu in China
     .withRRule("FREQ=WEEKLY;UNTIL=20251230T020000;WKST=MO");
   const bounds = getTodayBoundaries(todo.timeZone);
   const todoInstance = generateTodosFromRRule([todo], todo.timeZone, bounds)[0];
-  
+
   // Expecting an instance to be generated with dtStart at Dec-16-01:00 in China
-  expect(todoInstance.startedAt).toEqual(new Date("2025-12-15T17:00:00.000Z"));
+  expect(todoInstance.dtstart).toEqual(new Date("2025-12-15T17:00:00.000Z"));
 });
 
 test("weekly repeat with until generates correct todo on last occurrence", () => {
@@ -170,13 +176,13 @@ test("weekly repeat with until generates correct todo on last occurrence", () =>
   jest.useFakeTimers();
   jest.setSystemTime(fixedTime);
   const { todo } = new TodoBuilder()
-    .withStartedAt(new Date("2025-12-01T17:00:00Z")) // Dec-02-01:00 Tu in China
+    .withdtstart(new Date("2025-12-01T17:00:00Z")) // Dec-02-01:00 Tu in China
     .withRRule("FREQ=WEEKLY;UNTIL=20251230T020000;WKST=MO");
   const bounds = getTodayBoundaries(todo.timeZone);
   const todoInstance = generateTodosFromRRule([todo], todo.timeZone, bounds)[0];
-  
+
   // Expecting an instance to be generated with dtStart at Dec-30-01:00 in China (last valid occurrence)
-  expect(todoInstance.startedAt).toEqual(new Date("2025-12-29T17:00:00.000Z"));
+  expect(todoInstance.dtstart).toEqual(new Date("2025-12-29T17:00:00.000Z"));
 });
 
 test("weekly repeat with until generates no todo after until date", () => {
@@ -184,11 +190,11 @@ test("weekly repeat with until generates no todo after until date", () => {
   jest.useFakeTimers();
   jest.setSystemTime(fixedTime);
   const { todo } = new TodoBuilder()
-    .withStartedAt(new Date("2025-12-01T17:00:00Z")) // Dec-02-01:00 Tu in China
+    .withdtstart(new Date("2025-12-01T17:00:00Z")) // Dec-02-01:00 Tu in China
     .withRRule("FREQ=WEEKLY;UNTIL=20251230T020000;WKST=MO");
   const bounds = getTodayBoundaries(todo.timeZone);
   const todoInstances = generateTodosFromRRule([todo], todo.timeZone, bounds);
-  
+
   // Expecting no instances since until date has passed
   expect(todoInstances.length).toEqual(0);
 });

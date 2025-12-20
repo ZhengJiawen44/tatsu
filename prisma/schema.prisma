@@ -90,9 +90,7 @@ model Todo {
   timeZone          String    @default("UTC")
 
   completed         Boolean   @default(false)
-
   instances         TodoInstance[]
-
   @@map("todos")
 }
 
