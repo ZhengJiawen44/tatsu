@@ -13,7 +13,7 @@ import getTodayBoundaries from "@/lib/getTodayBoundaries";
 import generateTodosFromRRule from "@/lib/generateTodosFromRRule";
 import { resolveTimezone } from "@/lib/resolveTimeZone";
 import { errorHandler } from "@/lib/errorHandler";
-import { mergeGhostandInstanceTodos } from "@/lib/mergeGhostandInstanceTodos";
+import { applyOverridesToGhosts } from "@/lib/applyOverridesToGhosts";
 
 export async function POST(req: NextRequest) {
   try {
@@ -87,7 +87,6 @@ export async function GET(req: NextRequest) {
       throw new UnauthorizedError("You must be logged in to do this");
     }
     const timeZone = await resolveTimezone(user, req);
-    // Define "Today" boundaries in the User's Local Timezone
     const bounds = getTodayBoundaries(timeZone);
 
     // Fetch One-Off Todos scheduled for today
@@ -110,33 +109,25 @@ export async function GET(req: NextRequest) {
         rrule: { not: null },
         dtstart: { lte: bounds.todayEndUTC },
       },
+      include: { instances: true },
     });
 
-    // Expand RRULEs to generate occurrences happening "Today"
+    // Expand RRULEs to generate occurrences happening "Today" ]
     const ghostTodos = generateTodosFromRRule(
       recurringParents,
       timeZone,
       bounds,
     );
 
-    // merge RRULE generated todos with matching todo instances
-    const overridingInstances = await prisma.todoInstance.findMany({
-      where: {
-        recurId: {
-          in: ghostTodos.map(({ dtstart }) => dtstart.toISOString()),
-        },
-      },
-    });
-    const mergedTodos = mergeGhostandInstanceTodos(
+    // Apply overrides
+    const mergedRecurringTodos = applyOverridesToGhosts(
       ghostTodos,
-      overridingInstances,
+      recurringParents,
     );
 
-    // Combine both lists
-    const allTodos = [...oneOffTodos, ...mergedTodos].sort(
+    const allTodos = [...oneOffTodos, ...mergedRecurringTodos].sort(
       (a, b) => new Date(a.dtstart).getTime() - new Date(b.dtstart).getTime(),
     );
-    console.log(allTodos);
 
     return NextResponse.json({ todos: allTodos }, { status: 200 });
   } catch (error) {
