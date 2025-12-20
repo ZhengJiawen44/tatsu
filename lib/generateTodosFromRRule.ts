@@ -1,7 +1,6 @@
 import { RRule } from "rrule";
-import { TodoItemType } from "@/types";
+import { recurringTodoWithInstance, TodoItemType } from "@/types";
 import { toZonedTime } from "date-fns-tz";
-
 type bounds = {
   todayStartUTC: Date;
   todayEndUTC: Date;
@@ -10,16 +9,17 @@ type bounds = {
 /**
  * generates in-memory instances of todo based on the RRule field in todo.
  *
- * @param recurringParents array of todos with the rrule field
+ * @param recurringParents array of todos with the rrule and instances field
  * @param timeZone user timeZone in standard IANA format
  * @param bounds time in UTC of user's start and end of day
- * @returns an array of todo instances with additional flags
+ * @returns an array of "ghost" todos
  */
+
 export default function generateTodosFromRRule(
-  recurringParents: TodoItemType[],
+  recurringParents: recurringTodoWithInstance[],
   timeZone: string,
   bounds: bounds,
-) {
+): TodoItemType[] {
   const todayRecurringInstances = recurringParents.flatMap((parent) => {
     try {
       if (!parent.rrule) return [];
@@ -33,8 +33,7 @@ export default function generateTodosFromRRule(
       return occurrences.flatMap((occ) => {
         return {
           ...parent,
-          startedAt: occ,
-          isGhost: true,
+          dtstart: occ,
         };
       });
     } catch (e) {
