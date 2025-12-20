@@ -1,7 +1,7 @@
 import { z } from "zod";
 const asDate = z.preprocess(
-  (val) => (val ? new Date(val as any) : null),
-  z.date().nullable()
+  (val) => (val ? new Date(val) : null),
+  z.date().nullable(),
 );
 export const registrationSchema = z.object({
   fname: z
@@ -39,10 +39,10 @@ export const todoSchema = z.object({
     .min(1, { message: "title cannot be left empty" }),
   description: z.string().optional(),
   priority: z.string({ message: "priority is of invalid type" }),
-  startedAt: z.date({ message: "start date is not identified" }),
+  dtstart: z.date({ message: "start date is not identified" }),
   expiresAt: z.date({ message: "end date is not identified" }),
   nextRepeatDate: asDate,
-  repeatInterval: z.enum(["daily", "weekly", "monthly", "weekdays"]).nullable()
+  repeatInterval: z.enum(["daily", "weekly", "monthly", "weekdays"]).nullable(),
 });
 
 export const noteSchema = z.object({

@@ -71,39 +71,48 @@ enum RepeatInterval{
     weekdays
 }
 
-model Todo{
-  id            String          @id @default(cuid())
-  title         String
-  description   String?
-  createdAt     DateTime        @default(now())
-  user          User            @relation(fields: [userID], references: [id])
-  userID        String
-  pinned        Boolean         @default(false)
-  order         Int             @default(autoincrement())
-  priority      Priority        @default(Low)
+model Todo {
+  id                String    @id @default(cuid())
+  title             String
+  description       String?
+  createdAt         DateTime  @default(now())
+  user              User      @relation(fields: [userID], references: [id])
+  userID            String
+  pinned            Boolean   @default(false)
+  order             Int       @default(autoincrement())
+  priority          Priority  @default(Low)
 
-  //RFC 5545 iCalender reshceduling fields
-  startedAt     DateTime        @default(now())
-  durationMinutes Int           @default(30)
-  rrule         String?
-  timeZone      String          @default("UTC")
+  // RFC 5545 scheduling fields
+  dtstart           DateTime  @default(now())
+  due               DateTime?
+  durationMinutes   Int       @default(30)
+  rrule             String?
+  timeZone          String    @default("UTC")
 
-  instances     TodoInstances[]
+  completed         Boolean   @default(false)
+
+  instances         TodoInstance[]
+
+  @@map("todos")
 }
 
-model TodoInstances{
-  id            String          @id @default(cuid())
-  todoId        String
-  todo          Todo            @relation(fields: [todoId], references: [id], onDelete: Cascade)
-  originalDate  DateTime
+model TodoInstance {
+  id                       String    @id @default(cuid())
+  todoId                   String
+  todo                     Todo      @relation(fields: [todoId], references: [id], onDelete: Cascade)
 
-  title         String?
-  description   String?
-  scheduledStart  DateTime?
-  durationMinutes Int?
-  completedAt   DateTime?
-  isCancelled   Boolean         @default(false)
-  @@unique([todoId, originalDate])
+  recurId                  String
+  instanceDate             DateTime
+
+  overriddenTitle          String?
+  overriddenDescription    String?
+  overriddenDtstart        DateTime?
+  overriddenDurationMinutes Int?
+
+  completedAt              DateTime?
+
+  @@unique([todoId, instanceDate])
+  @@map("todo_instances")
 }
 
 model CompletedTodo{
