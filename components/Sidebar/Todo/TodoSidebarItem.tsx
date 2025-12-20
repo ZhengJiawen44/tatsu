@@ -12,24 +12,25 @@ const TodoItem = () => {
   const { todos } = useTodo();
   // Get today's date string
 
-  const today = new Date();
+  // const today = new Date();
+  const todayTodoCount = todos.length;
   // Count only todos created today
-  const todayTodoCount = todos
-    ? todos.filter(({ expiresAt, startedAt, completed }) => {
-        return (
-          today.getTime() <= expiresAt.getTime() &&
-          !completed &&
-          today.getTime() >= startedAt.getTime()
-        );
-      }).length
-    : 0;
+  // const todayTodoCount = todos
+  //   ? todos.filter(({ expiresAt, startedAt, completed }) => {
+  //       return (
+  //         today.getTime() <= expiresAt.getTime() &&
+  //         !completed &&
+  //         today.getTime() >= startedAt.getTime()
+  //       );
+  //     }).length
+  //   : 0;
 
   return (
     <Link
       href="/app/todo"
       className={clsx(
         "select-none flex gap-1 items-center py-2 px-6 w-full rounded-lg hover:cursor-pointer hover:bg-border-muted",
-        activeMenu.name === "Todo" && "bg-border"
+        activeMenu.name === "Todo" && "bg-border",
       )}
       onClick={() => {
         setActiveMenu({ name: "Todo" });
@@ -43,7 +44,7 @@ const TodoItem = () => {
           "mr-0 ml-auto",
           activeMenu.name === "Todo"
             ? "text-card-foreground"
-            : "text-card-foreground-muted"
+            : "text-card-foreground-muted",
         )}
       >
         {todayTodoCount}

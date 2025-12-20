@@ -14,8 +14,10 @@ import { useReorderTodo } from "../api/reorder-todo";
 
 const TodoGroup = ({
   todos,
+  className,
 }: {
   todos: TodoItemType[];
+  className?: string;
 }) => {
   const { mutateReorder } = useReorderTodo();
   const [items, setItems] = useState(todos);
@@ -44,7 +46,7 @@ const TodoGroup = ({
     if (reorderList.length > 0) {
       const timer = setTimeout(
         () => mutateReorder({ body: { changedTodos: reorderList } }),
-        3000
+        3000,
       );
       return () => {
         clearTimeout(timer);
@@ -54,7 +56,7 @@ const TodoGroup = ({
 
   const sensors = useSensors(
     useSensor(PointerSensor),
-    useSensor(KeyboardSensor)
+    useSensor(KeyboardSensor),
   );
 
   function handleDragEnd(event: DragEndEvent) {
@@ -75,7 +77,7 @@ const TodoGroup = ({
   }
 
   return (
-    <>
+    <div className={className}>
       <DndContext
         sensors={sensors}
         collisionDetection={closestCenter}
@@ -87,7 +89,7 @@ const TodoGroup = ({
           ))}
         </SortableContext>
       </DndContext>
-    </>
+    </div>
   );
 };
 

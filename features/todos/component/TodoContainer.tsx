@@ -11,7 +11,8 @@ import LineSeparator from "@/components/ui/lineSeparator";
 
 const TodoContainer = () => {
   const { todos, todoLoading } = useTodo();
-
+  const pinnedTodos = todos.filter(({ pinned }) => pinned);
+  const unpinnedTodos = todos.filter(({ pinned }) => !pinned);
   //const { groupedPinnedTodos, groupedUnPinnedTodos } = groupTodo({ todos });
   /*initializes a mapping between dates and open state to keep track of open states of grouped dates
   const initialOpenState = Object.keys(groupedUnPinnedTodos).reduce(
@@ -51,20 +52,13 @@ const TodoContainer = () => {
       {todoLoading && <TodoListLoading />}
 
       {/* Render Pinned Todos */}
-      {/*<PinnedTodos groupedPinnedTodos={groupedPinnedTodos} />*/}
+      {pinnedTodos.length > 0 && <PinnedTodos todos={pinnedTodos} />}
 
-      {/* render create todo btn incase no todos for today */}
-      {todos.length <= 0 && <CreateTodoBtn />}
-
-      {/* Render Unpinned today's Todos */}
-      {/*todos.map((todos) => {
-        return <TodayTodos key={"today"} todos={todos} />;
-      })*/}
       <div className="flex items-center gap-2 mt-10">
         <h3 className="text-lg font-semibold select-none">Today</h3>
         <LineSeparator className="flex-1" />
       </div>
-      <TodoGroup todos={todos} />
+      <TodoGroup todos={unpinnedTodos} />
       <CreateTodoBtn />
     </div>
   );

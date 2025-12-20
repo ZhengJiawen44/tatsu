@@ -20,14 +20,14 @@ export const useTodo = () => {
       const { todos }: { todos: TodoItemType[] } = data;
       if (!todos) {
         throw new Error(
-          data.message || `bad server response: Did not recieve todo`
+          data.message || `bad server response: Did not recieve todo`,
         );
       }
 
       const todoWithFormattedDates = todos.map((todo) => {
         return {
           ...todo,
-          startedAt: new Date(todo.startedAt),
+          dtstart: new Date(todo.dtstart),
           createdAt: new Date(todo.createdAt),
         };
       });

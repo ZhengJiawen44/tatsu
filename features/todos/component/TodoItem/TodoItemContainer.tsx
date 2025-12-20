@@ -8,11 +8,7 @@ import { CSS } from "@dnd-kit/utilities";
 import { TodoItemType } from "@/types";
 import GripVertical from "@/components/ui/icon/gripVertical";
 import { useCompleteTodo } from "../../api/complete-todo";
-export const TodoItemContainer = ({
-  todoItem,
-}: {
-  todoItem: TodoItemType;
-}) => {
+export const TodoItemContainer = ({ todoItem }: { todoItem: TodoItemType }) => {
   //dnd kit setups
   const { attributes, listeners, setNodeRef, transform, transition } =
     useSortable({ id: todoItem.id });
@@ -21,7 +17,7 @@ export const TodoItemContainer = ({
     transition,
   };
 
-  const { title, description, completed, priority, repeatInterval, nextRepeatDate } = todoItem;
+  const { title, description, completed, priority, rrule } = todoItem;
 
   const [displayForm, setDisplayForm] = useState(false);
   const [showHandle, setShowHandle] = useState(false);
@@ -54,7 +50,7 @@ export const TodoItemContainer = ({
           "touch-none w-full min-h-11 relative flex justify-between items-center my-4 bg-inherit py-2 rounded-md",
           isGrabbing
             ? "shadow-[0px_10px_30px_rgba(6,8,30,0.3)] z-30 border border-border-muted"
-            : "shadow-none"
+            : "shadow-none",
         )}
         onClick={(e) => {
           e.stopPropagation();
@@ -79,7 +75,6 @@ export const TodoItemContainer = ({
 
         <div className="w-full">
           <div className="flex items-start gap-3">
-
             <TodoCheckbox
               priority={priority}
               complete={completed}
@@ -87,7 +82,7 @@ export const TodoItemContainer = ({
                 mutateCompleted();
               }}
               checked={completed}
-              variant={repeatInterval && nextRepeatDate ? "repeat" : "outline"}
+              variant={rrule ? "repeat" : "outline"}
             />
 
             <div className="w-full">
@@ -102,14 +97,13 @@ export const TodoItemContainer = ({
           </div>
         </div>
 
-
         <TodoItemMenuContainer
           todo={todoItem}
           displayForm={displayForm}
           setDisplayForm={setDisplayForm}
           className={clsx(
             "flex items-center gap-2",
-            !showHandle && "opacity-0"
+            !showHandle && "opacity-0",
           )}
         />
       </div>
