@@ -9,6 +9,11 @@ import {
 import { prisma } from "@/lib/prisma/client";
 import { todoSchema } from "@/schema";
 import { auth } from "@/app/auth";
+import getTodayBoundaries from "@/lib/getTodayBoundaries";
+import generateTodosFromRRule from "@/lib/generateTodosFromRRule";
+import { resolveTimezone } from "@/lib/resolveTimeZone";
+import { errorHandler } from "@/lib/errorHandler";
+import { mergeGhostandInstanceTodos } from "@/lib/mergeGhostandInstanceTodos";
 
 export async function POST(req: NextRequest) {
   try {
@@ -24,15 +29,14 @@ export async function POST(req: NextRequest) {
 
     body = {
       ...body,
-      startedAt: new Date(body.startedAt),
+      dtstart: new Date(body.dtstart),
       expiresAt: new Date(body.expiresAt),
     };
 
     const parsedObj = todoSchema.safeParse(body);
     if (!parsedObj.success) throw new BadRequestError();
 
-    const { title, description, priority, startedAt, expiresAt, nextRepeatDate, repeatInterval } =
-      parsedObj.data;
+    const { title, description, priority, dtstart } = parsedObj.data;
     //create todo
     const todo = await prisma.todo.create({
       data: {
@@ -40,10 +44,7 @@ export async function POST(req: NextRequest) {
         title,
         description,
         priority: priority as Priority,
-        startedAt,
-        expiresAt,
-        nextRepeatDate,
-        repeatInterval
+        dtstart,
       },
     });
     if (!todo) throw new InternalError("todo cannot be created at this time");
@@ -51,7 +52,7 @@ export async function POST(req: NextRequest) {
 
     return NextResponse.json(
       { message: "todo created", todo },
-      { status: 200 }
+      { status: 200 },
     );
   } catch (error) {
     console.log(error);
@@ -60,7 +61,7 @@ export async function POST(req: NextRequest) {
     if (error instanceof BaseServerError) {
       return NextResponse.json(
         { message: error.message },
-        { status: error.status }
+        { status: error.status },
       );
     }
 
@@ -72,46 +73,73 @@ export async function POST(req: NextRequest) {
             ? error.message.slice(0, 50)
             : "an unexpected error occured",
       },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }
 
-export async function GET() {
+export async function GET(req: NextRequest) {
   try {
     const session = await auth();
     const user = session?.user;
 
-    if (!user?.id)
-      throw new UnauthorizedError("you must be logged in to do this");
+    if (!user?.id) {
+      throw new UnauthorizedError("You must be logged in to do this");
+    }
+    const timeZone = await resolveTimezone(user, req);
+    // Define "Today" boundaries in the User's Local Timezone
+    const bounds = getTodayBoundaries(timeZone);
 
-    //get todos
-    const todos = await prisma.todo.findMany({
-      where: { userID: user.id },
+    // Fetch One-Off Todos scheduled for today
+    const oneOffTodos = await prisma.todo.findMany({
+      where: {
+        userID: user.id,
+        rrule: null,
+        dtstart: {
+          gte: bounds.todayStartUTC,
+          lte: bounds.todayEndUTC,
+        },
+      },
       orderBy: { createdAt: "desc" },
     });
-    if (!todos) throw new InternalError("todo cannot be created at this time");
 
-    return NextResponse.json({ todos }, { status: 200 });
-  } catch (error) {
-
-    //handle custom error
-    if (error instanceof BaseServerError) {
-      return NextResponse.json(
-        { message: error.message },
-        { status: error.status }
-      );
-    }
-
-    //handle generic error
-    return NextResponse.json(
-      {
-        message:
-          error instanceof Error
-            ? error.message.slice(0, 50)
-            : "an unexpected error occured",
+    // Fetch all Recurring todos that have already started
+    const recurringParents = await prisma.todo.findMany({
+      where: {
+        userID: user.id,
+        rrule: { not: null },
+        dtstart: { lte: bounds.todayEndUTC },
       },
-      { status: 500 }
+    });
+
+    // Expand RRULEs to generate occurrences happening "Today"
+    const ghostTodos = generateTodosFromRRule(
+      recurringParents,
+      timeZone,
+      bounds,
     );
+
+    // merge RRULE generated todos with matching todo instances
+    const overridingInstances = await prisma.todoInstance.findMany({
+      where: {
+        recurId: {
+          in: ghostTodos.map(({ dtstart }) => dtstart.toISOString()),
+        },
+      },
+    });
+    const mergedTodos = mergeGhostandInstanceTodos(
+      ghostTodos,
+      overridingInstances,
+    );
+
+    // Combine both lists
+    const allTodos = [...oneOffTodos, ...mergedTodos].sort(
+      (a, b) => new Date(a.dtstart).getTime() - new Date(b.dtstart).getTime(),
+    );
+    console.log(allTodos);
+
+    return NextResponse.json({ todos: allTodos }, { status: 200 });
+  } catch (error) {
+    return errorHandler(error);
   }
 }

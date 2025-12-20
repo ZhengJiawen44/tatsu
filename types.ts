@@ -1,6 +1,5 @@
 import { Prisma } from "@prisma/client";
 
-
 export interface RegisterFormProp {
   fname: string;
   lname?: string;
@@ -22,17 +21,30 @@ export interface NoteItemType {
 export interface TodoItemType {
   id: string;
   title: string;
-  description?: string;
+  description: string | null;
   pinned: boolean;
   createdAt: Date;
-  completed: boolean;
   order: number;
   priority: "Low" | "Medium" | "High";
-  startedAt: Date;
-  expiresAt: Date;
+  dtstart: Date;
+  durationMinutes: number;
+  due: Date | null;
+  rrule: string | null;
+  timeZone: string;
   userID: string;
-  repeatInterval: "daily" | "weekly" | "monthly" | "weekdays" | null;
-  nextRepeatDate: Date | null;
+  completed: boolean;
+}
+
+export interface overridingInstance {
+  id: string;
+  completedAt: Date | null;
+  todoId: string;
+  recurId: string;
+  instanceDate: Date;
+  overriddenTitle: string | null;
+  overriddenDescription: string | null;
+  overriddenDtstart: Date | null;
+  overriddenDurationMinutes: number | null;
 }
 
 export interface CompletedTodoItemType {
@@ -46,9 +58,8 @@ export interface CompletedTodoItemType {
   startedAt: Date;
   expiresAt: Date;
   userID: string;
-  wasRepeating: boolean
+  wasRepeating: boolean;
 }
-
 
 export interface FileItemType {
   id: string;
@@ -62,7 +73,6 @@ export type NonNullableDateRange = {
   to: Date;
 };
 
-
 export type User = Prisma.UserGetPayload<{
   include: {
     accounts: true;
@@ -72,4 +82,3 @@ export type User = Prisma.UserGetPayload<{
     File: true;
   };
 }>;
-

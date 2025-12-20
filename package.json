@@ -8,7 +8,7 @@
     "build": "prisma generate && prisma migrate deploy && next build",
     "start": "next start",
     "lint": "next lint",
-    "test": "jest"
+    "test": "TZ=UTC jest"
   },
   "dependencies": {
     "@auth/prisma-adapter": "^2.7.4",
@@ -57,6 +57,7 @@
     "react-dom": "^18.3.1",
     "react-hook-form": "^7.54.2",
     "react-icons": "^5.4.0",
+    "rrule": "^2.8.1",
     "tailwind-merge": "^3.0.1",
     "tailwind-scrollbar": "^3.0.0",
     "tailwindcss-animate": "^1.0.7",
@@ -68,6 +69,7 @@
     "@babel/preset-env": "^7.26.9",
     "@babel/preset-typescript": "^7.26.0",
     "@eslint/eslintrc": "^3",
+    "@types/jest": "^30.0.0",
     "@types/lodash": "^4.17.16",
     "@types/node": "20.19.26",
     "@types/react": "^19",
@@ -79,6 +81,7 @@
     "postcss": "^8",
     "prisma": "^6.5.0",
     "tailwindcss": "^3.4.1",
+    "ts-jest": "^29.4.6",
     "tsx": "^4.19.2",
     "typescript": "^5.7.3"
   },
