@@ -51,7 +51,6 @@ export default function generateTodosFromRRule(
  * @param timeZone user's time zone
  * @returns RRule object
  */
-
 export function genRule(rrule: string, dtStart: Date, timeZone: string) {
   const options = RRule.parseString(rrule);
   options.dtstart = toZonedTime(dtStart, timeZone);

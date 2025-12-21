@@ -47,11 +47,11 @@ const DayMenu = () => {
                 to:
                   prev?.to && prev.from
                     ? new Date(
-                      addDays(
-                        new Date(),
-                        differenceInDays(prev.to, prev.from)
-                      ).setHours(prev.to.getHours(), prev.to.getMinutes())
-                    )
+                        addDays(
+                          new Date(),
+                          differenceInDays(prev.to, prev.from),
+                        ).setHours(prev.to.getHours(), prev.to.getMinutes()),
+                      )
                     : endOfDay(new Date()),
               };
             })
@@ -74,8 +74,8 @@ const DayMenu = () => {
                 to:
                   prev?.to && prev?.from
                     ? endOfDay(
-                      addDays(tomorrow, differenceInDays(prev.to, prev.from))
-                    )
+                        addDays(tomorrow, differenceInDays(prev.to, prev.from)),
+                      )
                     : endOfDay(tomorrow),
               };
             })
@@ -90,7 +90,7 @@ const DayMenu = () => {
               dateRange?.from
                 ? addDays(dateRange.from, 1)
                 : new Date().getDate() + 1,
-              "EEE"
+              "EEE",
             )}
           </p>
         </MenuItem>
@@ -103,11 +103,11 @@ const DayMenu = () => {
                 to:
                   prev?.to && prev?.from
                     ? new Date(
-                      addDays(
-                        nextWeek,
-                        differenceInDays(prev?.to, prev?.from)
-                      ).setHours(prev.to.getHours(), prev.to.getMinutes())
-                    )
+                        addDays(
+                          nextWeek,
+                          differenceInDays(prev?.to, prev?.from),
+                        ).setHours(prev.to.getHours(), prev.to.getMinutes()),
+                      )
                     : endOfDay(nextWeek),
               };
             });
