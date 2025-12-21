@@ -7,8 +7,8 @@ import React, {
   useState,
 } from "react";
 import { NonNullableDateRange } from "@/types";
-
-
+import { RRule } from "rrule";
+import { genRule } from "@/lib/generateTodosFromRRule";
 // Types for context values
 interface TodoFormContextType {
   todoItem?: TodoItemType;
@@ -20,10 +20,9 @@ interface TodoFormContextType {
   setPriority: React.Dispatch<SetStateAction<"Low" | "Medium" | "High">>;
   dateRange: NonNullableDateRange;
   setDateRange: React.Dispatch<SetStateAction<NonNullableDateRange>>;
-  repeatInterval: "daily" | "weekly" | "monthly" | "weekdays" | null;
-  setRepeatInterval: React.Dispatch<SetStateAction<"daily" | "weekly" | "monthly" | "weekdays" | null>>;
-  nextRepeatDate: Date | null;
-  setNextRepeatDate: React.Dispatch<SetStateAction<Date | null>>;
+  rrule: RRule | null;
+  setRrule: React.Dispatch<SetStateAction<RRule | null>>;
+  timeZone: string;
 }
 
 // Props for the provider
@@ -33,21 +32,29 @@ interface TodoFormProviderProps {
 }
 
 const TodoFormContext = createContext<TodoFormContextType | undefined>(
-  undefined
+  undefined,
 );
 
 const TodoFormProvider = ({ children, todoItem }: TodoFormProviderProps) => {
   const [title, setTitle] = useState<string>(todoItem?.title || "");
   const [desc, setDesc] = useState<string>(todoItem?.description || "");
   const [priority, setPriority] = useState<"Low" | "Medium" | "High">(
-    todoItem?.priority || "Low"
+    todoItem?.priority || "Low",
   );
+
   const [dateRange, setDateRange] = useState<NonNullableDateRange>({
-    from: todoItem?.startedAt ?? startOfDay(new Date()),
-    to: todoItem?.expiresAt ?? endOfDay(new Date()),
+    from: todoItem?.dtstart ?? startOfDay(new Date()),
+    to: todoItem?.due ?? endOfDay(new Date()),
   });
-  const [repeatInterval, setRepeatInterval] = useState<"daily" | "weekly" | "monthly" | "weekdays" | null>(todoItem?.repeatInterval || null);
-  const [nextRepeatDate, setNextRepeatDate] = useState<Date | null>(todoItem?.nextRepeatDate && new Date(todoItem.nextRepeatDate) || null);
+
+  const rule = todoItem?.rrule
+    ? genRule(todoItem?.rrule, todoItem?.dtstart, todoItem?.timeZone)
+    : null;
+
+  const [rrule, setRrule] = useState(rule);
+  const timeZone =
+    todoItem?.timeZone || Intl.DateTimeFormat().resolvedOptions().timeZone;
+
   const contextValue: TodoFormContextType = {
     todoItem,
     title,
@@ -58,10 +65,9 @@ const TodoFormProvider = ({ children, todoItem }: TodoFormProviderProps) => {
     setPriority,
     dateRange,
     setDateRange,
-    repeatInterval,
-    setRepeatInterval,
-    nextRepeatDate,
-    setNextRepeatDate
+    rrule,
+    setRrule,
+    timeZone,
   };
 
   return (

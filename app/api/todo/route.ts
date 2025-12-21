@@ -87,6 +87,7 @@ export async function GET(req: NextRequest) {
       throw new UnauthorizedError("You must be logged in to do this");
     }
     const timeZone = await resolveTimezone(user, req);
+
     const bounds = getTodayBoundaries(timeZone);
 
     // Fetch One-Off Todos scheduled for today
