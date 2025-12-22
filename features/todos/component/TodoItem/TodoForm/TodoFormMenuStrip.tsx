@@ -21,6 +21,7 @@ import {
 } from "@/components/ui/tooltip";
 import { RRule } from "rrule";
 import { masqueradeAsUTC } from "@/features/todos/lib/masqueradeAsUTC";
+import { useMemo } from "react";
 
 const TodoFormMenuStrip = () => {
   const { priority, setPriority, rrule, setRrule, dateRange, timeZone } =
@@ -28,17 +29,21 @@ const TodoFormMenuStrip = () => {
   /*
    * so i have to basically masquerade my local time as UTC and then
    * pass it to dtstart, and when i get my result back i have to convert
-   * the out put to UTC, even though the output is already in UTC bu i have to convert it
+   * the output to UTC, even though the output is already in UTC but i have to convert it
    */
 
-  let rruleObject = null;
-  if (rrule) {
+  const rruleObject = useMemo(() => {
+    if (!rrule) return null;
     const options = RRule.parseString(rrule);
     options.dtstart = masqueradeAsUTC(dateRange.from);
-    rruleObject = new RRule(options);
-  }
+    return new RRule(options);
+  }, [rrule, dateRange]);
 
-  const nextRepeatDate = rruleObject?.after(masqueradeAsUTC(dateRange.from));
+  const nextRepeatDate = useMemo(
+    () => rruleObject?.after(masqueradeAsUTC(dateRange.from)),
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [rrule, dateRange],
+  );
 
   // console.log("rrule options: ", rruleObject?.options);
   // console.log("next repeat: ", nextRepeatDate);
