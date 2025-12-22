@@ -1,7 +1,6 @@
 import clsx from "clsx";
 import DayMenu from "./DayMenu";
 import { PriorityIndicator } from "../PriorityIndicator";
-import React from "react";
 import Repeat from "@/components/ui/icon/repeat";
 import LaurelWreath from "@/components/ui/icon/laurelWreath";
 import { format, isThisYear } from "date-fns";
@@ -20,31 +19,29 @@ import {
   TooltipContent,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
-import { datetime, RRule } from "rrule";
+import { RRule } from "rrule";
+import { masqueradeAsUTC } from "@/features/todos/lib/masqueradeAsUTC";
 
 const TodoFormMenuStrip = () => {
   const { priority, setPriority, rrule, setRrule, dateRange, timeZone } =
     useTodoForm();
-
-  const nextRepeatDate = rrule?.after(
-    datetime(
-      dateRange.from.getFullYear(),
-      dateRange.from.getMonth() + 1,
-      dateRange.from.getDate(),
-      dateRange.from.getHours(),
-      dateRange.from.getMinutes(),
-      dateRange.from.getSeconds(),
-    ),
-  );
-  // console.log(rrule?.options);
-  // console.log(rrule?.all((_, i) => i < 3));
-  if (nextRepeatDate) console.log(rruleDateToLocal(nextRepeatDate));
-
   /*
    * so i have to basically masquerade my local time as UTC and then
    * pass it to dtstart, and when i get my result back i have to convert
    * the out put to UTC, even though the output is already in UTC bu i have to convert it
    */
+
+  let rruleObject = null;
+  if (rrule) {
+    const options = RRule.parseString(rrule);
+    options.dtstart = masqueradeAsUTC(dateRange.from);
+    rruleObject = new RRule(options);
+  }
+
+  const nextRepeatDate = rruleObject?.after(masqueradeAsUTC(dateRange.from));
+
+  // console.log("rrule options: ", rruleObject?.options);
+  // console.log("next repeat: ", nextRepeatDate);
 
   return (
     <div className="flex justify-center items-center gap-2">
@@ -116,17 +113,10 @@ const TodoFormMenuStrip = () => {
             onClick={() =>
               setRrule(() => {
                 return new RRule({
-                  dtstart: datetime(
-                    dateRange.from.getFullYear(),
-                    dateRange.from.getMonth() + 1,
-                    dateRange.from.getDate(),
-                    dateRange.from.getHours(),
-                    dateRange.from.getMinutes(),
-                    dateRange.from.getSeconds(),
-                  ),
+                  dtstart: masqueradeAsUTC(dateRange.from),
                   tzid: timeZone,
                   freq: RRule.DAILY,
-                });
+                }).toString();
               })
             }
           >
@@ -137,17 +127,10 @@ const TodoFormMenuStrip = () => {
             onClick={() =>
               setRrule(() => {
                 return new RRule({
-                  dtstart: datetime(
-                    dateRange.from.getFullYear(),
-                    dateRange.from.getMonth() + 1,
-                    dateRange.from.getDate(),
-                    dateRange.from.getHours(),
-                    dateRange.from.getMinutes(),
-                    dateRange.from.getSeconds(),
-                  ),
+                  dtstart: masqueradeAsUTC(dateRange.from),
                   tzid: timeZone,
                   freq: RRule.WEEKLY,
-                });
+                }).toString();
               })
             }
           >
@@ -161,17 +144,10 @@ const TodoFormMenuStrip = () => {
             onClick={() =>
               setRrule(() => {
                 return new RRule({
-                  dtstart: datetime(
-                    dateRange.from.getFullYear(),
-                    dateRange.from.getMonth() + 1,
-                    dateRange.from.getDate(),
-                    dateRange.from.getHours(),
-                    dateRange.from.getMinutes(),
-                    dateRange.from.getSeconds(),
-                  ),
+                  dtstart: masqueradeAsUTC(dateRange.from),
                   tzid: timeZone,
                   freq: RRule.MONTHLY,
-                });
+                }).toString();
               })
             }
           >
@@ -186,18 +162,11 @@ const TodoFormMenuStrip = () => {
             onClick={() =>
               setRrule(() => {
                 return new RRule({
-                  dtstart: datetime(
-                    dateRange.from.getFullYear(),
-                    dateRange.from.getMonth() + 1,
-                    dateRange.from.getDate(),
-                    dateRange.from.getHours(),
-                    dateRange.from.getMinutes(),
-                    dateRange.from.getSeconds(),
-                  ),
+                  dtstart: masqueradeAsUTC(dateRange.from),
                   tzid: timeZone,
                   freq: RRule.DAILY,
                   byweekday: [RRule.MO, RRule.TU, RRule.WE, RRule.TH, RRule.FR],
-                });
+                }).toString();
               })
             }
           >
@@ -234,7 +203,7 @@ const TodoFormMenuStrip = () => {
           <TooltipContent>
             <p>
               {nextRepeatDate
-                ? `This todo is next scheduled for ${isThisYear(new Date()) ? format(rruleDateToLocal(nextRepeatDate), "dd MMM HH:mm") : format(nextRepeatDate, "dd MMM yyyy")} (${rrule.toText()})`
+                ? `This todo is next scheduled for ${isThisYear(new Date()) ? format(rruleDateToLocal(nextRepeatDate), "dd MMM") : format(nextRepeatDate, "dd MMM yyyy")} (${rruleObject?.toText()})`
                 : "This todo has reached the end of repeat"}
             </p>
           </TooltipContent>

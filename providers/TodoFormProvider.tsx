@@ -7,8 +7,6 @@ import React, {
   useState,
 } from "react";
 import { NonNullableDateRange } from "@/types";
-import { RRule } from "rrule";
-import { genRule } from "@/lib/generateTodosFromRRule";
 // Types for context values
 interface TodoFormContextType {
   todoItem?: TodoItemType;
@@ -20,8 +18,8 @@ interface TodoFormContextType {
   setPriority: React.Dispatch<SetStateAction<"Low" | "Medium" | "High">>;
   dateRange: NonNullableDateRange;
   setDateRange: React.Dispatch<SetStateAction<NonNullableDateRange>>;
-  rrule: RRule | null;
-  setRrule: React.Dispatch<SetStateAction<RRule | null>>;
+  rrule: string | null;
+  setRrule: React.Dispatch<SetStateAction<string | null>>;
   timeZone: string;
 }
 
@@ -47,11 +45,7 @@ const TodoFormProvider = ({ children, todoItem }: TodoFormProviderProps) => {
     to: todoItem?.due ?? endOfDay(new Date()),
   });
 
-  const rule = todoItem?.rrule
-    ? genRule(todoItem?.rrule, todoItem?.dtstart, todoItem?.timeZone)
-    : null;
-
-  const [rrule, setRrule] = useState(rule);
+  const [rrule, setRrule] = useState(todoItem?.rrule || null);
   const timeZone =
     todoItem?.timeZone || Intl.DateTimeFormat().resolvedOptions().timeZone;
 
