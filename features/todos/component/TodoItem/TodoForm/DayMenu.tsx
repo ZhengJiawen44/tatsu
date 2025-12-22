@@ -4,6 +4,7 @@ import React from "react";
 import CalenderIcon from "@/components/ui/icon/calender";
 import { format, nextMonday, differenceInDays } from "date-fns";
 import LineSeparator from "@/components/ui/lineSeparator";
+
 import {
   MenuContainer,
   MenuItem,
@@ -33,14 +34,14 @@ const DayMenu = () => {
         <CalenderIcon className="w-5 h-5" />
         {dateRange?.from
           ? getDisplayDate(dateRange.from)
-          : todo?.startedAt
-            ? getDisplayDate(todo.startedAt)
+          : todo?.dtstart
+            ? getDisplayDate(todo.dtstart)
             : "today"}
       </MenuTrigger>
       <MenuContent className="flex flex-col gap-1 p-1 font-extralight border-popover-accent">
         <MenuItem
           className="flex justify-between w-full m-0"
-          onClick={() =>
+          onClick={() => {
             setDateRange((prev) => {
               return {
                 from: startOfDay(new Date()),
@@ -54,8 +55,8 @@ const DayMenu = () => {
                       )
                     : endOfDay(new Date()),
               };
-            })
-          }
+            });
+          }}
         >
           <div className="flex gap-1">
             <Sun className="w-5 h-5" />

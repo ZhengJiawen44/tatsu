@@ -58,3 +58,11 @@ export function genRule(rrule: string, dtStart: Date, timeZone: string) {
   const rule = new RRule(options);
   return rule;
 }
+// export function genRule(rrule: string, dtStart: Date, timeZone: string) {
+//   console.log(dtStart); //2025-12-15T19:40:40.000Z
+//   const options = RRule.parseString(rrule);
+//   options.dtstart = toZonedTime(dtStart, timeZone);
+//   options.tzid = timeZone;
+//   const rule = new RRule(options);
+//   return rule;
+// }
