@@ -6,14 +6,14 @@ import { TodoItemType } from "@/types";
 const TodoItemMenu = ({
   className,
   todo,
-  displayForm,
   setDisplayForm,
+  setEditInstanceOnly,
   ...props
 }: {
   className?: string;
   todo: TodoItemType;
-  displayForm: boolean;
   setDisplayForm: React.Dispatch<React.SetStateAction<boolean>>;
+  setEditInstanceOnly: React.Dispatch<React.SetStateAction<boolean>>;
 }) => {
   return (
     <div
@@ -27,7 +27,11 @@ const TodoItemMenu = ({
       {...props}
     >
       <TodoItemSideMenu setDisplayForm={setDisplayForm} todo={todo} />
-      <TodoItemMeatballMenu setDisplayForm={setDisplayForm} todo={todo} />
+      <TodoItemMeatballMenu
+        setDisplayForm={setDisplayForm}
+        setEditInstanceOnly={setEditInstanceOnly}
+        todo={todo}
+      />
     </div>
   );
 };

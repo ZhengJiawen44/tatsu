@@ -20,10 +20,9 @@ export const TodoItemContainer = ({ todoItem }: { todoItem: TodoItemType }) => {
   const { title, description, completed, priority, rrule } = todoItem;
 
   const [displayForm, setDisplayForm] = useState(false);
+  const [editInstanceOnly, setEditInstanceOnly] = useState(false);
   const [showHandle, setShowHandle] = useState(false);
-
   const [isGrabbing, setGrabbing] = useState(false);
-
   const { mutateCompleted } = useCompleteTodo(todoItem);
 
   useEffect(() => {
@@ -35,6 +34,8 @@ export const TodoItemContainer = ({ todoItem }: { todoItem: TodoItemType }) => {
   if (displayForm)
     return (
       <TodoFormContainer
+        editInstanceOnly={editInstanceOnly}
+        setEditInstanceOnly={setEditInstanceOnly}
         displayForm={true}
         setDisplayForm={setDisplayForm}
         todo={todoItem}
@@ -99,8 +100,8 @@ export const TodoItemContainer = ({ todoItem }: { todoItem: TodoItemType }) => {
 
         <TodoItemMenuContainer
           todo={todoItem}
-          displayForm={displayForm}
           setDisplayForm={setDisplayForm}
+          setEditInstanceOnly={setEditInstanceOnly}
           className={clsx(
             "flex items-center gap-2",
             !showHandle && "opacity-0",
