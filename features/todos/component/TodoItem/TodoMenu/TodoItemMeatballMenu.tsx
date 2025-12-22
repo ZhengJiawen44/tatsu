@@ -10,9 +10,9 @@ import Spinner from "@/components/ui/spinner";
 import { useDeleteTodo } from "@/features/todos/api/delete-todo";
 import { usePinTodo } from "@/features/todos/api/pin-todo";
 import { usePrioritizeTodo } from "@/features/todos/api/prioritize-todo";
-import { useTodoForm } from "@/providers/TodoFormProvider";
 import Pin from "@/components/ui/icon/pin";
-import Edit from "@/components/ui/icon/edit";
+import { LuSquarePen } from "react-icons/lu";
+import { LuBlocks } from "react-icons/lu";
 import Trash from "@/components/ui/icon/trash";
 import { PriorityIndicator } from "../PriorityIndicator";
 import Meatball from "@/components/ui/icon/meatball";
@@ -21,9 +21,11 @@ import { TodoItemType } from "@/types";
 function TodoItemMeatballMenu({
   todo,
   setDisplayForm,
+  setEditInstanceOnly,
 }: {
   todo: TodoItemType;
   setDisplayForm: React.Dispatch<React.SetStateAction<boolean>>;
+  setEditInstanceOnly: React.Dispatch<React.SetStateAction<boolean>>;
 }) {
   const { mutatePrioritize } = usePrioritizeTodo(todo);
 
@@ -48,8 +50,17 @@ function TodoItemMeatballMenu({
             setDisplayForm((prev: boolean) => !prev);
           }}
         >
-          <Edit className="w-4 h-4" />
+          <LuSquarePen className="w-4 h-4" />
           Edit
+        </MenuItem>
+        <MenuItem
+          onClick={() => {
+            setEditInstanceOnly(true);
+            setDisplayForm((prev: boolean) => !prev);
+          }}
+        >
+          <LuBlocks className="w-4 h-4" />
+          Edit as Instance
         </MenuItem>
         <MenuItem onClick={() => deleteMutate({ id: todo.id })}>
           {deletePending ? (

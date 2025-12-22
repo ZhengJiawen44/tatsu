@@ -22,18 +22,20 @@ async function patchTodo({ todo }: { todo: TodoItemType }) {
     return;
   }
   await api.PATCH({
-    url: `/api/todo/${todo.id}`,
+    url: `/api/todo/instance/${todo.id}`,
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(parsedObj.data),
   });
 }
 
-export const useEditTodo = () => {
+export const useEditTodoInstance = (
+  setEditInstanceOnly: React.Dispatch<React.SetStateAction<boolean>>,
+) => {
   const { toast } = useToast();
   const queryClient = useQueryClient();
 
   const {
-    mutate: editTodo,
+    mutate: editTodoInstance,
     isPending: editLoading,
     isError,
   } = useMutation({
@@ -66,6 +68,7 @@ export const useEditTodo = () => {
       return { oldTodos };
     },
     onSettled: () => {
+      setEditInstanceOnly(false);
       // queryClient.invalidateQueries({ queryKey: ["todo"] });
     },
     onError: (error, newTodo, context) => {
@@ -74,5 +77,5 @@ export const useEditTodo = () => {
     },
   });
 
-  return { editTodo, editLoading, isError };
+  return { editTodoInstance, editLoading, isError };
 };

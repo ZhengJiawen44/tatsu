@@ -40,9 +40,8 @@ export const todoSchema = z.object({
   description: z.string().optional(),
   priority: z.string({ message: "priority is of invalid type" }),
   dtstart: z.date({ message: "start date is not identified" }),
-  expiresAt: z.date({ message: "end date is not identified" }),
-  nextRepeatDate: asDate,
-  repeatInterval: z.enum(["daily", "weekly", "monthly", "weekdays"]).nullable(),
+  due: z.date({ message: "end date is not identified" }),
+  rrule: z.string().nullable(),
 });
 
 export const noteSchema = z.object({
