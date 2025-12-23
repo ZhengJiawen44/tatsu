@@ -38,7 +38,9 @@ export const todoSchema = z.object({
     .trim()
     .min(1, { message: "title cannot be left empty" }),
   description: z.string().optional(),
-  priority: z.string({ message: "priority is of invalid type" }),
+  priority: z.enum(["Low", "Medium", "High"], {
+    errorMap: () => ({ message: "priority must be one of: low, medium, high" }),
+  }),
   dtstart: z.date({ message: "start date is not identified" }),
   due: z.date({ message: "end date is not identified" }),
   rrule: z.string().nullable(),

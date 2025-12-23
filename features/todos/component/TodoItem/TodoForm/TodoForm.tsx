@@ -63,15 +63,15 @@ const TodoForm = ({
     useEditTodoInstance(setEditInstanceOnly);
   if (editError || editInstanceError) setDisplayForm(true);
 
-  // const { createTodo } = useCreateTodo({
-  //   setTitle,
-  //   setDesc,
-  //   setDateRange,
-  //   setPriority,
-  //   clearInput,
-  // });
+  const { createTodo } = useCreateTodo({
+    setTitle,
+    setDesc,
+    setDateRange,
+    setPriority,
+    clearInput,
+  });
 
-  // const { user } = useSession().data!;
+  const { user } = useSession().data!;
 
   //adjust height of the todo description based on content size
   useEffect(() => {

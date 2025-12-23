@@ -104,8 +104,10 @@ model TodoInstance {
 
   overriddenTitle          String?
   overriddenDescription    String?
+  overriddenPriority       Priority?
   overriddenDtstart        DateTime?
   overriddenDurationMinutes Int?
+  overriddenDue            DateTime?
 
   completedAt              DateTime?
 
