@@ -9,6 +9,7 @@ import { prisma } from "@/lib/prisma/client";
 import { auth } from "@/app/auth";
 import { todoSchema } from "@/schema";
 import { Priority } from "@prisma/client";
+import { errorHandler } from "@/lib/errorHandler";
 
 export async function DELETE(
   req: NextRequest,
@@ -127,8 +128,10 @@ export async function PATCH(
       due,
       rrule,
     } = parsedObj.data;
+    if (!dtstart) throw new BadRequestError("empty dtstart");
     // Update todo
-    const updatedTodo = await prisma.todo.updateMany({
+    //throw new Error();
+    await prisma.todo.update({
       where: { id, userID: user.id },
       data: {
         title: title,
@@ -140,28 +143,23 @@ export async function PATCH(
       },
     });
 
-    if (updatedTodo.count === 0)
-      throw new InternalError("Todo not found or not authorized to update");
+    //updating a todo just overwrites the override
+    await prisma.todoInstance.updateMany({
+      where: {
+        todoId: id,
+        instanceDate: dtstart,
+      },
+      data: {
+        overriddenTitle: title,
+        overriddenDescription: description,
+        overriddenPriority: newPriority as Priority,
+        overriddenDtstart: dtstart,
+        overriddenDue: due,
+      },
+    });
 
     return NextResponse.json({ message: "Todo updated" }, { status: 200 });
   } catch (error) {
-    console.log(error);
-
-    if (error instanceof BaseServerError) {
-      return NextResponse.json(
-        { message: error.message },
-        { status: error.status },
-      );
-    }
-
-    return NextResponse.json(
-      {
-        message:
-          error instanceof Error
-            ? error.message.slice(0, 50)
-            : "An unexpected error occurred",
-      },
-      { status: 500 },
-    );
+    errorHandler(error);
   }
 }

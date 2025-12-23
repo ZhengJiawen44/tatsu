@@ -32,11 +32,7 @@ export const useEditTodo = () => {
   const { toast } = useToast();
   const queryClient = useQueryClient();
 
-  const {
-    mutate: editTodo,
-    isPending: editLoading,
-    isError,
-  } = useMutation({
+  const { mutate: editTodo, status: editTodoStatus } = useMutation({
     mutationFn: (params: TodoItemType) => patchTodo({ todo: params }),
     onMutate: async (newTodo) => {
       await queryClient.cancelQueries({ queryKey: ["todo"] });
@@ -74,5 +70,5 @@ export const useEditTodo = () => {
     },
   });
 
-  return { editTodo, editLoading, isError };
+  return { editTodo, editTodoStatus };
 };

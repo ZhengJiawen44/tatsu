@@ -19,11 +19,11 @@ export function applyOverridesToGhosts(
   const allInstances = recurringParents.flatMap((p) => p.instances);
   const instanceMap = new Map<string, overridingInstance>();
   allInstances.forEach((inst) => {
-    instanceMap.set(inst.recurId, inst);
+    instanceMap.set(inst.recurId + inst.todoId, inst);
   });
 
   return ghostTodos.map((ghost) => {
-    const override = instanceMap.get(ghost.dtstart.toISOString());
+    const override = instanceMap.get(ghost.dtstart.toISOString() + ghost.id);
     if (override) {
       return mergeInstanceAndTodo(override, ghost);
     }

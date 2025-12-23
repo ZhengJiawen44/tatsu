@@ -28,7 +28,7 @@ export interface TodoItemType {
   priority: "Low" | "Medium" | "High";
   dtstart: Date;
   durationMinutes: number;
-  due: Date | null;
+  due: Date;
   rrule: string | null;
   timeZone: string;
   userID: string;
@@ -45,6 +45,7 @@ export interface overridingInstance {
   overriddenDescription: string | null;
   overriddenDtstart: Date | null;
   overriddenDurationMinutes: number | null;
+  overriddenPriority: "Low" | "Medium" | "High" | null;
 }
 
 export interface CompletedTodoItemType {
