@@ -28,54 +28,48 @@ async function patchTodo({ todo }: { todo: TodoItemType }) {
   });
 }
 
-export const useEditTodoInstance = (
-  setEditInstanceOnly: React.Dispatch<React.SetStateAction<boolean>>,
-) => {
+export const useEditTodoInstance = () => {
   const { toast } = useToast();
   const queryClient = useQueryClient();
 
-  const {
-    mutate: editTodoInstance,
-    isPending: editLoading,
-    isError,
-  } = useMutation({
-    mutationFn: (params: TodoItemType) => patchTodo({ todo: params }),
-    onMutate: async (newTodo) => {
-      await queryClient.cancelQueries({ queryKey: ["todo"] });
-      const oldTodos = queryClient.getQueryData(["todo"]);
+  const { mutate: editTodoInstance, status: editTodoInstanceStatus } =
+    useMutation({
+      mutationFn: (params: TodoItemType) => patchTodo({ todo: params }),
+      onMutate: async (newTodo) => {
+        await queryClient.cancelQueries({ queryKey: ["todo"] });
+        const oldTodos = queryClient.getQueryData(["todo"]);
 
-      queryClient.setQueryData(["todo"], (oldTodos: TodoItemType[]) =>
-        oldTodos.map((oldTodo) => {
-          if (oldTodo.id === newTodo.id) {
-            return {
-              completed: newTodo.completed,
-              order: newTodo.order,
-              pinned: newTodo.pinned,
-              userID: newTodo.userID,
-              id: newTodo.id,
-              title: newTodo.title,
-              description: newTodo.description,
-              priority: newTodo.priority,
-              due: newTodo.due,
-              dtstart: newTodo.dtstart,
-              rrule: newTodo.rrule,
-              createdAt: new Date(),
-            };
-          }
-          return oldTodo;
-        }),
-      );
-      return { oldTodos };
-    },
-    onSettled: () => {
-      setEditInstanceOnly(false);
-      // queryClient.invalidateQueries({ queryKey: ["todo"] });
-    },
-    onError: (error, newTodo, context) => {
-      queryClient.setQueryData(["todo"], context?.oldTodos);
-      toast({ description: error.message, variant: "destructive" });
-    },
-  });
+        queryClient.setQueryData(["todo"], (oldTodos: TodoItemType[]) =>
+          oldTodos.map((oldTodo) => {
+            if (oldTodo.id === newTodo.id) {
+              return {
+                completed: newTodo.completed,
+                order: newTodo.order,
+                pinned: newTodo.pinned,
+                userID: newTodo.userID,
+                id: newTodo.id,
+                title: newTodo.title,
+                description: newTodo.description,
+                priority: newTodo.priority,
+                due: newTodo.due,
+                dtstart: newTodo.dtstart,
+                rrule: newTodo.rrule,
+                createdAt: new Date(),
+              };
+            }
+            return oldTodo;
+          }),
+        );
+        return { oldTodos };
+      },
+      onSettled: () => {
+        // queryClient.invalidateQueries({ queryKey: ["todo"] });
+      },
+      onError: (error, newTodo, context) => {
+        queryClient.setQueryData(["todo"], context?.oldTodos);
+        toast({ description: error.message, variant: "destructive" });
+      },
+    });
 
-  return { editTodoInstance, editLoading, isError };
+  return { editTodoInstance, editTodoInstanceStatus };
 };

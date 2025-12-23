@@ -24,7 +24,7 @@ const CompletedItem = () => {
       href="/app/completed"
       className={clsx(
         "select-none flex items-center py-2 px-6 w-full rounded-lg hover:cursor-pointer hover:bg-border-muted gap-1",
-        activeMenu.name === "Completed" && "bg-border"
+        activeMenu.name === "Completed" && "bg-border",
       )}
       onClick={() => {
         setActiveMenu({ name: "Completed" });
@@ -38,7 +38,7 @@ const CompletedItem = () => {
           "mr-0 ml-auto",
           activeMenu.name === "Todo"
             ? "text-card-foreground"
-            : "text-card-foreground-muted"
+            : "text-card-foreground-muted",
         )}
       >
         {completedTodoCount}

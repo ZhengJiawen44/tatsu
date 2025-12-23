@@ -84,7 +84,7 @@ model Todo {
 
   // RFC 5545 scheduling fields
   dtstart           DateTime  @default(now())
-  due               DateTime?
+  due               DateTime
   durationMinutes   Int       @default(30)
   rrule             String?
   timeZone          String    @default("UTC")

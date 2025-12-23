@@ -17,7 +17,7 @@ import { applyOverridesToGhosts } from "@/lib/applyOverridesToGhosts";
 
 export async function POST(req: NextRequest) {
   try {
-    // throw new Error("expected error happened");
+    //throw new Error("expected error happened");
     const session = await auth();
     const user = session?.user;
 
@@ -30,13 +30,14 @@ export async function POST(req: NextRequest) {
     body = {
       ...body,
       dtstart: new Date(body.dtstart),
-      expiresAt: new Date(body.expiresAt),
+      due: new Date(body.due),
     };
 
     const parsedObj = todoSchema.safeParse(body);
     if (!parsedObj.success) throw new BadRequestError();
 
-    const { title, description, priority, dtstart } = parsedObj.data;
+    const { title, description, priority, dtstart, due, rrule } =
+      parsedObj.data;
     //create todo
     const todo = await prisma.todo.create({
       data: {
@@ -45,6 +46,8 @@ export async function POST(req: NextRequest) {
         description,
         priority: priority as Priority,
         dtstart,
+        due,
+        rrule,
       },
     });
     if (!todo) throw new InternalError("todo cannot be created at this time");
@@ -130,7 +133,6 @@ export async function GET(req: NextRequest) {
     const allTodos = [...oneOffTodos, ...mergedRecurringTodos].sort(
       (a, b) => new Date(a.dtstart).getTime() - new Date(b.dtstart).getTime(),
     );
-
     return NextResponse.json({ todos: allTodos }, { status: 200 });
   } catch (error) {
     return errorHandler(error);

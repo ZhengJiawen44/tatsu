@@ -1,17 +1,17 @@
 import clsx from "clsx";
-import React, { useCallback, useEffect, useRef } from "react";
+import React, { useCallback, useEffect } from "react";
 import adjustHeight from "@/features/todos/lib/adjustTextareaHeight";
 import { useToast } from "@/hooks/use-toast";
 import LineSeparator from "@/components/ui/lineSeparator";
 import { useEditTodo } from "@/features/todos/api/update-todo";
-// import { useCreateTodo } from "@/features/todos/api/create-todo";
+import { useCreateTodo } from "@/features/todos/api/create-todo";
 import { endOfDay, startOfDay } from "date-fns";
-// import { useSession } from "next-auth/react";
 import { useTodoForm } from "@/providers/TodoFormProvider";
 import dynamic from "next/dynamic";
 import { useEditTodoInstance } from "@/features/todos/api/update-todo-instance";
+import { useTodoFormFocusAndAutosize } from "@/features/todos/hooks/useTodoFormFocusAndAutosize";
+import { useKeyboardSubmitForm } from "@/features/todos/hooks/useKeyboardSubmitForm";
 const TodoFormMenuStrip = dynamic(() => import("./TodoFormMenuStrip"));
-
 interface TodoFormProps {
   editInstanceOnly: boolean;
   setEditInstanceOnly: React.Dispatch<React.SetStateAction<boolean>>;
@@ -25,9 +25,6 @@ const TodoForm = ({
   displayForm,
   setDisplayForm,
 }: TodoFormProps) => {
-  const titleRef = useRef<null | HTMLInputElement>(null);
-  const textareaRef = useRef<null | HTMLTextAreaElement>(null);
-
   const {
     todoItem: todo,
     title,
@@ -44,7 +41,7 @@ const TodoForm = ({
 
   const clearInput = useCallback(
     function clearInput() {
-      setEditInstanceOnly(false);
+      if (setEditInstanceOnly) setEditInstanceOnly(false);
       setDesc("");
       setTitle("");
       setDateRange({
@@ -58,43 +55,19 @@ const TodoForm = ({
     [setDisplayForm, todo?.due, todo?.dtstart],
   );
 
-  const { editTodo, isError: editError } = useEditTodo();
-  const { editTodoInstance, isError: editInstanceError } =
-    useEditTodoInstance(setEditInstanceOnly);
-  if (editError || editInstanceError) setDisplayForm(true);
+  const { editTodo } = useEditTodo();
+  const { editTodoInstance } = useEditTodoInstance();
+  const { createTodo, createTodoStatus } = useCreateTodo();
 
-  const { createTodo } = useCreateTodo({
-    setTitle,
-    setDesc,
-    setDateRange,
-    setPriority,
-    clearInput,
-  });
-
-  const { user } = useSession().data!;
+  useEffect(() => {
+    if (createTodoStatus === "success") clearInput();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [createTodoStatus]);
 
   //adjust height of the todo description based on content size
-  useEffect(() => {
-    adjustHeight(textareaRef);
-    if (displayForm) {
-      titleRef.current?.focus();
-    }
-  }, [displayForm]);
-
+  const { titleRef, textareaRef } = useTodoFormFocusAndAutosize(displayForm);
   //submit form on ctrl + Enter
-  useEffect(() => {
-    const onCtrlEnter = (e: KeyboardEvent) => {
-      if (e.ctrlKey && e.key === "Enter") {
-        console.log("submit");
-        if (title && displayForm) {
-          handleForm();
-        }
-      }
-    };
-    document.addEventListener("keydown", onCtrlEnter);
-    return () => document.removeEventListener("keydown", onCtrlEnter);
-  }, [title, desc, dateRange, priority]);
-
+  useKeyboardSubmitForm(displayForm, handleForm);
   const { toast } = useToast();
 
   return (
@@ -197,24 +170,24 @@ const TodoForm = ({
           });
         }
       } else {
-        // createTodo({
-        //   id: "-1",
-        //   title,
-        //   description: desc,
-        //   priority,
-        //   dtstart,
-        //   due,
-        //   order: Number.MAX_VALUE,
-        //   userID: user!.id!,
-        //   pinned: false,
-        //   createdAt: new Date(),
-        //   completed: false,
-        //   repeatInterval,
-        //   nextRepeatDate,
-        // });
+        createTodo({
+          id: "-1",
+          title,
+          description: desc,
+          priority,
+          dtstart,
+          due,
+          rrule,
+          order: Number.MAX_VALUE,
+          createdAt: new Date(),
+          completed: false,
+          durationMinutes: 30,
+          pinned: false,
+          timeZone: "",
+          userID: "",
+        });
       }
     } catch (error) {
-      setEditInstanceOnly(false);
       if (error instanceof Error)
         toast({ description: error.message, variant: "destructive" });
     }
