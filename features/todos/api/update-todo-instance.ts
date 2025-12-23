@@ -3,6 +3,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { api } from "@/lib/api-client";
 import { todoSchema } from "@/schema";
 import { TodoItemType } from "@/types";
+import React from "react";
 
 async function patchTodo({ todo }: { todo: TodoItemType }) {
   if (!todo.id) {
@@ -28,7 +29,9 @@ async function patchTodo({ todo }: { todo: TodoItemType }) {
   });
 }
 
-export const useEditTodoInstance = () => {
+export const useEditTodoInstance = (
+  setEditInstanceOnly: React.Dispatch<React.SetStateAction<boolean>>,
+) => {
   const { toast } = useToast();
   const queryClient = useQueryClient();
 
@@ -63,8 +66,10 @@ export const useEditTodoInstance = () => {
         return { oldTodos };
       },
       onSettled: () => {
+        setEditInstanceOnly(false);
         // queryClient.invalidateQueries({ queryKey: ["todo"] });
       },
+
       onError: (error, newTodo, context) => {
         queryClient.setQueryData(["todo"], context?.oldTodos);
         toast({ description: error.message, variant: "destructive" });

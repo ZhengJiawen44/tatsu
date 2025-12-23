@@ -1,16 +1,16 @@
 import clsx from "clsx";
-import React, { useCallback, useEffect } from "react";
+import React, { useEffect } from "react";
 import adjustHeight from "@/features/todos/lib/adjustTextareaHeight";
 import { useToast } from "@/hooks/use-toast";
 import LineSeparator from "@/components/ui/lineSeparator";
 import { useEditTodo } from "@/features/todos/api/update-todo";
 import { useCreateTodo } from "@/features/todos/api/create-todo";
-import { endOfDay, startOfDay } from "date-fns";
 import { useTodoForm } from "@/providers/TodoFormProvider";
 import dynamic from "next/dynamic";
 import { useEditTodoInstance } from "@/features/todos/api/update-todo-instance";
 import { useTodoFormFocusAndAutosize } from "@/features/todos/hooks/useTodoFormFocusAndAutosize";
 import { useKeyboardSubmitForm } from "@/features/todos/hooks/useKeyboardSubmitForm";
+import { useClearInput } from "@/features/todos/hooks/useClearInput";
 const TodoFormMenuStrip = dynamic(() => import("./TodoFormMenuStrip"));
 interface TodoFormProps {
   editInstanceOnly: boolean;
@@ -30,45 +30,26 @@ const TodoForm = ({
     title,
     setTitle,
     priority,
-    setPriority,
     desc,
     setDesc,
     dateRange,
-    setDateRange,
     rrule,
-    setRrule,
   } = useTodoForm();
-
-  const clearInput = useCallback(
-    function clearInput() {
-      if (setEditInstanceOnly) setEditInstanceOnly(false);
-      setDesc("");
-      setTitle("");
-      setDateRange({
-        from: todo?.dtstart ? todo.dtstart : startOfDay(new Date()),
-        to: todo?.due ? todo.due : endOfDay(new Date()),
-      });
-      setPriority("Low");
-      setRrule(null);
-      titleRef.current?.focus();
-    },
-    [setDisplayForm, todo?.due, todo?.dtstart],
-  );
-
-  const { editTodo } = useEditTodo();
-  const { editTodoInstance } = useEditTodoInstance();
-  const { createTodo, createTodoStatus } = useCreateTodo();
-
-  useEffect(() => {
-    if (createTodoStatus === "success") clearInput();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [createTodoStatus]);
 
   //adjust height of the todo description based on content size
   const { titleRef, textareaRef } = useTodoFormFocusAndAutosize(displayForm);
   //submit form on ctrl + Enter
   useKeyboardSubmitForm(displayForm, handleForm);
   const { toast } = useToast();
+  const clearInput = useClearInput(setEditInstanceOnly, titleRef);
+  const { editTodo } = useEditTodo();
+  const { editTodoInstance } = useEditTodoInstance(setEditInstanceOnly);
+  const { createTodo, createTodoStatus } = useCreateTodo();
+
+  useEffect(() => {
+    if (createTodoStatus === "success") clearInput();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [createTodoStatus]);
 
   return (
     <div
