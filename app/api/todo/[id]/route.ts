@@ -12,7 +12,7 @@ import { Priority } from "@prisma/client";
 
 export async function DELETE(
   req: NextRequest,
-  { params }: { params: Promise<{ id: string }> }
+  { params }: { params: Promise<{ id: string }> },
 ) {
   try {
     const session = await auth();
@@ -43,7 +43,7 @@ export async function DELETE(
     if (error instanceof BaseServerError) {
       return NextResponse.json(
         { message: error.message },
-        { status: error.status }
+        { status: error.status },
       );
     }
 
@@ -55,14 +55,14 @@ export async function DELETE(
             ? error.message.slice(0, 50)
             : "An unexpected error occurred",
       },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }
 
 export async function PATCH(
   req: NextRequest,
-  { params }: { params: Promise<{ id: string }> }
+  { params }: { params: Promise<{ id: string }> },
 ) {
   try {
     const session = await auth();
@@ -79,12 +79,12 @@ export async function PATCH(
     if (isPin != undefined || null) {
       if (isPin === "true") {
         //pin todo
-        await prisma.todo.updateMany({
+        await prisma.todo.update({
           where: { id, userID: user.id },
           data: { pinned: true },
         });
       } else {
-        await prisma.todo.updateMany({
+        await prisma.todo.update({
           where: { id, userID: user.id },
           data: { pinned: false },
         });
@@ -105,7 +105,7 @@ export async function PATCH(
 
       return NextResponse.json(
         { message: "priority updated" },
-        { status: 200 }
+        { status: 200 },
       );
     }
 
@@ -113,8 +113,8 @@ export async function PATCH(
     let body = await req.json();
     body = {
       ...body,
-      startedAt: new Date(body.startedAt),
-      expiresAt: new Date(body.expiresAt),
+      dtstart: new Date(body.dtstart),
+      due: new Date(body.due),
     };
     const parsedObj = todoSchema.partial().safeParse(body);
     if (!parsedObj.success) throw new BadRequestError("Invalid request body");
@@ -123,10 +123,9 @@ export async function PATCH(
       title,
       description,
       priority: newPriority,
-      startedAt,
-      expiresAt,
-      nextRepeatDate,
-      repeatInterval
+      dtstart,
+      due,
+      rrule,
     } = parsedObj.data;
     // Update todo
     const updatedTodo = await prisma.todo.updateMany({
@@ -135,10 +134,9 @@ export async function PATCH(
         title: title,
         description: description,
         priority: newPriority as Priority,
-        startedAt,
-        expiresAt,
-        nextRepeatDate,
-        repeatInterval
+        dtstart,
+        due,
+        rrule,
       },
     });
 
@@ -152,7 +150,7 @@ export async function PATCH(
     if (error instanceof BaseServerError) {
       return NextResponse.json(
         { message: error.message },
-        { status: error.status }
+        { status: error.status },
       );
     }
 
@@ -163,7 +161,7 @@ export async function PATCH(
             ? error.message.slice(0, 50)
             : "An unexpected error occurred",
       },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }

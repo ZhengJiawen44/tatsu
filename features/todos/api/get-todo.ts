@@ -28,7 +28,7 @@ export const useTodo = () => {
         return {
           ...todo,
           dtstart: new Date(todo.dtstart),
-          createdAt: new Date(todo.createdAt),
+          due: new Date(todo.due!),
         };
       });
 
