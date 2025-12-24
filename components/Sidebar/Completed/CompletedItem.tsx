@@ -3,21 +3,17 @@ import React from "react";
 import OK from "@/components/ui/icon/ok";
 import { useMenu } from "@/providers/MenuProvider";
 import Link from "next/link";
-import { useTodo } from "@/features/todos/api/get-todo";
+import { useCompletedTodo } from "@/features/completed/api/get-completedTodo";
 import useWindowSize from "@/hooks/useWindowSize";
 
 const CompletedItem = () => {
   const { width } = useWindowSize();
   const { activeMenu, setActiveMenu, setShowMenu } = useMenu();
-  const { todos } = useTodo();
+  const { completedTodos } = useCompletedTodo();
   // Get today's date string
 
   // Count only todos created today
-  const completedTodoCount = todos
-    ? todos.filter(({ completed }) => {
-        return completed;
-      }).length
-    : 0;
+  const completedTodoCount = completedTodos.length;
 
   return (
     <Link

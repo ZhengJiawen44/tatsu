@@ -17,20 +17,21 @@ export const useCompletedTodo = () => {
     retry: 2,
     queryFn: async () => {
       const data = await api.GET({ url: `/api/completedTodo` });
-      const { completedTodos }: { completedTodos: CompletedTodoItemType[] } = data;
+      const { completedTodos }: { completedTodos: CompletedTodoItemType[] } =
+        data;
       if (!completedTodos) {
         throw new Error(
-          data.message || `bad server response: Did not recieve todo`
+          data.message || `bad server response: Did not recieve todo`,
         );
       }
 
       const completedTodoWithFormattedDates = completedTodos.map((todo) => {
         return {
           ...todo,
-          startedAt: new Date(todo.startedAt),
+          dtstart: new Date(todo.dtstart),
           createdAt: new Date(todo.createdAt),
-          expiresAt: new Date(todo.expiresAt),
-          completedAt: new Date(todo.completedAt)
+          due: new Date(todo.due),
+          completedAt: new Date(todo.completedAt),
         };
       });
 
@@ -45,4 +46,3 @@ export const useCompletedTodo = () => {
 
   return { completedTodos, todoLoading };
 };
-
