@@ -1,7 +1,12 @@
 "use client";
 import React, { useState } from "react";
-import TodoForm from "./TodoItem/TodoForm/TodoFormContainer";
+import dynamic from "next/dynamic";
 import Plus from "@/components/ui/icon/plus";
+import TodoFormLoading from "./TodoItem/TodoForm/TodoFormLoading";
+const TodoForm = dynamic(
+  () => import("./TodoItem/TodoForm/TodoFormContainer"),
+  { loading: () => <TodoFormLoading /> },
+);
 
 const CreateTodoBtn = () => {
   const [displayForm, setDisplayForm] = useState(false);
@@ -20,7 +25,9 @@ const CreateTodoBtn = () => {
       </button>
 
       {/* form */}
-      <TodoForm displayForm={displayForm} setDisplayForm={setDisplayForm} />
+      {displayForm && (
+        <TodoForm displayForm={displayForm} setDisplayForm={setDisplayForm} />
+      )}
     </div>
   );
 };

@@ -47,7 +47,9 @@ const TodoFormProvider = ({ children, todoItem }: TodoFormProviderProps) => {
 
   const [rrule, setRrule] = useState(todoItem?.rrule || null);
   const timeZone =
-    todoItem?.timeZone || Intl.DateTimeFormat().resolvedOptions().timeZone;
+    Intl.DateTimeFormat().resolvedOptions().timeZone ||
+    todoItem?.timeZone ||
+    "UTC";
 
   const contextValue: TodoFormContextType = {
     todoItem,
