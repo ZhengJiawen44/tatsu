@@ -131,7 +131,7 @@ export async function GET(req: NextRequest) {
       recurringParents,
     );
     const allTodos = [...oneOffTodos, ...mergedRecurringTodos].sort(
-      (a, b) => new Date(a.dtstart).getTime() - new Date(b.dtstart).getTime(),
+      (a, b) => a.order - b.order,
     );
     return NextResponse.json({ todos: allTodos }, { status: 200 });
   } catch (error) {

@@ -23,14 +23,13 @@ export async function PATCH(req: NextRequest) {
 
     //run all updates in bulk
     const updatedTodos = await prisma.$executeRaw`
-      UPDATE "Todo" SET "order" = updates.new_order
+      UPDATE "todos" SET "order" = updates.new_order
       FROM (VALUES ${Prisma.join(
-        changedTodos.map((t) => Prisma.sql`(${t.id}, ${t.order})`)
+        changedTodos.map((t) => Prisma.sql`(${t.id}, ${t.order})`),
       )})
       AS updates(id, new_order)
-      WHERE "Todo".id = updates.id
+      WHERE "todos".id = updates.id
     `;
-    console.log(updatedTodos);
     // Check if all updates were successful
     const allUpdated = updatedTodos === changedTodos.length;
 
@@ -45,7 +44,7 @@ export async function PATCH(req: NextRequest) {
     if (error instanceof BaseServerError) {
       return NextResponse.json(
         { message: error.message },
-        { status: error.status }
+        { status: error.status },
       );
     }
 
@@ -56,7 +55,7 @@ export async function PATCH(req: NextRequest) {
             ? error.message.slice(0, 50)
             : "An unexpected error occurred",
       },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }

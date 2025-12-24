@@ -2,7 +2,6 @@ import { NextRequest, NextResponse } from "next/server";
 import {
   BaseServerError,
   UnauthorizedError,
-  InternalError,
   BadRequestError,
 } from "@/lib/customError";
 import { prisma } from "@/lib/prisma/client";
@@ -26,16 +25,12 @@ export async function DELETE(
     if (!id) throw new BadRequestError("Invalid request, ID is required");
 
     // Find and delete the todo item
-    const deletedTodo = await prisma.todo.deleteMany({
+    await prisma.todo.delete({
       where: {
         id,
         userID: user.id,
       },
     });
-
-    if (deletedTodo.count === 0)
-      throw new InternalError("Todo not found or not authorized to delete");
-
     return NextResponse.json({ message: "todo deleted" }, { status: 200 });
   } catch (error) {
     console.log(error);
