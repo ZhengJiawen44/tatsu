@@ -3,7 +3,12 @@ import { auth } from "@/app/auth";
 import { UnauthorizedError, BadRequestError } from "@/lib/customError";
 import { prisma } from "@/lib/prisma/client";
 import { Prisma } from "@prisma/client";
-export async function PATCH(req: NextRequest, { params }: { params: Promise<{ id: string }> }) {
+import { errorHandler } from "@/lib/errorHandler";
+
+export async function PATCH(
+  req: NextRequest,
+  { params }: { params: Promise<{ id: string }> },
+) {
   try {
     const session = await auth();
     const user = session?.user;
@@ -11,43 +16,77 @@ export async function PATCH(req: NextRequest, { params }: { params: Promise<{ id
       throw new UnauthorizedError("you must be logged in to do this");
 
     const { id } = await params;
-    if (!id)
-      throw new BadRequestError("Invalid request, ID is required");
+    if (!id) throw new BadRequestError("Invalid request, ID is required");
 
-    //mark completed flag in todo record as true
-    const updatedTodo = await prisma.todo.update({ where: { id, userID: user.id }, data: { completed: true } });
+    const { todoItem } = await req.json();
+    if (!todoItem)
+      throw new BadRequestError("Invalid request, body is required");
+
+    const dtstart = new Date(todoItem.dtstart);
+    const due = new Date(todoItem.due);
+    const createdAt = new Date(todoItem.createdAt);
+
+    let upsertedTodoInstance = null;
+    //if this is a one-off todo, mark the todo as complete
+    if (!todoItem.rrule) {
+      await prisma.todo.update({
+        where: { id, userID: user.id },
+        data: { completed: true },
+      });
+    } else {
+      //if this was a repeating todo, only create a overriding instance with completedAt
+      upsertedTodoInstance = await prisma.todoInstance.upsert({
+        where: {
+          todoId_instanceDate: {
+            todoId: todoItem.id,
+            instanceDate: dtstart,
+          },
+        },
+        update: { completedAt: new Date() },
+        create: {
+          todoId: todoItem.id,
+          recurId: dtstart.toISOString(),
+          instanceDate: dtstart,
+          completedAt: new Date(),
+        },
+      });
+    }
 
     //insert a new completed todo record
     const currentTime = new Date();
-    const completedOnTime = updatedTodo.expiresAt > currentTime;
-    const daysToComplete = (Number(currentTime) - Number(updatedTodo.startedAt)) / (1000 * 60 * 60 * 24);
+    let completedOnTime = due > currentTime;
+    let daysToComplete =
+      (Number(currentTime) - Number(dtstart)) / (1000 * 60 * 60 * 24);
+
+    if (upsertedTodoInstance?.overriddenDue)
+      completedOnTime = upsertedTodoInstance.overriddenDue > currentTime;
+    if (upsertedTodoInstance?.overriddenDtstart)
+      daysToComplete =
+        (Number(currentTime) - Number(upsertedTodoInstance.overriddenDtstart)) /
+        (1000 * 60 * 60 * 24);
+
     await prisma.completedTodo.create({
       data: {
-        originalTodoID: updatedTodo.id,
-        title: updatedTodo.title,
-        description: updatedTodo.description,
-        priority: updatedTodo.priority,
-        createdAt: updatedTodo.createdAt,
-        startedAt: updatedTodo.startedAt,
-        expiresAt: updatedTodo.expiresAt,
+        originalTodoID: todoItem.id,
+        title: upsertedTodoInstance?.overriddenTitle || todoItem.title,
+        description:
+          upsertedTodoInstance?.overriddenDescription || todoItem.description,
+        priority: upsertedTodoInstance?.overriddenPriority || todoItem.priority,
+        createdAt,
+        dtstart: upsertedTodoInstance?.overriddenDtstart || dtstart,
+        due: upsertedTodoInstance?.overriddenDue || due,
         completedAt: new Date(),
         completedOnTime,
         daysToComplete: new Prisma.Decimal(daysToComplete),
-        wasRepeating: updatedTodo.repeatInterval && updatedTodo.nextRepeatDate ? true : false,
-        userID: updatedTodo.userID
-      }
-    })
-    return NextResponse.json({ message: "todo completed successfully!" }, { status: 200 })
-
-  }
-  catch (error) {
-    console.error(error);
-    if (error instanceof Error) {
-      const status = 'status' in error && typeof error.status == 'number'
-        ? error.status
-        : 500;
-      return NextResponse.json({ message: error.message }, { status });
-    }
-    return NextResponse.json({ message: "a server error occured, more information can be found in the server logs" }, { status: 500 });
+        rrule: todoItem.rrule,
+        userID: todoItem.userID,
+      },
+    });
+    return NextResponse.json(
+      { message: "todo completed successfully!" },
+      { status: 200 },
+    );
+  } catch (error) {
+    return errorHandler(error);
   }
 }

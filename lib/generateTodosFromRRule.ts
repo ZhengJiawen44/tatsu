@@ -5,6 +5,7 @@ type bounds = {
   todayStartUTC: Date;
   todayEndUTC: Date;
 };
+import { addMinutes } from "date-fns";
 
 /**
  * generates in-memory instances of todo based on the RRule field in todo.
@@ -30,10 +31,18 @@ export default function generateTodosFromRRule(
         bounds.todayEndUTC,
         true,
       );
+
+      const durationMinutes =
+        Math.round(
+          ((parent.due.getTime() - parent.dtstart.getTime()) / 60000) * 1000,
+        ) / 1000;
+
       return occurrences.flatMap((occ) => {
         return {
           ...parent,
           dtstart: occ,
+          durationMinutes,
+          due: addMinutes(occ, durationMinutes),
         };
       });
     } catch (e) {

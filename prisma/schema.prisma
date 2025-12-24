@@ -123,11 +123,11 @@ model CompletedTodo{
   priority      Priority
   completedAt   DateTime        @default(now())
   createdAt     DateTime
-  startedAt     DateTime
-  expiresAt     DateTime
+  dtstart     DateTime
+  due     DateTime
   completedOnTime Boolean
   daysToComplete  Decimal @db.Decimal(10, 2)
-  wasRepeating  Boolean
+  rrule  String?
   user          User            @relation(fields: [userID], references: [id])
   userID        String
 }

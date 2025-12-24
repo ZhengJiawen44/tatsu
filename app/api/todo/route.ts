@@ -98,6 +98,7 @@ export async function GET(req: NextRequest) {
       where: {
         userID: user.id,
         rrule: null,
+        completed: false,
         dtstart: {
           gte: bounds.todayStartUTC,
           lte: bounds.todayEndUTC,
@@ -129,7 +130,6 @@ export async function GET(req: NextRequest) {
       ghostTodos,
       recurringParents,
     );
-
     const allTodos = [...oneOffTodos, ...mergedRecurringTodos].sort(
       (a, b) => new Date(a.dtstart).getTime() - new Date(b.dtstart).getTime(),
     );

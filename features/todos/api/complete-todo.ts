@@ -9,6 +9,7 @@ export const useCompleteTodo = (todoItem: TodoItemType) => {
     mutationFn: async () => {
       await api.PATCH({
         url: `/api/todo/${todoItem.id}/completeTodo`,
+        body: JSON.stringify({ todoItem }),
       });
     },
     onMutate: async () => {
@@ -23,7 +24,7 @@ export const useCompleteTodo = (todoItem: TodoItemType) => {
             };
           }
           return oldTodo;
-        })
+        }),
       );
       return { oldTodos };
     },

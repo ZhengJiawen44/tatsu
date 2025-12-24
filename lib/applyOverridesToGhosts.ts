@@ -22,9 +22,10 @@ export function applyOverridesToGhosts(
     instanceMap.set(inst.recurId + inst.todoId, inst);
   });
 
-  return ghostTodos.map((ghost) => {
+  return ghostTodos.flatMap((ghost) => {
     const override = instanceMap.get(ghost.dtstart.toISOString() + ghost.id);
     if (override) {
+      if (override.completedAt) return [];
       return mergeInstanceAndTodo(override, ghost);
     }
     return ghost;

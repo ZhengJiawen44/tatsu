@@ -160,6 +160,6 @@ export async function PATCH(
 
     return NextResponse.json({ message: "Todo updated" }, { status: 200 });
   } catch (error) {
-    errorHandler(error);
+    return errorHandler(error);
   }
 }
