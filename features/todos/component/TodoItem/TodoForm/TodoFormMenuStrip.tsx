@@ -7,6 +7,7 @@ import { format, isThisYear } from "date-fns";
 import { useTodoForm } from "@/providers/TodoFormProvider";
 import { TbRefreshDot } from "react-icons/tb";
 import Trash from "@/components/ui/icon/trash";
+import CustomRepeatModalMenu from "./CutomRepeatModalMenu";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -14,6 +15,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+
 import {
   Tooltip,
   TooltipContent,
@@ -44,9 +46,6 @@ const TodoFormMenuStrip = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [rrule, dateRange],
   );
-
-  // console.log("rrule options: ", rruleObject?.options);
-  // console.log("next repeat: ", nextRepeatDate);
 
   return (
     <div className="flex justify-center items-center gap-2">
@@ -80,7 +79,7 @@ const TodoFormMenuStrip = () => {
               className="h-4 w-4"
               isSelected={priority == "Low"}
             />
-            normal
+            Normal
           </DropdownMenuItem>
           <DropdownMenuItem
             className="hover:text-white"
@@ -91,7 +90,7 @@ const TodoFormMenuStrip = () => {
               className={clsx("h-4 w-4")}
               isSelected={priority == "Medium"}
             />
-            important
+            Important
           </DropdownMenuItem>
           <DropdownMenuItem
             className="hover:text-white"
@@ -102,7 +101,7 @@ const TodoFormMenuStrip = () => {
               className={clsx("h-4 w-4")}
               isSelected={priority == "High"}
             />
-            urgent
+            Urgent
           </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>
@@ -125,7 +124,7 @@ const TodoFormMenuStrip = () => {
               })
             }
           >
-            daily
+            Daily
           </DropdownMenuItem>
           <DropdownMenuItem
             className="flex justify-between"
@@ -139,7 +138,7 @@ const TodoFormMenuStrip = () => {
               })
             }
           >
-            weekly
+            Weekly
             <p className="text-xs text-card-foreground-muted">
               {format(new Date(), "EEE")}
             </p>
@@ -156,7 +155,7 @@ const TodoFormMenuStrip = () => {
               })
             }
           >
-            monthly
+            Monthly
             <p className="text-xs text-card-foreground-muted">
               {format(new Date(), "do")}
             </p>
@@ -175,18 +174,22 @@ const TodoFormMenuStrip = () => {
               })
             }
           >
-            every weekday
+            Every weekday
             <p className="text-xs text-card-foreground-muted">(Mon-Fri)</p>
           </DropdownMenuItem>
+          <DropdownMenuItem asChild>
+            <CustomRepeatModalMenu className="w-full hover:bg-accent" />
+          </DropdownMenuItem>
+
           {rrule && (
             <>
-              <DropdownMenuSeparator />
+              <DropdownMenuSeparator className="mt-[5px]" />
               <DropdownMenuItem
                 className="text-red gap-1"
                 onClick={() => setRrule(null)}
               >
                 <Trash />
-                clear repeat
+                Clear repeat
               </DropdownMenuItem>
             </>
           )}

@@ -25,6 +25,7 @@ export default function generateTodosFromRRule(
     try {
       if (!parent.rrule) return [];
       const rule = genRule(parent.rrule, parent.dtstart, timeZone);
+      console.log(parent.rrule, parent.dtstart, timeZone);
       //return an array of dtStart
       const occurrences = rule.between(
         bounds.todayStartUTC,
