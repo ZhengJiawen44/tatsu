@@ -45,7 +45,7 @@ body {
     --accent-foreground: 0 0% 98%;
     --destructive: 0, 72%, 50%;
     --destructive-foreground: 0 0% 98%;
-    --input: 40 15% 85%;
+    --input: 40 15% 65%;
     --ring: 217 91% 60%;
     --chart-1: 220 80% 55%;
     --chart-2: 160 50% 45%;
@@ -81,7 +81,7 @@ body {
     --lime: 83, 40%, 45%;
     --sidebar: 235, 28%, 19%;
     --background: 235 32% 15%;
-    --foreground: 234 11% 70%;
+    --foreground: 234 11% 80%;
     --card: 235 32% 15%;
     --card-foreground: 234 10% 93%;
     --card-accent: 235 32% 16%;
@@ -95,12 +95,12 @@ body {
     --secondary-foreground: 0 0% 9%;
     --muted: 233, 10%, 30%;
     --muted-foreground: 0 0% 45.1%;
-    --accent: 235, 22%, 32%;
-    --accent-foreground: 234 11% 70%;
+    --accent: 83, 40%, 45%;
+    --accent-foreground: 234 11% 100%;
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 0 0% 98%;
     --border: 234, 10%, 30%, 0.5;
-    --input: 0 0% 89.8%;
+    --input: 0 0% 50.8%;
     --ring: 0 0% 3.9%;
     --chart-1: 12 76% 61%;
     --chart-2: 173 58% 39%;
