@@ -18,9 +18,12 @@ export async function GET() {
     //get completed todos
     const completedTodos = await prisma.completedTodo.findMany({
       where: { userID: user.id },
-      orderBy: { startedAt: "desc" },
+      orderBy: { dtstart: "desc" },
     });
-    if (!completedTodos) throw new InternalError("completed todos cannot be retrieved at this time");
+    if (!completedTodos)
+      throw new InternalError(
+        "completed todos cannot be retrieved at this time",
+      );
 
     return NextResponse.json({ completedTodos }, { status: 200 });
   } catch (error) {
@@ -30,7 +33,7 @@ export async function GET() {
     if (error instanceof BaseServerError) {
       return NextResponse.json(
         { message: error.message },
-        { status: error.status }
+        { status: error.status },
       );
     }
 
@@ -42,8 +45,7 @@ export async function GET() {
             ? error.message.slice(0, 50)
             : "an unexpected error occured",
       },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }
-

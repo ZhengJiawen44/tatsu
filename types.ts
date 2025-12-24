@@ -56,8 +56,8 @@ export interface CompletedTodoItemType {
   createdAt: Date;
   completedAt: Date;
   priority: "Low" | "Medium" | "High";
-  startedAt: Date;
-  expiresAt: Date;
+  dtstart: Date;
+  due: Date;
   userID: string;
   wasRepeating: boolean;
 }
