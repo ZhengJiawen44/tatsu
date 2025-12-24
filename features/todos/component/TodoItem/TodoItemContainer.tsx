@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import TodoItemMenuContainer from "./TodoMenu/TodoItemMenuContainer";
-import TodoFormContainer from "./TodoForm/TodoFormContainer";
 import TodoCheckbox from "@/components/ui/TodoCheckbox";
 import clsx from "clsx";
 import { useSortable } from "@dnd-kit/sortable";
@@ -8,6 +7,12 @@ import { CSS } from "@dnd-kit/utilities";
 import { TodoItemType } from "@/types";
 import GripVertical from "@/components/ui/icon/gripVertical";
 import { useCompleteTodo } from "../../api/complete-todo";
+import TodoFormLoading from "./TodoForm/TodoFormLoading";
+import dynamic from "next/dynamic";
+const TodoFormContainer = dynamic(
+  () => import("./TodoForm/TodoFormContainer"),
+  { loading: () => <TodoFormLoading /> },
+);
 export const TodoItemContainer = ({ todoItem }: { todoItem: TodoItemType }) => {
   //dnd kit setups
   const { attributes, listeners, setNodeRef, transform, transition } =

@@ -6,12 +6,14 @@ import LineSeparator from "@/components/ui/lineSeparator";
 import { useEditTodo } from "@/features/todos/api/update-todo";
 import { useCreateTodo } from "@/features/todos/api/create-todo";
 import { useTodoForm } from "@/providers/TodoFormProvider";
-import dynamic from "next/dynamic";
 import { useEditTodoInstance } from "@/features/todos/api/update-todo-instance";
 import { useTodoFormFocusAndAutosize } from "@/features/todos/hooks/useTodoFormFocusAndAutosize";
 import { useKeyboardSubmitForm } from "@/features/todos/hooks/useKeyboardSubmitForm";
 import { useClearInput } from "@/features/todos/hooks/useClearInput";
-const TodoFormMenuStrip = dynamic(() => import("./TodoFormMenuStrip"));
+import TodoFormMenuStrip from "./TodoFormMenuStrip";
+// const TodoFormMenuStrip = dynamic(() => import("./TodoFormMenuStrip"), {
+//   loading: () => <div>loading...</div>,
+// });
 interface TodoFormProps {
   editInstanceOnly: boolean;
   setEditInstanceOnly: React.Dispatch<React.SetStateAction<boolean>>;

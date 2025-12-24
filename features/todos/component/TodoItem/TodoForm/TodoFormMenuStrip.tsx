@@ -26,8 +26,7 @@ import { masqueradeAsUTC } from "@/features/todos/lib/masqueradeAsUTC";
 import { useMemo } from "react";
 
 const TodoFormMenuStrip = () => {
-  const { priority, setPriority, rrule, setRrule, dateRange, timeZone } =
-    useTodoForm();
+  const { priority, setPriority, rrule, setRrule, dateRange } = useTodoForm();
   /*
    * so i have to basically masquerade my local time as UTC and then
    * pass it to dtstart, and when i get my result back i have to convert
@@ -117,8 +116,6 @@ const TodoFormMenuStrip = () => {
             onClick={() =>
               setRrule(() => {
                 return new RRule({
-                  dtstart: masqueradeAsUTC(dateRange.from),
-                  tzid: timeZone,
                   freq: RRule.DAILY,
                 }).toString();
               })
@@ -131,8 +128,6 @@ const TodoFormMenuStrip = () => {
             onClick={() =>
               setRrule(() => {
                 return new RRule({
-                  dtstart: masqueradeAsUTC(dateRange.from),
-                  tzid: timeZone,
                   freq: RRule.WEEKLY,
                 }).toString();
               })
@@ -148,8 +143,6 @@ const TodoFormMenuStrip = () => {
             onClick={() =>
               setRrule(() => {
                 return new RRule({
-                  dtstart: masqueradeAsUTC(dateRange.from),
-                  tzid: timeZone,
                   freq: RRule.MONTHLY,
                 }).toString();
               })
@@ -166,8 +159,6 @@ const TodoFormMenuStrip = () => {
             onClick={() =>
               setRrule(() => {
                 return new RRule({
-                  dtstart: masqueradeAsUTC(dateRange.from),
-                  tzid: timeZone,
                   freq: RRule.DAILY,
                   byweekday: [RRule.MO, RRule.TU, RRule.WE, RRule.TH, RRule.FR],
                 }).toString();

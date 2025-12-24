@@ -20,39 +20,45 @@ import {
 } from "@/components/ui/popover";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Calendar } from "@/components/ui/calendar";
-import { useEffect, useState } from "react";
-import { Separator } from "@radix-ui/react-dropdown-menu";
+import { useState } from "react";
+
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { ChevronDownIcon } from "lucide-react";
 import clsx from "clsx";
 
 type weekday = "MO" | "TU" | "WE" | "TH" | "FR" | "SA" | "SU";
-type byweekdayType = Set<weekday> | null;
+type byweekdayType = Set<weekday>;
 
 const CustomRepeatModalMenu = ({ className }: { className?: string }) => {
   const [repeatInterval, setRepeatInterval] = useState(1);
   const [repeatFreqType, setRepeatFreqType] = useState("Day");
-  const [byweekday, setByweekday] = useState<byweekdayType>(null);
+  const [byweekday, setByweekday] = useState<byweekdayType>(new Set());
   const [repeatEnd, setRepeatEnd] = useState<Date | null | undefined>(null);
   const [open, setOpen] = useState(false);
 
+  const toggleWeekday = (day: weekday, checked: boolean) => {
+    setByweekday((old) => {
+      const newSet = new Set(old || []);
+      if (checked) {
+        newSet.add(day);
+      } else {
+        newSet.delete(day);
+      }
+      return newSet;
+    });
+  };
   return (
     <Dialog>
       <DialogTrigger className={className}>Custom</DialogTrigger>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle className="font-medium select-none">
-            Custom Repeat
-          </DialogTitle>
-          <DialogDescription className="select-none">
-            Set up a custom repeat schedule
-          </DialogDescription>
-          <Separator />
+          <DialogTitle className="font-medium">Custom Repeat</DialogTitle>
+          <DialogDescription>Set up a custom repeat schedule</DialogDescription>
         </DialogHeader>
         <div className="flex flex-col gap-6 mb-2">
           <div className="flex flex-col gap-2">
-            <p className="font-medium2">Every</p>
+            <p className="font-medium">Every</p>
             <div className="flex gap-2 w-1/2 m-0 p-0">
               {/* repeatInterval count input */}
               <Input
@@ -61,7 +67,7 @@ const CustomRepeatModalMenu = ({ className }: { className?: string }) => {
                 min={1}
                 value={repeatInterval}
                 onChange={(e) => setRepeatInterval(parseInt(e.target.value))}
-              ></Input>
+              />
               {/* repeatInterval type input */}
               <NativeSelect className="min-w-1/2 h-full border-border hover:bg-accent">
                 <NativeSelectOption
@@ -92,40 +98,89 @@ const CustomRepeatModalMenu = ({ className }: { className?: string }) => {
             </div>
           </div>
           <div className="flex flex-col gap-2">
-            <p className="font-medium select-none">On</p>
+            <p className="font-medium ">On</p>
             <div className="flex gap-4">
               <div className="flex items-center gap-1">
-                <Checkbox id="Mo" className="" />
+                <Checkbox
+                  id="Mo"
+                  value={"MO"}
+                  checked={byweekday.has("MO")}
+                  onCheckedChange={(checked) =>
+                    toggleWeekday("MO", checked as boolean)
+                  }
+                />
                 <label htmlFor="Mo">Mo</label>
               </div>
               <div className="flex items-center gap-1">
-                <Checkbox id="Tu" />
+                <Checkbox
+                  id="Tu"
+                  value={"TU"}
+                  checked={byweekday.has("TU")}
+                  onCheckedChange={(checked) =>
+                    toggleWeekday("TU", checked as boolean)
+                  }
+                />
                 <label htmlFor="Tu">Tu</label>
               </div>
               <div className="flex items-center gap-1">
-                <Checkbox id="We" />
+                <Checkbox
+                  id="We"
+                  value={"WE"}
+                  checked={byweekday.has("WE")}
+                  onCheckedChange={(checked) =>
+                    toggleWeekday("WE", checked as boolean)
+                  }
+                />
                 <label htmlFor="We">We</label>
               </div>
               <div className="flex items-center gap-1">
-                <Checkbox id="Th" />
+                <Checkbox
+                  id="Th"
+                  value={"TH"}
+                  checked={byweekday.has("TH")}
+                  onCheckedChange={(checked) =>
+                    toggleWeekday("TH", checked as boolean)
+                  }
+                />
                 <label htmlFor="Th">Th</label>
               </div>
               <div className="flex items-center gap-1">
-                <Checkbox id="Fr" />
+                <Checkbox
+                  id="Fr"
+                  value={"FR"}
+                  checked={byweekday.has("FR")}
+                  onCheckedChange={(checked) =>
+                    toggleWeekday("FR", checked as boolean)
+                  }
+                />
                 <label htmlFor="Fr">Fr</label>
               </div>
               <div className="flex items-center gap-1">
-                <Checkbox id="Sa" />
+                <Checkbox
+                  id="Sa"
+                  value={"SA"}
+                  checked={byweekday.has("SA")}
+                  onCheckedChange={(checked) =>
+                    toggleWeekday("SA", checked as boolean)
+                  }
+                />
                 <label htmlFor="Sa">Sa</label>
               </div>
               <div className="flex items-center gap-1">
-                <Checkbox id="Su" />
+                <Checkbox
+                  id="Su"
+                  value={"SU"}
+                  checked={byweekday.has("SU")}
+                  onCheckedChange={(checked) =>
+                    toggleWeekday("SU", checked as boolean)
+                  }
+                />
                 <label htmlFor="Su">Su</label>
               </div>
             </div>
           </div>
           <div className="flex flex-col gap-2">
-            <p className="font-medium select-none">ends</p>
+            <p className="font-medium ">ends</p>
             <RadioGroup>
               <div className="flex items-center gap-3">
                 <RadioGroupItem
@@ -148,6 +203,7 @@ const CustomRepeatModalMenu = ({ className }: { className?: string }) => {
                 <Popover open={open} onOpenChange={setOpen}>
                   <PopoverTrigger asChild>
                     <Button
+                      type="button"
                       variant="outline"
                       id="date"
                       className={clsx(
