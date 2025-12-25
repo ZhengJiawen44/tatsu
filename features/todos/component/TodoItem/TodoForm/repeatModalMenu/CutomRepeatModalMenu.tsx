@@ -12,10 +12,19 @@ import { Button } from "@/components/ui/button";
 import RepeatEveryOption from "./RepeatEveryOption";
 import RepeatOnOption from "./RepeatOnOption";
 import RepeatEndOption from "./RepeatEndOption";
+import { CheckIcon } from "lucide-react";
+import clsx from "clsx";
+import { useTodoForm } from "@/providers/TodoFormProvider";
 const CustomRepeatModalMenu = ({ className }: { className?: string }) => {
+  const { repeatType } = useTodoForm();
   return (
     <Dialog>
-      <DialogTrigger className={className}>Custom</DialogTrigger>
+      <DialogTrigger className={className}>
+        <CheckIcon
+          className={clsx("opacity-0", repeatType == "Custom" && "opacity-100")}
+        />
+        Custom
+      </DialogTrigger>
       <DialogContent>
         <DialogHeader>
           <DialogTitle className="font-medium">Custom Repeat</DialogTitle>
@@ -33,7 +42,7 @@ const CustomRepeatModalMenu = ({ className }: { className?: string }) => {
           <DialogClose asChild>
             <Button variant="outline">Cancel</Button>
           </DialogClose>
-          <Button type="submit">Save changes</Button>
+          <Button type="button">Save changes</Button>
         </DialogFooter>
       </DialogContent>
     </Dialog>
