@@ -224,15 +224,7 @@ const TodoFormMenuStrip = () => {
             </div>
           </DropdownMenuItem>
           <DropdownMenuItem asChild>
-            <div className="flex gap-0 w-full hover:bg-accent">
-              <CheckIcon
-                className={clsx(
-                  "opacity-0",
-                  repeatType == "Custom" && "opacity-100",
-                )}
-              />
-              <CustomRepeatModalMenu className="-ml-1" />
-            </div>
+            <CustomRepeatModalMenu className="flex w-full hover:bg-accent" />
           </DropdownMenuItem>
 
           {rruleOptions && (
