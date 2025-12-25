@@ -4,7 +4,7 @@ import { RRule } from "rrule";
 import { useTodoForm } from "@/providers/TodoFormProvider";
 
 const RepeatOnOption = ({ rruleObject }: { rruleObject: RRule | null }) => {
-  const { setRrule } = useTodoForm();
+  const { rruleOptions, setRruleOptions } = useTodoForm();
   const byweekday = rruleObject?.options.byweekday || [];
   const freq = rruleObject?.options.freq;
   function toggleByDay(day: number) {
@@ -14,13 +14,7 @@ const RepeatOnOption = ({ rruleObject }: { rruleObject: RRule | null }) => {
     } else {
       newByweekday = [...byweekday, day];
     }
-
-    const newRrule = new RRule({
-      ...rruleObject?.options,
-      byweekday: newByweekday,
-    });
-
-    setRrule(newRrule.toString());
+    setRruleOptions({ ...rruleOptions, byweekday: newByweekday });
   }
 
   return (

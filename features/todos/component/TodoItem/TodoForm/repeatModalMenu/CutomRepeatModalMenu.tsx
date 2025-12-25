@@ -34,7 +34,7 @@ const CustomRepeatModalMenu = ({
           {/* rrule byday option */}
           <RepeatOnOption rruleObject={rruleObject} />
           {/* rrule until option */}
-          <RepeatEndOption rruleObject={rruleObject} />
+          <RepeatEndOption />
         </div>
         <DialogFooter>
           <DialogClose asChild>
