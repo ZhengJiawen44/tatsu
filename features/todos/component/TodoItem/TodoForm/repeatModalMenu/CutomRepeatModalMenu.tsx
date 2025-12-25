@@ -9,17 +9,10 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
-import { RRule } from "rrule";
 import RepeatEveryOption from "./RepeatEveryOption";
 import RepeatOnOption from "./RepeatOnOption";
 import RepeatEndOption from "./RepeatEndOption";
-const CustomRepeatModalMenu = ({
-  className,
-  rruleObject,
-}: {
-  className?: string;
-  rruleObject: RRule | null;
-}) => {
+const CustomRepeatModalMenu = ({ className }: { className?: string }) => {
   return (
     <Dialog>
       <DialogTrigger className={className}>Custom</DialogTrigger>
@@ -30,9 +23,9 @@ const CustomRepeatModalMenu = ({
         </DialogHeader>
         <div className="flex flex-col gap-6 mb-2">
           {/* rrule interval option */}
-          <RepeatEveryOption rruleObject={rruleObject} />
+          <RepeatEveryOption />
           {/* rrule byday option */}
-          <RepeatOnOption rruleObject={rruleObject} />
+          <RepeatOnOption />
           {/* rrule until option */}
           <RepeatEndOption />
         </div>

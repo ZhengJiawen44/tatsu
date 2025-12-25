@@ -22,6 +22,14 @@ interface TodoFormContextType {
   rruleOptions: Partial<Options> | null;
   setRruleOptions: React.Dispatch<SetStateAction<Partial<Options> | null>>;
   timeZone: string;
+  repeatType:
+    | "Daily"
+    | "Weekly"
+    | "Monthly"
+    | "Yearly"
+    | "Weekday"
+    | "Custom"
+    | null;
 }
 
 // Props for the provider
@@ -54,6 +62,38 @@ const TodoFormProvider = ({ children, todoItem }: TodoFormProviderProps) => {
     todoItem?.timeZone ||
     "UTC";
 
+  const repeatType =
+    // Check for weekday pattern first (before generic byweekday check)
+    rruleOptions?.freq === RRule.WEEKLY &&
+    rruleOptions?.byweekday &&
+    Array.isArray(rruleOptions.byweekday) &&
+    rruleOptions.byweekday.length === 5 &&
+    !rruleOptions?.bymonth &&
+    !rruleOptions?.bymonthday &&
+    !rruleOptions?.bysetpos &&
+    !rruleOptions?.byweekno &&
+    !rruleOptions?.byyearday &&
+    !rruleOptions?.interval
+      ? "Weekday"
+      : // check for custom patterns
+        rruleOptions?.bymonth ||
+          rruleOptions?.bymonthday ||
+          rruleOptions?.bysetpos ||
+          rruleOptions?.byweekday ||
+          rruleOptions?.byweekno ||
+          rruleOptions?.byyearday ||
+          (rruleOptions?.interval && rruleOptions.interval > 1)
+        ? "Custom"
+        : // check for simple patterns
+          rruleOptions?.freq === RRule.DAILY
+          ? "Daily"
+          : rruleOptions?.freq === RRule.WEEKLY
+            ? "Weekly"
+            : rruleOptions?.freq === RRule.MONTHLY
+              ? "Monthly"
+              : rruleOptions?.freq === RRule.YEARLY
+                ? "Yearly"
+                : null;
   const contextValue: TodoFormContextType = {
     todoItem,
     title,
@@ -67,6 +107,7 @@ const TodoFormProvider = ({ children, todoItem }: TodoFormProviderProps) => {
     rruleOptions,
     setRruleOptions,
     timeZone,
+    repeatType,
   };
 
   return (
