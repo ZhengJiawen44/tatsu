@@ -7,7 +7,7 @@ import { format, isThisYear } from "date-fns";
 import { useTodoForm } from "@/providers/TodoFormProvider";
 import { TbRefreshDot } from "react-icons/tb";
 import Trash from "@/components/ui/icon/trash";
-import CustomRepeatModalMenu from "./CutomRepeatModalMenu";
+import CustomRepeatModalMenu from "./repeatModalMenu/CutomRepeatModalMenu";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -39,6 +39,7 @@ const TodoFormMenuStrip = () => {
     options.dtstart = masqueradeAsUTC(dateRange.from);
     return new RRule(options);
   }, [rrule, dateRange]);
+  console.log(rrule);
 
   const nextRepeatDate = useMemo(
     () => rruleObject?.after(masqueradeAsUTC(dateRange.from)),
@@ -169,7 +170,10 @@ const TodoFormMenuStrip = () => {
             <p className="text-xs text-card-foreground-muted">(Mon-Fri)</p>
           </DropdownMenuItem>
           <DropdownMenuItem asChild>
-            <CustomRepeatModalMenu className="w-full hover:bg-accent" />
+            <CustomRepeatModalMenu
+              rruleObject={rruleObject}
+              className="w-full hover:bg-accent"
+            />
           </DropdownMenuItem>
 
           {rrule && (
