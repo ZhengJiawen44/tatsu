@@ -9,14 +9,24 @@ import { Calendar } from "@/components/ui/calendar";
 import { ChevronDownIcon } from "lucide-react";
 import clsx from "clsx";
 import { Button } from "@/components/ui/button";
-import { RRule } from "rrule";
+import { Options } from "rrule";
 import { useTodoForm } from "@/providers/TodoFormProvider";
 import { masqueradeAsUTC } from "@/features/todos/lib/masqueradeAsUTC";
 
-const RepeatEndOption = ({ rruleObject }: { rruleObject: RRule | null }) => {
+const RepeatEndOption = () => {
   const [open, setOpen] = useState(false);
-  const until = rruleObject?.options.until;
-  const { setRrule } = useTodoForm();
+
+  const { rruleOptions, setRruleOptions } = useTodoForm();
+
+  function removeUntil(options: Partial<Options> | null) {
+    //remove until when rrule is never ending
+    if (options?.until) {
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      const { until, ...newOptions } = options;
+      return newOptions;
+    }
+    return options;
+  }
   return (
     <div className="flex flex-col gap-2">
       <p className="font-medium ">ends</p>
@@ -25,13 +35,9 @@ const RepeatEndOption = ({ rruleObject }: { rruleObject: RRule | null }) => {
           <RadioGroupItem
             value="never"
             id="never"
-            checked={until ? false : true}
+            checked={rruleOptions?.until ? false : true}
             onClick={() => {
-              const newRruleObj = new RRule({
-                ...rruleObject?.options,
-                until: null,
-              });
-              setRrule(newRruleObj.toString());
+              setRruleOptions(removeUntil(rruleOptions));
             }}
           />
           <label htmlFor="never">never</label>
@@ -40,13 +46,9 @@ const RepeatEndOption = ({ rruleObject }: { rruleObject: RRule | null }) => {
           <RadioGroupItem
             value="exDate"
             id="exDate"
-            checked={until ? true : false}
+            checked={rruleOptions?.until ? true : false}
             onClick={() => {
-              const newRruleObj = new RRule({
-                ...rruleObject?.options,
-                until: new Date(),
-              });
-              setRrule(newRruleObj.toString());
+              setRruleOptions({ ...rruleOptions, until: new Date() });
             }}
           />
           <label htmlFor="exDate">on Date (inclusive)</label>
@@ -59,10 +61,12 @@ const RepeatEndOption = ({ rruleObject }: { rruleObject: RRule | null }) => {
                 id="date"
                 className={clsx(
                   "w-48 justify-between font-normal border-border opacity-0",
-                  until && "opacity-100",
+                  rruleOptions?.until && "opacity-100",
                 )}
               >
-                {until ? until.toLocaleDateString() : "Select date"}
+                {rruleOptions?.until
+                  ? rruleOptions?.until.toLocaleDateString()
+                  : "Select date"}
                 <ChevronDownIcon />
               </Button>
             </PopoverTrigger>
@@ -72,14 +76,13 @@ const RepeatEndOption = ({ rruleObject }: { rruleObject: RRule | null }) => {
             >
               <Calendar
                 mode="single"
-                selected={until || new Date()}
+                selected={rruleOptions?.until || new Date()}
                 captionLayout="dropdown"
                 onSelect={(date) => {
-                  const newRruleObj = new RRule({
-                    ...rruleObject?.options,
+                  setRruleOptions({
+                    ...rruleOptions,
                     until: masqueradeAsUTC(date || new Date()),
                   });
-                  setRrule(newRruleObj.toString());
                   setOpen(false);
                 }}
               />

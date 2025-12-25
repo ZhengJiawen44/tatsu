@@ -26,7 +26,8 @@ import { masqueradeAsUTC } from "@/features/todos/lib/masqueradeAsUTC";
 import { useMemo } from "react";
 
 const TodoFormMenuStrip = () => {
-  const { priority, setPriority, rrule, setRrule, dateRange } = useTodoForm();
+  const { priority, setPriority, rruleOptions, setRruleOptions, dateRange } =
+    useTodoForm();
   /*
    * so i have to basically masquerade my local time as UTC and then
    * pass it to dtstart, and when i get my result back i have to convert
@@ -34,17 +35,18 @@ const TodoFormMenuStrip = () => {
    */
 
   const rruleObject = useMemo(() => {
-    if (!rrule) return null;
-    const options = RRule.parseString(rrule);
-    options.dtstart = masqueradeAsUTC(dateRange.from);
-    return new RRule(options);
-  }, [rrule, dateRange]);
-  console.log(rrule);
+    if (!rruleOptions) return null;
+    return new RRule({
+      ...rruleOptions,
+      dtstart: masqueradeAsUTC(dateRange.from),
+    });
+  }, [rruleOptions, dateRange]);
+  console.log(rruleOptions);
 
   const nextRepeatDate = useMemo(
     () => rruleObject?.after(masqueradeAsUTC(dateRange.from)),
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [rrule, dateRange],
+    [rruleOptions, dateRange],
   );
 
   return (
@@ -115,10 +117,8 @@ const TodoFormMenuStrip = () => {
         <DropdownMenuContent className="min-w-[150px] text-foreground">
           <DropdownMenuItem
             onClick={() =>
-              setRrule(() => {
-                return new RRule({
-                  freq: RRule.DAILY,
-                }).toString();
+              setRruleOptions(() => {
+                return { freq: RRule.DAILY };
               })
             }
           >
@@ -127,10 +127,8 @@ const TodoFormMenuStrip = () => {
           <DropdownMenuItem
             className="flex justify-between"
             onClick={() =>
-              setRrule(() => {
-                return new RRule({
-                  freq: RRule.WEEKLY,
-                }).toString();
+              setRruleOptions(() => {
+                return { freq: RRule.WEEKLY };
               })
             }
           >
@@ -142,10 +140,8 @@ const TodoFormMenuStrip = () => {
           <DropdownMenuItem
             className="flex justify-between"
             onClick={() =>
-              setRrule(() => {
-                return new RRule({
-                  freq: RRule.MONTHLY,
-                }).toString();
+              setRruleOptions(() => {
+                return { freq: RRule.MONTHLY };
               })
             }
           >
@@ -158,11 +154,11 @@ const TodoFormMenuStrip = () => {
           <DropdownMenuItem
             className="flex justify-between"
             onClick={() =>
-              setRrule(() => {
-                return new RRule({
-                  freq: RRule.DAILY,
+              setRruleOptions(() => {
+                return {
+                  freq: RRule.WEEKLY,
                   byweekday: [RRule.MO, RRule.TU, RRule.WE, RRule.TH, RRule.FR],
-                }).toString();
+                };
               })
             }
           >
@@ -176,12 +172,12 @@ const TodoFormMenuStrip = () => {
             />
           </DropdownMenuItem>
 
-          {rrule && (
+          {rruleOptions && (
             <>
               <DropdownMenuSeparator className="mt-[5px]" />
               <DropdownMenuItem
                 className="text-red gap-1"
-                onClick={() => setRrule(null)}
+                onClick={() => setRruleOptions(null)}
               >
                 <Trash />
                 Clear repeat
@@ -190,7 +186,7 @@ const TodoFormMenuStrip = () => {
           )}
         </DropdownMenuContent>
       </DropdownMenu>
-      {rrule && (
+      {rruleOptions && (
         <Tooltip>
           <TooltipTrigger
             onClick={(e) => {
