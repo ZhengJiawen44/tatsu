@@ -11,6 +11,7 @@ import { useTodoFormFocusAndAutosize } from "@/features/todos/hooks/useTodoFormF
 import { useKeyboardSubmitForm } from "@/features/todos/hooks/useKeyboardSubmitForm";
 import { useClearInput } from "@/features/todos/hooks/useClearInput";
 import TodoFormMenuStrip from "./TodoFormMenuStrip";
+import { RRule } from "rrule";
 // const TodoFormMenuStrip = dynamic(() => import("./TodoFormMenuStrip"), {
 //   loading: () => <div>loading...</div>,
 // });
@@ -35,7 +36,7 @@ const TodoForm = ({
     desc,
     setDesc,
     dateRange,
-    rrule,
+    rruleOptions,
   } = useTodoForm();
 
   //adjust height of the todo description based on content size
@@ -129,6 +130,7 @@ const TodoForm = ({
     const dtstart = dateRange.from as Date;
     const due = dateRange.to as Date;
     try {
+      const rrule = rruleOptions ? new RRule(rruleOptions).toString() : null;
       if (todo?.id) {
         setDisplayForm(false);
         if (editInstanceOnly) {

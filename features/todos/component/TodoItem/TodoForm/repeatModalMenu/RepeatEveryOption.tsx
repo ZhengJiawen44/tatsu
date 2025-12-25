@@ -7,9 +7,9 @@ import { useTodoForm } from "@/providers/TodoFormProvider";
 import React from "react";
 import { Options, RRule } from "rrule";
 
-const RepeatEveryOption = ({ rruleObject }: { rruleObject: RRule | null }) => {
+const RepeatEveryOption = () => {
   const { rruleOptions, setRruleOptions } = useTodoForm();
-  const currentInterval = rruleObject?.options.interval || 1;
+  const currentInterval = rruleOptions?.interval || 1;
   function removeByweekday(options: Partial<Options> | null) {
     //remove byweekday when freq is daily
     if (options?.byweekday) {
@@ -40,11 +40,11 @@ const RepeatEveryOption = ({ rruleObject }: { rruleObject: RRule | null }) => {
         <NativeSelect
           className="min-w-1/2 h-full border-border hover:bg-accent"
           defaultValue={
-            rruleObject?.options.freq == RRule.DAILY
+            rruleOptions?.freq == RRule.DAILY
               ? "Day"
-              : rruleObject?.options.freq == RRule.WEEKLY
+              : rruleOptions?.freq == RRule.WEEKLY
                 ? "Week"
-                : rruleObject?.options.freq == RRule.MONTHLY
+                : rruleOptions?.freq == RRule.MONTHLY
                   ? "Month"
                   : "Year"
           }

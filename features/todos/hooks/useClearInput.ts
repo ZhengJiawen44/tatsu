@@ -6,8 +6,14 @@ export function useClearInput(
   setEditInstanceOnly: React.Dispatch<React.SetStateAction<boolean>>,
   titleRef: React.RefObject<HTMLInputElement | null>,
 ) {
-  const { todoItem, setDesc, setTitle, setDateRange, setPriority, setRrule } =
-    useTodoForm();
+  const {
+    todoItem,
+    setDesc,
+    setTitle,
+    setDateRange,
+    setPriority,
+    setRruleOptions,
+  } = useTodoForm();
   const clearInput = useCallback(
     function clearInput() {
       if (setEditInstanceOnly) setEditInstanceOnly(false);
@@ -18,7 +24,7 @@ export function useClearInput(
         to: todoItem?.due ? todoItem.due : endOfDay(new Date()),
       });
       setPriority("Low");
-      setRrule(null);
+      setRruleOptions(null);
       titleRef.current?.focus();
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps

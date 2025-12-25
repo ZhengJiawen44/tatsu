@@ -3,13 +3,17 @@ import React from "react";
 import { RRule } from "rrule";
 import { useTodoForm } from "@/providers/TodoFormProvider";
 
-const RepeatOnOption = ({ rruleObject }: { rruleObject: RRule | null }) => {
+const RepeatOnOption = () => {
   const { rruleOptions, setRruleOptions } = useTodoForm();
-  const byweekday = rruleObject?.options.byweekday || [];
-  const freq = rruleObject?.options.freq;
+  const rruleObj = rruleOptions ? new RRule(rruleOptions) : null;
+  const byweekday = rruleObj?.options.byweekday;
+  const freq = rruleOptions?.freq;
+
   function toggleByDay(day: number) {
     let newByweekday;
-    if (byweekday.includes(day)) {
+    if (!byweekday) {
+      newByweekday = [day];
+    } else if (byweekday.includes(day)) {
       newByweekday = byweekday.filter((item) => item !== day);
     } else {
       newByweekday = [...byweekday, day];
@@ -26,7 +30,7 @@ const RepeatOnOption = ({ rruleObject }: { rruleObject: RRule | null }) => {
             <Checkbox
               id="Mo"
               value={0}
-              checked={byweekday?.includes(0)}
+              checked={byweekday?.includes(0) || false}
               onCheckedChange={() => toggleByDay(0)}
             />
             <label htmlFor="Mo">Mo</label>
@@ -35,7 +39,7 @@ const RepeatOnOption = ({ rruleObject }: { rruleObject: RRule | null }) => {
             <Checkbox
               id="Tu"
               value={1}
-              checked={byweekday?.includes(1)}
+              checked={byweekday?.includes(1) || false}
               onCheckedChange={() => toggleByDay(1)}
             />
             <label htmlFor="Tu">Tu</label>
@@ -44,7 +48,7 @@ const RepeatOnOption = ({ rruleObject }: { rruleObject: RRule | null }) => {
             <Checkbox
               id="We"
               value={2}
-              checked={byweekday?.includes(2)}
+              checked={byweekday?.includes(2) || false}
               onCheckedChange={() => toggleByDay(2)}
             />
             <label htmlFor="We">We</label>
@@ -53,7 +57,7 @@ const RepeatOnOption = ({ rruleObject }: { rruleObject: RRule | null }) => {
             <Checkbox
               id="Th"
               value={3}
-              checked={byweekday?.includes(3)}
+              checked={byweekday?.includes(3) || false}
               onCheckedChange={() => toggleByDay(3)}
             />
             <label htmlFor="Th">Th</label>
@@ -62,7 +66,7 @@ const RepeatOnOption = ({ rruleObject }: { rruleObject: RRule | null }) => {
             <Checkbox
               id="Fr"
               value={4}
-              checked={byweekday?.includes(4)}
+              checked={byweekday?.includes(4) || false}
               onCheckedChange={() => toggleByDay(4)}
             />
             <label htmlFor="Fr">Fr</label>
@@ -71,7 +75,7 @@ const RepeatOnOption = ({ rruleObject }: { rruleObject: RRule | null }) => {
             <Checkbox
               id="Sa"
               value={5}
-              checked={byweekday?.includes(5)}
+              checked={byweekday?.includes(5) || false}
               onCheckedChange={() => toggleByDay(5)}
             />
             <label htmlFor="Sa">Sa</label>
@@ -80,7 +84,7 @@ const RepeatOnOption = ({ rruleObject }: { rruleObject: RRule | null }) => {
             <Checkbox
               id="Su"
               value={6}
-              checked={byweekday?.includes(6)}
+              checked={byweekday?.includes(6) || false}
               onCheckedChange={() => toggleByDay(6)}
             />
             <label htmlFor="Su">Su</label>

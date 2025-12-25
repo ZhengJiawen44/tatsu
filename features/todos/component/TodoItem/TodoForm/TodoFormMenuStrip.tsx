@@ -6,8 +6,8 @@ import LaurelWreath from "@/components/ui/icon/laurelWreath";
 import { format, isThisYear } from "date-fns";
 import { useTodoForm } from "@/providers/TodoFormProvider";
 import { TbRefreshDot } from "react-icons/tb";
-import Trash from "@/components/ui/icon/trash";
 import CustomRepeatModalMenu from "./repeatModalMenu/CutomRepeatModalMenu";
+import { CheckIcon } from "lucide-react";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -26,8 +26,14 @@ import { masqueradeAsUTC } from "@/features/todos/lib/masqueradeAsUTC";
 import { useMemo } from "react";
 
 const TodoFormMenuStrip = () => {
-  const { priority, setPriority, rruleOptions, setRruleOptions, dateRange } =
-    useTodoForm();
+  const {
+    priority,
+    setPriority,
+    rruleOptions,
+    setRruleOptions,
+    dateRange,
+    repeatType,
+  } = useTodoForm();
   /*
    * so i have to basically masquerade my local time as UTC and then
    * pass it to dtstart, and when i get my result back i have to convert
@@ -41,7 +47,6 @@ const TodoFormMenuStrip = () => {
       dtstart: masqueradeAsUTC(dateRange.from),
     });
   }, [rruleOptions, dateRange]);
-  console.log(rruleOptions);
 
   const nextRepeatDate = useMemo(
     () => rruleObject?.after(masqueradeAsUTC(dateRange.from)),
@@ -114,40 +119,85 @@ const TodoFormMenuStrip = () => {
           <Repeat className="w-5 h-5" />
           <p className="hidden sm:block text-sm">Repeat</p>
         </DropdownMenuTrigger>
-        <DropdownMenuContent className="min-w-[150px] text-foreground">
+        <DropdownMenuContent className="min-w-[250px] text-foreground">
           <DropdownMenuItem
+            className="flex gap-1"
             onClick={() =>
               setRruleOptions(() => {
                 return { freq: RRule.DAILY };
               })
             }
           >
-            Daily
+            <CheckIcon
+              className={clsx(
+                "opacity-0",
+                repeatType == "Daily" && "opacity-100",
+              )}
+            />
+            Every Day
           </DropdownMenuItem>
           <DropdownMenuItem
-            className="flex justify-between"
+            className="flex"
             onClick={() =>
               setRruleOptions(() => {
                 return { freq: RRule.WEEKLY };
               })
             }
           >
-            Weekly
+            <div className="flex gap-1">
+              <CheckIcon
+                className={clsx(
+                  "opacity-0",
+                  repeatType == "Weekly" && "opacity-100",
+                )}
+              />
+              <p>Every Week</p>
+            </div>
+
             <p className="text-xs text-card-foreground-muted">
-              {format(new Date(), "EEE")}
+              on{format(new Date(), " EEE")}
             </p>
           </DropdownMenuItem>
           <DropdownMenuItem
-            className="flex justify-between"
+            className="flex"
             onClick={() =>
               setRruleOptions(() => {
                 return { freq: RRule.MONTHLY };
               })
             }
           >
-            Monthly
+            <div className="flex gap-1">
+              <CheckIcon
+                className={clsx(
+                  "opacity-0",
+                  repeatType == "Monthly" && "opacity-100",
+                )}
+              />
+              <p>Every Month</p>
+            </div>
             <p className="text-xs text-card-foreground-muted">
-              {format(new Date(), "do")}
+              on the {format(new Date(), " do")}
+            </p>
+          </DropdownMenuItem>
+          <DropdownMenuItem
+            className="flex"
+            onClick={() =>
+              setRruleOptions(() => {
+                return { freq: RRule.YEARLY };
+              })
+            }
+          >
+            <div className="flex gap-1">
+              <CheckIcon
+                className={clsx(
+                  "opacity-0",
+                  repeatType == "Yearly" && "opacity-100",
+                )}
+              />
+              <p>Every Year</p>
+            </div>
+            <p className="text-xs text-card-foreground-muted">
+              on{format(new Date(), " MMM do")}
             </p>
           </DropdownMenuItem>
           <DropdownMenuSeparator />
@@ -162,25 +212,37 @@ const TodoFormMenuStrip = () => {
               })
             }
           >
-            Every weekday
-            <p className="text-xs text-card-foreground-muted">(Mon-Fri)</p>
+            <div className="flex gap-1 items-center">
+              <CheckIcon
+                className={clsx(
+                  "opacity-0",
+                  repeatType == "Weekday" && "opacity-100",
+                )}
+              />
+              <p>Weekdays only</p>
+              <p className="text-xs text-card-foreground-muted">Mon-Fri</p>
+            </div>
           </DropdownMenuItem>
           <DropdownMenuItem asChild>
-            <CustomRepeatModalMenu
-              rruleObject={rruleObject}
-              className="w-full hover:bg-accent"
-            />
+            <div className="flex gap-0 w-full hover:bg-accent">
+              <CheckIcon
+                className={clsx(
+                  "opacity-0",
+                  repeatType == "Custom" && "opacity-100",
+                )}
+              />
+              <CustomRepeatModalMenu className="-ml-1" />
+            </div>
           </DropdownMenuItem>
 
           {rruleOptions && (
             <>
               <DropdownMenuSeparator className="mt-[5px]" />
               <DropdownMenuItem
-                className="text-red gap-1"
+                className="text-red gap-1 flex justify-center"
                 onClick={() => setRruleOptions(null)}
               >
-                <Trash />
-                Clear repeat
+                Clear
               </DropdownMenuItem>
             </>
           )}
