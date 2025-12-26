@@ -1,5 +1,5 @@
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
-import React, { useState } from "react";
+import React, { SetStateAction, useState } from "react";
 import {
   Popover,
   PopoverContent,
@@ -10,13 +10,19 @@ import { ChevronDownIcon } from "lucide-react";
 import clsx from "clsx";
 import { Button } from "@/components/ui/button";
 import { Options } from "rrule";
-import { useTodoForm } from "@/providers/TodoFormProvider";
 import { masqueradeAsUTC } from "@/features/todos/lib/masqueradeAsUTC";
 
-const RepeatEndOption = () => {
+interface RepeatEndOptionProps {
+  customRepeatOptions: Partial<Options> | null;
+  setCustomRepeatOptions: React.Dispatch<
+    SetStateAction<Partial<Options> | null>
+  >;
+}
+const RepeatEndOption = ({
+  customRepeatOptions,
+  setCustomRepeatOptions,
+}: RepeatEndOptionProps) => {
   const [open, setOpen] = useState(false);
-
-  const { rruleOptions, setRruleOptions } = useTodoForm();
 
   function removeUntil(options: Partial<Options> | null) {
     //remove until when rrule is never ending
@@ -35,9 +41,9 @@ const RepeatEndOption = () => {
           <RadioGroupItem
             value="never"
             id="never"
-            checked={rruleOptions?.until ? false : true}
+            checked={customRepeatOptions?.until ? false : true}
             onClick={() => {
-              setRruleOptions(removeUntil(rruleOptions));
+              setCustomRepeatOptions(removeUntil(customRepeatOptions));
             }}
           />
           <label htmlFor="never">never</label>
@@ -46,9 +52,12 @@ const RepeatEndOption = () => {
           <RadioGroupItem
             value="exDate"
             id="exDate"
-            checked={rruleOptions?.until ? true : false}
+            checked={customRepeatOptions?.until ? true : false}
             onClick={() => {
-              setRruleOptions({ ...rruleOptions, until: new Date() });
+              setCustomRepeatOptions({
+                ...customRepeatOptions,
+                until: new Date(),
+              });
             }}
           />
           <label htmlFor="exDate">on Date (inclusive)</label>
@@ -61,11 +70,11 @@ const RepeatEndOption = () => {
                 id="date"
                 className={clsx(
                   "w-48 justify-between font-normal border-border opacity-0",
-                  rruleOptions?.until && "opacity-100",
+                  customRepeatOptions?.until && "opacity-100",
                 )}
               >
-                {rruleOptions?.until
-                  ? rruleOptions?.until.toLocaleDateString()
+                {customRepeatOptions?.until
+                  ? customRepeatOptions?.until.toLocaleDateString()
                   : "Select date"}
                 <ChevronDownIcon />
               </Button>
@@ -76,11 +85,11 @@ const RepeatEndOption = () => {
             >
               <Calendar
                 mode="single"
-                selected={rruleOptions?.until || new Date()}
+                selected={customRepeatOptions?.until || new Date()}
                 captionLayout="dropdown"
                 onSelect={(date) => {
-                  setRruleOptions({
-                    ...rruleOptions,
+                  setCustomRepeatOptions({
+                    ...customRepeatOptions,
                     until: masqueradeAsUTC(date || new Date()),
                   });
                   setOpen(false);

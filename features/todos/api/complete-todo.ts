@@ -34,6 +34,7 @@ export const useCompleteTodo = (todoItem: TodoItemType) => {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["todo"] });
+      queryClient.invalidateQueries({ queryKey: ["completedTodo"] });
     },
   });
 
