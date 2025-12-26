@@ -1,13 +1,21 @@
 import { Checkbox } from "@/components/ui/checkbox";
-import React from "react";
-import { RRule } from "rrule";
-import { useTodoForm } from "@/providers/TodoFormProvider";
+import React, { SetStateAction } from "react";
+import { Options, RRule } from "rrule";
 
-const RepeatOnOption = () => {
-  const { rruleOptions, setRruleOptions } = useTodoForm();
-  const rruleObj = rruleOptions ? new RRule(rruleOptions) : null;
+interface RepeatOnOptionProps {
+  customRepeatOptions: Partial<Options> | null;
+  setCustomRepeatOptions: React.Dispatch<
+    SetStateAction<Partial<Options> | null>
+  >;
+}
+
+const RepeatOnOption = ({
+  customRepeatOptions,
+  setCustomRepeatOptions,
+}: RepeatOnOptionProps) => {
+  const rruleObj = customRepeatOptions ? new RRule(customRepeatOptions) : null;
   const byweekday = rruleObj?.options.byweekday;
-  const freq = rruleOptions?.freq;
+  const freq = customRepeatOptions?.freq;
 
   function toggleByDay(day: number) {
     let newByweekday;
@@ -18,7 +26,7 @@ const RepeatOnOption = () => {
     } else {
       newByweekday = [...byweekday, day];
     }
-    setRruleOptions({ ...rruleOptions, byweekday: newByweekday });
+    setCustomRepeatOptions({ ...customRepeatOptions, byweekday: newByweekday });
   }
 
   return (

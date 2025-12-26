@@ -3,13 +3,21 @@ import {
   NativeSelect,
   NativeSelectOption,
 } from "@/components/ui/native-select";
-import { useTodoForm } from "@/providers/TodoFormProvider";
-import React from "react";
+import React, { SetStateAction } from "react";
 import { Options, RRule } from "rrule";
 
-const RepeatEveryOption = () => {
-  const { rruleOptions, setRruleOptions } = useTodoForm();
-  const currentInterval = rruleOptions?.interval || 1;
+interface RepeatEveryOptionProps {
+  customRepeatOptions: Partial<Options> | null;
+  setCustomRepeatOptions: React.Dispatch<
+    SetStateAction<Partial<Options> | null>
+  >;
+}
+
+const RepeatEveryOption = ({
+  customRepeatOptions,
+  setCustomRepeatOptions,
+}: RepeatEveryOptionProps) => {
+  const currentInterval = customRepeatOptions?.interval || 1;
   function removeByweekday(options: Partial<Options> | null) {
     //remove byweekday when freq is daily
     if (options?.byweekday) {
@@ -32,7 +40,7 @@ const RepeatEveryOption = () => {
           onChange={(e) => {
             const interval = parseInt(e.currentTarget.value);
             if (interval) {
-              setRruleOptions({ ...rruleOptions, interval });
+              setCustomRepeatOptions({ ...customRepeatOptions, interval });
             }
           }}
         />
@@ -40,20 +48,22 @@ const RepeatEveryOption = () => {
         <NativeSelect
           className="min-w-1/2 h-full border-border hover:bg-accent"
           defaultValue={
-            rruleOptions?.freq == RRule.DAILY
+            customRepeatOptions?.freq == RRule.DAILY
               ? "Day"
-              : rruleOptions?.freq == RRule.WEEKLY
+              : customRepeatOptions?.freq == RRule.WEEKLY
                 ? "Week"
-                : rruleOptions?.freq == RRule.MONTHLY
+                : customRepeatOptions?.freq == RRule.MONTHLY
                   ? "Month"
-                  : "Year"
+                  : customRepeatOptions?.freq == RRule.YEARLY
+                    ? "Year"
+                    : "Daily"
           }
         >
           <NativeSelectOption
             value={"Day"}
             onClick={() => {
-              setRruleOptions({
-                ...removeByweekday(rruleOptions),
+              setCustomRepeatOptions({
+                ...removeByweekday(customRepeatOptions),
                 freq: RRule.DAILY,
               });
             }}
@@ -63,8 +73,8 @@ const RepeatEveryOption = () => {
           <NativeSelectOption
             value={"Week"}
             onClick={() => {
-              setRruleOptions({
-                ...rruleOptions,
+              setCustomRepeatOptions({
+                ...customRepeatOptions,
                 freq: RRule.WEEKLY,
               });
             }}
@@ -74,8 +84,8 @@ const RepeatEveryOption = () => {
           <NativeSelectOption
             value={"Month"}
             onClick={() =>
-              setRruleOptions({
-                ...removeByweekday(rruleOptions),
+              setCustomRepeatOptions({
+                ...removeByweekday(customRepeatOptions),
                 freq: RRule.MONTHLY,
               })
             }
@@ -85,8 +95,8 @@ const RepeatEveryOption = () => {
           <NativeSelectOption
             value={"Year"}
             onClick={() =>
-              setRruleOptions({
-                ...removeByweekday(rruleOptions),
+              setCustomRepeatOptions({
+                ...removeByweekday(customRepeatOptions),
                 freq: RRule.YEARLY,
               })
             }

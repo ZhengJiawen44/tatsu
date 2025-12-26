@@ -15,8 +15,14 @@ import RepeatEndOption from "./RepeatEndOption";
 import { CheckIcon } from "lucide-react";
 import clsx from "clsx";
 import { useTodoForm } from "@/providers/TodoFormProvider";
+import { useState } from "react";
+import { Options, RRule } from "rrule";
 const CustomRepeatModalMenu = ({ className }: { className?: string }) => {
-  const { repeatType } = useTodoForm();
+  const { repeatType, rruleOptions, setRruleOptions } = useTodoForm();
+  const [customRepeatOptions, setCustomRepeatOptions] =
+    useState<Partial<Options> | null>(
+      rruleOptions || { freq: RRule.DAILY, interval: 1 },
+    );
   return (
     <Dialog>
       <DialogTrigger className={className}>
@@ -32,17 +38,36 @@ const CustomRepeatModalMenu = ({ className }: { className?: string }) => {
         </DialogHeader>
         <div className="flex flex-col gap-6 mb-2">
           {/* rrule interval option */}
-          <RepeatEveryOption />
+          <RepeatEveryOption
+            customRepeatOptions={customRepeatOptions}
+            setCustomRepeatOptions={setCustomRepeatOptions}
+          />
           {/* rrule byday option */}
-          <RepeatOnOption />
+          <RepeatOnOption
+            customRepeatOptions={customRepeatOptions}
+            setCustomRepeatOptions={setCustomRepeatOptions}
+          />
           {/* rrule until option */}
-          <RepeatEndOption />
+          <RepeatEndOption
+            customRepeatOptions={customRepeatOptions}
+            setCustomRepeatOptions={setCustomRepeatOptions}
+          />
         </div>
         <DialogFooter>
           <DialogClose asChild>
-            <Button variant="outline">Cancel</Button>
+            <Button className="hover:bg-border">Cancel</Button>
           </DialogClose>
-          <Button type="button">Save changes</Button>
+          <DialogClose asChild>
+            <Button
+              className="hover:bg-accent border"
+              type="button"
+              onClick={() => {
+                setRruleOptions(customRepeatOptions);
+              }}
+            >
+              Save changes
+            </Button>
+          </DialogClose>
         </DialogFooter>
       </DialogContent>
     </Dialog>
