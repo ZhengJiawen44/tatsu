@@ -58,7 +58,7 @@ export const useEditTodoInstance = (
         const oldTodos = queryClient.getQueryData(["todo"]);
 
         queryClient.setQueryData(["todo"], (oldTodos: TodoItemType[]) =>
-          oldTodos.map((oldTodo) => {
+          oldTodos.flatMap((oldTodo) => {
             if (oldTodo.id === newTodo.id) {
               if (newTodo.dtstart > new Date()) {
                 return [];
