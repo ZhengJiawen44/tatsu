@@ -26,7 +26,6 @@ const TodoGroup = ({
   useEffect(() => {
     setItems(todos);
   }, [todos]);
-
   //function to detect any changes between items and todos. creates an array that describes how the new todos should be arranged
   const reorderDiff = useCallback(() => {
     const reorderList = [] as { id: string; order: number }[];
