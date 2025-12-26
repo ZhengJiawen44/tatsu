@@ -25,7 +25,8 @@ export function applyOverridesToGhosts(
   return ghostTodos.flatMap((ghost) => {
     const override = instanceMap.get(ghost.dtstart.toISOString() + ghost.id);
     if (override) {
-      if (override.completedAt) return [];
+      if (override.completedAt || override.overriddenDtstart! > new Date())
+        return [];
       return mergeInstanceAndTodo(override, ghost);
     }
     return ghost;

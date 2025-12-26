@@ -130,6 +130,7 @@ export async function GET(req: NextRequest) {
       ghostTodos,
       recurringParents,
     );
+
     const allTodos = [...oneOffTodos, ...mergedRecurringTodos].sort(
       (a, b) => a.order - b.order,
     );
