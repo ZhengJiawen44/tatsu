@@ -39,8 +39,11 @@ export const useEditTodo = () => {
       const oldTodos = queryClient.getQueryData(["todo"]);
 
       queryClient.setQueryData(["todo"], (oldTodos: TodoItemType[]) =>
-        oldTodos.map((oldTodo) => {
+        oldTodos.flatMap((oldTodo) => {
           if (oldTodo.id === newTodo.id) {
+            if (newTodo.dtstart > new Date()) {
+              return [];
+            }
             return {
               completed: newTodo.completed,
               order: newTodo.order,
@@ -62,7 +65,7 @@ export const useEditTodo = () => {
       return { oldTodos };
     },
     onSettled: () => {
-      // queryClient.invalidateQueries({ queryKey: ["todo"] });
+      //queryClient.invalidateQueries({ queryKey: ["todo"] });
     },
     onError: (error, newTodo, context) => {
       queryClient.setQueryData(["todo"], context?.oldTodos);

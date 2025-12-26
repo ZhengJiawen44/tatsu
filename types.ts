@@ -44,6 +44,7 @@ export interface overridingInstance {
   overriddenTitle: string | null;
   overriddenDescription: string | null;
   overriddenDtstart: Date | null;
+  overriddenDue: Date | null;
   overriddenDurationMinutes: number | null;
   overriddenPriority: "Low" | "Medium" | "High" | null;
 }

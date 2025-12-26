@@ -37,6 +37,7 @@ const TodoForm = ({
     setDesc,
     dateRange,
     rruleOptions,
+    instanceDate,
   } = useTodoForm();
 
   //adjust height of the todo description based on content size
@@ -142,6 +143,7 @@ const TodoForm = ({
             dtstart,
             due,
             rrule,
+            instanceDate,
           });
         } else {
           editTodo({

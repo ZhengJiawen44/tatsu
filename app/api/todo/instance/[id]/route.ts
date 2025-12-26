@@ -21,15 +21,24 @@ export async function PATCH(
     if (!id) throw new BadRequestError("Invalid request, ID is required");
 
     let body = await req.json();
+
+    if (!body.instanceDate) {
+      throw new BadRequestError(
+        "instanceDate is required to update a TodoInstance",
+      );
+    }
+
     body = {
       ...body,
       dtstart: new Date(body.dtstart),
       due: new Date(body.due),
+      instanceDate: new Date(body.instanceDate),
     };
     const parsedObj = todoSchema.partial().safeParse(body);
     if (!parsedObj.success) throw new BadRequestError("Invalid request body");
 
     const { title, description, priority, dtstart, due } = parsedObj.data;
+    const { instanceDate } = body;
     if (!dtstart) {
       throw new BadRequestError("dtstart is required to update a TodoInstance");
     }
@@ -38,7 +47,7 @@ export async function PATCH(
       where: {
         todoId_instanceDate: {
           todoId: id,
-          instanceDate: dtstart,
+          instanceDate,
         },
       },
       update: {
@@ -50,8 +59,8 @@ export async function PATCH(
       },
       create: {
         todoId: id,
-        recurId: dtstart.toISOString(),
-        instanceDate: dtstart,
+        recurId: instanceDate.toISOString(),
+        instanceDate: instanceDate,
         overriddenTitle: title,
         overriddenDescription: description,
         overriddenPriority: priority,

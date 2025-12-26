@@ -39,7 +39,6 @@ const TodoFormMenuStrip = () => {
    * pass it to dtstart, and when i get my result back i have to convert
    * the output to UTC, even though the output is already in UTC but i have to convert it
    */
-
   const rruleObject = useMemo(() => {
     if (!rruleOptions) return null;
     return new RRule({

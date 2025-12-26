@@ -4,6 +4,7 @@ import React, {
   createContext,
   SetStateAction,
   useContext,
+  useMemo,
   useState,
 } from "react";
 import { NonNullableDateRange } from "@/types";
@@ -30,6 +31,7 @@ interface TodoFormContextType {
     | "Weekday"
     | "Custom"
     | null;
+  instanceDate?: Date;
 }
 
 // Props for the provider
@@ -94,6 +96,9 @@ const TodoFormProvider = ({ children, todoItem }: TodoFormProviderProps) => {
               : rruleOptions?.freq === RRule.YEARLY
                 ? "Yearly"
                 : null;
+
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  const instanceDate = useMemo(() => dateRange.from, []);
   const contextValue: TodoFormContextType = {
     todoItem,
     title,
@@ -108,6 +113,7 @@ const TodoFormProvider = ({ children, todoItem }: TodoFormProviderProps) => {
     setRruleOptions,
     timeZone,
     repeatType,
+    instanceDate,
   };
 
   return (
