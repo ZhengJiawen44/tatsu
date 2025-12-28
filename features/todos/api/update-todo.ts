@@ -3,6 +3,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { api } from "@/lib/api-client";
 import { todoSchema } from "@/schema";
 import { TodoItemType } from "@/types";
+import { endOfDay } from "date-fns";
 
 async function patchTodo({ todo }: { todo: TodoItemType }) {
   if (!todo.id) {
@@ -41,7 +42,7 @@ export const useEditTodo = () => {
       queryClient.setQueryData(["todo"], (oldTodos: TodoItemType[]) =>
         oldTodos.flatMap((oldTodo) => {
           if (oldTodo.id === newTodo.id) {
-            if (newTodo.dtstart > new Date()) {
+            if (newTodo.dtstart > endOfDay(new Date())) {
               return [];
             }
             return {

@@ -15,8 +15,8 @@ import {
 } from "@/components/ui/popover";
 const DateDropdownMenu = () => {
   const { todoItem: todo, dateRange, setDateRange } = useTodoForm();
-  const nextWeek = nextMonday(dateRange?.from || startOfDay(new Date()));
-  const tomorrow = addDays(dateRange?.from || startOfDay(new Date()), 1);
+  const nextWeek = startOfDay(nextMonday(dateRange?.from || new Date()));
+  const tomorrow = startOfDay(addDays(dateRange?.from || new Date(), 1));
   const [isOpen, setIsOpen] = React.useState(false);
 
   function getDisplayDate(date: Date) {
@@ -130,7 +130,7 @@ const DateDropdownMenu = () => {
         {/* --- DURATION --- */}
         <DurationPicker />
 
-        <LineSeparator className="border-popover-accent w-full my-1" />
+        <LineSeparator className="border-popover-accent w-full my-1 mb-4" />
 
         {/* --- CALENDAR --- */}
         <div className="flex justify-center p-0">
