@@ -23,12 +23,11 @@ export const useTodo = () => {
           data.message || `bad server response: Did not recieve todo`,
         );
       }
-
       const todoWithFormattedDates = todos.map((todo) => {
         return {
           ...todo,
           dtstart: new Date(todo.dtstart),
-          due: new Date(todo.due!),
+          due: new Date(todo.due),
         };
       });
 

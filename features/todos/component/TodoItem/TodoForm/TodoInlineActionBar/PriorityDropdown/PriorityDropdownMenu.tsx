@@ -6,7 +6,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import LaurelWreath from "@/components/ui/icon/laurelWreath";
-import { PriorityIndicator } from "../../PriorityIndicator";
+import { PriorityIndicator } from "../../../PriorityIndicator";
 import { useTodoForm } from "@/providers/TodoFormProvider";
 import clsx from "clsx";
 

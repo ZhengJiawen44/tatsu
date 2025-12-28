@@ -25,7 +25,6 @@ export default function generateTodosFromRRule(
     try {
       if (!parent.rrule) return [];
       const rule = genRule(parent.rrule, parent.dtstart, timeZone);
-      console.log(parent.rrule, parent.dtstart, timeZone);
       //return an array of dtStart
       const occurrences = rule.between(
         bounds.todayStartUTC,
@@ -34,9 +33,7 @@ export default function generateTodosFromRRule(
       );
 
       const durationMinutes =
-        Math.round(
-          ((parent.due.getTime() - parent.dtstart.getTime()) / 60000) * 1000,
-        ) / 1000;
+        (parent.due.getTime() - parent.dtstart.getTime()) / 60000;
 
       return occurrences.flatMap((occ) => {
         return {

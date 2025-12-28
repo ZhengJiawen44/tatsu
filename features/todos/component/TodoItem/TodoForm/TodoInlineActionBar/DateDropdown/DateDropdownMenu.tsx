@@ -20,10 +20,9 @@ const DateDropdownMenu = () => {
   const [isOpen, setIsOpen] = React.useState(false);
 
   function getDisplayDate(date: Date) {
-    const formattedDate = format(date, "MMM dd yyyy");
     return date.getFullYear() === new Date().getFullYear()
-      ? formattedDate.replace(` ${date.getFullYear()}`, "")
-      : formattedDate;
+      ? format(date, "MMM dd")
+      : format(date, "MMM dd yyyy");
   }
 
   const itemClass =
@@ -55,12 +54,14 @@ const DateDropdownMenu = () => {
             setDateRange((prev) => ({
               from: startOfDay(new Date()),
               to:
-                prev?.to && prev.from
+                prev.to && prev.from
                   ? new Date(
-                      addDays(
-                        new Date(),
-                        differenceInDays(prev.to, prev.from),
-                      ).setHours(prev.to.getHours(), prev.to.getMinutes()),
+                      endOfDay(
+                        addDays(
+                          new Date(),
+                          differenceInDays(prev.to, prev.from),
+                        ),
+                      ),
                     )
                   : endOfDay(new Date()),
             }));
@@ -83,7 +84,7 @@ const DateDropdownMenu = () => {
             setDateRange((prev) => ({
               from: tomorrow,
               to:
-                prev?.to && prev?.from
+                prev.to && prev.from
                   ? endOfDay(
                       addDays(tomorrow, differenceInDays(prev.to, prev.from)),
                     )
@@ -108,12 +109,11 @@ const DateDropdownMenu = () => {
             setDateRange((prev) => ({
               from: nextWeek,
               to:
-                prev?.to && prev?.from
-                  ? new Date(
-                      addDays(
-                        nextWeek,
-                        differenceInDays(prev?.to, prev?.from),
-                      ).setHours(prev.to.getHours(), prev.to.getMinutes()),
+                prev.to && prev.from
+                  ? endOfDay(
+                      new Date(
+                        addDays(nextWeek, differenceInDays(prev.to, prev.from)),
+                      ),
                     )
                   : endOfDay(nextWeek),
             }));
