@@ -11,7 +11,6 @@ import { Input } from "@/components/ui/input";
 
 const DurationPicker = () => {
   const { dateRange, setDateRange } = useTodoForm();
-  console.log(dateRange);
 
   return (
     <Popover>
@@ -28,7 +27,7 @@ const DurationPicker = () => {
       <PopoverContent
         side="right"
         align="start"
-        className="w-[260px] p-4 rounded-lg"
+        className="w-[210px] p-4 rounded-lg"
       >
         <div className="flex flex-col gap-4">
           <div className="space-y-1">
@@ -36,7 +35,7 @@ const DurationPicker = () => {
               Set duration
             </h4>
             <p className="text-[11px] leading-snug text-muted-foreground">
-              Applied to the current date range only
+              Applied to the current date only
             </p>
           </div>
 
@@ -44,7 +43,7 @@ const DurationPicker = () => {
             {/* FROM */}
             <div className="rounded-md border p-1">
               <div className="flex justify-center gap-2 items-center">
-                <span className="text-sm font-medium text-muted-foreground">
+                <span className="text-xs font-medium text-muted-foreground">
                   {format(dateRange.from, "dd MMM")}
                 </span>
                 <div className="p-0">
@@ -55,13 +54,10 @@ const DurationPicker = () => {
                         : "00:00"
                     }
                     onChange={(e) => {
+                      const timeStart = e.currentTarget.value || "00:00";
                       setDateRange((old) => {
                         return {
-                          from: parse(
-                            e.currentTarget.value,
-                            "HH:mm",
-                            dateRange.from,
-                          ),
+                          from: parse(timeStart, "HH:mm", dateRange.from),
                           to: old.to,
                         };
                       });
@@ -76,7 +72,7 @@ const DurationPicker = () => {
             {/* UNTIL */}
             <div className="rounded-md border p-1">
               <div className="flex justify-center gap-2 items-center">
-                <span className="text-sm font-medium text-muted-foreground">
+                <span className="text-xs font-medium text-muted-foreground">
                   {format(dateRange.to, "dd MMM")}
                 </span>
                 <div className="p-0">
@@ -87,14 +83,12 @@ const DurationPicker = () => {
                         : "23:59"
                     }
                     onChange={(e) => {
+                      const timeStart = e.currentTarget.value || "11:59";
+
                       setDateRange((old) => {
                         return {
                           from: old.from,
-                          to: parse(
-                            e.currentTarget.value,
-                            "HH:mm",
-                            dateRange.to,
-                          ),
+                          to: parse(timeStart, "HH:mm", dateRange.to),
                         };
                       });
                     }}
