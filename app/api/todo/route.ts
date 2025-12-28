@@ -124,7 +124,6 @@ export async function GET(req: NextRequest) {
       timeZone,
       bounds,
     );
-
     // Apply overrides
     const mergedRecurringTodos = applyOverridesToGhosts(
       ghostTodos,
@@ -134,6 +133,7 @@ export async function GET(req: NextRequest) {
     const allTodos = [...oneOffTodos, ...mergedRecurringTodos].sort(
       (a, b) => a.order - b.order,
     );
+
     return NextResponse.json({ todos: allTodos }, { status: 200 });
   } catch (error) {
     return errorHandler(error);

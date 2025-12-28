@@ -139,19 +139,19 @@ export async function PATCH(
     });
 
     //updating a todo just overwrites the override
-    await prisma.todoInstance.updateMany({
-      where: {
-        todoId: id,
-        instanceDate: dtstart,
-      },
-      data: {
-        overriddenTitle: title,
-        overriddenDescription: description,
-        overriddenPriority: newPriority as Priority,
-        overriddenDtstart: dtstart,
-        overriddenDue: due,
-      },
-    });
+    // await prisma.todoInstance.updateMany({
+    //   where: {
+    //     todoId: id,
+    //     instanceDate: dtstart,
+    //   },
+    //   data: {
+    //     overriddenTitle: title,
+    //     overriddenDescription: description,
+    //     overriddenPriority: newPriority as Priority,
+    //     overriddenDtstart: dtstart,
+    //     overriddenDue: due,
+    //   },
+    // });
 
     return NextResponse.json({ message: "Todo updated" }, { status: 200 });
   } catch (error) {

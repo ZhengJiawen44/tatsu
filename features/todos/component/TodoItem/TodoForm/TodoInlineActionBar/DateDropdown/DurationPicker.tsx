@@ -6,11 +6,12 @@ import {
 } from "@/components/ui/popover";
 import { TbClockHour4 as Clock, TbChevronRight } from "react-icons/tb";
 import { useTodoForm } from "@/providers/TodoFormProvider";
-import { format } from "date-fns";
-import TimePicker from "./TimePicker";
+import { format, parse } from "date-fns";
+import { Input } from "@/components/ui/input";
 
 const DurationPicker = () => {
-  const { dateRange } = useTodoForm();
+  const { dateRange, setDateRange } = useTodoForm();
+  console.log(dateRange);
 
   return (
     <Popover>
@@ -46,7 +47,29 @@ const DurationPicker = () => {
                 <span className="text-sm font-medium text-muted-foreground">
                   {format(dateRange.from, "dd MMM")}
                 </span>
-                <TimePicker />
+                <div className="p-0">
+                  <Input
+                    value={
+                      dateRange.from
+                        ? dateRange.from.toTimeString().slice(0, 5)
+                        : "00:00"
+                    }
+                    onChange={(e) => {
+                      setDateRange((old) => {
+                        return {
+                          from: parse(
+                            e.currentTarget.value,
+                            "HH:mm",
+                            dateRange.from,
+                          ),
+                          to: old.to,
+                        };
+                      });
+                    }}
+                    type="time"
+                    className="p-0 select-none border-none bg-transparent focus-visible:outline-none focus-visible:ring-0 focus-visible:ring-transparent focus-visible:ring-offset-0 hover:cursor-pointer"
+                  />
+                </div>
               </div>
             </div>
 
@@ -56,7 +79,29 @@ const DurationPicker = () => {
                 <span className="text-sm font-medium text-muted-foreground">
                   {format(dateRange.to, "dd MMM")}
                 </span>
-                <TimePicker />
+                <div className="p-0">
+                  <Input
+                    value={
+                      dateRange.to
+                        ? dateRange.to.toTimeString().slice(0, 5)
+                        : "23:59"
+                    }
+                    onChange={(e) => {
+                      setDateRange((old) => {
+                        return {
+                          from: old.from,
+                          to: parse(
+                            e.currentTarget.value,
+                            "HH:mm",
+                            dateRange.to,
+                          ),
+                        };
+                      });
+                    }}
+                    type="time"
+                    className="p-0 select-none border-none bg-transparent focus-visible:outline-none focus-visible:ring-0 focus-visible:ring-transparent focus-visible:ring-offset-0 hover:cursor-pointer"
+                  />
+                </div>
               </div>
             </div>
           </div>

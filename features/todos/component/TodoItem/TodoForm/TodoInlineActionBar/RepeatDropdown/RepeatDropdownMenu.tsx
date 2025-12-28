@@ -1,5 +1,5 @@
 import React from "react";
-import CustomRepeatModalMenu from "./RepeatDropdown/repeatModalMenu/CutomRepeatModalMenu";
+import CustomRepeatModalMenu from "./repeatModalMenu/CutomRepeatModalMenu";
 import { CheckIcon } from "lucide-react";
 import {
   DropdownMenu,
