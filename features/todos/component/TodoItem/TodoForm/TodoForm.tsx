@@ -10,11 +10,8 @@ import { useEditTodoInstance } from "@/features/todos/api/update-todo-instance";
 import { useTodoFormFocusAndAutosize } from "@/features/todos/hooks/useTodoFormFocusAndAutosize";
 import { useKeyboardSubmitForm } from "@/features/todos/hooks/useKeyboardSubmitForm";
 import { useClearInput } from "@/features/todos/hooks/useClearInput";
-import TodoFormMenuStrip from "./TodoFormMenuStrip";
 import { RRule } from "rrule";
-// const TodoFormMenuStrip = dynamic(() => import("./TodoFormMenuStrip"), {
-//   loading: () => <div>loading...</div>,
-// });
+import TodoInlineActionBar from "./TodoInlineActionBar/TodoInlineActionBar";
 interface TodoFormProps {
   editInstanceOnly: boolean;
   setEditInstanceOnly: React.Dispatch<React.SetStateAction<boolean>>;
@@ -89,12 +86,11 @@ const TodoForm = ({
           name="description"
           placeholder="description"
         />
-
         <LineSeparator />
-        {/* footer tooltip */}
-        <div className="max-w-full flex justify-between items-center overflow-clip text-sm sm:text-[1rem]">
-          <TodoFormMenuStrip />
 
+        <div className="max-w-full flex justify-between items-center overflow-clip text-sm sm:text-[1rem]">
+          {/* DateRange, Priority, and Repeat menus */}
+          <TodoInlineActionBar />
           <div className="flex gap-2 items-center text-sm">
             <button
               type="button"
@@ -128,8 +124,8 @@ const TodoForm = ({
 
   async function handleForm(e?: React.FormEvent) {
     if (e) e.preventDefault();
-    const dtstart = dateRange.from as Date;
-    const due = dateRange.to as Date;
+    const dtstart = dateRange.from;
+    const due = dateRange.to;
     try {
       const rrule = rruleOptions ? new RRule(rruleOptions).toString() : null;
       if (todo?.id) {

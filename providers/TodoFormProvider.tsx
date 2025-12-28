@@ -23,7 +23,7 @@ interface TodoFormContextType {
   rruleOptions: Partial<Options> | null;
   setRruleOptions: React.Dispatch<SetStateAction<Partial<Options> | null>>;
   timeZone: string;
-  repeatType:
+  derivedRepeatType:
     | "Daily"
     | "Weekly"
     | "Monthly"
@@ -50,12 +50,10 @@ const TodoFormProvider = ({ children, todoItem }: TodoFormProviderProps) => {
   const [priority, setPriority] = useState<"Low" | "Medium" | "High">(
     todoItem?.priority || "Low",
   );
-
   const [dateRange, setDateRange] = useState<NonNullableDateRange>({
     from: todoItem?.dtstart ?? startOfDay(new Date()),
     to: todoItem?.due ?? endOfDay(new Date()),
   });
-
   const [rruleOptions, setRruleOptions] = useState(
     todoItem?.rrule ? RRule.parseString(todoItem.rrule) : null,
   );
@@ -64,7 +62,7 @@ const TodoFormProvider = ({ children, todoItem }: TodoFormProviderProps) => {
     todoItem?.timeZone ||
     "UTC";
 
-  const repeatType =
+  const derivedRepeatType =
     // Check for weekday pattern first (before generic byweekday check)
     rruleOptions?.freq === RRule.WEEKLY &&
     rruleOptions?.byweekday &&
@@ -112,7 +110,7 @@ const TodoFormProvider = ({ children, todoItem }: TodoFormProviderProps) => {
     rruleOptions,
     setRruleOptions,
     timeZone,
-    repeatType,
+    derivedRepeatType,
     instanceDate,
   };
 

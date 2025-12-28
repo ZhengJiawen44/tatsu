@@ -13,7 +13,7 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-const DayMenu = () => {
+const DateDropdownMenu = () => {
   const { todoItem: todo, dateRange, setDateRange } = useTodoForm();
   const nextWeek = nextMonday(dateRange?.from || startOfDay(new Date()));
   const tomorrow = addDays(dateRange?.from || startOfDay(new Date()), 1);
@@ -155,4 +155,4 @@ const DayMenu = () => {
   );
 };
 
-export default DayMenu;
+export default DateDropdownMenu;
