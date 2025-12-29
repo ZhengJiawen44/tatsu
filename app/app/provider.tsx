@@ -14,10 +14,15 @@ import clsx from "clsx";
 import SidebarIcon from "@/components/ui/icon/sidebar";
 import SidebarToggle from "@/components/ui/SidebarToggle";
 import { Toaster } from "@/components/ui/toaster";
+import { useSelectedLayoutSegment } from "next/navigation";
 // import AnnouncementBanner from "@/components/AnnouncementBanner";
 
 const Provider = ({ children }: { children: React.ReactNode }) => {
   const { showMenu, isResizing } = useMenu();
+  const segment = useSelectedLayoutSegment();
+  let variant = "default";
+  if (segment == "calendar") variant = "fullWidth";
+
   return (
     <PassKeyProvider>
       <NotificationProvider>
@@ -37,8 +42,11 @@ const Provider = ({ children }: { children: React.ReactNode }) => {
           <div className="flex flex-col flex-1 z-0">
             <div
               className={clsx(
-                "w-full m-auto h-full p-12 lg:px-[clamp(10px,10%,20%)] xl:px-[clamp(10px,15%,20%)] 2xl:px-[clamp(10px,20%,30%)]  overflow-scroll scrollbar-none pt-[4rem]",
-                isResizing && "select-none"
+                variant == "default" &&
+                  "lg:px-[clamp(10px,10%,20%)] xl:px-[clamp(10px,15%,20%)] 2xl:px-[clamp(10px,20%,30%)]",
+                variant == "fullWidth" && "px-[clamp(10px,5%,10%)]",
+                "w-full m-auto h-full p-12 overflow-scroll scrollbar-none pt-[4rem]",
+                isResizing && "select-none",
               )}
             >
               {!showMenu && <Toaster />}
