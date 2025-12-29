@@ -9,6 +9,7 @@ import {
 } from "@/components/ui/tooltip";
 import { useTodoForm } from "@/providers/TodoFormProvider";
 import { useNextCalculatedRepeatDate } from "@/features/todos/hooks/useNextRepeatDate";
+import { rruleDateToLocal } from "@/features/todos/lib/rruleDateToLocal";
 
 const NextRepeatDateIndicator = () => {
   const { rruleOptions } = useTodoForm();
@@ -43,14 +44,3 @@ const NextRepeatDateIndicator = () => {
 };
 
 export default NextRepeatDateIndicator;
-
-function rruleDateToLocal(date: Date) {
-  return new Date(
-    date.getUTCFullYear(),
-    date.getUTCMonth(),
-    date.getUTCDate(),
-    date.getUTCHours(),
-    date.getUTCMinutes(),
-    date.getUTCSeconds(),
-  );
-}
