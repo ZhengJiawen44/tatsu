@@ -31,7 +31,8 @@ interface TodoFormContextType {
     | "Weekday"
     | "Custom"
     | null;
-  instanceDate?: Date;
+  instanceDate?: Date; //used to accurately update the todo instance
+  dateRangeChecksum: string; //used to accurately update a repeating todo
 }
 
 // Props for the provider
@@ -57,6 +58,10 @@ const TodoFormProvider = ({ children, todoItem }: TodoFormProviderProps) => {
   const [rruleOptions, setRruleOptions] = useState(
     todoItem?.rrule ? RRule.parseString(todoItem.rrule) : null,
   );
+  const dateRangeChecksum = todoItem
+    ? todoItem?.dtstart.toISOString() + todoItem?.due.toISOString()
+    : dateRange.from.toISOString() + dateRange.to.toISOString();
+
   const timeZone =
     Intl.DateTimeFormat().resolvedOptions().timeZone ||
     todoItem?.timeZone ||
@@ -112,6 +117,7 @@ const TodoFormProvider = ({ children, todoItem }: TodoFormProviderProps) => {
     timeZone,
     derivedRepeatType,
     instanceDate,
+    dateRangeChecksum,
   };
 
   return (

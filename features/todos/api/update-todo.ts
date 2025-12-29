@@ -5,7 +5,10 @@ import { todoSchema } from "@/schema";
 import { TodoItemType } from "@/types";
 import { endOfDay } from "date-fns";
 
-async function patchTodo({ todo }: { todo: TodoItemType }) {
+interface TodoItemTypeWithDateChecksum extends TodoItemType {
+  dateRangeChecksum: string;
+}
+async function patchTodo({ todo }: { todo: TodoItemTypeWithDateChecksum }) {
   if (!todo.id) {
     throw new Error("this todo is missing");
   }
@@ -22,10 +25,14 @@ async function patchTodo({ todo }: { todo: TodoItemType }) {
     console.log(parsedObj.error.errors[0]);
     return;
   }
+  const dateChanged =
+    todo.dateRangeChecksum !==
+    todo.dtstart.toISOString() + todo.due.toISOString();
+
   await api.PATCH({
     url: `/api/todo/${todo.id}`,
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(parsedObj.data),
+    body: JSON.stringify({ ...parsedObj.data, dateChanged }),
   });
 }
 
@@ -34,7 +41,8 @@ export const useEditTodo = () => {
   const queryClient = useQueryClient();
 
   const { mutate: editTodo, status: editTodoStatus } = useMutation({
-    mutationFn: (params: TodoItemType) => patchTodo({ todo: params }),
+    mutationFn: (params: TodoItemTypeWithDateChecksum) =>
+      patchTodo({ todo: params }),
     onMutate: async (newTodo) => {
       await queryClient.cancelQueries({ queryKey: ["todo"] });
       const oldTodos = queryClient.getQueryData(["todo"]);
