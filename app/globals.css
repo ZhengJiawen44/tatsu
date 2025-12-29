@@ -87,7 +87,7 @@ body {
     --card-accent: 235 32% 16%;
     --card-muted: 236 28% 17%;
     --popover: 235, 28%, 22%;
-    --popover-foreground: 234 11% 90%;
+    --popover-foreground: 234 11% 100%;
     --popover-accent: 233, 10%, 30%;
     --primary: 235, 32%, 14%;
     --primary-foreground: 0 0% 98%;
@@ -108,6 +108,73 @@ body {
     --chart-4: 43 74% 66%;
     --chart-5: 27 87% 67%;
   }
+}
+
+/* month view */
+.rbc-off-range-bg {
+  background-color: transparent !important;
+  color: hsl(var(--muted-foreground));
+}
+.rbc-month-row {
+  border-top: 1px solid hsl(var(--input) / 0.3) !important;
+}
+.rbc-month-view {
+  border: 1px solid hsl(var(--input) / 0.3) !important;
+  border-radius: 10px;
+  overflow: hidden;
+}
+.rbc-day-bg {
+  border-left: 1px solid hsl(var(--input) / 0.3) !important;
+}
+.rbc-header {
+  border: none !important;
+  background-color: hsl(var(--input) / 0.2) !important;
+}
+
+.rbc-today {
+  background-color: hsl(var(--input) / 0.1) !important;
+}
+
+/* week view */
+.rbc-allday-cell {
+  display: none;
+}
+.rbc-time-view {
+  border: 1px solid hsl(var(--input) / 0.3) !important;
+  border-radius: 10px;
+  overflow: hidden;
+}
+.rbc-time-content {
+  border-top: transparent !important;
+}
+.rbc-time-slot {
+  border: 1px solid hsl(var(--input) / 0.3) !important;
+}
+
+.rbc-timeslot-group {
+  border: transparent !important;
+}
+.rbc-events-container {
+  border: transparent !important;
+}
+.rbc-time-header-content {
+  border: transparent !important;
+}
+
+/* agenda view */
+
+.rbc-agenda-table {
+  border: transparent !important;
+  border-bottom: 1px solid hsl(var(--input) / 0.3) !important;
+}
+.rbc-header {
+  font-weight: 600 !important;
+}
+.rbc-agenda-time-cell {
+  border: transparent !important;
+}
+.rbc-agenda-event-cell {
+  border: transparent !important;
 }
 
 @layer base {

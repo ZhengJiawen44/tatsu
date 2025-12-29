@@ -88,3 +88,9 @@ export type User = Prisma.UserGetPayload<{
 export interface recurringTodoWithInstance extends TodoItemType {
   instances: overridingInstance[];
 }
+
+export interface CalendarEvent {
+  start: Date;
+  end: Date;
+  title: string;
+}
