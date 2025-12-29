@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {
   Popover,
   PopoverContent,
@@ -6,11 +6,75 @@ import {
 } from "@/components/ui/popover";
 import { TbClockHour4 as Clock, TbChevronRight } from "react-icons/tb";
 import { useTodoForm } from "@/providers/TodoFormProvider";
-import { format, parse } from "date-fns";
+import { format, parse, isValid, isSameDay } from "date-fns";
 import { Input } from "@/components/ui/input";
 
 const DurationPicker = () => {
   const { dateRange, setDateRange } = useTodoForm();
+
+  const [timeFromStr, setTimeFromStr] = useState(
+    dateRange?.from ? format(dateRange.from, "HH:mm") : "00:00",
+  );
+  const [timeToStr, setTimeToStr] = useState(
+    dateRange?.to ? format(dateRange.to, "HH:mm") : "23:59",
+  );
+
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    if (dateRange?.from) setTimeFromStr(format(dateRange.from, "HH:mm"));
+    if (dateRange?.to) setTimeToStr(format(dateRange.to, "HH:mm"));
+    setError(null);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [dateRange?.from?.getTime(), dateRange?.to?.getTime()]);
+
+  const handleFromChange = (val: string) => {
+    setTimeFromStr(val);
+
+    const parsed = parse(val || "00:00", "HH:mm", dateRange.from);
+    if (!isValid(parsed)) {
+      setError(null);
+      return;
+    }
+
+    setDateRange((old) => {
+      const newFrom = parsed;
+      if (isSameDay(old.from, old.to) && newFrom.getTime() > old.to.getTime()) {
+        setTimeToStr(format(newFrom, "HH:mm"));
+        setError(null);
+        return { from: newFrom, to: newFrom };
+      }
+      setError(null);
+      return { from: newFrom, to: old.to };
+    });
+  };
+
+  const handleToChange = (val: string) => {
+    setTimeToStr(val);
+
+    const parsed = parse(val || "23:59", "HH:mm", dateRange.to);
+    if (!isValid(parsed)) {
+      setError(null);
+      return;
+    }
+
+    // If same day, ensure newTo >= from
+    if (
+      isSameDay(dateRange.from, dateRange.to) &&
+      parsed.getTime() < dateRange.from.getTime()
+    ) {
+      // show error, do not commit invalid value
+      setError("invalid date range: End time must be after start time.");
+      return;
+    }
+    // otherwise commit
+    setDateRange((old) => {
+      setError(null);
+      return { from: old.from, to: parsed };
+    });
+  };
+
+  const inputErrorClass = error ? "ring-1 ring-red" : "";
 
   return (
     <Popover>
@@ -27,7 +91,7 @@ const DurationPicker = () => {
       <PopoverContent
         side="right"
         align="start"
-        className="w-[210px] p-4 rounded-lg"
+        className="w-[240px] p-4 rounded-lg"
       >
         <div className="flex flex-col gap-4">
           <div className="space-y-1">
@@ -46,24 +110,14 @@ const DurationPicker = () => {
                 <span className="text-xs font-medium text-muted-foreground">
                   {format(dateRange.from, "dd MMM")}
                 </span>
-                <div className="p-0">
+                <div className="p-0 flex-1">
                   <Input
-                    value={
-                      dateRange.from
-                        ? dateRange.from.toTimeString().slice(0, 5)
-                        : "00:00"
-                    }
-                    onChange={(e) => {
-                      const timeStart = e.currentTarget.value || "00:00";
-                      setDateRange((old) => {
-                        return {
-                          from: parse(timeStart, "HH:mm", dateRange.from),
-                          to: old.to,
-                        };
-                      });
-                    }}
+                    value={timeFromStr}
+                    onChange={(e) => handleFromChange(e.currentTarget.value)}
                     type="time"
-                    className="p-0 select-none border-none bg-transparent focus-visible:outline-none focus-visible:ring-0 focus-visible:ring-transparent focus-visible:ring-offset-0 hover:cursor-pointer"
+                    className={`p-0 select-none border-none bg-transparent focus-visible:outline-none focus-visible:ring-0 focus-visible:ring-transparent focus-visible:ring-offset-0 hover:cursor-pointer ${inputErrorClass}`}
+                    aria-invalid={!!error}
+                    aria-describedby={error ? "duration-error" : undefined}
                   />
                 </div>
               </div>
@@ -75,29 +129,25 @@ const DurationPicker = () => {
                 <span className="text-xs font-medium text-muted-foreground">
                   {format(dateRange.to, "dd MMM")}
                 </span>
-                <div className="p-0">
+                <div className="p-0 flex-1">
                   <Input
-                    value={
-                      dateRange.to
-                        ? dateRange.to.toTimeString().slice(0, 5)
-                        : "23:59"
-                    }
-                    onChange={(e) => {
-                      const timeStart = e.currentTarget.value || "11:59";
-
-                      setDateRange((old) => {
-                        return {
-                          from: old.from,
-                          to: parse(timeStart, "HH:mm", dateRange.to),
-                        };
-                      });
-                    }}
+                    value={timeToStr}
+                    onChange={(e) => handleToChange(e.currentTarget.value)}
                     type="time"
-                    className="p-0 select-none border-none bg-transparent focus-visible:outline-none focus-visible:ring-0 focus-visible:ring-transparent focus-visible:ring-offset-0 hover:cursor-pointer"
+                    className={`p-0 select-none border-none bg-transparent focus-visible:outline-none focus-visible:ring-0 focus-visible:ring-transparent focus-visible:ring-offset-0 hover:cursor-pointer ${inputErrorClass}`}
+                    aria-invalid={!!error}
+                    aria-describedby={error ? "duration-error" : undefined}
                   />
                 </div>
               </div>
             </div>
+
+            {/* error message */}
+            {error ? (
+              <p id="duration-error" className="text-[12px] text-red mt-0.5">
+                {error}
+              </p>
+            ) : null}
           </div>
         </div>
       </PopoverContent>

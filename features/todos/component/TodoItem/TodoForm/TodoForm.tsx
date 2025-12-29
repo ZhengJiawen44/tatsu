@@ -35,6 +35,7 @@ const TodoForm = ({
     dateRange,
     rruleOptions,
     instanceDate,
+    dateRangeChecksum,
   } = useTodoForm();
 
   //adjust height of the todo description based on content size
@@ -124,6 +125,19 @@ const TodoForm = ({
 
   async function handleForm(e?: React.FormEvent) {
     if (e) e.preventDefault();
+
+    // if (
+    //   dateRangeChecksum ===
+    //   dateRange.from.toISOString() + dateRange.to.toISOString()
+    // ) {
+    //   console.log("date range was not changed");
+    // } else {
+    //   console.log("date range was changed");
+    // }
+    // console.log(
+    //   dateRangeChecksum,
+    //   dateRange.from.toISOString() + dateRange.to.toISOString(),
+    // );
     const dtstart = dateRange.from;
     const due = dateRange.to;
     try {
@@ -144,6 +158,7 @@ const TodoForm = ({
         } else {
           editTodo({
             ...todo,
+            dateRangeChecksum,
             title,
             description: desc,
             priority,

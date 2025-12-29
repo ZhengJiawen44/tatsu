@@ -107,6 +107,7 @@ export async function PATCH(
 
     //update todo
     let body = await req.json();
+    const { dateChanged } = body;
     body = {
       ...body,
       dtstart: new Date(body.dtstart),
@@ -123,20 +124,35 @@ export async function PATCH(
       due,
       rrule,
     } = parsedObj.data;
+
     if (!dtstart) throw new BadRequestError("empty dtstart");
+    if (typeof dateChanged == "undefined")
+      throw new BadRequestError("empty dateChanged");
+
     // Update todo
-    //throw new Error();
-    await prisma.todo.update({
-      where: { id, userID: user.id },
-      data: {
-        title: title,
-        description: description,
-        priority: newPriority as Priority,
-        dtstart,
-        due,
-        rrule,
-      },
-    });
+    if (dateChanged) {
+      await prisma.todo.update({
+        where: { id, userID: user.id },
+        data: {
+          title: title,
+          description: description,
+          priority: newPriority as Priority,
+          dtstart,
+          due,
+          rrule,
+        },
+      });
+    } else {
+      await prisma.todo.update({
+        where: { id, userID: user.id },
+        data: {
+          title: title,
+          description: description,
+          priority: newPriority as Priority,
+          rrule,
+        },
+      });
+    }
 
     //updating a todo just overwrites the override
     // await prisma.todoInstance.updateMany({
