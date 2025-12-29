@@ -99,9 +99,8 @@ export async function GET(req: NextRequest) {
         userID: user.id,
         rrule: null,
         completed: false,
-        dtstart: {
-          gte: bounds.todayStartUTC,
-          lte: bounds.todayEndUTC,
+        due: {
+          gte: bounds.todayEndUTC,
         },
       },
       orderBy: { createdAt: "desc" },
