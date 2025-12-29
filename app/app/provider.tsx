@@ -3,6 +3,7 @@ import React from "react";
 import SidebarContainer from "@/components/Sidebar/SidebarContainer";
 import UserCard from "@/components/Sidebar/User/UserCard";
 import VaultItem from "@/components/Sidebar/Vault/VaultItem";
+import CalendarItem from "@/components/Sidebar/Calendar/CalendarItem";
 import NoteCollapsible from "@/components/Sidebar/Note/NoteCollapsible";
 import TodoItem from "@/components/Sidebar/Todo/TodoSidebarItem";
 import CompletedItem from "@/components/Sidebar/Completed/CompletedItem";
@@ -32,6 +33,7 @@ const Provider = ({ children }: { children: React.ReactNode }) => {
             <div className="flex flex-col gap-2 overflow-y-scroll h-full scrollbar-none">
               <TodoItem />
               <CompletedItem />
+              <CalendarItem />
               <NoteCollapsible />
               <VaultItem />
               <Toaster />

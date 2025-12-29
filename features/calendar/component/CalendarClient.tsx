@@ -2,9 +2,9 @@
 import { CalendarToolbar } from "./CalendarToolbar";
 import { Calendar, dateFnsLocalizer } from "react-big-calendar";
 import "react-big-calendar/lib/css/react-big-calendar.css";
-import { format, parse, startOfWeek, getDay, endOfDay } from "date-fns";
+import { format, parse, startOfWeek, getDay } from "date-fns";
 import { enUS } from "date-fns/locale/en-US";
-import { CalendarEvent } from "@/types";
+import { CalendarTodo } from "@/types";
 import CalendarHeader from "./CalendarHeader";
 import { agendaComponents } from "./CalendarAgenda";
 
@@ -20,26 +20,22 @@ const localizer = dateFnsLocalizer({
   locales,
 });
 
-export default function CalendarClient() {
-  const events = [
-    {
-      start: new Date(),
-      end: endOfDay(new Date()),
-      title: "Some title",
-    },
-  ];
-
+export default function CalendarClient({
+  calendarTodos,
+}: {
+  calendarTodos: CalendarTodo[];
+}) {
   return (
-    <Calendar<CalendarEvent>
+    <Calendar<CalendarTodo>
       components={{
         toolbar: CalendarToolbar,
         header: CalendarHeader,
         agenda: agendaComponents,
       }}
       localizer={localizer}
-      events={events}
-      startAccessor="start"
-      endAccessor="end"
+      events={calendarTodos}
+      startAccessor="dtstart"
+      endAccessor="due"
       step={60}
       timeslots={1}
       messages={{ event: "Todo" }}
