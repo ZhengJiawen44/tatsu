@@ -17,7 +17,7 @@ export class TodoBuilder {
       rrule: "",
       timeZone: "Asia/Shanghai",
       userID: crypto.randomUUID(),
-      due: null,
+      due: new Date(),
       completed: false,
     };
   }

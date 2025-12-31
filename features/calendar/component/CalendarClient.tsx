@@ -71,7 +71,7 @@ export default function CalendarClient() {
           } else {
             editCalendarTodoInstance({
               ...todo,
-              id: todo.parentId,
+              // id: todo.parentId,
               instanceDate: todo.dtstart,
               dtstart: new Date(resizeEvent.start),
               due: new Date(resizeEvent.end),
@@ -88,7 +88,7 @@ export default function CalendarClient() {
           } else {
             editCalendarTodoInstance({
               ...todo,
-              id: todo.parentId,
+              // id: todo.parentId,
               instanceDate: todo.dtstart,
               dtstart: new Date(dropEvent.start),
               due: new Date(dropEvent.end),

@@ -1,8 +1,5 @@
 import { z } from "zod";
-const asDate = z.preprocess(
-  (val) => (val ? new Date(val) : null),
-  z.date().nullable(),
-);
+
 export const registrationSchema = z.object({
   fname: z
     .string({ message: "name cannot be left empty" })

@@ -3,7 +3,9 @@ import { useTodoForm } from "@/providers/TodoFormProvider";
 import { endOfDay, startOfDay } from "date-fns";
 
 export function useClearInput(
-  setEditInstanceOnly: React.Dispatch<React.SetStateAction<boolean>>,
+  setEditInstanceOnly:
+    | React.Dispatch<React.SetStateAction<boolean>>
+    | undefined,
   titleRef: React.RefObject<HTMLInputElement | null>,
 ) {
   const {

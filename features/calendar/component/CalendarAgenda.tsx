@@ -6,7 +6,7 @@ import {
   EventProps,
 } from "react-big-calendar";
 import { format } from "date-fns";
-import { CalendarTodo } from "@/types";
+import { CalendarTodoItemType } from "@/types";
 
 // --- Custom agenda date row ---
 const CustomAgendaDate = ({ day }: AgendaDateProps) => {
@@ -19,7 +19,7 @@ const CustomAgendaTime = ({ day }: AgendaTimeProps) => {
 };
 
 // --- Custom agenda event row ---
-const CustomAgendaEvent = ({ event }: EventProps<CalendarTodo>) => {
+const CustomAgendaEvent = ({ event }: EventProps<CalendarTodoItemType>) => {
   return (
     <div>
       <span>{event.title}</span>

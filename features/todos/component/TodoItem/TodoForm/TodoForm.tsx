@@ -13,8 +13,8 @@ import { useClearInput } from "@/features/todos/hooks/useClearInput";
 import { RRule } from "rrule";
 import TodoInlineActionBar from "./TodoInlineActionBar/TodoInlineActionBar";
 interface TodoFormProps {
-  editInstanceOnly: boolean;
-  setEditInstanceOnly: React.Dispatch<React.SetStateAction<boolean>>;
+  editInstanceOnly?: boolean;
+  setEditInstanceOnly?: React.Dispatch<React.SetStateAction<boolean>>;
   displayForm: boolean;
   setDisplayForm: React.Dispatch<React.SetStateAction<boolean>>;
 }
