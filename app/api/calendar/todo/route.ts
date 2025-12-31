@@ -15,7 +15,7 @@ export async function GET() {
 
     // Fetch todos for all time
     const todos = await prisma.todo.findMany({
-      where: { completed: false },
+      where: { userID: user.id, completed: false },
       include: { instances: true },
     });
 
