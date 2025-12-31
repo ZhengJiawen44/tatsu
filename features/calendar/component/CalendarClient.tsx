@@ -2,6 +2,8 @@
 import { CalendarToolbar } from "./CalendarToolbar";
 import { Calendar, dateFnsLocalizer } from "react-big-calendar";
 import "react-big-calendar/lib/css/react-big-calendar.css";
+import "react-big-calendar/lib/addons/dragAndDrop/styles.css";
+import withDragAndDrop from "react-big-calendar/lib/addons/dragAndDrop"; // 1. Import HOC
 import {
   format,
   parse,
@@ -21,6 +23,8 @@ import { RRule } from "rrule";
 import { useState } from "react";
 import { masqueradeAsUTC } from "@/features/todos/lib/masqueradeAsUTC";
 import { rruleDateToLocal } from "@/features/todos/lib/rruleDateToLocal";
+import CalendarEvent from "./CalendarEvent";
+import clsx from "clsx";
 
 const locales = {
   "en-US": enUS,
@@ -33,6 +37,7 @@ const localizer = dateFnsLocalizer({
   getDay,
   locales,
 });
+const DnDCalendar = withDragAndDrop<CalendarTodo>(Calendar);
 
 export default function CalendarClient({
   calendarTodos,
@@ -72,38 +77,71 @@ export default function CalendarClient({
     });
     return genTodos;
   });
-
-  console.log(ghostTodos);
-
   return (
-    <Calendar<CalendarTodo>
-      components={{
-        toolbar: CalendarToolbar,
-        header: CalendarHeader,
-        agenda: agendaComponents,
-      }}
-      defaultView="month"
-      localizer={localizer}
-      events={ghostTodos}
-      startAccessor="dtstart"
-      endAccessor="due"
-      step={60}
-      timeslots={1}
-      messages={{ event: "Todo" }}
-      onRangeChange={(range) => {
-        if (Array.isArray(range)) {
-          setCalendarRange({
-            start: startOfDay(range[0]),
-            end: endOfDay(range[range.length - 1]),
-          });
-        } else {
-          setCalendarRange({
-            start: startOfDay(range.start),
-            end: endOfDay(range.end),
-          });
-        }
-      }}
-      onSelectEvent={(event) => console.log(event)}
-    />
+    <div className="h-full">
+      <DnDCalendar
+        components={{
+          toolbar: CalendarToolbar,
+          header: CalendarHeader,
+          agenda: agendaComponents,
+          event: CalendarEvent,
+        }}
+        defaultView="month"
+        localizer={localizer}
+        events={ghostTodos}
+        startAccessor="dtstart"
+        endAccessor="due"
+        draggableAccessor={() => true}
+        step={60}
+        timeslots={1}
+        messages={{ event: "Todo" }}
+        onEventResize={() => {}}
+        onEventDrop={() => {}}
+        resizable
+        formats={{
+          eventTimeRangeFormat: () => "",
+        }}
+        eventPropGetter={(event) => {
+          return {
+            style: {
+              backgroundColor: clsx(
+                event.priority == "Low"
+                  ? "hsl(var(--calendar-lime))"
+                  : event.priority == "Medium"
+                    ? "hsl(var(--calendar-orange))"
+                    : "hsl(var(--calendar-red))",
+              ),
+              outline: "none",
+              border: "1px solid hsl(var(--border))",
+              display: "flex",
+              justifyContent: "start",
+              padding: "2px",
+              margin: "2px",
+              boxShadow:
+                "0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1)",
+            },
+            className: clsx(
+              // "rounded-md !p-0 overflow-hidden",
+              event.priority === "High" && "bg-red-500",
+              event.priority === "Medium" && "bg-yellow-500",
+              event.priority === "Low" && "bg-green-500",
+            ),
+          };
+        }}
+        onRangeChange={(range) => {
+          if (Array.isArray(range)) {
+            setCalendarRange({
+              start: startOfDay(range[0]),
+              end: endOfDay(range[range.length - 1]),
+            });
+          } else {
+            setCalendarRange({
+              start: startOfDay(range.start),
+              end: endOfDay(range.end),
+            });
+          }
+        }}
+      />
+    </div>
   );
 }

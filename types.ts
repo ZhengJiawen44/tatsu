@@ -97,4 +97,5 @@ export interface CalendarTodo {
   description: string | null;
   priority: "Low" | "Medium" | "High";
   rrule: string | null;
+  completed: boolean;
 }
