@@ -135,6 +135,7 @@ body {
 .rbc-header {
   border: none !important;
   background-color: hsl(var(--input) / 0.2) !important;
+  font-weight: 600 !important;
 }
 
 .rbc-today {
@@ -142,9 +143,15 @@ body {
 }
 
 /* week view */
-.rbc-allday-cell {
-  display: none;
+
+.rbc-time-view .rbc-header {
+  padding-bottom: 25px !important;
 }
+.rbc-allday-cell {
+  margin: 0px !important;
+  padding: 1px !important;
+}
+
 .rbc-time-view {
   border: 1px solid hsl(var(--input) / 0.3) !important;
   border-radius: 10px;
@@ -172,9 +179,6 @@ body {
 .rbc-agenda-table {
   border: transparent !important;
   border-bottom: 1px solid hsl(var(--input) / 0.3) !important;
-}
-.rbc-header {
-  font-weight: 600 !important;
 }
 .rbc-agenda-time-cell {
   border: transparent !important;

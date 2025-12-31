@@ -16,7 +16,14 @@ const CalendarEvent = ({ event: todo }: EventProps<CalendarTodo>) => {
     <>
       <Popover open={open} onOpenChange={setOpen}>
         <PopoverTrigger asChild>
-          <div className="w-full" title={todo.title}>
+          <div
+            className="w-full h-full"
+            title={todo.title}
+            onContextMenu={(e) => {
+              e.preventDefault();
+              setOpen(true);
+            }}
+          >
             <p className="truncate h-fit max-w-4 sm:max-w-8 md:max-w-9 lg:max-w-12 xl:max-w-32 2xl:max-w-40">
               {todo.title}
             </p>
@@ -58,6 +65,18 @@ const CalendarEvent = ({ event: todo }: EventProps<CalendarTodo>) => {
                 >
                   {todo.priority}
                 </p>
+              </div>
+              <p className="font-medium">Move to</p>
+              <div className="flex gap-2 -mt-2">
+                <Button className="text-xs bg-transparent border border-input/80 h-fit px-2 hover:bg-accent text-foreground">
+                  Today
+                </Button>
+                <Button className="text-xs bg-transparent border border-input/80 h-fit px-2 hover:bg-accent  text-foreground">
+                  Tomorrow
+                </Button>
+                <Button className="text-xs bg-transparent border border-input/80 h-fit px-2 hover:bg-accent  text-foreground">
+                  Next Week
+                </Button>
               </div>
 
               <div>
