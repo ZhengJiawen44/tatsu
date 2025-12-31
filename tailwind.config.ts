@@ -54,6 +54,11 @@ export default {
           muted: "hsl(var(--card-muted))",
           accent: "hsl(var(--card-accent))",
         },
+        calendar: {
+          lime: "hsl(var(--calendar-lime))",
+          orange: "hsl(var(--calendar-orange))",
+          red: "hsl(var(--calendar-red))",
+        },
         popover: {
           DEFAULT: "hsla(var(--popover))",
           foreground: "hsl(var(--popover-foreground))",

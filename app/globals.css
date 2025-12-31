@@ -22,6 +22,9 @@ body {
     --lime: 83, 40%, 45%;
     --orange: 34, 93%, 48%;
     --red: 4, 70%, 52%;
+    --calendar-lime: 83, 38%, 35%;
+    --calendar-red: 4, 70%, 48%;
+    --calendar-orange: 34, 93%, 44%;
     --sidebar: 42, 38%, 90%;
     --background: 42, 38%, 92%;
     --foreground: 230 10% 18%;
@@ -79,6 +82,9 @@ body {
 
   .dark {
     --lime: 83, 40%, 45%;
+    --calendar-lime: 83, 38%, 35%;
+    --calendar-red: 4, 70%, 48%;
+    --calendar-orange: 34, 93%, 44%;
     --sidebar: 235, 28%, 19%;
     --background: 235 32% 15%;
     --foreground: 234 11% 80%;
@@ -175,6 +181,45 @@ body {
 }
 .rbc-agenda-event-cell {
   border: transparent !important;
+}
+
+/* calendar show more */
+.rbc-month-view .rbc-show-more {
+  background-color: transparent;
+  color: hsl(var(--foreground));
+  font-size: 0.75rem;
+  font-weight: 500;
+  display: inline-block;
+}
+
+.rbc-addons-dnd-resize-ew-anchor:first-child {
+  left: -4px !important;
+}
+/* Move the Right Handle further right */
+.rbc-addons-dnd-resize-ew-anchor:last-child {
+  right: -4px !important;
+}
+.rbc-addons-dnd-resize-ew-icon {
+  border: 2px solid white !important;
+  height: 80% !important;
+  width: 8px !important;
+  border-radius: 4px;
+  background-color: rgba(255, 255, 255, 0.5);
+}
+
+.rbc-addons-dnd-resize-ns-icon {
+  width: 40px !important;
+  border: 2px solid white !important;
+  height: 4px !important;
+  background-color: rgba(255, 255, 255, 0.5) !important;
+}
+
+.rbc-addons-dnd-resize-ns-anchor:first-child .rbc-addons-dnd-resize-ns-icon {
+  border-radius: 0px 0px 4px 4px !important;
+}
+
+.rbc-addons-dnd-resize-ns-anchor:last-child .rbc-addons-dnd-resize-ns-icon {
+  border-radius: 4px 4px 0px 0px !important;
 }
 
 @layer base {

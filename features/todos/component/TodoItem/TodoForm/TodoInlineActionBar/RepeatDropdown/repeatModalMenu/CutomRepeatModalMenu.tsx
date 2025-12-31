@@ -18,7 +18,7 @@ import { useTodoForm } from "@/providers/TodoFormProvider";
 import { useState } from "react";
 import { Options, RRule } from "rrule";
 const CustomRepeatModalMenu = ({ className }: { className?: string }) => {
-  const { repeatType, rruleOptions, setRruleOptions } = useTodoForm();
+  const { derivedRepeatType, rruleOptions, setRruleOptions } = useTodoForm();
   const [customRepeatOptions, setCustomRepeatOptions] =
     useState<Partial<Options> | null>(
       rruleOptions || { freq: RRule.DAILY, interval: 1 },
@@ -27,7 +27,10 @@ const CustomRepeatModalMenu = ({ className }: { className?: string }) => {
     <Dialog>
       <DialogTrigger className={className}>
         <CheckIcon
-          className={clsx("opacity-0", repeatType == "Custom" && "opacity-100")}
+          className={clsx(
+            "opacity-0",
+            derivedRepeatType == "Custom" && "opacity-100",
+          )}
         />
         Custom
       </DialogTrigger>
