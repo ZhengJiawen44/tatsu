@@ -89,13 +89,20 @@ export interface recurringTodoWithInstance extends TodoItemType {
   instances: overridingInstance[];
 }
 
-export interface CalendarTodo {
+export interface CalendarTodoItemType {
   id: string;
-  dtstart: Date;
-  due: Date;
   title: string;
   description: string | null;
+  pinned: boolean;
+  createdAt: Date;
+  order: number;
   priority: "Low" | "Medium" | "High";
+  dtstart: Date;
+  durationMinutes: number;
+  due: Date;
   rrule: string | null;
+  timeZone: string;
+  userID: string;
   completed: boolean;
+  instances: overridingInstance[];
 }
