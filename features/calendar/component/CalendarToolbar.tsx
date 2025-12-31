@@ -1,6 +1,6 @@
 import { ToolbarProps } from "react-big-calendar";
 import { ChevronLeft, ChevronRight, Check, ChevronDown } from "lucide-react";
-import { CalendarTodo } from "@/types";
+import { CalendarTodoItemType } from "@/types";
 import {
   Popover,
   PopoverContent,
@@ -14,7 +14,7 @@ export function CalendarToolbar({
   onNavigate,
   onView,
   view,
-}: ToolbarProps<CalendarTodo, object>) {
+}: ToolbarProps<CalendarTodoItemType, object>) {
   const [viewFilter, setViewFilter] = useState(
     view.charAt(0).toUpperCase() + view.slice(1),
   );

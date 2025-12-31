@@ -1,4 +1,4 @@
-import { CalendarTodo } from "@/types";
+import { CalendarTodoItemType } from "@/types";
 import React, { useState } from "react";
 import { EventProps } from "react-big-calendar";
 import {
@@ -10,7 +10,7 @@ import { format } from "date-fns";
 import clsx from "clsx";
 import { Button } from "@/components/ui/button";
 
-const CalendarEvent = ({ event: todo }: EventProps<CalendarTodo>) => {
+const CalendarEvent = ({ event: todo }: EventProps<CalendarTodoItemType>) => {
   const [open, setOpen] = useState(false);
   return (
     <>

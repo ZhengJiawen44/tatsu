@@ -3,8 +3,8 @@ import TodoForm from "./TodoForm";
 import { TodoItemType } from "@/types";
 
 interface TodoFormContainerProps {
-  editInstanceOnly: boolean;
-  setEditInstanceOnly: React.Dispatch<React.SetStateAction<boolean>>;
+  editInstanceOnly?: boolean;
+  setEditInstanceOnly?: React.Dispatch<React.SetStateAction<boolean>>;
   displayForm: boolean;
   setDisplayForm: React.Dispatch<React.SetStateAction<boolean>>;
   todo?: TodoItemType;

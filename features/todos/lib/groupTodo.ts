@@ -1,6 +1,5 @@
 import { TodoItemType } from "@/types";
 import { getDisplayDate } from "@/lib/date/displayDate";
-import { log } from "console";
 
 export const groupTodo = ({ todos }: { todos: TodoItemType[] }) => {
   // console.log(todos);
@@ -27,13 +26,10 @@ export const groupTodo = ({ todos }: { todos: TodoItemType[] }) => {
       let dateKey;
 
       //is the todo valid for today?
-      if (
-        today.getTime() <= todo.expiresAt.getTime() &&
-        todo.startedAt < today
-      ) {
+      if (today.getTime() <= todo.due.getTime() && todo.dtstart < today) {
         dateKey = "today";
       } else {
-        dateKey = getDisplayDate(todo.startedAt);
+        dateKey = getDisplayDate(todo.dtstart);
       }
 
       // Initialize nested objects if needed
@@ -50,7 +46,7 @@ export const groupTodo = ({ todos }: { todos: TodoItemType[] }) => {
     {
       groupedPinnedTodos: {} as Record<string, TodoItemType[]>,
       groupedUnPinnedTodos: {} as Record<string, TodoItemType[]>,
-    } as TodoAccumulator
+    } as TodoAccumulator,
   );
 
   return {

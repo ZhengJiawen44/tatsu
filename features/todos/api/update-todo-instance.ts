@@ -45,7 +45,9 @@ interface TodoItemTypeWithInstanceDate extends TodoItemType {
 }
 
 export const useEditTodoInstance = (
-  setEditInstanceOnly: React.Dispatch<React.SetStateAction<boolean>>,
+  setEditInstanceOnly:
+    | React.Dispatch<React.SetStateAction<boolean>>
+    | undefined,
 ) => {
   const { toast } = useToast();
   const queryClient = useQueryClient();
@@ -85,7 +87,7 @@ export const useEditTodoInstance = (
         return { oldTodos };
       },
       onSettled: () => {
-        setEditInstanceOnly(false);
+        if (setEditInstanceOnly) setEditInstanceOnly(false);
         // queryClient.invalidateQueries({ queryKey: ["todo"] });
       },
 
