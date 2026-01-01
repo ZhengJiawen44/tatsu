@@ -27,7 +27,7 @@ function TodoItemMeatballMenu({
   setDisplayForm: React.Dispatch<React.SetStateAction<boolean>>;
   setEditInstanceOnly: React.Dispatch<React.SetStateAction<boolean>>;
 }) {
-  const { mutatePrioritize } = usePrioritizeTodo(todo);
+  const { mutatePrioritize } = usePrioritizeTodo();
 
   const { deleteMutate, deletePending } = useDeleteTodo();
   const { pinMutate } = usePinTodo(todo);
@@ -79,19 +79,19 @@ function TodoItemMeatballMenu({
           <PriorityIndicator
             level={1}
             onClick={() => {
-              mutatePrioritize({ level: "Low" });
+              mutatePrioritize({ id: todo.id, level: "Low" });
             }}
           />
           <PriorityIndicator
             level={2}
             onClick={() => {
-              mutatePrioritize({ level: "Medium" });
+              mutatePrioritize({ id: todo.id, level: "Medium" });
             }}
           />
           <PriorityIndicator
             level={3}
             onClick={() => {
-              mutatePrioritize({ level: "High" });
+              mutatePrioritize({ id: todo.id, level: "High" });
             }}
           />
         </MenuItem>

@@ -2,7 +2,7 @@ import { useToast } from "@/hooks/use-toast";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { api } from "@/lib/api-client";
 import { todoSchema } from "@/schema";
-import { TodoItemType } from "@/types";
+import { CalendarTodoItemType, TodoItemType } from "@/types";
 import { endOfDay } from "date-fns";
 
 interface TodoItemTypeWithDateChecksum extends TodoItemType {
@@ -73,8 +73,17 @@ export const useEditTodo = () => {
       );
       return { oldTodos };
     },
-    onSettled: () => {
-      //queryClient.invalidateQueries({ queryKey: ["todo"] });
+    onSettled: (data, error, todoItem) => {
+      //optimistically update calendar todos
+      queryClient.setQueryData(
+        ["calendarTodo"],
+        (oldTodos: CalendarTodoItemType[]) => {
+          return oldTodos.flatMap((todo) => {
+            if (todo.id == todoItem.id) return { ...todo, ...todoItem };
+            return todo;
+          });
+        },
+      );
     },
     onError: (error, newTodo, context) => {
       queryClient.setQueryData(["todo"], context?.oldTodos);

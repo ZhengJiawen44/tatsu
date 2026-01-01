@@ -1,18 +1,18 @@
 import { useQueryClient, useMutation } from "@tanstack/react-query";
 import { api } from "@/lib/api-client";
 import { useToast } from "@/hooks/use-toast";
-import { TodoItemType } from "@/types";
-export const useCompleteTodo = (todoItem: TodoItemType) => {
+import { CalendarTodoItemType, TodoItemType } from "@/types";
+export const useCompleteTodo = () => {
   const { toast } = useToast();
   const queryClient = useQueryClient();
   const { mutate: mutateCompleted, isPending } = useMutation({
-    mutationFn: async () => {
+    mutationFn: async (todoItem: TodoItemType) => {
       await api.PATCH({
         url: `/api/todo/${todoItem.id}/completeTodo`,
         body: JSON.stringify({ todoItem }),
       });
     },
-    onMutate: async () => {
+    onMutate: async (todoItem: TodoItemType) => {
       await queryClient.cancelQueries({ queryKey: ["todo"] });
       const oldTodos = queryClient.getQueryData(["todo"]) as TodoItemType[];
       queryClient.setQueryData(["todo"], (oldTodos: TodoItemType[]) =>
@@ -27,9 +27,18 @@ export const useCompleteTodo = (todoItem: TodoItemType) => {
       toast({ description: error.message, variant: "destructive" });
       queryClient.setQueryData(["todo"], context?.oldTodos);
     },
-    onSuccess: () => {
-      // queryClient.invalidateQueries({ queryKey: ["todo"] });
-      queryClient.invalidateQueries({ queryKey: ["completedTodo"] });
+    onSuccess: () => {},
+    onSettled: (data, error, todoItem) => {
+      //optimistically update calendar todos
+      queryClient.setQueryData(
+        ["calendarTodo"],
+        (oldTodos: CalendarTodoItemType[]) => {
+          return oldTodos.flatMap((todo) => {
+            if (todo.id == todoItem.id) return [];
+            return todo;
+          });
+        },
+      );
     },
   });
 
