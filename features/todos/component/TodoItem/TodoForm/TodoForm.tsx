@@ -1,5 +1,5 @@
 import clsx from "clsx";
-import React, { useEffect } from "react";
+import React from "react";
 import adjustHeight from "@/features/todos/lib/adjustTextareaHeight";
 import { useToast } from "@/hooks/use-toast";
 import LineSeparator from "@/components/ui/lineSeparator";
@@ -46,12 +46,7 @@ const TodoForm = ({
   const clearInput = useClearInput(setEditInstanceOnly, titleRef);
   const { editTodo } = useEditTodo();
   const { editTodoInstance } = useEditTodoInstance(setEditInstanceOnly);
-  const { createTodo, createTodoStatus } = useCreateTodo();
-
-  useEffect(() => {
-    if (createTodoStatus === "success") clearInput();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [createTodoStatus]);
+  const { createTodo } = useCreateTodo();
 
   return (
     <div
@@ -168,6 +163,7 @@ const TodoForm = ({
           });
         }
       } else {
+        clearInput();
         createTodo({
           id: "-1",
           title,
