@@ -30,8 +30,8 @@ export function genCalendarTodos(
     const occurences = rruleObj.between(
       masqueradeAsUTC(calendarRange.start),
       masqueradeAsUTC(calendarRange.end),
+      true,
     );
-
     // const blocked: string[] = [];
     const genTodos = occurences.flatMap((occ) => {
       // if (blocked.includes(occ.toISOString())) {
