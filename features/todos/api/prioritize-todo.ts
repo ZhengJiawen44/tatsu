@@ -53,6 +53,7 @@ export const usePrioritizeTodo = () => {
       queryClient.setQueryData(
         ["calendarTodo"],
         (oldTodos: CalendarTodoItemType[]) => {
+          if (!oldTodos) return oldTodos;
           return oldTodos.flatMap((todo) => {
             if (todo.id == id) return { ...todo, priority: level };
             return todo;

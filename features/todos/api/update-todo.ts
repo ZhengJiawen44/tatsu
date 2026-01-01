@@ -78,6 +78,7 @@ export const useEditTodo = () => {
       queryClient.setQueryData(
         ["calendarTodo"],
         (oldTodos: CalendarTodoItemType[]) => {
+          if (!oldTodos) return oldTodos;
           return oldTodos.flatMap((todo) => {
             if (todo.id == todoItem.id) return { ...todo, ...todoItem };
             return todo;
