@@ -36,7 +36,7 @@ export const useDeleteTodo = () => {
       queryClient.setQueryData(
         ["calendarTodo"],
         (oldTodos: CalendarTodoItemType[]) => {
-          console.log(oldTodos.filter((todo) => todo.id != id));
+          if (!oldTodos) return oldTodos;
           return oldTodos.filter((todo) => todo.id != id);
         },
       );
