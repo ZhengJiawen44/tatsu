@@ -34,7 +34,6 @@ export default function CalendarClient() {
   const { todos: calendarTodos } = useCalendarTodo();
   const generatedTodos = genCalendarTodos(calendarTodos, calendarRange); //generate todo based on rrule
   const { editCalendarTodo } = useEditCalendarTodo();
-
   const { editCalendarTodoInstance } = useEditCalendarTodoInstance();
   return (
     <div className="h-full">

@@ -15,7 +15,6 @@ export const useDeleteTodo = () => {
       const oldTodos = queryClient.getQueryData(["todo"]);
       //optimistically update todos
       queryClient.setQueryData<TodoItemType[]>(["todo"], (oldTodos = []) => {
-        console.log(oldTodos.filter((todo) => todo.id != id));
         return oldTodos.filter((todo) => todo.id != id);
       });
 
