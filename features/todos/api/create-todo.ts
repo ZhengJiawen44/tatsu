@@ -63,6 +63,8 @@ export const useCreateTodo = () => {
         newTodos[index] = newTodo;
         return newTodos;
       });
+      //calendarTodo is invalidated
+      queryClient.invalidateQueries({ queryKey: ["calendarTodo"] });
     },
   });
   return { createTodo, createTodoStatus };

@@ -1,29 +1,41 @@
 import { useQueryClient, useMutation } from "@tanstack/react-query";
 import { api } from "@/lib/api-client";
 import { useToast } from "@/hooks/use-toast";
-import { TodoItemType } from "@/types";
+import { CalendarTodoItemType, TodoItemType } from "@/types";
 
-export const usePrioritizeTodo = (todoItem: TodoItemType) => {
+export const usePrioritizeTodo = () => {
   const { toast } = useToast();
   const queryClient = useQueryClient();
   const { mutate: mutatePrioritize, isPending } = useMutation({
-    mutationFn: async ({ level }: { level: "Low" | "Medium" | "High" }) => {
-      await api.PATCH({ url: `/api/todo/${todoItem.id}?priority=${level}` });
+    mutationFn: async ({
+      id,
+      level,
+    }: {
+      id: string;
+      level: "Low" | "Medium" | "High";
+    }) => {
+      await api.PATCH({ url: `/api/todo/${id}?priority=${level}` });
     },
-    onMutate: async ({ level }) => {
+    onMutate: async ({
+      id,
+      level,
+    }: {
+      id: string;
+      level: "Low" | "Medium" | "High";
+    }) => {
       await queryClient.cancelQueries({ queryKey: ["todo"] });
 
       const oldTodos = queryClient.getQueryData(["todo"]);
       queryClient.setQueryData(["todo"], (oldTodos: TodoItemType[]) =>
         oldTodos.map((oldTodo) => {
-          if (oldTodo.id === todoItem.id) {
+          if (oldTodo.id === id) {
             return {
-              ...todoItem,
+              ...oldTodo,
               priority: level,
             };
           }
           return oldTodo;
-        })
+        }),
       );
 
       console.log(queryClient.getQueryData(["todo"]));
@@ -31,10 +43,22 @@ export const usePrioritizeTodo = (todoItem: TodoItemType) => {
       return { oldTodos };
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["todo"] });
+      // queryClient.invalidateQueries({ queryKey: ["todo"] });
     },
     onError: (error) => {
       toast({ description: error.message, variant: "destructive" });
+    },
+    onSettled(data, error, { id, level }) {
+      //optimistically update calendar todos
+      queryClient.setQueryData(
+        ["calendarTodo"],
+        (oldTodos: CalendarTodoItemType[]) => {
+          return oldTodos.flatMap((todo) => {
+            if (todo.id == id) return { ...todo, priority: level };
+            return todo;
+          });
+        },
+      );
     },
   });
 

@@ -1,7 +1,7 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useToast } from "@/hooks/use-toast";
 import { api } from "@/lib/api-client";
-import { TodoItemType } from "@/types";
+import { CalendarTodoItemType, TodoItemType } from "@/types";
 export const useDeleteTodo = () => {
   const { toast } = useToast();
   const queryClient = useQueryClient();
@@ -11,10 +11,14 @@ export const useDeleteTodo = () => {
     },
     onMutate: async ({ id }: { id: string }) => {
       await queryClient.cancelQueries({ queryKey: ["todo"] });
+      await queryClient.cancelQueries({ queryKey: ["calendarTodo"] });
       const oldTodos = queryClient.getQueryData(["todo"]);
-      queryClient.setQueryData<TodoItemType[]>(["todo"], (oldTodos = []) =>
-        oldTodos.filter((todo) => todo.id != id)
-      );
+      //optimistically update todos
+      queryClient.setQueryData<TodoItemType[]>(["todo"], (oldTodos = []) => {
+        console.log(oldTodos.filter((todo) => todo.id != id));
+        return oldTodos.filter((todo) => todo.id != id);
+      });
+
       return { oldTodos };
     },
     mutationKey: ["todo"],
@@ -28,7 +32,15 @@ export const useDeleteTodo = () => {
         variant: "destructive",
       });
     },
-    onSettled: () => {
+    onSettled: (data, error, { id }) => {
+      //optimistically update calendar todos
+      queryClient.setQueryData(
+        ["calendarTodo"],
+        (oldTodos: CalendarTodoItemType[]) => {
+          console.log(oldTodos.filter((todo) => todo.id != id));
+          return oldTodos.filter((todo) => todo.id != id);
+        },
+      );
       toast({ description: "todo deleted" });
     },
   });

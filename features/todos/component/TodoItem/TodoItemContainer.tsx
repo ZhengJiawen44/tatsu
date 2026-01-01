@@ -28,7 +28,7 @@ export const TodoItemContainer = ({ todoItem }: { todoItem: TodoItemType }) => {
   const [editInstanceOnly, setEditInstanceOnly] = useState(false);
   const [showHandle, setShowHandle] = useState(false);
   const [isGrabbing, setGrabbing] = useState(false);
-  const { mutateCompleted } = useCompleteTodo(todoItem);
+  const { mutateCompleted } = useCompleteTodo();
 
   useEffect(() => {
     if (!displayForm) {
@@ -85,7 +85,7 @@ export const TodoItemContainer = ({ todoItem }: { todoItem: TodoItemType }) => {
               priority={priority}
               complete={completed}
               onChange={() => {
-                mutateCompleted();
+                mutateCompleted(todoItem);
               }}
               checked={completed}
               variant={rrule ? "repeat" : "outline"}
