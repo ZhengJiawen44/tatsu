@@ -16,12 +16,13 @@ export const useCompleteTodo = (todoItem: TodoItemType) => {
       await queryClient.cancelQueries({ queryKey: ["todo"] });
       const oldTodos = queryClient.getQueryData(["todo"]) as TodoItemType[];
       queryClient.setQueryData(["todo"], (oldTodos: TodoItemType[]) =>
-        oldTodos.map((oldTodo) => {
+        oldTodos.flatMap((oldTodo) => {
           if (oldTodo.id === todoItem.id) {
-            return {
+            console.log({
               ...todoItem,
               completed: true,
-            };
+            });
+            return [];
           }
           return oldTodo;
         }),
@@ -33,7 +34,7 @@ export const useCompleteTodo = (todoItem: TodoItemType) => {
       queryClient.setQueryData(["todo"], context?.oldTodos);
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["todo"] });
+      // queryClient.invalidateQueries({ queryKey: ["todo"] });
       queryClient.invalidateQueries({ queryKey: ["completedTodo"] });
     },
   });

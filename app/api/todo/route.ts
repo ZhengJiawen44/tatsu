@@ -100,7 +100,10 @@ export async function GET(req: NextRequest) {
         rrule: null,
         completed: false,
         due: {
-          gte: bounds.todayEndUTC,
+          gte: bounds.todayStartUTC,
+        },
+        dtstart: {
+          lte: bounds.todayEndUTC,
         },
       },
       orderBy: { createdAt: "desc" },
