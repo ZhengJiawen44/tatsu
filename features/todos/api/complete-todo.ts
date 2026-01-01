@@ -17,6 +17,7 @@ export const useCompleteTodo = () => {
       const oldTodos = queryClient.getQueryData(["todo"]) as TodoItemType[];
       queryClient.setQueryData(["todo"], (oldTodos: TodoItemType[]) =>
         oldTodos.flatMap((oldTodo) => {
+          console.log("todo opt upd:", oldTodos);
           if (oldTodo.id === todoItem.id) return [];
           return [oldTodo];
         }),
@@ -33,6 +34,7 @@ export const useCompleteTodo = () => {
       queryClient.setQueryData(
         ["calendarTodo"],
         (oldTodos: CalendarTodoItemType[]) => {
+          console.log("cal opt upd:", oldTodos);
           return oldTodos.flatMap((todo) => {
             if (todo.id == todoItem.id) return [];
             return [todo];
