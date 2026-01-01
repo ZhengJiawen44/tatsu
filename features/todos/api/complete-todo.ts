@@ -18,7 +18,7 @@ export const useCompleteTodo = () => {
       queryClient.setQueryData(["todo"], (oldTodos: TodoItemType[]) =>
         oldTodos.flatMap((oldTodo) => {
           if (oldTodo.id === todoItem.id) return [];
-          return oldTodo;
+          return [oldTodo];
         }),
       );
       return { oldTodos };
@@ -35,7 +35,7 @@ export const useCompleteTodo = () => {
         (oldTodos: CalendarTodoItemType[]) => {
           return oldTodos.flatMap((todo) => {
             if (todo.id == todoItem.id) return [];
-            return todo;
+            return [todo];
           });
         },
       );
