@@ -1,10 +1,8 @@
-import React, { useState } from "react";
+import React from "react";
 import CreateTodoBtn from "./CreateTodoBtn";
-import Inbox from "./Inbox";
 import { useTodo } from "../api/get-todo";
 import Day from "./Day";
 import TodoListLoading from "./TodoListLoading";
-import { groupTodo } from "@/features/todos/lib/groupTodo";
 import PinnedTodos from "./PinnedTodos";
 import TodoGroup from "./TodoGroup";
 import LineSeparator from "@/components/ui/lineSeparator";
