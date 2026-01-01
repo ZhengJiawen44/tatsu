@@ -24,23 +24,28 @@ export default function generateTodosFromRRule(
   const todayRecurringInstances = recurringParents.flatMap((parent) => {
     try {
       if (!parent.rrule) return [];
-      const rule = genRule(parent.rrule, parent.dtstart, timeZone);
-      //return an array of dtStart
-      const occurrences = rule.between(
-        bounds.todayStartUTC,
-        bounds.todayEndUTC,
-        true,
-      );
 
-      const durationMinutes =
-        (parent.due.getTime() - parent.dtstart.getTime()) / 60000;
+      const durationMs = parent.due.getTime() - parent.dtstart.getTime();
+      const durationMinutes = durationMs / 60000;
+      const rule = genRule(parent.rrule, parent.dtstart, timeZone);
+
+      // Look back from *Today's Start*, not the Parent's Start
+      const searchStart = new Date(bounds.todayStartUTC.getTime() - durationMs);
+
+      const occurrences = rule.between(searchStart, bounds.todayEndUTC, true);
 
       return occurrences.flatMap((occ) => {
+        const instanceDue = addMinutes(occ, durationMinutes);
+        // If the instance ended before today started, don't include it.
+        if (instanceDue <= bounds.todayStartUTC) {
+          return [];
+        }
+
         return {
           ...parent,
           dtstart: occ,
           durationMinutes,
-          due: addMinutes(occ, durationMinutes),
+          due: instanceDue,
         };
       });
     } catch (e) {

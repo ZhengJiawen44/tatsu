@@ -2,6 +2,7 @@ import { masqueradeAsUTC } from "@/features/todos/lib/masqueradeAsUTC";
 import { rruleDateToLocal } from "@/features/todos/lib/rruleDateToLocal";
 import { mergeInstanceAndTodo } from "@/lib/mergeInstanceAndTodo";
 import { CalendarTodoItemType } from "@/types";
+import { addMinutes } from "date-fns";
 import { RRule } from "rrule";
 
 /**
@@ -27,18 +28,22 @@ export function genCalendarTodos(
       ...RRule.parseString(todo.rrule),
       dtstart: masqueradeAsUTC(todo.dtstart),
     });
+    const durationMs = todo.due.getTime() - todo.dtstart.getTime();
+    const durationMinutes = durationMs / 60000;
+    const searchStart = new Date(calendarRange.start.getTime() - durationMs);
     const occurences = rruleObj.between(
-      masqueradeAsUTC(calendarRange.start),
+      masqueradeAsUTC(searchStart),
       masqueradeAsUTC(calendarRange.end),
       true,
     );
-    // const blocked: string[] = [];
+
     const genTodos = occurences.flatMap((occ) => {
-      // if (blocked.includes(occ.toISOString())) {
-      //   return [];
-      // }
+      const instanceDue = addMinutes(occ, durationMinutes);
+      // If the instance ended before today started, don't include it.
+      if (instanceDue <= calendarRange.start) {
+        return [];
+      }
       const generatedTodo = genTodo(occ, todo);
-      // blocked.push(generatedTodo.dtstart.toISOString());
       return generatedTodo;
     });
     return genTodos;
