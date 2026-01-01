@@ -17,13 +17,7 @@ export const useCompleteTodo = (todoItem: TodoItemType) => {
       const oldTodos = queryClient.getQueryData(["todo"]) as TodoItemType[];
       queryClient.setQueryData(["todo"], (oldTodos: TodoItemType[]) =>
         oldTodos.flatMap((oldTodo) => {
-          if (oldTodo.id === todoItem.id) {
-            console.log({
-              ...todoItem,
-              completed: true,
-            });
-            return [];
-          }
+          if (oldTodo.id === todoItem.id) return [];
           return oldTodo;
         }),
       );
