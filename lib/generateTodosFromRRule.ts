@@ -1,4 +1,4 @@
-import { RRule } from "rrule";
+import { RRule, RRuleSet } from "rrule";
 import { recurringTodoWithInstance, TodoItemType } from "@/types";
 import { toZonedTime } from "date-fns-tz";
 type bounds = {
@@ -27,12 +27,23 @@ export default function generateTodosFromRRule(
 
       const durationMs = parent.due.getTime() - parent.dtstart.getTime();
       const durationMinutes = durationMs / 60000;
-      const rule = genRule(parent.rrule, parent.dtstart, timeZone);
+      // const rule = genRule(parent.rrule, parent.dtstart, timeZone);
+      const ruleSet = genRuleSet(
+        parent.rrule,
+        parent.dtstart,
+        timeZone,
+        parent.exdates,
+      );
 
-      // Look back from *Today's Start*, not the Parent's Start
+      // Look back for todo's duration
       const searchStart = new Date(bounds.todayStartUTC.getTime() - durationMs);
 
-      const occurrences = rule.between(searchStart, bounds.todayEndUTC, true);
+      // const occurrences = rule.between(searchStart, bounds.todayEndUTC, true);
+      const occurrences = ruleSet.between(
+        searchStart,
+        bounds.todayEndUTC,
+        true,
+      );
 
       return occurrences.flatMap((occ) => {
         const instanceDue = addMinutes(occ, durationMinutes);
@@ -78,3 +89,25 @@ export function genRule(rrule: string, dtStart: Date, timeZone: string) {
 //   const rule = new RRule(options);
 //   return rule;
 // }
+
+export function genRuleSet(
+  rrule: string,
+  dtStart: Date,
+  timeZone: string,
+  exdates?: Date[],
+) {
+  const options = RRule.parseString(rrule);
+  options.dtstart = toZonedTime(dtStart, timeZone);
+  options.tzid = timeZone;
+
+  const rule = new RRule(options);
+  const set = new RRuleSet();
+
+  set.rrule(rule);
+
+  for (const ex of exdates ?? []) {
+    set.exdate(toZonedTime(ex, timeZone));
+  }
+
+  return set;
+}

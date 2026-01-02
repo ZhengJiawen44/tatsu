@@ -33,6 +33,7 @@ export interface TodoItemType {
   timeZone: string;
   userID: string;
   completed: boolean;
+  exdates: Date[];
 }
 
 export interface overridingInstance {
