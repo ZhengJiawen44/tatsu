@@ -2,16 +2,17 @@ import { NextRequest, NextResponse } from "next/server";
 import {
   BaseServerError,
   UnauthorizedError,
-  InternalError,
   BadRequestError,
 } from "@/lib/customError";
 import { prisma } from "@/lib/prisma/client";
 import { auth } from "@/app/auth";
 import { todoSchema } from "@/schema";
+import { Priority } from "@prisma/client";
+import { errorHandler } from "@/lib/errorHandler";
 
 export async function DELETE(
   req: NextRequest,
-  { params }: { params: Promise<{ id: string }> }
+  { params }: { params: Promise<{ id: string }> },
 ) {
   try {
     const session = await auth();
@@ -24,16 +25,12 @@ export async function DELETE(
     if (!id) throw new BadRequestError("Invalid request, ID is required");
 
     // Find and delete the todo item
-    const deletedTodo = await prisma.todo.deleteMany({
+    await prisma.todo.delete({
       where: {
         id,
         userID: user.id,
       },
     });
-
-    if (deletedTodo.count === 0)
-      throw new InternalError("Todo not found or not authorized to delete");
-
     return NextResponse.json({ message: "todo deleted" }, { status: 200 });
   } catch (error) {
     console.log(error);
@@ -42,7 +39,7 @@ export async function DELETE(
     if (error instanceof BaseServerError) {
       return NextResponse.json(
         { message: error.message },
-        { status: error.status }
+        { status: error.status },
       );
     }
 
@@ -54,14 +51,14 @@ export async function DELETE(
             ? error.message.slice(0, 50)
             : "An unexpected error occurred",
       },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }
 
 export async function PATCH(
   req: NextRequest,
-  { params }: { params: Promise<{ id: string }> }
+  { params }: { params: Promise<{ id: string }> },
 ) {
   try {
     const session = await auth();
@@ -78,12 +75,12 @@ export async function PATCH(
     if (isPin != undefined || null) {
       if (isPin === "true") {
         //pin todo
-        await prisma.todo.updateMany({
+        await prisma.todo.update({
           where: { id, userID: user.id },
           data: { pinned: true },
         });
       } else {
-        await prisma.todo.updateMany({
+        await prisma.todo.update({
           where: { id, userID: user.id },
           data: { pinned: false },
         });
@@ -92,57 +89,88 @@ export async function PATCH(
       return NextResponse.json({ message: "pin updated" }, { status: 200 });
     }
 
-    //for completing todos
-    const isComplete = req.nextUrl.searchParams.get("completed");
-    if (isComplete != undefined || null) {
-      if (isComplete === "true") {
-        //complete todo
-        await prisma.todo.updateMany({
-          where: { id, userID: user.id },
-          data: { completed: true },
-        });
-      } else {
-        await prisma.todo.updateMany({
-          where: { id, userID: user.id },
-          data: { completed: false },
-        });
-      }
+    //for updating todos priority
+    const priority = req.nextUrl.searchParams.get("priority");
 
-      return NextResponse.json({ message: "pin updated" }, { status: 200 });
-    }
+    if (priority && ["Low", "Medium", "High"].includes(priority)) {
+      //patch todo priority
+      await prisma.todo.updateMany({
+        where: { id, userID: user.id },
+        data: { priority: priority as Priority },
+      });
 
-    const body = await req.json();
-    const parsedObj = todoSchema.partial().safeParse(body);
-    if (!parsedObj.success) throw new BadRequestError("Invalid request body");
-
-    // Update todo
-    const updatedTodo = await prisma.todo.updateMany({
-      where: { id, userID: user.id },
-      data: parsedObj.data,
-    });
-
-    if (updatedTodo.count === 0)
-      throw new InternalError("Todo not found or not authorized to update");
-
-    return NextResponse.json({ message: "Todo updated" }, { status: 200 });
-  } catch (error) {
-    console.log(error);
-
-    if (error instanceof BaseServerError) {
       return NextResponse.json(
-        { message: error.message },
-        { status: error.status }
+        { message: "priority updated" },
+        { status: 200 },
       );
     }
 
-    return NextResponse.json(
-      {
-        message:
-          error instanceof Error
-            ? error.message.slice(0, 50)
-            : "An unexpected error occurred",
-      },
-      { status: 500 }
-    );
+    //update todo
+    let body = await req.json();
+    const { dateChanged } = body;
+    body = {
+      ...body,
+      dtstart: new Date(body.dtstart),
+      due: new Date(body.due),
+    };
+    const parsedObj = todoSchema.partial().safeParse(body);
+    if (!parsedObj.success) throw new BadRequestError("Invalid request body");
+
+    const {
+      title,
+      description,
+      priority: newPriority,
+      dtstart,
+      due,
+      rrule,
+    } = parsedObj.data;
+
+    if (!dtstart) throw new BadRequestError("empty dtstart");
+    if (typeof dateChanged == "undefined")
+      throw new BadRequestError("empty dateChanged");
+
+    // Update todo
+    if (dateChanged) {
+      await prisma.todo.update({
+        where: { id, userID: user.id },
+        data: {
+          title: title,
+          description: description,
+          priority: newPriority as Priority,
+          dtstart,
+          due,
+          rrule,
+        },
+      });
+    } else {
+      await prisma.todo.update({
+        where: { id, userID: user.id },
+        data: {
+          title: title,
+          description: description,
+          priority: newPriority as Priority,
+          rrule,
+        },
+      });
+    }
+
+    //updating a todo just overwrites the override
+    // await prisma.todoInstance.updateMany({
+    //   where: {
+    //     todoId: id,
+    //     instanceDate: dtstart,
+    //   },
+    //   data: {
+    //     overriddenTitle: title,
+    //     overriddenDescription: description,
+    //     overriddenPriority: newPriority as Priority,
+    //     overriddenDtstart: dtstart,
+    //     overriddenDue: due,
+    //   },
+    // });
+
+    return NextResponse.json({ message: "Todo updated" }, { status: 200 });
+  } catch (error) {
+    return errorHandler(error);
   }
 }

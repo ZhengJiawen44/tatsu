@@ -6,6 +6,7 @@ export default {
     "./pages/**/*.{js,ts,jsx,tsx,mdx}",
     "./components/**/*.{js,ts,jsx,tsx,mdx}",
     "./app/**/*.{js,ts,jsx,tsx,mdx}",
+    "./features/**/*.{js,ts,jsx,tsx,mdx}",
   ],
   theme: {
     extend: {
@@ -38,6 +39,8 @@ export default {
         },
         tooltip: "hsl(var(--tooltip))",
         lime: "hsl(var(--lime))",
+        orange: "hsl(var(--orange))",
+        red: "hsl(var(--red))",
         sidebar: "hsla(var(--sidebar))",
         background: "hsl(var(--background))",
         cream: "hsl(var(--background-cream))",
@@ -51,9 +54,15 @@ export default {
           muted: "hsl(var(--card-muted))",
           accent: "hsl(var(--card-accent))",
         },
+        calendar: {
+          lime: "hsl(var(--calendar-lime))",
+          orange: "hsl(var(--calendar-orange))",
+          red: "hsl(var(--calendar-red))",
+        },
         popover: {
           DEFAULT: "hsla(var(--popover))",
           foreground: "hsl(var(--popover-foreground))",
+          accent: "hsl(var(--popover-accent))",
         },
         primary: {
           DEFAULT: "hsl(var(--primary))",

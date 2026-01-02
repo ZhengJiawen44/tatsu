@@ -3,8 +3,11 @@ import { useMenu } from "@/providers/MenuProvider";
 import clsx from "clsx";
 import Lock from "@/components/ui/icon/lock";
 import Link from "next/link";
+import useWindowSize from "@/hooks/useWindowSize";
 const VaultItem = () => {
-  const { activeMenu, setActiveMenu } = useMenu();
+  const { width } = useWindowSize();
+
+  const { activeMenu, setActiveMenu, setShowMenu } = useMenu();
   return (
     <Link
       href="/app/vault"
@@ -14,6 +17,7 @@ const VaultItem = () => {
       )}
       onClick={() => {
         setActiveMenu({ name: "Vault" });
+        if (width <= 766) setShowMenu(false);
       }}
     >
       <div className="flex gap-1 justify-start items-center w-full  select-none">
