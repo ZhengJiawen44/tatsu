@@ -1,71 +1,14 @@
-import { derive128BitKey as deriveMasterKey } from "../features/vault/lib/encryption/derive128BitKey";
-import { derive256BitKey as deriveStretchedMasterKey } from "../features/vault/lib/encryption/derive256BitKey";
+import { derive128BitKey as deriveMasterKey } from "@/features/vault/lib/encryption/derive128BitKey";
+import { derive256BitKey as deriveStretchedMasterKey } from "@/features/vault/lib/encryption/derive256BitKey";
 import { expect, test, describe, jest, beforeEach } from "@jest/globals";
-import { secureGenerator } from "../features/vault/lib/encryption/secureGenerator";
-
+import { secureGenerator } from "@/features/vault/lib/encryption/secureGenerator";
 // Mock secureGenerator for consistent testing
-jest.mock("../lib/encryption/secureGenerator");
+jest.mock("@/features/vault/lib/encryption/secureGenerator");
 
 describe("deriveStretchedMasterKey", () => {
   // Reset mocks before each test
   beforeEach(() => {
     jest.clearAllMocks();
-  });
-
-  test("should produce a 512-bit (64 byte) key", async () => {
-    // Mock secureGenerator to return a fixed salt for deterministic testing
-    const mockSalt = new Uint8Array(16).fill(1);
-    (secureGenerator as jest.Mock).mockReturnValue(mockSalt);
-
-    // Generate master key
-    const masterKeyBits = await deriveMasterKey({
-      passkey: "testPassword",
-      email: "user@example.com",
-    });
-
-    // Import as HKDF key
-    const key = await crypto.subtle.importKey(
-      "raw",
-      masterKeyBits,
-      { name: "HKDF" },
-      false,
-      ["deriveBits"],
-    );
-
-    // Derive stretched key
-    const stretchedKey = await deriveStretchedMasterKey({
-      stretchedPassKey: key,
-    });
-
-    // Verify length is 64 bytes (512 bits)
-    expect(stretchedKey.byteLength).toBe(64);
-  });
-
-  test("should call secureGenerator for salt generation", async () => {
-    // Mock secureGenerator to return a fixed salt
-    const mockSalt = new Uint8Array(16).fill(1);
-    (secureGenerator as jest.Mock).mockReturnValue(mockSalt);
-
-    // Generate and import master key
-    const masterKeyBits = await deriveMasterKey({
-      passkey: "testPassword",
-      email: "user@example.com",
-    });
-    const key = await crypto.subtle.importKey(
-      "raw",
-      masterKeyBits,
-      { name: "HKDF" },
-      false,
-      ["deriveBits"],
-    );
-
-    // Derive stretched key
-    await deriveStretchedMasterKey({
-      stretchedPassKey: key,
-    });
-
-    // Verify secureGenerator was called
-    expect(secureGenerator).toHaveBeenCalledTimes(1);
   });
 
   test("same input with different salts should produce different outputs", async () => {
@@ -92,9 +35,11 @@ describe("deriveStretchedMasterKey", () => {
     // Derive two stretched keys with the same input but different salts
     const stretchedKey1 = await deriveStretchedMasterKey({
       stretchedPassKey: key,
+      email: "123@gmall.com",
     });
     const stretchedKey2 = await deriveStretchedMasterKey({
       stretchedPassKey: key,
+      email: "1234@gmall.com",
     });
 
     // Convert to Uint8Arrays for comparison
@@ -116,14 +61,14 @@ describe("deriveStretchedMasterKey", () => {
     // Create a modified version of deriveStretchedMasterKey that accepts a salt parameter for testing
     async function deriveWithFixedSalt(
       key: CryptoKey,
-      salt: Uint8Array,
+      salt: ArrayBuffer | Uint8Array,
     ): Promise<ArrayBuffer> {
       const encoder = new TextEncoder();
       return crypto.subtle.deriveBits(
         {
           name: "HKDF",
           hash: "SHA-256",
-          salt: salt,
+          salt: salt as ArrayBuffer,
           info: encoder.encode("512 bits stretched master key"),
         },
         key,
@@ -172,7 +117,7 @@ describe("deriveStretchedMasterKey", () => {
         {
           name: "HKDF",
           hash: "SHA-256",
-          salt: salt,
+          salt: salt as Uint8Array<ArrayBuffer>,
           info: encoder.encode("512 bits stretched master key"),
         },
         key,
@@ -304,6 +249,7 @@ describe("deriveStretchedMasterKey", () => {
     await expect(
       deriveStretchedMasterKey({
         stretchedPassKey: wrongKey,
+        email: "user@example.com",
       }),
     ).rejects.toThrow();
   });

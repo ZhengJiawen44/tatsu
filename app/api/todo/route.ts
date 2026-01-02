@@ -120,6 +120,14 @@ export async function GET(req: NextRequest) {
       include: { instances: true },
     });
 
+    // Fetch all todo instances that has dtstart in range
+    const IndependentOverrides = await prisma.todoInstance.findMany({
+      where: {
+        overriddenDtstart: { lte: bounds.todayEndUTC },
+        overriddenDue: { gte: bounds.todayStartUTC },
+      },
+    });
+
     // Expand RRULEs to generate occurrences happening "Today" ]
     const ghostTodos = generateTodosFromRRule(
       recurringParents,
@@ -130,6 +138,7 @@ export async function GET(req: NextRequest) {
     const mergedRecurringTodos = applyOverridesToGhosts(
       ghostTodos,
       recurringParents,
+      IndependentOverrides,
     );
 
     const allTodos = [...oneOffTodos, ...mergedRecurringTodos].sort(

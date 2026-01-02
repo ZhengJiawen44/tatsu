@@ -1,4 +1,4 @@
-import { derive128BitKey } from "../features/vault/lib/encryption/derive128BitKey";
+import { derive128BitKey } from "@/features/vault/lib/encryption/derive128BitKey";
 import { expect, test, describe } from "@jest/globals";
 
 describe("deriveMasterKey", () => {

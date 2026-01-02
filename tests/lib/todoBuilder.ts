@@ -19,6 +19,7 @@ export class TodoBuilder {
       userID: crypto.randomUUID(),
       due: new Date(),
       completed: false,
+      exdates: [],
     };
   }
 
@@ -34,6 +35,10 @@ export class TodoBuilder {
 
   withdtstart(dtstart: Date): this {
     this.todo.dtstart = dtstart;
+    return this;
+  }
+  withdue(due: Date): this {
+    this.todo.due = due;
     return this;
   }
 
