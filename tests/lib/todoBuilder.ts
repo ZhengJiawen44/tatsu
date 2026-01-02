@@ -51,6 +51,10 @@ export class TodoBuilder {
     this.todo.timeZone = timeZone;
     return this;
   }
+  withExdates(exDates: Date[]) {
+    this.todo.exdates.push(...exDates);
+    return this;
+  }
 
   pinned(): this {
     this.todo.pinned = true;

@@ -106,4 +106,5 @@ export interface CalendarTodoItemType {
   userID: string;
   completed: boolean;
   instances: overridingInstance[];
+  exdates: Date[];
 }
