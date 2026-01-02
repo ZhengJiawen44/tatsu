@@ -27,6 +27,7 @@ export default function generateTodosFromRRule(
 
       const durationMs = parent.due.getTime() - parent.dtstart.getTime();
       const durationMinutes = durationMs / 60000;
+
       // const rule = genRule(parent.rrule, parent.dtstart, timeZone);
       const ruleSet = genRuleSet(
         parent.rrule,
@@ -39,11 +40,18 @@ export default function generateTodosFromRRule(
       const searchStart = new Date(bounds.todayStartUTC.getTime() - durationMs);
 
       // const occurrences = rule.between(searchStart, bounds.todayEndUTC, true);
+
       const occurrences = ruleSet.between(
         searchStart,
         bounds.todayEndUTC,
         true,
       );
+      // const occurrences = ruleSet.between(
+      //   new Date("2026-01-02T16:00:00.000Z"),
+      //   new Date("2026-01-03T15:59:59.999Z"),
+      //   true,
+      // );
+      // console.log(occurrences);
 
       return occurrences.flatMap((occ) => {
         const instanceDue = addMinutes(occ, durationMinutes);
