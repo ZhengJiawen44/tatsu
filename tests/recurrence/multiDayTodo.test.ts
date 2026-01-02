@@ -138,3 +138,65 @@ test("odd hours 2-day todo is returned after its dtstart", () => {
   expect(todoInstance.dtstart).toEqual(new Date("2025-12-31T16:00:00Z"));
   expect(occurences.length).toEqual(1);
 });
+
+/*
+ * Ends exactly at today's start → should NOT be visible
+ */
+test("todo that ends exactly at todayStart is NOT returned", () => {
+  const fixedTime = new Date("2026-01-01T16:00:00Z"); // beginning of Jan-2 in China
+  jest.useFakeTimers();
+  jest.setSystemTime(fixedTime);
+
+  const { todo } = new TodoBuilder()
+    .withdtstart(new Date("2025-12-31T16:00:00Z")) // Jan-1 in China
+    .withRRule("FREQ=WEEKLY")
+    .withdue(new Date("2026-01-01T16:00:00Z")); // EXACTLY todayStartUTC
+
+  const bounds = getTodayBoundaries(todo.timeZone);
+  const occurrences = generateTodosFromRRule([todo], todo.timeZone, bounds);
+
+  expect(occurrences.length).toEqual(0);
+});
+
+/*
+ * EXDATE removes the spanning occurrence entirely (even if it would overlap today)
+ */
+test("exdated spanning todo is NOT returned even if it overlaps today", () => {
+  const fixedTime = new Date("2026-01-01T16:00:00Z"); // Jan-2 in China
+  jest.useFakeTimers();
+  jest.setSystemTime(fixedTime);
+
+  const { todo } = new TodoBuilder()
+    .withdtstart(new Date("2025-12-31T16:00:00Z")) // Jan-1 in China
+    .withRRule("FREQ=WEEKLY")
+    .withdue(new Date("2026-01-02T15:59:59Z")) // spans into today
+    .withExdates([new Date("2025-12-31T16:00:00Z")]); // exdate the original start
+
+  const bounds = getTodayBoundaries(todo.timeZone);
+  const occurrences = generateTodosFromRRule([todo], todo.timeZone, bounds);
+
+  // EXDATE should remove the logical occurrence; no ghost should be produced
+  expect(occurrences.length).toEqual(0);
+});
+
+/*
+ * Very long spanning todo (duration > 24h) should still be visible during intermediate days
+ */
+test("very long spanning todo (multiple days) is returned while it overlaps today", () => {
+  const fixedTime = new Date("2026-01-01T16:00:00Z"); // Jan-2 in China
+  jest.useFakeTimers();
+  jest.setSystemTime(fixedTime);
+
+  // start Dec-31, due Jan-05 (spans many days) weekly rule
+  const { todo } = new TodoBuilder()
+    .withdtstart(new Date("2025-12-31T16:00:00Z"))
+    .withRRule("FREQ=WEEKLY")
+    .withdue(new Date("2026-01-05T15:59:59Z"));
+
+  const bounds = getTodayBoundaries(todo.timeZone);
+  const occurrences = generateTodosFromRRule([todo], todo.timeZone, bounds);
+
+  expect(occurrences.length).toBeGreaterThan(0);
+  // the single generated ghost should have the original dtstart
+  expect(occurrences[0].dtstart).toEqual(new Date("2025-12-31T16:00:00Z"));
+});

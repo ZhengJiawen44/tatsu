@@ -179,6 +179,7 @@ const TodoForm = ({
           pinned: false,
           timeZone: "",
           userID: "",
+          exdates: [],
         });
       }
     } catch (error) {

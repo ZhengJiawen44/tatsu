@@ -61,38 +61,38 @@ export default function CalendarClient() {
         onRangeChange={setCalendarRange}
         onEventResize={({ event: todo, ...resizeEvent }) => {
           //all updates done to repeat events are instance only
-          if (!todo.rrule) {
-            editCalendarTodo({
-              ...todo,
-              dtstart: new Date(resizeEvent.start),
-              due: new Date(resizeEvent.end),
-            });
-          } else {
-            editCalendarTodoInstance({
-              ...todo,
-              // id: todo.parentId,
-              instanceDate: todo.dtstart,
-              dtstart: new Date(resizeEvent.start),
-              due: new Date(resizeEvent.end),
-            });
-          }
+          // if (!todo.rrule) {
+          //   editCalendarTodo({
+          //     ...todo,
+          //     dtstart: new Date(resizeEvent.start),
+          //     due: new Date(resizeEvent.end),
+          //   });
+          // } else {
+          //   editCalendarTodoInstance({
+          //     ...todo,
+          //     // id: todo.parentId,
+          //     instanceDate: todo.dtstart,
+          //     dtstart: new Date(resizeEvent.start),
+          //     due: new Date(resizeEvent.end),
+          //   });
+          // }
         }}
         onEventDrop={({ event: todo, ...dropEvent }) => {
-          if (!todo.rrule) {
-            editCalendarTodo({
-              ...todo,
-              dtstart: new Date(dropEvent.start),
-              due: new Date(dropEvent.end),
-            });
-          } else {
-            editCalendarTodoInstance({
-              ...todo,
-              // id: todo.parentId,
-              instanceDate: todo.dtstart,
-              dtstart: new Date(dropEvent.start),
-              due: new Date(dropEvent.end),
-            });
-          }
+          // if (!todo.rrule) {
+          //   editCalendarTodo({
+          //     ...todo,
+          //     dtstart: new Date(dropEvent.start),
+          //     due: new Date(dropEvent.end),
+          //   });
+          // } else {
+          //   editCalendarTodoInstance({
+          //     ...todo,
+          //     // id: todo.parentId,
+          //     instanceDate: todo.dtstart,
+          //     dtstart: new Date(dropEvent.start),
+          //     due: new Date(dropEvent.end),
+          //   });
+          // }
         }}
       />
     </div>
