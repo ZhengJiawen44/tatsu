@@ -106,6 +106,6 @@ export interface CalendarTodoItemType {
   timeZone: string;
   userID: string;
   completed: boolean;
-  instances: overridingInstance[];
+  instances: overridingInstance[] | null;
   exdates: Date[];
 }
