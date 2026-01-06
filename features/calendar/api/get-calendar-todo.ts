@@ -25,7 +25,6 @@ export const useCalendarTodo = (calendarRange: { start: Date; end: Date }) => {
           data.message || `bad server response: Did not recieve todo`,
         );
       }
-      console.log(todos);
 
       const todoWithFormattedDates = todos.map((todo) => {
         return {
