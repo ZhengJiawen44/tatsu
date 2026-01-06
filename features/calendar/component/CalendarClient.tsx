@@ -14,8 +14,8 @@ import { calendarEventPropStyles } from "../lib/calendarEventPropStyles";
 import { useDateRange } from "../hooks/useDateRange";
 import { useCalendarTodo } from "../api/get-calendar-todo";
 import { useEffect } from "react";
-// import { useEditCalendarTodo } from "../api/update-calendar-todo";
-// import { useEditCalendarTodoInstance } from "../api/update-calendar-todo-instance";
+import { useEditCalendarTodo } from "../api/update-calendar-todo";
+import { useEditCalendarTodoInstance } from "../api/update-calendar-todo-instance";
 
 const locales = {
   "en-US": enUS,
@@ -35,8 +35,8 @@ export default function CalendarClient() {
   }, []);
   const [calendarRange, setCalendarRange] = useDateRange(); //useReducerHook
   const { todos: calendarTodos } = useCalendarTodo(calendarRange);
-  // const { editCalendarTodo } = useEditCalendarTodo();
-  // const { editCalendarTodoInstance } = useEditCalendarTodoInstance();
+  const { editCalendarTodo } = useEditCalendarTodo();
+  const { editCalendarTodoInstance } = useEditCalendarTodoInstance();
   return (
     <div className="h-full">
       <DnDCalendar
@@ -79,23 +79,23 @@ export default function CalendarClient() {
         //   //   });
         //   // }
         // }}
-        // onEventDrop={({ event: todo, ...dropEvent }) => {
-        //   // if (!todo.rrule) {
-        //   //   editCalendarTodo({
-        //   //     ...todo,
-        //   //     dtstart: new Date(dropEvent.start),
-        //   //     due: new Date(dropEvent.end),
-        //   //   });
-        //   // } else {
-        //   //   editCalendarTodoInstance({
-        //   //     ...todo,
-        //   //     // id: todo.parentId,
-        //   //     instanceDate: todo.dtstart,
-        //   //     dtstart: new Date(dropEvent.start),
-        //   //     due: new Date(dropEvent.end),
-        //   //   });
-        //   // }
-        // }}
+        onEventDrop={({ event: todo, ...dropEvent }) => {
+          if (!todo.rrule) {
+            editCalendarTodo({
+              ...todo,
+              dtstart: new Date(dropEvent.start),
+              due: new Date(dropEvent.end),
+            });
+          } else {
+            editCalendarTodoInstance({
+              ...todo,
+              // id: todo.parentId,
+              instanceDate: todo.dtstart,
+              dtstart: new Date(dropEvent.start),
+              due: new Date(dropEvent.end),
+            });
+          }
+        }}
       />
     </div>
   );
