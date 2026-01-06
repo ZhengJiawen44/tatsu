@@ -25,24 +25,26 @@ export const useCalendarTodo = (calendarRange: { start: Date; end: Date }) => {
           data.message || `bad server response: Did not recieve todo`,
         );
       }
+      console.log(todos);
+
       const todoWithFormattedDates = todos.map((todo) => {
         return {
           ...todo,
           dtstart: new Date(todo.dtstart),
           due: new Date(todo.due),
-          instances: todo.instances.map((instance) => ({
-            ...instance,
-            instanceDate: new Date(instance.instanceDate),
-            overriddenDtstart: instance.overriddenDtstart
-              ? new Date(instance.overriddenDtstart)
-              : null,
-            overriddenDue: instance.overriddenDue
-              ? new Date(instance.overriddenDue)
-              : null,
-          })),
+          instances:
+            todo.instances?.map((instance) => ({
+              ...instance,
+              instanceDate: new Date(instance.instanceDate),
+              overriddenDtstart: instance.overriddenDtstart
+                ? new Date(instance.overriddenDtstart)
+                : null,
+              overriddenDue: instance.overriddenDue
+                ? new Date(instance.overriddenDue)
+                : null,
+            })) || null,
         };
       });
-
       return todoWithFormattedDates;
     },
   });
