@@ -13,7 +13,8 @@ import getTodayBoundaries from "@/lib/getTodayBoundaries";
 import generateTodosFromRRule from "@/lib/generateTodosFromRRule";
 import { resolveTimezone } from "@/lib/resolveTimeZone";
 import { errorHandler } from "@/lib/errorHandler";
-import { applyOverridesToGhosts } from "@/lib/applyOverridesToGhosts";
+import { overrideBy } from "@/lib/overrideBy";
+import { recurringTodoWithInstance } from "@/types";
 
 export async function POST(req: NextRequest) {
   try {
@@ -92,6 +93,8 @@ export async function GET(req: NextRequest) {
     const timeZone = await resolveTimezone(user, req);
 
     const bounds = getTodayBoundaries(timeZone);
+    // bounds.todayEndUTC = new Date("2026-01-13T15:59:59.999Z");
+    // bounds.todayStartUTC = new Date("2026-01-12T16:00:00.000Z");
 
     // Fetch One-Off Todos scheduled for today
     const oneOffTodos = await prisma.todo.findMany({
@@ -110,7 +113,7 @@ export async function GET(req: NextRequest) {
     });
 
     // Fetch all Recurring todos that have already started
-    const recurringParents = await prisma.todo.findMany({
+    const recurringParents = (await prisma.todo.findMany({
       where: {
         userID: user.id,
         rrule: { not: null },
@@ -118,30 +121,31 @@ export async function GET(req: NextRequest) {
         completed: false,
       },
       include: { instances: true },
-    });
+    })) as recurringTodoWithInstance[];
 
-    // Fetch all todo instances that has dtstart in range
-    const IndependentOverrides = await prisma.todoInstance.findMany({
-      where: {
-        overriddenDtstart: { lte: bounds.todayEndUTC },
-        overriddenDue: { gte: bounds.todayStartUTC },
-      },
-    });
-
-    // Expand RRULEs to generate occurrences happening "Today" ]
+    // Expand RRULEs to generate occurrences happening "Today"
     const ghostTodos = generateTodosFromRRule(
       recurringParents,
       timeZone,
       bounds,
     );
-    // Apply overrides
-    const mergedRecurringTodos = applyOverridesToGhosts(
-      ghostTodos,
-      recurringParents,
-      IndependentOverrides,
+
+    // // Apply overrides
+    const mergedUsingRecurrId = overrideBy(ghostTodos, (inst) => inst.recurId);
+    const mergedUsingDtstart = overrideBy(mergedUsingRecurrId, (inst) =>
+      inst.overriddenDtstart?.toISOString(),
     );
 
-    const allTodos = [...oneOffTodos, ...mergedRecurringTodos].sort(
+    const validMerged = mergedUsingDtstart.filter((todo) => {
+      return todo.due >= bounds.todayStartUTC;
+    });
+    console.log("one off todos: : ", oneOffTodos);
+    console.log("recurring parents : ", recurringParents);
+    console.log("ghost: ", ghostTodos);
+    console.log("merged with reccur ID: ", mergedUsingRecurrId);
+    console.log("merged with dtstart: ", mergedUsingDtstart);
+
+    const allTodos = [...oneOffTodos, ...validMerged].sort(
       (a, b) => a.order - b.order,
     );
 

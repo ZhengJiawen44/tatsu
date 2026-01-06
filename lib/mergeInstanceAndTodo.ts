@@ -1,4 +1,8 @@
-import { overridingInstance, TodoItemType } from "@/types";
+import {
+  CalendarTodoItemType,
+  overridingInstance,
+  recurringTodoWithInstance,
+} from "@/types";
 
 /**
  * given a single todo parent and a instance, merges them by overriding some parent information with the instance
@@ -8,8 +12,8 @@ import { overridingInstance, TodoItemType } from "@/types";
  */
 export function mergeInstanceAndTodo(
   instance: overridingInstance,
-  parent: TodoItemType,
-): TodoItemType {
+  parent: recurringTodoWithInstance | CalendarTodoItemType,
+): recurringTodoWithInstance | CalendarTodoItemType {
   const merged = structuredClone(parent);
 
   merged.completed = instance.completedAt ? true : false;
