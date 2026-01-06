@@ -87,6 +87,7 @@ export type User = Prisma.UserGetPayload<{
 }>;
 
 export interface recurringTodoWithInstance extends TodoItemType {
+  rrule: string;
   instances: overridingInstance[];
 }
 

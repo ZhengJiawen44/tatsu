@@ -1,11 +1,11 @@
 import { RRule, RRuleSet } from "rrule";
-import { recurringTodoWithInstance, TodoItemType } from "@/types";
+import { recurringTodoWithInstance } from "@/types";
 import { toZonedTime } from "date-fns-tz";
 type bounds = {
   todayStartUTC: Date;
   todayEndUTC: Date;
 };
-import { addMinutes } from "date-fns";
+import { addMilliseconds } from "date-fns";
 
 /**
  * generates in-memory instances of todo based on the RRule field in todo.
@@ -17,54 +17,33 @@ import { addMinutes } from "date-fns";
  */
 
 export default function generateTodosFromRRule(
-  recurringParents: recurringTodoWithInstance[] | TodoItemType[],
+  recurringParents: recurringTodoWithInstance[],
   timeZone: string,
   bounds: bounds,
-): TodoItemType[] {
-  const todayRecurringInstances = recurringParents.flatMap((parent) => {
+): recurringTodoWithInstance[] {
+  return recurringParents.flatMap((parent) => {
     try {
-      if (!parent.rrule) return [];
-
       const durationMs = parent.due.getTime() - parent.dtstart.getTime();
-      const durationMinutes = durationMs / 60000;
 
-      // const rule = genRule(parent.rrule, parent.dtstart, timeZone);
       const ruleSet = genRuleSet(
         parent.rrule,
         parent.dtstart,
         timeZone,
         parent.exdates,
       );
-
-      // Look back for todo's duration
       const searchStart = new Date(bounds.todayStartUTC.getTime() - durationMs);
-
-      // const occurrences = rule.between(searchStart, bounds.todayEndUTC, true);
-
       const occurrences = ruleSet.between(
         searchStart,
         bounds.todayEndUTC,
         true,
       );
-      // const occurrences = ruleSet.between(
-      //   new Date("2026-01-02T16:00:00.000Z"),
-      //   new Date("2026-01-03T15:59:59.999Z"),
-      //   true,
-      // );
-      // console.log(occurrences);
 
-      return occurrences.flatMap((occ) => {
-        const instanceDue = addMinutes(occ, durationMinutes);
-        // If the instance ended before today started, don't include it.
-        if (instanceDue <= bounds.todayStartUTC) {
-          return [];
-        }
-
+      return occurrences.map((occ) => {
         return {
           ...parent,
           dtstart: occ,
-          durationMinutes,
-          due: instanceDue,
+          durationMinutes: durationMs / 60000,
+          due: addMilliseconds(occ, durationMs),
         };
       });
     } catch (e) {
@@ -72,7 +51,6 @@ export default function generateTodosFromRRule(
       return [];
     }
   });
-  return todayRecurringInstances;
 }
 
 /**
@@ -82,21 +60,6 @@ export default function generateTodosFromRRule(
  * @param timeZone user's time zone
  * @returns RRule object
  */
-export function genRule(rrule: string, dtStart: Date, timeZone: string) {
-  const options = RRule.parseString(rrule);
-  options.dtstart = toZonedTime(dtStart, timeZone);
-  options.tzid = timeZone;
-  const rule = new RRule(options);
-  return rule;
-}
-// export function genRule(rrule: string, dtStart: Date, timeZone: string) {
-//   console.log(dtStart); //2025-12-15T19:40:40.000Z
-//   const options = RRule.parseString(rrule);
-//   options.dtstart = toZonedTime(dtStart, timeZone);
-//   options.tzid = timeZone;
-//   const rule = new RRule(options);
-//   return rule;
-// }
 
 export function genRuleSet(
   rrule: string,

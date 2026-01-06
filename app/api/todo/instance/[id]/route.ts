@@ -5,6 +5,7 @@ import { Priority } from "@prisma/client";
 import { todoSchema } from "@/schema";
 import { auth } from "@/app/auth";
 import { errorHandler } from "@/lib/errorHandler";
+// import { addDays, set } from "date-fns";
 
 export async function PATCH(
   req: NextRequest,
@@ -43,6 +44,52 @@ export async function PATCH(
       throw new BadRequestError("dtstart is required to update a TodoInstance");
     }
 
+    // const parentTodo = await prisma.todo.findUnique({
+    //   where: { id },
+    //   select: {
+    //     dtstart: true,
+    //     due: true,
+    //     exdates: true,
+    //   },
+    // });
+
+    // if (!parentTodo) {
+    //   throw new BadRequestError("Parent todo not found");
+    // }
+    // const masterDurationMs =
+    //   parentTodo.due.getTime() - parentTodo.dtstart.getTime();
+    // const originalEnd = new Date(dtstart.getTime() + masterDurationMs);
+
+    // const newExdates: Date[] = [];
+
+    // // start cursor at the overridden end (exact time)
+    // let cursor = new Date(due!);
+
+    // while (cursor < originalEnd) {
+    //   const exDate = set(cursor, {
+    //     hours: dtstart.getHours(),
+    //     minutes: dtstart.getMinutes(),
+    //     seconds: dtstart.getSeconds(),
+    //     milliseconds: dtstart.getMilliseconds(),
+    //   });
+    //   newExdates.push(exDate);
+    //   cursor = addDays(cursor, 1);
+    // }
+
+    // if (newExdates.length > 0) {
+    //   await prisma.todo.update({
+    //     where: { id },
+    //     data: {
+    //       exdates: {
+    //         push: newExdates.filter(
+    //           (d) =>
+    //             !parentTodo.exdates?.some((e) => e.getTime() === d.getTime()),
+    //         ),
+    //       },
+    //     },
+    //   });
+    // }
+
     await prisma.todoInstance.upsert({
       where: {
         todoId_instanceDate: {
@@ -78,7 +125,7 @@ export async function PATCH(
     if (instanceDate.toISOString() !== dtstart.toISOString()) {
       await prisma.todo.update({
         where: { id },
-        data: { exdates: { push: instanceDate } },
+        data: { exdates: { push: [instanceDate] } },
       });
     }
 
