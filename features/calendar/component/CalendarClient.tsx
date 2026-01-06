@@ -10,12 +10,12 @@ import { CalendarTodoItemType } from "@/types";
 import CalendarHeader from "./CalendarHeader";
 import { agendaComponents } from "./CalendarAgenda";
 import CalendarEvent from "./CalendarEvent";
-import { genCalendarTodos } from "../lib/genCalendarTodos";
 import { calendarEventPropStyles } from "../lib/calendarEventPropStyles";
 import { useDateRange } from "../hooks/useDateRange";
 import { useCalendarTodo } from "../api/get-calendar-todo";
-import { useEditCalendarTodo } from "../api/update-calendar-todo";
-import { useEditCalendarTodoInstance } from "../api/update-calendar-todo-instance";
+import { useEffect } from "react";
+// import { useEditCalendarTodo } from "../api/update-calendar-todo";
+// import { useEditCalendarTodoInstance } from "../api/update-calendar-todo-instance";
 
 const locales = {
   "en-US": enUS,
@@ -30,11 +30,13 @@ const localizer = dateFnsLocalizer({
 const DnDCalendar = withDragAndDrop<CalendarTodoItemType>(Calendar);
 
 export default function CalendarClient() {
+  useEffect(() => {
+    console.log("rerendered");
+  }, []);
   const [calendarRange, setCalendarRange] = useDateRange(); //useReducerHook
-  const { todos: calendarTodos } = useCalendarTodo();
-  const generatedTodos = genCalendarTodos(calendarTodos, calendarRange); //generate todo based on rrule
-  const { editCalendarTodo } = useEditCalendarTodo();
-  const { editCalendarTodoInstance } = useEditCalendarTodoInstance();
+  const { todos: calendarTodos } = useCalendarTodo(calendarRange);
+  // const { editCalendarTodo } = useEditCalendarTodo();
+  // const { editCalendarTodoInstance } = useEditCalendarTodoInstance();
   return (
     <div className="h-full">
       <DnDCalendar
@@ -46,7 +48,7 @@ export default function CalendarClient() {
         }}
         defaultView="month"
         localizer={localizer}
-        events={generatedTodos}
+        events={calendarTodos}
         startAccessor="dtstart"
         endAccessor="due"
         draggableAccessor={() => true}
@@ -59,41 +61,41 @@ export default function CalendarClient() {
         }}
         eventPropGetter={(event) => calendarEventPropStyles(event.priority)} //styles for the event container
         onRangeChange={setCalendarRange}
-        onEventResize={({ event: todo, ...resizeEvent }) => {
-          //all updates done to repeat events are instance only
-          // if (!todo.rrule) {
-          //   editCalendarTodo({
-          //     ...todo,
-          //     dtstart: new Date(resizeEvent.start),
-          //     due: new Date(resizeEvent.end),
-          //   });
-          // } else {
-          //   editCalendarTodoInstance({
-          //     ...todo,
-          //     // id: todo.parentId,
-          //     instanceDate: todo.dtstart,
-          //     dtstart: new Date(resizeEvent.start),
-          //     due: new Date(resizeEvent.end),
-          //   });
-          // }
-        }}
-        onEventDrop={({ event: todo, ...dropEvent }) => {
-          // if (!todo.rrule) {
-          //   editCalendarTodo({
-          //     ...todo,
-          //     dtstart: new Date(dropEvent.start),
-          //     due: new Date(dropEvent.end),
-          //   });
-          // } else {
-          //   editCalendarTodoInstance({
-          //     ...todo,
-          //     // id: todo.parentId,
-          //     instanceDate: todo.dtstart,
-          //     dtstart: new Date(dropEvent.start),
-          //     due: new Date(dropEvent.end),
-          //   });
-          // }
-        }}
+        // onEventResize={({ event: todo, ...resizeEvent }) => {
+        //   //all updates done to repeat events are instance only
+        //   // if (!todo.rrule) {
+        //   //   editCalendarTodo({
+        //   //     ...todo,
+        //   //     dtstart: new Date(resizeEvent.start),
+        //   //     due: new Date(resizeEvent.end),
+        //   //   });
+        //   // } else {
+        //   //   editCalendarTodoInstance({
+        //   //     ...todo,
+        //   //     // id: todo.parentId,
+        //   //     instanceDate: todo.dtstart,
+        //   //     dtstart: new Date(resizeEvent.start),
+        //   //     due: new Date(resizeEvent.end),
+        //   //   });
+        //   // }
+        // }}
+        // onEventDrop={({ event: todo, ...dropEvent }) => {
+        //   // if (!todo.rrule) {
+        //   //   editCalendarTodo({
+        //   //     ...todo,
+        //   //     dtstart: new Date(dropEvent.start),
+        //   //     due: new Date(dropEvent.end),
+        //   //   });
+        //   // } else {
+        //   //   editCalendarTodoInstance({
+        //   //     ...todo,
+        //   //     // id: todo.parentId,
+        //   //     instanceDate: todo.dtstart,
+        //   //     dtstart: new Date(dropEvent.start),
+        //   //     due: new Date(dropEvent.end),
+        //   //   });
+        //   // }
+        // }}
       />
     </div>
   );
