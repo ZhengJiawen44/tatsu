@@ -2,8 +2,8 @@ import { RRule, RRuleSet } from "rrule";
 import { recurringTodoWithInstance } from "@/types";
 import { toZonedTime } from "date-fns-tz";
 type bounds = {
-  todayStartUTC: Date;
-  todayEndUTC: Date;
+  dateRangeStart: Date;
+  dateRangeEnd: Date;
 };
 import { addMilliseconds } from "date-fns";
 
@@ -31,10 +31,12 @@ export default function generateTodosFromRRule(
         timeZone,
         parent.exdates,
       );
-      const searchStart = new Date(bounds.todayStartUTC.getTime() - durationMs);
+      const searchStart = new Date(
+        bounds.dateRangeStart.getTime() - durationMs,
+      );
       const occurrences = ruleSet.between(
         searchStart,
-        bounds.todayEndUTC,
+        bounds.dateRangeEnd,
         true,
       );
 

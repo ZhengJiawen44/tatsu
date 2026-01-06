@@ -4,7 +4,7 @@ import { useToast } from "@/hooks/use-toast";
 import { useEffect } from "react";
 import { CalendarTodoItemType } from "@/types";
 
-export const useCalendarTodo = () => {
+export const useCalendarTodo = (calendarRange: { start: Date; end: Date }) => {
   const { toast } = useToast();
   //get all of today's todos
   const {
@@ -13,10 +13,12 @@ export const useCalendarTodo = () => {
     isError,
     error,
   } = useQuery<CalendarTodoItemType[]>({
-    queryKey: ["calendarTodo"],
+    queryKey: ["calendarTodo", calendarRange],
     retry: 2,
     queryFn: async () => {
-      const data = await api.GET({ url: `/api/calendar/todo` });
+      const data = await api.GET({
+        url: `/api/calendar/todo?start=${calendarRange.start}&end=${calendarRange.end}`,
+      });
       const { todos }: { todos: CalendarTodoItemType[] } = data;
       if (!todos) {
         throw new Error(

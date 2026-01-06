@@ -124,11 +124,10 @@ export async function GET(req: NextRequest) {
     })) as recurringTodoWithInstance[];
 
     // Expand RRULEs to generate occurrences happening "Today"
-    const ghostTodos = generateTodosFromRRule(
-      recurringParents,
-      timeZone,
-      bounds,
-    );
+    const ghostTodos = generateTodosFromRRule(recurringParents, timeZone, {
+      dateRangeStart: bounds.todayStartUTC,
+      dateRangeEnd: bounds.todayEndUTC,
+    });
 
     // // Apply overrides
     const mergedUsingRecurrId = overrideBy(ghostTodos, (inst) => inst.recurId);
