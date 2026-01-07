@@ -27,5 +27,6 @@ export function mergeInstanceAndTodo(
     merged.durationMinutes = instance.overriddenDurationMinutes;
   if (instance.overriddenPriority)
     merged.priority = instance.overriddenPriority;
+  merged.instanceDate = instance.instanceDate;
   return merged;
 }

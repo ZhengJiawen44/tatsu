@@ -15,6 +15,7 @@ import { resolveTimezone } from "@/lib/resolveTimeZone";
 import { errorHandler } from "@/lib/errorHandler";
 import { overrideBy } from "@/lib/overrideBy";
 import { recurringTodoWithInstance } from "@/types";
+// import { mergeInstanceAndTodo } from "@/lib/mergeInstanceAndTodo";
 
 // export async function POST(req: NextRequest) {
 //   try {
@@ -96,9 +97,20 @@ export async function GET(req: NextRequest) {
 
     if (!start || !end)
       throw new BadRequestError("date range start or from not specified");
-    const dateRangeStart = new Date(start);
-    const dateRangeEnd = new Date(end);
-    console.log(dateRangeStart, dateRangeEnd);
+    const dateRangeStart = new Date(Number(start));
+    const dateRangeEnd = new Date(Number(end));
+    console.log(
+      "%c [ dateRangeStart ]-100",
+      "font-size:13px; background:pink; color:#bf2c9f;",
+      dateRangeStart,
+    );
+
+    console.log(
+      "%c [ dateRangeEnd ]-101",
+      "font-size:13px; background:pink; color:#bf2c9f;",
+      dateRangeEnd,
+    );
+
     // Fetch One-Off Todos scheduled for today
     const oneOffTodos = await prisma.todo.findMany({
       where: {
@@ -134,19 +146,22 @@ export async function GET(req: NextRequest) {
 
     // // Apply overrides
     const mergedUsingRecurrId = overrideBy(ghostTodos, (inst) => inst.recurId);
-    const mergedUsingDtstart = overrideBy(mergedUsingRecurrId, (inst) =>
-      inst.overriddenDtstart?.toISOString(),
-    );
 
-    const validMerged = mergedUsingDtstart.filter((todo) => {
+    //find Orphaned overrides
+    // const orphanedTodos = getOrphanedTodos(
+    //   mergedUsingRecurrId,
+    //   recurringParents,
+    //   { dateRangeStart, dateRangeEnd },
+    // );
+
+    const validMerged = mergedUsingRecurrId.filter((todo) => {
       return todo.due >= dateRangeStart;
     });
     console.log("one off todos: : ", oneOffTodos);
     console.log("recurring parents : ", recurringParents);
     console.log("ghost: ", ghostTodos);
     console.log("merged with reccur ID: ", mergedUsingRecurrId);
-    console.log("merged with dtstart: ", mergedUsingDtstart);
-
+    // console.log("orphan todos: ", orphanedTodos);
     const allTodos = [...oneOffTodos, ...validMerged].sort(
       (a, b) => a.order - b.order,
     );
@@ -156,3 +171,36 @@ export async function GET(req: NextRequest) {
     return errorHandler(error);
   }
 }
+
+// /**
+//  * @description generated "orphaned todos" by finding instances that had their dtstart overriden to another time
+//  * @param mergedTodos a list of todos that are used to check for duplicates
+//  * @param recurringParents a list of todos that has all the instances
+//  * @param bounds a { dateRangeStart: Date; dateRangeEnd: Date } object
+//  * @returns a list of orphaned todos
+//  */
+// function getOrphanedTodos(
+//   mergedTodos: CalendarTodoItemType[],
+//   recurringParents: CalendarTodoItemType[],
+//   bounds: { dateRangeStart: Date; dateRangeEnd: Date },
+// ): CalendarTodoItemType[] {
+//   const mergedDtstarts = mergedTodos.map((merged) => merged.dtstart.getTime());
+//   const orphanedInstances = recurringParents.flatMap((todo) => {
+//     if (!todo.instances) return [];
+//     return todo.instances.filter(
+//       ({ overriddenDtstart }) =>
+//         overriddenDtstart &&
+//         overriddenDtstart >= bounds.dateRangeStart &&
+//         overriddenDtstart <= bounds.dateRangeEnd &&
+//         !mergedDtstarts.includes(overriddenDtstart.getTime()),
+//     );
+//   });
+//   const orphanedTodos = orphanedInstances.flatMap((instance) => {
+//     const parentTodo = recurringParents.find(
+//       (parent) => parent.id === instance.todoId,
+//     );
+//     if (parentTodo) return mergeInstanceAndTodo(instance, parentTodo);
+//     return [];
+//   });
+//   return orphanedTodos;
+// }

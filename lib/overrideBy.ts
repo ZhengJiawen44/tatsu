@@ -1,4 +1,8 @@
-import { overridingInstance, recurringTodoWithInstance } from "@/types";
+import {
+  CalendarTodoItemType,
+  overridingInstance,
+  recurringTodoWithInstance,
+} from "@/types";
 import { mergeInstanceAndTodo } from "./mergeInstanceAndTodo";
 
 /**
@@ -10,17 +14,14 @@ import { mergeInstanceAndTodo } from "./mergeInstanceAndTodo";
 export function overrideBy(
   ghostTodos: recurringTodoWithInstance[],
   keyFn: (instance: overridingInstance) => string | undefined,
-): recurringTodoWithInstance[] {
+): CalendarTodoItemType[] {
   return ghostTodos.map((ghost) => {
     const overrideMap = constructOverrideMap(ghost.instances, keyFn);
     const todoInstance = overrideMap.get(
       ghost.dtstart.toISOString() + ghost.id,
     );
     if (!todoInstance) return ghost;
-    return mergeInstanceAndTodo(
-      todoInstance,
-      ghost,
-    ) as recurringTodoWithInstance;
+    return mergeInstanceAndTodo(todoInstance, ghost);
   });
 }
 function constructOverrideMap(
