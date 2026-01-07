@@ -13,11 +13,16 @@ export const useCalendarTodo = (calendarRange: { start: Date; end: Date }) => {
     isError,
     error,
   } = useQuery<CalendarTodoItemType[]>({
-    queryKey: ["calendarTodo", calendarRange],
+    queryKey: [
+      "calendarTodo",
+      calendarRange.start.getTime(),
+      calendarRange.end.getTime(),
+    ],
+    staleTime: 5 * 60 * 1000,
     retry: 2,
     queryFn: async () => {
       const data = await api.GET({
-        url: `/api/calendar/todo?start=${calendarRange.start}&end=${calendarRange.end}`,
+        url: `/api/calendar/todo?start=${calendarRange.start.getTime()}&end=${calendarRange.end.getTime()}`,
       });
       const { todos }: { todos: CalendarTodoItemType[] } = data;
       if (!todos) {

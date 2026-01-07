@@ -10,11 +10,11 @@ async function patchTodo({
 }: {
   todoWithInstanceDate: TodoItemTypeWithInstanceDate;
 }) {
-  console.log(todoWithInstanceDate);
   if (!todoWithInstanceDate.id) {
     throw new Error("this todo is missing");
   }
   const { instanceDate } = todoWithInstanceDate;
+
   //validate input
   const parsedObj = todoSchema.safeParse({
     title: todoWithInstanceDate.title,

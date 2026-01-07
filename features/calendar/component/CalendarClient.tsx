@@ -34,9 +34,10 @@ export default function CalendarClient() {
     console.log("rerendered");
   }, []);
   const [calendarRange, setCalendarRange] = useDateRange(); //useReducerHook
-  const { todos: calendarTodos } = useCalendarTodo(calendarRange);
-  const { editCalendarTodo } = useEditCalendarTodo();
+  const { editCalendarTodo } = useEditCalendarTodo(calendarRange);
   const { editCalendarTodoInstance } = useEditCalendarTodoInstance();
+  const { todos: calendarTodos } = useCalendarTodo(calendarRange);
+
   return (
     <div className="h-full">
       <DnDCalendar
@@ -90,7 +91,7 @@ export default function CalendarClient() {
             editCalendarTodoInstance({
               ...todo,
               // id: todo.parentId,
-              instanceDate: todo.dtstart,
+              instanceDate: todo.instanceDate || todo.dtstart,
               dtstart: new Date(dropEvent.start),
               due: new Date(dropEvent.end),
             });

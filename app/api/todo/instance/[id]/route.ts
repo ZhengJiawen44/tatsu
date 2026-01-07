@@ -40,6 +40,7 @@ export async function PATCH(
 
     const { title, description, priority, dtstart, due } = parsedObj.data;
     const { instanceDate } = body;
+
     if (!dtstart) {
       throw new BadRequestError("dtstart is required to update a TodoInstance");
     }
@@ -76,12 +77,12 @@ export async function PATCH(
     // 2. tomorow's occurence is included in exdate (no natural generation, must rely on instance overrides to generate tomorrow's todos)
 
     //if dtstart was overriden/changed
-    if (instanceDate.toISOString() !== dtstart.toISOString()) {
-      await prisma.todo.update({
-        where: { id },
-        data: { exdates: { push: [instanceDate] } },
-      });
-    }
+    // if (instanceDate.toISOString() !== dtstart.toISOString()) {
+    //   await prisma.todo.update({
+    //     where: { id },
+    //     data: { exdates: { push: [instanceDate] } },
+    //   });
+    // }
 
     return NextResponse.json({ message: "Todo updated" }, { status: 200 });
   } catch (error) {

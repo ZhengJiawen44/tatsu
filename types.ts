@@ -89,6 +89,7 @@ export type User = Prisma.UserGetPayload<{
 export interface recurringTodoWithInstance extends TodoItemType {
   rrule: string;
   instances: overridingInstance[];
+  instanceDate: Date;
 }
 
 export interface CalendarTodoItemType {
@@ -108,4 +109,5 @@ export interface CalendarTodoItemType {
   completed: boolean;
   instances: overridingInstance[] | null;
   exdates: Date[];
+  instanceDate: Date;
 }
