@@ -14,7 +14,8 @@ import generateTodosFromRRule from "@/lib/generateTodosFromRRule";
 import { resolveTimezone } from "@/lib/resolveTimeZone";
 import { errorHandler } from "@/lib/errorHandler";
 import { overrideBy } from "@/lib/overrideBy";
-import { recurringTodoWithInstance } from "@/types";
+import { CalendarTodoItemType, recurringTodoWithInstance } from "@/types";
+import { mergeInstanceAndTodo } from "@/lib/mergeInstanceAndTodo";
 // import { mergeInstanceAndTodo } from "@/lib/mergeInstanceAndTodo";
 
 // export async function POST(req: NextRequest) {
@@ -147,12 +148,12 @@ export async function GET(req: NextRequest) {
     // // Apply overrides
     const mergedUsingRecurrId = overrideBy(ghostTodos, (inst) => inst.recurId);
 
-    //find Orphaned overrides
-    // const orphanedTodos = getOrphanedTodos(
-    //   mergedUsingRecurrId,
-    //   recurringParents,
-    //   { dateRangeStart, dateRangeEnd },
-    // );
+    //find out of range overrides
+    const movedTodos = getMovedInstances(
+      mergedUsingRecurrId,
+      recurringParents,
+      { dateRangeStart, dateRangeEnd },
+    );
 
     const validMerged = mergedUsingRecurrId.filter((todo) => {
       return todo.due >= dateRangeStart;
@@ -162,7 +163,7 @@ export async function GET(req: NextRequest) {
     console.log("ghost: ", ghostTodos);
     console.log("merged with reccur ID: ", mergedUsingRecurrId);
     // console.log("orphan todos: ", orphanedTodos);
-    const allTodos = [...oneOffTodos, ...validMerged].sort(
+    const allTodos = [...oneOffTodos, ...validMerged, ...movedTodos].sort(
       (a, b) => a.order - b.order,
     );
 
@@ -179,28 +180,33 @@ export async function GET(req: NextRequest) {
 //  * @param bounds a { dateRangeStart: Date; dateRangeEnd: Date } object
 //  * @returns a list of orphaned todos
 //  */
-// function getOrphanedTodos(
-//   mergedTodos: CalendarTodoItemType[],
-//   recurringParents: CalendarTodoItemType[],
-//   bounds: { dateRangeStart: Date; dateRangeEnd: Date },
-// ): CalendarTodoItemType[] {
-//   const mergedDtstarts = mergedTodos.map((merged) => merged.dtstart.getTime());
-//   const orphanedInstances = recurringParents.flatMap((todo) => {
-//     if (!todo.instances) return [];
-//     return todo.instances.filter(
-//       ({ overriddenDtstart }) =>
-//         overriddenDtstart &&
-//         overriddenDtstart >= bounds.dateRangeStart &&
-//         overriddenDtstart <= bounds.dateRangeEnd &&
-//         !mergedDtstarts.includes(overriddenDtstart.getTime()),
-//     );
-//   });
-//   const orphanedTodos = orphanedInstances.flatMap((instance) => {
-//     const parentTodo = recurringParents.find(
-//       (parent) => parent.id === instance.todoId,
-//     );
-//     if (parentTodo) return mergeInstanceAndTodo(instance, parentTodo);
-//     return [];
-//   });
-//   return orphanedTodos;
-// }
+function getMovedInstances(
+  mergedTodos: CalendarTodoItemType[],
+  recurringParents: CalendarTodoItemType[],
+  bounds: { dateRangeStart: Date; dateRangeEnd: Date },
+): CalendarTodoItemType[] {
+  const mergedDtstarts = mergedTodos.map((merged) => merged.dtstart.getTime());
+  const orphanedInstances = recurringParents.flatMap(
+    (todo: CalendarTodoItemType) => {
+      // const exdates = todo.exdates;
+      if (!todo.instances) return [];
+      return todo.instances.filter(
+        ({ overriddenDtstart, overriddenDue }) =>
+          overriddenDtstart &&
+          overriddenDue &&
+          //need to have started and crosses in to the current range
+          overriddenDtstart <= bounds.dateRangeEnd &&
+          overriddenDue >= bounds.dateRangeStart &&
+          !mergedDtstarts.includes(overriddenDtstart.getTime()),
+      );
+    },
+  );
+  const orphanedTodos = orphanedInstances.flatMap((instance) => {
+    const parentTodo = recurringParents.find(
+      (parent) => parent.id === instance.todoId,
+    );
+    if (parentTodo) return mergeInstanceAndTodo(instance, parentTodo);
+    return [];
+  });
+  return orphanedTodos;
+}
