@@ -1,0 +1,464 @@
+"use client";
+import React, { useEffect } from "react";
+import Image from "next/image";
+import Prism from "prismjs";
+import "prismjs/components/prism-typescript";
+import "prism-themes/themes/prism-coldark-dark.css";
+import { cn } from "@/lib/utils";
+
+export default function Page() {
+  useEffect(() => {
+    Prism.highlightAll();
+  }, []);
+
+  return (
+    <>
+      <div className="py-10 overflow-y-auto">
+        <div className="relative w-full h-[100px] md:h-[150px] lg:h-[200px]  rounded-lg overflow-hidden mb-8">
+          <Image
+            src={"/sunflowers.png"}
+            fill
+            alt="example of moved weekly recurring todo"
+            priority // Change from loading="lazy" to priority for above-the-fold images
+            className="object-cover object-bottom"
+            sizes="100vw" // Add this
+          />
+        </div>
+        <TableOfContents className="xl:hidden" />
+        <section id="overview">
+          <h3 className=" font-semibold mb-3">
+            RRULE Todo Scheduling System — Instance Semantics & Overrides
+          </h3>
+          <p className="mb-6 text-foreground brightness-75">
+            This document defines the source of truth, data invariants, and
+            instance-move semantics for the RRULE-based todo scheduling system.
+            It follows RFC 5545 iCalendar behavior, adapted to this
+            project&quot;s schema and constraints.
+          </p>
+        </section>
+
+        <hr className="my-6" />
+
+        <section id="single-source-of-truth">
+          <h2 className="text-base font-semibold mt-6 mb-2">
+            1. Single Source of Truth
+          </h2>
+          <ul className="list-disc ml-5 space-y-1">
+            <li>
+              The <InlineCode>Todo</InlineCode> table represents the recurrence
+              definition (RRULE, DTSTART, duration, timezone).
+            </li>
+            <li>
+              The <InlineCode>TodoInstance</InlineCode> table represents
+              exceptions to the recurrence.
+            </li>
+            <li>
+              The recurrence rule never mutates when a user edits a single
+              occurrence.
+            </li>
+          </ul>
+          <p className="mt-2 italic text-foreground brightness-75">
+            If a change applies to only one occurrence, it is always represented
+            as an exception.
+          </p>
+        </section>
+
+        <hr className="my-6" />
+
+        <section id="definitions">
+          <h2 className="text-base font-semibold mt-6 mb-2">2. Definitions</h2>
+
+          <section id="ghost-instance">
+            <h3 className="text-lg font-semibold mt-4 mb-1">
+              2.1 Generated &quot;Ghost&quot; Instance
+            </h3>
+            <p>
+              A generated instance is a virtual occurrence produced by
+              generating its recurrence occurrences using its{" "}
+              <InlineCode>rrule</InlineCode>, several other constraints are
+              taken into consideration while generating:
+            </p>
+            <ul className="list-disc ml-5 space-y-1">
+              <li>
+                <InlineCode>Todo.dtstart</InlineCode>
+              </li>
+              <li>
+                <InlineCode>Todo.rrule</InlineCode>
+              </li>
+              <li>
+                <InlineCode>Todo.exdates</InlineCode>
+              </li>
+            </ul>
+            <p className="mt-2">Generated instances:</p>
+            <ul className="list-disc ml-5 space-y-1">
+              <li>Do not exist in the database</li>
+              <li>Are materialized only at runtime</li>
+            </ul>
+          </section>
+
+          <section id="override-instance">
+            <h3 className="text-lg font-semibold mt-4 mb-1">
+              2.2 Override Instance
+            </h3>
+            <p>
+              A <InlineCode>TodoInstance</InlineCode> row represents a single
+              overridden occurrence.
+            </p>
+            <table className="m-auto my-8 text-left" cellPadding={8}>
+              <thead>
+                <tr className="border-t-[1px]">
+                  <th>Field</th>
+                  <th>Type</th>
+                  <th>Description / Example</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr className="border-t-[1px]">
+                  <td>id</td>
+                  <td>String</td>
+                  <td>cuid() - unique identifier for this instance</td>
+                </tr>
+                <tr className="border-t-[1px]">
+                  <td>todoId</td>
+                  <td>String</td>
+                  <td>Reference to parent Todo</td>
+                </tr>
+                <tr className="border-t-[1px]">
+                  <td>recurId</td>
+                  <td>String</td>
+                  <td>
+                    identifies which original RRULE occurrence this override
+                    belongs to
+                    <p className="text-xs italic text-foreground brightness-75">
+                      A datetime ISO string identifying which occurrence date
+                      time this instance overrides.
+                    </p>
+                  </td>
+                </tr>
+                <tr className="border-y-[1px]">
+                  <td>overriddenDtstart</td>
+                  <td>DateTime?</td>
+                  <td>Changed start time for this occurrence</td>
+                </tr>
+              </tbody>
+            </table>
+            <ul className="list-disc ml-5 space-y-1">
+              <li>
+                This override instance matches a specific recurrence occurrence
+                via its <InlineCode>recurrenceId</InlineCode>
+              </li>
+              <li>
+                May override title, description, time, duration, priority, or
+                completion state
+              </li>
+            </ul>
+          </section>
+
+          <section id="exdate">
+            <h3 className="text-lg font-semibold mt-4 mb-1">
+              2.3 Cancelled Occurrence (EXDATE)
+            </h3>
+            <p>
+              An EXDATE removes a single occurrence from the recurrence set.
+            </p>
+            <ul className="list-disc ml-5 space-y-1">
+              <li>
+                EXDATEs are stored on <InlineCode>Todo.exdates</InlineCode>
+              </li>
+              <li>EXDATE means: &quot;this occurrence no longer exists&quot</li>
+            </ul>
+          </section>
+        </section>
+
+        <hr className="my-6" />
+
+        <section id="rendering-algorithm">
+          <h2 className="text-base font-semibold mt-6 mb-2">
+            3. Rendering Algorithm (Read Path)
+          </h2>
+          <ol className="list-decimal ml-5 space-y-1">
+            <li>
+              For a given date range, generate a list of occurrence dates using{" "}
+              <InlineCode>rruleSet.between(rangeStart, rangeEnd)</InlineCode>{" "}
+              with look-behind for multi day spanning todos.
+              <p className="italic text-foreground brightness-75">
+                look-behind captures the previous recurrence occurrence that
+                started in the past and may still be ongoing in the present.
+              </p>
+            </li>
+            <li>
+              for each occurrence dates generate a ghost todo by inheriting
+              their values from the parent todo.
+              <p className="italic text-foreground brightness-75">
+                Ghost todos have temporary dtstart values (the occurrence dates
+                from rrule generation). These are never saved to the database
+                unless the user explicitly edits them.
+              </p>
+            </li>
+            <li>
+              ghost todos are then evaluated and overridden when its dtstart
+              matched with an override instance&apos;s{" "}
+              <InlineCode>recurrenceID</InlineCode> first
+            </li>
+            <li>
+              the entire todo Instance table is combed for instances that were
+              moved out of their natural sequence and therefore cannot appear
+              naturally{" "}
+              <a
+                href="#moved-instances"
+                className="text-blue-400 hover:text-blue-500 hover:underline text-foreground/75"
+              >
+                (details)
+              </a>
+            </li>
+            <li>
+              finally, the one off todo, overridden todo, and the moved todo are
+              appended to the response.
+            </li>
+          </ol>
+        </section>
+
+        <hr className="my-6" />
+
+        <section id="instance-move-semantics">
+          <h2 className="text-base font-semibold mt-6 mb-2">
+            4. Instance Move Semantics
+          </h2>
+          <p>Moving a single occurrence is modeled as:</p>
+          <p className="font-medium">
+            upserting an overriding instance for the moved occurrence. The moved
+            todo does not get exdated, this means that it can coexist with
+            another instance with the same parent.
+          </p>
+        </section>
+
+        <hr className="my-6" />
+
+        <section id="completion-semantics">
+          <h2 className="text-base font-semibold mt-6 mb-2">
+            5. Completion Semantics
+          </h2>
+          <ul className="list-disc ml-5 space-y-1">
+            <li>Completion state is stored per instance</li>
+            <li>
+              Completing a generated instance creates a{" "}
+              <InlineCode>TodoInstance</InlineCode> row
+            </li>
+            <li>Completion does not mutate the recurrence rule</li>
+          </ul>
+        </section>
+
+        <hr className="my-6" />
+
+        <section id="moved-instances">
+          <h2 className="text-base font-semibold mt-6 mb-2">
+            6. Moved Instances (&quot;Rogue Todos&quot;)
+          </h2>
+
+          <p className="mb-4">
+            When you move a recurring todo instance to a different date, it
+            creates a special situation. The original occurrence disappears from
+            its natural spot, and the todo appears on the new date instead.
+          </p>
+
+          <p className="mb-4 font-medium">Example: A weekly Monday todo</p>
+
+          <Image
+            className=" border border-t-0 rounded-lg m-auto my-8"
+            src={"/movedExample1.png"}
+            width={900}
+            height={300}
+            alt="example of weekly recurring todo"
+            loading="lazy"
+          />
+
+          <p className="mb-4">
+            Let&apos;s say the user moves the January 9th (Monday) instance to
+            January 10th (Tuesday):
+          </p>
+
+          <Image
+            className="border border-t-0 rounded-lg m-auto my-8"
+            src={"/movedExample2.png"}
+            width={900}
+            height={300}
+            alt="example of moved weekly recurring todo"
+            loading="lazy"
+          />
+
+          <p className="mb-4">
+            Behind the scenes, the system creates an override record in the
+            database:
+          </p>
+
+          <pre className="language-ts p-2 rounded-md overflow-x-auto font-mono text-sm">
+            <code>
+              {`  {
+    recurId: "2026-01-09T16:00:00.000Z",        // Original Monday occurrence
+    overriddenDtstart: "2026-01-10T16:00:00.000Z", // New Tuesday date
+    overriddenDue: "2026-01-10T15:59:59.999Z",
+    ...
+  }`}
+            </code>
+          </pre>
+
+          <p className="mb-4">
+            When viewing a <strong>month view</strong>, this works perfectly:
+          </p>
+          <ul className="list-disc ml-6 mb-4 space-y-2">
+            <li>The system generates all Monday occurrences for the month</li>
+            <li>It finds the January 9th occurrence</li>
+            <li>It applies the override, moving it to January 10th</li>
+            <li>The user sees the todo on the correct date</li>
+          </ul>
+
+          <p className="mb-4">
+            But when viewing a <strong>single day</strong> (January 10th only),
+            there&apos;s a problem:
+          </p>
+          <ul className="list-disc ml-6 mb-4 space-y-2">
+            <li>The date range is just January 10th, 00:00 to 23:59</li>
+            <li>
+              January 9th (the original occurrence) is <strong>outside</strong>{" "}
+              this range
+            </li>
+            <li>The system doesn&apos;t generate the January 9th occurrence</li>
+            <li>
+              Without the original occurrence, there&apos;s nothing to override
+            </li>
+            <li>
+              Result: <strong>The moved todo doesn&apos;t appear</strong>
+            </li>
+          </ul>
+
+          <h3 className="font-semibold mt-6 mb-3 text-lg">
+            The Solution: Finding &quot;Rogue&quot; Instances
+          </h3>
+
+          <p className="mb-4">
+            To fix this, we need an extra step that looks for moved instances
+            where:
+          </p>
+          <ul className="list-disc ml-6 mb-4 space-y-2">
+            <li>
+              The <InlineCode>recurId</InlineCode> (original date) is{" "}
+              <strong>outside</strong> the current view range
+            </li>
+            <li>
+              The <InlineCode>overriddenDtstart</InlineCode> (new date) is{" "}
+              <strong>before, or inside</strong> the current view range
+            </li>
+            <li>
+              The <InlineCode>overriddenDue</InlineCode> (new date) is{" "}
+              <strong>after, or inside</strong> the current view range
+            </li>
+          </ul>
+
+          <p className="mb-4">
+            These are the &quot;rogue&quot; todos - instances that were moved
+            from outside the view into the current date range. The system
+            manually creates these todos from their override records, ensuring
+            they appear on the correct date even when their original occurrence
+            isn&apos;t generated.
+          </p>
+        </section>
+      </div>
+
+      <TableOfContents className="hidden xl:block" />
+    </>
+  );
+}
+
+function InlineCode({ children }: { children: React.ReactNode }) {
+  return (
+    <code className="font-mono bg-popover-accent px-1 rounded">{children}</code>
+  );
+}
+function TableOfContents({ className }: { className?: string }) {
+  return (
+    <aside className={cn("w-[25rem] py-10 ", className)}>
+      <nav className="sticky top-20">
+        <h2 className="text-lg font-semibold mb-3">Table of Contents</h2>
+        <a href="#overview" className="hover:underline hover:text-foreground">
+          Overview
+        </a>
+        <ol className="list-decimal ml-5 space-y-1 text-[0.9rem] text-foreground/80">
+          <li>
+            <a
+              href="#single-source-of-truth"
+              className="hover:underline  hover:text-foreground"
+            >
+              Single Source of Truth
+            </a>
+          </li>
+          <li>
+            <a
+              href="#definitions"
+              className="hover:underline hover:text-foreground"
+            >
+              Definitions
+            </a>
+            <ol className="list-decimal ml-5 mt-1 space-y-1">
+              <li>
+                <a
+                  href="#ghost-instance"
+                  className="hover:underline hover:text-foreground"
+                >
+                  Generated &quot;Ghost&quot; Instance
+                </a>
+              </li>
+              <li>
+                <a
+                  href="#override-instance"
+                  className="hover:underline hover:text-foreground"
+                >
+                  Override Instance
+                </a>
+              </li>
+              <li>
+                <a
+                  href="#exdate"
+                  className="hover:underline hover:text-foreground"
+                >
+                  Cancelled Occurrence (EXDATE)
+                </a>
+              </li>
+            </ol>
+          </li>
+          <li>
+            <a
+              href="#rendering-algorithm"
+              className="hover:underline hover:text-foreground"
+            >
+              Rendering Algorithm
+            </a>
+          </li>
+          <li>
+            <a
+              href="#instance-move-semantics"
+              className="hover:underline hover:text-foreground"
+            >
+              Instance Move Semantics
+            </a>
+          </li>
+          <li>
+            <a
+              href="#completion-semantics"
+              className="hover:underline hover:text-foreground"
+            >
+              Completion Semantics
+            </a>
+          </li>
+          <li>
+            <a
+              href="#moved-instances"
+              className="hover:underline hover:text-foreground"
+            >
+              Moved Instances (&quot;Rogue Todos&quot;)
+            </a>
+          </li>
+        </ol>
+      </nav>
+    </aside>
+  );
+}
