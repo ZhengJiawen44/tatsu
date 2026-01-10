@@ -9,13 +9,14 @@ import {
 import { prisma } from "@/lib/prisma/client";
 import { NextRequest, NextResponse } from "next/server";
 import { DeleteObjectCommand } from "@aws-sdk/client-s3";
-import { s3 } from "@/lib/s3";
+import { getS3Client } from "@/lib/s3";
 
 export async function DELETE(
   req: NextRequest,
   { params }: { params: Promise<{ id: string }> }
 ) {
   try {
+    const s3 = getS3Client();
     const session = await auth();
     const user = session?.user;
 

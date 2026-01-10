@@ -1,0 +1,12 @@
+name: Hello World Manual Trigger
+
+# This allows the workflow to be triggered manually
+on:
+  workflow_dispatch:
+
+jobs:
+  hello:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Say Hello
+        run: echo "Hello World"
