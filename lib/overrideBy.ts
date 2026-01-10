@@ -1,8 +1,4 @@
-import {
-  CalendarTodoItemType,
-  overridingInstance,
-  recurringTodoWithInstance,
-} from "@/types";
+import { CalendarTodoItemType, overridingInstance } from "@/types";
 import { mergeInstanceAndTodo } from "./mergeInstanceAndTodo";
 
 /**
@@ -12,10 +8,11 @@ import { mergeInstanceAndTodo } from "./mergeInstanceAndTodo";
  * @returns the same ghost todos but some are overriden by todo Instances table
  */
 export function overrideBy(
-  ghostTodos: recurringTodoWithInstance[],
+  ghostTodos: CalendarTodoItemType[],
   keyFn: (instance: overridingInstance) => string | undefined,
 ): CalendarTodoItemType[] {
   return ghostTodos.map((ghost) => {
+    if (!ghost.instances) return ghost;
     const overrideMap = constructOverrideMap(ghost.instances, keyFn);
     const todoInstance = overrideMap.get(
       ghost.dtstart.toISOString() + ghost.id,

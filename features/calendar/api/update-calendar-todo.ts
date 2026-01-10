@@ -41,14 +41,18 @@ export const useEditCalendarTodo = (calendarRange: {
     mutationFn: (params: TodoItemType) => patchCalendarTodo({ todo: params }),
     onMutate: async (newTodo) => {
       await queryClient.cancelQueries({
-        queryKey: ["calendarTodo", calendarRange],
+        queryKey: ["calendarTodo"],
       });
       const oldTodos = queryClient.getQueryData([
         "calendarTodo",
         calendarRange,
       ]);
       queryClient.setQueryData(
-        ["calendarTodo", calendarRange],
+        [
+          "calendarTodo",
+          calendarRange.start.getTime(),
+          calendarRange.end.getTime(),
+        ],
         (oldTodos: TodoItemType[]) =>
           oldTodos.flatMap((oldTodo) => {
             if (oldTodo.id === newTodo.id) {
@@ -56,6 +60,7 @@ export const useEditCalendarTodo = (calendarRange: {
                 return [];
               }
               return {
+                ...oldTodo,
                 completed: newTodo.completed,
                 order: newTodo.order,
                 pinned: newTodo.pinned,
@@ -75,7 +80,15 @@ export const useEditCalendarTodo = (calendarRange: {
       );
       return { oldTodos };
     },
-    onSettled: () => {},
+    onSettled: () => {
+      queryClient.invalidateQueries({
+        queryKey: [
+          "calendarTodo",
+          calendarRange.start.getTime(),
+          calendarRange.end.getTime(),
+        ],
+      });
+    },
     onError: (error, newTodo, context) => {
       queryClient.setQueryData(
         ["calendarTodo", calendarRange],
