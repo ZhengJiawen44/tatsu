@@ -82,11 +82,7 @@ export const useEditCalendarTodo = (calendarRange: {
     },
     onSettled: () => {
       queryClient.invalidateQueries({
-        queryKey: [
-          "calendarTodo",
-          calendarRange.start.getTime(),
-          calendarRange.end.getTime(),
-        ],
+        queryKey: ["calendarTodo"],
       });
     },
     onError: (error, newTodo, context) => {

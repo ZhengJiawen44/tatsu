@@ -60,24 +60,23 @@ export default function CalendarClient() {
         }}
         eventPropGetter={(event) => calendarEventPropStyles(event.priority)} //styles for the event container
         onRangeChange={setCalendarRange}
-        // onEventResize={({ event: todo, ...resizeEvent }) => {
-        //   //all updates done to repeat events are instance only
-        //   // if (!todo.rrule) {
-        //   //   editCalendarTodo({
-        //   //     ...todo,
-        //   //     dtstart: new Date(resizeEvent.start),
-        //   //     due: new Date(resizeEvent.end),
-        //   //   });
-        //   // } else {
-        //   //   editCalendarTodoInstance({
-        //   //     ...todo,
-        //   //     // id: todo.parentId,
-        //   //     instanceDate: todo.dtstart,
-        //   //     dtstart: new Date(resizeEvent.start),
-        //   //     due: new Date(resizeEvent.end),
-        //   //   });
-        //   // }
-        // }}
+        onEventResize={({ event: todo, ...resizeEvent }) => {
+          //all updates done to repeat events are instance only
+          if (!todo.rrule) {
+            editCalendarTodo({
+              ...todo,
+              dtstart: new Date(resizeEvent.start),
+              due: new Date(resizeEvent.end),
+            });
+          } else {
+            editCalendarTodoInstance({
+              ...todo,
+              instanceDate: todo.instanceDate || todo.dtstart,
+              dtstart: new Date(resizeEvent.start),
+              due: new Date(resizeEvent.end),
+            });
+          }
+        }}
         onEventDrop={({ event: todo, ...dropEvent }) => {
           if (!todo.rrule) {
             editCalendarTodo({
