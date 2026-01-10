@@ -3,7 +3,6 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { api } from "@/lib/api-client";
 import { todoSchema } from "@/schema";
 import { TodoItemType } from "@/types";
-import { endOfDay } from "date-fns";
 
 async function patchTodo({
   todoWithInstanceDate,
@@ -47,48 +46,20 @@ interface TodoItemTypeWithInstanceDate extends TodoItemType {
 export const useEditCalendarTodoInstance = () => {
   const { toast } = useToast();
   const queryClient = useQueryClient();
-
   const { mutate: editCalendarTodoInstance, status: editTodoInstanceStatus } =
     useMutation({
       mutationFn: (params: TodoItemTypeWithInstanceDate) =>
         patchTodo({ todoWithInstanceDate: params }),
-      onMutate: async (newTodo) => {
-        await queryClient.cancelQueries({ queryKey: ["todo"] });
-        const oldTodos = queryClient.getQueryData(["todo"]);
 
-        queryClient.setQueryData(["todo"], (oldTodos: TodoItemType[]) =>
-          oldTodos.flatMap((oldTodo) => {
-            if (oldTodo.id === newTodo.id) {
-              if (newTodo.dtstart > endOfDay(new Date())) {
-                return [];
-              }
-              return {
-                completed: newTodo.completed,
-                order: newTodo.order,
-                pinned: newTodo.pinned,
-                userID: newTodo.userID,
-                id: newTodo.id,
-                title: newTodo.title,
-                description: newTodo.description,
-                priority: newTodo.priority,
-                due: newTodo.due,
-                dtstart: newTodo.dtstart,
-                rrule: newTodo.rrule,
-                createdAt: new Date(),
-              };
-            }
-            return oldTodo;
-          }),
-        );
-        return { oldTodos };
-      },
-      onSettled: () => {
+      onSuccess: () => {
         queryClient.invalidateQueries({ queryKey: ["calendarTodo"] });
       },
 
-      onError: (error, newTodo, context) => {
-        queryClient.setQueryData(["todo"], context?.oldTodos);
-        toast({ description: error.message, variant: "destructive" });
+      onError: (error) => {
+        toast({
+          description: error.message,
+          variant: "destructive",
+        });
       },
     });
 

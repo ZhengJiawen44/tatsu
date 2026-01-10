@@ -13,7 +13,6 @@ import CalendarEvent from "./CalendarEvent";
 import { calendarEventPropStyles } from "../lib/calendarEventPropStyles";
 import { useDateRange } from "../hooks/useDateRange";
 import { useCalendarTodo } from "../api/get-calendar-todo";
-import { useEffect } from "react";
 import { useEditCalendarTodo } from "../api/update-calendar-todo";
 import { useEditCalendarTodoInstance } from "../api/update-calendar-todo-instance";
 
@@ -30,13 +29,12 @@ const localizer = dateFnsLocalizer({
 const DnDCalendar = withDragAndDrop<CalendarTodoItemType>(Calendar);
 
 export default function CalendarClient() {
-  useEffect(() => {
-    console.log("rerendered");
-  }, []);
   const [calendarRange, setCalendarRange] = useDateRange(); //useReducerHook
+  const { todos: calendarTodos } = useCalendarTodo(calendarRange);
+
+  // useCalendarTodo(calendarRange);
   const { editCalendarTodo } = useEditCalendarTodo(calendarRange);
   const { editCalendarTodoInstance } = useEditCalendarTodoInstance();
-  const { todos: calendarTodos } = useCalendarTodo(calendarRange);
 
   return (
     <div className="h-full">
@@ -90,7 +88,6 @@ export default function CalendarClient() {
           } else {
             editCalendarTodoInstance({
               ...todo,
-              // id: todo.parentId,
               instanceDate: todo.instanceDate || todo.dtstart,
               dtstart: new Date(dropEvent.start),
               due: new Date(dropEvent.end),
