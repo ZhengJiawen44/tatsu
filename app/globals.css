@@ -105,8 +105,8 @@ body {
     --accent-foreground: 234 11% 100%;
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 0 0% 98%;
-    --border: 234, 10%, 30%, 0.5;
-    --input: 0 0% 50.8%;
+    --border: 234, 10%, 30%;
+    --input: 235 32% 20%;
     --ring: 0 0% 3.9%;
     --chart-1: 12 76% 61%;
     --chart-2: 173 58% 39%;
@@ -122,24 +122,24 @@ body {
   color: hsl(var(--muted-foreground));
 }
 .rbc-month-row {
-  border-top: 1px solid hsl(var(--input) / 0.3) !important;
+  border-top: 1px solid hsl(var(--input)) !important;
 }
 .rbc-month-view {
-  border: 1px solid hsl(var(--input) / 0.3) !important;
+  border: 1px solid hsl(var(--input)) !important;
   border-radius: 10px;
   overflow: hidden;
 }
 .rbc-day-bg {
-  border-left: 1px solid hsl(var(--input) / 0.3) !important;
+  border-left: 1px solid hsl(var(--input)) !important;
 }
 .rbc-header {
   border: none !important;
-  background-color: hsl(var(--input) / 0.2) !important;
+  background-color: hsl(var(--input)) !important;
   font-weight: 600 !important;
 }
 
 .rbc-today {
-  background-color: hsl(var(--input) / 0.1) !important;
+  background-color: hsl(var(--input)) !important;
 }
 
 /* week view */
@@ -153,7 +153,7 @@ body {
 }
 
 .rbc-time-view {
-  border: 1px solid hsl(var(--input) / 0.3) !important;
+  border: 1px solid hsl(var(--input)) !important;
   border-radius: 10px;
   overflow: hidden;
 }
@@ -161,7 +161,7 @@ body {
   border-top: transparent !important;
 }
 .rbc-time-slot {
-  border: 1px solid hsl(var(--input) / 0.3) !important;
+  border: 1px solid hsl(var(--input)) !important;
 }
 
 .rbc-timeslot-group {
@@ -178,7 +178,7 @@ body {
 
 .rbc-agenda-table {
   border: transparent !important;
-  border-bottom: 1px solid hsl(var(--input) / 0.3) !important;
+  border-bottom: 1px solid hsl(var(--input)) !important;
 }
 .rbc-agenda-time-cell {
   border: transparent !important;
