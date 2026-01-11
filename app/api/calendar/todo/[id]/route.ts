@@ -1,10 +1,60 @@
 import { auth } from "@/app/auth";
-import { UnauthorizedError, BadRequestError } from "@/lib/customError";
+import {
+  UnauthorizedError,
+  BadRequestError,
+  BaseServerError,
+} from "@/lib/customError";
 import { errorHandler } from "@/lib/errorHandler";
 import { prisma } from "@/lib/prisma/client";
 import { todoSchema } from "@/schema";
 import { Priority } from "@prisma/client";
 import { NextRequest, NextResponse } from "next/server";
+
+export async function DELETE(
+  req: NextRequest,
+  { params }: { params: Promise<{ id: string }> },
+) {
+  try {
+    const session = await auth();
+    const user = session?.user;
+
+    if (!user?.id)
+      throw new UnauthorizedError("you must be logged in to do this");
+
+    const { id } = await params;
+    if (!id) throw new BadRequestError("Invalid request, ID is required");
+
+    // Find and delete the todo item
+    await prisma.todo.delete({
+      where: {
+        id,
+        userID: user.id,
+      },
+    });
+    return NextResponse.json({ message: "todo deleted" }, { status: 200 });
+  } catch (error) {
+    console.log(error);
+
+    // Handle custom error
+    if (error instanceof BaseServerError) {
+      return NextResponse.json(
+        { message: error.message },
+        { status: error.status },
+      );
+    }
+
+    // Handle generic error
+    return NextResponse.json(
+      {
+        message:
+          error instanceof Error
+            ? error.message.slice(0, 50)
+            : "An unexpected error occurred",
+      },
+      { status: 500 },
+    );
+  }
+}
 
 export async function PATCH(
   req: NextRequest,
@@ -89,21 +139,6 @@ export async function PATCH(
         rrule,
       },
     });
-
-    //updating a todo just overwrites the override
-    // await prisma.todoInstance.updateMany({
-    //   where: {
-    //     todoId: id,
-    //     instanceDate: dtstart,
-    //   },
-    //   data: {
-    //     overriddenTitle: title,
-    //     overriddenDescription: description,
-    //     overriddenPriority: newPriority as Priority,
-    //     overriddenDtstart: dtstart,
-    //     overriddenDue: due,
-    //   },
-    // });
 
     return NextResponse.json({ message: "Todo updated" }, { status: 200 });
   } catch (error) {

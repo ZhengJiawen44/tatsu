@@ -138,11 +138,11 @@ export async function GET(req: NextRequest) {
     const validMerged = mergedUsingDtstart.filter((todo) => {
       return todo.due >= bounds.todayStartUTC;
     });
-    console.log("one off todos: : ", oneOffTodos);
-    console.log("recurring parents : ", recurringParents);
-    console.log("ghost: ", ghostTodos);
-    console.log("merged with reccur ID: ", mergedUsingRecurrId);
-    console.log("merged with dtstart: ", mergedUsingDtstart);
+    // console.log("one off todos: : ", oneOffTodos);
+    // console.log("recurring parents : ", recurringParents);
+    // console.log("ghost: ", ghostTodos);
+    // console.log("merged with reccur ID: ", mergedUsingRecurrId);
+    // console.log("merged with dtstart: ", mergedUsingDtstart);
 
     const allTodos = [...oneOffTodos, ...validMerged].sort(
       (a, b) => a.order - b.order,

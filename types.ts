@@ -109,5 +109,5 @@ export interface CalendarTodoItemType {
   completed: boolean;
   instances: overridingInstance[] | null;
   exdates: Date[];
-  instanceDate: Date;
+  instanceDate: Date | null;
 }

@@ -36,6 +36,7 @@ export const useCalendarTodo = (calendarRange: { start: Date; end: Date }) => {
           ...todo,
           dtstart: new Date(todo.dtstart),
           due: new Date(todo.due),
+          instanceDate: todo.instanceDate ? new Date(todo.instanceDate) : null,
           instances:
             todo.instances?.map((instance) => ({
               ...instance,
@@ -49,6 +50,7 @@ export const useCalendarTodo = (calendarRange: { start: Date; end: Date }) => {
             })) || null,
         };
       });
+      console.log(todoWithFormattedDates);
       return todoWithFormattedDates;
     },
   });

@@ -100,17 +100,6 @@ export async function GET(req: NextRequest) {
       throw new BadRequestError("date range start or from not specified");
     const dateRangeStart = new Date(Number(start));
     const dateRangeEnd = new Date(Number(end));
-    console.log(
-      "%c [ dateRangeStart ]-100",
-      "font-size:13px; background:pink; color:#bf2c9f;",
-      dateRangeStart,
-    );
-
-    console.log(
-      "%c [ dateRangeEnd ]-101",
-      "font-size:13px; background:pink; color:#bf2c9f;",
-      dateRangeEnd,
-    );
 
     // Fetch One-Off Todos scheduled for today
     const oneOffTodos = await prisma.todo.findMany({
@@ -158,11 +147,11 @@ export async function GET(req: NextRequest) {
     const validMerged = mergedUsingRecurrId.filter((todo) => {
       return todo.due >= dateRangeStart;
     });
-    console.log("one off todos: : ", oneOffTodos);
-    console.log("recurring parents : ", recurringParents);
-    console.log("ghost: ", ghostTodos);
-    console.log("merged with reccur ID: ", mergedUsingRecurrId);
-    // console.log("orphan todos: ", orphanedTodos);
+    // console.log("one off todos: : ", oneOffTodos);
+    // console.log("recurring parents : ", recurringParents);
+    // console.log("ghost: ", ghostTodos);
+    // console.log("merged with reccur ID: ", mergedUsingRecurrId);
+    // console.log("moved todos: ", movedTodos);
     const allTodos = [...oneOffTodos, ...validMerged, ...movedTodos].sort(
       (a, b) => a.order - b.order,
     );
@@ -188,7 +177,6 @@ function getMovedInstances(
   const mergedDtstarts = mergedTodos.map((merged) => merged.dtstart.getTime());
   const orphanedInstances = recurringParents.flatMap(
     (todo: CalendarTodoItemType) => {
-      // const exdates = todo.exdates;
       if (!todo.instances) return [];
       return todo.instances.filter(
         ({ overriddenDtstart, overriddenDue }) =>
