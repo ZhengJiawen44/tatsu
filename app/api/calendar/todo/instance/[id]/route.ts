@@ -14,9 +14,6 @@ export async function DELETE(
   { params }: { params: Promise<{ id: string }> },
 ) {
   try {
-    console.log(
-      "sssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss",
-    );
     const session = await auth();
     const user = session?.user;
 
@@ -32,19 +29,12 @@ export async function DELETE(
         "Invalid request, ID or instanceDate is required to do instance delete!",
       );
 
-    console.log(
-      "ddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd",
-      instanceDate,
-    );
     // Find and exadate the todo instance
-    const q = await prisma.todo.update({
+    await prisma.todo.update({
       where: { id },
       data: { exdates: { push: [instanceDate] } },
     });
-    console.log(
-      "ddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd",
-      q,
-    );
+
     return NextResponse.json({ message: "todo deleted" }, { status: 200 });
   } catch (error) {
     console.log(error);
