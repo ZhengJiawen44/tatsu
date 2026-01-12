@@ -144,15 +144,15 @@ export async function GET(req: NextRequest) {
       { dateRangeStart, dateRangeEnd },
     );
 
-    const validMerged = mergedUsingRecurrId.filter((todo) => {
-      return todo.due >= dateRangeStart;
+    const allGhosts = [...mergedUsingRecurrId, ...movedTodos].filter((todo) => {
+      return todo.due >= dateRangeStart && todo.completed === false;
     });
     // console.log("one off todos: : ", oneOffTodos);
     // console.log("recurring parents : ", recurringParents);
     // console.log("ghost: ", ghostTodos);
     // console.log("merged with reccur ID: ", mergedUsingRecurrId);
     // console.log("moved todos: ", movedTodos);
-    const allTodos = [...oneOffTodos, ...validMerged, ...movedTodos].sort(
+    const allTodos = [...oneOffTodos, ...allGhosts].sort(
       (a, b) => a.order - b.order,
     );
 

@@ -121,7 +121,7 @@ const CalendarEvent = ({ event: todo }: EventProps<CalendarTodoItemType>) => {
             )}
           </div>
           <LineSeparator />
-          <CompleteButton id={todo.id} />
+          <CompleteButton todoItem={todo} />
         </PopoverContent>
       </Popover>
 

@@ -17,7 +17,6 @@ export async function PATCH(
 
     const { id } = await params;
     if (!id) throw new BadRequestError("Invalid request, ID is required");
-
     //validate req body
     let body = await req.json();
 
@@ -30,17 +29,32 @@ export async function PATCH(
     const parsedObj = todoSchema.safeParse(body);
     if (!parsedObj.success) throw new BadRequestError();
 
-    const { title, description, priority, dtstart, due } = parsedObj.data;
+    const { title, description, priority, dtstart, due, rrule } =
+      parsedObj.data;
 
-    // Update todo complete
-    await prisma.todo.update({
-      where: { id, userID: user.id },
-      data: {
-        completed: true,
+    const instanceDate = new Date(
+      Number(req.nextUrl.searchParams.get("instanceDate")),
+    );
+    const completedAt = new Date();
+
+    // upsert todo instance with the completedAt field filled
+    await prisma.todoInstance.upsert({
+      where: {
+        todoId_instanceDate: {
+          todoId: id,
+          instanceDate,
+        },
+      },
+      update: {
+        completedAt: new Date(),
+      },
+      create: {
+        todoId: id,
+        recurId: instanceDate.toISOString(),
+        instanceDate,
+        completedAt,
       },
     });
-
-    const completedAt = new Date();
     //record the completion in completedTodo table
     await prisma.completedTodo.create({
       data: {
@@ -51,6 +65,7 @@ export async function PATCH(
         priority,
         dtstart,
         due,
+        rrule,
         createdAt: new Date(),
         completedAt,
         completedOnTime: completedAt <= due ? true : false,

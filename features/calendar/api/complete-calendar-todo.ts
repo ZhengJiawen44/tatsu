@@ -6,17 +6,18 @@ export const useCompleteCalendarTodo = () => {
   const { toast } = useToast();
   const queryClient = useQueryClient();
   const { mutate: mutateComplete, isPending } = useMutation({
-    mutationFn: async (id: string) => {
+    mutationFn: async ({ todoItem }: { todoItem: CalendarTodoItemType }) => {
       await api.PATCH({
-        url: `/api/calendar/todo/complete/${id}`,
+        url: `/api/calendar/todo/complete/${todoItem.id}`,
+        body: JSON.stringify(todoItem),
       });
     },
-    onMutate: async (id: string) => {
+    onMutate: async ({ todoItem }: { todoItem: CalendarTodoItemType }) => {
       await queryClient.cancelQueries({ queryKey: ["todoCalendar"] });
       const oldTodos = queryClient.getQueryData(["todoCalendar"]);
       queryClient.setQueriesData<CalendarTodoItemType[]>(
         { queryKey: ["calendarTodo"] },
-        (old) => old?.filter((todo) => todo.id !== id),
+        (old) => old?.filter((todo) => todo.id !== todoItem.id),
       );
       return { oldTodos };
     },
