@@ -14,6 +14,7 @@ import CalendarForm from "./calendarForm/CalendarForm";
 import LineSeparator from "@/components/ui/lineSeparator";
 import ConfirmDelete from "./ConfirmDelete";
 import ConfirmDeleteAll from "./ConfirmDeleteAll";
+import CompleteButton from "./CompleteButton";
 
 const formatDateRange = (start: Date, end: Date) =>
   `${format(start, "MMM dd hh:mm")} - ${format(end, "MMM dd hh:mm")}`;
@@ -120,11 +121,7 @@ const CalendarEvent = ({ event: todo }: EventProps<CalendarTodoItemType>) => {
             )}
           </div>
           <LineSeparator />
-          <div className="flex justify-end p-3 ">
-            <button className="border w-fit p-2 rounded-[0.5rem] bg-lime text-white hover:rounded-[100px] transition-all duration-200 ease-in">
-              Mark complete
-            </button>
-          </div>
+          <CompleteButton id={todo.id} />
         </PopoverContent>
       </Popover>
 
