@@ -112,6 +112,7 @@ export async function PATCH(
       dtstart: new Date(body.dtstart),
       due: new Date(body.due),
     };
+
     const parsedObj = todoSchema.partial().safeParse(body);
     if (!parsedObj.success) throw new BadRequestError("Invalid request body");
 
@@ -127,7 +128,6 @@ export async function PATCH(
     if (!dtstart) throw new BadRequestError("empty dtstart");
 
     // Update todo
-
     await prisma.todo.update({
       where: { id, userID: user.id },
       data: {
@@ -139,7 +139,10 @@ export async function PATCH(
         rrule,
       },
     });
-
+    // //also delete all the todo overrides
+    if (rrule) {
+      await prisma.todoInstance.deleteMany({ where: { todoId: id } });
+    }
     return NextResponse.json({ message: "Todo updated" }, { status: 200 });
   } catch (error) {
     return errorHandler(error);
