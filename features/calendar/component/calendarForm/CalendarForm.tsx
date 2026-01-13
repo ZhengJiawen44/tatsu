@@ -1,5 +1,5 @@
 import { CalendarTodoItemType } from "@/types";
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import PriorityDropdownMenu from "./PriorityDropdown";
 import DateDropdownMenu from "./DateDropdownMenu";
 import { NonNullableDateRange } from "@/types";
@@ -8,6 +8,8 @@ import RepeatDropdownMenu from "./RepeatDropdown/RepeatDropdownMenu";
 import { AlignLeft, Clock, Flag, Repeat } from "lucide-react";
 import { Popover, PopoverContent } from "@/components/ui/popover";
 import { PopoverTrigger } from "@radix-ui/react-popover";
+import ConfirmCancelEditDialog from "./ConfirmCancelEdit";
+import ConfirmEditAllDialog from "./ConfirmEditAll";
 
 type CalendarFormProps = {
   todo: CalendarTodoItemType;
@@ -20,6 +22,9 @@ const CalendarForm = ({
   displayForm,
   setDisplayForm,
 }: CalendarFormProps) => {
+  const [cancelEditDialogOpen, setCancelEditDialogOpen] = useState(false);
+  const [editAllDialogOpen, setEditAllDialogOpen] = useState(false);
+
   const [title, setTitle] = useState(todo.title);
   const [description, setDescription] = useState(todo.description ?? "");
   const [priority, setPriority] = useState(todo.priority);
@@ -31,96 +36,155 @@ const CalendarForm = ({
     todo?.rrule ? RRule.parseString(todo.rrule) : null,
   );
 
+  const hasUnsavedChanges = useMemo(() => {
+    const rruleString = rruleOptions
+      ? RRule.optionsToString(rruleOptions)
+      : null;
+
+    return (
+      title !== todo.title ||
+      description !== (todo.description ?? "") ||
+      priority !== todo.priority ||
+      dateRange.from?.getTime() !== todo.dtstart?.getTime() ||
+      dateRange.to?.getTime() !== todo.due?.getTime() ||
+      rruleString !== (todo.rrule ?? null)
+    );
+  }, [title, description, priority, dateRange, rruleOptions, todo]);
+
   return (
-    <Popover open={displayForm} onOpenChange={setDisplayForm}>
-      <PopoverTrigger asChild>
-        <div
-          className="absolute right-1/2 h-full cursor-pointer w-0"
-          title={todo.title}
-        ></div>
-      </PopoverTrigger>
-      <PopoverContent className="w-fit p-6 bg-input">
-        {/* FORM */}
-        <div className="flex flex-col gap-5 mt-4">
-          {/* Title */}
-          <div className="flex items-start gap-4">
-            <input
-              className="ml-9 flex-1 bg-transparent border-b border-border py-1 text-lg focus:outline-none focus:border-lime"
-              placeholder="Add title"
-              value={title}
-              onChange={(e) => setTitle(e.target.value)}
-              autoFocus
-            />
-          </div>
+    <>
+      <ConfirmCancelEditDialog
+        cancelEditDialogOpen={cancelEditDialogOpen}
+        setCancelEditDialogOpen={setCancelEditDialogOpen}
+        setDisplayForm={setDisplayForm}
+      />
 
-          {/* Date */}
-          <div className="flex items-start gap-4">
-            <Clock className="w-4 h-4 text-muted-foreground mt-1" />
-            <div className="flex-1">
-              <DateDropdownMenu
-                todo={todo}
-                dateRange={dateRange}
-                setDateRange={setDateRange}
-              />
-            </div>
-          </div>
+      <ConfirmEditAllDialog
+        todo={{
+          ...todo,
+          title,
+          description,
+          priority,
+          dtstart: dateRange.from,
+          due: dateRange.to,
+          rrule: rruleOptions ? new RRule(rruleOptions).toString() : null,
+        }}
+        setDisplayForm={setDisplayForm}
+        editAllDialogOpen={editAllDialogOpen}
+        setEditAllDialogOpen={setEditAllDialogOpen}
+      />
 
-          {/* Repeat */}
-          <div className="flex items-start gap-4">
-            <Repeat className="w-4 h-4 text-muted-foreground mt-1" />
-            <div className="flex-1">
-              <RepeatDropdownMenu
-                rruleOptions={rruleOptions}
-                setRruleOptions={setRruleOptions}
-                derivedRepeatType={null}
-              />
-            </div>
-          </div>
+      <Popover
+        open={displayForm}
+        onOpenChange={(open) => {
+          // If the popover is trying to close and there are unsaved changes and the edit dialogue is not open,
+          // show the cancel confirmation dialog instead
+          if (open === false && hasUnsavedChanges && !editAllDialogOpen) {
+            setCancelEditDialogOpen(true);
+            return;
+          }
+          //if edit dialog is open and there are changes, disregard the on open change
+          if (editAllDialogOpen && hasUnsavedChanges) {
+            return;
+          }
 
-          {/* Priority */}
-          <div className="flex items-start gap-4">
-            <Flag className="w-4 h-4 text-muted-foreground mt-1" />
-            <div className="flex-1">
-              <PriorityDropdownMenu
-                priority={priority}
-                setPriority={setPriority}
-              />
-            </div>
-          </div>
+          setDisplayForm(open);
+        }}
+      >
+        <PopoverTrigger asChild>
+          <div
+            className="absolute right-1/2 h-full cursor-pointer w-0"
+            title={todo.title}
+          />
+        </PopoverTrigger>
 
-          {/* Description */}
-          <div className="flex items-start gap-4">
-            <AlignLeft className="w-4 h-4 text-muted-foreground mt-1" />
-            <textarea
-              className="flex-1 bg-input rounded-md px-3 py-2 text-sm resize-none focus:outline-none focus:ring-2 focus:ring-lime"
-              rows={3}
-              placeholder="Add description"
-              value={description}
-              onChange={(e) => setDescription(e.target.value)}
-            />
-          </div>
-        </div>
-
-        {/* ACTIONS */}
-        <div className="mt-6 flex justify-end gap-2">
-          <button
-            className="px-4 py-2 rounded-md text-sm hover:bg-red hover:text-accent-foreground"
-            onClick={() => setDisplayForm(false)}
-          >
-            Cancel
-          </button>
-          <button
-            className="px-4 py-2 rounded-md brightness-90 hover:brightness-100 bg-lime text-white text-sm hover:bg-lime"
-            onClick={() => {
-              // submit mutation
-              setDisplayForm(false);
+        <PopoverContent className="w-fit p-6 bg-input">
+          <form
+            className="flex flex-col gap-5 mt-4"
+            onSubmit={(e) => {
+              e.preventDefault();
+              setEditAllDialogOpen(true);
             }}
           >
-            Save
-          </button>
-        </div>
-      </PopoverContent>
-    </Popover>
+            {/* Title */}
+            <div className="flex items-start gap-4">
+              <input
+                className="ml-9 flex-1 bg-transparent border-b border-border py-1 text-lg focus:outline-none focus:border-lime"
+                placeholder="Add title"
+                value={title}
+                onChange={(e) => setTitle(e.target.value)}
+                autoFocus
+              />
+            </div>
+
+            {/* Date */}
+            <div className="flex items-start gap-4">
+              <Clock className="w-4 h-4 text-muted-foreground mt-1" />
+              <div className="flex-1">
+                <DateDropdownMenu
+                  todo={todo}
+                  dateRange={dateRange}
+                  setDateRange={setDateRange}
+                />
+              </div>
+            </div>
+
+            {/* Repeat */}
+            <div className="flex items-start gap-4">
+              <Repeat className="w-4 h-4 text-muted-foreground mt-1" />
+              <div className="flex-1">
+                <RepeatDropdownMenu
+                  rruleOptions={rruleOptions}
+                  setRruleOptions={setRruleOptions}
+                  derivedRepeatType={null}
+                />
+              </div>
+            </div>
+
+            {/* Priority */}
+            <div className="flex items-start gap-4">
+              <Flag className="w-4 h-4 text-muted-foreground mt-1" />
+              <div className="flex-1">
+                <PriorityDropdownMenu
+                  priority={priority}
+                  setPriority={setPriority}
+                />
+              </div>
+            </div>
+
+            {/* Description */}
+            <div className="flex items-start gap-4">
+              <AlignLeft className="w-4 h-4 text-muted-foreground mt-1" />
+              <textarea
+                className="flex-1 bg-input rounded-md px-3 py-2 text-sm resize-none focus:outline-none focus:ring-2 focus:ring-lime"
+                rows={3}
+                placeholder="Add description"
+                value={description}
+                onChange={(e) => setDescription(e.target.value)}
+              />
+            </div>
+
+            {/* Actions */}
+            <div className="mt-6 flex justify-end gap-2">
+              <button
+                type="button"
+                className="px-4 py-2 rounded-md text-sm hover:bg-red hover:text-accent-foreground"
+                onClick={() => setCancelEditDialogOpen(true)}
+              >
+                Cancel
+              </button>
+
+              <button
+                type="submit"
+                className="px-4 py-2 rounded-md brightness-90 hover:brightness-100 bg-lime text-white text-sm hover:bg-lime"
+              >
+                Save
+              </button>
+            </div>
+          </form>
+        </PopoverContent>
+      </Popover>
+    </>
   );
 };
 

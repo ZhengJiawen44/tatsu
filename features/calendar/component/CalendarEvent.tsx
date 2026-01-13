@@ -28,11 +28,13 @@ const CalendarEvent = ({ event: todo }: EventProps<CalendarTodoItemType>) => {
   return (
     <>
       {/* ----------------- Event Form popover ----------- */}
-      <CalendarForm
-        todo={todo}
-        displayForm={displayForm}
-        setDisplayForm={setDisplayForm}
-      />
+      {displayForm && (
+        <CalendarForm
+          todo={todo}
+          displayForm={displayForm}
+          setDisplayForm={setDisplayForm}
+        />
+      )}
       {/* ---------------- Event info popover ------------- */}
       <Popover open={open} onOpenChange={setOpen}>
         <PopoverTrigger asChild>

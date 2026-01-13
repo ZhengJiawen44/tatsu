@@ -149,9 +149,12 @@ export async function GET(req: NextRequest) {
     });
     // console.log("one off todos: : ", oneOffTodos);
     // console.log("recurring parents : ", recurringParents);
-    // console.log("ghost: ", ghostTodos);
-    // console.log("merged with reccur ID: ", mergedUsingRecurrId);
-    // console.log("moved todos: ", movedTodos);
+    console.log("ghost: ", ghostTodos);
+    console.log("merged with reccur ID: ", mergedUsingRecurrId);
+    console.log("moved todos: ", movedTodos);
+    console.log(
+      "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd",
+    );
     const allTodos = [...oneOffTodos, ...allGhosts].sort(
       (a, b) => a.order - b.order,
     );
@@ -174,21 +177,31 @@ function getMovedInstances(
   recurringParents: CalendarTodoItemType[],
   bounds: { dateRangeStart: Date; dateRangeEnd: Date },
 ): CalendarTodoItemType[] {
-  const mergedDtstarts = mergedTodos.map((merged) => merged.dtstart.getTime());
+  const mergedDtstarts = mergedTodos.map(
+    (merged) => merged.dtstart.getTime() + " " + merged.instanceDate?.getTime(),
+  );
   const orphanedInstances = recurringParents.flatMap(
     (todo: CalendarTodoItemType) => {
       if (!todo.instances) return [];
+
       return todo.instances.filter(
-        ({ overriddenDtstart, overriddenDue }) =>
-          overriddenDtstart &&
-          overriddenDue &&
-          //need to have started and crosses in to the current range
-          overriddenDtstart <= bounds.dateRangeEnd &&
-          overriddenDue >= bounds.dateRangeStart &&
-          !mergedDtstarts.includes(overriddenDtstart.getTime()),
+        ({ overriddenDtstart, overriddenDue, instanceDate }) => {
+          return (
+            overriddenDtstart &&
+            overriddenDue &&
+            !todo.exdates.includes(overriddenDtstart) &&
+            //need to have started and crosses in to the current range
+            overriddenDtstart <= bounds.dateRangeEnd &&
+            overriddenDue >= bounds.dateRangeStart &&
+            !mergedDtstarts.includes(
+              overriddenDtstart.getTime() + " " + instanceDate.getTime(),
+            )
+          );
+        },
       );
     },
   );
+
   const orphanedTodos = orphanedInstances.flatMap((instance) => {
     const parentTodo = recurringParents.find(
       (parent) => parent.id === instance.todoId,
