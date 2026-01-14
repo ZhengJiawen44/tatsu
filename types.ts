@@ -34,6 +34,8 @@ export interface TodoItemType {
   userID: string;
   completed: boolean;
   exdates: Date[];
+  instances: overridingInstance[] | null;
+  instanceDate: Date | null;
 }
 
 export interface overridingInstance {
