@@ -4,24 +4,20 @@ import { api } from "@/lib/api-client";
 import { todoSchema } from "@/schema";
 import { CalendarTodoItemType } from "@/types";
 
-async function patchTodo({
-  todoWithInstanceDate,
-}: {
-  todoWithInstanceDate: CalendarTodoItemType;
-}) {
-  if (!todoWithInstanceDate.id) {
+async function patchTodo({ ghostTodo }: { ghostTodo: CalendarTodoItemType }) {
+  if (!ghostTodo.id) {
     throw new Error("this todo is missing");
   }
-  const { instanceDate } = todoWithInstanceDate;
+  const { instanceDate } = ghostTodo;
 
   //validate input
   const parsedObj = todoSchema.safeParse({
-    title: todoWithInstanceDate.title,
-    description: todoWithInstanceDate.description,
-    priority: todoWithInstanceDate.priority,
-    dtstart: todoWithInstanceDate.dtstart,
-    due: todoWithInstanceDate.due,
-    rrule: todoWithInstanceDate.rrule,
+    title: ghostTodo.title,
+    description: ghostTodo.description,
+    priority: ghostTodo.priority,
+    dtstart: ghostTodo.dtstart,
+    due: ghostTodo.due,
+    rrule: ghostTodo.rrule,
   });
   if (!parsedObj.success) {
     console.error(parsedObj.error.errors[0]);
@@ -33,7 +29,7 @@ async function patchTodo({
   }
 
   await api.PATCH({
-    url: `/api/todo/instance/${todoWithInstanceDate.id}`,
+    url: `/api/todo/instance/${ghostTodo.id.split(":")[0]}`,
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ ...parsedObj.data, instanceDate }),
   });
@@ -45,7 +41,7 @@ export const useEditCalendarTodoInstance = () => {
   const { mutate: editCalendarTodoInstance, status: editTodoInstanceStatus } =
     useMutation({
       mutationFn: (params: CalendarTodoItemType) =>
-        patchTodo({ todoWithInstanceDate: params }),
+        patchTodo({ ghostTodo: params }),
 
       onSuccess: () => {
         queryClient.invalidateQueries({ queryKey: ["calendarTodo"] });

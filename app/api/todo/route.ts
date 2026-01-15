@@ -182,10 +182,13 @@ function getMovedInstances(
 
     return todo.instances.filter(
       ({ overriddenDtstart, overriddenDue, instanceDate }) => {
+        const exDateList = todo.exdates.map((exdate) => {
+          return exdate.getTime();
+        });
         return (
           overriddenDtstart &&
           overriddenDue &&
-          !todo.exdates.includes(overriddenDtstart) &&
+          !exDateList.includes(instanceDate.getTime()) &&
           //need to have started and crosses in to the current range
           overriddenDtstart <= bounds.dateRangeEnd &&
           overriddenDue >= bounds.dateRangeStart &&

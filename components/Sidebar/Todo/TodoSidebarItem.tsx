@@ -3,7 +3,7 @@ import React from "react";
 import { useMenu } from "@/providers/MenuProvider";
 import Link from "next/link";
 import Pencil from "@/components/ui/icon/pencil";
-import { useTodo } from "@/features/todos/api/get-todo";
+import { useTodo } from "@/features/todos/query/get-todo";
 import useWindowSize from "@/hooks/useWindowSize";
 
 const TodoItem = () => {

@@ -6,7 +6,7 @@ import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
 import { TodoItemType } from "@/types";
 import GripVertical from "@/components/ui/icon/gripVertical";
-import { useCompleteTodo } from "../../api/complete-todo";
+import { useCompleteTodo } from "../../query/complete-todo";
 import TodoFormLoading from "./TodoForm/TodoFormLoading";
 import dynamic from "next/dynamic";
 const TodoFormContainer = dynamic(

@@ -1,6 +1,6 @@
 import React from "react";
 import CreateTodoBtn from "./CreateTodoBtn";
-import { useTodo } from "../api/get-todo";
+import { useTodo } from "../query/get-todo";
 import Day from "./Day";
 import TodoListLoading from "./TodoListLoading";
 import TodoGroup from "./TodoGroup";

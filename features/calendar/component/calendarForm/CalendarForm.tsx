@@ -1,5 +1,5 @@
 import { CalendarTodoItemType } from "@/types";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import PriorityDropdownMenu from "./PriorityDropdown";
 import DateDropdownMenu from "./DateDropdownMenu";
 import { NonNullableDateRange } from "@/types";
@@ -10,7 +10,7 @@ import { Popover, PopoverContent } from "@/components/ui/popover";
 import { PopoverTrigger } from "@radix-ui/react-popover";
 import ConfirmCancelEditDialog from "./ConfirmCancelEdit";
 import ConfirmEditAllDialog from "./ConfirmEditAll";
-
+import { useEditCalendarTodo } from "../../query/update-calendar-todo";
 type CalendarFormProps = {
   todo: CalendarTodoItemType;
   displayForm: boolean;
@@ -50,6 +50,14 @@ const CalendarForm = ({
       rruleString !== (todo.rrule ?? null)
     );
   }, [title, description, priority, dateRange, rruleOptions, todo]);
+  const { editCalendarTodo, editTodoStatus } = useEditCalendarTodo();
+
+  // Run side effect when editTodoStatus changes
+  useEffect(() => {
+    if (editTodoStatus === "success") {
+      setDisplayForm(false);
+    }
+  }, [editTodoStatus, setDisplayForm]);
 
   return (
     <>
@@ -103,7 +111,18 @@ const CalendarForm = ({
             className="flex flex-col gap-5 mt-4"
             onSubmit={(e) => {
               e.preventDefault();
-              setEditAllDialogOpen(true);
+              if (todo.rrule) {
+                setEditAllDialogOpen(true);
+              } else {
+                editCalendarTodo({
+                  ...todo,
+                  title,
+                  description,
+                  priority,
+                  dtstart: dateRange.from,
+                  due: dateRange.to,
+                });
+              }
             }}
           >
             {/* Title */}

@@ -3,8 +3,8 @@ import Edit from "@/components/ui/icon/edit";
 import Trash from "@/components/ui/icon/trash";
 import React from "react";
 import { useTodoForm } from "@/providers/TodoFormProvider";
-import { useDeleteTodo } from "@/features/todos/api/delete-todo";
-import { usePinTodo } from "@/features/todos/api/pin-todo";
+import { useDeleteTodo } from "@/features/todos/query/delete-todo";
+import { usePinTodo } from "@/features/todos/query/pin-todo";
 import Spinner from "@/components/ui/spinner";
 import { TodoItemType } from "@/types";
 
