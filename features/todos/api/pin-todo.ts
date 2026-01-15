@@ -9,7 +9,8 @@ export function usePinTodo(todoItem: TodoItemType) {
   const { mutate: pinMutate, isPending: pinPending } = useMutation({
     mutationFn: async () => {
       await api.PATCH({
-        url: `/api/todo/${todoItem.id.split(":")[0]}?pin=${!todoItem.pinned}`,
+        url: `/api/todo/${todoItem.id.split(":")[0]}`,
+        body: JSON.stringify({ pinned: !todoItem.pinned }),
       });
     },
 
