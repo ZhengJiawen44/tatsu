@@ -79,19 +79,31 @@ function TodoItemMeatballMenu({
           <PriorityIndicator
             level={1}
             onClick={() => {
-              mutatePrioritize({ id: todo.id, level: "Low" });
+              mutatePrioritize({
+                id: todo.id,
+                level: "Low",
+                isRecurring: todo.rrule ? true : false,
+              });
             }}
           />
           <PriorityIndicator
             level={2}
             onClick={() => {
-              mutatePrioritize({ id: todo.id, level: "Medium" });
+              mutatePrioritize({
+                id: todo.id,
+                level: "Medium",
+                isRecurring: todo.rrule ? true : false,
+              });
             }}
           />
           <PriorityIndicator
             level={3}
             onClick={() => {
-              mutatePrioritize({ id: todo.id, level: "High" });
+              mutatePrioritize({
+                id: todo.id,
+                level: "High",
+                isRecurring: todo.rrule ? true : false,
+              });
             }}
           />
         </MenuItem>

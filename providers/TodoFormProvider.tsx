@@ -4,7 +4,6 @@ import React, {
   createContext,
   SetStateAction,
   useContext,
-  useMemo,
   useState,
 } from "react";
 import { NonNullableDateRange } from "@/types";
@@ -101,7 +100,7 @@ const TodoFormProvider = ({ children, todoItem }: TodoFormProviderProps) => {
                 : null;
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  const instanceDate = useMemo(() => dateRange.from, []);
+
   const contextValue: TodoFormContextType = {
     todoItem,
     title,
@@ -116,7 +115,6 @@ const TodoFormProvider = ({ children, todoItem }: TodoFormProviderProps) => {
     setRruleOptions,
     timeZone,
     derivedRepeatType,
-    instanceDate,
     dateRangeChecksum,
   };
 

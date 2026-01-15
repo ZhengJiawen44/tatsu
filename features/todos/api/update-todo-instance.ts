@@ -1,47 +1,33 @@
 import { useToast } from "@/hooks/use-toast";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { api } from "@/lib/api-client";
-import { todoSchema } from "@/schema";
+import { todoInstanceSchema } from "@/schema";
 import { TodoItemType } from "@/types";
 import React from "react";
 import { endOfDay } from "date-fns";
 
-async function patchTodo({
-  todoWithInstanceDate,
-}: {
-  todoWithInstanceDate: TodoItemTypeWithInstanceDate;
-}) {
-  if (!todoWithInstanceDate.id) {
-    throw new Error("this todo is missing");
-  }
-  const { instanceDate } = todoWithInstanceDate;
-  //validate input
-  const parsedObj = todoSchema.safeParse({
-    title: todoWithInstanceDate.title,
-    description: todoWithInstanceDate.description,
-    priority: todoWithInstanceDate.priority,
-    dtstart: todoWithInstanceDate.dtstart,
-    due: todoWithInstanceDate.due,
-    rrule: todoWithInstanceDate.rrule,
+async function patchTodo({ ghostTodo }: { ghostTodo: TodoItemType }) {
+  //validate input for the ghost todo
+  const parsedObj = todoInstanceSchema.safeParse({
+    title: ghostTodo.title,
+    description: ghostTodo.description,
+    priority: ghostTodo.priority,
+    dtstart: ghostTodo.dtstart,
+    due: ghostTodo.due,
+    rrule: ghostTodo.rrule,
+    instanceDate: ghostTodo.instanceDate,
   });
   if (!parsedObj.success) {
     console.error(parsedObj.error.errors[0]);
     return;
   }
-  if (!instanceDate) {
-    console.error("instance date is required for todo instance override!");
-    return;
-  }
+  const todoId = ghostTodo.id.split(":")[0];
 
   await api.PATCH({
-    url: `/api/todo/instance/${todoWithInstanceDate.id}`,
+    url: `/api/todo/instance/${todoId}`,
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ ...parsedObj.data, instanceDate }),
+    body: JSON.stringify({ ...parsedObj.data, id: todoId }),
   });
-}
-
-interface TodoItemTypeWithInstanceDate extends TodoItemType {
-  instanceDate?: Date;
 }
 
 export const useEditTodoInstance = (
@@ -54,8 +40,7 @@ export const useEditTodoInstance = (
 
   const { mutate: editTodoInstance, status: editTodoInstanceStatus } =
     useMutation({
-      mutationFn: (params: TodoItemTypeWithInstanceDate) =>
-        patchTodo({ todoWithInstanceDate: params }),
+      mutationFn: (ghostTodo: TodoItemType) => patchTodo({ ghostTodo }),
       onMutate: async (newTodo) => {
         await queryClient.cancelQueries({ queryKey: ["todo"] });
         const oldTodos = queryClient.getQueryData(["todo"]);
