@@ -19,7 +19,7 @@ import TaskList from "@tiptap/extension-task-list";
 import CustomMenu from "./EditorMenu/CustomMenu";
 import { CustomHighlight } from "@/features/notes/lib/customHighlight";
 import EditorLoading from "@/components/ui/EditorLoading";
-import { useEditNote } from "../api/update-note";
+import { useEditNote } from "../query/update-note";
 import { NoteItemType } from "@/types";
 
 const Editor = ({ note }: { note: NoteItemType }) => {

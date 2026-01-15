@@ -9,7 +9,7 @@ import {
 import Meatball from "@/components/ui/icon/meatball";
 import VaultLoading from "./VaultLoading";
 import { downloadFile } from "@/features/vault/lib/downloadFile";
-import { useDeleteFile } from "../api/delete-file";
+import { useDeleteFile } from "../query/delete-file";
 import { getDisplaySize } from "@/features/vault/lib/getDisplaySize";
 
 interface VaultContentProps {

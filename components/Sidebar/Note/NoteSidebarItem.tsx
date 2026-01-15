@@ -4,8 +4,8 @@ import {
   MenuItem,
   MenuTrigger,
 } from "@/components/ui/Menu";
-import { useDeleteNote } from "@/features/notes/api/delete-note";
-import { useRenameNote } from "@/features/notes/api/rename-note";
+import { useDeleteNote } from "@/features/notes/query/delete-note";
+import { useRenameNote } from "@/features/notes/query/rename-note";
 import { useMenu } from "@/providers/MenuProvider";
 import { NoteItemType } from "@/types";
 import clsx from "clsx";
@@ -66,7 +66,7 @@ const NoteSidebarItem = ({ note }: { note: NoteItemType }) => {
           href={`/app/note/${note.id}`}
           className={clsx(
             "select-none flex gap-2 justify-between mt-2 pl-12 py-2 px-2 rounded-lg hover:bg-border-muted hover:cursor-pointer pr-2",
-            activeMenu.children?.name === note.id && "bg-border-muted"
+            activeMenu.children?.name === note.id && "bg-border-muted",
           )}
           onClick={() => {
             setActiveMenu({
@@ -83,7 +83,7 @@ const NoteSidebarItem = ({ note }: { note: NoteItemType }) => {
               type="text"
               title={note.name}
               className={clsx(
-                "select-none outline-none flex justify-between w-[clamp(4rem,50%,10rem)] truncate bg-transparent"
+                "select-none outline-none flex justify-between w-[clamp(4rem,50%,10rem)] truncate bg-transparent",
               )}
               value={name}
               onChange={(e) => {
