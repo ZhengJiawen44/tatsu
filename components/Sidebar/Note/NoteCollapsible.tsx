@@ -9,9 +9,9 @@ import Note from "@/components/ui/icon/note";
 import { useMenu } from "@/providers/MenuProvider";
 import PlusCircle from "@/components/ui/icon/plusCircle";
 import CaretOutline from "@/components/ui/icon/caretOutline";
-import { useNote } from "@/features/notes/api/get-notes";
+import { useNote } from "@/features/notes/query/get-notes";
 import NoteLoading from "./NoteLoading";
-import { useCreateNote } from "@/features/notes/api/create-note";
+import { useCreateNote } from "@/features/notes/query/create-note";
 import Spinner from "@/components/ui/spinner";
 import NoteSidebarItem from "./NoteSidebarItem";
 
@@ -35,13 +35,13 @@ const NoteCollapsible = () => {
         onClick={() => {}}
         className={clsx(
           "flex gap-1 justify-start items-center w-full py-2 px-2 rounded-lg hover:bg-border-muted hover:bg-opacity-85 ",
-          activeMenu.name === "Note" && "bg-border"
+          activeMenu.name === "Note" && "bg-border",
         )}
       >
         <CaretOutline
           className={clsx(
             "w-3 h-3 transition-transform duration-300 stroke-card-foreground",
-            activeMenu.open && "rotate-90"
+            activeMenu.open && "rotate-90",
           )}
         />
         <Note className="w-5 h-5" />

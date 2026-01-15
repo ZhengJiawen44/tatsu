@@ -1,7 +1,7 @@
 "use client";
 import React from "react";
 import { Skeleton } from "@/components/ui/skeleton";
-import { useCompletedTodo } from "../api/get-completedTodo";
+import { useCompletedTodo } from "../query/get-completedTodo";
 import { CompletedTodoItemContainer } from "./CompletedTodoItemContainer";
 
 const CompletedTodoContainer = () => {

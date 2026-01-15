@@ -3,7 +3,7 @@ import React from "react";
 import OK from "@/components/ui/icon/ok";
 import { useMenu } from "@/providers/MenuProvider";
 import Link from "next/link";
-import { useCompletedTodo } from "@/features/completed/api/get-completedTodo";
+import { useCompletedTodo } from "@/features/completed/query/get-completedTodo";
 import useWindowSize from "@/hooks/useWindowSize";
 
 const CompletedItem = () => {

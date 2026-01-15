@@ -4,7 +4,7 @@ import SearchBar from "@/components/ui/SearchBar";
 import VaultMenuContainer from "./VaultMenu/VaultMenuContainer";
 import VaultListItem from "./VaultTable";
 import { useDebounce } from "@/hooks/useDebounce";
-import { useVault } from "../api/get-vault";
+import { useVault } from "../query/get-vault";
 import PasskeyForm from "./EncryptionForm/passkeySetupForm";
 import { useSession } from "next-auth/react";
 import { usePassKey } from "@/providers/PassKeyProvider";
