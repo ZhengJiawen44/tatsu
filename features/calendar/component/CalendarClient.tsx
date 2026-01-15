@@ -12,9 +12,9 @@ import { agendaComponents } from "./CalendarAgenda";
 import CalendarEvent from "./CalendarEvent";
 import { calendarEventPropStyles } from "../lib/calendarEventPropStyles";
 import { useDateRange } from "../hooks/useDateRange";
-import { useCalendarTodo } from "../api/get-calendar-todo";
-import { useEditCalendarTodo } from "../api/update-calendar-todo";
-import { useEditCalendarTodoInstance } from "../api/update-calendar-todo-instance";
+import { useCalendarTodo } from "../query/get-calendar-todo";
+import { useEditCalendarTodo } from "../query/update-calendar-todo";
+import { useEditCalendarTodoInstance } from "../query/update-calendar-todo-instance";
 
 const locales = {
   "en-US": enUS,

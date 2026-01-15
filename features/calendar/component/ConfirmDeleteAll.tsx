@@ -6,8 +6,8 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import React from "react";
-import { useDeleteCalendarTodo } from "../api/delete-calendar-todo";
-import { useDeleteCalendarInstanceTodo } from "../api/delete-calendar-instance-todo";
+import { useDeleteCalendarTodo } from "../query/delete-calendar-todo";
+import { useDeleteCalendarInstanceTodo } from "../query/delete-calendar-instance-todo";
 import { CalendarTodoItemType } from "@/types";
 
 type ConfirmDeleteAllProp = {

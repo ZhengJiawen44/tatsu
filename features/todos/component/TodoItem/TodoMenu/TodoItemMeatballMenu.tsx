@@ -7,9 +7,9 @@ import {
   MenuContent,
 } from "@/components/ui/Menu";
 import Spinner from "@/components/ui/spinner";
-import { useDeleteTodo } from "@/features/todos/api/delete-todo";
-import { usePinTodo } from "@/features/todos/api/pin-todo";
-import { usePrioritizeTodo } from "@/features/todos/api/prioritize-todo";
+import { useDeleteTodo } from "@/features/todos/query/delete-todo";
+import { usePinTodo } from "@/features/todos/query/pin-todo";
+import { usePrioritizeTodo } from "@/features/todos/query/prioritize-todo";
 import Pin from "@/components/ui/icon/pin";
 import { LuSquarePen } from "react-icons/lu";
 import { LuBlocks } from "react-icons/lu";

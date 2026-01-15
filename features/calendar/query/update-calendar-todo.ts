@@ -123,7 +123,7 @@ async function patchCalendarTodo({ todo }: { todo: CalendarTodoItemType }) {
   }
 
   await api.PATCH({
-    url: `/api/calendar/todo/${todo.id}`,
+    url: `/api/calendar/todo/${todo.id.split(":")[0]}`,
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({
       ...parsedObj.data,

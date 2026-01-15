@@ -1,6 +1,6 @@
 import React from "react";
-import { useCompleteCalendarTodo } from "../api/complete-calendar-todo";
-import { useCompleteCalendarTodoInstance } from "../api/complete-calendar-todo-instance";
+import { useCompleteCalendarTodo } from "../query/complete-calendar-todo";
+import { useCompleteCalendarTodoInstance } from "../query/complete-calendar-todo-instance";
 import { CalendarTodoItemType } from "@/types";
 export default function CompleteButton({
   todoItem,

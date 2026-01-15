@@ -10,7 +10,7 @@ import { verticalListSortingStrategy } from "@dnd-kit/sortable";
 import { TodoItemType } from "@/types";
 import { useCallback, useEffect, useState } from "react";
 import { TodoItemContainer } from "./TodoItem/TodoItemContainer";
-import { useReorderTodo } from "../api/reorder-todo";
+import { useReorderTodo } from "../query/reorder-todo";
 
 const TodoGroup = ({
   todos,

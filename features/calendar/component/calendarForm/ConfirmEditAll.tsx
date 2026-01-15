@@ -6,8 +6,8 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import React from "react";
-import { useEditCalendarTodo } from "../../api/update-calendar-todo";
-import { useEditCalendarTodoInstance } from "../../api/update-calendar-todo-instance";
+import { useEditCalendarTodo } from "../../query/update-calendar-todo";
+import { useEditCalendarTodoInstance } from "../../query/update-calendar-todo-instance";
 // import { useDeleteCalendarTodo } from "../../api/delete-calendar-todo";
 // import { useDeleteCalendarInstanceTodo } from "../../api/delete-calendar-instance-todo";
 import { CalendarTodoItemType } from "@/types";
