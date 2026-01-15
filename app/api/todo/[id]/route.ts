@@ -7,8 +7,8 @@ import {
 import { prisma } from "@/lib/prisma/client";
 import { auth } from "@/app/auth";
 import { todoSchema } from "@/schema";
-import { Priority } from "@prisma/client";
 import { errorHandler } from "@/lib/errorHandler";
+import { z } from "zod";
 
 export async function DELETE(
   req: NextRequest,
@@ -58,105 +58,74 @@ export async function DELETE(
 
 export async function PATCH(
   req: NextRequest,
-  { params }: { params: Promise<{ id: string }> },
+  { params }: { params: { id: string } },
 ) {
   try {
     const session = await auth();
-    const user = session?.user;
+    const userId = session?.user?.id;
 
-    if (!user?.id)
+    if (!userId) {
       throw new UnauthorizedError("You must be logged in to do this");
+    }
 
     const { id } = await params;
-    if (!id) throw new BadRequestError("Invalid request, ID is required");
-
-    //for pinning todos
-    const isPin = req.nextUrl.searchParams.get("pin");
-    if (isPin != undefined || null) {
-      if (isPin === "true") {
-        //pin todo
-        await prisma.todo.update({
-          where: { id, userID: user.id },
-          data: { pinned: true },
-        });
-      } else {
-        await prisma.todo.update({
-          where: { id, userID: user.id },
-          data: { pinned: false },
-        });
-      }
-
-      return NextResponse.json({ message: "pin updated" }, { status: 200 });
+    if (!id) {
+      throw new BadRequestError("Todo ID is required");
     }
 
-    //for updating todos priority
-    const priority = req.nextUrl.searchParams.get("priority");
+    const rawBody = await req.json();
 
-    if (priority && ["Low", "Medium", "High"].includes(priority)) {
-      //patch todo priority
-      await prisma.todo.updateMany({
-        where: { id, userID: user.id },
-        data: { priority: priority as Priority },
+    const parsed = todoSchema
+      .partial()
+      .extend({
+        dateChanged: z.boolean().optional(),
+        pinned: z.boolean().optional(),
+      })
+      .safeParse({
+        ...rawBody,
+        dtstart: rawBody.dtstart ? new Date(rawBody.dtstart) : undefined,
+        due: rawBody.due ? new Date(rawBody.due) : undefined,
       });
 
-      return NextResponse.json(
-        { message: "priority updated" },
-        { status: 200 },
-      );
+    if (!parsed.success) {
+      throw new BadRequestError("Invalid request body");
     }
-
-    //update todo
-    let body = await req.json();
-    const { dateChanged } = body;
-    body = {
-      ...body,
-      dtstart: new Date(body.dtstart),
-      due: new Date(body.due),
-    };
-    const parsedObj = todoSchema.partial().safeParse(body);
-    if (!parsedObj.success) throw new BadRequestError("Invalid request body");
 
     const {
       title,
       description,
-      priority: newPriority,
+      priority,
+      pinned,
       dtstart,
       due,
       rrule,
-    } = parsedObj.data;
-
-    if (!dtstart) throw new BadRequestError("empty dtstart");
-    if (typeof dateChanged == "undefined")
-      throw new BadRequestError("empty dateChanged");
-
-    // Update todo
-    if (dateChanged) {
-      await prisma.todo.update({
-        where: { id, userID: user.id },
-        data: {
-          title: title,
-          description: description,
-          priority: newPriority as Priority,
-          dtstart,
-          due,
-          rrule,
-        },
-      });
-    } else {
-      await prisma.todo.update({
-        where: { id, userID: user.id },
-        data: {
-          title: title,
-          description: description,
-          priority: newPriority as Priority,
-          rrule,
-        },
-      });
+      dateChanged,
+    } = parsed.data;
+    if (dateChanged && !dtstart) {
+      throw new BadRequestError("dtstart is required when dateChanged is true");
     }
 
-    // //also delete all the todo overrides
+    await prisma.todo.update({
+      where: {
+        id,
+        userID: userId,
+      },
+      data: {
+        title,
+        description,
+        priority,
+        pinned,
+        dtstart: dateChanged ? dtstart : undefined,
+        due: dateChanged ? due : undefined,
+        rrule,
+      },
+    });
+
+    // If recurrence rule changed, clear overridden instances
     if (rrule) {
-      await prisma.todoInstance.deleteMany({ where: { todoId: id } });
+      await prisma.todoInstance.deleteMany({
+        where: { todoId: id },
+      });
     }
 
     return NextResponse.json({ message: "Todo updated" }, { status: 200 });
