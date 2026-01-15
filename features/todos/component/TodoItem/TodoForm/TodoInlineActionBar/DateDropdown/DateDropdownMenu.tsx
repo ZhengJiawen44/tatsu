@@ -26,13 +26,13 @@ const DateDropdownMenu = () => {
   }
 
   const itemClass =
-    "flex w-full cursor-pointer items-center justify-between rounded-sm px-2 py-1.5 text-sm outline-none hover:bg-accent hover:text-accent-foreground transition-colors text-left bg-transparent border-0";
+    "flex w-full cursor-pointer items-center justify-between rounded-sm px-2 py-1.5 text-sm outline-none hover:bg-lime hover:text-popover-foreground transition-colors text-left bg-transparent border-0";
 
   return (
     <Popover open={isOpen} onOpenChange={setIsOpen}>
       <PopoverTrigger asChild>
-        <button className="flex justify-center items-center gap-1 p-1 w-full h-full hover:bg-accent rounded-md outline-none">
-          <CalenderIcon className="w-5 h-5" />
+        <button className="border flex justify-center items-center gap-1 p-1 w-full h-full hover:bg-accent rounded-md outline-none ">
+          <CalenderIcon strokeWidth={1.3} className="w-5 h-5" />
           <span className="text-sm font-medium">
             {dateRange?.from
               ? getDisplayDate(dateRange.from)
@@ -124,11 +124,11 @@ const DateDropdownMenu = () => {
             <CalenderIcon className="!w-5 !h-5 stroke-[1.8px]" />
             Next Week
           </div>
-          <p className="text-xs text-muted-foreground">Mon</p>
+          <div className="text-xs text-muted-foreground">Mon</div>
         </button>
 
         {/* --- DURATION --- */}
-        <DurationPicker />
+        <DurationPicker className={itemClass} />
 
         <LineSeparator className="border-popover-accent w-full my-1 mb-4" />
 

@@ -37,7 +37,7 @@ const MenuSidebarItem = () => {
             "flex justify-between py-2 px-2 gap-2 mb-3 border-none rounded-lg hover:cursor-pointer hover:bg-border"
           }
         >
-          <div className="flex gap-2">
+          <div className="flex gap-3">
             <BsGear className="w-5 h-5" />
             Settings
           </div>
@@ -45,7 +45,7 @@ const MenuSidebarItem = () => {
           <RxCaretDown
             className={clsx(
               "w-6 h-6 transition-transform duration-200",
-              menuClicked ? "rotate-180" : "-rotate-0"
+              menuClicked ? "rotate-180" : "-rotate-0",
             )}
           />
         </div>

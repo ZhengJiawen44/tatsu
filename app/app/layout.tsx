@@ -21,7 +21,7 @@ export default async function Layout({
         <Provider>
           {children}
 
-          {/* Timezone bootstrap (runs once per page load) */}
+          {/* Timezone bootstrap */}
           <script
             async
             dangerouslySetInnerHTML={{
@@ -47,4 +47,3 @@ export default async function Layout({
     </SessionProvider>
   );
 }
-

@@ -13,8 +13,8 @@ const SidebarToggle = ({
   return (
     <button
       className={cn(
-        " overflow-visible relative hover:bg-border p-1 rounded-md h-fit ",
-        className
+        " overflow-visible relative p-1 rounded-md h-fit ",
+        className,
       )}
       onClick={(e) => {
         e.stopPropagation();

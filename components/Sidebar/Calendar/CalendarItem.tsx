@@ -12,16 +12,22 @@ const CalendarItem = () => {
     <Link
       href="/app/calendar"
       className={clsx(
-        "py-2 px-6 w-full rounded-lg hover:cursor-pointer hover:bg-border-muted",
-        activeMenu.name === "Calendar" && "bg-border",
+        "select-none flex items-center py-3 px-3 w-full rounded-lg hover:cursor-pointer hover:bg-popover border border-transparent",
+        activeMenu.name === "Calendar" &&
+          "bg-popover-accent shadow-md text-form-foreground-accent !border-border",
       )}
       onClick={() => {
         setActiveMenu({ name: "Calendar" });
         if (width <= 766) setShowMenu(false);
       }}
     >
-      <div className="flex gap-1 justify-start items-center w-full  select-none">
-        <Calendar1Icon className="w-5 h-5 " />
+      <div className="flex gap-3 justify-start items-center w-full  select-none">
+        <Calendar1Icon
+          className={clsx(
+            "w-5 h-5 stroke-muted-foreground",
+            activeMenu.name === "Calendar" && "stroke-form-foreground-accent",
+          )}
+        />
         Calendar
       </div>
     </Link>
