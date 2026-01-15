@@ -71,19 +71,6 @@ export async function PATCH(
       },
     });
 
-    // exdate the dtstart if the dtstart was overriden
-    // suppose a daily todo, user move today's occurence to tomorrow, this means:
-    // 1. an overriding instance is created that moves today's todo to tomorrow.
-    // 2. tomorow's occurence is included in exdate (no natural generation, must rely on instance overrides to generate tomorrow's todos)
-
-    //if dtstart was overriden/changed
-    // if (instanceDate.toISOString() !== dtstart.toISOString()) {
-    //   await prisma.todo.update({
-    //     where: { id },
-    //     data: { exdates: { push: [instanceDate] } },
-    //   });
-    // }
-
     return NextResponse.json({ message: "Todo updated" }, { status: 200 });
   } catch (error) {
     return errorHandler(error);

@@ -43,10 +43,7 @@ const TodoGroup = ({
     if (todos.length !== items.length) return;
     const reorderList = reorderDiff();
     if (reorderList.length > 0) {
-      const timer = setTimeout(
-        () => mutateReorder({ body: { changedTodos: reorderList } }),
-        3000,
-      );
+      const timer = setTimeout(() => mutateReorder(reorderList), 3000);
       return () => {
         clearTimeout(timer);
       };

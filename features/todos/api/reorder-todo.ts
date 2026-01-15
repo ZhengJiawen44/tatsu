@@ -2,19 +2,25 @@ import { useQueryClient, useMutation } from "@tanstack/react-query";
 import { api } from "@/lib/api-client";
 import { useToast } from "@/hooks/use-toast";
 
+type changeMapType = {
+  id: string;
+  order: number;
+};
+
 export const useReorderTodo = () => {
   const { toast } = useToast();
   const queryClient = useQueryClient();
   const { mutate: mutateReorder, isPending } = useMutation({
-    mutationFn: async ({
-      body,
-    }: {
-      body: Record<"changedTodos", { id: string; order: number }[]>;
-    }) => {
+    mutationFn: async (changeMap: changeMapType[]) => {
+      changeMap = changeMap.map(({ id, order }) => {
+        const todoId = id.split(":")[0];
+        return { id: todoId, order };
+      });
+
       await api.PATCH({
         url: "/api/todo/reorder",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(body),
+        body: JSON.stringify(changeMap),
       });
     },
     onSuccess: () => {

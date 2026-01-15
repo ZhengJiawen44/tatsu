@@ -34,7 +34,6 @@ const TodoForm = ({
     setDesc,
     dateRange,
     rruleOptions,
-    instanceDate,
     dateRangeChecksum,
   } = useTodoForm();
 
@@ -140,6 +139,11 @@ const TodoForm = ({
       if (todo?.id) {
         setDisplayForm(false);
         if (editInstanceOnly) {
+          console.log(
+            "%c [  ]-143",
+            "font-size:13px; background:pink; color:#bf2c9f;",
+            todo.instanceDate,
+          );
           editTodoInstance({
             ...todo,
             title,
@@ -148,7 +152,6 @@ const TodoForm = ({
             dtstart,
             due,
             rrule,
-            instanceDate,
           });
         } else {
           editTodo({
@@ -180,6 +183,8 @@ const TodoForm = ({
           timeZone: "",
           userID: "",
           exdates: [],
+          instanceDate: dtstart,
+          instances: [],
         });
       }
     } catch (error) {

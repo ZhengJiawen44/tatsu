@@ -29,10 +29,11 @@ async function patchTodo({ todo }: { todo: TodoItemTypeWithDateChecksum }) {
     todo.dateRangeChecksum !==
     todo.dtstart.toISOString() + todo.due.toISOString();
 
+  const todoId = todo.id.split(":")[0];
   await api.PATCH({
-    url: `/api/todo/${todo.id}`,
+    url: `/api/todo/${todoId}`,
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ ...parsedObj.data, dateChanged }),
+    body: JSON.stringify({ ...parsedObj.data, id: todoId, dateChanged }),
   });
 }
 

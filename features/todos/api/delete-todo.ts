@@ -7,7 +7,7 @@ export const useDeleteTodo = () => {
   const queryClient = useQueryClient();
   const { mutate: deleteMutate, isPending: deletePending } = useMutation({
     mutationFn: async ({ id }: { id: string }) => {
-      await api.DELETE({ url: `/api/todo/${id}` });
+      await api.DELETE({ url: `/api/todo/${id.split(":")[0]}` });
     },
     onMutate: async ({ id }: { id: string }) => {
       await queryClient.cancelQueries({ queryKey: ["todo"] });

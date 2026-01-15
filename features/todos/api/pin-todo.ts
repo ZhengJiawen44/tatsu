@@ -4,14 +4,12 @@ import { useToast } from "@/hooks/use-toast";
 import { TodoItemType } from "@/types";
 
 export function usePinTodo(todoItem: TodoItemType) {
-  // console.log(todoItem);
-
   const { toast } = useToast();
   const queryClient = useQueryClient();
   const { mutate: pinMutate, isPending: pinPending } = useMutation({
     mutationFn: async () => {
       await api.PATCH({
-        url: `/api/todo/${todoItem.id}?pin=${!todoItem.pinned}`,
+        url: `/api/todo/${todoItem.id.split(":")[0]}?pin=${!todoItem.pinned}`,
       });
     },
 
@@ -28,7 +26,7 @@ export function usePinTodo(todoItem: TodoItemType) {
             };
           }
           return oldTodo;
-        })
+        }),
       );
       return { oldTodos };
     },

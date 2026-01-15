@@ -24,10 +24,19 @@ export const useTodo = () => {
         );
       }
       const todoWithFormattedDates = todos.map((todo) => {
+        // id needs to be todo id + instance date, so that ghost todos of the same parent can have unique ids
+        const todoInstanceDate = todo.instanceDate
+          ? new Date(todo.instanceDate)
+          : null;
+        const todoInstanceDateTime = todoInstanceDate?.getTime();
+        const todoId = `${todo.id}:${todoInstanceDateTime}`;
         return {
           ...todo,
+          id: todoId,
+          createdAt: new Date(todo.createdAt),
           dtstart: new Date(todo.dtstart),
           due: new Date(todo.due),
+          instanceDate: todoInstanceDate,
         };
       });
 

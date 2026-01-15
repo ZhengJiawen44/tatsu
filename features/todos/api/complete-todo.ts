@@ -7,10 +7,18 @@ export const useCompleteTodo = () => {
   const queryClient = useQueryClient();
   const { mutate: mutateCompleted, isPending } = useMutation({
     mutationFn: async (todoItem: TodoItemType) => {
-      await api.PATCH({
-        url: `/api/todo/${todoItem.id}/completeTodo`,
-        body: JSON.stringify({ todoItem }),
-      });
+      const todoId = todoItem.id.split(":")[0];
+      if (todoItem.rrule) {
+        await api.PATCH({
+          url: `/api/todo/instance/complete/${todoId}`,
+          body: JSON.stringify({ ...todoItem, id: todoId }),
+        });
+      } else {
+        await api.PATCH({
+          url: `/api/todo/${todoId}/completeTodo`,
+          body: JSON.stringify({ ...todoItem, id: todoId }),
+        });
+      }
     },
     onMutate: async (todoItem: TodoItemType) => {
       await queryClient.cancelQueries({ queryKey: ["todo"] });

@@ -17,21 +17,20 @@ export async function PATCH(req: NextRequest) {
     if (!user?.id)
       throw new UnauthorizedError("You must be logged in to do this");
 
-    const { changedTodos }: { changedTodos: { id: string; order: number }[] } =
-      await req.json();
-    if (!changedTodos) throw new BadRequestError("Invalid request body");
+    const changeMap: { id: string; order: number }[] = await req.json();
+    if (!changeMap) throw new BadRequestError("Invalid request body");
 
     //run all updates in bulk
     const updatedTodos = await prisma.$executeRaw`
       UPDATE "todos" SET "order" = updates.new_order
       FROM (VALUES ${Prisma.join(
-        changedTodos.map((t) => Prisma.sql`(${t.id}, ${t.order})`),
+        changeMap.map((t) => Prisma.sql`(${t.id}, ${t.order})`),
       )})
       AS updates(id, new_order)
       WHERE "todos".id = updates.id
     `;
     // Check if all updates were successful
-    const allUpdated = updatedTodos === changedTodos.length;
+    const allUpdated = updatedTodos === changeMap.length;
 
     if (!allUpdated) {
       throw new InternalError("Failed to update todo order");

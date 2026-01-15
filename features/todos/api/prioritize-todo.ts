@@ -10,11 +10,21 @@ export const usePrioritizeTodo = () => {
     mutationFn: async ({
       id,
       level,
+      isRecurring,
     }: {
       id: string;
       level: "Low" | "Medium" | "High";
+      isRecurring: boolean;
     }) => {
-      await api.PATCH({ url: `/api/todo/${id}?priority=${level}` });
+      const todoId = id.split(":")[0];
+      const instanceDate = id.split(":")[1];
+      if (isRecurring) {
+        await api.PATCH({
+          url: `/api/todo/instance/prioritize/${todoId}?priority=${level}&instanceDate=${instanceDate}`,
+        });
+      } else {
+        await api.PATCH({ url: `/api/todo/${todoId}?priority=${level}` });
+      }
     },
     onMutate: async ({
       id,
@@ -37,8 +47,6 @@ export const usePrioritizeTodo = () => {
           return oldTodo;
         }),
       );
-
-      console.log(queryClient.getQueryData(["todo"]));
 
       return { oldTodos };
     },
