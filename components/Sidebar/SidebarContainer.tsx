@@ -1,10 +1,20 @@
 import clsx from "clsx";
 import React, { useRef, useState } from "react";
 import { useMenu } from "@/providers/MenuProvider";
-const SidebarContainer = ({ children }: { children: React.ReactNode }) => {
+import { Toaster } from "../ui/toaster";
+import CalendarItem from "./Calendar/CalendarItem";
+import CompletedItem from "./Completed/CompletedItem";
+import NoteCollapsible from "./Note/NoteCollapsible";
+import MenuSidebarItem from "./Settings/MenuSidebarItem";
+import TodoItem from "./Todo/TodoSidebarItem";
+import UserCard from "./User/UserCard";
+import VaultItem from "./Vault/VaultItem";
+
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+const SidebarContainer = ({ children }: { children?: React.ReactNode }) => {
   const sidebarRef = useRef<HTMLDivElement | null>(null);
   const { isResizing, setIsResizing, showMenu } = useMenu();
-  const [sidebarWidth, setSidebarWidth] = useState(300);
+  const [sidebarWidth, setSidebarWidth] = useState(350);
 
   const startResizing = React.useCallback(() => {
     setIsResizing(true);
@@ -19,11 +29,11 @@ const SidebarContainer = ({ children }: { children: React.ReactNode }) => {
       if (isResizing) {
         setSidebarWidth(
           mouseMoveEvent.clientX -
-            sidebarRef.current!.getBoundingClientRect().left
+            sidebarRef.current!.getBoundingClientRect().left,
         );
       }
     },
-    [isResizing]
+    [isResizing],
   );
 
   React.useEffect(() => {
@@ -43,18 +53,31 @@ const SidebarContainer = ({ children }: { children: React.ReactNode }) => {
         id="sidebar_container"
         ref={sidebarRef}
         className={clsx(
-          "flex border-r h-full fixed inset-0 md:relative max-w-[500px] flex-shrink-0 bg-sidebar  z-20 duration-200",
+          "flex border-r h-full fixed inset-0 md:relative max-w-[500px] flex-shrink-0 bg-sidebar z-20 duration-200",
           !showMenu
-            ? "-translate-x-full  min-w-0 overflow-hidden transition-all"
-            : "min-w-[200px] transition-transform overflow-visible"
+            ? "-translate-x-full min-w-0 overflow-hidden transition-all"
+            : "min-w-[200px] transition-transform overflow-visible",
         )}
         style={{ width: showMenu ? `${sidebarWidth}px` : "0px" }}
         onMouseDown={(e) => {
           if (isResizing) e.preventDefault();
         }}
       >
-        <div className="flex flex-col justify-between flex-1 px-2 min-w-0 gap-2 m-0 p-0">
-          {children}
+        <div className="flex flex-col justify-between flex-1 min-w-0 m-0 p-0">
+          <div className="px-4 mt-2">
+            <UserCard />
+          </div>
+          <div className=" flex flex-col gap-2 overflow-y-scroll h-full scrollbar-none my-2 px-4">
+            <TodoItem />
+            <CompletedItem />
+            <CalendarItem />
+            <NoteCollapsible />
+            <VaultItem />
+            <Toaster />
+          </div>
+          <div className="px-4">
+            <MenuSidebarItem />
+          </div>
         </div>
       </nav>
       <ResizeHandle isResizing={isResizing} startResizing={startResizing} />
@@ -70,7 +93,7 @@ const Overlay = () => {
     <div
       className={clsx(
         "fixed w-screen h-screen bg-black z-10 md:hidden opacity-50",
-        !showMenu && "hidden"
+        !showMenu && "hidden",
       )}
       onClick={() => setShowMenu(false)}
     />
@@ -88,7 +111,7 @@ const ResizeHandle = ({
     <div
       className={clsx(
         "hidden md:block w-1 cursor-col-resize hover:bg-border",
-        isResizing && "bg-border"
+        isResizing && "bg-border",
       )}
       onMouseDown={startResizing}
     />

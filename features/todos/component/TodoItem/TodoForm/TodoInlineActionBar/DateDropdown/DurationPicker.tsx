@@ -8,8 +8,9 @@ import { TbClockHour4 as Clock, TbChevronRight } from "react-icons/tb";
 import { useTodoForm } from "@/providers/TodoFormProvider";
 import { format, parse, isValid, isSameDay } from "date-fns";
 import { Input } from "@/components/ui/input";
+import { cn } from "@/lib/utils";
 
-const DurationPicker = () => {
+const DurationPicker = ({ className }: { className?: string }) => {
   const { dateRange, setDateRange } = useTodoForm();
 
   const [timeFromStr, setTimeFromStr] = useState(
@@ -79,7 +80,14 @@ const DurationPicker = () => {
   return (
     <Popover>
       <PopoverTrigger asChild>
-        <button className="flex w-full cursor-pointer items-center justify-between rounded-sm px-2 py-1.5 text-sm outline-none hover:bg-accent hover:text-accent-foreground transition-colors group">
+        <button
+          className={
+            (cn(
+              "flex w-full cursor-pointer items-center justify-between rounded-sm px-2 py-1.5 text-sm outline-none hover:bg-accent hover:text-accent-foreground transition-colors group",
+            ),
+            className)
+          }
+        >
           <div className="flex gap-1 items-center">
             <Clock className="!w-5 !h-5 stroke-[1.8px]" />
             Duration

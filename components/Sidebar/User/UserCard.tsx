@@ -18,24 +18,31 @@ const UserCard = ({ className }: { className?: string }) => {
     <>
       <div
         className={cn(
-          "mr-2 mt-2 flex justify-between items-center hover:cursor-pointer hover:bg-border-muted rounded-md py-1 px-2 transition-all duration-200",
-          className
+          "my-3 flex justify-between items-center hover:cursor-pointer hover:bg-border-muted rounded-lg py-2 px-2 transition-all duration-200",
+          className,
         )}
       >
-        <div className="overflow-hidden flex gap-2 justify-start items-center select-none">
+        <div className="overflow-hidden flex gap-3 justify-start items-center select-none">
           {user?.image && (
             <Image
               src={user?.image}
               alt="user image"
-              width={28}
-              height={28}
-              className="rounded-full"
+              width={32}
+              height={32}
+              className="rounded-md"
             />
           )}
-          <p className="truncate">{user?.name || user?.email?.split("@")[0]}</p>
+          <div className="flex flex-col gap-[3px]">
+            <p className=" truncate font-[500]">
+              {user?.name || user?.email?.split("@")[0] || "User"}
+            </p>
+            <p className="truncate text-card-foreground-muted  text-xs">
+              {user?.email}
+            </p>
+          </div>
         </div>
         <Sidebar>
-          <SidebarIcon className="w-6 h-6" />
+          <SidebarIcon className="w-6 h-6 stroke-card-foreground-muted hover:stroke-foreground" />
         </Sidebar>
       </div>
     </>

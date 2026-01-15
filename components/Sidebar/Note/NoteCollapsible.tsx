@@ -5,15 +5,14 @@ import {
 } from "@radix-ui/react-collapsible";
 import clsx from "clsx";
 import React, { useState } from "react";
-import Note from "@/components/ui/icon/note";
 import { useMenu } from "@/providers/MenuProvider";
 import PlusCircle from "@/components/ui/icon/plusCircle";
-import CaretOutline from "@/components/ui/icon/caretOutline";
 import { useNote } from "@/features/notes/query/get-notes";
 import NoteLoading from "./NoteLoading";
 import { useCreateNote } from "@/features/notes/query/create-note";
 import Spinner from "@/components/ui/spinner";
 import NoteSidebarItem from "./NoteSidebarItem";
+import { FileText } from "lucide-react";
 
 const NoteCollapsible = () => {
   const { activeMenu, setActiveMenu } = useMenu();
@@ -34,17 +33,17 @@ const NoteCollapsible = () => {
         onMouseLeave={() => setShowPlus(false)}
         onClick={() => {}}
         className={clsx(
-          "flex gap-1 justify-start items-center w-full py-2 px-2 rounded-lg hover:bg-border-muted hover:bg-opacity-85 ",
-          activeMenu.name === "Note" && "bg-border",
+          "flex gap-3 justify-start items-center w-full py-3 px-3 rounded-lg hover:bg-popover border border-transparent",
+          activeMenu.name === "Note" &&
+            "bg-popover-accent shadow-md text-form-foreground-accent !border-border",
         )}
       >
-        <CaretOutline
+        <FileText
           className={clsx(
-            "w-3 h-3 transition-transform duration-300 stroke-card-foreground",
-            activeMenu.open && "rotate-90",
+            "w-5 h-5 stroke-muted-foreground",
+            activeMenu.name === "Note" && "stroke-form-foreground-accent",
           )}
         />
-        <Note className="w-5 h-5" />
         <p className="select-none">Note</p>
         {createLoading ? (
           <Spinner className="mr-0 ml-auto w-5 h-5" />
@@ -58,7 +57,7 @@ const NoteCollapsible = () => {
                 setActiveMenu({ name: "Note", open: true });
               }}
             >
-              <PlusCircle className="w-5 h-5 stroke-card-foreground hover:stroke-white" />
+              <PlusCircle className="w-5 h-5 stroke-foreground hover:stroke-form-foreground-accent" />
             </div>
           )
         )}
