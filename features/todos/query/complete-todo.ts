@@ -11,12 +11,20 @@ export const useCompleteTodo = () => {
       if (todoItem.rrule) {
         await api.PATCH({
           url: `/api/todo/instance/${todoId}/complete`,
-          body: JSON.stringify({ ...todoItem, id: todoId }),
+          body: JSON.stringify({
+            ...todoItem,
+            id: todoId,
+            completed: !todoItem.completed,
+          }),
         });
       } else {
         await api.PATCH({
           url: `/api/todo/${todoId}`,
-          body: JSON.stringify({ ...todoItem, id: todoId }),
+          body: JSON.stringify({
+            ...todoItem,
+            id: todoId,
+            completed: !todoItem.completed,
+          }),
         });
       }
     },
