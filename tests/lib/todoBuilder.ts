@@ -20,6 +20,8 @@ export class TodoBuilder {
       due: new Date(),
       completed: false,
       exdates: [],
+      instanceDate: null,
+      instances: [],
     };
   }
 
