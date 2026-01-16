@@ -60,8 +60,8 @@ export default function TodoCheckbox({
             setExpand(true);
           }}
           className={clsx(
-            "group w-[1rem] h-[1rem] rounded-full flex items-center justify-center border-[2.25px]",
-            "hover:cursor-pointer transition-transform duration-200 ease-out",
+            "relative group w-[1.07rem] h-[1.07rem] rounded-full flex items-center justify-center border-[2.25px]",
+            "hover:cursor-pointer transition-transform duration-200 ease-out hover:border-transparent",
             expand && "scale-125",
             priority === "Low" &&
               "border-lime peer-checked:bg-lime hover:bg-lime/40",
@@ -70,7 +70,10 @@ export default function TodoCheckbox({
             priority === "High" && "border-red peer-checked:bg-red hover-red",
           )}
         >
-          <Check priority={priority} />
+          <Check
+            priority={priority}
+            className="pointer-events-none absolute bottom-1/2 translate-y-1/2 right-1/2 translate-x-1/2"
+          />
         </div>
       ) : (
         <div className="relative group">
@@ -82,8 +85,7 @@ export default function TodoCheckbox({
             }}
             className={clsx(
               " group w-5 h-5 flex items-center justify-center",
-              "hover:cursor-pointer transition-transform duration-200 ease-out",
-              expand && "scale-125",
+              "hover:cursor-pointer hover:stroke-transparent",
               priority === "Low" && "text-lime peer-checked:bg-lime",
               priority === "Medium" && "text-orange peer-checked:bg-orange",
               priority === "High" && "text-red peer-checked:bg-red ",
@@ -91,7 +93,10 @@ export default function TodoCheckbox({
           />
           <Check
             priority={priority}
-            className="pointer-events-none absolute bottom-1/2 translate-y-1/2 right-1/2 translate-x-1/2"
+            className={clsx(
+              "pointer-events-none absolute bottom-1/2 translate-y-1/2 right-1/2 translate-x-1/2 transition-transform  duration-200 ease-out",
+              expand && "scale-125",
+            )}
           />
         </div>
       )}
@@ -111,7 +116,7 @@ const Check = function ({
       className={cn(
         className,
         clsx(
-          "w-2 h-2 text-lime hidden group-hover:block",
+          "stroke-2 w-5 h-5 text-lime hidden group-hover:block",
           priority == "Low" && "text-lime",
           priority == "Medium" && "text-orange",
           priority == "High" && "text-red",

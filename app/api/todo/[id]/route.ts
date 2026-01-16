@@ -80,6 +80,7 @@ export async function PATCH(
       .extend({
         dateChanged: z.boolean().optional(),
         pinned: z.boolean().optional(),
+        completed: z.boolean().optional(),
       })
       .safeParse({
         ...rawBody,
@@ -96,11 +97,13 @@ export async function PATCH(
       description,
       priority,
       pinned,
+      completed,
       dtstart,
       due,
       rrule,
       dateChanged,
     } = parsed.data;
+
     if (dateChanged && !dtstart) {
       throw new BadRequestError("dtstart is required when dateChanged is true");
     }
@@ -115,6 +118,7 @@ export async function PATCH(
         description,
         priority,
         pinned,
+        completed,
         dtstart: dateChanged ? dtstart : undefined,
         due: dateChanged ? due : undefined,
         rrule,
