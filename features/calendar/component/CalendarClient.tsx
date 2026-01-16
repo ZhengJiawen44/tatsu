@@ -33,7 +33,7 @@ export default function CalendarClient() {
   const { todos: calendarTodos } = useCalendarTodo(calendarRange);
 
   // useCalendarTodo(calendarRange);
-  const { editCalendarTodo } = useEditCalendarTodo(calendarRange);
+  const { editCalendarTodo } = useEditCalendarTodo();
   const { editCalendarTodoInstance } = useEditCalendarTodoInstance();
 
   return (
