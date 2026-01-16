@@ -36,7 +36,7 @@ export default function ConfirmEditAll({
   const { editCalendarTodoInstance } = useEditCalendarTodoInstance();
   return (
     <Dialog open={editAllDialogOpen} onOpenChange={setEditAllDialogOpen}>
-      <DialogContent className="max-w-sm top-1/2 -translate-y-1/2">
+      <DialogContent className="max-w-sm top-1/2 -translate-y-1/2 bg-popover">
         <DialogHeader>
           <DialogTitle>Edit all todo recurrences?</DialogTitle>
         </DialogHeader>

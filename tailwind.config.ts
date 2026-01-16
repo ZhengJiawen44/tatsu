@@ -18,8 +18,9 @@ export default {
         form: {
           background: "hsl(var(--form-background))",
           border: {
-            DEFAULT: "hsl(var(--form-border))",
-            accent: "hsl(var(--form-border-accent))",
+            DEFAULT: "hsl(var(--border))",
+            muted: "hsl(var(--border-muted))",
+            accent: "hsl(var(--border-accent))",
           },
           foreground: {
             DEFAULT: "hsl(var(--foreground))",
@@ -44,7 +45,10 @@ export default {
         lime: "hsl(var(--lime))",
         orange: "hsl(var(--orange))",
         red: "hsl(var(--red))",
-        sidebar: "hsla(var(--sidebar))",
+        sidebar: {
+          DEFAULT: "hsla(var(--sidebar))",
+          primary: "hsla(var(--sidebar-primary))",
+        },
         background: "hsl(var(--background))",
         cream: "hsl(var(--background-cream))",
         foreground: "hsl(var(--foreground))",
@@ -87,6 +91,7 @@ export default {
           DEFAULT: "hsl(var(--destructive))",
           foreground: "hsl(var(--destructive-foreground))",
         },
+
         border: {
           DEFAULT: "hsla(var(--border))",
           muted: "hsla(var(--border-muted))",

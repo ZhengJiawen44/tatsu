@@ -106,7 +106,7 @@ const CalendarForm = ({
           />
         </PopoverTrigger>
 
-        <PopoverContent className="w-fit p-6 bg-input">
+        <PopoverContent className="w-fit p-6">
           <form
             className="flex flex-col gap-5 mt-4"
             onSubmit={(e) => {

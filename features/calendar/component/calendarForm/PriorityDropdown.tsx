@@ -21,13 +21,13 @@ const PriorityDropdownMenu = ({
 }: PriorityDropdownMenuProps) => {
   return (
     <DropdownMenu>
-      <DropdownMenuTrigger className="bg-input p-2 text-sm flex justify-center items-center gap-2 hover:bg-accent rounded-md hover:text-white">
+      <DropdownMenuTrigger className="bg-input p-2 text-sm flex justify-center items-center gap-2 hover:bg-accent rounded-md hover:text-foreground">
         <p className="hidden sm:block">Priority</p>
         <BsCaretDown />
       </DropdownMenuTrigger>
       <DropdownMenuContent className="min-w-[150px] text-foreground">
         <DropdownMenuItem
-          className="hover:text-white hover:bg-lime"
+          className="hover:text-foreground hover:bg-popover-accent"
           onClick={() => setPriority("Low")}
         >
           <PriorityIndicator
@@ -38,7 +38,7 @@ const PriorityDropdownMenu = ({
           Normal
         </DropdownMenuItem>
         <DropdownMenuItem
-          className="hover:text-white hover:bg-lime"
+          className="hover:text-foreground hover:bg-popover-accent"
           onClick={() => setPriority("Medium")}
         >
           <PriorityIndicator
@@ -49,7 +49,7 @@ const PriorityDropdownMenu = ({
           Important
         </DropdownMenuItem>
         <DropdownMenuItem
-          className="hover:text-white hover:bg-lime"
+          className="hover:text-foreground hover:bg-popover-accent"
           onClick={() => setPriority("High")}
         >
           <PriorityIndicator

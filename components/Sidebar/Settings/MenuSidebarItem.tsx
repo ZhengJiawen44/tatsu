@@ -16,6 +16,7 @@ import clsx from "clsx";
 import { MdOutlineLogout } from "react-icons/md";
 import { MdOutlineWbSunny } from "react-icons/md";
 import { HiOutlineMoon } from "react-icons/hi";
+import { Button } from "@/components/ui/button";
 const MenuSidebarItem = () => {
   const [menuClicked, setMenuClicked] = useState(false);
   const { data } = useSession();
@@ -31,11 +32,10 @@ const MenuSidebarItem = () => {
         setMenuClicked(!menuClicked);
       }}
     >
-      <DropdownMenuTrigger className="focus:outline-none w-full">
-        <div
-          className={
-            "flex justify-between py-2 px-2 gap-2 mb-3 border-none rounded-lg hover:cursor-pointer hover:bg-border"
-          }
+      <DropdownMenuTrigger className="focus:outline-none w-full" asChild>
+        <Button
+          variant={"ghost"}
+          className={"flex justify-between py-2 px-2 gap-2 mb-3"}
         >
           <div className="flex gap-3">
             <BsGear className="w-5 h-5" />
@@ -48,7 +48,7 @@ const MenuSidebarItem = () => {
               menuClicked ? "rotate-180" : "-rotate-0",
             )}
           />
-        </div>
+        </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent className="text-foreground w-[var(--radix-dropdown-menu-trigger-width)]">
         <DropdownMenuLabel>

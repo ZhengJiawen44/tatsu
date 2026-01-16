@@ -18,7 +18,7 @@ const UserCard = ({ className }: { className?: string }) => {
     <>
       <div
         className={cn(
-          "my-3 flex justify-between items-center hover:cursor-pointer hover:bg-border-muted rounded-lg py-2 px-2 transition-all duration-200",
+          "my-3 flex justify-between items-center rounded-lg py-2 px-2 transition-all duration-200",
           className,
         )}
       >
@@ -36,13 +36,13 @@ const UserCard = ({ className }: { className?: string }) => {
             <p className=" truncate font-[500]">
               {user?.name || user?.email?.split("@")[0] || "User"}
             </p>
-            <p className="truncate text-card-foreground-muted  text-xs">
+            <p className="truncate text-muted-foreground  text-xs">
               {user?.email}
             </p>
           </div>
         </div>
         <Sidebar>
-          <SidebarIcon className="w-6 h-6 stroke-card-foreground-muted hover:stroke-foreground" />
+          <SidebarIcon className="w-6 h-6 stroke-muted-foreground hover:stroke-foreground" />
         </Sidebar>
       </div>
     </>

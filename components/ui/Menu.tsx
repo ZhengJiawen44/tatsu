@@ -9,12 +9,12 @@ import { HTMLAttributes } from "react";
 const MenuContainer = ({
   children,
 }: // showContent,
-  // setShowContent,
-  {
-    children: React.ReactNode;
-    // showContent?: boolean;
-    // setShowContent?: React.Dispatch<SetStateAction<boolean>>;
-  }) => {
+// setShowContent,
+{
+  children: React.ReactNode;
+  // showContent?: boolean;
+  // setShowContent?: React.Dispatch<SetStateAction<boolean>>;
+}) => {
   return <Popover>{children}</Popover>;
 };
 
@@ -29,7 +29,7 @@ const MenuContent = ({
     <PopoverContent
       className={cn(
         "bg-popover min-w-40 flex flex-col p-0 py-1 w-fit h-fit  text-card-foreground border backdrop-blur-sm text-sm",
-        className
+        className,
       )}
       onClick={(e) => {
         e.preventDefault();
@@ -51,13 +51,7 @@ const MenuTrigger = ({
 }) => {
   return (
     <PopoverTrigger
-      className={cn(
-        clsx(
-          "flex justify-center items-center gap-2 hover:bg-border rounded-md p-1 hover:text-white",
-          showContent && "bg-border",
-          className
-        )
-      )}
+      className={cn(clsx("", showContent && "bg-border", className))}
       onClick={(e) => {
         e.stopPropagation();
       }}
@@ -83,7 +77,7 @@ const MenuItem = ({ className, children, onClick, ...props }: MenuItemType) => {
       }}
       className={cn(
         "text-sm mx-1 mt-0 flex justify-start items-center gap-2 hover:cursor-pointer py-1.5 hover:bg-accent hover:text-accent-foreground rounded-sm px-2",
-        className
+        className,
       )}
       {...props}
     >

@@ -15,6 +15,7 @@ import LineSeparator from "@/components/ui/lineSeparator";
 import ConfirmDelete from "./ConfirmDelete";
 import ConfirmDeleteAll from "./ConfirmDeleteAll";
 import CompleteButton from "./CompleteButton";
+import { Button } from "@/components/ui/button";
 
 const formatDateRange = (start: Date, end: Date) =>
   `${format(start, "MMM dd hh:mm")} - ${format(end, "MMM dd hh:mm")}`;
@@ -52,23 +53,27 @@ const CalendarEvent = ({ event: todo }: EventProps<CalendarTodoItemType>) => {
           </div>
         </PopoverTrigger>
 
-        <PopoverContent className="p-0 w-[11rem] sm:w-[20rem] md:w-[25rem] lg:w-[30rem] bg-input">
+        <PopoverContent className="p-0 w-[11rem] sm:w-[20rem] md:w-[25rem] lg:w-[30rem] bg-popover">
           {/* Header */}
           <div className="flex gap-0 md:gap-2 p-2 justify-end ">
             {/* EDIT */}
-            <button
-              className="hover:bg-lime hover:text-white text-foreground p-2 rounded-md"
+            <Button
+              variant={"ghost"}
+              size={"icon"}
+              className="hover:text-foreground text-muted-foreground p-2 rounded-md hover:bg-popover-accent"
               onClick={() => {
                 setOpen(false);
                 setDisplayForm(true);
               }}
             >
               <Pen className="w-3 h-3 sm:h-4 sm:w-4" />
-            </button>
+            </Button>
 
             {/* DELETE  */}
-            <button
-              className="hover:bg-lime hover:text-white text-foreground p-2 rounded-md"
+            <Button
+              variant={"destructive"}
+              size={"icon"}
+              className="hover:text-foreground text-muted-foreground p-2 rounded-md hover:bg-popover-accent bg-popover"
               onClick={() => {
                 setOpen(false);
                 if (todo.rrule) {
@@ -79,15 +84,17 @@ const CalendarEvent = ({ event: todo }: EventProps<CalendarTodoItemType>) => {
               }}
             >
               <Trash className="w-3 h-3 sm:h-4 sm:w-4" />
-            </button>
+            </Button>
 
             {/* Close */}
-            <button
-              className="hover:bg-red hover:text-white text-foreground p-1 rounded-md flex items-center justify-center"
+            <Button
+              variant={"destructive"}
+              size={"icon"}
+              className="hover:text-foreground text-muted-foreground p-2 rounded-md hover:bg-popover-accent bg-popover"
               onClick={() => setOpen(false)}
             >
               <X className="w-4 h-4 sm:h-5 sm:w-5" />
-            </button>
+            </Button>
           </div>
 
           {/* TODO information */}

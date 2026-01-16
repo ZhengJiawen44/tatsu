@@ -67,7 +67,7 @@ const SidebarContainer = ({ children }: { children?: React.ReactNode }) => {
           <div className="px-4 mt-2">
             <UserCard />
           </div>
-          <div className=" flex flex-col gap-2 overflow-y-scroll h-full scrollbar-none my-2 px-4">
+          <div className=" flex flex-col gap-2 overflow-y-scroll h-full scrollbar-none my-2 px-4 text-muted-foreground">
             <TodoItem />
             <CompletedItem />
             <CalendarItem />
