@@ -67,7 +67,7 @@ export function CalendarToolbar({
               {viewOptions.map((v) => (
                 <div
                   key={v}
-                  className="flex justify-between items-center hover:cursor-pointer hover:bg-accent text-sm p-2 px-3 rounded-sm capitalize"
+                  className="flex justify-between items-center hover:cursor-pointer hover:bg-popover-accent text-sm p-2 px-3 rounded-sm capitalize"
                   onClick={() => {
                     onView(v);
                     setViewFilter(v);

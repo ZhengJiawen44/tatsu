@@ -9,29 +9,32 @@ import LaurelWreath from "@/components/ui/icon/laurelWreath";
 import { PriorityIndicator } from "../../../PriorityIndicator";
 import { useTodoForm } from "@/providers/TodoFormProvider";
 import clsx from "clsx";
+import { Button } from "@/components/ui/button";
 
 const PriorityDropdownMenu = ({}) => {
   const { priority, setPriority } = useTodoForm();
   return (
     <DropdownMenu>
-      <DropdownMenuTrigger className="border text-sm flex justify-center items-center gap-2 hover:bg-accent rounded-md p-1 hover:text-white">
-        <LaurelWreath
-          className={clsx(
-            "w-5 h-5 transition-text duration-200 ease-out",
-            priority === "Low"
-              ? "text-lime"
-              : priority === "Medium"
-                ? "text-orange"
-                : "text-red",
-          )}
-        />
-        <p className="hidden sm:block">Priority</p>
+      <DropdownMenuTrigger asChild>
+        <Button
+          variant={"outline"}
+          className="w-fit h-fit p-2 text-muted-foreground bg-inherit"
+        >
+          <LaurelWreath
+            className={clsx(
+              "w-5 h-5 transition-text duration-200 ease-out",
+              priority === "Low"
+                ? "text-lime"
+                : priority === "Medium"
+                  ? "text-orange"
+                  : "text-red",
+            )}
+          />
+          <p className="hidden sm:block">Priority</p>
+        </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent className="min-w-[150px] text-foreground">
-        <DropdownMenuItem
-          className="hover:text-white"
-          onClick={() => setPriority("Low")}
-        >
+        <DropdownMenuItem onClick={() => setPriority("Low")}>
           <PriorityIndicator
             level={1}
             className="h-4 w-4"
@@ -39,10 +42,7 @@ const PriorityDropdownMenu = ({}) => {
           />
           Normal
         </DropdownMenuItem>
-        <DropdownMenuItem
-          className="hover:text-white"
-          onClick={() => setPriority("Medium")}
-        >
+        <DropdownMenuItem onClick={() => setPriority("Medium")}>
           <PriorityIndicator
             level={2}
             className={clsx("h-4 w-4")}
@@ -50,10 +50,7 @@ const PriorityDropdownMenu = ({}) => {
           />
           Important
         </DropdownMenuItem>
-        <DropdownMenuItem
-          className="hover:text-white"
-          onClick={() => setPriority("High")}
-        >
+        <DropdownMenuItem onClick={() => setPriority("High")}>
           <PriorityIndicator
             level={3}
             className={clsx("h-4 w-4")}

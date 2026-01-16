@@ -8,6 +8,7 @@ import {
 import React from "react";
 import { useDeleteCalendarTodo } from "../query/delete-calendar-todo";
 import { CalendarTodoItemType } from "@/types";
+import { Button } from "@/components/ui/button";
 
 type confirmDeleteProp = {
   todo: CalendarTodoItemType;
@@ -22,7 +23,7 @@ export default function ConfirmDelete({
   const { deleteMutate } = useDeleteCalendarTodo();
   return (
     <Dialog open={deleteDialogOpen} onOpenChange={setDeleteDialogOpen}>
-      <DialogContent className="max-w-sm top-1/2 -translate-y-1/2">
+      <DialogContent className="max-w-sm top-1/2 -translate-y-1/2 bg-popover">
         <DialogHeader>
           <DialogTitle>Delete todo?</DialogTitle>
         </DialogHeader>
@@ -33,21 +34,23 @@ export default function ConfirmDelete({
         </p>
 
         <DialogFooter className="mt-4">
-          <button
-            className="px-3 py-1 rounded-md border"
+          <Button
+            variant={"outline"}
+            className="bg-popover"
             onClick={() => setDeleteDialogOpen(false)}
           >
             Cancel
-          </button>
-          <button
-            className="px-3 py-1 rounded-md bg-red text-white hover:bg-red"
+          </Button>
+          <Button
+            variant={"destructive"}
+            className=""
             onClick={() => {
               deleteMutate(todo);
               setDeleteDialogOpen(false);
             }}
           >
             Delete
-          </button>
+          </Button>
         </DialogFooter>
       </DialogContent>
     </Dialog>

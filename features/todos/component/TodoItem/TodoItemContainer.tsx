@@ -53,9 +53,9 @@ export const TodoItemContainer = ({ todoItem }: { todoItem: TodoItemType }) => {
         ref={setNodeRef}
         style={style}
         className={clsx(
-          "touch-none w-full min-h-11 relative flex justify-between items-center my-4 bg-inherit py-2 rounded-md",
+          "touch-none w-full min-h-11 relative flex justify-between items-center bg-inherit p-4 rounded-md",
           isGrabbing
-            ? "shadow-[0px_10px_30px_rgba(6,8,30,0.3)] z-30 border border-border-muted"
+            ? "shadow-[0px_10px_30px_rgba(6,8,30,0.3)] z-30  brightness-110"
             : "shadow-none",
         )}
         onClick={(e) => {
@@ -72,11 +72,11 @@ export const TodoItemContainer = ({ todoItem }: { todoItem: TodoItemType }) => {
           {...attributes}
           {...listeners}
           className={clsx(
-            "cursor-grabbing absolute -left-7 bottom-1/2 translate-y-1/2",
+            "cursor-grabbing absolute -left-7 bottom-1/2 translate-y-1/2 text-muted-foreground p-1",
             showHandle === true ? "text-card-foreground" : "text-transparent",
           )}
         >
-          <GripVertical className=" w-5 h-5" />
+          <GripVertical className=" w-5 h-5 hover:text-foreground" />
         </div>
 
         <div className="w-full">
@@ -92,11 +92,9 @@ export const TodoItemContainer = ({ todoItem }: { todoItem: TodoItemType }) => {
             />
 
             <div className="w-full">
-              <p className="leading-none select-none text-card-foreground mb-1 text-sm">
-                {title}
-              </p>
+              <p className="leading-none select-none mb-2 ">{title}</p>
 
-              <pre className="text-card-foreground-muted text-sm flex whitespace-pre-wrap">
+              <pre className="text-muted-foreground text-sm flex whitespace-pre-wrap">
                 {description}
               </pre>
             </div>

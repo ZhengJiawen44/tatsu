@@ -12,6 +12,7 @@ import { useKeyboardSubmitForm } from "@/features/todos/hooks/useKeyboardSubmitF
 import { useClearInput } from "@/features/todos/hooks/useClearInput";
 import { RRule } from "rrule";
 import TodoInlineActionBar from "./TodoInlineActionBar/TodoInlineActionBar";
+import { Button } from "@/components/ui/button";
 interface TodoFormProps {
   editInstanceOnly?: boolean;
   setEditInstanceOnly?: React.Dispatch<React.SetStateAction<boolean>>;
@@ -57,7 +58,7 @@ const TodoForm = ({
       <form
         onSubmit={handleForm}
         className={clsx(
-          "flex border flex-col my-4 rounded-md p-4 gap-3 w-full",
+          "flex border bg-card shadow-md flex-col my-4 rounded-md p-4 gap-3 w-full",
           !displayForm && "hidden",
         )}
       >
@@ -65,7 +66,7 @@ const TodoForm = ({
           value={title}
           onChange={(e) => setTitle(e.target.value)}
           ref={titleRef}
-          className="w-full bg-transparent placeholder-card-foreground-muted text-card-foreground text-[1.2rem] font-semibold focus:outline-none"
+          className="w-full bg-transparent placeholder-foreground text-[1.2rem] font-semibold focus:outline-none"
           type="text"
           name="title"
           placeholder="finish chapter 5 in 7 days"
@@ -77,7 +78,7 @@ const TodoForm = ({
             setDesc(e.target.value);
             adjustHeight(textareaRef);
           }}
-          className="w-full overflow-hidden bg-transparent placeholder-card-foreground-muted text-card-foreground font-extralight focus:outline-none resize-none"
+          className="w-full overflow-hidden bg-transparent  placeholder-muted-foreground font-extralight focus:outline-none resize-none"
           name="description"
           placeholder="description"
         />
@@ -87,30 +88,30 @@ const TodoForm = ({
           {/* DateRange, Priority, and Repeat menus */}
           <TodoInlineActionBar />
           <div className="flex gap-2 items-center text-sm">
-            <button
+            <Button
+              variant={"destructive"}
               type="button"
-              className="bg-card hover:bg-border hover:text-white text-card-foreground py-2 px-2 min-w-[4rem] leading-none h-fit rounded-md "
+              className="h-fit"
               onClick={() => {
                 clearInput();
                 setDisplayForm(false);
               }}
             >
               <p>cancel</p>
-            </button>
-            <button
+            </Button>
+            <Button
               type="submit"
+              variant={"default"}
               disabled={title.length <= 0}
               className={clsx(
-                "py-2 px-2 leading-none min-w-[4rem] h-fit rounded-md text-white bg-border",
-                title.length > 0
-                  ? "hover:bg-lime hover:text-black"
-                  : "disabled opacity-40",
+                "h-fit",
+                title.length <= 0 && "disabled opacity-40",
               )}
             >
               <p title="ctrl+enter">
                 {editInstanceOnly ? "Save instance" : todo ? "save" : "add"}
               </p>
-            </button>
+            </Button>
           </div>
         </div>
       </form>
@@ -120,18 +121,6 @@ const TodoForm = ({
   async function handleForm(e?: React.FormEvent) {
     if (e) e.preventDefault();
 
-    // if (
-    //   dateRangeChecksum ===
-    //   dateRange.from.toISOString() + dateRange.to.toISOString()
-    // ) {
-    //   console.log("date range was not changed");
-    // } else {
-    //   console.log("date range was changed");
-    // }
-    // console.log(
-    //   dateRangeChecksum,
-    //   dateRange.from.toISOString() + dateRange.to.toISOString(),
-    // );
     const dtstart = dateRange.from;
     const due = dateRange.to;
     try {

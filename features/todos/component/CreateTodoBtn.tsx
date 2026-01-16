@@ -18,8 +18,8 @@ const CreateTodoBtn = () => {
         onClick={() => setDisplayForm(!displayForm)}
         className="w-fit group flex gap-3 items-center  hover:cursor-pointer transition-all duration-200"
       >
-        <Plus className="mb-[2px] -ml-1 w-5 h-5 stroke-card-foreground-muted group-hover:stroke-card-foreground" />
-        <p className="text-card-foreground-muted text-[0.95rem] group-hover:text-card-foreground ">
+        <Plus className="mb-[2px] -ml-1 w-5 h-5 stroke-muted-foreground group-hover:stroke-foreground" />
+        <p className="text-muted-foreground text-[0.95rem] group-hover:text-foreground ">
           Add a task
         </p>
       </button>

@@ -32,11 +32,11 @@ const RepeatDropdownMenu = ({
   derivedRepeatType,
 }: RepeatDropdownMenuProps) => {
   const menuItemClass =
-    "flex items-center justify-between w-full hover:bg-lime rounded-sm px-2 py-1.5 hover:text-white cursor-pointer transition-colors";
+    "flex items-center justify-between w-full hover:bg-popover-accent rounded-sm px-2 py-1.5 hover:text-foreground cursor-pointer transition-colors";
 
   return (
     <Popover>
-      <PopoverTrigger className="bg-input p-2 text-sm flex justify-center items-center gap-2 hover:bg-accent rounded-md hover:text-white transition-colors">
+      <PopoverTrigger className="bg-input p-2 text-sm flex justify-center items-center gap-2 hover:bg-accent rounded-md hover:text-foreground transition-colors">
         <p className="hidden sm:block text-sm">Repeat</p>
         <BsCaretDown />
       </PopoverTrigger>

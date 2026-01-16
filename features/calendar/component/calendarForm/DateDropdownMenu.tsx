@@ -6,6 +6,7 @@ import LineSeparator from "@/components/ui/lineSeparator";
 import { TbTarget } from "react-icons/tb";
 import { TbSunrise as Tomorrow } from "react-icons/tb";
 import { TbCalendar as CalenderIcon } from "react-icons/tb";
+// import { Calendar1Icon as CalenderIcon } from "lucide-react";
 import DurationPicker from "./DurationPicker";
 import {
   Popover,
@@ -37,12 +38,12 @@ const DateDropdownMenu = ({
   }
 
   const itemClass =
-    "flex w-full cursor-pointer items-center justify-between rounded-sm px-2 py-1.5 text-sm outline-none hover:bg-accent hover:text-accent-foreground transition-colors text-left bg-transparent border-0";
+    "flex w-full cursor-pointer items-center justify-between rounded-sm px-2 py-1.5 text-sm hover:bg-popover-accent hover:text-foreground";
 
   return (
     <Popover open={isOpen} onOpenChange={setIsOpen}>
       <PopoverTrigger asChild>
-        <button className="flex justify-start items-center gap-1 p-1 w-full h-full hover:bg-accent rounded-md outline-none">
+        <button className="flex justify-start items-center gap-1 p-1 w-full h-full hover:bg-popover-accent rounded-md outline-none">
           <span className="text-sm font-medium">
             {getDisplayDate(dateRange.from)}
             {""} {getDisplayDate(dateRange.to)}
@@ -128,7 +129,7 @@ const DateDropdownMenu = ({
           }}
         >
           <div className="flex gap-1 items-center">
-            <CalenderIcon className="!w-5 !h-5 stroke-[1.8px]" />
+            <CalenderIcon strokeWidth={1.4} className="!w-5 !h-5" />
             Next Week
           </div>
           <p className="text-xs text-muted-foreground">Mon</p>
@@ -142,7 +143,7 @@ const DateDropdownMenu = ({
         {/* --- CALENDAR --- */}
         <div className="flex justify-center p-0">
           <Calendar
-            className="p-0 pb-4"
+            className="p-0 pb-2"
             mode="range"
             defaultMonth={new Date()}
             disabled={(date) => date <= addDays(new Date(), -1)}

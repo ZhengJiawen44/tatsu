@@ -13,6 +13,7 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
+import { Button } from "@/components/ui/button";
 const DateDropdownMenu = () => {
   const { todoItem: todo, dateRange, setDateRange } = useTodoForm();
   const nextWeek = startOfDay(nextMonday(dateRange?.from || new Date()));
@@ -26,12 +27,15 @@ const DateDropdownMenu = () => {
   }
 
   const itemClass =
-    "flex w-full cursor-pointer items-center justify-between rounded-sm px-2 py-1.5 text-sm outline-none hover:bg-lime hover:text-popover-foreground transition-colors text-left bg-transparent border-0";
+    "flex justify-between items-center p-2 rounded w-[95%] hover:bg-popover-accent m-auto text-sm";
 
   return (
     <Popover open={isOpen} onOpenChange={setIsOpen}>
       <PopoverTrigger asChild>
-        <button className="border flex justify-center items-center gap-1 p-1 w-full h-full hover:bg-accent rounded-md outline-none ">
+        <Button
+          variant={"outline"}
+          className="w-fit h-fit p-2 text-muted-foreground bg-inherit"
+        >
           <CalenderIcon strokeWidth={1.3} className="w-5 h-5" />
           <span className="text-sm font-medium">
             {dateRange?.from
@@ -40,11 +44,11 @@ const DateDropdownMenu = () => {
                 ? getDisplayDate(todo.dtstart)
                 : "Today"}
           </span>
-        </button>
+        </Button>
       </PopoverTrigger>
 
       <PopoverContent
-        className="flex flex-col gap-1 p-1 w-[240px] font-extralight border-popover-accent"
+        className="flex flex-col gap-1 p-0 py-2 w-[250px] font-extralight border-popover-accent"
         align="start"
       >
         {/* --- OPTION: TODAY --- */}
@@ -68,7 +72,7 @@ const DateDropdownMenu = () => {
             setIsOpen(false);
           }}
         >
-          <div className="flex gap-1 items-center">
+          <div className="flex gap-2 items-center">
             <TbTarget className="!w-5 !h-5 stroke-[1.8px]" />
             Today
           </div>
@@ -93,7 +97,7 @@ const DateDropdownMenu = () => {
             setIsOpen(false);
           }}
         >
-          <div className="flex gap-1 items-center">
+          <div className="flex gap-2 items-center">
             <Tomorrow className="!w-5 !h-5" />
             Tomorrow
           </div>
@@ -120,8 +124,8 @@ const DateDropdownMenu = () => {
             setIsOpen(false);
           }}
         >
-          <div className="flex gap-1 items-center">
-            <CalenderIcon className="!w-5 !h-5 stroke-[1.8px]" />
+          <div className="flex gap-2 items-center">
+            <CalenderIcon strokeWidth={1.4} className="!w-5 !h-5" />
             Next Week
           </div>
           <div className="text-xs text-muted-foreground">Mon</div>
@@ -135,7 +139,7 @@ const DateDropdownMenu = () => {
         {/* --- CALENDAR --- */}
         <div className="flex justify-center p-0">
           <Calendar
-            className="p-0 pb-4"
+            className="p-0 pb-1"
             mode="range"
             defaultMonth={new Date()}
             disabled={(date) => date <= addDays(new Date(), -1)}

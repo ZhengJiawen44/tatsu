@@ -21,7 +21,7 @@ export default function confirmCancelEdit({
   //   const { deleteMutate } = useDeleteCalendarTodo();
   return (
     <Dialog open={cancelEditDialogOpen} onOpenChange={setCancelEditDialogOpen}>
-      <DialogContent className="max-w-sm top-1/2 -translate-y-1/2">
+      <DialogContent className="max-w-sm top-1/2 -translate-y-1/2 bg-popover">
         <DialogHeader>
           <DialogTitle>Cancel Edit?</DialogTitle>
         </DialogHeader>

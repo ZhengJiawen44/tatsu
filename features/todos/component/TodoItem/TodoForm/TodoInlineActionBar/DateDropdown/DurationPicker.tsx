@@ -88,7 +88,7 @@ const DurationPicker = ({ className }: { className?: string }) => {
             className)
           }
         >
-          <div className="flex gap-1 items-center">
+          <div className="flex gap-2 items-center">
             <Clock className="!w-5 !h-5 stroke-[1.8px]" />
             Duration
           </div>

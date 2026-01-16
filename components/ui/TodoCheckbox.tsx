@@ -60,7 +60,7 @@ export default function TodoCheckbox({
             setExpand(true);
           }}
           className={clsx(
-            "relative group w-[1.07rem] h-[1.07rem] rounded-full flex items-center justify-center border-[2.25px]",
+            "relative group w-4 h-4 rounded-full flex items-center justify-center border-[2.23px]",
             "hover:cursor-pointer transition-transform duration-200 ease-out hover:border-transparent",
             expand && "scale-125",
             priority === "Low" &&
@@ -78,7 +78,7 @@ export default function TodoCheckbox({
       ) : (
         <div className="relative group">
           <TbRefresh
-            strokeWidth={2.3}
+            strokeWidth={2.2}
             onMouseDown={(e) => {
               e.stopPropagation();
               setExpand(true);
