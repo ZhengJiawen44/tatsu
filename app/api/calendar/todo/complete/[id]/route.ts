@@ -51,7 +51,6 @@ export async function PATCH(
         priority,
         dtstart,
         due,
-        createdAt: new Date(),
         completedAt,
         completedOnTime: completedAt <= due ? true : false,
         daysToComplete:

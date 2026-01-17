@@ -29,11 +29,6 @@ export async function PATCH(
       due: new Date(body.due),
     };
 
-    console.log(
-      "%c [  ]-32",
-      "font-size:13px; background:pink; color:#bf2c9f;",
-      todo,
-    );
     if (!todo.instanceDate)
       throw new BadRequestError(
         "invalid instance date recieved for this recurring todo",
