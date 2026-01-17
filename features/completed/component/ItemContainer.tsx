@@ -1,11 +1,16 @@
 import clsx from "clsx";
 import { CompletedTodoItemType } from "@/types";
+import TodoCheckbox from "@/components/ui/TodoCheckbox";
+import { GoX } from "react-icons/go";
+import { useUnCompleteTodo } from "../query/uncomplete-completedTodo";
+
 export const CompletedTodoItemContainer = ({
   completedTodoItem,
 }: {
   completedTodoItem: CompletedTodoItemType;
 }) => {
   const { title, description } = completedTodoItem;
+  const { mutateUnComplete } = useUnCompleteTodo();
 
   return (
     <>
@@ -16,11 +21,16 @@ export const CompletedTodoItemContainer = ({
       >
         <div className="w-full">
           <div className="flex items-start gap-3">
+            <TodoCheckbox
+              icon={GoX}
+              onChange={() => mutateUnComplete(completedTodoItem)}
+              complete={true}
+              checked={true}
+              priority={completedTodoItem.priority}
+            />
             <div className="w-full">
-              <p className="leading-none select-none text-card-foreground mb-1 text-sm">
-                {title}
-              </p>
-              <pre className="text-card-foreground-muted text-sm flex whitespace-pre-wrap">
+              <p className="leading-none select-none mb-1 text-lg">{title}</p>
+              <pre className="text-muted-foreground text-sm flex whitespace-pre-wrap">
                 {description}
               </pre>
             </div>
@@ -30,4 +40,3 @@ export const CompletedTodoItemContainer = ({
     </>
   );
 };
-

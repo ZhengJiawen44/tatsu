@@ -21,7 +21,7 @@ const CompletedItem = () => {
       asChild
       variant={"ghost"}
       className={clsx(
-        "flex items-center border border-transparent",
+        "flex items-center border border-transparent font-normal",
         activeMenu.name === "Completed" &&
           "bg-sidebar-primary shadow-md !border-border",
       )}
@@ -34,12 +34,13 @@ const CompletedItem = () => {
         }}
       >
         <CheckCircleIcon
+          strokeWidth={2.5}
           className={clsx(
             "w-5 h-5 stroke-muted-foreground",
             activeMenu.name === "Completed" && "stroke-form-foreground-accent",
           )}
         />
-        <p>Complete</p>
+        <p className="text-foreground">Completed</p>
 
         <span
           className={clsx(

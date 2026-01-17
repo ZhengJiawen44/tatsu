@@ -63,7 +63,8 @@ export interface CompletedTodoItemType {
   dtstart: Date;
   due: Date;
   userID: string;
-  wasRepeating: boolean;
+  rrule: string | null;
+  instanceDate: Date | null;
 }
 
 export interface FileItemType {

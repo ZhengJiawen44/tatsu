@@ -35,10 +35,10 @@ const MenuSidebarItem = () => {
       <DropdownMenuTrigger className="focus:outline-none w-full" asChild>
         <Button
           variant={"ghost"}
-          className={"flex justify-between py-2 px-2 gap-2 mb-3"}
+          className={"flex justify-between py-2 px-2 gap-2 mb-3 font-normal"}
         >
           <div className="flex gap-3">
-            <BsGear className="w-5 h-5" />
+            <BsGear className="w-5 h-5 text-muted-foreground" />
             Settings
           </div>
 

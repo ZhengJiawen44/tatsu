@@ -41,8 +41,8 @@ const UserCard = ({ className }: { className?: string }) => {
             </p>
           </div>
         </div>
-        <Sidebar>
-          <SidebarIcon className="w-6 h-6 stroke-muted-foreground hover:stroke-foreground" />
+        <Sidebar className="text-muted-foreground hover:text-foreground">
+          <SidebarIcon className="w-6 h-6  " />
         </Sidebar>
       </div>
     </>

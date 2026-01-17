@@ -23,6 +23,8 @@ body {
     --calendar-orange: 34, 93%, 44%;
     --radius: 0.5rem;
 
+    --background: 235 5% 95%;
+    --foreground: 0 0% 5%;
     --lime: 83, 62%, 55%;
     --orange: 34, 93%, 48%;
     --red: 4, 90%, 62%;
@@ -41,7 +43,7 @@ body {
     --accent: 235 25% 95%;
     --accent-foreground: 235 32% 16%;
     --destructive: 358.71 55.08% 53.33%;
-    --border: 235 12% 88%;
+    --border: 235 12% 78%;
     --border-muted: 235 15% 92%;
     --input: 235 17% 90%;
     --ring: 0 0% 56%;
@@ -54,9 +56,9 @@ body {
     --sidebar-foreground: 235 28% 19%;
     --sidebar-primary: 235 28% 94%;
     --sidebar-primary-foreground: 235 32% 16%;
+    --sidebar-border: 235 12% 88%;
     /* --sidebar-accent: 0 0% 96%;
-    --sidebar-accent-foreground: 235 32% 16%; */
-    /* --sidebar-border: 235 12% 88%;
+    --sidebar-accent-foreground: 235 32% 16%; 
     --sidebar-ring: 0 0% 56%; */
 
     --calendar-border: 235 12% 88%;
@@ -122,7 +124,7 @@ body {
     --sidebar-primary-foreground: 0, 0%, 99%;
     --sidebar-accent: 0, 0%, 27%;
     --sidebar-accent-foreground: 0, 0%, 99%;
-    --sidebar-border: 0, 0%, 100%;
+    --sidebar-border: 235 12% 23%;
     --sidebar-ring: 0, 0%, 44%;
 
     --calendar-border: 235, 28%, 20%;

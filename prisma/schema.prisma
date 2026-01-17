@@ -124,7 +124,6 @@ model CompletedTodo{
   description   String?
   priority      Priority
   completedAt   DateTime        @default(now())
-  createdAt     DateTime
   dtstart     DateTime
   due     DateTime
   completedOnTime Boolean
@@ -132,6 +131,7 @@ model CompletedTodo{
   rrule  String?
   user          User            @relation(fields: [userID], references: [id])
   userID        String
+  instanceDate  DateTime?
 }
 
 model Note{
