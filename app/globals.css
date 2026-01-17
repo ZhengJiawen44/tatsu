@@ -79,10 +79,10 @@ body {
   }
 
   .dark {
-    --lime: 83, 40%, 45%;
-    --calendar-lime: 83, 38%, 35%;
-    --calendar-red: 4, 70%, 48%;
-    --calendar-orange: 34, 93%, 44%;
+    --lime: 83 40% 45%;
+    --calendar-lime: 83 38% 35%;
+    --calendar-red: 4 70% 48%;
+    --calendar-orange: 34 93% 44%;
     --background: 235 32% 15%;
     --foreground: 0 0% 100%;
 

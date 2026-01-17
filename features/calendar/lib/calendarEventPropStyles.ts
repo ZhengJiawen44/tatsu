@@ -20,10 +20,5 @@ export const calendarEventPropStyles = (
       boxShadow:
         "0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1)",
     },
-    className: clsx(
-      priority === "High" && "bg-red-500",
-      priority === "Medium" && "bg-yellow-500",
-      priority === "Low" && "bg-green-500",
-    ),
   };
 };

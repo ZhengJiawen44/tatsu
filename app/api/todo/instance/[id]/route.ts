@@ -5,7 +5,6 @@ import { Priority } from "@prisma/client";
 import { todoSchema } from "@/schema";
 import { auth } from "@/app/auth";
 import { errorHandler } from "@/lib/errorHandler";
-// import { addDays, set } from "date-fns";
 
 export async function PATCH(
   req: NextRequest,

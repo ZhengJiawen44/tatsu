@@ -7,6 +7,7 @@ import { endOfDay } from "date-fns";
 
 interface TodoItemTypeWithDateChecksum extends TodoItemType {
   dateRangeChecksum: string;
+  rruleChecksum: string | null;
 }
 async function patchTodo({ todo }: { todo: TodoItemTypeWithDateChecksum }) {
   if (!todo.id) {
@@ -29,11 +30,19 @@ async function patchTodo({ todo }: { todo: TodoItemTypeWithDateChecksum }) {
     todo.dateRangeChecksum !==
     todo.dtstart.toISOString() + todo.due.toISOString();
 
+  const rruleChanged = todo.rruleChecksum !== todo.rrule;
+
   const todoId = todo.id.split(":")[0];
   await api.PATCH({
     url: `/api/todo/${todoId}`,
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ ...parsedObj.data, id: todoId, dateChanged }),
+    body: JSON.stringify({
+      ...parsedObj.data,
+      id: todoId,
+      instanceDate: todo.instanceDate,
+      dateChanged,
+      rruleChanged,
+    }),
   });
 }
 
