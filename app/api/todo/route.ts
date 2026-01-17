@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
+import { Priority } from "@prisma/client";
 import {
   BaseServerError,
   UnauthorizedError,
@@ -8,9 +9,17 @@ import {
 import { prisma } from "@/lib/prisma/client";
 import { todoSchema } from "@/schema";
 import { auth } from "@/app/auth";
+import getTodayBoundaries from "@/lib/getTodayBoundaries";
+import generateTodosFromRRule from "@/lib/generateTodosFromRRule";
+import { resolveTimezone } from "@/lib/resolveTimeZone";
+import { errorHandler } from "@/lib/errorHandler";
+import { overrideBy } from "@/lib/overrideBy";
+import { recurringTodoWithInstance, TodoItemType } from "@/types";
+import { mergeInstanceAndTodo } from "@/lib/mergeInstanceAndTodo";
 
 export async function POST(req: NextRequest) {
   try {
+    //throw new Error("expected error happened");
     const session = await auth();
     const user = session?.user;
 
@@ -18,18 +27,38 @@ export async function POST(req: NextRequest) {
       throw new UnauthorizedError("you must be logged in to do this");
 
     //validate req body
-    const body = await req.json();
+    let body = await req.json();
+
+    body = {
+      ...body,
+      dtstart: new Date(body.dtstart),
+      due: new Date(body.due),
+    };
+
     const parsedObj = todoSchema.safeParse(body);
     if (!parsedObj.success) throw new BadRequestError();
 
-    const { title, description } = parsedObj.data;
+    const { title, description, priority, dtstart, due, rrule } =
+      parsedObj.data;
     //create todo
     const todo = await prisma.todo.create({
-      data: { userID: user.id, title, description },
+      data: {
+        userID: user.id,
+        title,
+        description,
+        priority: priority as Priority,
+        dtstart,
+        due,
+        rrule,
+      },
     });
     if (!todo) throw new InternalError("todo cannot be created at this time");
+    // console.log(todo);
 
-    return NextResponse.json({ message: "todo created" }, { status: 200 });
+    return NextResponse.json(
+      { message: "todo created", todo },
+      { status: 200 },
+    );
   } catch (error) {
     console.log(error);
 
@@ -37,7 +66,7 @@ export async function POST(req: NextRequest) {
     if (error instanceof BaseServerError) {
       return NextResponse.json(
         { message: error.message },
-        { status: error.status }
+        { status: error.status },
       );
     }
 
@@ -49,47 +78,206 @@ export async function POST(req: NextRequest) {
             ? error.message.slice(0, 50)
             : "an unexpected error occured",
       },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }
 
-export async function GET() {
+export async function GET(req: NextRequest) {
   try {
     const session = await auth();
     const user = session?.user;
 
-    if (!user?.id)
-      throw new UnauthorizedError("you must be logged in to do this");
+    if (!user?.id) {
+      throw new UnauthorizedError("You must be logged in to do this");
+    }
+    const timeZone = await resolveTimezone(user, req);
+    const { todayStartUTC: dateRangeStart, todayEndUTC: dateRangeEnd } =
+      getTodayBoundaries(timeZone);
 
-    //get todos
-    const todos = await prisma.todo.findMany({
-      where: { userID: user.id },
+    if (!dateRangeStart || !dateRangeEnd)
+      throw new BadRequestError("date range start or from not specified");
+
+    // Fetch One-Off Todos scheduled for today
+    const oneOffTodos = await prisma.todo.findMany({
+      where: {
+        userID: user.id,
+        rrule: null,
+        completed: false,
+        due: {
+          gte: dateRangeStart,
+        },
+        dtstart: {
+          lte: dateRangeEnd,
+        },
+      },
       orderBy: { createdAt: "desc" },
     });
-    if (!todos) throw new InternalError("todo cannot be created at this time");
 
-    return NextResponse.json({ todos }, { status: 200 });
-  } catch (error) {
-    console.log(error);
-
-    //handle custom error
-    if (error instanceof BaseServerError) {
-      return NextResponse.json(
-        { message: error.message },
-        { status: error.status }
-      );
-    }
-
-    //handle generic error
-    return NextResponse.json(
-      {
-        message:
-          error instanceof Error
-            ? error.message.slice(0, 50)
-            : "an unexpected error occured",
+    // Fetch all Recurring todos that have already started
+    const recurringParents = (await prisma.todo.findMany({
+      where: {
+        userID: user.id,
+        rrule: { not: null },
+        dtstart: { lte: dateRangeEnd },
+        completed: false,
       },
-      { status: 500 }
+      include: { instances: true },
+    })) as recurringTodoWithInstance[];
+
+    // Expand RRULEs to generate occurrences happening "Today"
+    const ghostTodos = generateTodosFromRRule(recurringParents, timeZone, {
+      dateRangeStart,
+      dateRangeEnd,
+    });
+
+    // // Apply overrides
+    const mergedUsingRecurrId = overrideBy(ghostTodos, (inst) => inst.recurId);
+
+    //find out of range overrides
+    const movedTodos = getMovedInstances(
+      mergedUsingRecurrId,
+      recurringParents,
+      { dateRangeStart, dateRangeEnd },
     );
+
+    const allGhosts = [...mergedUsingRecurrId, ...movedTodos].filter((todo) => {
+      return todo.due >= dateRangeStart && todo.completed === false;
+    });
+    // console.log("one off todos: : ", oneOffTodos);
+    // console.log("recurring parents : ", recurringParents);
+    // console.log("ghost: ", ghostTodos);
+    // console.log("merged with reccur ID: ", mergedUsingRecurrId);
+    // console.log("moved todos: ", movedTodos);
+    // console.log(
+    //   "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd",
+    // );
+    const allTodos = [...oneOffTodos, ...allGhosts].sort(
+      (a, b) => a.order - b.order,
+    );
+
+    return NextResponse.json({ todos: allTodos }, { status: 200 });
+  } catch (error) {
+    return errorHandler(error);
   }
 }
+
+// /**
+//  * @description generated "orphaned todos" by finding instances that had their dtstart overriden to another time
+//  * @param mergedTodos a list of todos that are used to check for duplicates
+//  * @param recurringParents a list of todos that has all the instances
+//  * @param bounds a { dateRangeStart: Date; dateRangeEnd: Date } object
+//  * @returns a list of orphaned todos
+//  */
+function getMovedInstances(
+  mergedTodos: TodoItemType[],
+  recurringParents: TodoItemType[],
+  bounds: { dateRangeStart: Date; dateRangeEnd: Date },
+): TodoItemType[] {
+  const mergedDtstarts = mergedTodos.map(
+    (merged) => merged.dtstart.getTime() + " " + merged.instanceDate?.getTime(),
+  );
+  const orphanedInstances = recurringParents.flatMap((todo: TodoItemType) => {
+    if (!todo.instances) return [];
+
+    return todo.instances.filter(
+      ({ overriddenDtstart, overriddenDue, instanceDate }) => {
+        const exDateList = todo.exdates.map((exdate) => {
+          return exdate.getTime();
+        });
+        return (
+          overriddenDtstart &&
+          overriddenDue &&
+          !exDateList.includes(instanceDate.getTime()) &&
+          //need to have started and crosses in to the current range
+          overriddenDtstart <= bounds.dateRangeEnd &&
+          overriddenDue >= bounds.dateRangeStart &&
+          !mergedDtstarts.includes(
+            overriddenDtstart.getTime() + " " + instanceDate.getTime(),
+          )
+        );
+      },
+    );
+  });
+
+  const orphanedTodos = orphanedInstances.flatMap((instance) => {
+    const parentTodo = recurringParents.find(
+      (parent) => parent.id === instance.todoId,
+    );
+    if (parentTodo) return mergeInstanceAndTodo(instance, parentTodo);
+    return [];
+  });
+  return orphanedTodos;
+}
+
+// export async function GET(req: NextRequest) {
+//   try {
+//     const session = await auth();
+//     const user = session?.user;
+
+//     if (!user?.id) {
+//       throw new UnauthorizedError("You must be logged in to do this");
+//     }
+//     const timeZone = await resolveTimezone(user, req);
+
+//     const bounds = getTodayBoundaries(timeZone);
+//     // bounds.todayEndUTC = new Date("2026-01-13T15:59:59.999Z");
+//     // bounds.todayStartUTC = new Date("2026-01-12T16:00:00.000Z");
+
+//     // Fetch One-Off Todos scheduled for today
+//     const oneOffTodos = await prisma.todo.findMany({
+//       where: {
+//         userID: user.id,
+//         rrule: null,
+//         completed: false,
+//         due: {
+//           gte: bounds.todayStartUTC,
+//         },
+//         dtstart: {
+//           lte: bounds.todayEndUTC,
+//         },
+//       },
+//       orderBy: { createdAt: "desc" },
+//     });
+
+//     // Fetch all Recurring todos that have already started
+//     const recurringParents = (await prisma.todo.findMany({
+//       where: {
+//         userID: user.id,
+//         rrule: { not: null },
+//         dtstart: { lte: bounds.todayEndUTC },
+//         completed: false,
+//       },
+//       include: { instances: true },
+//     })) as recurringTodoWithInstance[];
+
+//     // Expand RRULEs to generate occurrences happening "Today"
+//     const ghostTodos = generateTodosFromRRule(recurringParents, timeZone, {
+//       dateRangeStart: bounds.todayStartUTC,
+//       dateRangeEnd: bounds.todayEndUTC,
+//     });
+
+//     // // Apply overrides
+//     const mergedUsingRecurrId = overrideBy(ghostTodos, (inst) => inst.recurId);
+//     const mergedUsingDtstart = overrideBy(mergedUsingRecurrId, (inst) =>
+//       inst.overriddenDtstart?.toISOString(),
+//     );
+
+//     const validMerged = mergedUsingDtstart.filter((todo) => {
+//       return todo.due >= bounds.todayStartUTC;
+//     });
+//     // console.log("one off todos: : ", oneOffTodos);
+//     // console.log("recurring parents : ", recurringParents);
+//     // console.log("ghost: ", ghostTodos);
+//     // console.log("merged with reccur ID: ", mergedUsingRecurrId);
+//     // console.log("merged with dtstart: ", mergedUsingDtstart);
+
+//     const allTodos = [...oneOffTodos, ...validMerged].sort(
+//       (a, b) => a.order - b.order,
+//     );
+
+//     return NextResponse.json({ todos: allTodos }, { status: 200 });
+//   } catch (error) {
+//     return errorHandler(error);
+//   }
+// }

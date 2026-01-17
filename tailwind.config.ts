@@ -6,6 +6,7 @@ export default {
     "./pages/**/*.{js,ts,jsx,tsx,mdx}",
     "./components/**/*.{js,ts,jsx,tsx,mdx}",
     "./app/**/*.{js,ts,jsx,tsx,mdx}",
+    "./features/**/*.{js,ts,jsx,tsx,mdx}",
   ],
   theme: {
     extend: {
@@ -17,10 +18,14 @@ export default {
         form: {
           background: "hsl(var(--form-background))",
           border: {
-            DEFAULT: "hsl(var(--form-border))",
-            accent: "hsl(var(--form-border-accent))",
+            DEFAULT: "hsl(var(--border))",
+            muted: "hsl(var(--border-muted))",
+            accent: "hsl(var(--border-accent))",
           },
-          foreground: "hsl(var(--form-foreground))",
+          foreground: {
+            DEFAULT: "hsl(var(--foreground))",
+            accent: "hsl(var(--foreground-accent))",
+          },
           input: "hsl(var(--input-background))",
           label: {
             DEFAULT: "hsl(var(--form-label))",
@@ -38,7 +43,13 @@ export default {
         },
         tooltip: "hsl(var(--tooltip))",
         lime: "hsl(var(--lime))",
-        sidebar: "hsla(var(--sidebar))",
+        orange: "hsl(var(--orange))",
+        red: "hsl(var(--red))",
+        sidebar: {
+          DEFAULT: "hsla(var(--sidebar))",
+          primary: "hsla(var(--sidebar-primary))",
+          border: "hsla(var(--sidebar-border))",
+        },
         background: "hsl(var(--background))",
         cream: "hsl(var(--background-cream))",
         foreground: "hsl(var(--foreground))",
@@ -51,9 +62,15 @@ export default {
           muted: "hsl(var(--card-muted))",
           accent: "hsl(var(--card-accent))",
         },
+        calendar: {
+          lime: "hsl(var(--calendar-lime))",
+          orange: "hsl(var(--calendar-orange))",
+          red: "hsl(var(--calendar-red))",
+        },
         popover: {
           DEFAULT: "hsla(var(--popover))",
           foreground: "hsl(var(--popover-foreground))",
+          accent: "hsl(var(--popover-accent))",
         },
         primary: {
           DEFAULT: "hsl(var(--primary))",
@@ -75,6 +92,7 @@ export default {
           DEFAULT: "hsl(var(--destructive))",
           foreground: "hsl(var(--destructive-foreground))",
         },
+
         border: {
           DEFAULT: "hsla(var(--border))",
           muted: "hsla(var(--border-muted))",
