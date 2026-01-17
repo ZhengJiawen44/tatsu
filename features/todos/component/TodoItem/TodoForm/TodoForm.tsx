@@ -64,9 +64,13 @@ const TodoForm = ({
       >
         <input
           value={title}
-          onChange={(e) => setTitle(e.target.value)}
+          onChange={(e) => {
+            setTitle(e.target.value);
+            const rule = RRule.fromText(title).toText();
+            console.log(rule);
+          }}
           ref={titleRef}
-          className="w-full bg-transparent placeholder-foreground text-[1.2rem] font-semibold focus:outline-none"
+          className="w-full bg-transparent placeholder-foreground text-[1.1rem] font-semibold focus:outline-none"
           type="text"
           name="title"
           placeholder="finish chapter 5 in 7 days"
@@ -89,9 +93,9 @@ const TodoForm = ({
           <TodoInlineActionBar />
           <div className="flex gap-2 items-center text-sm">
             <Button
-              variant={"destructive"}
+              variant={"outline"}
               type="button"
-              className="h-fit"
+              className="h-fit bg-accent"
               onClick={() => {
                 clearInput();
                 setDisplayForm(false);
@@ -105,7 +109,7 @@ const TodoForm = ({
               disabled={title.length <= 0}
               className={clsx(
                 "h-fit",
-                title.length <= 0 && "disabled opacity-40",
+                title.length <= 0 && "disabled opacity-40 !cursor-not-allowed",
               )}
             >
               <p title="ctrl+enter">

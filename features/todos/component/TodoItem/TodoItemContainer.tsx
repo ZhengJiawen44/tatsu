@@ -92,7 +92,9 @@ export const TodoItemContainer = ({ todoItem }: { todoItem: TodoItemType }) => {
             />
 
             <div className="w-full">
-              <p className="leading-none select-none mb-2 ">{title}</p>
+              <p className="leading-none select-none mb-2 text-foreground ">
+                {title}
+              </p>
 
               <pre className="text-muted-foreground text-sm flex whitespace-pre-wrap">
                 {description}
