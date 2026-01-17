@@ -31,7 +31,7 @@ const TodoItem = () => {
       asChild
       variant={"ghost"}
       className={clsx(
-        "flex items-center border border-transparent",
+        "flex items-center border border-transparent font-normal",
         activeMenu.name === "Todo" &&
           "bg-sidebar-primary shadow-md !border-border",
       )}
@@ -44,17 +44,18 @@ const TodoItem = () => {
         }}
       >
         <Sun
+          strokeWidth={2.4}
           className={clsx(
             "w-5 h-5 stroke-muted-foreground",
             activeMenu.name === "Todo" && "stroke-form-foreground-accent",
           )}
         />
-        <p>Today</p>
+        <p className="text-foreground">Today</p>
 
         <span
           className={clsx(
             "mr-0 ml-auto px-2 py-0.5 rounded-full text-xs font-medium min-w-[24px] text-center truncate",
-            activeMenu.name === "Completed"
+            activeMenu.name === "Todo"
               ? "text-muted-foreground"
               : "bg-border brightness-110",
           )}

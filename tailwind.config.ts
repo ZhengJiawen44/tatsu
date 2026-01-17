@@ -48,6 +48,7 @@ export default {
         sidebar: {
           DEFAULT: "hsla(var(--sidebar))",
           primary: "hsla(var(--sidebar-primary))",
+          border: "hsla(var(--sidebar-border))",
         },
         background: "hsl(var(--background))",
         cream: "hsl(var(--background-cream))",

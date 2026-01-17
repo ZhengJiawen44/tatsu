@@ -26,8 +26,16 @@ export const useCompletedTodo = () => {
       }
 
       const completedTodoWithFormattedDates = completedTodos.map((todo) => {
+        const todoInstanceDate = todo.instanceDate
+          ? new Date(todo.instanceDate)
+          : null;
+
+        const todoInstanceDateTime = todoInstanceDate?.getTime();
+        const todoId = `${todo.id}:${todoInstanceDateTime}`;
         return {
           ...todo,
+          id: todoId,
+          instanceDate: todoInstanceDate,
           dtstart: new Date(todo.dtstart),
           createdAt: new Date(todo.createdAt),
           due: new Date(todo.due),

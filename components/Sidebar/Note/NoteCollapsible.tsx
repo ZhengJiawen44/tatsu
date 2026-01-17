@@ -39,7 +39,7 @@ const NoteCollapsible = () => {
         <Button
           variant={"ghost"}
           className={clsx(
-            "flex gap-3 items-center border border-transparent w-full ",
+            "flex gap-3 items-center border border-transparent w-full font-normal",
             activeMenu.name === "Note" &&
               "bg-sidebar-primary shadow-md text-form-foreground-accent !border-border",
           )}
@@ -50,7 +50,7 @@ const NoteCollapsible = () => {
               activeMenu.name === "Note" && "stroke-form-foreground-accent",
             )}
           />
-          <p className="select-none">Note</p>
+          <p className="select-none text-foreground">Note</p>
           {createLoading ? (
             <Spinner className="mr-0 ml-auto w-5 h-5" />
           ) : (

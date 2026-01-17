@@ -29,14 +29,14 @@ const Provider = ({ children }: { children: React.ReactNode }) => {
                 variant == "default" &&
                   "lg:px-[clamp(10px,10%,20%)] xl:px-[clamp(10px,15%,20%)] 2xl:px-[clamp(10px,20%,30%)]",
                 variant == "fullWidth" && "px-[clamp(10px,5%,10%)]",
-                "w-full m-auto h-full p-12 overflow-scroll scrollbar-none pt-[4rem]",
+                "w-full m-auto h-full p-12 overflow-scroll scrollbar-none pt-[5rem]",
                 isResizing && "select-none",
               )}
             >
               {!showMenu && <Toaster />}
               {!showMenu && (
-                <SidebarToggle className="fixed left-4 md:left-10 top-[6px]">
-                  <SidebarIcon className="w-6 h-6" />
+                <SidebarToggle className="fixed left-4 md:left-10 top-[35px] text-muted-foreground hover:text-foreground">
+                  <SidebarIcon className="w-6 h-6 " />
                 </SidebarToggle>
               )}
               {/* <AnnouncementBanner>

@@ -14,7 +14,7 @@ const CalendarItem = () => {
       asChild
       variant={"ghost"}
       className={clsx(
-        "flex items-center border border-transparent ",
+        "flex items-center border border-transparent font-normal",
         activeMenu.name === "Calendar" &&
           "bg-sidebar-primary shadow-md text-form-foreground-accent !border-border",
       )}
@@ -33,7 +33,7 @@ const CalendarItem = () => {
               activeMenu.name === "Calendar" && "stroke-form-foreground-accent",
             )}
           />
-          Calendar
+          <p className="text-foreground">Calendar</p>
         </div>
       </Link>
     </Button>

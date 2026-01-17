@@ -15,7 +15,7 @@ const VaultItem = () => {
       asChild
       variant={"ghost"}
       className={clsx(
-        "flex items-center border border-transparent",
+        "flex items-center border border-transparent font-normal",
         activeMenu.name === "Vault" &&
           "bg-sidebar-primary shadow-md text-form-foreground-accent !border-border",
       )}
@@ -43,7 +43,7 @@ const VaultItem = () => {
               )}
             />
           )}
-          Vault
+          <p className="text-foreground">Vault</p>
         </div>
       </Link>
     </Button>

@@ -28,6 +28,12 @@ export async function PATCH(
       instanceDate: body.instanceDate ? new Date(body.instanceDate) : null,
       due: new Date(body.due),
     };
+
+    console.log(
+      "%c [  ]-32",
+      "font-size:13px; background:pink; color:#bf2c9f;",
+      todo,
+    );
     if (!todo.instanceDate)
       throw new BadRequestError(
         "invalid instance date recieved for this recurring todo",
@@ -81,7 +87,6 @@ export async function PATCH(
         description:
           upsertedTodoInstance?.overriddenDescription || todo.description,
         priority: upsertedTodoInstance?.overriddenPriority || todo.priority,
-        createdAt: todo.createdAt,
         dtstart: upsertedTodoInstance?.overriddenDtstart || todo.dtstart,
         due: upsertedTodoInstance?.overriddenDue || todo.due,
         completedAt: new Date(),
@@ -89,6 +94,7 @@ export async function PATCH(
         daysToComplete: new Prisma.Decimal(daysToComplete),
         rrule: todo.rrule,
         userID: todo.userID,
+        instanceDate: todo.instanceDate,
       },
     });
     return NextResponse.json(

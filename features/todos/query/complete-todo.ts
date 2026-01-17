@@ -19,7 +19,7 @@ export const useCompleteTodo = () => {
         });
       } else {
         await api.PATCH({
-          url: `/api/todo/${todoId}`,
+          url: `/api/todo/${todoId}/complete`,
           body: JSON.stringify({
             ...todoItem,
             id: todoId,
