@@ -66,7 +66,6 @@ export async function PATCH(
         dtstart,
         due,
         rrule,
-        createdAt: new Date(),
         completedAt,
         completedOnTime: completedAt <= due ? true : false,
         daysToComplete:
