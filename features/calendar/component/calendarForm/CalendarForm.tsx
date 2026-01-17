@@ -22,9 +22,13 @@ const CalendarForm = ({
   displayForm,
   setDisplayForm,
 }: CalendarFormProps) => {
+  const dateRangeChecksum = useMemo(
+    () => todo.dtstart.toISOString() + todo.due.toISOString(),
+    [],
+  );
+  const rruleChecksum = useMemo(() => todo.rrule, []);
   const [cancelEditDialogOpen, setCancelEditDialogOpen] = useState(false);
   const [editAllDialogOpen, setEditAllDialogOpen] = useState(false);
-
   const [title, setTitle] = useState(todo.title);
   const [description, setDescription] = useState(todo.description ?? "");
   const [priority, setPriority] = useState(todo.priority);
@@ -77,6 +81,8 @@ const CalendarForm = ({
           due: dateRange.to,
           rrule: rruleOptions ? new RRule(rruleOptions).toString() : null,
         }}
+        rruleChecksum={rruleChecksum!}
+        dateRangeChecksum={dateRangeChecksum}
         setDisplayForm={setDisplayForm}
         editAllDialogOpen={editAllDialogOpen}
         setEditAllDialogOpen={setEditAllDialogOpen}

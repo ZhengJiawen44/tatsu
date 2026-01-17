@@ -36,6 +36,7 @@ const TodoForm = ({
     dateRange,
     rruleOptions,
     dateRangeChecksum,
+    rruleChecksum,
   } = useTodoForm();
 
   //adjust height of the todo description based on content size
@@ -150,6 +151,7 @@ const TodoForm = ({
           editTodo({
             ...todo,
             dateRangeChecksum,
+            rruleChecksum,
             title,
             description: desc,
             priority,

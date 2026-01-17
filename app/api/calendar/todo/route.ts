@@ -74,12 +74,12 @@ export async function GET(req: NextRequest) {
     });
     // console.log("one off todos: : ", oneOffTodos);
     // console.log("recurring parents : ", recurringParents);
-    console.log("ghost: ", ghostTodos);
-    console.log("merged with reccur ID: ", mergedUsingRecurrId);
-    console.log("moved todos: ", movedTodos);
-    console.log(
-      "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd",
-    );
+    // console.log("ghost: ", ghostTodos);
+    // console.log("merged with reccur ID: ", mergedUsingRecurrId);
+    // console.log("moved todos: ", movedTodos);
+    // console.log(
+    //   "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd",
+    // );
     const allTodos = [...oneOffTodos, ...allGhosts].sort(
       (a, b) => a.order - b.order,
     );

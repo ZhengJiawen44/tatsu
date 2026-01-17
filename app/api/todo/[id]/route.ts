@@ -79,13 +79,18 @@ export async function PATCH(
       .partial()
       .extend({
         dateChanged: z.boolean().optional(),
+        rruleChanged: z.boolean().optional(),
         pinned: z.boolean().optional(),
         completed: z.boolean().optional(),
+        instanceDate: z.date().optional(),
       })
       .safeParse({
         ...rawBody,
         dtstart: rawBody.dtstart ? new Date(rawBody.dtstart) : undefined,
         due: rawBody.due ? new Date(rawBody.due) : undefined,
+        instanceDate: rawBody.instanceDate
+          ? new Date(rawBody.instanceDate)
+          : undefined,
       });
 
     if (!parsed.success) {
@@ -100,8 +105,10 @@ export async function PATCH(
       completed,
       dtstart,
       due,
+      instanceDate,
       rrule,
       dateChanged,
+      rruleChanged,
     } = parsed.data;
 
     if (dateChanged && !dtstart) {
@@ -119,17 +126,39 @@ export async function PATCH(
         priority,
         pinned,
         completed,
-        dtstart: dateChanged ? dtstart : undefined,
-        due: dateChanged ? due : undefined,
+        dtstart: dateChanged || rruleChanged ? dtstart : undefined,
+        due: dateChanged || rruleChanged ? due : undefined,
         rrule,
       },
     });
 
-    // If recurrence rule changed, clear overridden instances
-    if (rrule) {
-      await prisma.todoInstance.deleteMany({
-        where: { todoId: id },
-      });
+    /**
+     * if todo is a repeating todo and its dates or rrules were changed, remove all overriding instance,
+     * this is to avoid drifting todo instance problem.
+     *
+     * otherwise if its dates were not changed, overwrite the instance so the changes are reflected
+     * on the instance too
+     */
+    if (rrule && instanceDate) {
+      // If todo has changed dtstart or rrule, clear overridden instances
+      if (dateChanged || rruleChanged) {
+        await prisma.todoInstance.deleteMany({
+          where: { todoId: id },
+        });
+      }
+      //otherwise overwrite the overriding instance
+      else {
+        await prisma.todoInstance.updateMany({
+          where: {
+            todoId: id,
+          },
+          data: {
+            overriddenTitle: title,
+            overriddenDescription: description,
+            overriddenPriority: priority,
+          },
+        });
+      }
     }
 
     return NextResponse.json({ message: "Todo updated" }, { status: 200 });

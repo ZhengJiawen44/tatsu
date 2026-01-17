@@ -8,26 +8,20 @@ import {
 import React from "react";
 import { useEditCalendarTodo } from "../../query/update-calendar-todo";
 import { useEditCalendarTodoInstance } from "../../query/update-calendar-todo-instance";
-// import { useDeleteCalendarTodo } from "../../api/delete-calendar-todo";
-// import { useDeleteCalendarInstanceTodo } from "../../api/delete-calendar-instance-todo";
 import { CalendarTodoItemType } from "@/types";
 
 type ConfirmEditAllProp = {
-  //   formProps: {
-  //     title: CalendarTodoItemType["title"];
-  //     description: CalendarTodoItemType["description"];
-  //     priority: CalendarTodoItemType["priority"];
-  //     dtstart: CalendarTodoItemType["dtstart"];
-  //     due: CalendarTodoItemType["due"];
-  //     rrule: CalendarTodoItemType["rrule"];
-  //   };
   todo: CalendarTodoItemType;
+  rruleChecksum: string;
+  dateRangeChecksum: string;
   setDisplayForm: React.Dispatch<React.SetStateAction<boolean>>;
   editAllDialogOpen: boolean;
   setEditAllDialogOpen: React.Dispatch<React.SetStateAction<boolean>>;
 };
 export default function ConfirmEditAll({
   todo,
+  rruleChecksum,
+  dateRangeChecksum,
   setDisplayForm,
   editAllDialogOpen,
   setEditAllDialogOpen,
@@ -60,7 +54,11 @@ export default function ConfirmEditAll({
           <button
             className="px-3 py-1 rounded-md bg-red text-white hover:bg-red"
             onClick={() => {
-              editCalendarTodo(todo);
+              editCalendarTodo({
+                ...todo,
+                dateRangeChecksum: dateRangeChecksum,
+                rruleChecksum: rruleChecksum,
+              });
               setEditAllDialogOpen(false);
               setDisplayForm(false);
             }}
