@@ -7,9 +7,11 @@ export const useCompleteCalendarTodo = () => {
   const queryClient = useQueryClient();
   const { mutate: mutateComplete, isPending } = useMutation({
     mutationFn: async ({ todoItem }: { todoItem: CalendarTodoItemType }) => {
+      const todoId = todoItem.id.split(":")[0];
+      const url = `/api/todo/${todoItem.id.split(":")[0]}/complete`;
       await api.PATCH({
-        url: `/api/calendar/todo/complete/${todoItem.id.split(":")[0]}`,
-        body: JSON.stringify(todoItem),
+        url,
+        body: JSON.stringify({ ...todoItem, id: todoId }),
       });
     },
     onMutate: async ({ todoItem }: { todoItem: CalendarTodoItemType }) => {
