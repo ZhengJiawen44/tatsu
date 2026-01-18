@@ -10,6 +10,7 @@ const TodoContainer = () => {
   const { todos, todoLoading } = useTodo();
   const pinnedTodos = todos.filter(({ pinned }) => pinned);
   const unpinnedTodos = todos.filter(({ pinned }) => !pinned);
+
   return (
     <div className="select-none bg-inherit">
       <Day />

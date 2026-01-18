@@ -45,6 +45,7 @@ export default {
         lime: "hsl(var(--lime))",
         orange: "hsl(var(--orange))",
         red: "hsl(var(--red))",
+        nlp: "hsl(var(--nlp))",
         sidebar: {
           DEFAULT: "hsla(var(--sidebar))",
           primary: "hsla(var(--sidebar-primary))",

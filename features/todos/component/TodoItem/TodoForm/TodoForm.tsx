@@ -13,6 +13,8 @@ import { useClearInput } from "@/features/todos/hooks/useClearInput";
 import { RRule } from "rrule";
 import TodoInlineActionBar from "./TodoInlineActionBar/TodoInlineActionBar";
 import { Button } from "@/components/ui/button";
+import NLPTitleInput from "./NLPTitleInput";
+
 interface TodoFormProps {
   editInstanceOnly?: boolean;
   setEditInstanceOnly?: React.Dispatch<React.SetStateAction<boolean>>;
@@ -34,6 +36,7 @@ const TodoForm = ({
     desc,
     setDesc,
     dateRange,
+    setDateRange,
     rruleOptions,
     dateRangeChecksum,
     rruleChecksum,
@@ -41,6 +44,7 @@ const TodoForm = ({
 
   //adjust height of the todo description based on content size
   const { titleRef, textareaRef } = useTodoFormFocusAndAutosize(displayForm);
+
   //submit form on ctrl + Enter
   useKeyboardSubmitForm(displayForm, handleForm);
   const { toast } = useToast();
@@ -63,19 +67,13 @@ const TodoForm = ({
           !displayForm && "hidden",
         )}
       >
-        <input
-          value={title}
-          onChange={(e) => {
-            setTitle(e.target.value);
-            const rule = RRule.fromText(title).toText();
-            console.log(rule);
-          }}
-          ref={titleRef}
-          className="w-full bg-transparent placeholder-foreground text-[1.1rem] font-semibold focus:outline-none"
-          type="text"
-          name="title"
-          placeholder="finish chapter 5 in 7 days"
+        <NLPTitleInput
+          title={title}
+          setTitle={setTitle}
+          titleRef={titleRef}
+          setDateRange={setDateRange}
         />
+
         <textarea
           value={desc}
           ref={textareaRef}

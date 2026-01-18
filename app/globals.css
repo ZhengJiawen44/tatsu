@@ -26,8 +26,9 @@ body {
     --background: 235 5% 95%;
     --foreground: 0 0% 5%;
     --lime: 83, 62%, 55%;
-    --orange: 34, 93%, 48%;
-    --red: 4, 90%, 62%;
+    --orange: 34 93% 48%;
+    --red: 4 90% 62%;
+    --nlp: 24.32, 90.24%, 81.96%;
 
     --card: 0 0% 100%;
     --card-foreground: 235 32% 16%;
@@ -83,6 +84,7 @@ body {
     --calendar-lime: 83 38% 35%;
     --calendar-red: 4 70% 48%;
     --calendar-orange: 34 93% 44%;
+    --nlp: 0.8, 50%, 29.02%;
     --background: 235 32% 15%;
     --foreground: 0 0% 100%;
 

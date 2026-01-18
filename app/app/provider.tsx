@@ -9,6 +9,9 @@ import SidebarIcon from "@/components/ui/icon/sidebar";
 import SidebarToggle from "@/components/ui/SidebarToggle";
 import { Toaster } from "@/components/ui/toaster";
 import { useSelectedLayoutSegment } from "next/navigation";
+import { useRouter } from "next/navigation";
+import { useEffect, useRef } from "react";
+import Announcement from "./announcement";
 // import AnnouncementBanner from "@/components/AnnouncementBanner";
 
 const Provider = ({ children }: { children: React.ReactNode }) => {
@@ -16,6 +19,68 @@ const Provider = ({ children }: { children: React.ReactNode }) => {
   const segment = useSelectedLayoutSegment();
   let variant = "default";
   if (segment == "calendar") variant = "fullWidth";
+  const router = useRouter();
+  const seqRef = useRef<string[]>([]);
+  const timerRef = useRef<number | null>(null);
+
+  useEffect(() => {
+    const handler = (e: KeyboardEvent) => {
+      const target = e.target as HTMLElement;
+
+      if (
+        target?.isContentEditable ||
+        ["INPUT", "TEXTAREA"].includes(target.tagName)
+      )
+        return;
+
+      const key = e.key.toLowerCase();
+
+      // ignore modifiers
+      if (e.ctrlKey || e.metaKey || e.altKey) return;
+      if (key.length !== 1) return;
+
+      seqRef.current.push(key);
+
+      // reset timer
+      if (timerRef.current) window.clearTimeout(timerRef.current);
+
+      timerRef.current = window.setTimeout(() => {
+        seqRef.current = [];
+      }, 600);
+
+      const seq = seqRef.current.join("");
+
+      const routes = {
+        gt: { path: "/app/todo", name: "Todo" },
+        gc: { path: "/app/calendar", name: "Calendar" },
+        gd: { path: "/app/completed", name: "Completed" },
+        gv: { path: "/app/vault", name: "Vault" },
+      };
+
+      const route = routes[seq as keyof typeof routes];
+
+      if (route) {
+        e.preventDefault();
+        e.stopPropagation();
+
+        const { path, name } = route;
+
+        localStorage.setItem("tab", JSON.stringify({ name }));
+
+        router.push(path);
+
+        seqRef.current = [];
+      }
+
+      // only allow sequences starting with g
+      if (seqRef.current.length === 1 && seqRef.current[0] !== "g") {
+        seqRef.current = [];
+      }
+    };
+
+    document.addEventListener("keydown", handler, true);
+    return () => document.removeEventListener("keydown", handler, true);
+  }, [router]);
 
   return (
     <PassKeyProvider>
@@ -39,6 +104,7 @@ const Provider = ({ children }: { children: React.ReactNode }) => {
                   <SidebarIcon className="w-6 h-6 " />
                 </SidebarToggle>
               )}
+              <Announcement />
               {/* <AnnouncementBanner>
                 <p className="mb-1">
                   Thank you for trying out

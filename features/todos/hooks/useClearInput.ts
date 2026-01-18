@@ -6,7 +6,7 @@ export function useClearInput(
   setEditInstanceOnly:
     | React.Dispatch<React.SetStateAction<boolean>>
     | undefined,
-  titleRef: React.RefObject<HTMLInputElement | null>,
+  titleRef: React.RefObject<HTMLDivElement | null>,
 ) {
   const {
     todoItem,
@@ -28,6 +28,9 @@ export function useClearInput(
       setPriority("Low");
       setRruleOptions(null);
       titleRef.current?.focus();
+      if (titleRef.current) {
+        titleRef.current.textContent = "";
+      }
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [todoItem?.due, todoItem?.dtstart],
