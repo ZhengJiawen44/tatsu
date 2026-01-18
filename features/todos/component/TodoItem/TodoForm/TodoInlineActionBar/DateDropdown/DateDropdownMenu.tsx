@@ -14,17 +14,13 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import { Button } from "@/components/ui/button";
+import { getDisplayDate } from "@/features/todos/lib/getDisplayDate";
+
 const DateDropdownMenu = () => {
-  const { todoItem: todo, dateRange, setDateRange } = useTodoForm();
+  const { dateRange, setDateRange } = useTodoForm();
   const nextWeek = startOfDay(nextMonday(dateRange?.from || new Date()));
   const tomorrow = startOfDay(addDays(dateRange?.from || new Date(), 1));
   const [isOpen, setIsOpen] = React.useState(false);
-
-  function getDisplayDate(date: Date) {
-    return date.getFullYear() === new Date().getFullYear()
-      ? format(date, "MMM dd")
-      : format(date, "MMM dd yyyy");
-  }
 
   const itemClass =
     "flex justify-between items-center p-2 rounded w-[95%] hover:bg-popover-accent m-auto text-sm";
@@ -38,11 +34,7 @@ const DateDropdownMenu = () => {
         >
           <CalenderIcon strokeWidth={1.3} className="w-5 h-5" />
           <span className="text-sm font-medium">
-            {dateRange?.from
-              ? getDisplayDate(dateRange.from)
-              : todo?.dtstart
-                ? getDisplayDate(todo.dtstart)
-                : "Today"}
+            {getDisplayDate(dateRange.from)}
           </span>
         </Button>
       </PopoverTrigger>

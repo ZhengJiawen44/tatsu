@@ -37,6 +37,16 @@ export const TodoItemContainer = ({ todoItem }: { todoItem: TodoItemType }) => {
       setShowHandle(false);
     }
   }, [displayForm]);
+  useEffect(() => {
+    const exitCreateTodoForm = (e: KeyboardEvent) => {
+      if (e.code === "Escape") setDisplayForm(false);
+      return;
+    };
+    document.addEventListener("keydown", exitCreateTodoForm);
+    return () => {
+      document.removeEventListener("keydown", exitCreateTodoForm);
+    };
+  }, []);
 
   if (displayForm)
     return (
@@ -52,6 +62,7 @@ export const TodoItemContainer = ({ todoItem }: { todoItem: TodoItemType }) => {
   return (
     <>
       <div
+        onDoubleClick={() => setDisplayForm(true)}
         ref={setNodeRef}
         style={style}
         className={clsx(
