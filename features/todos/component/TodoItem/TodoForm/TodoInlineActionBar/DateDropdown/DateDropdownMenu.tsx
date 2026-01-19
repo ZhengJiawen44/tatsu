@@ -15,6 +15,7 @@ import {
 } from "@/components/ui/popover";
 import { Button } from "@/components/ui/button";
 import { getDisplayDate } from "@/features/todos/lib/getDisplayDate";
+import clsx from "clsx";
 
 const DateDropdownMenu = () => {
   const { dateRange, setDateRange } = useTodoForm();
@@ -30,7 +31,14 @@ const DateDropdownMenu = () => {
       <PopoverTrigger asChild>
         <Button
           variant={"outline"}
-          className="w-fit h-fit p-2 text-muted-foreground bg-inherit"
+          className={clsx(
+            "text-sm font-medium w-fit h-fit p-2 text-muted-foreground bg-inherit",
+            getDisplayDate(dateRange.from) == "Today"
+              ? "text-lime"
+              : getDisplayDate(dateRange.from) == "Tomorrow"
+                ? "text-orange"
+                : "text-red",
+          )}
         >
           <CalenderIcon strokeWidth={1.3} className="w-5 h-5" />
           <span className="text-sm font-medium">
