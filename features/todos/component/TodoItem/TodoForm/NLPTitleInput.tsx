@@ -106,7 +106,7 @@ export default function NLPTitleInput({
         className="z-50 focus:outline-none"
       />
 
-      {!title.length && !titleRef.current?.textContent.length && (
+      {!title.length && !(titleRef.current?.textContent ?? "").length && (
         <span className="select-none pointer-events-none z-10 absolute top-0 left-0">
           Read chapter 6 in 5 days
         </span>
