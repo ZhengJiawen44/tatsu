@@ -67,7 +67,7 @@ export const TodoItemContainer = ({ todoItem }: { todoItem: TodoItemType }) => {
         ref={setNodeRef}
         style={style}
         className={clsx(
-          "touch-none w-full min-h-11 relative flex justify-between items-center bg-inherit p-4 rounded-md",
+          "touch-none w-full min-h-11 relative flex justify-between items-center bg-inherit py-4 rounded-md ",
           isGrabbing
             ? "shadow-[0px_10px_30px_rgba(6,8,30,0.3)] z-30  brightness-110"
             : "shadow-none",
@@ -86,14 +86,14 @@ export const TodoItemContainer = ({ todoItem }: { todoItem: TodoItemType }) => {
           {...attributes}
           {...listeners}
           className={clsx(
-            "cursor-grabbing absolute -left-7 bottom-1/2 translate-y-1/2 text-muted-foreground p-1",
+            "cursor-grabbing absolute -left-5 sm:left-7 bottom-1/2 translate-y-1/2 text-muted-foreground p-1",
             showHandle === true ? "text-card-foreground" : "text-transparent",
           )}
         >
-          <GripVertical className=" w-5 h-5 hover:text-foreground" />
+          <GripVertical className=" w-4 h-4 hover:text-foreground" />
         </div>
 
-        <div className="w-full">
+        <div className="w-full min-w-0 flex-1">
           <div className="flex items-start gap-3">
             <TodoCheckbox
               icon={Check}
@@ -106,12 +106,12 @@ export const TodoItemContainer = ({ todoItem }: { todoItem: TodoItemType }) => {
               variant={rrule ? "repeat" : "outline"}
             />
 
-            <div className="w-full">
+            <div className="w-full pl-2">
               <p className="leading-none select-none mb-2 text-foreground ">
                 {title}
               </p>
 
-              <pre className="text-muted-foreground text-sm flex whitespace-pre-wrap">
+              <pre className="text-muted-foreground text-xs sm:text-sm flex whitespace-pre-wrap">
                 {description}
               </pre>
             </div>

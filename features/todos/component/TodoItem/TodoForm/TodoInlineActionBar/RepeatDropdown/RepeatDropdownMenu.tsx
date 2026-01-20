@@ -24,7 +24,7 @@ const RepeatDropdownMenu = ({}) => {
           variant={"outline"}
           className="w-fit h-fit p-2 text-muted-foreground bg-inherit"
         >
-          <Repeat className="w-5 h-5" />
+          <Repeat className="w-4 h-4 sm:w-5 sm:h-5" />
           <p className="hidden sm:block text-sm">Repeat</p>
         </Button>
       </DropdownMenuTrigger>

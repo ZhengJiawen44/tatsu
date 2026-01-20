@@ -8,19 +8,19 @@ import { Clock, ChevronRight } from "lucide-react";
 import { useTodoForm } from "@/providers/TodoFormProvider";
 import { format, parse, isValid, isSameDay } from "date-fns";
 import { Input } from "@/components/ui/input";
+import useWindowSize from "@/hooks/useWindowSize";
 import { cn } from "@/lib/utils";
 
 const DurationPicker = ({ className }: { className?: string }) => {
   const { dateRange, setDateRange } = useTodoForm();
-
   const [timeFromStr, setTimeFromStr] = useState(
     dateRange?.from ? format(dateRange.from, "HH:mm") : "00:00",
   );
   const [timeToStr, setTimeToStr] = useState(
     dateRange?.to ? format(dateRange.to, "HH:mm") : "23:59",
   );
-
   const [error, setError] = useState<string | null>(null);
+  const { width } = useWindowSize();
 
   useEffect(() => {
     if (dateRange?.from) setTimeFromStr(format(dateRange.from, "HH:mm"));
@@ -97,8 +97,8 @@ const DurationPicker = ({ className }: { className?: string }) => {
       </PopoverTrigger>
 
       <PopoverContent
-        side="right"
-        align="start"
+        side={width > 600 ? "right" : "bottom"}
+        align={width > 600 ? "start" : "center"}
         className="w-[240px] p-4 rounded-lg"
       >
         <div className="flex flex-col gap-4">
