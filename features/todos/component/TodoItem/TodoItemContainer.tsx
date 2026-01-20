@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
-import TodoItemMenuContainer from "./TodoMenu/TodoItemMenuContainer";
+// import TodoItemMenuContainer from "./TodoMenu/TodoItemMenuContainer";
+import dynamic from "next/dynamic";
 import TodoCheckbox from "@/components/ui/TodoCheckbox";
 import clsx from "clsx";
 import { useSortable } from "@dnd-kit/sortable";
@@ -9,8 +10,8 @@ import GripVertical from "@/components/ui/icon/gripVertical";
 import { useCompleteTodo } from "../../query/complete-todo";
 import TodoFormLoading from "./TodoForm/TodoFormLoading";
 import { Check } from "lucide-react";
+import TodoItemMenuContainer from "../TodoItem/TodoMenu/TodoItemMenuContainer";
 
-import dynamic from "next/dynamic";
 const TodoFormContainer = dynamic(
   () => import("./TodoForm/TodoFormContainer"),
   { loading: () => <TodoFormLoading /> },
@@ -118,13 +119,13 @@ export const TodoItemContainer = ({ todoItem }: { todoItem: TodoItemType }) => {
         </div>
 
         <TodoItemMenuContainer
-          todo={todoItem}
-          setDisplayForm={setDisplayForm}
-          setEditInstanceOnly={setEditInstanceOnly}
           className={clsx(
             "flex items-center gap-2",
             !showHandle && "opacity-0",
           )}
+          todo={todoItem}
+          setDisplayForm={setDisplayForm}
+          setEditInstanceOnly={setEditInstanceOnly}
         />
       </div>
     </>

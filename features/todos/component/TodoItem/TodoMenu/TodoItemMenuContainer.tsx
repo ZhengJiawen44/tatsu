@@ -3,7 +3,7 @@ import TodoItemMeatballMenu from "./TodoItemMeatballMenu";
 import TodoItemSideMenu from "./TodoItemSideMenu";
 import { TodoItemType } from "@/types";
 
-const TodoItemMenu = ({
+const TodoItemMenuContainer = ({
   className,
   todo,
   setDisplayForm,
@@ -35,4 +35,4 @@ const TodoItemMenu = ({
     </div>
   );
 };
-export default TodoItemMenu;
+export default TodoItemMenuContainer;
