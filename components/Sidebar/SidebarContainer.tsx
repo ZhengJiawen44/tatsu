@@ -53,7 +53,7 @@ const SidebarContainer = ({ children }: { children?: React.ReactNode }) => {
         id="sidebar_container"
         ref={sidebarRef}
         className={clsx(
-          "flex border-r border-sidebar-border h-full fixed inset-0 md:relative max-w-[500px] flex-shrink-0 bg-sidebar z-20 duration-200",
+          "flex border-r border-sidebar-border h-full fixed inset-0 xl:relative max-w-[500px] flex-shrink-0 bg-sidebar z-20 duration-200",
           !showMenu
             ? "-translate-x-full min-w-0 overflow-hidden transition-all"
             : "min-w-[200px] transition-transform overflow-visible",
@@ -92,7 +92,7 @@ const Overlay = () => {
   return (
     <div
       className={clsx(
-        "fixed w-screen h-screen bg-black z-10 md:hidden opacity-50",
+        "fixed w-screen h-screen bg-black z-10 xl:hidden opacity-50",
         !showMenu && "hidden",
       )}
       onClick={() => setShowMenu(false)}
@@ -110,7 +110,7 @@ const ResizeHandle = ({
   return (
     <div
       className={clsx(
-        "hidden md:block w-1 cursor-col-resize hover:bg-border",
+        "hidden xl:block w-1 cursor-col-resize hover:bg-border",
         isResizing && "bg-border",
       )}
       onMouseDown={startResizing}

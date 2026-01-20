@@ -26,6 +26,8 @@ export async function GET(req: NextRequest) {
     const dateRangeStart = new Date(Number(start));
     const dateRangeEnd = new Date(Number(end));
 
+    console.log(dateRangeStart, dateRangeEnd);
+
     // Fetch One-Off Todos scheduled for today
     const oneOffTodos = await prisma.todo.findMany({
       where: {
@@ -72,14 +74,14 @@ export async function GET(req: NextRequest) {
     const allGhosts = [...mergedUsingRecurrId, ...movedTodos].filter((todo) => {
       return todo.due >= dateRangeStart && todo.completed === false;
     });
-    // console.log("one off todos: : ", oneOffTodos);
-    // console.log("recurring parents : ", recurringParents);
-    // console.log("ghost: ", ghostTodos);
-    // console.log("merged with reccur ID: ", mergedUsingRecurrId);
-    // console.log("moved todos: ", movedTodos);
-    // console.log(
-    //   "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd",
-    // );
+    console.log("one off todos: : ", oneOffTodos);
+    console.log("recurring parents : ", recurringParents);
+    console.log("ghost: ", ghostTodos);
+    console.log("merged with reccur ID: ", mergedUsingRecurrId);
+    console.log("moved todos: ", movedTodos);
+    console.log(
+      "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd",
+    );
     const allTodos = [...oneOffTodos, ...allGhosts].sort(
       (a, b) => a.order - b.order,
     );

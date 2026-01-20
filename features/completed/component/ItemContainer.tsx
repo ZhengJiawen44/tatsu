@@ -31,7 +31,8 @@ export const CompletedTodoItemContainer = ({
             <div className="w-full">
               <p className="leading-none select-none mb-1 text-lg">{title}</p>
               <pre className="text-muted-foreground text-sm flex whitespace-pre-wrap">
-                {description}
+                {description +
+                  "wsredtfyguijokpkijohuytr6e5w4esrdtfyguhiiutyrterstrytugiojp"}
               </pre>
             </div>
           </div>

@@ -90,7 +90,7 @@ const Provider = ({ children }: { children: React.ReactNode }) => {
           <div
             className={clsx(
               variant == "default" &&
-                "px-4 lg:px-[clamp(10px,10%,20%)] xl:px-[clamp(10px,15%,20%)] 2xl:px-[clamp(10px,20%,30%)]",
+                "px-4  md:px-[clamp(5px,5%,10%)] lg:px-[clamp(10px,10%,20%)] xl:px-[clamp(10px,15%,20%)] 2xl:px-[clamp(10px,20%,30%)]",
               variant == "fullWidth" && "px-[clamp(10px,5%,10%)]",
               "w-full m-auto h-full p-12 overflow-scroll scrollbar-none pt-[5rem]",
               isResizing && "select-none",
