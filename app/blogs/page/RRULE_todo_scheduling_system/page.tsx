@@ -2,7 +2,7 @@
 import React, { useEffect } from "react";
 import Image from "next/image";
 import Prism from "prismjs";
-import "prismjs/components/prism-typescript";
+// import "prismjs/components/prism-typescript";
 import "prism-themes/themes/prism-coldark-dark.css";
 import { cn } from "@/lib/utils";
 

@@ -2,9 +2,20 @@
 import { CalendarToolbar } from "./CalendarToolbar";
 import { Calendar, dateFnsLocalizer, View } from "react-big-calendar";
 import "react-big-calendar/lib/css/react-big-calendar.css";
+import "../style/calendar-styles.css";
 import "react-big-calendar/lib/addons/dragAndDrop/styles.css";
 import withDragAndDrop from "react-big-calendar/lib/addons/dragAndDrop";
-import { format, parse, startOfWeek, getDay } from "date-fns";
+import {
+  format,
+  parse,
+  startOfWeek,
+  getDay,
+  startOfMonth,
+  endOfMonth,
+  endOfWeek,
+  startOfDay,
+  endOfDay,
+} from "date-fns";
 import { enUS } from "date-fns/locale/en-US";
 import { CalendarTodoItemType } from "@/types";
 import CalendarHeader from "./CalendarHeader";
@@ -38,6 +49,26 @@ export default function CalendarClient() {
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [view, setView] = useState<View>("month");
 
+  // Helper function to update calendar range based on date and view
+  const updateRangeForDate = (date: Date, currentView: View) => {
+    if (currentView === "month") {
+      setCalendarRange({
+        start: startOfWeek(startOfMonth(date)),
+        end: endOfWeek(endOfMonth(date)),
+      });
+    } else if (currentView === "week") {
+      setCalendarRange({
+        start: startOfWeek(date),
+        end: endOfWeek(date),
+      });
+    } else if (currentView === "day") {
+      setCalendarRange({
+        start: startOfDay(date),
+        end: endOfDay(date),
+      });
+    }
+  };
+
   useEffect(() => {
     const handler = (e: KeyboardEvent) => {
       const target = e.target as HTMLElement;
@@ -53,40 +84,51 @@ export default function CalendarClient() {
       switch (key) {
         case "arrowleft":
           setSelectedDate((d) => {
-            if (view === "month")
-              return new Date(d.getFullYear(), d.getMonth() - 1, d.getDate());
-            if (view === "week")
-              return new Date(d.getFullYear(), d.getMonth(), d.getDate() - 7);
-            return new Date(d.getFullYear(), d.getMonth(), d.getDate() - 1); // day view
+            const newDate =
+              view === "month"
+                ? new Date(d.getFullYear(), d.getMonth() - 1, d.getDate())
+                : view === "week"
+                  ? new Date(d.getFullYear(), d.getMonth(), d.getDate() - 7)
+                  : new Date(d.getFullYear(), d.getMonth(), d.getDate() - 1);
+            updateRangeForDate(newDate, view);
+            return newDate;
           });
           break;
         case "arrowright":
           setSelectedDate((d) => {
-            if (view === "month")
-              return new Date(d.getFullYear(), d.getMonth() + 1, d.getDate());
-            if (view === "week")
-              return new Date(d.getFullYear(), d.getMonth(), d.getDate() + 7);
-            return new Date(d.getFullYear(), d.getMonth(), d.getDate() + 1); // day view
+            const newDate =
+              view === "month"
+                ? new Date(d.getFullYear(), d.getMonth() + 1, d.getDate())
+                : view === "week"
+                  ? new Date(d.getFullYear(), d.getMonth(), d.getDate() + 7)
+                  : new Date(d.getFullYear(), d.getMonth(), d.getDate() + 1);
+            updateRangeForDate(newDate, view);
+            return newDate;
           });
           break;
         case "t":
-          setSelectedDate(new Date());
+          const today = new Date();
+          setSelectedDate(today);
+          updateRangeForDate(today, view);
           break;
         case "1":
           setView("month");
+          updateRangeForDate(selectedDate, "month");
           break;
         case "2":
           setView("week");
+          updateRangeForDate(selectedDate, "week");
           break;
         case "3":
           setView("day");
+          updateRangeForDate(selectedDate, "day");
           break;
       }
     };
 
     document.addEventListener("keydown", handler, true);
     return () => document.removeEventListener("keydown", handler, true);
-  }, [view]);
+  }, [view, selectedDate]);
 
   return (
     <div className="h-full">
@@ -97,9 +139,16 @@ export default function CalendarClient() {
           agenda: agendaComponents,
           event: CalendarEvent,
         }}
-        defaultView="month"
         view={view}
+        onView={(newView) => {
+          setView(newView);
+          updateRangeForDate(selectedDate, newView);
+        }}
         date={selectedDate}
+        onNavigate={(newDate) => {
+          setSelectedDate(newDate);
+          updateRangeForDate(newDate, view);
+        }}
         localizer={localizer}
         events={calendarTodos}
         startAccessor="dtstart"
