@@ -8,15 +8,23 @@ import {
 } from "@/components/ui/popover";
 import { format } from "date-fns";
 import { AlignCenterIcon } from "lucide-react";
-
 import clsx from "clsx";
 import { Pen, Trash, X } from "lucide-react";
-import CalendarForm from "./calendarForm/CalendarForm";
+
 import LineSeparator from "@/components/ui/lineSeparator";
 import ConfirmDelete from "./ConfirmDelete";
 import ConfirmDeleteAll from "./ConfirmDeleteAll";
 import CompleteButton from "./CompleteButton";
 import { Button } from "@/components/ui/button";
+import Spinner from "@/components/ui/spinner";
+import dynamic from "next/dynamic";
+const CalendarForm = dynamic(() => import("./calendarForm/CalendarForm"), {
+  loading: () => (
+    <div className="absolute right-full h-full z-[100]">
+      <Spinner />
+    </div>
+  ),
+});
 
 const formatDateRange = (start: Date, end: Date) =>
   `${format(start, "MMM dd hh:mm")} - ${format(end, "MMM dd hh:mm")}`;

@@ -53,6 +53,7 @@ export const useCompleteTodo = () => {
           return oldTodos.filter((todo) => todo.id !== todoItem.id);
         },
       );
+      queryClient.invalidateQueries({ queryKey: ["completedTodo"] });
     },
   });
 
