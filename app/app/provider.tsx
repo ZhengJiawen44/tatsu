@@ -11,6 +11,7 @@ import { useSelectedLayoutSegment } from "next/navigation";
 import { useRouter } from "next/navigation";
 import { useEffect, useRef } from "react";
 import Announcement from "./announcement";
+import QueryProvider from "@/providers/QueryProvider";
 // import AnnouncementBanner from "@/components/AnnouncementBanner";
 
 const Provider = ({ children }: { children: React.ReactNode }) => {
@@ -81,29 +82,34 @@ const Provider = ({ children }: { children: React.ReactNode }) => {
     return () => document.removeEventListener("keydown", handler, true);
   }, [router]);
 
+  // useEffect(() => {
+  //   console.log("mounted");
+  //   return () => console.log("unmounted");
+  // }, []);
   return (
-    <NotificationProvider>
-      <div className="flex min-h-screen h-screen text-xs sm:text-sm md:text-md">
-        <SidebarContainer />
+    <QueryProvider>
+      <NotificationProvider>
+        <div className="flex min-h-screen h-screen text-xs sm:text-sm md:text-md">
+          <SidebarContainer />
 
-        <div className="flex flex-col flex-1 z-0">
-          <div
-            className={clsx(
-              variant == "default" &&
-                "px-4  md:px-[clamp(5px,5%,10%)] lg:px-[clamp(10px,10%,20%)] xl:px-[clamp(10px,15%,20%)] 2xl:px-[clamp(10px,20%,30%)]",
-              variant == "fullWidth" && "px-[clamp(10px,5%,10%)]",
-              "w-full m-auto h-full p-12 overflow-scroll scrollbar-none pt-[5rem]",
-              isResizing && "select-none",
-            )}
-          >
-            {!showMenu && <Toaster />}
-            {!showMenu && (
-              <SidebarToggle className="fixed left-2 sm:left-4 md:left-10 top-[25px] sm:top-[35px] text-muted-foreground hover:text-foreground">
-                <SidebarIcon className="w-6 h-6 " />
-              </SidebarToggle>
-            )}
-            <Announcement />
-            {/* <AnnouncementBanner>
+          <div className="flex flex-col flex-1 z-0">
+            <div
+              className={clsx(
+                variant == "default" &&
+                  "px-4  md:px-[clamp(5px,5%,10%)] lg:px-[clamp(10px,10%,20%)] xl:px-[clamp(10px,15%,20%)] 2xl:px-[clamp(10px,20%,30%)]",
+                variant == "fullWidth" && "px-[clamp(10px,5%,10%)]",
+                "w-full m-auto h-full p-12 overflow-scroll scrollbar-none pt-[5rem]",
+                isResizing && "select-none",
+              )}
+            >
+              {!showMenu && <Toaster />}
+              {!showMenu && (
+                <SidebarToggle className="fixed left-2 sm:left-4 md:left-10 top-[25px] sm:top-[35px] text-muted-foreground hover:text-foreground">
+                  <SidebarIcon className="w-6 h-6 " />
+                </SidebarToggle>
+              )}
+              <Announcement />
+              {/* <AnnouncementBanner>
                 <p className="mb-1">
                   Thank you for trying out
                   <span className="font-semibold text-white">
@@ -122,11 +128,12 @@ const Provider = ({ children }: { children: React.ReactNode }) => {
                   <span className="italic"> You have my gratitude.</span>
                 </p>
               </AnnouncementBanner> */}
-            {children}
+              {children}
+            </div>
           </div>
         </div>
-      </div>
-    </NotificationProvider>
+      </NotificationProvider>
+    </QueryProvider>
   );
 };
 

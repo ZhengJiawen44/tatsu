@@ -88,9 +88,9 @@ export async function GET(req: NextRequest) {
       { todos: allTodos },
       {
         status: 200,
-        headers: {
-          "Cache-Control": "private, max-age=60, s-maxage=0",
-        },
+        // headers: {
+        //   "Cache-Control": "private, max-age=60, s-maxage=0",
+        // },
       },
     );
   } catch (error) {

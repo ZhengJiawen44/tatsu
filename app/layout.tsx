@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { Poppins } from "next/font/google";
-import QueryProvider from "@/providers/QueryProvider";
+
 import { SessionProvider } from "next-auth/react";
 import { ThemeProvider } from "@/providers/ThemeProvider";
 import "@/app/globals.css";
@@ -31,20 +31,18 @@ export default function RootLayout({
         />
       </head> */}
 
-      <QueryProvider>
-        <SessionProvider>
-          <body className={`${poppins.variable} antialiased`}>
-            <ThemeProvider
-              attribute="class"
-              defaultTheme="dark"
-              enableSystem
-              disableTransitionOnChange
-            >
-              <main>{children}</main>
-            </ThemeProvider>
-          </body>
-        </SessionProvider>
-      </QueryProvider>
+      <SessionProvider>
+        <body className={`${poppins.variable} antialiased`}>
+          <ThemeProvider
+            attribute="class"
+            defaultTheme="dark"
+            enableSystem
+            disableTransitionOnChange
+          >
+            <main>{children}</main>
+          </ThemeProvider>
+        </body>
+      </SessionProvider>
     </html>
   );
 }
