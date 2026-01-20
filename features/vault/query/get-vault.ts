@@ -23,6 +23,7 @@ export const useVault = ({
   } = useQuery<FileItemType[]>({
     queryKey: ["vault", debouncedKeyword],
     retry: 2,
+    staleTime: 5 * 60 * 1000,
     queryFn: async () => {
       const data = await api.GET({
         url: `/api/vault?search=${debouncedKeyword}`,
@@ -30,7 +31,7 @@ export const useVault = ({
       const { vault }: { vault: FileItemType[] } = data;
       if (!vault) {
         throw new Error(
-          data.message || `bad server response: Did not recieve todo`
+          data.message || `bad server response: Did not recieve todo`,
         );
       }
 
@@ -58,14 +59,14 @@ export const useVault = ({
               decodedSymKey,
               { name: "AES-GCM" },
               false,
-              ["encrypt", "decrypt"]
+              ["encrypt", "decrypt"],
             );
 
             //decrypt the cipher key
             const decryptedCipherKey = await crypto.subtle.decrypt(
               { name: "AES-GCM", iv: cipherKeyIv },
               decodedSymCryptoKey,
-              encCipherKey
+              encCipherKey,
             );
             //crypto key the cipher key
             const cipherCryptoKey = await crypto.subtle.importKey(
@@ -73,14 +74,14 @@ export const useVault = ({
               decryptedCipherKey,
               { name: "AES-GCM" },
               false,
-              ["encrypt", "decrypt"]
+              ["encrypt", "decrypt"],
             );
 
             //decrypt the file
             const decryptedFileBuffer = await crypto.subtle.decrypt(
               { name: "AES-GCM", iv: encFileIv },
               cipherCryptoKey,
-              encFile
+              encFile,
             );
 
             //change file to the deoded file
@@ -92,7 +93,7 @@ export const useVault = ({
               ...file,
               url: URL.createObjectURL(decryptedFile), // Create a URL for download/viewing
             };
-          })
+          }),
         );
         return decryptedVault;
       }
