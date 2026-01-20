@@ -11,7 +11,6 @@ const CompletedItem = () => {
   const { width } = useWindowSize();
   const { activeMenu, setActiveMenu, setShowMenu } = useMenu();
   const { completedTodos } = useCompletedTodo();
-  // Get today's date string
 
   // Count only todos created today
   const completedTodoCount = completedTodos.length;

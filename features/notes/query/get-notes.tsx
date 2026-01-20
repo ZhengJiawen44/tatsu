@@ -4,7 +4,7 @@ import { useEffect } from "react";
 import { useToast } from "@/hooks/use-toast";
 import { api } from "@/lib/api-client";
 
-export const useNote = (enabled?: boolean) => {
+export const useNote = () => {
   const { toast } = useToast();
   //get Notes
   const {
@@ -22,7 +22,6 @@ export const useNote = (enabled?: boolean) => {
       const { notes } = await api.GET({ url: `/api/note` });
       return notes;
     },
-    enabled: enabled || false,
   });
 
   useEffect(() => {

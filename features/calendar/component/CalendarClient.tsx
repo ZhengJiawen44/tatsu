@@ -128,6 +128,7 @@ export default function CalendarClient() {
 
     document.addEventListener("keydown", handler, true);
     return () => document.removeEventListener("keydown", handler, true);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [view, selectedDate]);
 
   return (
