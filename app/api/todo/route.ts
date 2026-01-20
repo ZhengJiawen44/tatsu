@@ -156,7 +156,15 @@ export async function GET(req: NextRequest) {
       (a, b) => a.order - b.order,
     );
 
-    return NextResponse.json({ todos: allTodos }, { status: 200 });
+    return NextResponse.json(
+      { todos: allTodos },
+      {
+        status: 200,
+        headers: {
+          "Cache-Control": "private, max-age=60, s-maxage=0",
+        },
+      },
+    );
   } catch (error) {
     return errorHandler(error);
   }

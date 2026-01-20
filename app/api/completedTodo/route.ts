@@ -25,7 +25,15 @@ export async function GET() {
         "completed todos cannot be retrieved at this time",
       );
 
-    return NextResponse.json({ completedTodos }, { status: 200 });
+    return NextResponse.json(
+      { completedTodos },
+      {
+        status: 200,
+        headers: {
+          "Cache-Control": "private, max-age=60, s-maxage=0",
+        },
+      },
+    );
   } catch (error) {
     console.log(error);
 

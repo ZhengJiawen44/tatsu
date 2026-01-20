@@ -72,19 +72,27 @@ export async function GET(req: NextRequest) {
     const allGhosts = [...mergedUsingRecurrId, ...movedTodos].filter((todo) => {
       return todo.due >= dateRangeStart && todo.completed === false;
     });
-    console.log("one off todos: : ", oneOffTodos);
-    console.log("recurring parents : ", recurringParents);
-    console.log("ghost: ", ghostTodos);
-    console.log("merged with reccur ID: ", mergedUsingRecurrId);
-    console.log("moved todos: ", movedTodos);
-    console.log(
-      "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd",
-    );
+    // console.log("one off todos: : ", oneOffTodos);
+    // console.log("recurring parents : ", recurringParents);
+    // console.log("ghost: ", ghostTodos);
+    // console.log("merged with reccur ID: ", mergedUsingRecurrId);
+    // console.log("moved todos: ", movedTodos);
+    // console.log(
+    //   "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd",
+    // );
     const allTodos = [...oneOffTodos, ...allGhosts].sort(
       (a, b) => a.order - b.order,
     );
 
-    return NextResponse.json({ todos: allTodos }, { status: 200 });
+    return NextResponse.json(
+      { todos: allTodos },
+      {
+        status: 200,
+        headers: {
+          "Cache-Control": "private, max-age=60, s-maxage=0",
+        },
+      },
+    );
   } catch (error) {
     return errorHandler(error);
   }
