@@ -7,7 +7,7 @@ import NoteLoading from "@/components/Sidebar/Note/NoteLoading";
 const Page = () => {
   const router = useRouter();
   const params = useParams();
-  const { notes, notesLoading } = useNote(true);
+  const { notes, notesLoading } = useNote();
   const note = notes.find(({ id }) => id === params.id);
 
   useEffect(() => {
