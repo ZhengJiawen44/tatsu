@@ -26,8 +26,6 @@ export async function GET(req: NextRequest) {
     const dateRangeStart = new Date(Number(start));
     const dateRangeEnd = new Date(Number(end));
 
-    console.log(dateRangeStart, dateRangeEnd);
-
     // Fetch One-Off Todos scheduled for today
     const oneOffTodos = await prisma.todo.findMany({
       where: {

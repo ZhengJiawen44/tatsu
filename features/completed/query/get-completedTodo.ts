@@ -15,6 +15,7 @@ export const useCompletedTodo = () => {
   } = useQuery<CompletedTodoItemType[]>({
     queryKey: ["completedTodo"],
     retry: 2,
+    staleTime: 5 * 60 * 1000,
     queryFn: async () => {
       const data = await api.GET({ url: `/api/completedTodo` });
       const { completedTodos }: { completedTodos: CompletedTodoItemType[] } =
