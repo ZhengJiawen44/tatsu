@@ -37,6 +37,7 @@ const TodoItem = () => {
       )}
     >
       <Link
+        prefetch={true}
         href="/app/todo"
         onClick={() => {
           setActiveMenu({ name: "Todo" });

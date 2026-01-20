@@ -26,6 +26,7 @@ const CompletedItem = () => {
       )}
     >
       <Link
+        prefetch={true}
         href="/app/completed"
         onClick={() => {
           setActiveMenu({ name: "Completed" });

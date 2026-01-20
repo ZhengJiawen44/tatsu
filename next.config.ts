@@ -6,6 +6,12 @@ const nextConfig: NextConfig = {
   images: {
     domains: ["lh3.googleusercontent.com"],
   },
+  experimental: {
+    staleTimes: {
+      dynamic: 60,
+      static: 180,
+    },
+  },
 };
 
 export default nextConfig;
