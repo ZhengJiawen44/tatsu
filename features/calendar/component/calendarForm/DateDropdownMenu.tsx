@@ -3,10 +3,9 @@ import { Calendar } from "@/components/ui/calendar";
 import React from "react";
 import { format, nextMonday, differenceInDays } from "date-fns";
 import LineSeparator from "@/components/ui/lineSeparator";
-import { TbTarget } from "react-icons/tb";
-import { TbSunrise as Tomorrow } from "react-icons/tb";
-import { TbCalendar as CalenderIcon } from "react-icons/tb";
-// import { Calendar1Icon as CalenderIcon } from "lucide-react";
+import { Sun } from "lucide-react";
+import { Sunrise } from "lucide-react";
+import { Calendar as CalendarIcon } from "lucide-react";
 import DurationPicker from "./DurationPicker";
 import {
   Popover,
@@ -77,7 +76,7 @@ const DateDropdownMenu = ({
           }}
         >
           <div className="flex gap-1 items-center">
-            <TbTarget className="!w-5 !h-5 stroke-[1.8px]" />
+            <Sun className="!w-5 !h-5 stroke-[1.8px]" />
             Today
           </div>
           <p className="text-xs text-muted-foreground">
@@ -102,7 +101,7 @@ const DateDropdownMenu = ({
           }}
         >
           <div className="flex gap-1 items-center">
-            <Tomorrow className="!w-5 !h-5" />
+            <Sunrise className="!w-5 !h-5" />
             Tomorrow
           </div>
           <p className="text-xs text-muted-foreground">
@@ -129,7 +128,7 @@ const DateDropdownMenu = ({
           }}
         >
           <div className="flex gap-1 items-center">
-            <CalenderIcon strokeWidth={1.4} className="!w-5 !h-5" />
+            <CalendarIcon strokeWidth={1.4} className="!w-5 !h-5" />
             Next Week
           </div>
           <p className="text-xs text-muted-foreground">Mon</p>

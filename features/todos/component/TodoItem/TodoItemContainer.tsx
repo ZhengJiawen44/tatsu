@@ -8,7 +8,7 @@ import { TodoItemType } from "@/types";
 import GripVertical from "@/components/ui/icon/gripVertical";
 import { useCompleteTodo } from "../../query/complete-todo";
 import TodoFormLoading from "./TodoForm/TodoFormLoading";
-import { GoCheck } from "react-icons/go";
+import { Check } from "lucide-react";
 
 import dynamic from "next/dynamic";
 const TodoFormContainer = dynamic(
@@ -95,7 +95,7 @@ export const TodoItemContainer = ({ todoItem }: { todoItem: TodoItemType }) => {
         <div className="w-full">
           <div className="flex items-start gap-3">
             <TodoCheckbox
-              icon={GoCheck}
+              icon={Check}
               priority={priority}
               complete={completed}
               onChange={() => {

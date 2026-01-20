@@ -7,7 +7,8 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import { format } from "date-fns";
-import { TbAlignJustified } from "react-icons/tb";
+import { AlignCenterIcon } from "lucide-react";
+
 import clsx from "clsx";
 import { Pen, Trash, X } from "lucide-react";
 import CalendarForm from "./calendarForm/CalendarForm";
@@ -122,7 +123,7 @@ const CalendarEvent = ({ event: todo }: EventProps<CalendarTodoItemType>) => {
 
             {todo.description && (
               <div className="flex gap-2 sm:gap-3 md:gap-4 items-start">
-                <TbAlignJustified className="w-3 h-3 sm:h-4 sm:w-4" />
+                <AlignCenterIcon className="w-3 h-3 sm:h-4 sm:w-4" />
                 <p className="line-clamp-3 text-[0.7rem] md:text-sm">
                   {todo.description}
                 </p>

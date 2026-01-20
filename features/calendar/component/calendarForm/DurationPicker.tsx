@@ -5,7 +5,7 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-import { TbClockHour4 as Clock, TbChevronRight } from "react-icons/tb";
+import { Clock, ChevronRight } from "lucide-react";
 import { format, parse, isValid, isSameDay } from "date-fns";
 import { Input } from "@/components/ui/input";
 import { NonNullableDateRange } from "@/types";
@@ -97,7 +97,7 @@ const DurationPicker = React.forwardRef<HTMLButtonElement, DurationPickerProps>(
               <Clock className="!w-5 !h-5 stroke-[1.8px]" />
               Duration
             </div>
-            <TbChevronRight className="ml-auto h-4 w-4 text-muted-foreground/50 group-hover:text-accent-foreground" />
+            <ChevronRight className="ml-auto h-4 w-4 text-muted-foreground/50 group-hover:text-accent-foreground" />
           </button>
         </PopoverTrigger>
 
