@@ -19,7 +19,7 @@ type NLPTitleInputProps = {
  *
  * controls two parameters:
  * 1. title: the react state value to submit. Stores the actual value of the title
- * 2. titleRef: the ref for the title input. Acts as a "rich text" display for the form
+ * 2. titleRef: the ref for the title input. Acts as a "rich text" displgay for the form
  *
  */
 export default function NLPTitleInput({

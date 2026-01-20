@@ -5,6 +5,7 @@ import ErrorBoundary from "@/components/ErrorBoundary";
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
 import Footer from "./Footer";
+import EyeToggle from "./ui/eyeToggle";
 
 // Feature data
 const FEATURES = [
@@ -73,6 +74,7 @@ const LandingPage = () => {
 
   // IntersectionObserver for feature images
   useEffect(() => {
+    const observerRefsCopy = observerRefs;
     const options = {
       root: null,
       rootMargin: "-50% 0px -50% 0px",
@@ -88,12 +90,12 @@ const LandingPage = () => {
       });
     }, options);
 
-    observerRefs.current.forEach((ref) => {
+    observerRefsCopy.current.forEach((ref) => {
       if (ref) observer.observe(ref);
     });
 
     return () => {
-      observerRefs.current.forEach((ref) => {
+      observerRefsCopy.current.forEach((ref) => {
         if (ref) observer.unobserve(ref);
       });
     };
@@ -120,6 +122,7 @@ const LandingPage = () => {
   const rotateY = initialRotateY * (1 - scrollProgress);
   const translateZ = initialTranslateZ * (1 - scrollProgress);
 
+  const [showPassword, setShowPassword] = useState(false);
   return (
     <ErrorBoundary
       fallback={
@@ -249,19 +252,64 @@ const LandingPage = () => {
             <div className="hidden lg:block relative">
               <div className="sticky top-0 h-screen flex items-center justify-center py-8">
                 <div className="relative w-full aspect-[4/3] bg-secondary/50 rounded-2xl overflow-hidden transition-all duration-500 ease-in-out">
-                  {FEATURES.map((feature, index) => (
-                    <Image
-                      key={feature.id}
-                      src={feature.image}
-                      alt={feature.title}
-                      fill
-                      // sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 400px"
-                      className={`object-contain transition-opacity duration-500 absolute inset-0 ${
-                        activeFeature === index ? "opacity-100" : "opacity-0"
-                      }`}
-                      priority={index === 0}
-                    />
-                  ))}
+                  {FEATURES.map((feature, index) => {
+                    if (feature.title == "End-to-end encrypted storage") {
+                      return (
+                        <div
+                          key={feature.id}
+                          className={`bg-background h-[350px] my-auto w-full object-contain transition-opacity duration-500 absolute inset-0  ${
+                            activeFeature === index
+                              ? "opacity-100"
+                              : "opacity-0"
+                          }`}
+                        >
+                          <div className="flex justify-center items-center h-full w-full ">
+                            <div className="flex flex-col p-9 w-full gap-4 rounded-xl ">
+                              <div className="text-start ">
+                                <h3>Passkey</h3>
+                                <div className="mt-4 ">
+                                  we need your pass key to decrypt your files
+                                </div>
+                              </div>
+
+                              <div className="relative h-8">
+                                <input
+                                  name="passKey"
+                                  required
+                                  type={
+                                    showPassword !== true ? "password" : "text"
+                                  }
+                                  className="bg-transparent outline-none border h-full px-2 pr-9  w-full rounded-md"
+                                />
+                                <EyeToggle
+                                  show={showPassword}
+                                  setShow={setShowPassword}
+                                  className="right-2"
+                                />
+                              </div>
+
+                              <button className="mt-4 w-full bg-lime rounded-sm text-black h-8">
+                                Enter
+                              </button>
+                            </div>
+                          </div>
+                        </div>
+                      );
+                    }
+                    return (
+                      <Image
+                        key={feature.id}
+                        src={feature.image}
+                        alt={feature.title}
+                        fill
+                        // sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 400px"
+                        className={`object-contain transition-opacity duration-500 absolute inset-0 ${
+                          activeFeature === index ? "opacity-100" : "opacity-0"
+                        }`}
+                        priority={index === 0}
+                      />
+                    );
+                  })}
                 </div>
               </div>
             </div>

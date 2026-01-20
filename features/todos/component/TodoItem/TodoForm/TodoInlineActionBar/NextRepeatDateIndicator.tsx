@@ -1,5 +1,5 @@
 import React from "react";
-import { TbRefreshDot } from "react-icons/tb";
+import { RefreshCcwDot } from "lucide-react";
 import { format, isThisYear } from "date-fns";
 import clsx from "clsx";
 import {
@@ -26,7 +26,7 @@ const NextRepeatDateIndicator = () => {
           e.preventDefault();
         }}
       >
-        <TbRefreshDot
+        <RefreshCcwDot
           className={clsx(
             "w-4 h-4 text-orange cursor-pointer hover:-rotate-180 transition-rotate duration-500",
           )}

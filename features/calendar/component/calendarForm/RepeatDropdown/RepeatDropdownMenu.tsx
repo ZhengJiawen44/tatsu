@@ -6,7 +6,7 @@ import { Popover } from "@/components/ui/popover";
 import { Options, RRule } from "rrule";
 import { format } from "date-fns";
 import clsx from "clsx";
-import { BsCaretDown } from "react-icons/bs";
+import { ChevronDown } from "lucide-react";
 import { PopoverContent, PopoverTrigger } from "@radix-ui/react-popover";
 import LineSeparator from "@/components/ui/lineSeparator";
 
@@ -38,7 +38,7 @@ const RepeatDropdownMenu = ({
     <Popover>
       <PopoverTrigger className="bg-input p-2 text-sm flex justify-center items-center gap-2 hover:bg-accent rounded-md hover:text-foreground transition-colors">
         <p className="hidden sm:block text-sm">Repeat</p>
-        <BsCaretDown />
+        <ChevronDown />
       </PopoverTrigger>
       <PopoverContent className="min-w-[250px] text-foreground bg-popover p-2 border rounded-md shadow-lg z-50">
         {/* Every Day */}

@@ -12,8 +12,8 @@ import { useDeleteTodo } from "@/features/todos/query/delete-todo";
 import { usePinTodo } from "@/features/todos/query/pin-todo";
 import { usePrioritizeTodo } from "@/features/todos/query/prioritize-todo";
 import Pin from "@/components/ui/icon/pin";
-import { LuSquarePen } from "react-icons/lu";
-import { LuBlocks } from "react-icons/lu";
+import { SquarePen } from "lucide-react";
+import { Blocks } from "lucide-react";
 import Trash from "@/components/ui/icon/trash";
 import { PriorityIndicator } from "../PriorityIndicator";
 import { TodoItemType } from "@/types";
@@ -58,7 +58,7 @@ function TodoItemMeatballMenu({
             setDisplayForm((prev: boolean) => !prev);
           }}
         >
-          <LuSquarePen className="w-4 h-4" />
+          <SquarePen className="w-4 h-4" />
           Edit
         </DropdownMenuItem>
         <DropdownMenuItem
@@ -67,7 +67,7 @@ function TodoItemMeatballMenu({
             setDisplayForm((prev: boolean) => !prev);
           }}
         >
-          <LuBlocks className="w-4 h-4" />
+          <Blocks className="w-4 h-4" />
           Edit as Instance
         </DropdownMenuItem>
         <DropdownMenuItem onClick={() => deleteMutate({ id: todo.id })}>

@@ -7,8 +7,8 @@ import {
   CarouselItem,
   type CarouselApi,
 } from "@/components/ui/carousel";
-import { BsGear } from "react-icons/bs";
-import { MdShortcut } from "react-icons/md";
+import { Settings as Gear } from "lucide-react";
+import { CornerUpRight as Shortcut } from "lucide-react";
 
 export default function Announcement() {
   const [api, setApi] = useState<CarouselApi>();
@@ -28,6 +28,7 @@ export default function Announcement() {
       localStorage.setItem("showBanner", flipMeToShowBanner ? "true" : "false");
       setShowModal(true);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
@@ -132,10 +133,10 @@ export default function Announcement() {
                 <div className="text-muted-foreground">
                   shortcuts can be viewed in
                   <p className="text-foreground inline">
-                    <BsGear className="inline mx-1" />
+                    <Gear className="inline mx-1" />
                     Settings
                     <span className="mx-2">{">"}</span>
-                    <MdShortcut className="inline mr-1" />
+                    <Shortcut className="inline mr-1" />
                     Shortcuts
                   </p>
                 </div>

@@ -34,12 +34,10 @@ const UserCard = ({ className }: { className?: string }) => {
           )}
           <div className="flex flex-col gap-[3px]">
             <p className=" truncate font-[500]">
-              {/* {user?.name || user?.email?.split("@")[0] || "User"} */}
-              John Doe
+              {user?.name || user?.email?.split("@")[0] || "User"}
             </p>
             <p className="truncate text-muted-foreground  text-xs">
-              {/* {user?.email} */}
-              JohnDoe@gmail.com
+              {user?.email}
             </p>
           </div>
         </div>

@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import { BsGear } from "react-icons/bs";
-import { RxCaretDown } from "react-icons/rx";
+import { Settings as Gear } from "lucide-react";
+import { ChevronDown } from "lucide-react";
 import { signOut } from "next-auth/react";
 import { useSession } from "next-auth/react";
 import { useTheme } from "next-themes";
@@ -14,9 +14,10 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import clsx from "clsx";
-import { MdOutlineLogout, MdShortcut } from "react-icons/md";
-import { MdOutlineWbSunny } from "react-icons/md";
-import { HiOutlineMoon } from "react-icons/hi";
+import { LogOut } from "lucide-react";
+import { ArrowUpLeft } from "lucide-react";
+import { Sun } from "lucide-react";
+import { Moon } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 const MenuSidebarItem = () => {
@@ -44,10 +45,10 @@ const MenuSidebarItem = () => {
             className={"flex justify-between py-2 px-2 gap-2 mb-3 font-normal"}
           >
             <div className="flex gap-3">
-              <BsGear className="w-5 h-5 text-muted-foreground" />
+              <Gear className="w-5 h-5 text-muted-foreground" />
               Settings
             </div>
-            <RxCaretDown
+            <ChevronDown
               className={clsx(
                 "w-6 h-6 transition-transform duration-200",
                 dropdownOpen ? "rotate-180" : "-rotate-0",
@@ -61,7 +62,7 @@ const MenuSidebarItem = () => {
           </DropdownMenuLabel>
           <DropdownMenuSeparator />
           <DropdownMenuItem onClick={() => handleLogout()}>
-            <MdOutlineLogout className="w-6 h-6" />
+            <LogOut className="w-6 h-6" />
             Log out
           </DropdownMenuItem>
           <DropdownMenuItem
@@ -74,7 +75,7 @@ const MenuSidebarItem = () => {
               }
             }}
           >
-            {theme == "light" ? <MdOutlineWbSunny /> : <HiOutlineMoon />}
+            {theme == "light" ? <Sun /> : <Moon />}
             Theme
           </DropdownMenuItem>
           <DropdownMenuItem
@@ -84,7 +85,7 @@ const MenuSidebarItem = () => {
               setShowShortcutModal(true);
             }}
           >
-            <MdShortcut />
+            <ArrowUpLeft />
             Shortcuts
           </DropdownMenuItem>
         </DropdownMenuContent>

@@ -2,7 +2,7 @@
 
 import clsx from "clsx";
 import React, { useEffect, useRef, useState } from "react";
-import { TbRefresh } from "react-icons/tb";
+import { RefreshCcw } from "lucide-react";
 
 export default function TodoCheckbox({
   complete,
@@ -83,7 +83,7 @@ export default function TodoCheckbox({
         </div>
       ) : (
         <div className="relative group">
-          <TbRefresh
+          <RefreshCcw
             strokeWidth={2.2}
             onMouseDown={(e) => {
               e.stopPropagation();

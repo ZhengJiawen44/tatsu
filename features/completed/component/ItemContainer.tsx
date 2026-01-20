@@ -1,7 +1,7 @@
 import clsx from "clsx";
 import { CompletedTodoItemType } from "@/types";
 import TodoCheckbox from "@/components/ui/TodoCheckbox";
-import { GoX } from "react-icons/go";
+import { X } from "lucide-react";
 import { useUnCompleteTodo } from "../query/uncomplete-completedTodo";
 
 export const CompletedTodoItemContainer = ({
@@ -22,7 +22,7 @@ export const CompletedTodoItemContainer = ({
         <div className="w-full">
           <div className="flex items-start gap-3">
             <TodoCheckbox
-              icon={GoX}
+              icon={X}
               onChange={() => mutateUnComplete(completedTodoItem)}
               complete={true}
               checked={true}

@@ -8,7 +8,7 @@ import {
 import { PriorityIndicator } from "@/features/todos/component/TodoItem/PriorityIndicator";
 import clsx from "clsx";
 import { CalendarTodoItemType } from "@/types";
-import { BsCaretDown } from "react-icons/bs";
+import { ChevronDown } from "lucide-react";
 type PriorityDropdownMenuProps = {
   priority: CalendarTodoItemType["priority"];
   setPriority: React.Dispatch<
@@ -23,7 +23,7 @@ const PriorityDropdownMenu = ({
     <DropdownMenu>
       <DropdownMenuTrigger className="bg-input p-2 text-sm flex justify-center items-center gap-2 hover:bg-accent rounded-md hover:text-foreground">
         <p className="hidden sm:block">Priority</p>
-        <BsCaretDown />
+        <ChevronDown />
       </DropdownMenuTrigger>
       <DropdownMenuContent className="min-w-[150px] text-foreground">
         <DropdownMenuItem

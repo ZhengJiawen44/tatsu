@@ -3,9 +3,9 @@ import { Calendar } from "@/components/ui/calendar";
 import React from "react";
 import { format, nextMonday, differenceInDays } from "date-fns";
 import LineSeparator from "@/components/ui/lineSeparator";
-import { TbTarget } from "react-icons/tb";
-import { TbSunrise as Tomorrow } from "react-icons/tb";
-import { TbCalendar as CalenderIcon } from "react-icons/tb";
+import { Target } from "lucide-react";
+import { Sunrise as Tomorrow } from "lucide-react";
+import { Calendar as CalenderIcon } from "lucide-react";
 import { useTodoForm } from "@/providers/TodoFormProvider";
 import DurationPicker from "./DurationPicker";
 import {
@@ -73,7 +73,7 @@ const DateDropdownMenu = () => {
           }}
         >
           <div className="flex gap-2 items-center">
-            <TbTarget className="!w-5 !h-5 stroke-[1.8px]" />
+            <Target className="!w-5 !h-5 stroke-[1.8px]" />
             Today
           </div>
           <p className="text-xs text-muted-foreground">
