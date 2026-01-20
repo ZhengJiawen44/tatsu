@@ -7,8 +7,7 @@ import {
   useState,
 } from "react";
 import { usePathname } from "next/navigation";
-import path from "path";
-
+import useWindowSize from "@/hooks/useWindowSize";
 type MenuState = {
   name: string;
   open?: boolean;
@@ -27,9 +26,10 @@ type MenuContextType = {
 const MenuContext = createContext<MenuContextType | undefined>(undefined);
 
 export const MenuProvider = ({ children }: { children: React.ReactNode }) => {
+  const { width } = useWindowSize();
   const pathName = usePathname();
   const [activeMenu, setActiveMenu] = useState<MenuState>({ name: "Todo" });
-  const [showMenu, setShowMenu] = useState(true);
+  const [showMenu, setShowMenu] = useState(width < 1300 ? false : true);
   const [isResizing, setIsResizing] = useState(false);
   //infer last visited tab from pathname or retrieve from local storage
   useEffect(() => {
@@ -57,7 +57,7 @@ export const MenuProvider = ({ children }: { children: React.ReactNode }) => {
       return;
     }
 
-    let tab = localStorage.getItem("tab");
+    const tab = localStorage.getItem("tab");
     if (tab) {
       const tabObj = JSON.parse(tab);
       setActiveMenu(tabObj);
