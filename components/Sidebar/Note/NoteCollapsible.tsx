@@ -7,19 +7,22 @@ import clsx from "clsx";
 import React, { useState } from "react";
 import { useMenu } from "@/providers/MenuProvider";
 import PlusCircle from "@/components/ui/icon/plusCircle";
-import { useNote } from "@/features/notes/query/get-notes";
-import NoteLoading from "./NoteLoading";
 import { useCreateNote } from "@/features/notes/query/create-note";
 import Spinner from "@/components/ui/spinner";
-import NoteSidebarItem from "./NoteSidebarItem";
 import { FileText } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import dynamic from "next/dynamic";
+import NoteLoading from "./NoteLoading";
+
+const NoteSidebarItemContainer = dynamic(
+  () => import("./NoteSidebarItemContainer"),
+  { loading: () => <NoteLoading /> },
+);
 
 const NoteCollapsible = () => {
   const { activeMenu, setActiveMenu } = useMenu();
   const [showPlus, setShowPlus] = useState(false);
 
-  const { notes, isPending } = useNote(activeMenu.open);
   const { createNote, createLoading } = useCreateNote();
   return (
     <Collapsible
@@ -70,13 +73,7 @@ const NoteCollapsible = () => {
         </Button>
       </CollapsibleTrigger>
       <CollapsibleContent>
-        <div>
-          {isPending ? (
-            <NoteLoading />
-          ) : (
-            notes.map((note) => <NoteSidebarItem note={note} key={note.id} />)
-          )}
-        </div>
+        {activeMenu.open && <NoteSidebarItemContainer />}
       </CollapsibleContent>
     </Collapsible>
   );
