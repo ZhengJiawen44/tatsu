@@ -32,7 +32,7 @@ const DateDropdownMenu = () => {
         <Button
           variant={"outline"}
           className={clsx(
-            "text-sm font-medium w-fit h-fit p-2 text-muted-foreground bg-inherit",
+            " text-xs sm:text-sm font-medium w-fit h-fit p-[0.35rem] sm:p-2 text-muted-foreground bg-inherit",
             getDisplayDate(dateRange.from) == "Today"
               ? "text-lime"
               : getDisplayDate(dateRange.from) == "Tomorrow"
@@ -40,7 +40,7 @@ const DateDropdownMenu = () => {
                 : "text-red",
           )}
         >
-          <CalenderIcon strokeWidth={1.3} className="w-5 h-5" />
+          <CalenderIcon strokeWidth={1.3} className="w-4 h-4 sm:w-5 sm:h-5" />
           <span className="text-sm font-medium">
             {getDisplayDate(dateRange.from)}
           </span>
