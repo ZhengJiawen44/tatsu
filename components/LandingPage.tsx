@@ -173,14 +173,14 @@ const LandingPage = () => {
                   transition: "transform 0.1s ease-out",
                   willChange: "transform",
                 }}
-                className="w-full max-w-5xl"
+                className="w-full max-w-5xl relative"
               >
                 <Image
                   className="border rounded-lg m-auto mb-6 shadow-2xl w-full h-auto"
                   src={"/heroImage.png"}
                   width={1200}
                   height={500}
-                  alt="example of weekly recurring todo"
+                  alt="hero Image"
                   loading="lazy"
                 />
               </div>

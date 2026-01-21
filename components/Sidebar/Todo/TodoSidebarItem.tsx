@@ -41,7 +41,7 @@ const TodoItem = () => {
         href="/app/todo"
         onClick={() => {
           setActiveMenu({ name: "Todo" });
-          if (width <= 766) setShowMenu(false);
+          if (width <= 1266) setShowMenu(false);
         }}
       >
         <Sun

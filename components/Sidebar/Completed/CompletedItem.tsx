@@ -30,7 +30,7 @@ const CompletedItem = () => {
         href="/app/completed"
         onClick={() => {
           setActiveMenu({ name: "Completed" });
-          if (width <= 766) setShowMenu(false);
+          if (width <= 1266) setShowMenu(false);
         }}
       >
         <CheckCircleIcon
