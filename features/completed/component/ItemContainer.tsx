@@ -16,7 +16,7 @@ export const CompletedTodoItemContainer = ({
     <>
       <div
         className={clsx(
-          "touch-none w-full min-h-11 relative flex justify-between items-center my-4 bg-inherit py-2 rounded-md",
+          "w-full min-h-11 relative flex justify-between items-center my-4 bg-inherit py-2 rounded-md",
         )}
       >
         <div className="w-full">
@@ -28,13 +28,12 @@ export const CompletedTodoItemContainer = ({
               checked={true}
               priority={completedTodoItem.priority}
             />
-            <div className="w-full">
-              <p className="leading-none select-none mb-1 text-sm md:text-md  min-w-0">
+            <div className="w-full border">
+              <p className="leading-none mb-1 text-sm md:text-md min-w-0">
                 {title}
               </p>
               <pre className="text-muted-foreground text-sm flex whitespace-pre-wrap">
-                {description +
-                  "wsredtfyguijokpkijohuytr6e5w4esrdtfyguhiiutyrterstrytugiojp"}
+                {description}
               </pre>
             </div>
           </div>

@@ -14,6 +14,5 @@ export function useKeyboardSubmitForm(
     };
     document.addEventListener("keydown", onCtrlEnter);
     return () => document.removeEventListener("keydown", onCtrlEnter);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [displayForm, handleForm]);
 }
