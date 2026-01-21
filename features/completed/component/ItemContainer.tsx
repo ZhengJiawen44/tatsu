@@ -28,7 +28,7 @@ export const CompletedTodoItemContainer = ({
               checked={true}
               priority={completedTodoItem.priority}
             />
-            <div className="w-full border">
+            <div className="w-full">
               <p className="leading-none mb-1 text-sm md:text-md min-w-0">
                 {title}
               </p>
