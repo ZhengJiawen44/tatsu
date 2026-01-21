@@ -6,8 +6,11 @@ import { NonNullableDateRange } from "@/types";
 import { RRule } from "rrule";
 import RepeatDropdownMenu from "./RepeatDropdown/RepeatDropdownMenu";
 import { AlignLeft, Clock, Flag, Repeat } from "lucide-react";
-import { Popover, PopoverContent } from "@/components/ui/popover";
-import { PopoverTrigger } from "@radix-ui/react-popover";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
 import ConfirmCancelEditDialog from "./ConfirmCancelEdit";
 import ConfirmEditAllDialog from "./ConfirmEditAll";
 import { useEditCalendarTodo } from "../../query/update-calendar-todo";
@@ -112,9 +115,9 @@ const CalendarForm = ({
           />
         </PopoverTrigger>
 
-        <PopoverContent className="w-fit p-6">
+        <PopoverContent className="w-[calc(100vw-2rem)] max-w-md min-w-0 border p-4 sm:p-6">
           <form
-            className="flex flex-col gap-5 mt-4"
+            className="flex min-w-0 flex-col gap-5 mt-4"
             onSubmit={(e) => {
               e.preventDefault();
               if (todo.rrule) {
@@ -132,9 +135,9 @@ const CalendarForm = ({
             }}
           >
             {/* Title */}
-            <div className="flex items-start gap-4">
+            <div className="flex min-w-0  items-start gap-4">
               <input
-                className="ml-9 flex-1 bg-transparent border-b border-border py-1 text-lg focus:outline-none focus:border-lime"
+                className="ml-9 flex-1 min-w-0 bg-transparent border-b border-border py-1 text-lg focus:outline-none focus:border-lime"
                 placeholder="Add title"
                 value={title}
                 onChange={(e) => setTitle(e.target.value)}
@@ -147,7 +150,6 @@ const CalendarForm = ({
               <Clock className="w-4 h-4 text-muted-foreground mt-1" />
               <div className="flex-1">
                 <DateDropdownMenu
-                  todo={todo}
                   dateRange={dateRange}
                   setDateRange={setDateRange}
                 />
@@ -181,7 +183,7 @@ const CalendarForm = ({
             <div className="flex items-start gap-4">
               <AlignLeft className="w-4 h-4 text-muted-foreground mt-1" />
               <textarea
-                className="flex-1 bg-input rounded-md px-3 py-2 text-sm resize-none focus:outline-none focus:ring-2 focus:ring-lime"
+                className="flex-1 min-w-0 bg-input rounded-md px-3 py-2 text-sm resize-none focus:outline-none focus:ring-2 focus:ring-lime"
                 rows={3}
                 placeholder="Add description"
                 value={description}
