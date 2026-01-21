@@ -29,7 +29,9 @@ export const CompletedTodoItemContainer = ({
               priority={completedTodoItem.priority}
             />
             <div className="w-full">
-              <p className="leading-none select-none mb-1 text-lg">{title}</p>
+              <p className="leading-none select-none mb-1 text-sm md:text-md  min-w-0">
+                {title}
+              </p>
               <pre className="text-muted-foreground text-sm flex whitespace-pre-wrap">
                 {description +
                   "wsredtfyguijokpkijohuytr6e5w4esrdtfyguhiiutyrterstrytugiojp"}

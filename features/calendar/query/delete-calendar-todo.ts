@@ -36,6 +36,9 @@ export const useDeleteCalendarTodo = () => {
     },
     onSettled: () => {
       toast({ description: "todo deleted" });
+      queryClient.invalidateQueries({
+        queryKey: ["todo"],
+      });
     },
   });
   return { deleteMutate, deletePending };

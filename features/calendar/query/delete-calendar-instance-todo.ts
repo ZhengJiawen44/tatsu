@@ -42,6 +42,9 @@ export const useDeleteCalendarInstanceTodo = () => {
       },
       onSettled: () => {
         toast({ description: "todo deleted" });
+        queryClient.invalidateQueries({
+          queryKey: ["todo"],
+        });
       },
     });
   return { deleteInstanceMutate, deleteInstancePending };

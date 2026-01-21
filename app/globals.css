@@ -18,9 +18,9 @@ body {
     color: black;
   }
   :root {
-    --calendar-lime: 83, 42%, 50%;
-    --calendar-red: 4, 70%, 48%;
-    --calendar-orange: 34, 93%, 44%;
+    --calendar-lime: 130 61% 40%; /* Rich green */
+    --calendar-orange: 33 100% 50%; /* Pure orange */
+    --calendar-red: 4 90% 58%;
     --radius: 0.5rem;
 
     --background: 235 5% 95%;

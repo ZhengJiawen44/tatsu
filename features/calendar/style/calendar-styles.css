@@ -24,6 +24,20 @@
   background-color: hsl(var(--calendar-border)) !important;
 }
 
+/* .rbc-addons-dnd .rbc-calendar {
+  background-color: rgb(43, 117, 117) !important;
+  width: fit-content !important;
+  margin: 0px !important;
+  padding: 0px !important;
+}
+
+.rbc-toolbar {
+  background-color: aqua !important;
+  width: fit-content !important;
+  padding: 0px !important;
+  margin: 0px !important;
+} */
+
 /* week view */
 
 .rbc-time-view .rbc-header {
@@ -92,6 +106,11 @@
   border-radius: 4px;
   background-color: rgba(255, 255, 255, 0.5);
 }
+
+/* .rbc-row {
+  max-height: 30px !important;
+  overflow: hidden !important;
+} */
 
 .rbc-addons-dnd-resize-ns-icon {
   width: 40px !important;

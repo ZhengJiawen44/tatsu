@@ -45,6 +45,9 @@ export const useEditCalendarTodoInstance = () => {
 
       onSuccess: () => {
         queryClient.invalidateQueries({ queryKey: ["calendarTodo"] });
+        queryClient.invalidateQueries({
+          queryKey: ["todo"],
+        });
       },
 
       onError: (error) => {
