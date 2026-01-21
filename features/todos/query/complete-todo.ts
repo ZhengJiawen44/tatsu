@@ -1,7 +1,7 @@
 import { useQueryClient, useMutation } from "@tanstack/react-query";
 import { api } from "@/lib/api-client";
 import { useToast } from "@/hooks/use-toast";
-import { CalendarTodoItemType, TodoItemType } from "@/types";
+import { TodoItemType } from "@/types";
 export const useCompleteTodo = () => {
   const { toast } = useToast();
   const queryClient = useQueryClient();
@@ -44,15 +44,9 @@ export const useCompleteTodo = () => {
       queryClient.setQueryData(["todo"], context?.oldTodos);
     },
     onSuccess: () => {},
-    onSettled: (data, error, todoItem) => {
+    onSettled: () => {
       //optimistically update calendar todos
-      queryClient.setQueryData(
-        ["calendarTodo"],
-        (oldTodos: CalendarTodoItemType[]) => {
-          if (!oldTodos) return oldTodos;
-          return oldTodos.filter((todo) => todo.id !== todoItem.id);
-        },
-      );
+      queryClient.invalidateQueries({ queryKey: ["calendarTodo"] });
       queryClient.invalidateQueries({ queryKey: ["completedTodo"] });
     },
   });

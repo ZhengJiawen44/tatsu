@@ -29,6 +29,12 @@ export const useCompleteCalendarTodo = () => {
     },
     onSettled: () => {
       queryClient.invalidateQueries({ queryKey: ["calendarTodo"] });
+      queryClient.invalidateQueries({
+        queryKey: ["todo"],
+      });
+      queryClient.invalidateQueries({
+        queryKey: ["completedTodo"],
+      });
     },
   });
 

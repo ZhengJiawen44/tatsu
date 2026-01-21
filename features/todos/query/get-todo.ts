@@ -15,7 +15,6 @@ export const useTodo = () => {
   } = useQuery<TodoItemType[]>({
     queryKey: ["todo"],
     retry: 2,
-    staleTime: 5 * 60 * 1000,
 
     queryFn: async () => {
       const data = await api.GET({ url: `/api/todo` });

@@ -19,7 +19,7 @@ const CompletedTodoContainer = () => {
 
   return (
     <>
-      <h3> Completion history</h3>
+      <h3 className="text-[1.2rem] sm:text-3xl"> Completion history</h3>
 
       <div className="flex flex-col gap-10 my-12">
         {Array.from(groupedHistory.entries())

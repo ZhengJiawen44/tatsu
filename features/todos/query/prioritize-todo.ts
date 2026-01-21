@@ -1,7 +1,7 @@
 import { useQueryClient, useMutation } from "@tanstack/react-query";
 import { api } from "@/lib/api-client";
 import { useToast } from "@/hooks/use-toast";
-import { CalendarTodoItemType, TodoItemType } from "@/types";
+import { TodoItemType } from "@/types";
 
 export const usePrioritizeTodo = () => {
   const { toast } = useToast();
@@ -59,18 +59,9 @@ export const usePrioritizeTodo = () => {
     onError: (error) => {
       toast({ description: error.message, variant: "destructive" });
     },
-    onSettled(data, error, { id, level }) {
+    onSettled() {
       //optimistically update calendar todos
-      queryClient.setQueryData(
-        ["calendarTodo"],
-        (oldTodos: CalendarTodoItemType[]) => {
-          if (!oldTodos) return oldTodos;
-          return oldTodos.flatMap((todo) => {
-            if (todo.id == id) return { ...todo, priority: level };
-            return todo;
-          });
-        },
-      );
+      queryClient.invalidateQueries({ queryKey: ["completedTodo"] });
     },
   });
 

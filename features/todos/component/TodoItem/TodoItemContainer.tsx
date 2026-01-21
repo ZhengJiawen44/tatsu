@@ -106,7 +106,7 @@ export const TodoItemContainer = ({ todoItem }: { todoItem: TodoItemType }) => {
           />
 
           <div className="max-w-full pl-2 sm:pl-0">
-            <p className="leading-none select-none mb-2 text-foreground break-words">
+            <p className="leading-none select-none mb-2 text-foreground ">
               {title}
             </p>
 

@@ -4,6 +4,7 @@ import { Calendar, dateFnsLocalizer, View } from "react-big-calendar";
 import "react-big-calendar/lib/css/react-big-calendar.css";
 import "../style/calendar-styles.css";
 import "react-big-calendar/lib/addons/dragAndDrop/styles.css";
+
 import withDragAndDrop from "react-big-calendar/lib/addons/dragAndDrop";
 import {
   format,
@@ -150,6 +151,7 @@ export default function CalendarClient() {
           setSelectedDate(newDate);
           updateRangeForDate(newDate, view);
         }}
+        selectable
         localizer={localizer}
         events={calendarTodos}
         startAccessor="dtstart"
