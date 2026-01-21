@@ -1,6 +1,6 @@
 /* month view */
 .rbc-off-range-bg {
-  background-color: transparent !important;
+  background-color: hsl(var(--background)) !important;
   color: hsl(var(--muted-foreground));
 }
 .rbc-month-row {

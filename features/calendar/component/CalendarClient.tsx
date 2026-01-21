@@ -4,7 +4,7 @@ import { Calendar, dateFnsLocalizer, View } from "react-big-calendar";
 import "react-big-calendar/lib/css/react-big-calendar.css";
 import "../style/calendar-styles.css";
 import "react-big-calendar/lib/addons/dragAndDrop/styles.css";
-import CalendarForm from "./calendarForm/CalendarForm";
+import CreateCalendarForm from "./calendarForm/CreateCalendarForm";
 
 import withDragAndDrop from "react-big-calendar/lib/addons/dragAndDrop";
 import {
@@ -28,7 +28,7 @@ import { useDateRange } from "../hooks/useDateRange";
 import { useCalendarTodo } from "../query/get-calendar-todo";
 import { useEditCalendarTodo } from "../query/update-calendar-todo";
 import { useEditCalendarTodoInstance } from "../query/update-calendar-todo-instance";
-import { useCallback, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 
 const locales = { "en-US": enUS };
 const localizer = dateFnsLocalizer({
@@ -44,6 +44,10 @@ export default function CalendarClient() {
   const [calendarRange, setCalendarRange] = useDateRange();
   const { todos: calendarTodos } = useCalendarTodo(calendarRange);
   const [showCreateForm, setShowCreateForm] = useState(false);
+  const [selectDateRange, setSelectDateRange] = useState<{
+    start: Date;
+    end: Date;
+  } | null>(null);
 
   const { editCalendarTodo } = useEditCalendarTodo();
   const { editCalendarTodoInstance } = useEditCalendarTodoInstance();
@@ -134,12 +138,16 @@ export default function CalendarClient() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [view, selectedDate]);
 
-  const handleSelectSlot = useCallback(({ start, end }) => {
-    console.log(start, end);
-  }, []);
   return (
     <div className="h-full">
-      <CalendarForm />
+      {showCreateForm && selectDateRange && (
+        <CreateCalendarForm
+          start={selectDateRange.start}
+          end={selectDateRange.end}
+          displayForm={showCreateForm}
+          setDisplayForm={setShowCreateForm}
+        />
+      )}
       <DnDCalendar
         components={{
           toolbar: CalendarToolbar,
@@ -158,7 +166,10 @@ export default function CalendarClient() {
           updateRangeForDate(newDate, view);
         }}
         selectable
-        onSelectSlot={handleSelectSlot}
+        onSelectSlot={({ start, end }) => {
+          setSelectDateRange({ start, end });
+          setShowCreateForm(true);
+        }}
         localizer={localizer}
         events={calendarTodos}
         startAccessor="dtstart"

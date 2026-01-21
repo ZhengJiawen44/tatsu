@@ -13,16 +13,13 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 
-import { CalendarTodoItemType } from "@/types";
 import { NonNullableDateRange } from "@/types";
 
 type DateDropdownMenuProps = {
-  todo: CalendarTodoItemType;
   dateRange: NonNullableDateRange;
   setDateRange: React.Dispatch<React.SetStateAction<NonNullableDateRange>>;
 };
 const DateDropdownMenu = ({
-  // todo,
   dateRange,
   setDateRange,
 }: DateDropdownMenuProps) => {

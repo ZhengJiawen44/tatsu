@@ -18,7 +18,7 @@ import CompleteButton from "./CompleteButton";
 import { Button } from "@/components/ui/button";
 import Spinner from "@/components/ui/spinner";
 import dynamic from "next/dynamic";
-const CalendarForm = dynamic(() => import("./calendarForm/CalendarForm"), {
+const CalendarForm = dynamic(() => import("./calendarForm/EditCalendarForm"), {
   loading: () => (
     <div className="absolute right-full h-full z-[100]">
       <Spinner />
