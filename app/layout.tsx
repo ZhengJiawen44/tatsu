@@ -24,6 +24,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning>
+      <head>
+        <title>Sanity</title>
+      </head>
       {/* <head>
         <script
           crossOrigin="anonymous"
