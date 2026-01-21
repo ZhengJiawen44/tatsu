@@ -24,7 +24,7 @@ export function CalendarToolbar({
   return (
     <div className="flex items-center justify-between gap-0 sm:gap-4 p-2 mb-4 text-xs">
       {/* Left Section: Navigation Controls */}
-      <div className="flex items-center gap-2 w-full sm:w-auto justify-between sm:justify-start">
+      <div className="flex items-center sm:gap-2 w-full sm:w-auto justify-between">
         <div className="flex gap-1">
           <button
             className="border border-input/80 rounded-md hover:text-popover-foreground p-[0.2rem] sm:p-1.5 hover:bg-accent transition-colors"
@@ -43,7 +43,10 @@ export function CalendarToolbar({
           </button>
         </div>
 
-        <h2 className="text-xs sm:text-xl font-semibold px-2 truncate">
+        <h2 className="sm:hidden text-xs sm:text-xl font-semibold px-2 truncate ">
+          {label.split(" ")[0].slice(0, 3) + " " + label.split(" ")[1].slice(2)}
+        </h2>
+        <h2 className="hidden sm:block text-xs sm:text-xl font-semibold px-2 truncate ">
           {label}
         </h2>
       </div>

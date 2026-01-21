@@ -23,7 +23,7 @@ const CalendarItem = () => {
         href="/app/calendar"
         onClick={() => {
           setActiveMenu({ name: "Calendar" });
-          if (width <= 766) setShowMenu(false);
+          if (width <= 1266) setShowMenu(false);
         }}
       >
         <div className="flex gap-3 justify-start items-center w-full  select-none">
