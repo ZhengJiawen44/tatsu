@@ -123,7 +123,7 @@ const TodoForm = ({
 
   async function handleForm(e?: React.FormEvent) {
     if (e) e.preventDefault();
-
+    console.log(title, desc);
     const dtstart = dateRange.from;
     const due = dateRange.to;
     try {
