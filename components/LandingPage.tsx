@@ -298,6 +298,7 @@ const LandingPage = () => {
                     }
                     return (
                       <Image
+                        unoptimized={true}
                         key={feature.id}
                         src={feature.image}
                         alt={feature.title}
