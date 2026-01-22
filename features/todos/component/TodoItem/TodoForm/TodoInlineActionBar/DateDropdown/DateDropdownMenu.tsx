@@ -32,7 +32,7 @@ const DateDropdownMenu = () => {
         <Button
           variant={"outline"}
           className={clsx(
-            " text-xs sm:text-sm font-medium w-fit h-fit p-[0.35rem] sm:p-2 text-muted-foreground bg-inherit",
+            " text-xs sm:text-sm font-medium w-fit h-fit !p-2 text-muted-foreground bg-inherit",
             getDisplayDate(dateRange.from) == "Today"
               ? "text-lime"
               : getDisplayDate(dateRange.from) == "Tomorrow"
@@ -48,7 +48,7 @@ const DateDropdownMenu = () => {
       </PopoverTrigger>
 
       <PopoverContent
-        className="flex flex-col gap-1 p-0 py-2 w-[250px] font-extralight border-popover-accent"
+        className="flex flex-col gap-1 p-0 py-2 w-[250px] font-extralight border-popover-accent overflow-scroll"
         align="start"
       >
         {/* --- OPTION: TODAY --- */}

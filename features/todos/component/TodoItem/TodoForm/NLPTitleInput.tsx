@@ -1,5 +1,6 @@
 import { getCaretOffset } from "@/features/todos/lib/getCaretOffset";
 import { setCaretOffset } from "@/features/todos/lib/setCaretOffset";
+import { cn } from "@/lib/utils";
 import { NonNullableDateRange } from "@/types";
 import * as chrono from "chrono-node";
 import { endOfDay } from "date-fns";
@@ -10,6 +11,7 @@ type NLPTitleInputProps = {
   title: string;
   setTitle: React.Dispatch<SetStateAction<string>>;
   setDateRange: React.Dispatch<SetStateAction<NonNullableDateRange>>;
+  className?: string;
 };
 /**
  * @description custom element for nlp assisted title input.
@@ -27,6 +29,7 @@ export default function NLPTitleInput({
   title,
   setTitle,
   setDateRange,
+  className,
 }: NLPTitleInputProps) {
   const isComposing = useRef(false);
 
@@ -40,7 +43,7 @@ export default function NLPTitleInput({
   }, [title, titleRef]);
 
   return (
-    <div className="relative text-[1.1rem] font-semibold ">
+    <div className={cn("relative text-[1.1rem] font-semibold", className)}>
       <div
         contentEditable
         suppressContentEditableWarning

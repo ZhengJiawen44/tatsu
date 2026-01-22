@@ -44,8 +44,8 @@ function TodoItemMeatballMenu({
           <Meatball className="w-[1.1rem] h-[1.1rem]" />
         </Button>
       </DropdownMenuTrigger>
-      <DropdownMenuContent>
-        <DropdownMenuItem onClick={() => pinMutate()}>
+      <DropdownMenuContent className="bg-popover py-1 px-0">
+        <DropdownMenuItem className="m-1" onClick={() => pinMutate()}>
           {!todo.pinned ? (
             <Pin className="w-4 h-4" />
           ) : (
@@ -54,6 +54,7 @@ function TodoItemMeatballMenu({
           {todo.pinned ? "unpin" : "Pin to top"}
         </DropdownMenuItem>
         <DropdownMenuItem
+          className="m-1"
           onClick={() => {
             setDisplayForm((prev: boolean) => !prev);
           }}
@@ -62,6 +63,7 @@ function TodoItemMeatballMenu({
           Edit
         </DropdownMenuItem>
         <DropdownMenuItem
+          className="m-1"
           onClick={() => {
             setEditInstanceOnly(true);
             setDisplayForm((prev: boolean) => !prev);
@@ -70,7 +72,10 @@ function TodoItemMeatballMenu({
           <Blocks className="w-4 h-4" />
           Edit as Instance
         </DropdownMenuItem>
-        <DropdownMenuItem onClick={() => deleteMutate({ id: todo.id })}>
+        <DropdownMenuItem
+          className="m-1"
+          onClick={() => deleteMutate({ id: todo.id })}
+        >
           {deletePending ? (
             <Spinner className="w-4 h-4" />
           ) : (
@@ -78,42 +83,50 @@ function TodoItemMeatballMenu({
           )}
           delete
         </DropdownMenuItem>
-        <LineSeparator className="border-card-foreground-muted my-2 w-[95%]" />
-        <p className="text-sm text-card-foreground-muted ">priority</p>
+        <LineSeparator className="border-popover-accent w-full" />
+
         <DropdownMenuItem
-          className="flex w-full px-2 hover:bg-transparent gap-4 text-xs"
+          className="flex-col items-start hover:bg-transparent text-xs gap-4 pb-4"
           onClick={() => {}}
         >
-          <PriorityIndicator
-            level={1}
-            onClick={() => {
-              mutatePrioritize({
-                id: todo.id,
-                level: "Low",
-                isRecurring: todo.rrule ? true : false,
-              });
-            }}
-          />
-          <PriorityIndicator
-            level={2}
-            onClick={() => {
-              mutatePrioritize({
-                id: todo.id,
-                level: "Medium",
-                isRecurring: todo.rrule ? true : false,
-              });
-            }}
-          />
-          <PriorityIndicator
-            level={3}
-            onClick={() => {
-              mutatePrioritize({
-                id: todo.id,
-                level: "High",
-                isRecurring: todo.rrule ? true : false,
-              });
-            }}
-          />
+          <p className="text-sm font-semibold text-card-foreground-muted ">
+            priority
+          </p>
+          <div className="flex gap-4 items-center pl-2">
+            <PriorityIndicator
+              isSelected={todo.priority == "Low"}
+              level={1}
+              onClick={() => {
+                mutatePrioritize({
+                  id: todo.id,
+                  level: "Low",
+                  isRecurring: todo.rrule ? true : false,
+                });
+              }}
+            />
+            <PriorityIndicator
+              isSelected={todo.priority == "Medium"}
+              level={2}
+              onClick={() => {
+                mutatePrioritize({
+                  id: todo.id,
+                  level: "Medium",
+                  isRecurring: todo.rrule ? true : false,
+                });
+              }}
+            />
+            <PriorityIndicator
+              isSelected={todo.priority == "High"}
+              level={3}
+              onClick={() => {
+                mutatePrioritize({
+                  id: todo.id,
+                  level: "High",
+                  isRecurring: todo.rrule ? true : false,
+                });
+              }}
+            />
+          </div>
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>

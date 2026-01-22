@@ -32,7 +32,7 @@ const TodoContainer = () => {
       </div>
       <TodoGroup
         todos={unpinnedTodos}
-        className="flex flex-col bg-background gap-3"
+        className="flex flex-col bg-background gap-1"
       />
       <CreateTodoBtn />
     </div>

@@ -18,7 +18,7 @@ const PriorityDropdownMenu = ({}) => {
       <PopoverTrigger asChild>
         <Button
           variant={"outline"}
-          className="w-fit h-fit p-2 text-muted-foreground bg-inherit"
+          className="w-fit h-fit !p-2 text-muted-foreground bg-inherit"
         >
           <LaurelWreath
             className={clsx(
@@ -30,7 +30,7 @@ const PriorityDropdownMenu = ({}) => {
                   : "text-red",
             )}
           />
-          <p className="hidden sm:block">Priority</p>
+          <p>Priority</p>
         </Button>
       </PopoverTrigger>
       <PopoverContent className="min-w-[150px] text-foreground flex flex-col p-2 items-start justify-center">

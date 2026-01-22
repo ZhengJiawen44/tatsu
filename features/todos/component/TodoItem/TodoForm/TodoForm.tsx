@@ -1,5 +1,5 @@
 import clsx from "clsx";
-import React from "react";
+import React, { useState } from "react";
 import adjustHeight from "@/features/todos/lib/adjustTextareaHeight";
 import { useToast } from "@/hooks/use-toast";
 import LineSeparator from "@/components/ui/lineSeparator";
@@ -44,7 +44,7 @@ const TodoForm = ({
 
   //adjust height of the todo description based on content size
   const { titleRef, textareaRef } = useTodoFormFocusAndAutosize(displayForm);
-
+  const [isFocused, setIsFocused] = useState(false);
   //submit form on ctrl + Enter
   useKeyboardSubmitForm(displayForm, handleForm);
   const { toast } = useToast();
@@ -61,13 +61,17 @@ const TodoForm = ({
       }}
     >
       <form
+        onFocus={() => setIsFocused(true)}
         onSubmit={handleForm}
+        onBlur={() => setIsFocused(false)}
         className={clsx(
-          "flex border bg-card shadow-md flex-col my-4 rounded-md p-4 gap-3 w-full",
+          "flex border bg-card shadow-md flex-col my-4 rounded-md gap-3 w-full transition-colors",
           !displayForm && "hidden",
+          isFocused ? "border-muted-foreground" : "border-border",
         )}
       >
         <NLPTitleInput
+          className="px-2 mt-5"
           title={title}
           setTitle={setTitle}
           titleRef={titleRef}
@@ -81,41 +85,39 @@ const TodoForm = ({
             setDesc(e.target.value);
             adjustHeight(textareaRef);
           }}
-          className="w-full overflow-hidden bg-transparent  placeholder-muted-foreground font-extralight focus:outline-none resize-none"
+          className="px-2 w-full overflow-hidden bg-transparent my-1 placeholder-muted-foreground font-extralight focus:outline-none resize-none"
           name="description"
           placeholder="description"
         />
-        <LineSeparator />
 
-        <div className="max-w-full flex justify-between items-center overflow-clip text-sm sm:text-[1rem]">
-          {/* DateRange, Priority, and Repeat menus */}
-          <TodoInlineActionBar />
-          <div className="flex gap-2 items-center text-sm">
-            <Button
-              variant={"outline"}
-              type="button"
-              className="h-fit bg-accent"
-              onClick={() => {
-                clearInput();
-                setDisplayForm(false);
-              }}
-            >
-              <p>cancel</p>
-            </Button>
-            <Button
-              type="submit"
-              variant={"default"}
-              disabled={title.length <= 0}
-              className={clsx(
-                "h-fit",
-                title.length <= 0 && "disabled opacity-40 !cursor-not-allowed",
-              )}
-            >
-              <p title="ctrl+enter">
-                {editInstanceOnly ? "Save instance" : todo ? "save" : "add"}
-              </p>
-            </Button>
-          </div>
+        {/* DateRange, Priority, and Repeat menus */}
+        <TodoInlineActionBar />
+        <LineSeparator />
+        <div className="flex gap-2 text-sm w-fit ml-auto pb-2 px-2 ">
+          <Button
+            variant={"outline"}
+            type="button"
+            className="h-fit bg-accent !py-[0.3rem]"
+            onClick={() => {
+              clearInput();
+              setDisplayForm(false);
+            }}
+          >
+            cancel
+          </Button>
+          <Button
+            type="submit"
+            variant={"default"}
+            disabled={title.length <= 0}
+            className={clsx(
+              "h-fit !py-[0.3rem]",
+              title.length <= 0 && "disabled opacity-40 !cursor-not-allowed",
+            )}
+          >
+            <p title="ctrl+enter">
+              {editInstanceOnly ? "Save instance" : todo ? "save" : "add"}
+            </p>
+          </Button>
         </div>
       </form>
     </div>
