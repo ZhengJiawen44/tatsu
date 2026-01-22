@@ -25,7 +25,7 @@ export const TodoItemContainer = ({ todoItem }: { todoItem: TodoItemType }) => {
     transition,
   };
 
-  const { title, description, completed, priority, rrule } = todoItem;
+  const { title, description, completed, priority, rrule, dtstart } = todoItem;
 
   const [displayForm, setDisplayForm] = useState(false);
   const [editInstanceOnly, setEditInstanceOnly] = useState(false);
@@ -113,6 +113,9 @@ export const TodoItemContainer = ({ todoItem }: { todoItem: TodoItemType }) => {
             <pre className="text-muted-foreground text-xs sm:text-sm whitespace-pre-wrap w-48 sm:w-full">
               {description}
             </pre>
+            <p className="text-xs text-lime">
+              {`Today ${formatTime(dtstart.getHours(), dtstart.getMinutes())}`}
+            </p>
           </div>
         </div>
 
@@ -129,3 +132,11 @@ export const TodoItemContainer = ({ todoItem }: { todoItem: TodoItemType }) => {
     </>
   );
 };
+
+function formatTime(hour: number, minute: number) {
+  const period = hour >= 12 ? "PM" : "AM";
+  const h = hour % 12 || 12; // 0 -> 12
+  const m = String(minute).padStart(2, "0");
+
+  return `${h}:${m} ${period}`;
+}

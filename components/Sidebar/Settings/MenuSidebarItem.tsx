@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { Settings as Gear } from "lucide-react";
 import { ChevronDown } from "lucide-react";
-import { signOut } from "next-auth/react";
 import { useSession } from "next-auth/react";
 import { useTheme } from "next-themes";
 import KeyboardShortcuts from "@/components/KeyboardShortcut";
@@ -19,19 +18,23 @@ import { ArrowUpLeft } from "lucide-react";
 import { Sun } from "lucide-react";
 import { Moon } from "lucide-react";
 import { Button } from "@/components/ui/button";
-
+import dynamic from "next/dynamic";
+const ConfirmLogoutModal = dynamic(() => import("./ConfirmLogoutModal"));
 const MenuSidebarItem = () => {
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const { data } = useSession();
   const { setTheme, theme } = useTheme();
   const [showShortcutModal, setShowShortcutModal] = useState(false);
-
-  const handleLogout = async () => {
-    await signOut({ redirectTo: "/login" });
-  };
+  const [showLogoutModal, setShowLogoutModal] = useState(false);
 
   return (
     <>
+      {showLogoutModal && (
+        <ConfirmLogoutModal
+          logoutDialogOpen={showLogoutModal}
+          setLogoutDialogOpen={setShowLogoutModal}
+        />
+      )}
       {showShortcutModal && (
         <KeyboardShortcuts
           open={showShortcutModal}
@@ -61,7 +64,12 @@ const MenuSidebarItem = () => {
             {data?.user?.email || data?.user?.name || "user settings"}
           </DropdownMenuLabel>
           <DropdownMenuSeparator />
-          <DropdownMenuItem onClick={() => handleLogout()}>
+          <DropdownMenuItem
+            onClick={() => {
+              setDropdownOpen(false);
+              setShowLogoutModal(true);
+            }}
+          >
             <LogOut className="w-6 h-6" />
             Log out
           </DropdownMenuItem>

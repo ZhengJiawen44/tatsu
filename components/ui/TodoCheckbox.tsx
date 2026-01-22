@@ -63,18 +63,18 @@ export default function TodoCheckbox({
             setExpand(true);
           }}
           className={clsx(
-            "relative group w-4 h-4 rounded-full flex items-center justify-center border-[2.23px]",
+            "relative group w-5 h-5 rounded-full flex items-center justify-center border-[2.23px]",
             "hover:cursor-pointer transition-transform duration-200 ease-out hover:border-transparent",
             expand && "scale-125",
-            priority === "Low" && "border-lime hover:bg-lime/40",
-            priority === "Medium" && "border-orange hover:bg-orange/40",
-            priority === "High" && "border-red hover:bg-red/40",
+            priority === "Low" && "border-lime ",
+            priority === "Medium" && "border-orange ",
+            priority === "High" && "border-red",
           )}
         >
           <Icon
             className={clsx(
               "pointer-events-none absolute bottom-1/2 translate-y-1/2 right-1/2 translate-x-1/2",
-              "hidden group-hover:block stroke-2 w-5 h-5",
+              "hidden group-hover:block stroke-[3] w-5 h-5",
               priority === "Low" && "text-lime",
               priority === "Medium" && "text-orange",
               priority === "High" && "text-red",
@@ -84,13 +84,13 @@ export default function TodoCheckbox({
       ) : (
         <div className="relative group">
           <RefreshCcw
-            strokeWidth={2.2}
+            strokeWidth={2.35}
             onMouseDown={(e) => {
               e.stopPropagation();
               setExpand(true);
             }}
             className={clsx(
-              "group w-5 h-5 flex items-center justify-center",
+              "group w-[1.35rem] h-[1.35rem] flex items-center justify-center",
               "hover:cursor-pointer hover:stroke-transparent",
               priority === "Low" && "text-lime peer-checked:bg-lime",
               priority === "Medium" && "text-orange peer-checked:bg-orange",
@@ -101,7 +101,7 @@ export default function TodoCheckbox({
           <Icon
             className={clsx(
               "pointer-events-none absolute bottom-1/2 translate-y-1/2 right-1/2 translate-x-1/2 transition-transform duration-200 ease-out",
-              "hidden group-hover:block stroke-2 w-5 h-5",
+              "hidden group-hover:block stroke-[3] w-5 h-5",
               expand && "scale-125",
               priority === "Low" && "text-lime",
               priority === "Medium" && "text-orange",
