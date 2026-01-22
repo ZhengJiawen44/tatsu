@@ -11,6 +11,7 @@ import { useCompleteTodo } from "../../query/complete-todo";
 import TodoFormLoading from "./TodoForm/TodoFormLoading";
 import { Check } from "lucide-react";
 import TodoItemMenuContainer from "../TodoItem/TodoMenu/TodoItemMenuContainer";
+import LineSeparator from "@/components/ui/lineSeparator";
 
 const TodoFormContainer = dynamic(
   () => import("./TodoForm/TodoFormContainer"),
@@ -67,7 +68,7 @@ export const TodoItemContainer = ({ todoItem }: { todoItem: TodoItemType }) => {
         ref={setNodeRef}
         style={style}
         className={clsx(
-          "touch-none max-w-full min-h-11 relative flex justify-between items-center bg-inherit py-4 rounded-md",
+          " touch-none max-w-full min-h-11 relative flex justify-between items-center bg-inherit pt-4  rounded-md",
           isGrabbing
             ? "shadow-[0px_10px_30px_rgba(6,8,30,0.3)] z-30  brightness-110"
             : "shadow-none",
@@ -105,15 +106,15 @@ export const TodoItemContainer = ({ todoItem }: { todoItem: TodoItemType }) => {
             variant={rrule ? "repeat" : "outline"}
           />
 
-          <div className="max-w-full pl-2 sm:pl-0">
+          <div className=" max-w-full pl-2 sm:pl-0">
             <p className="leading-none select-none mb-2 text-foreground ">
               {title}
             </p>
 
-            <pre className="text-muted-foreground text-xs sm:text-sm whitespace-pre-wrap w-48 sm:w-full">
+            <pre className="pb-2 text-muted-foreground text-xs sm:text-sm whitespace-pre-wrap w-48 sm:w-full">
               {description}
             </pre>
-            <p className="text-xs text-lime">
+            <p className="text-xs text-lime/85">
               {`Today ${formatTime(dtstart.getHours(), dtstart.getMinutes())}`}
             </p>
           </div>
@@ -129,6 +130,7 @@ export const TodoItemContainer = ({ todoItem }: { todoItem: TodoItemType }) => {
           setEditInstanceOnly={setEditInstanceOnly}
         />
       </div>
+      <LineSeparator className="" />
     </>
   );
 };

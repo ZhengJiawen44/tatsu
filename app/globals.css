@@ -49,7 +49,7 @@ body {
     --accent-foreground: 235 32% 16%;
     --destructive: 358.71 55.08% 53.33%;
     --border: 235 12% 78%;
-    --border-muted: 235 15% 92%;
+    --border-muted: 235 12% 80%;
     --input: 235 17% 90%;
     --ring: 0 0% 56%;
     /* --chart-1: 264 75% 49%;
@@ -106,7 +106,6 @@ body {
 
     --muted: 235 32% 10%;
     --muted-foreground: 0, 0%, 66%;
-
     --accent: 235 25% 25%;
     --accent-foreground: 0 0% 99%;
 
