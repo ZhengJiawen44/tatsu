@@ -182,9 +182,9 @@ const CreateCalendarForm = ({
 
               <button
                 type="submit"
-                className="px-4 py-2 rounded-md brightness-90 hover:brightness-100 bg-lime text-foreground text-sm hover:bg-lime"
+                className="px-4 py-2 rounded-md brightness-90 hover:brightness-100 bg-lime text-white text-sm hover:bg-lime"
               >
-                Save
+                create
               </button>
             </div>
           </form>

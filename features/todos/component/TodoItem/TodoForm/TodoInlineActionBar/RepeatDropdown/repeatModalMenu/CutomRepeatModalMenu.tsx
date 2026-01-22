@@ -58,11 +58,10 @@ const CustomRepeatModalMenu = ({ className }: { className?: string }) => {
         </div>
         <DialogFooter>
           <DialogClose asChild>
-            <Button className="hover:bg-border">Cancel</Button>
+            <Button variant={"destructive"}>Cancel</Button>
           </DialogClose>
           <DialogClose asChild>
             <Button
-              className="hover:bg-accent border"
               type="button"
               onClick={() => {
                 setRruleOptions(customRepeatOptions);
