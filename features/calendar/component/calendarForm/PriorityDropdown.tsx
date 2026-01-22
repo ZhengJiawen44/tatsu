@@ -23,7 +23,7 @@ const PriorityDropdownMenu = ({
     <DropdownMenu>
       <DropdownMenuTrigger className="bg-input p-2 text-sm flex justify-center items-center gap-2 hover:bg-accent rounded-md hover:text-foreground">
         <p className="hidden sm:block">Priority</p>
-        <ChevronDown />
+        <ChevronDown className="w-5 h-5" />
       </DropdownMenuTrigger>
       <DropdownMenuContent className="min-w-[150px] text-foreground">
         <DropdownMenuItem

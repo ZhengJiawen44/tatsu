@@ -5,7 +5,7 @@ import "react-big-calendar/lib/css/react-big-calendar.css";
 import "../style/calendar-styles.css";
 import "react-big-calendar/lib/addons/dragAndDrop/styles.css";
 import CreateCalendarForm from "./calendarForm/CreateCalendarForm";
-
+import useWindowSize from "@/hooks/useWindowSize";
 import withDragAndDrop from "react-big-calendar/lib/addons/dragAndDrop";
 import {
   format,
@@ -29,6 +29,8 @@ import { useCalendarTodo } from "../query/get-calendar-todo";
 import { useEditCalendarTodo } from "../query/update-calendar-todo";
 import { useEditCalendarTodoInstance } from "../query/update-calendar-todo-instance";
 import { useEffect, useState } from "react";
+import dynamic from "next/dynamic";
+const CalendarTutorialModal = dynamic(() => import("./CalendarTutorialModal"));
 
 const locales = { "en-US": enUS };
 const localizer = dateFnsLocalizer({
@@ -138,85 +140,90 @@ export default function CalendarClient() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [view, selectedDate]);
 
+  const { width } = useWindowSize();
   return (
-    <div className="h-full">
-      {showCreateForm && selectDateRange && (
-        <CreateCalendarForm
-          start={selectDateRange.start}
-          end={selectDateRange.end}
-          displayForm={showCreateForm}
-          setDisplayForm={setShowCreateForm}
+    <>
+      {width <= 600 && <CalendarTutorialModal />}
+
+      <div className="h-full">
+        {showCreateForm && selectDateRange && (
+          <CreateCalendarForm
+            start={selectDateRange.start}
+            end={selectDateRange.end}
+            displayForm={showCreateForm}
+            setDisplayForm={setShowCreateForm}
+          />
+        )}
+        <DnDCalendar
+          components={{
+            toolbar: CalendarToolbar,
+            header: CalendarHeader,
+            agenda: agendaComponents,
+            event: CalendarEvent,
+          }}
+          view={view}
+          onView={(newView) => {
+            setView(newView);
+            updateRangeForDate(selectedDate, newView);
+          }}
+          date={selectedDate}
+          onNavigate={(newDate) => {
+            setSelectedDate(newDate);
+            updateRangeForDate(newDate, view);
+          }}
+          selectable
+          onSelectSlot={({ start, end }) => {
+            setSelectDateRange({ start, end });
+            setShowCreateForm(true);
+          }}
+          localizer={localizer}
+          events={calendarTodos}
+          startAccessor="dtstart"
+          endAccessor="due"
+          draggableAccessor={() => true}
+          step={60}
+          timeslots={1}
+          messages={{ event: "Todo" }}
+          resizable
+          formats={{
+            eventTimeRangeFormat: () => "",
+          }}
+          eventPropGetter={(event) => calendarEventPropStyles(event.priority)}
+          onRangeChange={setCalendarRange}
+          onEventResize={({ event: todo, ...resizeEvent }) => {
+            if (!todo.rrule) {
+              editCalendarTodo({
+                ...todo,
+                dtstart: new Date(resizeEvent.start),
+                due: new Date(resizeEvent.end),
+              });
+            } else {
+              editCalendarTodoInstance({
+                ...todo,
+                instanceDate: todo.instanceDate || todo.dtstart,
+                dtstart: new Date(resizeEvent.start),
+                due: new Date(resizeEvent.end),
+              });
+            }
+          }}
+          onEventDrop={({ event: todo, ...dropEvent }) => {
+            if (!todo.rrule) {
+              editCalendarTodo({
+                ...todo,
+                dtstart: new Date(dropEvent.start),
+                due: new Date(dropEvent.end),
+              });
+            } else {
+              editCalendarTodoInstance({
+                ...todo,
+                instanceDate: todo.instanceDate || todo.dtstart,
+                dtstart: new Date(dropEvent.start),
+                due: new Date(dropEvent.end),
+              });
+            }
+          }}
         />
-      )}
-      <DnDCalendar
-        components={{
-          toolbar: CalendarToolbar,
-          header: CalendarHeader,
-          agenda: agendaComponents,
-          event: CalendarEvent,
-        }}
-        view={view}
-        onView={(newView) => {
-          setView(newView);
-          updateRangeForDate(selectedDate, newView);
-        }}
-        date={selectedDate}
-        onNavigate={(newDate) => {
-          setSelectedDate(newDate);
-          updateRangeForDate(newDate, view);
-        }}
-        selectable
-        onSelectSlot={({ start, end }) => {
-          setSelectDateRange({ start, end });
-          setShowCreateForm(true);
-        }}
-        localizer={localizer}
-        events={calendarTodos}
-        startAccessor="dtstart"
-        endAccessor="due"
-        draggableAccessor={() => true}
-        step={60}
-        timeslots={1}
-        messages={{ event: "Todo" }}
-        resizable
-        formats={{
-          eventTimeRangeFormat: () => "",
-        }}
-        eventPropGetter={(event) => calendarEventPropStyles(event.priority)}
-        onRangeChange={setCalendarRange}
-        onEventResize={({ event: todo, ...resizeEvent }) => {
-          if (!todo.rrule) {
-            editCalendarTodo({
-              ...todo,
-              dtstart: new Date(resizeEvent.start),
-              due: new Date(resizeEvent.end),
-            });
-          } else {
-            editCalendarTodoInstance({
-              ...todo,
-              instanceDate: todo.instanceDate || todo.dtstart,
-              dtstart: new Date(resizeEvent.start),
-              due: new Date(resizeEvent.end),
-            });
-          }
-        }}
-        onEventDrop={({ event: todo, ...dropEvent }) => {
-          if (!todo.rrule) {
-            editCalendarTodo({
-              ...todo,
-              dtstart: new Date(dropEvent.start),
-              due: new Date(dropEvent.end),
-            });
-          } else {
-            editCalendarTodoInstance({
-              ...todo,
-              instanceDate: todo.instanceDate || todo.dtstart,
-              dtstart: new Date(dropEvent.start),
-              due: new Date(dropEvent.end),
-            });
-          }
-        }}
-      />
-    </div>
+      </div>
+    </>
   );
 }

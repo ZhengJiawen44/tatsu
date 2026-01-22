@@ -123,7 +123,6 @@ const TodoForm = ({
 
   async function handleForm(e?: React.FormEvent) {
     if (e) e.preventDefault();
-    console.log(title, desc);
     const dtstart = dateRange.from;
     const due = dateRange.to;
     try {
@@ -131,11 +130,6 @@ const TodoForm = ({
       if (todo?.id) {
         setDisplayForm(false);
         if (editInstanceOnly) {
-          console.log(
-            "%c [  ]-143",
-            "font-size:13px; background:pink; color:#bf2c9f;",
-            todo.instanceDate,
-          );
           editTodoInstance({
             ...todo,
             title,

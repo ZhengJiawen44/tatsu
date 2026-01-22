@@ -115,7 +115,7 @@ const CalendarForm = ({
           />
         </PopoverTrigger>
 
-        <PopoverContent className="w-[calc(100vw-2rem)] max-w-md min-w-0 border p-4 sm:p-6">
+        <PopoverContent className="w-[calc(100vw-2rem)] max-w-md min-w-0 border p-2 sm:p-6">
           <form
             className="flex min-w-0 flex-col gap-5 mt-4"
             onSubmit={(e) => {
@@ -135,9 +135,9 @@ const CalendarForm = ({
             }}
           >
             {/* Title */}
-            <div className="flex min-w-0  items-start gap-4">
+            <div className="flex min-w-0 items-start gap-4">
               <input
-                className="ml-9 flex-1 min-w-0 bg-transparent border-b border-border py-1 text-lg focus:outline-none focus:border-lime"
+                className="ml-9 flex-1 min-w-0 bg-transparent border-b border-border  sm:text-lg focus:outline-none focus:border-lime"
                 placeholder="Add title"
                 value={title}
                 onChange={(e) => setTitle(e.target.value)}
@@ -156,26 +156,28 @@ const CalendarForm = ({
               </div>
             </div>
 
-            {/* Repeat */}
-            <div className="flex items-start gap-4">
-              <Repeat className="w-4 h-4 text-muted-foreground mt-1" />
-              <div className="flex-1">
-                <RepeatDropdownMenu
-                  rruleOptions={rruleOptions}
-                  setRruleOptions={setRruleOptions}
-                  derivedRepeatType={null}
-                />
+            <div className="flex gap-7 sm:flex-col sm:gap-4">
+              {/* Repeat */}
+              <div className="flex items-start gap-4">
+                <Repeat className="w-4 h-4 text-muted-foreground mt-1" />
+                <div className="flex-1">
+                  <RepeatDropdownMenu
+                    rruleOptions={rruleOptions}
+                    setRruleOptions={setRruleOptions}
+                    derivedRepeatType={null}
+                  />
+                </div>
               </div>
-            </div>
 
-            {/* Priority */}
-            <div className="flex items-start gap-4">
-              <Flag className="w-4 h-4 text-muted-foreground mt-1" />
-              <div className="flex-1">
-                <PriorityDropdownMenu
-                  priority={priority}
-                  setPriority={setPriority}
-                />
+              {/* Priority */}
+              <div className="flex items-start gap-4">
+                <Flag className="w-4 h-4 text-muted-foreground mt-1" />
+                <div className="flex-1">
+                  <PriorityDropdownMenu
+                    priority={priority}
+                    setPriority={setPriority}
+                  />
+                </div>
               </div>
             </div>
 
@@ -195,7 +197,7 @@ const CalendarForm = ({
             <div className="mt-6 flex justify-end gap-2">
               <button
                 type="button"
-                className="px-4 py-2 rounded-md text-sm hover:bg-red hover:text-accent-foreground"
+                className="px-2 py-1 sm:px-4 sm:py-2 rounded-md text-sm hover:bg-red hover:text-accent-foreground"
                 onClick={() => setCancelEditDialogOpen(true)}
               >
                 Cancel
@@ -203,7 +205,7 @@ const CalendarForm = ({
 
               <button
                 type="submit"
-                className="px-4 py-2 rounded-md brightness-90 hover:brightness-100 bg-lime text-white text-sm hover:bg-lime"
+                className="px-2 py-1 sm:px-4 sm:py-2 rounded-md brightness-90 hover:brightness-100 bg-lime text-white text-sm hover:bg-lime"
               >
                 Save
               </button>
