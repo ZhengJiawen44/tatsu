@@ -24,22 +24,7 @@
   background-color: hsl(var(--calendar-border)) !important;
 }
 
-/* .rbc-addons-dnd .rbc-calendar {
-  background-color: rgb(43, 117, 117) !important;
-  width: fit-content !important;
-  margin: 0px !important;
-  padding: 0px !important;
-}
-
-.rbc-toolbar {
-  background-color: aqua !important;
-  width: fit-content !important;
-  padding: 0px !important;
-  margin: 0px !important;
-} */
-
 /* week view */
-
 .rbc-time-view .rbc-header {
   padding-bottom: 25px !important;
 }
@@ -93,30 +78,37 @@
 }
 
 .rbc-addons-dnd-resize-ew-anchor:first-child {
-  left: -4px !important;
+  top: 0px !important;
+  left: -5px !important;
 }
 /* Move the Right Handle further right */
 .rbc-addons-dnd-resize-ew-anchor:last-child {
-  right: -4px !important;
+  top: 0px !important;
+  right: -5px !important;
 }
-.rbc-addons-dnd-resize-ew-icon {
+.rbc-addons-dnd-resize-ew-icon,
+.rbc-addons-dnd-resize-ns-icon {
   border: 2px solid white !important;
-  height: 80% !important;
+  height: 100% !important;
   width: 8px !important;
   border-radius: 4px;
   background-color: rgba(255, 255, 255, 0.5);
 }
-
-/* .rbc-row {
-  max-height: 30px !important;
-  overflow: hidden !important;
-} */
-
-.rbc-addons-dnd-resize-ns-icon {
-  width: 40px !important;
-  border: 2px solid white !important;
-  height: 4px !important;
-  background-color: rgba(255, 255, 255, 0.5) !important;
+.rbc-addons-dnd-resize-ew-icon:active,
+.rbc-addons-dnd-resize-ns-icon:active {
+  background-color: rgb(190, 0, 0) !important;
+}
+@media (max-width: 1500px) {
+  .rbc-addons-dnd-resize-ew-icon,
+  .rbc-addons-dnd-resize-ns-icon {
+    width: 20px !important;
+  }
+}
+@media (max-width: 400px) {
+  .rbc-addons-dnd-resize-ew-icon,
+  .rbc-addons-dnd-resize-ns-icon {
+    width: 10px !important;
+  }
 }
 
 .rbc-addons-dnd-resize-ns-anchor:first-child .rbc-addons-dnd-resize-ns-icon {

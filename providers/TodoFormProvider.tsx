@@ -1,5 +1,4 @@
 import { TodoItemType } from "@/types";
-import { endOfDay, startOfDay } from "date-fns";
 import React, {
   createContext,
   SetStateAction,
@@ -51,9 +50,12 @@ const TodoFormProvider = ({ children, todoItem }: TodoFormProviderProps) => {
   const [priority, setPriority] = useState<"Low" | "Medium" | "High">(
     todoItem?.priority || "Low",
   );
+  const now = new Date();
+  now.setHours(now.getHours() + 3);
+
   const [dateRange, setDateRange] = useState<NonNullableDateRange>({
-    from: todoItem?.dtstart ?? startOfDay(new Date()),
-    to: todoItem?.due ?? endOfDay(new Date()),
+    from: todoItem?.dtstart ?? new Date(),
+    to: todoItem?.due ?? now,
   });
   const [rruleOptions, setRruleOptions] = useState(
     todoItem?.rrule ? RRule.parseString(todoItem.rrule) : null,

@@ -18,15 +18,15 @@ body {
     color: black;
   }
   :root {
-    --calendar-lime: 130 61% 40%; /* Rich green */
-    --calendar-orange: 33 100% 50%; /* Pure orange */
+    --calendar-lime: 83, 80%, 32%;
+    --calendar-orange: 33 100% 50%;
     --calendar-red: 4 90% 58%;
     --radius: 0.5rem;
 
     --background: 235 5% 95%;
     --foreground: 0 0% 5%;
     /* --lime: 83, 62%, 55%; */
-    --lime: 83, 90%, 42%;
+    --lime: 83, 200%, 20%;
 
     /* --orange: 34 93% 48%; */
     --orange: 34 100% 42%;
