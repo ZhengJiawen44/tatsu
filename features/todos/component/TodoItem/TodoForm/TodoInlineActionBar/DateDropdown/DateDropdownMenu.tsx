@@ -52,7 +52,7 @@ const DateDropdownMenu = () => {
       </PopoverTrigger>
 
       <PopoverContent
-        className="flex flex-col gap-1 p-0 py-2 w-[250px] font-extralight border-popover-accent overflow-scroll"
+        className="flex flex-col gap-1 p-0 py-2 w-[250px] font-extralight border-popover-accent overflow-scroll scrollbar-none"
         align="start"
       >
         {/* --- OPTION: TODAY --- */}
