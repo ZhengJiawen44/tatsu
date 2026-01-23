@@ -1,6 +1,5 @@
 import { useCallback } from "react";
 import { useTodoForm } from "@/providers/TodoFormProvider";
-import { endOfDay, startOfDay } from "date-fns";
 
 export function useClearInput(
   setEditInstanceOnly:
@@ -18,12 +17,14 @@ export function useClearInput(
   } = useTodoForm();
   const clearInput = useCallback(
     function clearInput() {
+      const now = new Date();
+      now.setHours(now.getHours() + 3);
       if (setEditInstanceOnly) setEditInstanceOnly(false);
       setDesc("");
       setTitle("");
       setDateRange({
-        from: todoItem?.dtstart ? todoItem.dtstart : startOfDay(new Date()),
-        to: todoItem?.due ? todoItem.due : endOfDay(new Date()),
+        from: todoItem?.dtstart ? todoItem.dtstart : new Date(),
+        to: todoItem?.due ? todoItem.due : now,
       });
       setPriority("Low");
       setRruleOptions(null);
