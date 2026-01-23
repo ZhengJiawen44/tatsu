@@ -5,6 +5,7 @@ import {
 } from "@/components/ui/native-select";
 import React, { SetStateAction } from "react";
 import { Options, RRule } from "rrule";
+import { useTranslations } from "next-intl";
 
 interface RepeatEveryOptionProps {
   customRepeatOptions: Partial<Options> | null;
@@ -17,6 +18,7 @@ const RepeatEveryOption = ({
   customRepeatOptions,
   setCustomRepeatOptions,
 }: RepeatEveryOptionProps) => {
+  const appDict = useTranslations("app");
   const currentInterval = customRepeatOptions?.interval || 1;
   function removeByweekday(options: Partial<Options> | null) {
     //remove byweekday when freq is daily
@@ -29,7 +31,7 @@ const RepeatEveryOption = ({
   }
   return (
     <div className="flex flex-col gap-2">
-      <p className="font-medium">Every</p>
+      <p className="font-medium">{appDict("customMenu.every")}</p>
       <div className="flex gap-2 w-1/2 m-0 p-0">
         {/* repeatInterval count input */}
         <Input
@@ -68,7 +70,7 @@ const RepeatEveryOption = ({
               });
             }}
           >
-            {currentInterval > 1 ? "Days" : "Day"}
+            {appDict("day")}
           </NativeSelectOption>
           <NativeSelectOption
             value={"Week"}
@@ -79,7 +81,7 @@ const RepeatEveryOption = ({
               });
             }}
           >
-            {currentInterval > 1 ? "Weeks" : "Week"}
+            {appDict("week")}
           </NativeSelectOption>
           <NativeSelectOption
             value={"Month"}
@@ -90,7 +92,7 @@ const RepeatEveryOption = ({
               })
             }
           >
-            {currentInterval > 1 ? "Months" : "Month"}
+            {appDict("month")}
           </NativeSelectOption>
           <NativeSelectOption
             value={"Year"}
@@ -101,7 +103,7 @@ const RepeatEveryOption = ({
               })
             }
           >
-            {currentInterval > 1 ? "Years" : "Year"}
+            {appDict("year")}
           </NativeSelectOption>
         </NativeSelect>
       </div>

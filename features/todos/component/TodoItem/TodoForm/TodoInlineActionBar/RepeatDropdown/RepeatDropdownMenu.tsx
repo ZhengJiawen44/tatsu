@@ -14,8 +14,10 @@ import { useTodoForm } from "@/providers/TodoFormProvider";
 import { format } from "date-fns";
 import clsx from "clsx";
 import { Button } from "@/components/ui/button";
+import { useTranslations } from "next-intl";
 
-const RepeatDropdownMenu = ({}) => {
+const RepeatDropdownMenu = ({ }) => {
+  const appDict = useTranslations("app");
   const { rruleOptions, setRruleOptions, derivedRepeatType } = useTodoForm();
   return (
     <DropdownMenu>
@@ -25,7 +27,7 @@ const RepeatDropdownMenu = ({}) => {
           className="w-fit h-fit !p-2 text-muted-foreground bg-inherit"
         >
           <Repeat className="w-4 h-4 sm:w-5 sm:h-5" />
-          <p className="text-sm">Repeat</p>
+          <p className="text-sm">{appDict("repeat")}</p>
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent className="min-w-[250px] text-foreground">
@@ -43,7 +45,7 @@ const RepeatDropdownMenu = ({}) => {
               derivedRepeatType == "Daily" && "opacity-100",
             )}
           />
-          Every Day
+          {appDict("everyDay")}
         </DropdownMenuItem>
         <DropdownMenuItem
           className="flex"
@@ -60,7 +62,7 @@ const RepeatDropdownMenu = ({}) => {
                 derivedRepeatType == "Weekly" && "opacity-100",
               )}
             />
-            <p>Every Week</p>
+            <p>{appDict("everyWeek")}</p>
           </div>
 
           <p className="text-xs text-card-foreground-muted">
@@ -82,7 +84,7 @@ const RepeatDropdownMenu = ({}) => {
                 derivedRepeatType == "Monthly" && "opacity-100",
               )}
             />
-            <p>Every Month</p>
+            <p>{appDict("everyMonth")}</p>
           </div>
           <p className="text-xs text-card-foreground-muted">
             on the {format(new Date(), " do")}
@@ -103,7 +105,7 @@ const RepeatDropdownMenu = ({}) => {
                 derivedRepeatType == "Yearly" && "opacity-100",
               )}
             />
-            <p>Every Year</p>
+            <p>{appDict("everyYear")}</p>
           </div>
           <p className="text-xs text-card-foreground-muted">
             on{format(new Date(), " MMM do")}
@@ -128,12 +130,12 @@ const RepeatDropdownMenu = ({}) => {
                 derivedRepeatType == "Weekday" && "opacity-100",
               )}
             />
-            <p>Weekdays only</p>
+            <p>{appDict("weekdaysOnly")}</p>
             <p className="text-xs text-card-foreground-muted">Mon-Fri</p>
           </div>
         </DropdownMenuItem>
         <DropdownMenuItem asChild>
-          <CustomRepeatModalMenu className="flex w-full hover:bg-accent" />
+          <CustomRepeatModalMenu className="flex w-full hover:bg-accent !py-2 px-1" />
         </DropdownMenuItem>
 
         {rruleOptions && (

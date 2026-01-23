@@ -16,32 +16,38 @@ import { CheckIcon } from "lucide-react";
 import clsx from "clsx";
 import { useState } from "react";
 import { Options, RRule } from "rrule";
+import { useTranslations } from "next-intl";
+
 type CustomRepeatModalMenuProps = {
   rruleOptions: Partial<Options> | null;
   setRruleOptions: React.Dispatch<
     React.SetStateAction<Partial<Options> | null>
   >;
   derivedRepeatType:
-    | "Weekday"
-    | "Weekly"
-    | "Custom"
-    | "Daily"
-    | "Monthly"
-    | "Daily"
-    | "Yearly"
-    | null;
+  | "Weekday"
+  | "Weekly"
+  | "Custom"
+  | "Daily"
+  | "Monthly"
+  | "Daily"
+  | "Yearly"
+  | null;
   className: string | undefined;
 };
+
 const CustomRepeatModalMenu = ({
   rruleOptions,
   setRruleOptions,
   derivedRepeatType,
   className,
 }: CustomRepeatModalMenuProps) => {
+  const appDict = useTranslations("app");
+
   const [customRepeatOptions, setCustomRepeatOptions] =
     useState<Partial<Options> | null>(
       rruleOptions || { freq: RRule.DAILY, interval: 1 },
     );
+
   return (
     <Dialog>
       <DialogTrigger className={className}>
@@ -51,12 +57,16 @@ const CustomRepeatModalMenu = ({
             derivedRepeatType == "Custom" && "opacity-100",
           )}
         />
-        Custom
+        {appDict("custom")}
       </DialogTrigger>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle className="font-medium">Custom Repeat</DialogTitle>
-          <DialogDescription>Set up a custom repeat schedule</DialogDescription>
+          <DialogTitle className="font-medium">
+            {appDict("customMenu.title")}
+          </DialogTitle>
+          <DialogDescription>
+            {appDict("customMenu.title")}
+          </DialogDescription>
         </DialogHeader>
         <div className="flex flex-col gap-6 mb-2">
           {/* rrule interval option */}
@@ -77,7 +87,7 @@ const CustomRepeatModalMenu = ({
         </div>
         <DialogFooter>
           <DialogClose asChild>
-            <Button className="hover:bg-border">Cancel</Button>
+            <Button className="hover:bg-border">{appDict("cancel")}</Button>
           </DialogClose>
           <DialogClose asChild>
             <Button
@@ -87,7 +97,7 @@ const CustomRepeatModalMenu = ({
                 setRruleOptions(customRepeatOptions);
               }}
             >
-              Save changes
+              {appDict("save")}
             </Button>
           </DialogClose>
         </DialogFooter>

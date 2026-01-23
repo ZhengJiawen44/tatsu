@@ -10,30 +10,32 @@ import { useDeleteCalendarTodo } from "../query/delete-calendar-todo";
 import { useDeleteCalendarInstanceTodo } from "../query/delete-calendar-instance-todo";
 import { CalendarTodoItemType } from "@/types";
 import { Button } from "@/components/ui/button";
+import { useTranslations } from "next-intl";
 
 type ConfirmDeleteAllProp = {
   todo: CalendarTodoItemType;
   deleteAllDialogOpen: boolean;
   setDeleteAllDialogOpen: React.Dispatch<React.SetStateAction<boolean>>;
 };
+
 export default function ConfirmDeleteAll({
   todo,
   deleteAllDialogOpen,
   setDeleteAllDialogOpen,
 }: ConfirmDeleteAllProp) {
+  const modalDict = useTranslations("modal");
   const { deleteMutate } = useDeleteCalendarTodo();
   const { deleteInstanceMutate } = useDeleteCalendarInstanceTodo();
+
   return (
     <Dialog open={deleteAllDialogOpen} onOpenChange={setDeleteAllDialogOpen}>
       <DialogContent className="max-w-sm top-1/2 -translate-y-1/2 bg-popover">
         <DialogHeader>
-          <DialogTitle>Delete all todo recurrences?</DialogTitle>
+          <DialogTitle>{modalDict("deleteAll.title")}</DialogTitle>
         </DialogHeader>
-
         <p className="text-sm text-muted-foreground">
-          This is an recurring todo, delete all other recurrences?
+          {modalDict("deleteAll.subtitle")}
         </p>
-
         <DialogFooter className="mt-4">
           <Button
             variant={"outline"}
@@ -43,7 +45,7 @@ export default function ConfirmDeleteAll({
               setDeleteAllDialogOpen(false);
             }}
           >
-            Delete this occurence only
+            {modalDict("deleteAll.deleteInstance")}
           </Button>
           <Button
             variant={"destructive"}
@@ -52,7 +54,7 @@ export default function ConfirmDeleteAll({
               setDeleteAllDialogOpen(false);
             }}
           >
-            Delete all recurrences
+            {modalDict("deleteAll.deleteAll")}
           </Button>
         </DialogFooter>
       </DialogContent>

@@ -5,8 +5,10 @@ import Day from "./Day";
 import TodoListLoading from "./TodoListLoading";
 import TodoGroup from "./TodoGroup";
 import LineSeparator from "@/components/ui/lineSeparator";
+import { useTranslations } from "next-intl";
 
 const TodoContainer = () => {
+  const appDict = useTranslations("app")
   const { todos, todoLoading } = useTodo();
   const pinnedTodos = todos.filter(({ pinned }) => pinned);
   const unpinnedTodos = todos.filter(({ pinned }) => !pinned);
@@ -26,7 +28,7 @@ const TodoContainer = () => {
 
       <div className="flex items-center gap-2 mt-10 mb-4">
         <h3 className="text-lg font-semibold select-none text-muted-foreground">
-          Today
+          {appDict("today")}
         </h3>
         <LineSeparator className="flex-1" />
       </div>

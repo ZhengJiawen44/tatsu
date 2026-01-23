@@ -9,37 +9,39 @@ import React from "react";
 import { useDeleteCalendarTodo } from "../query/delete-calendar-todo";
 import { CalendarTodoItemType } from "@/types";
 import { Button } from "@/components/ui/button";
+import { useTranslations } from "next-intl";
 
 type confirmDeleteProp = {
   todo: CalendarTodoItemType;
   deleteDialogOpen: boolean;
   setDeleteDialogOpen: React.Dispatch<React.SetStateAction<boolean>>;
 };
+
 export default function ConfirmDelete({
   todo,
   deleteDialogOpen,
   setDeleteDialogOpen,
 }: confirmDeleteProp) {
+  const modalDict = useTranslations("modal");
   const { deleteMutate } = useDeleteCalendarTodo();
+
   return (
     <Dialog open={deleteDialogOpen} onOpenChange={setDeleteDialogOpen}>
       <DialogContent className="max-w-sm top-1/2 -translate-y-1/2 bg-popover">
         <DialogHeader>
-          <DialogTitle>Delete todo?</DialogTitle>
+          <DialogTitle>{modalDict("delete.title")}</DialogTitle>
         </DialogHeader>
-
         <p className="text-sm text-muted-foreground">
-          This action cannot be undone. This will permanently delete{" "}
+          {modalDict("delete.subtitle")}{" "}
           <span className="font-semibold">{todo.title}</span>
         </p>
-
         <DialogFooter className="mt-4">
           <Button
             variant={"outline"}
             className="bg-popover"
             onClick={() => setDeleteDialogOpen(false)}
           >
-            Cancel
+            {modalDict("cancel")}
           </Button>
           <Button
             variant={"destructive"}
@@ -49,7 +51,7 @@ export default function ConfirmDelete({
               setDeleteDialogOpen(false);
             }}
           >
-            Delete
+            {modalDict("delete.button")}
           </Button>
         </DialogFooter>
       </DialogContent>

@@ -8,6 +8,7 @@ import {
 } from "@/components/ui/popover";
 import { useState } from "react";
 import clsx from "clsx";
+import { useTranslations } from "next-intl";
 
 export function CalendarToolbar({
   label,
@@ -19,7 +20,10 @@ export function CalendarToolbar({
     view.charAt(0).toUpperCase() + view.slice(1),
   );
 
+  const appDict = useTranslations("app");
+
   const viewOptions = ["month", "week", "day", "agenda"] as const;
+
 
   return (
     <div className="flex items-center justify-between gap-0 sm:gap-4 p-2 mb-4 text-xs">
@@ -57,13 +61,13 @@ export function CalendarToolbar({
           onClick={() => onNavigate("TODAY")}
           className="flex-1 sm:flex-none flex items-center justify-center gap-1 border border-input/80 p-1 px-2 sm:p-1.5 sm:px-4 hover:bg-accent hover:text-popover-foreground rounded-md transition-colors"
         >
-          Today
+          {appDict("today")}
         </button>
 
         <div className="flex-1 sm:flex-none">
           <Popover>
             <PopoverTrigger className="w-full sm:min-w-28  flex items-center justify-between gap-2 border border-input/80 p-1 px-2 sm:p-1.5 sm:px-4 hover:bg-accent hover:text-popover-foreground rounded-md transition-colors">
-              <span className="capitalize">{viewFilter}</span>
+              <span className="capitalize">{appDict(viewFilter.toLowerCase())}</span>
               <ChevronDown className="hidden sm:block w-4 h-4 opacity-50" />
             </PopoverTrigger>
             <PopoverContent align="end" className="flex flex-col w-40 p-1">
@@ -76,7 +80,7 @@ export function CalendarToolbar({
                     setViewFilter(v);
                   }}
                 >
-                  {v}
+                  {appDict(v.toLowerCase())}
                   <Check
                     className={clsx(
                       "w-4 h-4 transition-opacity",

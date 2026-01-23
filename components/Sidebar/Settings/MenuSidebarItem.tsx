@@ -18,9 +18,12 @@ import { ArrowUpLeft } from "lucide-react";
 import { Sun } from "lucide-react";
 import { Moon } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { useTranslations } from "next-intl";
 import dynamic from "next/dynamic";
 const ConfirmLogoutModal = dynamic(() => import("./ConfirmLogoutModal"));
 const MenuSidebarItem = () => {
+  const sidebarDict = useTranslations("sidebar")
+
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const { data } = useSession();
   const { setTheme, theme } = useTheme();
@@ -49,7 +52,7 @@ const MenuSidebarItem = () => {
           >
             <div className="flex gap-3">
               <Gear className="w-5 h-5 text-muted-foreground" />
-              Settings
+              {sidebarDict("settings")}
             </div>
             <ChevronDown
               className={clsx(
@@ -71,7 +74,7 @@ const MenuSidebarItem = () => {
             }}
           >
             <LogOut className="w-6 h-6" />
-            Log out
+            {sidebarDict("settingMenu.logout")}
           </DropdownMenuItem>
           <DropdownMenuItem
             onClick={(e) => {
@@ -84,7 +87,7 @@ const MenuSidebarItem = () => {
             }}
           >
             {theme == "light" ? <Sun /> : <Moon />}
-            Theme
+            {sidebarDict("settingMenu.theme")}
           </DropdownMenuItem>
           <DropdownMenuItem
             onClick={(e) => {
@@ -94,7 +97,7 @@ const MenuSidebarItem = () => {
             }}
           >
             <ArrowUpLeft />
-            Shortcuts
+            {sidebarDict("settingMenu.shortcuts")}
           </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>

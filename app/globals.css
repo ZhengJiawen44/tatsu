@@ -7,6 +7,10 @@ body {
 }
 /* hsl(235, 28%, 22%) */
 @layer base {
+  :lang(zh) .text-sm,
+  :lang(ja) .text-sm {
+    font-weight: 500;
+  }
   ::selection {
     background-color: #1c3651; /* deep blue */
     color: white;

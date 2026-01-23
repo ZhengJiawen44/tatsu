@@ -10,8 +10,10 @@ import {
 import { useTodoForm } from "@/providers/TodoFormProvider";
 import { useNextCalculatedRepeatDate } from "@/features/todos/hooks/useNextRepeatDate";
 import { rruleDateToLocal } from "@/features/todos/lib/rruleDateToLocal";
+import { useTranslations } from "next-intl";
 
 const NextRepeatDateIndicator = () => {
+  const todayDict = useTranslations("today");
   const { rruleOptions } = useTodoForm();
   // calculates the next date this todo will occur on, then returns that
   // date and the rrule object used for the calculation
@@ -32,10 +34,10 @@ const NextRepeatDateIndicator = () => {
           )}
         />
       </TooltipTrigger>
-      <TooltipContent>
+      <TooltipContent className="text-sm">
         <p>
           {nextCalculatedRepeatDate
-            ? `This todo is next scheduled for ${isThisYear(new Date()) ? format(rruleDateToLocal(nextCalculatedRepeatDate), "dd MMM") : format(nextCalculatedRepeatDate, "dd MMM yyyy")} (${locallyInferredRruleObject?.toText()})`
+            ? `${todayDict("nextRepeatText")}${isThisYear(new Date()) ? format(rruleDateToLocal(nextCalculatedRepeatDate), "dd MMM") : format(nextCalculatedRepeatDate, "dd MMM yyyy")} (${locallyInferredRruleObject?.toText()})`
             : "This todo has reached the end of repeat"}
         </p>
       </TooltipContent>

@@ -5,6 +5,7 @@ import { NonNullableDateRange } from "@/types";
 import * as chrono from "chrono-node";
 import { endOfDay } from "date-fns";
 import React, { SetStateAction, useEffect, useRef } from "react";
+import { useTranslations } from "next-intl";
 
 type NLPTitleInputProps = {
   titleRef: React.RefObject<HTMLDivElement | null>;
@@ -31,6 +32,7 @@ export default function NLPTitleInput({
   setDateRange,
   className,
 }: NLPTitleInputProps) {
+  const todayDict = useTranslations("today")
   const isComposing = useRef(false);
 
   //initialize titleRef value
@@ -110,8 +112,8 @@ export default function NLPTitleInput({
       />
 
       {!title.length && !(titleRef.current?.textContent ?? "").length && (
-        <span className="select-none pointer-events-none z-10 absolute top-0 left-0">
-          Read chapter 6 in 5 days
+        <span className="select-none pointer-events-none z-10 absolute top-0 left-2">
+          {todayDict("titlePlaceholder")}
         </span>
       )}
     </div>

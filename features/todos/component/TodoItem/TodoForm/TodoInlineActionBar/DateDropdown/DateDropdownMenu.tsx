@@ -8,6 +8,7 @@ import { Sunrise as Tomorrow } from "lucide-react";
 import { Calendar as CalenderIcon } from "lucide-react";
 import { useTodoForm } from "@/providers/TodoFormProvider";
 import DurationPicker from "./DurationPicker";
+import { useTranslations } from "next-intl";
 import {
   Popover,
   PopoverContent,
@@ -16,8 +17,11 @@ import {
 import { Button } from "@/components/ui/button";
 import { getDisplayDate } from "@/features/todos/lib/getDisplayDate";
 import clsx from "clsx";
+import { useLocale } from "next-intl";
 
 const DateDropdownMenu = () => {
+  const locale = useLocale()
+  const appDict = useTranslations("app");
   const { dateRange, setDateRange } = useTodoForm();
   const nextWeek = startOfDay(nextMonday(dateRange?.from || new Date()));
   const tomorrow = startOfDay(addDays(dateRange?.from || new Date(), 1));
@@ -42,7 +46,7 @@ const DateDropdownMenu = () => {
         >
           <CalenderIcon strokeWidth={1.3} className="w-4 h-4 sm:w-5 sm:h-5" />
           <span className="text-sm font-medium">
-            {getDisplayDate(dateRange.from)}
+            {getDisplayDate(dateRange.from, locale)}
           </span>
         </Button>
       </PopoverTrigger>
@@ -60,13 +64,13 @@ const DateDropdownMenu = () => {
               to:
                 prev.to && prev.from
                   ? new Date(
-                      endOfDay(
-                        addDays(
-                          new Date(),
-                          differenceInDays(prev.to, prev.from),
-                        ),
+                    endOfDay(
+                      addDays(
+                        new Date(),
+                        differenceInDays(prev.to, prev.from),
                       ),
-                    )
+                    ),
+                  )
                   : endOfDay(new Date()),
             }));
             setIsOpen(false);
@@ -74,7 +78,7 @@ const DateDropdownMenu = () => {
         >
           <div className="flex gap-2 items-center">
             <Target className="!w-5 !h-5 stroke-[1.8px]" />
-            Today
+            {appDict("today")}
           </div>
           <p className="text-xs text-muted-foreground">
             {format(new Date(), "EEE")}
@@ -90,8 +94,8 @@ const DateDropdownMenu = () => {
               to:
                 prev.to && prev.from
                   ? endOfDay(
-                      addDays(tomorrow, differenceInDays(prev.to, prev.from)),
-                    )
+                    addDays(tomorrow, differenceInDays(prev.to, prev.from)),
+                  )
                   : endOfDay(tomorrow),
             }));
             setIsOpen(false);
@@ -99,7 +103,7 @@ const DateDropdownMenu = () => {
         >
           <div className="flex gap-2 items-center">
             <Tomorrow className="!w-5 !h-5" />
-            Tomorrow
+            {appDict("tomorrow")}
           </div>
           <p className="text-xs text-muted-foreground">
             {format(tomorrow, "EEE")}
@@ -115,10 +119,10 @@ const DateDropdownMenu = () => {
               to:
                 prev.to && prev.from
                   ? endOfDay(
-                      new Date(
-                        addDays(nextWeek, differenceInDays(prev.to, prev.from)),
-                      ),
-                    )
+                    new Date(
+                      addDays(nextWeek, differenceInDays(prev.to, prev.from)),
+                    ),
+                  )
                   : endOfDay(nextWeek),
             }));
             setIsOpen(false);
@@ -126,7 +130,7 @@ const DateDropdownMenu = () => {
         >
           <div className="flex gap-2 items-center">
             <CalenderIcon strokeWidth={1.4} className="!w-5 !h-5" />
-            Next Week
+            {appDict("nextWeek")}
           </div>
           <div className="text-xs text-muted-foreground">Mon</div>
         </button>

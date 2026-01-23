@@ -10,8 +10,11 @@ import { format, parse, isValid, isSameDay } from "date-fns";
 import { Input } from "@/components/ui/input";
 import useWindowSize from "@/hooks/useWindowSize";
 import { cn } from "@/lib/utils";
+import { useTranslations } from "next-intl";
+
 
 const DurationPicker = ({ className }: { className?: string }) => {
+  const appDict = useTranslations("app");
   const { dateRange, setDateRange } = useTodoForm();
   const [timeFromStr, setTimeFromStr] = useState(
     dateRange?.from ? format(dateRange.from, "HH:mm") : "00:00",
@@ -85,12 +88,12 @@ const DurationPicker = ({ className }: { className?: string }) => {
             (cn(
               "flex w-full cursor-pointer items-center justify-between rounded-sm px-2 py-1.5 text-sm outline-none hover:bg-accent hover:text-accent-foreground transition-colors group",
             ),
-            className)
+              className)
           }
         >
           <div className="flex gap-2 items-center">
             <Clock className="!w-5 !h-5 stroke-[1.8px]" />
-            Duration
+            {appDict("duration")}
           </div>
           <ChevronRight className="ml-auto h-4 w-4 text-muted-foreground/50 group-hover:text-accent-foreground" />
         </button>
@@ -104,10 +107,10 @@ const DurationPicker = ({ className }: { className?: string }) => {
         <div className="flex flex-col gap-4">
           <div className="space-y-1">
             <h4 className="text-sm font-semibold leading-none tracking-tight">
-              Set duration
+              {appDict("durationMenu.title")}
             </h4>
             <p className="text-[11px] leading-snug text-muted-foreground">
-              Applied to the current date only
+              {appDict("durationMenu.subTitle")}
             </p>
           </div>
 

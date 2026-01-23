@@ -1,5 +1,6 @@
 import { redirect } from "next/navigation";
-import { auth } from "../../auth";
+import { auth } from "@/app/auth";
+
 import LoginPage from "./Login";
 const page = async () => {
   const session = await auth();

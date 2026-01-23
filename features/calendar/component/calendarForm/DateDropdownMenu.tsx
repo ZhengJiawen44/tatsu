@@ -1,7 +1,7 @@
 import { addDays, endOfDay, startOfDay } from "date-fns";
 import { Calendar } from "@/components/ui/calendar";
 import React from "react";
-import { format, nextMonday, differenceInDays } from "date-fns";
+import { nextMonday, differenceInDays } from "date-fns";
 import LineSeparator from "@/components/ui/lineSeparator";
 import { Sun } from "lucide-react";
 import { Sunrise } from "lucide-react";
@@ -12,25 +12,39 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-
+import { useLocale, useTranslations } from "next-intl";
 import { NonNullableDateRange } from "@/types";
 
 type DateDropdownMenuProps = {
   dateRange: NonNullableDateRange;
   setDateRange: React.Dispatch<React.SetStateAction<NonNullableDateRange>>;
 };
+
 const DateDropdownMenu = ({
   dateRange,
   setDateRange,
 }: DateDropdownMenuProps) => {
+  const locale = useLocale();
+  const appDict = useTranslations("app");
   const nextWeek = startOfDay(nextMonday(dateRange?.from || new Date()));
   const tomorrow = startOfDay(addDays(dateRange?.from || new Date(), 1));
   const [isOpen, setIsOpen] = React.useState(false);
 
+  // Helper function to format dates with locale support
   function getDisplayDate(date: Date) {
-    return date.getFullYear() === new Date().getFullYear()
-      ? format(date, "MMM dd hh:mm")
-      : format(date, "MMM dd yyyy");
+    const formatter = new Intl.DateTimeFormat(locale, {
+      month: "short",
+      day: "2-digit",
+      hour: "2-digit",
+      minute: "2-digit",
+      year: date.getFullYear() === new Date().getFullYear() ? undefined : "numeric",
+    });
+    return formatter.format(date);
+  }
+
+  // Helper function to format day abbreviation
+  function formatDayAbbr(date: Date): string {
+    return new Intl.DateTimeFormat(locale, { weekday: "short" }).format(date);
   }
 
   const itemClass =
@@ -42,7 +56,7 @@ const DateDropdownMenu = ({
         <button className="flex justify-start items-center gap-1 p-1 w-full h-full hover:bg-popover-accent rounded-md outline-none">
           <span className="text-sm font-medium">
             {getDisplayDate(dateRange.from)}
-            {""} {getDisplayDate(dateRange.to)}
+            {" "} {getDisplayDate(dateRange.to)}
           </span>
         </button>
       </PopoverTrigger>
@@ -60,13 +74,13 @@ const DateDropdownMenu = ({
               to:
                 prev.to && prev.from
                   ? new Date(
-                      endOfDay(
-                        addDays(
-                          new Date(),
-                          differenceInDays(prev.to, prev.from),
-                        ),
+                    endOfDay(
+                      addDays(
+                        new Date(),
+                        differenceInDays(prev.to, prev.from),
                       ),
-                    )
+                    ),
+                  )
                   : endOfDay(new Date()),
             }));
             setIsOpen(false);
@@ -74,10 +88,10 @@ const DateDropdownMenu = ({
         >
           <div className="flex gap-1 items-center">
             <Sun className="!w-5 !h-5 stroke-[1.8px]" />
-            Today
+            {appDict("today")}
           </div>
           <p className="text-xs text-muted-foreground">
-            {format(new Date(), "EEE")}
+            {formatDayAbbr(new Date())}
           </p>
         </button>
 
@@ -90,8 +104,8 @@ const DateDropdownMenu = ({
               to:
                 prev.to && prev.from
                   ? endOfDay(
-                      addDays(tomorrow, differenceInDays(prev.to, prev.from)),
-                    )
+                    addDays(tomorrow, differenceInDays(prev.to, prev.from)),
+                  )
                   : endOfDay(tomorrow),
             }));
             setIsOpen(false);
@@ -99,10 +113,10 @@ const DateDropdownMenu = ({
         >
           <div className="flex gap-1 items-center">
             <Sunrise className="!w-5 !h-5" />
-            Tomorrow
+            {appDict("tomorrow")}
           </div>
           <p className="text-xs text-muted-foreground">
-            {format(tomorrow, "EEE")}
+            {formatDayAbbr(tomorrow)}
           </p>
         </button>
 
@@ -115,10 +129,10 @@ const DateDropdownMenu = ({
               to:
                 prev.to && prev.from
                   ? endOfDay(
-                      new Date(
-                        addDays(nextWeek, differenceInDays(prev.to, prev.from)),
-                      ),
-                    )
+                    new Date(
+                      addDays(nextWeek, differenceInDays(prev.to, prev.from)),
+                    ),
+                  )
                   : endOfDay(nextWeek),
             }));
             setIsOpen(false);
@@ -126,9 +140,11 @@ const DateDropdownMenu = ({
         >
           <div className="flex gap-1 items-center">
             <CalendarIcon strokeWidth={1.4} className="!w-5 !h-5" />
-            Next Week
+            {appDict("nextWeek")}
           </div>
-          <p className="text-xs text-muted-foreground">Mon</p>
+          <p className="text-xs text-muted-foreground">
+            {formatDayAbbr(nextWeek)}
+          </p>
         </button>
 
         {/* --- DURATION --- */}

@@ -1,9 +1,16 @@
 import type { Metadata } from "next";
 import { Poppins } from "next/font/google";
-
+import { NextIntlClientProvider } from 'next-intl';
+import { getMessages } from 'next-intl/server';
+// import {routing} from '@/i18n/routing';
 import { SessionProvider } from "next-auth/react";
 import { ThemeProvider } from "@/providers/ThemeProvider";
 import "@/app/globals.css";
+
+type Props = {
+  children: React.ReactNode;
+  params: Promise<{ locale: string }>;
+};
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -11,29 +18,26 @@ export const metadata: Metadata = {
 };
 
 const poppins = Poppins({
-  weight: ["400", "500"],
+  weight: ["400", "500", "600", "700"],
   variable: "--font-poppins",
   subsets: ["latin"],
   display: "swap",
 });
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
+  params,
+}: Props) {
+  const { locale } = await params;
+  const messages = await getMessages();
+
+  const dir = locale === 'ar' ? 'rtl' : 'ltr';
+
   return (
-    <html lang="en" suppressHydrationWarning>
+    <html lang={locale} dir={dir} suppressHydrationWarning>
       <head>
         <title>Sanity</title>
       </head>
-      {/* <head>
-        <script
-          crossOrigin="anonymous"
-          src="//unpkg.com/react-scan/dist/auto.global.js"
-        />
-      </head> */}
-
       <SessionProvider>
         <body className={`${poppins.variable} antialiased`}>
           <ThemeProvider
@@ -42,7 +46,9 @@ export default function RootLayout({
             enableSystem
             disableTransitionOnChange
           >
-            <main>{children}</main>
+            <NextIntlClientProvider messages={messages}>
+              {children}
+            </NextIntlClientProvider>
           </ThemeProvider>
         </body>
       </SessionProvider>

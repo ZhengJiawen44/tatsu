@@ -1,12 +1,15 @@
-import LandingPage from "@/components/LandingPage";
-import { auth } from "./auth";
+import LandingPage from "@/components/landing/LandingPage";
+import { auth } from "@/app/auth";
 import { redirect } from "next/navigation";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
+import { getTranslations } from "next-intl/server"
+import LanguagePicker from "@/components/landing/LanguagePicker";
 
-const page = async () => {
+const Page = async () => {
   const session = await auth();
+  const dict = await getTranslations("landingPage");
   if (!session?.user)
     return (
       <div className="bg-muted">
@@ -36,8 +39,8 @@ const page = async () => {
                 className="text-sm sm:text-base px-2 sm:px-4"
               >
                 <Link href="/blogs">
-                  <span className="hidden sm:inline">Documentation</span>
-                  <span className="sm:hidden">Docs</span>
+                  <span className="hidden sm:inline">{dict("nav.docs")}</span>
+                  <span className="sm:hidden">{dict("nav.docsShort")}</span>
                 </Link>
               </Button>
               <div className="text-muted-foreground">|</div>
@@ -46,8 +49,12 @@ const page = async () => {
                 variant={"ghost"}
                 className="text-sm sm:text-base px-2 sm:px-4"
               >
-                <Link href="/login">Log in</Link>
+                <Link href="/login">{dict("nav.login")}</Link>
               </Button>
+               <LanguagePicker/>
+          
+                
+             
             </div>
           </div>
         </div>
@@ -59,4 +66,4 @@ const page = async () => {
   redirect("/app/todo");
 };
 
-export default page;
+export default Page;
