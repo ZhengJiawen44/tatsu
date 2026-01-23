@@ -14,6 +14,8 @@ import {
 import ConfirmCancelEditDialog from "./ConfirmCancelEdit";
 import ConfirmEditAllDialog from "./ConfirmEditAll";
 import { useEditCalendarTodo } from "../../query/update-calendar-todo";
+import { useTranslations } from "next-intl";
+
 type CalendarFormProps = {
   todo: CalendarTodoItemType;
   displayForm: boolean;
@@ -25,6 +27,9 @@ const CalendarForm = ({
   displayForm,
   setDisplayForm,
 }: CalendarFormProps) => {
+  const appDict = useTranslations("app");
+  const todayDict = useTranslations("today");
+
   const dateRangeChecksum = useMemo(
     () => todo.dtstart.toISOString() + todo.due.toISOString(),
     [],
@@ -138,7 +143,7 @@ const CalendarForm = ({
             <div className="flex min-w-0 items-start gap-4">
               <input
                 className="ml-9 flex-1 min-w-0 bg-transparent border-b border-border  sm:text-lg focus:outline-none focus:border-lime"
-                placeholder="Add title"
+                placeholder={todayDict("titlePlaceholder")}
                 value={title}
                 onChange={(e) => setTitle(e.target.value)}
                 autoFocus
@@ -187,7 +192,7 @@ const CalendarForm = ({
               <textarea
                 className="flex-1 min-w-0 bg-input rounded-md px-3 py-2 text-sm resize-none focus:outline-none focus:ring-2 focus:ring-lime"
                 rows={3}
-                placeholder="Add description"
+                placeholder={appDict("descPlaceholder")}
                 value={description}
                 onChange={(e) => setDescription(e.target.value)}
               />
@@ -200,14 +205,14 @@ const CalendarForm = ({
                 className="px-2 py-1 sm:px-4 sm:py-2 rounded-md text-sm hover:bg-red hover:text-accent-foreground"
                 onClick={() => setCancelEditDialogOpen(true)}
               >
-                Cancel
+                {appDict("cancel")}
               </button>
 
               <button
                 type="submit"
                 className="px-2 py-1 sm:px-4 sm:py-2 rounded-md brightness-90 hover:brightness-100 bg-lime text-white text-sm hover:bg-lime"
               >
-                Save
+                {appDict("save")}
               </button>
             </div>
           </form>

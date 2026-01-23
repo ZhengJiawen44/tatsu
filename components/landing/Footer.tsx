@@ -1,7 +1,9 @@
-import Link from "next/link";
+import { Link } from "@/i18n/navigation";
 import React from "react";
+import { useTranslations } from "next-intl";
 
 export default function Footer() {
+  const dict = useTranslations("landingPage");
   return (
     <footer className="w-full bg-secondary/30 border-t border-border mt-32">
       <div className="max-w-7xl mx-auto px-4 py-20">
@@ -129,10 +131,10 @@ export default function Footer() {
           {/* <p>&copy; 2026 Sanity. All rights reserved.</p> */}
           <div className="flex gap-6">
             <Link href="/privacy" className="hover:text-foreground">
-              Privacy Policy
+              {dict("footer.privacyPolicy")}
             </Link>
             <Link href="/terms" className="hover:text-foreground">
-              Terms of Service
+              {dict("footer.termsOfService")}
             </Link>
           </div>
         </div>

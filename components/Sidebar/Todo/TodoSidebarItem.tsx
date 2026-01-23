@@ -6,8 +6,10 @@ import { useTodo } from "@/features/todos/query/get-todo";
 import useWindowSize from "@/hooks/useWindowSize";
 import { Sun } from "lucide-react";
 import { Button } from "@/components/ui/button";
-
+import { useTranslations } from "next-intl";
 const TodoItem = () => {
+  const appDict = useTranslations("app")
+
   const { width } = useWindowSize();
   const { activeMenu, setActiveMenu, setShowMenu } = useMenu();
   const { todos } = useTodo();
@@ -33,7 +35,7 @@ const TodoItem = () => {
       className={clsx(
         "flex items-center border border-transparent font-normal",
         activeMenu.name === "Todo" &&
-          "bg-sidebar-primary shadow-md !border-border",
+        "bg-sidebar-primary shadow-md !border-border",
       )}
     >
       <Link
@@ -51,7 +53,7 @@ const TodoItem = () => {
             activeMenu.name === "Todo" && "stroke-form-foreground-accent",
           )}
         />
-        <p className="text-foreground">Today</p>
+        <p className="text-foreground">{appDict("today")}</p>
 
         <span
           className={clsx(

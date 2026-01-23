@@ -1,5 +1,6 @@
 import { SetStateAction } from "react";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "./ui/dialog";
+import { useTranslations } from "next-intl";
 
 export default function KeyboardShortcuts({
   open,
@@ -8,6 +9,8 @@ export default function KeyboardShortcuts({
   open: boolean;
   onOpenChange: React.Dispatch<SetStateAction<boolean>>;
 }) {
+  const shortcutsDict = useTranslations("shortcuts");
+
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent
@@ -15,13 +18,15 @@ export default function KeyboardShortcuts({
         showCloseButton={false}
       >
         <DialogHeader className="mt-6 mx-6">
-          <DialogTitle className="text-lg m-auto">Shortcuts</DialogTitle>
+          <DialogTitle className="text-lg m-auto">
+            {shortcutsDict("title")}
+          </DialogTitle>
         </DialogHeader>
         <div className="max-w-4xl mx-auto p-6 bg-background">
           {/* Form Operations Table */}
           <div className="mb-8">
             <h2 className="text-xl font-semibold text-foreground mb-4 border-b-2 pb-2">
-              Todo shortcuts
+              {shortcutsDict("todo.title")}
             </h2>
             <div className="overflow-hidden rounded-lg shadow-md">
               <table className="w-full bg-card text-sm">
@@ -33,7 +38,7 @@ export default function KeyboardShortcuts({
                       </kbd>
                     </td>
                     <td className="px-6 py-3 text-card-foreground">
-                      Submit form and open another
+                      {shortcutsDict("todo.submitAndOpen")}
                     </td>
                   </tr>
                   <tr className="hover:bg-accent transition-colors">
@@ -43,7 +48,7 @@ export default function KeyboardShortcuts({
                       </kbd>
                     </td>
                     <td className="px-6 py-3 text-card-foreground">
-                      Open form
+                      {shortcutsDict("todo.openForm")}
                     </td>
                   </tr>
                   <tr className="hover:bg-accent transition-colors">
@@ -53,7 +58,7 @@ export default function KeyboardShortcuts({
                       </kbd>
                     </td>
                     <td className="px-6 py-3 text-card-foreground">
-                      Exit form
+                      {shortcutsDict("todo.exitForm")}
                     </td>
                   </tr>
                   <tr className="hover:bg-accent transition-colors">
@@ -63,7 +68,7 @@ export default function KeyboardShortcuts({
                       </kbd>
                     </td>
                     <td className="px-6 py-3 text-card-foreground">
-                      Edit form
+                      {shortcutsDict("todo.editForm")}
                     </td>
                   </tr>
                 </tbody>
@@ -73,7 +78,7 @@ export default function KeyboardShortcuts({
           {/* Calendar Table */}
           <div className="mb-8">
             <h2 className="text-xl font-semibold text-foreground mb-4 border-b-2  pb-2">
-              Calendar shortcuts
+              {shortcutsDict("calendar.title")}
             </h2>
             <div className="overflow-hidden rounded-lg shadow-md">
               <table className="w-full bg-card text-sm">
@@ -85,7 +90,7 @@ export default function KeyboardShortcuts({
                       </kbd>
                     </td>
                     <td className="px-6 py-3 text-card-foreground">
-                      Previous month/week/day
+                      {shortcutsDict("calendar.previous")}
                     </td>
                   </tr>
                   <tr className="hover:bg-accent transition-colors">
@@ -95,7 +100,7 @@ export default function KeyboardShortcuts({
                       </kbd>
                     </td>
                     <td className="px-6 py-3 text-card-foreground">
-                      Next month/week/day
+                      {shortcutsDict("calendar.next")}
                     </td>
                   </tr>
                   <tr className="hover:bg-accent transition-colors">
@@ -105,7 +110,7 @@ export default function KeyboardShortcuts({
                       </kbd>
                     </td>
                     <td className="px-6 py-3 text-card-foreground">
-                      Today view
+                      {shortcutsDict("calendar.todayView")}
                     </td>
                   </tr>
                   <tr className="hover:bg-accent transition-colors">
@@ -123,7 +128,7 @@ export default function KeyboardShortcuts({
                       </kbd>
                     </td>
                     <td className="px-6 py-3 text-card-foreground">
-                      Month/Week/Day view
+                      {shortcutsDict("calendar.viewModes")}
                     </td>
                   </tr>
                 </tbody>
@@ -133,7 +138,7 @@ export default function KeyboardShortcuts({
           {/* Navigation Table */}
           <div className="mb-8">
             <h2 className="text-xl font-semibold text-foreground mb-4 border-b-2  pb-2">
-              Navigation
+              {shortcutsDict("navigation.title")}
             </h2>
             <div className="overflow-hidden rounded-lg shadow-md">
               <table className="w-full bg-card text-sm">
@@ -143,37 +148,47 @@ export default function KeyboardShortcuts({
                       <kbd className="px-3 py-1.5 text-sm font-mono bg-muted border border-border rounded shadow-sm">
                         G
                       </kbd>
-                      <span className="mx-2 text-muted-foreground">then</span>
+                      <span className="mx-2 text-muted-foreground">
+                        {shortcutsDict("navigation.then")}
+                      </span>
                       <kbd className="px-3 py-1.5 text-sm font-mono bg-muted border border-border rounded shadow-sm">
                         T
                       </kbd>
                     </td>
-                    <td className="px-6 py-3 text-card-foreground">Today</td>
+                    <td className="px-6 py-3 text-card-foreground">
+                      {shortcutsDict("navigation.today")}
+                    </td>
                   </tr>
                   <tr className="hover:bg-accent transition-colors">
                     <td className="px-6 py-3 whitespace-nowrap">
                       <kbd className="px-3 py-1.5 text-sm font-mono bg-muted border border-border rounded shadow-sm">
                         G
                       </kbd>
-                      <span className="mx-2 text-muted-foreground">then</span>
+                      <span className="mx-2 text-muted-foreground">
+                        {shortcutsDict("navigation.then")}
+                      </span>
                       <kbd className="px-3 py-1.5 text-sm font-mono bg-muted border border-border rounded shadow-sm">
                         C
                       </kbd>
                     </td>
-                    <td className="px-6 py-3 text-card-foreground">Calendar</td>
+                    <td className="px-6 py-3 text-card-foreground">
+                      {shortcutsDict("navigation.calendar")}
+                    </td>
                   </tr>
                   <tr className="hover:bg-accent transition-colors">
                     <td className="px-6 py-3 whitespace-nowrap">
                       <kbd className="px-3 py-1.5 text-sm font-mono bg-muted border border-border rounded shadow-sm">
                         G
                       </kbd>
-                      <span className="mx-2 text-muted-foreground">then</span>
+                      <span className="mx-2 text-muted-foreground">
+                        {shortcutsDict("navigation.then")}
+                      </span>
                       <kbd className="px-3 py-1.5 text-sm font-mono bg-muted border border-border rounded shadow-sm">
                         D
                       </kbd>
                     </td>
                     <td className="px-6 py-3 text-card-foreground">
-                      Completed
+                      {shortcutsDict("navigation.completed")}
                     </td>
                   </tr>
                   <tr className="hover:bg-accent transition-colors">
@@ -181,12 +196,16 @@ export default function KeyboardShortcuts({
                       <kbd className="px-3 py-1.5 text-sm font-mono bg-muted border border-border rounded shadow-sm">
                         G
                       </kbd>
-                      <span className="mx-2 text-muted-foreground">then</span>
+                      <span className="mx-2 text-muted-foreground">
+                        {shortcutsDict("navigation.then")}
+                      </span>
                       <kbd className="px-3 py-1.5 text-sm font-mono bg-muted border border-border rounded shadow-sm">
                         V
                       </kbd>
                     </td>
-                    <td className="px-6 py-3 text-card-foreground">Vault</td>
+                    <td className="px-6 py-3 text-card-foreground">
+                      {shortcutsDict("navigation.vault")}
+                    </td>
                   </tr>
                 </tbody>
               </table>

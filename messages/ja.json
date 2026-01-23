@@ -1,0 +1,366 @@
+{
+  "landingPage": {
+    "nav": {
+      "docs": "ドキュメント",
+      "docsShort": "資料",
+      "login": "ログイン"
+    },
+    "hero": {
+      "title": "Sanity",
+      "subtitle": "Notion風エディタ、最高レベルの暗号化ファイル管理、便利な機能が詰まったスイスアーミーナイフのようなプランナー。",
+      "readDocs": "ドキュメントを見る",
+      "start": "開始する"
+    },
+    "features": [
+      {
+        "tag": "01 / スマートタスク",
+        "title": "自然言語処理",
+        "description": "タスクを自然に入力するだけ。NLPエンジンが日付・時間・期間を自動抽出します。",
+        "bullets": [
+          "日付と時間を即時検出",
+          "自動で期間計算",
+          "スマートリマインダー",
+          "文脈解析"
+        ]
+      },
+      {
+        "tag": "02 / ビジュアライズ",
+        "title": "美しいカレンダー表示",
+        "description": "すべてのタスクを一目で確認。直感的な表示で予定を管理できます。",
+        "bullets": [
+          "月・週・日ビュー",
+          "色分けされたカテゴリ",
+          "ドラッグ＆ドロップ編集",
+          "衝突検出"
+        ]
+      },
+      {
+        "tag": "03 / ノート",
+        "title": "Notion風エディタ",
+        "description": "強力で集中できるエディタでアイデアを記録します。",
+        "bullets": [
+          "Markdown対応",
+          "リッチテキスト",
+          "コードハイライト",
+          "ネストリスト"
+        ]
+      },
+      {
+        "tag": "04 / セキュリティ",
+        "title": "エンドツーエンド暗号化",
+        "description": "軍事レベルの暗号化でファイルを安全に保護します。",
+        "bullets": [
+          "AES-256暗号化",
+          "ゼロ知識設計",
+          "安全な共有",
+          "自動バックアップ"
+        ]
+      }
+    ],
+    "securityDemo": {
+      "title": "パスキー",
+      "subtitle": "ファイルを復号するためにキーが必要です",
+      "enter": "入力"
+    },
+    "errors": {
+      "fallback": "問題が発生しましたが、エラーレポートを送信しました。"
+    },
+    "footer": {
+      "privacyPolicy": "プライバシーポリシー",
+      "termsOfService": "利用規約",
+      "heroSubtitle": "The intelligent task management platform built for the not so sane."
+    }
+  },
+  "terms": {
+    "title": "利用規約",
+    "lastUpdated": "最終更新日: 2026年1月19日",
+    "intro": "https://tatsu-gg.vercel.app/ で Sanity（「サービス」）を利用することで、これらの利用規約に同意したことになります。",
+    "sections": {
+      "1": {
+        "title": "サービスの利用",
+        "content": "Sanity は、タスク、メモ、ファイルを管理するための無料の生産性向上アプリです。サービスを合法的に利用し、悪用や妨害を行わないことに同意します。"
+      },
+      "2": {
+        "title": "アカウント",
+        "content": "アカウントの安全性およびアカウント下のすべての活動について責任を負います。情報は正確である必要があります。"
+      },
+      "3": {
+        "title": "コンテンツ",
+        "content": "コンテンツの所有権は保持されます。Sanity を利用することで、サービス運営のためにのみ保存および処理することを許可します。"
+      },
+      "4": {
+        "title": "許容される利用",
+        "content": [
+          "違法、有害、または悪意のあるコンテンツの禁止",
+          "他のユーザーのデータへのアクセス禁止",
+          "インフラの悪用禁止",
+          "サービスの違法利用禁止"
+        ]
+      },
+      "5": {
+        "title": "可用性",
+        "content": "Sanity は個人プロジェクトとして提供され、サービスは予告なく変更、停止、または終了することがあります。"
+      },
+      "6": {
+        "title": "終了",
+        "content": "いつでも Sanity の利用を停止できます。規約違反があった場合、アクセスを停止することがあります。"
+      },
+      "7": {
+        "title": "免責事項",
+        "content": "Sanity は「現状のまま」提供されます。データの損失、サービス中断、その他の損害について責任を負いません。"
+      },
+      "8": {
+        "title": "変更",
+        "content": "規約は更新されることがあります。引き続きサービスを利用することで、更新内容に同意したことになります。"
+      },
+      "9": {
+        "title": "お問い合わせ",
+        "content": "質問は zhengjiawen44@gmail.com までメールでお問い合わせください。"
+      }
+    }
+  },
+  "privacy": {
+    "title": "プライバシーポリシー",
+    "lastUpdated": "最終更新日: 2026年1月19日",
+    "intro": "Sanity（「私たち」、「私たちの」、「私たちに」）は https://tatsu-gg.vercel.app/ で利用可能な個人向け生産性アプリです。このプライバシーポリシーでは、収集するデータとその利用方法について説明します。",
+    "sections": {
+      "1": {
+        "title": "収集する情報",
+        "content": [
+          "アカウント情報：メールアドレス、タイムゾーン",
+          "ユーザーコンテンツ：タスク、メモ、暗号化ファイル",
+          "技術情報：IPアドレス、ブラウザ情報、セッション情報",
+          "認証用のクッキーとローカルストレージ"
+        ]
+      },
+      "2": {
+        "title": "データの利用方法",
+        "content": [
+          "Sanity の提供と運営",
+          "ユーザー認証",
+          "コンテンツの保存と同期",
+          "セキュリティの維持と不正利用の防止"
+        ]
+      },
+      "3": {
+        "title": "データの保存とセキュリティ",
+        "content": "Sanity は認証に NextAuth、ストレージに NeonDB、ホスティングに Vercel を使用します。ファイルは必要に応じて暗号化されます。完全な安全性は保証できませんが、合理的な手段でデータを保護しています。"
+      },
+      "4": {
+        "title": "データの共有",
+        "content": "Sanity の運営に必要なサービス提供者とだけデータを共有します。個人データを販売することはありません。"
+      },
+      "5": {
+        "title": "クッキー",
+        "content": "ログインセッション、設定、セキュリティのためにクッキーとローカルストレージを使用します。クッキーを無効にすると機能に影響を与える場合があります。"
+      },
+      "6": {
+        "title": "データ保持",
+        "content": "アカウントがアクティブな間、データを保持します。アカウントを削除すると、合理的な期間内にコンテンツも削除されます。"
+      },
+      "7": {
+        "title": "ユーザーの権利",
+        "content": "アプリの機能を使用して、データへのアクセス、修正、削除、エクスポートが可能です。"
+      },
+      "8": {
+        "title": "変更",
+        "content": "このポリシーは随時更新されます。更新情報はこのページに表示されます。"
+      },
+      "9": {
+        "title": "お問い合わせ",
+        "content": "質問は zhengjiawen44@gmail.com までメールでお問い合わせください。"
+      }
+    }
+  },
+
+  "login": {
+    "title": "ログイン",
+    "oauth": {
+      "orLogInWith": "または次でログイン",
+      "google": "Google",
+      "discord": "Discord"
+    },
+    "fields": {
+      "email": {
+        "placeholder": "メールアドレス*",
+        "error": "有効なメールアドレスを入力してください"
+      },
+      "password": {
+        "placeholder": "パスワードを入力*",
+        "error": "有効なパスワードを入力してください"
+      }
+    },
+    "showPassword": "パスワードを表示",
+    "hidePassword": "パスワードを非表示",
+    "registerPrompt": "アカウントをお持ちでないですか？",
+    "registerLink": "登録",
+    "buttons": {
+      "login": "ログイン"
+    },
+    "toasts": {
+      "googleError": "現在、Googleでサインインできません",
+      "discordError": "現在、Discordでサインインできません",
+      "invalidCredentials": "メールまたはパスワードが正しくありません",
+      "genericError": "現在、ログインできません"
+    }
+  },
+
+  "register": {
+    "title": "アカウントを作成",
+    "loginPrompt": "すでにアカウントをお持ちですか？",
+    "loginLink": "ログイン",
+    "oauth": {
+      "orRegisterWith": "または以下で登録",
+      "google": "Google",
+      "discord": "Discord"
+    },
+    "fields": {
+      "fname": {
+        "placeholder": "名*",
+        "error": "名前を入力してください"
+      },
+      "lname": {
+        "placeholder": "姓",
+        "error": "有効な姓を入力してください"
+      },
+      "email": {
+        "placeholder": "メールアドレス*",
+        "error": "有効なメールを入力してください"
+      },
+      "password": {
+        "placeholder": "パスワードを入力*",
+        "error": "有効なパスワードを入力してください"
+      }
+    },
+    "buttons": {
+      "register": "アカウント作成"
+    },
+    "toasts": {
+      "googleError": "現在Googleでサインインできません",
+      "discordError": "現在Discordでサインインできません",
+      "genericError": "現在登録できません"
+    }
+  },
+  "app": {
+    "agenda": "アジェンダ",
+    "cancel": "キャンセル",
+    "save": "保存",
+    "today": "今日",
+    "tomorrow": "明日",
+    "nextWeek": "来週",
+    "day": "日",
+    "week": "週",
+    "month": "月",
+    "year": "年",
+    "duration": "期間",
+    "durationMenu": {
+      "title": "期間を設定",
+      "subTitle": "現在の日付にのみ適用されます",
+      "error": "範囲が無効です：終了時刻は開始時刻より後でなければなりません。"
+    },
+    "priority": "優先度",
+    "normal": "通常",
+    "important": "重要",
+    "urgent": "緊急",
+    "repeat": "繰り返し",
+    "everyDay": "毎日",
+    "everyWeek": "毎週",
+    "everyMonth": "毎月",
+    "everyYear": "毎年",
+    "weekdaysOnly": "平日のみ",
+    "custom": "カスタム",
+    "customMenu": {
+      "title": "カスタム繰り返し",
+      "subtitle": "カスタム繰り返しスケジュールを設定",
+      "every": "毎",
+      "ends": "終了",
+      "on": "に",
+      "never": "しない",
+      "onDate": "日付指定（含む）"
+    },
+    "descPlaceholder": "説明"
+  },
+
+  "today": {
+    "nextRepeatText": "このタスクの次の予定日は",
+    "addATask": "タスクを追加",
+    "titlePlaceholder": "午後5時に植物に水をやる",
+    "menu": {
+      "pinToTop": "上部に固定",
+      "unpin": "固定解除",
+      "edit": "編集",
+      "editAsInstance": "インスタンスとして編集",
+      "delete": "削除"
+    },
+    "saveInstance": "このインスタンスを保存"
+  },
+  "sidebar": {
+    "completed": "完了",
+    "calendar": "カレンダー",
+    "note": "ノート",
+    "vault": "ボールト",
+    "settings": "設定",
+    "settingMenu": {
+      "logout": "ログアウト",
+      "theme": "テーマ",
+      "shortcuts": "ショートカット"
+    },
+    "noteMenu": {
+      "rename": "名前を変更",
+      "delete": "削除"
+    }
+  },
+  "completed": {
+    "title": "完了履歴"
+  },
+  "modal": {
+    "confirm": "確認",
+    "cancel": "キャンセル",
+    "delete": {
+      "title": "タスクを削除しますか？",
+      "subtitle": "この操作は元に戻せません。完全に削除されます",
+      "button": "削除"
+    },
+    "deleteAll": {
+      "title": "すべての繰り返しタスクを削除しますか？",
+      "subtitle": "これは繰り返しタスクです。すべての繰り返しを削除しますか？",
+      "deleteInstance": "この発生のみを削除",
+      "deleteAll": "すべての繰り返しを削除"
+    },
+    "cancelEdit": {
+      "title": "編集をキャンセルしますか？",
+      "subtitle": "変更内容は破棄されます"
+    },
+    "editAll": {
+      "title": "すべての繰り返しタスクを編集しますか？",
+      "subtitle": "これは繰り返しタスクです。すべての繰り返しに同じ編集を適用しますか？",
+      "editInstance": "この発生のみを編集",
+      "editAll": "すべての繰り返しを編集"
+    }
+  },
+  "shortcuts": {
+    "title": "ショートカット",
+    "todo": {
+      "title": "タスクのショートカット",
+      "submitAndOpen": "フォームを送信して新規作成",
+      "openForm": "フォームを開く",
+      "exitForm": "フォームを閉じる",
+      "editForm": "フォームを編集"
+    },
+    "calendar": {
+      "title": "カレンダーのショートカット",
+      "previous": "前の月/週/日",
+      "next": "次の月/週/日",
+      "todayView": "今日の表示",
+      "viewModes": "月/週/日表示"
+    },
+    "navigation": {
+      "title": "ナビゲーション",
+      "then": "次に",
+      "today": "今日",
+      "calendar": "カレンダー",
+      "completed": "完了済み",
+      "vault": "保管庫"
+    }
+  }
+}

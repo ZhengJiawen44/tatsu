@@ -11,6 +11,7 @@ import clsx from "clsx";
 import { Button } from "@/components/ui/button";
 import { Options } from "rrule";
 import { masqueradeAsUTC } from "@/features/todos/lib/masqueradeAsUTC";
+import { useTranslations } from "next-intl";
 
 interface RepeatEndOptionProps {
   customRepeatOptions: Partial<Options> | null;
@@ -22,6 +23,7 @@ const RepeatEndOption = ({
   customRepeatOptions,
   setCustomRepeatOptions,
 }: RepeatEndOptionProps) => {
+  const appDict = useTranslations("app");
   const [open, setOpen] = useState(false);
 
   function removeUntil(options: Partial<Options> | null) {
@@ -35,7 +37,7 @@ const RepeatEndOption = ({
   }
   return (
     <div className="flex flex-col gap-2">
-      <p className="font-medium ">ends</p>
+      <p className="font-medium ">{appDict("customMenu.ends")}</p>
       <RadioGroup>
         <div className="flex items-center gap-3">
           <RadioGroupItem
@@ -46,7 +48,7 @@ const RepeatEndOption = ({
               setCustomRepeatOptions(removeUntil(customRepeatOptions));
             }}
           />
-          <label htmlFor="never">never</label>
+          <label htmlFor="never">{appDict("customMenu.never")}</label>
         </div>
         <div className="flex items-center gap-3">
           <RadioGroupItem
@@ -60,7 +62,7 @@ const RepeatEndOption = ({
               });
             }}
           />
-          <label htmlFor="exDate">on Date (inclusive)</label>
+          <label htmlFor="exDate">{appDict("customMenu.onDate")}</label>
           {/* date picker */}
           <Popover open={open} onOpenChange={setOpen}>
             <PopoverTrigger asChild>

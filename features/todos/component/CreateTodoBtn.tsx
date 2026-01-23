@@ -3,12 +3,14 @@ import React, { useEffect, useState } from "react";
 import dynamic from "next/dynamic";
 import Plus from "@/components/ui/icon/plus";
 import TodoFormLoading from "./TodoItem/TodoForm/TodoFormLoading";
+import { useTranslations } from "next-intl";
 const TodoForm = dynamic(
   () => import("./TodoItem/TodoForm/TodoFormContainer"),
   { loading: () => <TodoFormLoading /> },
 );
 
 const CreateTodoBtn = () => {
+  const todayDict = useTranslations("today");
   const [displayForm, setDisplayForm] = useState(false);
   useEffect(() => {
     const showCreateTodoForm = (e: KeyboardEvent) => {
@@ -45,7 +47,7 @@ const CreateTodoBtn = () => {
       >
         <Plus className="mb-[2px] -ml-1 w-5 h-5 stroke-muted-foreground group-hover:stroke-foreground" />
         <p className="text-muted-foreground text-[0.95rem] group-hover:text-foreground ">
-          Add a task
+          {todayDict("addATask")}
         </p>
       </button>
 

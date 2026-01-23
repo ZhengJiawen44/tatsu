@@ -4,7 +4,9 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { useCompletedTodo } from "../query/get-completedTodo";
 import { useGroupedHistory } from "../hooks/useGroupedHistory";
 import GroupedCompletedTodoContainer from "./GroupedContainer";
+import { useTranslations } from "next-intl";
 const CompletedTodoContainer = () => {
+  const completedDict = useTranslations("completed")
   const { completedTodos, todoLoading } = useCompletedTodo();
   const groupedHistory = useGroupedHistory(completedTodos);
 
@@ -19,7 +21,7 @@ const CompletedTodoContainer = () => {
 
   return (
     <>
-      <h3 className="text-[1.2rem] sm:text-3xl"> Completion history</h3>
+      <h3 className="text-[1.2rem] sm:text-3xl"> {completedDict("title")}</h3>
 
       <div className="flex flex-col gap-10 my-12">
         {Array.from(groupedHistory.entries())

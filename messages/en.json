@@ -1,0 +1,366 @@
+{
+  "landingPage": {
+    "nav": {
+      "docs": "Documentation",
+      "docsShort": "Docs",
+      "login": "Log in"
+    },
+    "hero": {
+      "title": "Sanity",
+      "subtitle": "A swiss army knife of a personal planner — with a Notion-style editor, top-secret encrypted file uploads, and a bunch of nifty extras!",
+      "readDocs": "Read the docs",
+      "start": "Start"
+    },
+    "features": [
+      {
+        "tag": "01 / SMART TASKS",
+        "title": "Natural language processing",
+        "description": "Simply type your tasks naturally. Our intelligent NLP engine automatically extracts dates, times, and durations from your input.",
+        "bullets": [
+          "Instant date and time detection",
+          "Automatic duration calculation",
+          "Smart reminder scheduling",
+          "Context-aware parsing"
+        ]
+      },
+      {
+        "tag": "02 / VISUALIZATION",
+        "title": "Beautiful calendar view",
+        "description": "See all your tasks at a glance. The integrated calendar provides a clear overview of your schedule with intuitive visual indicators.",
+        "bullets": [
+          "Monthly, weekly, and daily views",
+          "Color-coded task categories",
+          "Drag-and-drop rescheduling",
+          "Conflict detection"
+        ]
+      },
+      {
+        "tag": "03 / RICH NOTES",
+        "title": "Notion-style editor",
+        "description": "Capture your thoughts with a powerful, distraction-free editor. Format text, embed media, and organize your ideas effortlessly.",
+        "bullets": [
+          "Markdown support",
+          "Rich text formatting",
+          "Code block syntax highlighting",
+          "Nested bullet lists"
+        ]
+      },
+      {
+        "tag": "04 / SECURITY",
+        "title": "End-to-end encrypted storage",
+        "description": "Your files are protected with military-grade encryption. Store documents, images, and attachments with complete peace of mind.",
+        "bullets": [
+          "AES-256 encryption",
+          "Zero-knowledge architecture",
+          "Secure file sharing",
+          "Automatic backups"
+        ]
+      }
+    ],
+    "securityDemo": {
+      "title": "Passkey",
+      "subtitle": "We need your passkey to decrypt your files",
+      "enter": "Enter"
+    },
+    "errors": {
+      "fallback": "Something went wrong, but don't worry, we sent an error report."
+    },
+    "footer": {
+      "privacyPolicy": "Privacy Policy",
+      "termsOfService": "Terms of Service",
+      "heroSubtitle": "The intelligent task management platform built for the not so sane."
+    }
+  },
+  "terms": {
+    "title": "Terms of Service",
+    "lastUpdated": "Last updated: January 19, 2026",
+    "intro": "By using Sanity at https://tatsu-gg.vercel.app/ (the “Service”), you agree to these Terms of Service.",
+    "sections": {
+      "1": {
+        "title": "Use of the Service",
+        "content": "Sanity is a free productivity app for managing todos, notes, and files. You agree to use the Service lawfully and not abuse or disrupt it."
+      },
+      "2": {
+        "title": "Accounts",
+        "content": "You are responsible for keeping your account secure and all activity under your account. Information must be accurate."
+      },
+      "3": {
+        "title": "Your Content",
+        "content": "You retain ownership of your content. By using Sanity, you grant permission to store and process it only to operate the Service."
+      },
+      "4": {
+        "title": "Acceptable Use",
+        "content": [
+          "No illegal, harmful, or malicious content",
+          "No accessing other users’ data",
+          "No abusing infrastructure",
+          "No unlawful use of the Service"
+        ]
+      },
+      "5": {
+        "title": "Availability",
+        "content": "Sanity is a personal project provided on a best-effort basis. The Service may change, go offline, or be discontinued at any time."
+      },
+      "6": {
+        "title": "Termination",
+        "content": "You may stop using Sanity at any time. We may suspend access if these Terms are violated."
+      },
+      "7": {
+        "title": "Disclaimer",
+        "content": "Sanity is provided “as is”. We are not responsible for data loss, interruptions, or damages resulting from use of the Service."
+      },
+      "8": {
+        "title": "Changes",
+        "content": "We may update these Terms. Continued use means you accept the changes."
+      },
+      "9": {
+        "title": "Contact",
+        "content": "Questions? Email zhengjiawen44@gmail.com"
+      }
+    }
+  },
+  "privacy": {
+    "title": "Privacy Policy",
+    "lastUpdated": "Last updated: January 19, 2026",
+    "intro": "Sanity (“we”, “our”, or “us”) is a personal productivity app available at https://tatsu-gg.vercel.app/. This Privacy Policy explains what data we collect and how we use it.",
+    "sections": {
+      "1": {
+        "title": "Information We Collect",
+        "content": [
+          "Account data: email address and time zone",
+          "User content: todos, notes, and encrypted files",
+          "Technical data: IP address, browser and session info",
+          "Cookies and local storage for authentication"
+        ]
+      },
+      "2": {
+        "title": "How We Use Your Data",
+        "content": [
+          "Provide and operate Sanity",
+          "Authenticate users",
+          "Store and sync your content",
+          "Maintain security and prevent abuse"
+        ]
+      },
+      "3": {
+        "title": "Data Storage & Security",
+        "content": "Sanity uses NextAuth for authentication, NeonDB for storage, and Vercel for hosting. Files are encrypted where applicable. While no system is perfectly secure, reasonable steps are taken to protect your data."
+      },
+      "4": {
+        "title": "Sharing of Data",
+        "content": "We only share data with service providers required to operate Sanity. We do not sell your personal data."
+      },
+      "5": {
+        "title": "Cookies",
+        "content": "Cookies and local storage are used for login sessions, preferences, and security. Disabling cookies may affect functionality."
+      },
+      "6": {
+        "title": "Data Retention",
+        "content": "We keep your data while your account is active. You may delete your account at any time and your content will be removed within a reasonable period."
+      },
+      "7": {
+        "title": "Your Rights",
+        "content": "You may access, correct, delete, or export your data using the app features."
+      },
+      "8": {
+        "title": "Changes",
+        "content": "We may update this policy from time to time. Updates will appear on this page."
+      },
+      "9": {
+        "title": "Contact",
+        "content": "Questions? Email zhengjiawen44@gmail.com"
+      }
+    }
+  },
+  "login": {
+    "title": "Login",
+    "oauth": {
+      "orLogInWith": "or log in with",
+      "google": "Google",
+      "discord": "Discord"
+    },
+    "fields": {
+      "email": {
+        "placeholder": "Email*",
+        "error": "Please enter a valid email"
+      },
+      "password": {
+        "placeholder": "Enter your password*",
+        "error": "Please enter a valid password"
+      }
+    },
+    "showPassword": "Show password",
+    "hidePassword": "Hide password",
+    "registerPrompt": "Do not have an account?",
+    "registerLink": "Register",
+    "buttons": {
+      "login": "Login"
+    },
+    "toasts": {
+      "googleError": "We could not sign you in to Google at the moment",
+      "discordError": "We could not sign you in to Discord at the moment",
+      "invalidCredentials": "Invalid email or password",
+      "genericError": "We cannot log you in at this moment"
+    }
+  },
+
+  "register": {
+    "title": "Create an account",
+    "loginPrompt": "Already have an account?",
+    "loginLink": "Login",
+    "oauth": {
+      "orRegisterWith": "or register with",
+      "google": "Google",
+      "discord": "Discord"
+    },
+    "fields": {
+      "fname": {
+        "placeholder": "First Name*",
+        "error": "Please enter your first name"
+      },
+      "lname": {
+        "placeholder": "Last Name",
+        "error": "Please enter a valid last name"
+      },
+      "email": {
+        "placeholder": "Email*",
+        "error": "Please enter a valid email"
+      },
+      "password": {
+        "placeholder": "Enter your password*",
+        "error": "Please enter a valid password"
+      }
+    },
+    "buttons": {
+      "register": "Create an Account"
+    },
+    "toasts": {
+      "googleError": "We could not sign you in to Google at the moment",
+      "discordError": "We could not sign you in to Discord at the moment",
+      "genericError": "We cannot register you at this moment"
+    }
+  },
+  "app": {
+    "agenda": "agenda",
+    "cancel": "Cancel",
+    "save": "Save",
+    "today": "Today",
+    "yesterday": "Yesterday",
+    "tomorrow": "Tomorrow",
+    "nextWeek": "Next week",
+    "day": "Day",
+    "week": "Week",
+    "month": "Month",
+    "year": "Year",
+    "duration": "Duration",
+    "durationMenu": {
+      "title": "Set duration",
+      "subTitle": "Applied to the current date only",
+      "error": "Invalid date range: End time must be after start time."
+    },
+    "priority": "Priority",
+    "normal": "Normal",
+    "important": "Important",
+    "urgent": "Urgent",
+    "repeat": "Repeat",
+    "everyDay": "Every day",
+    "everyWeek": "Every week",
+    "everyMonth": "Every month",
+    "everyYear": "Every year",
+    "weekdaysOnly": "Weekdays only",
+    "custom": "Custom",
+    "customMenu": {
+      "title": "Custom Repeat",
+      "subTitle": "Set up a custom repeat schedule",
+      "every": "Every",
+      "on": "on",
+      "ends": "Ends",
+      "never": "Never",
+      "onDate": "On Date (inclusive)"
+    },
+    "descPlaceholder": "description"
+  },
+
+  "today": {
+    "saveInstance": "Save instance",
+    "nextRepeatText": "This todo is next scheduled for",
+    "addATask": "Add a task",
+    "titlePlaceholder": "water the plant at 5pm",
+    "menu": {
+      "pinToTop": "Pin to top",
+      "edit": "Edit",
+      "editAsInstance": "Edit as instance",
+      "delete": "Delete"
+    }
+  },
+  "sidebar": {
+    "completed": "Completed",
+    "calendar": "Calendar",
+    "note": "Note",
+    "vault": "Vault",
+    "settings": "Settings",
+    "settingMenu": {
+      "logout": "Log out",
+      "theme": "Theme",
+      "shortcuts": "Shortcuts"
+    },
+    "noteMenu": {
+      "rename": "rename",
+      "delete": "delete"
+    }
+  },
+  "completed": {
+    "title": "Completion history"
+  },
+
+  "modal": {
+    "confirm": "Confirm",
+    "cancel": "Cancel",
+    "delete": {
+      "title": "Delete todo?",
+      "subtitle": "This action cannot be undone. This will permanently delete",
+      "button": "Delete"
+    },
+    "deleteAll": {
+      "title": "Delete all todo recurrences?",
+      "subtitle": "This is a recurring todo, delete all other recurrences?",
+      "deleteInstance": "Delete this occurrence only",
+      "deleteAll": "Delete all recurrences"
+    },
+    "cancelEdit": {
+      "title": "Cancel Edit?",
+      "subtitle": "Changes you have made will be discarded"
+    },
+    "editAll": {
+      "title": "Edit all todo recurrences?",
+      "subtitle": "This is a recurring todo, make the same edit for all other recurrences?",
+      "editInstance": "Edit this occurrence only",
+      "editAll": "Edit all recurrences"
+    }
+  },
+  "shortcuts": {
+    "title": "Shortcuts",
+    "todo": {
+      "title": "Todo shortcuts",
+      "submitAndOpen": "Submit form and open another",
+      "openForm": "Open form",
+      "exitForm": "Exit form",
+      "editForm": "Edit form"
+    },
+    "calendar": {
+      "title": "Calendar shortcuts",
+      "previous": "Previous month/week/day",
+      "next": "Next month/week/day",
+      "todayView": "Today view",
+      "viewModes": "Month/Week/Day view"
+    },
+    "navigation": {
+      "title": "Navigation",
+      "then": "then",
+      "today": "Today",
+      "calendar": "Calendar",
+      "completed": "Completed",
+      "vault": "Vault"
+    }
+  }
+}

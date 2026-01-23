@@ -5,7 +5,9 @@ import { Calendar1Icon } from "lucide-react";
 import Link from "next/link";
 import useWindowSize from "@/hooks/useWindowSize";
 import { Button } from "@/components/ui/button";
+import { useTranslations } from "next-intl";
 const CalendarItem = () => {
+  const sidebarDict = useTranslations("sidebar")
   const { width } = useWindowSize();
 
   const { activeMenu, setActiveMenu, setShowMenu } = useMenu();
@@ -16,7 +18,7 @@ const CalendarItem = () => {
       className={clsx(
         "flex items-center border border-transparent font-normal",
         activeMenu.name === "Calendar" &&
-          "bg-sidebar-primary shadow-md text-form-foreground-accent !border-border",
+        "bg-sidebar-primary shadow-md text-form-foreground-accent !border-border",
       )}
     >
       <Link
@@ -33,7 +35,7 @@ const CalendarItem = () => {
               activeMenu.name === "Calendar" && "stroke-form-foreground-accent",
             )}
           />
-          <p className="text-foreground">Calendar</p>
+          <p className="text-foreground">{sidebarDict("calendar")}</p>
         </div>
       </Link>
     </Button>

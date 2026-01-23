@@ -13,13 +13,15 @@ import { FileText } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import dynamic from "next/dynamic";
 import NoteLoading from "./NoteLoading";
-
+import { useTranslations } from "next-intl";
 const NoteSidebarItemContainer = dynamic(
   () => import("./NoteSidebarItemContainer"),
   { loading: () => <NoteLoading /> },
 );
 
 const NoteCollapsible = () => {
+  const sidebarDict = useTranslations("sidebar")
+
   const { activeMenu, setActiveMenu } = useMenu();
   const [showPlus, setShowPlus] = useState(false);
 
@@ -35,7 +37,7 @@ const NoteCollapsible = () => {
       <CollapsibleTrigger
         onMouseEnter={() => setShowPlus(true)}
         onMouseLeave={() => setShowPlus(false)}
-        onClick={() => {}}
+        onClick={() => { }}
         asChild
         className={clsx("w-full items-start justify-start")}
       >
@@ -44,7 +46,7 @@ const NoteCollapsible = () => {
           className={clsx(
             "flex gap-3 items-center border border-transparent w-full font-normal",
             activeMenu.name === "Note" &&
-              "bg-sidebar-primary shadow-md text-form-foreground-accent !border-border",
+            "bg-sidebar-primary shadow-md text-form-foreground-accent !border-border",
           )}
         >
           <FileText
@@ -53,7 +55,7 @@ const NoteCollapsible = () => {
               activeMenu.name === "Note" && "stroke-form-foreground-accent",
             )}
           />
-          <p className="select-none text-foreground">Note</p>
+          <p className="select-none text-foreground">{sidebarDict("note")}</p>
           {createLoading ? (
             <Spinner className="mr-0 ml-auto w-5 h-5" />
           ) : (

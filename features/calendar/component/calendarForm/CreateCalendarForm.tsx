@@ -8,6 +8,7 @@ import { useCreateCalendarTodo } from "../../query/create-calendar-todo";
 import ConfirmCancelEditDialog from "./ConfirmCancelEdit";
 import { useEffect, useMemo, useState } from "react";
 import { Options, RRule } from "rrule";
+import { useTranslations } from "next-intl";
 
 type CreateCalendarFormProps = {
   start: Date;
@@ -22,6 +23,10 @@ const CreateCalendarForm = ({
   displayForm,
   setDisplayForm,
 }: CreateCalendarFormProps) => {
+  const appDict = useTranslations("app");
+  const calendarDict = useTranslations("calendar");
+  const todayDict = useTranslations("today");
+
   const [cancelEditDialogOpen, setCancelEditDialogOpen] = useState(false);
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
@@ -111,7 +116,7 @@ const CreateCalendarForm = ({
             <div className="flex items-start gap-4">
               <input
                 className="ml-9 flex-1 min-w-0 bg-transparent border-b border-border py-1 text-lg focus:outline-none focus:border-lime"
-                placeholder="Add title"
+                placeholder={todayDict("titlePlaceholder")}
                 value={title}
                 onChange={(e) => setTitle(e.target.value)}
                 autoFocus
@@ -158,7 +163,7 @@ const CreateCalendarForm = ({
               <textarea
                 className="flex-1 min-w-0 bg-input rounded-md px-3 py-2 text-sm resize-none focus:outline-none focus:ring-2 focus:ring-lime"
                 rows={3}
-                placeholder="Add description"
+                placeholder={appDict("descPlaceholder")}
                 value={description}
                 onChange={(e) => setDescription(e.target.value)}
               />
@@ -177,14 +182,14 @@ const CreateCalendarForm = ({
                   }
                 }}
               >
-                Cancel
+                {appDict("cancel")}
               </button>
 
               <button
                 type="submit"
                 className="px-4 py-2 rounded-md brightness-90 hover:brightness-100 bg-lime text-white text-sm hover:bg-lime"
               >
-                create
+                {calendarDict("create")}
               </button>
             </div>
           </form>

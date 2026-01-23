@@ -1,7 +1,7 @@
 import { Checkbox } from "@/components/ui/checkbox";
 import React, { SetStateAction } from "react";
 import { Options, RRule } from "rrule";
-
+import { useTranslations } from "next-intl";
 interface RepeatOnOptionProps {
   customRepeatOptions: Partial<Options> | null;
   setCustomRepeatOptions: React.Dispatch<
@@ -13,6 +13,7 @@ const RepeatOnOption = ({
   customRepeatOptions,
   setCustomRepeatOptions,
 }: RepeatOnOptionProps) => {
+  const appDict = useTranslations("app");
   const rruleObj = customRepeatOptions ? new RRule(customRepeatOptions) : null;
   const byweekday = rruleObj?.options.byweekday;
   const freq = customRepeatOptions?.freq;
@@ -32,7 +33,7 @@ const RepeatOnOption = ({
   return (
     freq == RRule.WEEKLY && (
       <div className="flex flex-col gap-2">
-        <p className="font-medium ">On</p>
+        <p className="font-medium "> {appDict("customMenu.on")}</p>
         <div className="flex gap-4">
           <div className="flex items-center gap-1">
             <Checkbox

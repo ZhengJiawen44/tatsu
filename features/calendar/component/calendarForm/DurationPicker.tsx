@@ -9,6 +9,7 @@ import { Clock, ChevronRight } from "lucide-react";
 import { format, parse, isValid, isSameDay } from "date-fns";
 import { Input } from "@/components/ui/input";
 import { NonNullableDateRange } from "@/types";
+import { useLocale, useTranslations } from "next-intl";
 
 type DurationPickerProps = {
   dateRange: NonNullableDateRange;
@@ -17,6 +18,8 @@ type DurationPickerProps = {
 
 const DurationPicker = React.forwardRef<HTMLButtonElement, DurationPickerProps>(
   ({ dateRange, setDateRange }, ref) => {
+    const locale = useLocale();
+    const appDict = useTranslations("app");
     const [open, setOpen] = React.useState(false);
     const [timeFromStr, setTimeFromStr] = useState(
       dateRange?.from ? format(dateRange.from, "HH:mm") : "00:00",
@@ -73,7 +76,7 @@ const DurationPicker = React.forwardRef<HTMLButtonElement, DurationPickerProps>(
         parsed.getTime() < dateRange.from.getTime()
       ) {
         // show error, do not commit invalid value
-        setError("invalid date range: End time must be after start time.");
+        setError(appDict("durationMenu.error")); // Add this to your translations
         return;
       }
       // otherwise commit
@@ -81,6 +84,14 @@ const DurationPicker = React.forwardRef<HTMLButtonElement, DurationPickerProps>(
         setError(null);
         return { from: old.from, to: parsed };
       });
+    };
+
+    // Helper function to format dates with locale support
+    const formatDate = (date: Date) => {
+      return new Intl.DateTimeFormat(locale, {
+        day: "2-digit",
+        month: "short",
+      }).format(date);
     };
 
     const inputErrorClass = error ? "ring-1 ring-red" : "";
@@ -95,7 +106,7 @@ const DurationPicker = React.forwardRef<HTMLButtonElement, DurationPickerProps>(
           >
             <div className="flex gap-1 items-center">
               <Clock className="!w-5 !h-5 stroke-[1.8px]" />
-              Duration
+              {appDict("duration")}
             </div>
             <ChevronRight className="ml-auto h-4 w-4 text-muted-foreground/50 group-hover:text-accent-foreground" />
           </button>
@@ -110,10 +121,10 @@ const DurationPicker = React.forwardRef<HTMLButtonElement, DurationPickerProps>(
           <div className="flex flex-col gap-4">
             <div className="space-y-1">
               <h4 className="text-sm font-semibold leading-none tracking-tight">
-                Set duration
+                {appDict("durationMenu.title")}
               </h4>
               <p className="text-[11px] leading-snug text-muted-foreground">
-                Applied to the current date only
+                {appDict("durationMenu.subTitle")}
               </p>
             </div>
 
@@ -122,7 +133,7 @@ const DurationPicker = React.forwardRef<HTMLButtonElement, DurationPickerProps>(
               <div className="rounded-md border p-1">
                 <div className="flex justify-center gap-2 items-center">
                   <span className="text-xs font-medium text-muted-foreground">
-                    {format(dateRange.from, "dd MMM")}
+                    {formatDate(dateRange.from)}
                   </span>
                   <div className="p-0 flex-1">
                     <Input
@@ -141,7 +152,7 @@ const DurationPicker = React.forwardRef<HTMLButtonElement, DurationPickerProps>(
               <div className="rounded-md border p-1">
                 <div className="flex justify-center gap-2 items-center">
                   <span className="text-xs font-medium text-muted-foreground">
-                    {format(dateRange.to, "dd MMM")}
+                    {formatDate(dateRange.to)}
                   </span>
                   <div className="p-0 flex-1">
                     <Input

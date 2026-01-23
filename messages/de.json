@@ -1,0 +1,367 @@
+{
+  "landingPage": {
+    "nav": {
+      "docs": "Dokumentation",
+      "docsShort": "Doku",
+      "login": "Anmelden"
+    },
+    "hero": {
+      "title": "Sanity",
+      "subtitle": "Ein Schweizer Taschenmesser unter den Planern – mit Notion-Editor, starker Verschlüsselung und vielen Extras.",
+      "readDocs": "Doku lesen",
+      "start": "Starten"
+    },
+    "features": [
+      {
+        "tag": "01 / SMARTE AUFGABEN",
+        "title": "Natürliche Sprachverarbeitung",
+        "description": "Tippe deine Aufgaben natürlich ein. Die NLP-Engine erkennt automatisch Daten und Zeiten.",
+        "bullets": [
+          "Sofortige Datumserkennung",
+          "Automatische Dauerberechnung",
+          "Intelligente Erinnerungen",
+          "Kontextanalyse"
+        ]
+      },
+      {
+        "tag": "02 / VISUALISIERUNG",
+        "title": "Schöne Kalenderansicht",
+        "description": "Alle Aufgaben auf einen Blick mit einer klaren Übersicht.",
+        "bullets": [
+          "Monats-, Wochen- und Tagesansicht",
+          "Farbcodierte Kategorien",
+          "Drag & Drop Planung",
+          "Konflikterkennung"
+        ]
+      },
+      {
+        "tag": "03 / NOTIZEN",
+        "title": "Notion-ähnlicher Editor",
+        "description": "Halte deine Gedanken mit einem leistungsstarken Editor fest.",
+        "bullets": [
+          "Markdown Unterstützung",
+          "Rich-Text Formatierung",
+          "Code-Highlighting",
+          "Verschachtelte Listen"
+        ]
+      },
+      {
+        "tag": "04 / SICHERHEIT",
+        "title": "Ende-zu-Ende Verschlüsselung",
+        "description": "Deine Dateien sind mit militärischer Verschlüsselung geschützt.",
+        "bullets": [
+          "AES-256 Verschlüsselung",
+          "Zero-Knowledge Architektur",
+          "Sicheres Teilen",
+          "Automatische Backups"
+        ]
+      }
+    ],
+    "securityDemo": {
+      "title": "Passkey",
+      "subtitle": "Wir benötigen deinen Schlüssel zum Entschlüsseln",
+      "enter": "Bestätigen"
+    },
+    "errors": {
+      "fallback": "Etwas ist schiefgelaufen, aber wir haben den Fehler gemeldet."
+    },
+    "footer": {
+      "privacyPolicy": "Datenschutzrichtlinie",
+      "termsOfService": "Nutzungsbedingungen",
+      "heroSubtitle": "The intelligent task management platform built for the not so sane."
+    }
+  },
+  "terms": {
+    "title": "Nutzungsbedingungen",
+    "lastUpdated": "Zuletzt aktualisiert: 19. Januar 2026",
+    "intro": "Durch die Nutzung von Sanity auf https://tatsu-gg.vercel.app/ (der „Dienst“) stimmen Sie diesen Nutzungsbedingungen zu.",
+    "sections": {
+      "1": {
+        "title": "Nutzung des Dienstes",
+        "content": "Sanity ist eine kostenlose Produktivitäts-App zur Verwaltung von Aufgaben, Notizen und Dateien. Sie stimmen zu, den Dienst gesetzlich zu nutzen und ihn nicht zu missbrauchen oder zu stören."
+      },
+      "2": {
+        "title": "Konten",
+        "content": "Sie sind verantwortlich für die Sicherheit Ihres Kontos und alle Aktivitäten darunter. Informationen müssen korrekt sein."
+      },
+      "3": {
+        "title": "Ihr Inhalt",
+        "content": "Sie behalten das Eigentum an Ihren Inhalten. Durch die Nutzung von Sanity erteilen Sie die Erlaubnis, diese nur zur Betreibung des Dienstes zu speichern und zu verarbeiten."
+      },
+      "4": {
+        "title": "Zulässige Nutzung",
+        "content": [
+          "Keine illegalen, schädlichen oder bösartigen Inhalte",
+          "Kein Zugriff auf Daten anderer Nutzer",
+          "Keine Missbrauch der Infrastruktur",
+          "Keine rechtswidrige Nutzung des Dienstes"
+        ]
+      },
+      "5": {
+        "title": "Verfügbarkeit",
+        "content": "Sanity ist ein persönliches Projekt, das nach bestem Wissen bereitgestellt wird. Der Dienst kann jederzeit geändert, offline genommen oder eingestellt werden."
+      },
+      "6": {
+        "title": "Beendigung",
+        "content": "Sie können die Nutzung von Sanity jederzeit einstellen. Wir können den Zugang sperren, wenn diese Bedingungen verletzt werden."
+      },
+      "7": {
+        "title": "Haftungsausschluss",
+        "content": "Sanity wird „wie besehen“ bereitgestellt. Wir übernehmen keine Verantwortung für Datenverlust, Unterbrechungen oder Schäden durch die Nutzung des Dienstes."
+      },
+      "8": {
+        "title": "Änderungen",
+        "content": "Wir können diese Bedingungen aktualisieren. Die fortgesetzte Nutzung bedeutet, dass Sie die Änderungen akzeptieren."
+      },
+      "9": {
+        "title": "Kontakt",
+        "content": "Fragen? Senden Sie eine E-Mail an zhengjiawen44@gmail.com"
+      }
+    }
+  },
+  "privacy": {
+    "title": "Datenschutzrichtlinie",
+    "lastUpdated": "Zuletzt aktualisiert: 19. Januar 2026",
+    "intro": "Sanity („wir“, „unser“) ist eine persönliche Produktivitäts-App, verfügbar unter https://tatsu-gg.vercel.app/. Diese Datenschutzrichtlinie erklärt, welche Daten wir sammeln und wie wir sie verwenden.",
+    "sections": {
+      "1": {
+        "title": "Gesammelte Informationen",
+        "content": [
+          "Kontodaten: E-Mail-Adresse und Zeitzone",
+          "Nutzerinhalte: Aufgaben, Notizen und verschlüsselte Dateien",
+          "Technische Daten: IP-Adresse, Browser- und Sitzungsinformationen",
+          "Cookies und lokaler Speicher für Authentifizierung"
+        ]
+      },
+      "2": {
+        "title": "Wie wir Ihre Daten verwenden",
+        "content": [
+          "Bereitstellung und Betrieb von Sanity",
+          "Benutzerauthentifizierung",
+          "Speicherung und Synchronisierung Ihrer Inhalte",
+          "Sicherheitsmaßnahmen und Missbrauchsprävention"
+        ]
+      },
+      "3": {
+        "title": "Datenspeicherung & Sicherheit",
+        "content": "Sanity verwendet NextAuth für Authentifizierung, NeonDB für Speicherung und Vercel für Hosting. Dateien werden dort verschlüsselt, wo es zutrifft. Obwohl kein System perfekt sicher ist, werden angemessene Maßnahmen zum Schutz Ihrer Daten getroffen."
+      },
+      "4": {
+        "title": "Datenweitergabe",
+        "content": "Wir teilen Daten nur mit Dienstleistern, die für den Betrieb von Sanity erforderlich sind. Wir verkaufen keine persönlichen Daten."
+      },
+      "5": {
+        "title": "Cookies",
+        "content": "Cookies und lokaler Speicher werden für Login-Sitzungen, Präferenzen und Sicherheit verwendet. Das Deaktivieren von Cookies kann die Funktionalität beeinträchtigen."
+      },
+      "6": {
+        "title": "Datenaufbewahrung",
+        "content": "Wir bewahren Ihre Daten auf, solange Ihr Konto aktiv ist. Sie können Ihr Konto jederzeit löschen, und Ihre Inhalte werden innerhalb eines angemessenen Zeitraums entfernt."
+      },
+      "7": {
+        "title": "Ihre Rechte",
+        "content": "Sie können auf Ihre Daten zugreifen, sie korrigieren, löschen oder exportieren, indem Sie die Funktionen der App verwenden."
+      },
+      "8": {
+        "title": "Änderungen",
+        "content": "Wir können diese Richtlinie gelegentlich aktualisieren. Aktualisierungen werden auf dieser Seite angezeigt."
+      },
+      "9": {
+        "title": "Kontakt",
+        "content": "Fragen? Senden Sie eine E-Mail an zhengjiawen44@gmail.com"
+      }
+    }
+  },
+
+  "login": {
+    "title": "Anmelden",
+    "oauth": {
+      "orLogInWith": "oder anmelden mit",
+      "google": "Google",
+      "discord": "Discord"
+    },
+    "fields": {
+      "email": {
+        "placeholder": "E-Mail*",
+        "error": "Bitte geben Sie eine gültige E-Mail ein"
+      },
+      "password": {
+        "placeholder": "Passwort eingeben*",
+        "error": "Bitte geben Sie ein gültiges Passwort ein"
+      }
+    },
+    "showPassword": "Passwort anzeigen",
+    "hidePassword": "Passwort verbergen",
+    "registerPrompt": "Noch kein Konto?",
+    "registerLink": "Registrieren",
+    "buttons": {
+      "login": "Anmelden"
+    },
+    "toasts": {
+      "googleError": "Wir konnten derzeit nicht bei Google anmelden",
+      "discordError": "Wir konnten derzeit nicht bei Discord anmelden",
+      "invalidCredentials": "Ungültige E-Mail oder Passwort",
+      "genericError": "Wir können Sie derzeit nicht anmelden"
+    }
+  },
+
+  "register": {
+    "title": "Konto erstellen",
+    "loginPrompt": "Haben Sie bereits ein Konto?",
+    "loginLink": "Anmelden",
+    "oauth": {
+      "orRegisterWith": "oder registrieren mit",
+      "google": "Google",
+      "discord": "Discord"
+    },
+    "fields": {
+      "fname": {
+        "placeholder": "Vorname*",
+        "error": "Bitte geben Sie Ihren Vornamen ein"
+      },
+      "lname": {
+        "placeholder": "Nachname",
+        "error": "Bitte geben Sie einen gültigen Nachnamen ein"
+      },
+      "email": {
+        "placeholder": "E-Mail*",
+        "error": "Bitte geben Sie eine gültige E-Mail ein"
+      },
+      "password": {
+        "placeholder": "Passwort eingeben*",
+        "error": "Bitte geben Sie ein gültiges Passwort ein"
+      }
+    },
+    "buttons": {
+      "register": "Konto erstellen"
+    },
+    "toasts": {
+      "googleError": "Google-Anmeldung momentan nicht möglich",
+      "discordError": "Discord-Anmeldung momentan nicht möglich",
+      "genericError": "Registrierung momentan nicht möglich"
+    }
+  },
+  "app": {
+    "agenda": "Agenda",
+    "cancel": "Abbrechen",
+    "save": "Speichern",
+    "today": "Heute",
+    "tomorrow": "Morgen",
+    "yesterday": "Gestern",
+    "nextWeek": "Nächste Woche",
+    "day": "Tag",
+    "week": "Woche",
+    "month": "Monat",
+    "year": "Jahr",
+    "duration": "Dauer",
+    "durationMenu": {
+      "title": "Dauer festlegen",
+      "subTitle": "Nur auf das aktuelle Datum angewendet",
+      "error": "Ungültiger Datumsbereich: Endzeit muss nach der Startzeit liegen."
+    },
+    "priority": "Priorität",
+    "normal": "Normal",
+    "important": "Wichtig",
+    "urgent": "Dringend",
+    "repeat": "Wiederholen",
+    "everyDay": "Jeden Tag",
+    "everyWeek": "Jede Woche",
+    "everyMonth": "Jeden Monat",
+    "everyYear": "Jedes Jahr",
+    "weekdaysOnly": "Nur Wochentage",
+    "custom": "Benutzerdefiniert",
+    "customMenu": {
+      "title": "Benutzerdefinierte Wiederholung",
+      "subtitle": "Einen benutzerdefinierten Wiederholungsplan erstellen",
+      "every": "Alle",
+      "ends": "Endet",
+      "on": "am",
+      "never": "Nie",
+      "onDate": "Am Datum (inklusive)"
+    },
+    "descPlaceholder": "Beschreibung"
+  },
+
+  "today": {
+    "nextRepeatText": "Diese Aufgabe ist als Nächstes geplant für",
+    "addATask": "Aufgabe hinzufügen",
+    "titlePlaceholder": "Die Pflanze um 17 Uhr gießen",
+    "menu": {
+      "pinToTop": "Anpinnen",
+      "unpin": "Lösen",
+      "edit": "Bearbeiten",
+      "editAsInstance": "Als Instanz bearbeiten",
+      "delete": "Löschen"
+    },
+    "saveInstance": "Instanz speichern"
+  },
+  "sidebar": {
+    "completed": "Abgeschlossen",
+    "calendar": "Kalender",
+    "note": "Notiz",
+    "vault": "Tresor",
+    "settings": "Einstellungen",
+    "settingMenu": {
+      "logout": "Abmelden",
+      "theme": "Thema",
+      "shortcuts": "Verknüpfungen"
+    },
+    "noteMenu": {
+      "rename": "Umbenennen",
+      "delete": "Löschen"
+    }
+  },
+  "completed": {
+    "title": "Abschlussverlauf"
+  },
+  "modal": {
+    "confirm": "Bestätigen",
+    "cancel": "Abbrechen",
+    "delete": {
+      "title": "Aufgabe löschen?",
+      "subtitle": "Diese Aktion kann nicht rückgängig gemacht werden. Dies wird dauerhaft gelöscht",
+      "button": "Löschen"
+    },
+    "deleteAll": {
+      "title": "Alle Wiederholungen der Aufgabe löschen?",
+      "subtitle": "Dies ist eine wiederkehrende Aufgabe. Alle anderen Wiederholungen löschen?",
+      "deleteInstance": "Nur dieses Vorkommen löschen",
+      "deleteAll": "Alle Wiederholungen löschen"
+    },
+    "cancelEdit": {
+      "title": "Bearbeitung abbrechen?",
+      "subtitle": "Ihre Änderungen werden verworfen"
+    },
+    "editAll": {
+      "title": "Alle Wiederholungen der Aufgabe bearbeiten?",
+      "subtitle": "Dies ist eine wiederkehrende Aufgabe. Dieselbe Bearbeitung für alle anderen Wiederholungen vornehmen?",
+      "editInstance": "Nur dieses Vorkommen bearbeiten",
+      "editAll": "Alle Wiederholungen bearbeiten"
+    }
+  },
+  "shortcuts": {
+    "title": "Tastenkombinationen",
+    "todo": {
+      "title": "Aufgaben-Tastenkombinationen",
+      "submitAndOpen": "Formular senden und neues öffnen",
+      "openForm": "Formular öffnen",
+      "exitForm": "Formular beenden",
+      "editForm": "Formular bearbeiten"
+    },
+    "calendar": {
+      "title": "Kalender-Tastenkombinationen",
+      "previous": "Vorheriger Monat/Woche/Tag",
+      "next": "Nächster Monat/Woche/Tag",
+      "todayView": "Heutige Ansicht",
+      "viewModes": "Monats-/Wochen-/Tagesansicht"
+    },
+    "navigation": {
+      "title": "Navigation",
+      "then": "dann",
+      "today": "Heute",
+      "calendar": "Kalender",
+      "completed": "Erledigt",
+      "vault": "Tresor"
+    }
+  }
+}

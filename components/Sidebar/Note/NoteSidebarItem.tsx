@@ -14,8 +14,10 @@ import React, { useEffect, useRef, useState } from "react";
 import Spinner from "@/components/ui/spinner";
 import Meatball from "@/components/ui/icon/meatball";
 import useWindowSize from "@/hooks/useWindowSize";
+import { useTranslations } from "next-intl";
 
 const NoteSidebarItem = ({ note }: { note: NoteItemType }) => {
+  const sidebarDict = useTranslations("sidebar");
   const { renameMutate } = useRenameNote();
   const { width } = useWindowSize();
   //states for renaming
@@ -106,9 +108,9 @@ const NoteSidebarItem = ({ note }: { note: NoteItemType }) => {
                 <Meatball className="w-5 h-5" />
               </MenuTrigger>
               <MenuContent>
-                <MenuItem onClick={() => setIsRenaming(true)}>rename</MenuItem>
+                <MenuItem onClick={() => setIsRenaming(true)}> {sidebarDict("noteMenu.rename")}</MenuItem>
                 <MenuItem onClick={() => deleteMutate({ id: note.id })}>
-                  delete
+                  {sidebarDict("noteMenu.delete")}
                 </MenuItem>
               </MenuContent>
             </MenuContainer>

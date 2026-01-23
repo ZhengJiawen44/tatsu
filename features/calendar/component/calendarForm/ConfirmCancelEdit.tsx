@@ -6,36 +6,36 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import React from "react";
-// import { useDeleteCalendarTodo } from "../api/delete-calendar-todo";
+import { useTranslations } from "next-intl";
 
 type confirmCancelEditProp = {
   cancelEditDialogOpen: boolean;
   setCancelEditDialogOpen: React.Dispatch<React.SetStateAction<boolean>>;
   setDisplayForm: React.Dispatch<React.SetStateAction<boolean>>;
 };
-export default function confirmCancelEdit({
+
+export default function ConfirmCancelEdit({
   cancelEditDialogOpen,
   setCancelEditDialogOpen,
   setDisplayForm,
 }: confirmCancelEditProp) {
-  //   const { deleteMutate } = useDeleteCalendarTodo();
+  const modalDict = useTranslations("modal");
+
   return (
     <Dialog open={cancelEditDialogOpen} onOpenChange={setCancelEditDialogOpen}>
       <DialogContent className="max-w-sm top-1/2 -translate-y-1/2 bg-popover">
         <DialogHeader>
-          <DialogTitle>Cancel Edit?</DialogTitle>
+          <DialogTitle>{modalDict("cancelEdit.title")}</DialogTitle>
         </DialogHeader>
-
         <p className="text-sm text-muted-foreground">
-          changes you have made will be discarded{" "}
+          {modalDict("cancelEdit.subtitle")}
         </p>
-
         <DialogFooter className="mt-4">
           <button
             className="px-3 py-1 rounded-md border"
             onClick={() => setCancelEditDialogOpen(false)}
           >
-            Cancel
+            {modalDict("cancel")}
           </button>
           <button
             className="px-3 py-1 rounded-md bg-red text-white hover:bg-red"
@@ -44,7 +44,7 @@ export default function confirmCancelEdit({
               setDisplayForm(false);
             }}
           >
-            Confirm
+            {modalDict("confirm")}
           </button>
         </DialogFooter>
       </DialogContent>

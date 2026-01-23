@@ -5,7 +5,10 @@ import Link from "next/link";
 import useWindowSize from "@/hooks/useWindowSize";
 import { LockIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { useTranslations } from "next-intl";
 const VaultItem = () => {
+  const sidebarDict = useTranslations("sidebar")
+
   const { width } = useWindowSize();
   const { activeMenu, setActiveMenu, setShowMenu } = useMenu();
   return (
@@ -15,7 +18,7 @@ const VaultItem = () => {
       className={clsx(
         "flex items-center border border-transparent font-normal",
         activeMenu.name === "Vault" &&
-          "bg-sidebar-primary shadow-md text-form-foreground-accent !border-border",
+        "bg-sidebar-primary shadow-md text-form-foreground-accent !border-border",
       )}
     >
       <Link
@@ -33,7 +36,7 @@ const VaultItem = () => {
             )}
           />
 
-          <p className="text-foreground">Vault</p>
+          <p className="text-foreground">{sidebarDict("vault")}</p>
         </div>
       </Link>
     </Button>

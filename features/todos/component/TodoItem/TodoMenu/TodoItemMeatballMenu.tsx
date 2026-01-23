@@ -19,6 +19,7 @@ import { PriorityIndicator } from "../PriorityIndicator";
 import { TodoItemType } from "@/types";
 import { Button } from "@/components/ui/button";
 import Meatball from "@/components/ui/icon/meatball";
+import { useTranslations } from "next-intl";
 
 function TodoItemMeatballMenu({
   todo,
@@ -29,6 +30,7 @@ function TodoItemMeatballMenu({
   setDisplayForm: React.Dispatch<React.SetStateAction<boolean>>;
   setEditInstanceOnly: React.Dispatch<React.SetStateAction<boolean>>;
 }) {
+  const todayDict = useTranslations("today");
   const { mutatePrioritize } = usePrioritizeTodo();
 
   const { deleteMutate, deletePending } = useDeleteTodo();
@@ -44,36 +46,39 @@ function TodoItemMeatballMenu({
           <Meatball className="w-[1.1rem] h-[1.1rem]" />
         </Button>
       </DropdownMenuTrigger>
-      <DropdownMenuContent className="bg-popover py-1 px-0">
-        <DropdownMenuItem className="m-1" onClick={() => pinMutate()}>
+      <DropdownMenuContent className="bg-popover py-1.5 px-0 [&_svg:not([class*='size-'])]:size-5 lg:min-w-[220px]">
+        <DropdownMenuItem className="mx-1.5" onClick={() => pinMutate()}>
           {!todo.pinned ? (
             <Pin className="w-4 h-4" />
           ) : (
             <Unpin className="w-4 h-4" />
           )}
-          {todo.pinned ? "unpin" : "Pin to top"}
+          {todo.pinned ? todayDict("menu.unpin")
+            : todayDict("menu.pinToTop")
+          }
         </DropdownMenuItem>
         <DropdownMenuItem
-          className="m-1"
+          className="m-1.5"
           onClick={() => {
             setDisplayForm((prev: boolean) => !prev);
           }}
         >
           <SquarePen className="w-4 h-4" />
-          Edit
+          {todayDict("menu.edit")}
         </DropdownMenuItem>
         <DropdownMenuItem
-          className="m-1"
+          className="m-1.5"
           onClick={() => {
             setEditInstanceOnly(true);
             setDisplayForm((prev: boolean) => !prev);
           }}
         >
           <Blocks className="w-4 h-4" />
-          Edit as Instance
+          {todayDict("menu.editAsInstance")}
+
         </DropdownMenuItem>
         <DropdownMenuItem
-          className="m-1"
+          className="m-1.5"
           onClick={() => deleteMutate({ id: todo.id })}
         >
           {deletePending ? (
@@ -81,13 +86,14 @@ function TodoItemMeatballMenu({
           ) : (
             <Trash className="w-4 h-4" />
           )}
-          delete
+          {todayDict("menu.delete")}
+
         </DropdownMenuItem>
         <LineSeparator className="border-popover-accent w-full" />
 
         <DropdownMenuItem
           className="flex-col items-start hover:bg-transparent text-xs gap-4 pb-4"
-          onClick={() => {}}
+          onClick={() => { }}
         >
           <p className="text-sm font-semibold text-card-foreground-muted ">
             priority

@@ -17,7 +17,10 @@ import clsx from "clsx";
 import { useTodoForm } from "@/providers/TodoFormProvider";
 import { useState } from "react";
 import { Options, RRule } from "rrule";
+import { useTranslations } from "next-intl";
+
 const CustomRepeatModalMenu = ({ className }: { className?: string }) => {
+  const appDict = useTranslations("app");
   const { derivedRepeatType, rruleOptions, setRruleOptions } = useTodoForm();
   const [customRepeatOptions, setCustomRepeatOptions] =
     useState<Partial<Options> | null>(
@@ -32,12 +35,12 @@ const CustomRepeatModalMenu = ({ className }: { className?: string }) => {
             derivedRepeatType == "Custom" && "opacity-100",
           )}
         />
-        Custom
+        {appDict("custom")}
       </DialogTrigger>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle className="font-medium">Custom Repeat</DialogTitle>
-          <DialogDescription>Set up a custom repeat schedule</DialogDescription>
+          <DialogTitle className="font-medium">{appDict("customMenu.title")}</DialogTitle>
+          <DialogDescription>{appDict("customMenu.subtitle")}</DialogDescription>
         </DialogHeader>
         <div className="flex flex-col gap-6 mb-2">
           {/* rrule interval option */}
@@ -58,7 +61,7 @@ const CustomRepeatModalMenu = ({ className }: { className?: string }) => {
         </div>
         <DialogFooter>
           <DialogClose asChild>
-            <Button variant={"destructive"}>Cancel</Button>
+            <Button variant={"destructive"}>{appDict("cancel")}</Button>
           </DialogClose>
           <DialogClose asChild>
             <Button
@@ -67,7 +70,7 @@ const CustomRepeatModalMenu = ({ className }: { className?: string }) => {
                 setRruleOptions(customRepeatOptions);
               }}
             >
-              Save changes
+              {appDict("save")}
             </Button>
           </DialogClose>
         </DialogFooter>

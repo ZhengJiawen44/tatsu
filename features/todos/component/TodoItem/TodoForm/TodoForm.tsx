@@ -14,6 +14,7 @@ import { RRule } from "rrule";
 import TodoInlineActionBar from "./TodoInlineActionBar/TodoInlineActionBar";
 import { Button } from "@/components/ui/button";
 import NLPTitleInput from "./NLPTitleInput";
+import { useTranslations } from "next-intl";
 
 interface TodoFormProps {
   editInstanceOnly?: boolean;
@@ -52,6 +53,8 @@ const TodoForm = ({
   const { editTodo } = useEditTodo();
   const { editTodoInstance } = useEditTodoInstance(setEditInstanceOnly);
   const { createTodo } = useCreateTodo();
+  const appDict = useTranslations("app");
+  const todayDict = useTranslations("today")
 
   return (
     <div
@@ -87,7 +90,7 @@ const TodoForm = ({
           }}
           className="px-2 w-full overflow-hidden bg-transparent my-1 placeholder-muted-foreground font-extralight focus:outline-none resize-none"
           name="description"
-          placeholder="description"
+          placeholder={appDict("descPlaceholder")}
         />
 
         {/* DateRange, Priority, and Repeat menus */}
@@ -103,7 +106,7 @@ const TodoForm = ({
               setDisplayForm(false);
             }}
           >
-            cancel
+            {appDict("cancel")}
           </Button>
           <Button
             type="submit"
@@ -115,7 +118,7 @@ const TodoForm = ({
             )}
           >
             <p title="ctrl+enter">
-              {editInstanceOnly ? "Save instance" : todo ? "save" : "add"}
+              {editInstanceOnly ? todayDict("saveInstance") : appDict("save")}
             </p>
           </Button>
         </div>

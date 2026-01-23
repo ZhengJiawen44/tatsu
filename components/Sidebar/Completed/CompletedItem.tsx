@@ -6,8 +6,10 @@ import { useCompletedTodo } from "@/features/completed/query/get-completedTodo";
 import useWindowSize from "@/hooks/useWindowSize";
 import { CheckCircleIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
-
+import { useTranslations } from "next-intl";
 const CompletedItem = () => {
+  const sidebarDict = useTranslations("sidebar")
+
   const { width } = useWindowSize();
   const { activeMenu, setActiveMenu, setShowMenu } = useMenu();
   const { completedTodos } = useCompletedTodo();
@@ -22,7 +24,7 @@ const CompletedItem = () => {
       className={clsx(
         "flex items-center border border-transparent font-normal",
         activeMenu.name === "Completed" &&
-          "bg-sidebar-primary shadow-md !border-border",
+        "bg-sidebar-primary shadow-md !border-border",
       )}
     >
       <Link
@@ -40,7 +42,7 @@ const CompletedItem = () => {
             activeMenu.name === "Completed" && "stroke-form-foreground-accent",
           )}
         />
-        <p className="text-foreground">Completed</p>
+        <p className="text-foreground">{sidebarDict("completed")}</p>
 
         <span
           className={clsx(
