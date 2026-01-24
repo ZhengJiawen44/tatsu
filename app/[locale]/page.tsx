@@ -15,7 +15,7 @@ const Page = async () => {
       <div className="bg-muted">
         {/* Responsive Header/Navbar */}
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center justify-between py-3 sm:py-4">
+          <div className="flex items-center justify-between py-3 ">
             {/* Logo */}
             <Link
               href="/"
@@ -51,10 +51,10 @@ const Page = async () => {
               >
                 <Link href="/login">{dict("nav.login")}</Link>
               </Button>
-               <LanguagePicker/>
-          
-                
-             
+              <LanguagePicker />
+
+
+
             </div>
           </div>
         </div>

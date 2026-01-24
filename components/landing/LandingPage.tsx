@@ -7,6 +7,7 @@ import Image from "next/image";
 import Footer from "./Footer";
 import EyeToggle from "../ui/eyeToggle";
 import { useTranslations } from "next-intl";
+import FlagsCarousel from "./FlagsCarousel";
 
 const LandingPage = () => {
   const dict = useTranslations("landingPage");
@@ -130,9 +131,9 @@ const LandingPage = () => {
         </p>
       }
     >
-      <div className="flex flex-col items-center justify-center text-foreground text-center px-4 sm:px-6 lg:px-8">
+      <div className="flex flex-col gap-10 items-center justify-center text-foreground text-center px-4 sm:px-6 lg:px-8">
         {/* Hero Section */}
-        <div className="flex flex-col items-center gap-6 sm:gap-8 lg:gap-9 mb-16 sm:mb-24 lg:mb-32 pt-12 sm:pt-16 lg:pt-20 max-w-7xl w-full">
+        <div className=" flex flex-col items-center gap-6 sm:gap-8 lg:gap-9 mb-16 sm:mb-24 lg:mb-32 pt-12 sm:pt-16 lg:pt-20 max-w-7xl w-full">
           <div className="flex-1 w-full">
             <h1 className="text-4xl sm:text-5xl lg:text-6xl font-semibold mb-4 sm:mb-6">
               {dict("hero.title")}
@@ -178,7 +179,7 @@ const LandingPage = () => {
                   width={1200}
                   height={500}
                   alt="hero Image"
-                  loading="lazy"
+                  loading="eager"
                 />
               </div>
             </div>
@@ -198,8 +199,11 @@ const LandingPage = () => {
           </div>
         </div>
 
+        {/* infinte scrolling flags */}
+        <FlagsCarousel />
+
         {/* Features Section */}
-        <div className="w-full max-w-7xl mb-16 sm:mb-24 lg:mb-32">
+        <div className="w-full max-w-7xl mb-16 sm:mb-24 lg:mb-32 ">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 sm:gap-12 relative">
             {/* Left Column: Text */}
             <div className="space-y-16 sm:space-y-24 lg:space-y-48 pb-12 sm:pb-16 lg:pb-24">
@@ -219,6 +223,7 @@ const LandingPage = () => {
                       alt={feature.title}
                       fill
                       className="object-cover"
+                      loading="lazy"
                     />
                   </div>
 
@@ -314,7 +319,7 @@ const LandingPage = () => {
         {/* Footer */}
         <Footer />
       </div>
-    </ErrorBoundary>
+    </ErrorBoundary >
   );
 };
 
