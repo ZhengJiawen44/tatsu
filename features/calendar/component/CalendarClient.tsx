@@ -30,6 +30,7 @@ import { useEditCalendarTodo } from "../query/update-calendar-todo";
 import { useEditCalendarTodoInstance } from "../query/update-calendar-todo-instance";
 import { useEffect, useState } from "react";
 import dynamic from "next/dynamic";
+
 const CalendarTutorialModal = dynamic(() => import("./CalendarTutorialModal"));
 
 const locales = { "en-US": enUS };
@@ -43,6 +44,7 @@ const localizer = dateFnsLocalizer({
 const DnDCalendar = withDragAndDrop<CalendarTodoItemType>(Calendar);
 
 export default function CalendarClient() {
+  const [mounted, setMounted] = useState(false);
   const [calendarRange, setCalendarRange] = useDateRange();
   const { todos: calendarTodos } = useCalendarTodo(calendarRange);
   const [showCreateForm, setShowCreateForm] = useState(false);
@@ -55,8 +57,14 @@ export default function CalendarClient() {
   const { editCalendarTodoInstance } = useEditCalendarTodoInstance();
 
   // --- keyboard navigation state ---
-  const [selectedDate, setSelectedDate] = useState(new Date());
+  const [selectedDate, setSelectedDate] = useState<Date | null>(null);
   const [view, setView] = useState<View>("month");
+
+  // Initialize on mount
+  useEffect(() => {
+    setMounted(true);
+    setSelectedDate(new Date());
+  }, []);
 
   // Helper function to update calendar range based on date and view
   const updateRangeForDate = (date: Date, currentView: View) => {
@@ -79,6 +87,8 @@ export default function CalendarClient() {
   };
 
   useEffect(() => {
+    if (!selectedDate) return;
+
     const handler = (e: KeyboardEvent) => {
       const target = e.target as HTMLElement;
       if (
@@ -93,6 +103,7 @@ export default function CalendarClient() {
       switch (key) {
         case "arrowleft":
           setSelectedDate((d) => {
+            if (!d) return d;
             const newDate =
               view === "month"
                 ? new Date(d.getFullYear(), d.getMonth() - 1, d.getDate())
@@ -105,6 +116,7 @@ export default function CalendarClient() {
           break;
         case "arrowright":
           setSelectedDate((d) => {
+            if (!d) return d;
             const newDate =
               view === "month"
                 ? new Date(d.getFullYear(), d.getMonth() + 1, d.getDate())
@@ -137,10 +149,19 @@ export default function CalendarClient() {
 
     document.addEventListener("keydown", handler, true);
     return () => document.removeEventListener("keydown", handler, true);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [view, selectedDate]);
 
   const { width } = useWindowSize();
+
+  // Don't render calendar until mounted
+  if (!mounted || !selectedDate) {
+    return (
+      <div className="h-full flex items-center justify-center text-muted-foreground">
+        Loading calendar...
+      </div>
+    );
+  }
+
   return (
     <>
       {width <= 600 && <CalendarTutorialModal />}
