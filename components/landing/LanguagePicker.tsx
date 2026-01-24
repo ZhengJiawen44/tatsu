@@ -16,6 +16,12 @@ export default function LanguagePicker() {
         <DropdownMenuItem asChild><Link href={"/"} locale="ar">العربية</Link></DropdownMenuItem>
         <DropdownMenuItem asChild><Link href={"/"} locale="zh">中文</Link></DropdownMenuItem>
         <DropdownMenuItem asChild><Link href={"/"} locale="de">Deutsch</Link></DropdownMenuItem>
+        <DropdownMenuItem asChild><Link href={"/"} locale="it">Italiano</Link></DropdownMenuItem>
+        <DropdownMenuItem asChild><Link href={"/"} locale="ms">Melayu</Link></DropdownMenuItem>
+        <DropdownMenuItem asChild><Link href={"/"} locale="pt">Português</Link></DropdownMenuItem>
+        <DropdownMenuItem asChild><Link href={"/"} locale="fr">Français</Link></DropdownMenuItem>
+
+
 
       </DropdownMenuContent>
     </DropdownMenu>

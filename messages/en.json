@@ -11,6 +11,7 @@
       "readDocs": "Read the docs",
       "start": "Start"
     },
+    "localizationTitle": "full localization support for 11 locales",
     "features": [
       {
         "tag": "01 / SMART TASKS",

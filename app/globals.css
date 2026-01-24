@@ -21,6 +21,21 @@ body {
     background-color: #a7c7e7; /* light bluish highlight */
     color: black;
   }
+
+  @keyframes scroll-left {
+    from {
+      transform: translateX(0);
+    }
+    to {
+      transform: translateX(-100%);
+    }
+  }
+
+  .animate-scroll-left {
+    animation-duration: 5000s;
+    animation: scroll-left linear infinite;
+  }
+
   :root {
     --calendar-lime: 83, 80%, 32%;
     --calendar-orange: 33 100% 50%;
