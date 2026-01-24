@@ -8,6 +8,7 @@ import {
 } from "react";
 import { usePathname } from "next/navigation";
 import useWindowSize from "@/hooks/useWindowSize";
+
 type MenuState = {
   name: string;
   open?: boolean;
@@ -29,10 +30,20 @@ export const MenuProvider = ({ children }: { children: React.ReactNode }) => {
   const { width } = useWindowSize();
   const pathName = usePathname();
   const [activeMenu, setActiveMenu] = useState<MenuState>({ name: "Todo" });
-  const [showMenu, setShowMenu] = useState(width < 1300 ? false : true);
+  const [showMenu, setShowMenu] = useState(false); // Always start with false for SSR
   const [isResizing, setIsResizing] = useState(false);
-  //infer last visited tab from pathname or retrieve from local storage
+  const [mounted, setMounted] = useState(false);
+
+  // Set mounted state and initialize showMenu based on width
   useEffect(() => {
+    setMounted(true);
+    setShowMenu(width >= 1300);
+  }, [width]);
+
+  // Infer last visited tab from pathname or retrieve from local storage
+  useEffect(() => {
+    if (!mounted) return;
+
     if (pathName.includes("vault")) {
       setActiveMenu({ name: "Vault" });
       return;
@@ -56,20 +67,21 @@ export const MenuProvider = ({ children }: { children: React.ReactNode }) => {
       setActiveMenu({ name: "Completed" });
       return;
     }
-
     const tab = localStorage.getItem("tab");
     if (tab) {
       const tabObj = JSON.parse(tab);
       setActiveMenu(tabObj);
     }
-  }, []);
+  }, [mounted, pathName]);
 
-  //sync local menu state with local storage when menu state changes
+  // Sync local menu state with local storage when menu state changes
   useEffect(() => {
-    localStorage.setItem("tab", JSON.stringify(activeMenu));
-  }, [activeMenu]);
+    if (mounted) {
+      localStorage.setItem("tab", JSON.stringify(activeMenu));
+    }
+  }, [activeMenu, mounted]);
 
-  // toggle menu on ctrl+b
+  // Toggle menu on ctrl+`
   useEffect(() => {
     function closeOnKey(e: KeyboardEvent) {
       if (e.ctrlKey && e.key.toLowerCase() === "`") {

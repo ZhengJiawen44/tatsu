@@ -24,7 +24,6 @@ const CreateCalendarForm = ({
   setDisplayForm,
 }: CreateCalendarFormProps) => {
   const appDict = useTranslations("app");
-  const calendarDict = useTranslations("calendar");
   const todayDict = useTranslations("today");
 
   const [cancelEditDialogOpen, setCancelEditDialogOpen] = useState(false);
@@ -189,7 +188,7 @@ const CreateCalendarForm = ({
                 type="submit"
                 className="px-4 py-2 rounded-md brightness-90 hover:brightness-100 bg-lime text-white text-sm hover:bg-lime"
               >
-                {calendarDict("create")}
+                {appDict("save")}
               </button>
             </div>
           </form>

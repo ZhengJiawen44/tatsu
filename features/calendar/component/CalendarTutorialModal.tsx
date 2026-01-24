@@ -64,11 +64,10 @@ export default function CalendarTutorialModal() {
                 <button
                   key={index}
                   onClick={() => scrollTo(index)}
-                  className={`w-2 h-2 rounded-full transition-opacity ${
-                    current === index
-                      ? "bg-muted-foreground"
-                      : "bg-muted-foreground opacity-20"
-                  }`}
+                  className={`w-2 h-2 rounded-full transition-opacity ${current === index
+                    ? "bg-muted-foreground"
+                    : "bg-muted-foreground opacity-20"
+                    }`}
                   aria-label={`Go to slide ${index + 1}`}
                 />
               ))}
