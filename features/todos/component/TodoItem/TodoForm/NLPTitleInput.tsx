@@ -6,6 +6,7 @@ import * as chrono from "chrono-node";
 import { endOfDay } from "date-fns";
 import React, { SetStateAction, useEffect, useRef } from "react";
 import { useTranslations } from "next-intl";
+import { useLocale } from "next-intl";
 
 type NLPTitleInputProps = {
   titleRef: React.RefObject<HTMLDivElement | null>;
@@ -32,6 +33,7 @@ export default function NLPTitleInput({
   setDateRange,
   className,
 }: NLPTitleInputProps) {
+  const locale = useLocale();
   const todayDict = useTranslations("today")
   const isComposing = useRef(false);
 
@@ -61,7 +63,37 @@ export default function NLPTitleInput({
           const fullText = titleNode.textContent ?? "";
 
           // parse the first date
-          const parsedResults = chrono.parse(fullText);
+          let parsedResults;
+          switch (locale) {
+            case "ja":
+              parsedResults = chrono.ja.parse(fullText);
+              break;
+            case "fr":
+              parsedResults = chrono.fr.parse(fullText);
+              break;
+            case "ru":
+              parsedResults = chrono.ru.parse(fullText);
+              break;
+            case "es":
+              parsedResults = chrono.es.parse(fullText);
+              break;
+            case "it":
+              parsedResults = chrono.it.parse(fullText);
+              break;
+            case "de":
+              parsedResults = chrono.de.parse(fullText);
+              break;
+            case "pt":
+              parsedResults = chrono.pt.parse(fullText);
+              break;
+            case "zh":
+              parsedResults = chrono.zh.parse(fullText);
+              break;
+            default:
+              parsedResults = chrono.en.parse(fullText);
+          }
+          console.log(parsedResults)
+          // const parsedResults = chrono.parse(fullText);
           if (!parsedResults.length) {
             titleNode.innerHTML = fullText;
             setTitle(fullText);
