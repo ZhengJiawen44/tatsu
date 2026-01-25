@@ -13,11 +13,7 @@ export const useCalendarTodo = (calendarRange: { start: Date; end: Date }) => {
     isError,
     error,
   } = useQuery<TodoItemType[]>({
-    queryKey: [
-      "calendarTodo",
-      calendarRange.start.getTime(),
-      calendarRange.end.getTime(),
-    ],
+    queryKey: ["calendarTodo"],
     staleTime: 5 * 60 * 1000,
     retry: 2,
     queryFn: async () => {
@@ -57,7 +53,7 @@ export const useCalendarTodo = (calendarRange: { start: Date; end: Date }) => {
             })) || null,
         };
       });
-      console.log(todoWithFormattedDates);
+
       return todoWithFormattedDates;
     },
   });
