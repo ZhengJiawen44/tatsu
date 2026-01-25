@@ -8,9 +8,9 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import Spinner from "@/components/ui/spinner";
-import { useDeleteTodo } from "@/features/todos/query/delete-todo";
-import { usePinTodo } from "@/features/todos/query/pin-todo";
-import { usePrioritizeTodo } from "@/features/todos/query/prioritize-todo";
+import { useDeleteTodo } from "@/features/todayTodos/query/delete-todo";
+import { usePinTodo } from "@/features/todayTodos/query/pin-todo";
+import { usePrioritizeTodo } from "@/features/todayTodos/query/prioritize-todo";
 import Pin from "@/components/ui/icon/pin";
 import { SquarePen } from "lucide-react";
 import { Blocks } from "lucide-react";

@@ -1,8 +1,16 @@
-"use client";
+
 import React from "react";
-import TodoContainer from "@/features/todos/component/TodoContainer";
+import TodayTodoContainer from "@/features/todayTodos/component/TodayTodoContainer";
+import Day from "@/components/todo/Day";
+import OverDueTodoContainer from "@/features/overdueTodos/component/overDueTodoContainer";
 const Page = () => {
-  return <TodoContainer />;
+  return <div className="select-none bg-inherit">
+    <Day />
+
+    <OverDueTodoContainer />
+    <TodayTodoContainer />
+
+  </div>
 };
 
 export default Page;

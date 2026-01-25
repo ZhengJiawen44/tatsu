@@ -9,15 +9,18 @@ import { arrayMove } from "@dnd-kit/sortable";
 import { verticalListSortingStrategy } from "@dnd-kit/sortable";
 import { TodoItemType } from "@/types";
 import { useCallback, useEffect, useState } from "react";
-import { TodoItemContainer } from "./TodoItem/TodoItemContainer";
-import { useReorderTodo } from "../query/reorder-todo";
+import { TodoItemContainer } from "./TodoItemContainer";
+import { useReorderTodo } from "../../features/todayTodos/query/reorder-todo";
+
 
 const TodoGroup = ({
   todos,
   className,
+  overdue
 }: {
   todos: TodoItemType[];
   className?: string;
+  overdue?: boolean
 }) => {
   const { mutateReorder } = useReorderTodo();
   const [items, setItems] = useState(todos);
@@ -81,7 +84,7 @@ const TodoGroup = ({
       >
         <SortableContext items={items} strategy={verticalListSortingStrategy}>
           {items.map((item) => (
-            <TodoItemContainer todoItem={item} key={item.id} />
+            <TodoItemContainer todoItem={item} key={item.id} overdue={overdue} />
           ))}
         </SortableContext>
       </DndContext>

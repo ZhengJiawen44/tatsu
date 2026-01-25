@@ -1,6 +1,6 @@
 import { TodoItemType } from "@/types";
 import React from "react";
-import TodoGroup from "./TodoGroup";
+import TodoGroup from "../../../components/todo/TodoGroup";
 
 const PinnedTodos = ({ todos }: { todos: TodoItemType[] }) => {
   return (

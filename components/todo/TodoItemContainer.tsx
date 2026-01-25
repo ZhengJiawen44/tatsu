@@ -7,17 +7,23 @@ import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
 import { TodoItemType } from "@/types";
 import GripVertical from "@/components/ui/icon/gripVertical";
-import { useCompleteTodo } from "../../query/complete-todo";
-import TodoFormLoading from "./TodoForm/TodoFormLoading";
+import { useCompleteTodo } from "../../features/todayTodos/query/complete-todo";
+import TodoFormLoading from "../../features/todayTodos/component/TodoItem/TodoForm/TodoFormLoading";
 import { Check } from "lucide-react";
-import TodoItemMenuContainer from "../TodoItem/TodoMenu/TodoItemMenuContainer";
+import TodoItemMenuContainer from "../../features/todayTodos/component/TodoItem/TodoMenu/TodoItemMenuContainer";
 import LineSeparator from "@/components/ui/lineSeparator";
-
+import { formatTime } from "@/lib/formatTime";
 const TodoFormContainer = dynamic(
-  () => import("./TodoForm/TodoFormContainer"),
+  () => import("../../features/todayTodos/component/TodoItem/TodoForm/TodoFormContainer"),
   { loading: () => <TodoFormLoading /> },
 );
-export const TodoItemContainer = ({ todoItem }: { todoItem: TodoItemType }) => {
+
+type TodoItemContainerProps = {
+  todoItem: TodoItemType,
+  overdue?: boolean
+}
+
+export const TodoItemContainer = ({ todoItem, overdue }: TodoItemContainerProps) => {
   //dnd kit setups
   const { attributes, listeners, setNodeRef, transform, transition } =
     useSortable({ id: todoItem.id });
@@ -114,9 +120,13 @@ export const TodoItemContainer = ({ todoItem }: { todoItem: TodoItemType }) => {
             <pre className="pb-2 text-muted-foreground text-xs sm:text-sm whitespace-pre-wrap w-48 sm:w-full">
               {description}
             </pre>
-            <p className="text-xs text-lime/85">
-              {`Today ${formatTime(dtstart.getHours(), dtstart.getMinutes())}`}
-            </p>
+            <div className="flex items-center justify-start gap-2">
+
+              <p className={clsx(overdue ? "text-orange" : "text-lime")}>{formatTime(dtstart.getHours(), dtstart.getMinutes())}</p>
+              {overdue && <p className='py-[0.2rem] px-2 rounded-full bg-border'>overdue</p>}
+
+            </div>
+
           </div>
         </div>
 
@@ -135,10 +145,3 @@ export const TodoItemContainer = ({ todoItem }: { todoItem: TodoItemType }) => {
   );
 };
 
-function formatTime(hour: number, minute: number) {
-  const period = hour >= 12 ? "PM" : "AM";
-  const h = hour % 12 || 12; // 0 -> 12
-  const m = String(minute).padStart(2, "0");
-
-  return `${h}:${m} ${period}`;
-}
