@@ -10,8 +10,9 @@ import { Toaster } from "@/components/ui/toaster";
 import { useSelectedLayoutSegment } from "next/navigation";
 import { useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
-import Announcement from "./announcement";
 import QueryProvider from "@/providers/QueryProvider";
+import NewFeaturesAnnouncement from "@/components/popups/NewFeaturesPopup";
+
 
 const Provider = ({ children }: { children: React.ReactNode }) => {
   const { showMenu, isResizing } = useMenu();
@@ -106,7 +107,7 @@ const Provider = ({ children }: { children: React.ReactNode }) => {
                   <SidebarIcon className="w-6 h-6 " />
                 </SidebarToggle>
               )}
-              <Announcement />
+              <NewFeaturesAnnouncement />
               {children}
             </div>
           </div>
