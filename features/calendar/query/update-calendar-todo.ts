@@ -2,9 +2,9 @@ import { useToast } from "@/hooks/use-toast";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { api } from "@/lib/api-client";
 import { todoSchema } from "@/schema";
-import { CalendarTodoItemType } from "@/types";
+import { TodoItemType } from "@/types";
 
-interface CalendarTodoItemTypeWithChecksum extends CalendarTodoItemType {
+interface TodoItemTypeWithChecksum extends TodoItemType {
   dateRangeChecksum?: string;
   rruleChecksum?: string;
 }
@@ -13,7 +13,7 @@ async function patchCalendarTodo({
   dateRangeChecksum,
   rruleChecksum,
   ...todo
-}: CalendarTodoItemTypeWithChecksum) {
+}: TodoItemTypeWithChecksum) {
   if (!todo.id) {
     throw new Error("this todo is missing");
   }
@@ -54,8 +54,7 @@ export const useEditCalendarTodo = () => {
   const queryClient = useQueryClient();
 
   const { mutate: editCalendarTodo, status: editTodoStatus } = useMutation({
-    mutationFn: (params: CalendarTodoItemTypeWithChecksum) =>
-      patchCalendarTodo(params),
+    mutationFn: (params: TodoItemTypeWithChecksum) => patchCalendarTodo(params),
     onMutate: async (newTodo) => {
       await queryClient.cancelQueries({
         queryKey: ["calendarTodo"],
@@ -63,7 +62,7 @@ export const useEditCalendarTodo = () => {
       const oldTodos = queryClient.getQueriesData({
         queryKey: ["calendarTodo"],
       });
-      queryClient.setQueriesData<CalendarTodoItemType[]>(
+      queryClient.setQueriesData<TodoItemType[]>(
         {
           queryKey: ["calendarTodo"],
         },

@@ -8,11 +8,11 @@ import {
 import React from "react";
 import { useEditCalendarTodo } from "../../query/update-calendar-todo";
 import { useEditCalendarTodoInstance } from "../../query/update-calendar-todo-instance";
-import { CalendarTodoItemType } from "@/types";
+import { TodoItemType } from "@/types";
 import { useTranslations } from "next-intl";
 
 type ConfirmEditAllProp = {
-  todo: CalendarTodoItemType;
+  todo: TodoItemType;
   rruleChecksum: string;
   dateRangeChecksum: string;
   setDisplayForm: React.Dispatch<React.SetStateAction<boolean>>;

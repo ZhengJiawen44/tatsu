@@ -8,12 +8,12 @@ import {
 import React from "react";
 import { useDeleteCalendarTodo } from "../query/delete-calendar-todo";
 import { useDeleteCalendarInstanceTodo } from "../query/delete-calendar-instance-todo";
-import { CalendarTodoItemType } from "@/types";
+import { TodoItemType } from "@/types";
 import { Button } from "@/components/ui/button";
 import { useTranslations } from "next-intl";
 
 type ConfirmDeleteAllProp = {
-  todo: CalendarTodoItemType;
+  todo: TodoItemType;
   deleteAllDialogOpen: boolean;
   setDeleteAllDialogOpen: React.Dispatch<React.SetStateAction<boolean>>;
 };

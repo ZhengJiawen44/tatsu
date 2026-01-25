@@ -19,7 +19,7 @@ import {
   endOfDay,
 } from "date-fns";
 import { enUS } from "date-fns/locale/en-US";
-import { CalendarTodoItemType } from "@/types";
+import { TodoItemType } from "@/types";
 import CalendarHeader from "./CalendarHeader";
 import { agendaComponents } from "./CalendarAgenda";
 import CalendarEvent from "./CalendarEvent";
@@ -41,7 +41,7 @@ const localizer = dateFnsLocalizer({
   getDay,
   locales,
 });
-const DnDCalendar = withDragAndDrop<CalendarTodoItemType>(Calendar);
+const DnDCalendar = withDragAndDrop<TodoItemType>(Calendar);
 
 export default function CalendarClient() {
   const [mounted, setMounted] = useState(false);

@@ -2,9 +2,9 @@ import { useToast } from "@/hooks/use-toast";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { api } from "@/lib/api-client";
 import { todoSchema } from "@/schema";
-import { CalendarTodoItemType } from "@/types";
+import { TodoItemType } from "@/types";
 
-async function patchTodo({ ghostTodo }: { ghostTodo: CalendarTodoItemType }) {
+async function patchTodo({ ghostTodo }: { ghostTodo: TodoItemType }) {
   if (!ghostTodo.id) {
     throw new Error("this todo is missing");
   }
@@ -40,8 +40,7 @@ export const useEditCalendarTodoInstance = () => {
   const queryClient = useQueryClient();
   const { mutate: editCalendarTodoInstance, status: editTodoInstanceStatus } =
     useMutation({
-      mutationFn: (params: CalendarTodoItemType) =>
-        patchTodo({ ghostTodo: params }),
+      mutationFn: (params: TodoItemType) => patchTodo({ ghostTodo: params }),
 
       onSuccess: () => {
         queryClient.invalidateQueries({ queryKey: ["calendarTodo"] });

@@ -7,12 +7,12 @@ import {
 } from "@/components/ui/dialog";
 import React from "react";
 import { useDeleteCalendarTodo } from "../query/delete-calendar-todo";
-import { CalendarTodoItemType } from "@/types";
+import { TodoItemType } from "@/types";
 import { Button } from "@/components/ui/button";
 import { useTranslations } from "next-intl";
 
 type confirmDeleteProp = {
-  todo: CalendarTodoItemType;
+  todo: TodoItemType;
   deleteDialogOpen: boolean;
   setDeleteDialogOpen: React.Dispatch<React.SetStateAction<boolean>>;
 };

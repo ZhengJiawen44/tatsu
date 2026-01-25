@@ -1,7 +1,7 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useToast } from "@/hooks/use-toast";
 import { api } from "@/lib/api-client";
-import { CalendarTodoItemType } from "@/types";
+import { TodoItemType } from "@/types";
 export const useDeleteCalendarTodo = () => {
   const { toast } = useToast();
   const queryClient = useQueryClient();
@@ -17,7 +17,7 @@ export const useDeleteCalendarTodo = () => {
         queryKey: ["calendarTodo"],
       });
 
-      queryClient.setQueriesData<CalendarTodoItemType[]>(
+      queryClient.setQueriesData<TodoItemType[]>(
         { queryKey: ["calendarTodo"] },
         (old) => old?.filter((todo) => todo.id !== id),
       );
