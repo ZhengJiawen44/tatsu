@@ -6,7 +6,7 @@ import generateTodosFromRRule from "@/lib/generateTodosFromRRule";
 import { resolveTimezone } from "@/lib/resolveTimeZone";
 import { errorHandler } from "@/lib/errorHandler";
 import { overrideBy } from "@/lib/overrideBy";
-import { CalendarTodoItemType, recurringTodoWithInstance } from "@/types";
+import { TodoItemType, recurringTodoItemType } from "@/types";
 import { mergeInstanceAndTodo } from "@/lib/mergeInstanceAndTodo";
 
 export async function GET(req: NextRequest) {
@@ -51,7 +51,7 @@ export async function GET(req: NextRequest) {
         completed: false,
       },
       include: { instances: true },
-    })) as recurringTodoWithInstance[];
+    })) as recurringTodoItemType[];
 
     // Expand RRULEs to generate occurrences happening "Today"
     const ghostTodos = generateTodosFromRRule(recurringParents, timeZone, {
@@ -103,37 +103,35 @@ export async function GET(req: NextRequest) {
 //  * @returns a list of orphaned todos
 //  */
 function getMovedInstances(
-  mergedTodos: CalendarTodoItemType[],
-  recurringParents: CalendarTodoItemType[],
+  mergedTodos: TodoItemType[],
+  recurringParents: TodoItemType[],
   bounds: { dateRangeStart: Date; dateRangeEnd: Date },
-): CalendarTodoItemType[] {
+): TodoItemType[] {
   const mergedDtstarts = mergedTodos.map(
     (merged) => merged.dtstart.getTime() + " " + merged.instanceDate?.getTime(),
   );
-  const orphanedInstances = recurringParents.flatMap(
-    (todo: CalendarTodoItemType) => {
-      if (!todo.instances) return [];
+  const orphanedInstances = recurringParents.flatMap((todo: TodoItemType) => {
+    if (!todo.instances) return [];
 
-      return todo.instances.filter(
-        ({ overriddenDtstart, overriddenDue, instanceDate }) => {
-          const exDateList = todo.exdates.map((exdate) => {
-            return exdate.getTime();
-          });
-          return (
-            overriddenDtstart &&
-            overriddenDue &&
-            !exDateList.includes(instanceDate.getTime()) &&
-            //need to have started and crosses in to the current range
-            overriddenDtstart <= bounds.dateRangeEnd &&
-            overriddenDue >= bounds.dateRangeStart &&
-            !mergedDtstarts.includes(
-              overriddenDtstart.getTime() + " " + instanceDate.getTime(),
-            )
-          );
-        },
-      );
-    },
-  );
+    return todo.instances.filter(
+      ({ overriddenDtstart, overriddenDue, instanceDate }) => {
+        const exDateList = todo.exdates.map((exdate) => {
+          return exdate.getTime();
+        });
+        return (
+          overriddenDtstart &&
+          overriddenDue &&
+          !exDateList.includes(instanceDate.getTime()) &&
+          //need to have started and crosses in to the current range
+          overriddenDtstart <= bounds.dateRangeEnd &&
+          overriddenDue >= bounds.dateRangeStart &&
+          !mergedDtstarts.includes(
+            overriddenDtstart.getTime() + " " + instanceDate.getTime(),
+          )
+        );
+      },
+    );
+  });
 
   const orphanedTodos = orphanedInstances.flatMap((instance) => {
     const parentTodo = recurringParents.find(

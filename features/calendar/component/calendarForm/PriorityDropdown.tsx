@@ -7,14 +7,14 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { PriorityIndicator } from "@/features/todos/component/TodoItem/PriorityIndicator";
 import clsx from "clsx";
-import { CalendarTodoItemType } from "@/types";
+import { TodoItemType } from "@/types";
 import { ChevronDown } from "lucide-react";
 import { useTranslations } from "next-intl";
 
 type PriorityDropdownMenuProps = {
-  priority: CalendarTodoItemType["priority"];
+  priority: TodoItemType["priority"];
   setPriority: React.Dispatch<
-    React.SetStateAction<CalendarTodoItemType["priority"]>
+    React.SetStateAction<TodoItemType["priority"]>
   >;
 };
 

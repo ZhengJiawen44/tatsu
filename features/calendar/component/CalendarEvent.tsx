@@ -1,4 +1,4 @@
-import { CalendarTodoItemType } from "@/types";
+import { TodoItemType } from "@/types";
 import React, { useState } from "react";
 import { EventProps } from "react-big-calendar";
 import {
@@ -29,7 +29,7 @@ const CalendarForm = dynamic(() => import("./calendarForm/EditCalendarForm"), {
 const formatDateRange = (start: Date, end: Date) =>
   `${format(start, "MMM dd hh:mm")} - ${format(end, "MMM dd hh:mm")}`;
 
-const CalendarEvent = ({ event: todo }: EventProps<CalendarTodoItemType>) => {
+const CalendarEvent = ({ event: todo }: EventProps<TodoItemType>) => {
   const [open, setOpen] = useState(false);
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
   const [deleteAllDialogOpen, setDeleteAllDialogOpen] = useState(false);

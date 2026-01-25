@@ -2,7 +2,7 @@ import { useQuery } from "@tanstack/react-query";
 import { api } from "@/lib/api-client";
 import { useToast } from "@/hooks/use-toast";
 import { useEffect } from "react";
-import { CalendarTodoItemType } from "@/types";
+import { TodoItemType } from "@/types";
 
 export const useCalendarTodo = (calendarRange: { start: Date; end: Date }) => {
   const { toast } = useToast();
@@ -12,7 +12,7 @@ export const useCalendarTodo = (calendarRange: { start: Date; end: Date }) => {
     isLoading: todoLoading,
     isError,
     error,
-  } = useQuery<CalendarTodoItemType[]>({
+  } = useQuery<TodoItemType[]>({
     queryKey: [
       "calendarTodo",
       calendarRange.start.getTime(),
@@ -24,7 +24,7 @@ export const useCalendarTodo = (calendarRange: { start: Date; end: Date }) => {
       const data = await api.GET({
         url: `/api/calendar/todo?start=${calendarRange.start.getTime()}&end=${calendarRange.end.getTime()}`,
       });
-      const { todos }: { todos: CalendarTodoItemType[] } = data;
+      const { todos }: { todos: TodoItemType[] } = data;
       if (!todos) {
         throw new Error(
           data.message || `bad server response: Did not recieve todo`,

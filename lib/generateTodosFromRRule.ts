@@ -1,5 +1,5 @@
 import { RRule, RRuleSet } from "rrule";
-import { CalendarTodoItemType, recurringTodoWithInstance } from "@/types";
+import { TodoItemType, recurringTodoItemType } from "@/types";
 import { toZonedTime } from "date-fns-tz";
 type bounds = {
   dateRangeStart: Date;
@@ -17,10 +17,10 @@ import { addMilliseconds } from "date-fns";
  */
 
 export default function generateTodosFromRRule(
-  recurringParents: recurringTodoWithInstance[],
+  recurringParents: recurringTodoItemType[],
   timeZone: string,
   bounds: bounds,
-): CalendarTodoItemType[] {
+): TodoItemType[] {
   return recurringParents.flatMap((parent) => {
     try {
       const durationMs = parent.due.getTime() - parent.dtstart.getTime();

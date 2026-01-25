@@ -14,7 +14,7 @@ import generateTodosFromRRule from "@/lib/generateTodosFromRRule";
 import { resolveTimezone } from "@/lib/resolveTimeZone";
 import { errorHandler } from "@/lib/errorHandler";
 import { overrideBy } from "@/lib/overrideBy";
-import { recurringTodoWithInstance, TodoItemType } from "@/types";
+import { recurringTodoItemType, TodoItemType } from "@/types";
 import { mergeInstanceAndTodo } from "@/lib/mergeInstanceAndTodo";
 
 export async function POST(req: NextRequest) {
@@ -123,7 +123,7 @@ export async function GET(req: NextRequest) {
         completed: false,
       },
       include: { instances: true },
-    })) as recurringTodoWithInstance[];
+    })) as recurringTodoItemType[];
 
     // Expand RRULEs to generate occurrences happening "Today"
     const ghostTodos = generateTodosFromRRule(recurringParents, timeZone, {
@@ -254,7 +254,7 @@ function getMovedInstances(
 //         completed: false,
 //       },
 //       include: { instances: true },
-//     })) as recurringTodoWithInstance[];
+//     })) as recurringTodoItemType[];
 
 //     // Expand RRULEs to generate occurrences happening "Today"
 //     const ghostTodos = generateTodosFromRRule(recurringParents, timeZone, {

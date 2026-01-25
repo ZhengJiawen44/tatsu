@@ -1,6 +1,6 @@
 import PriorityDropdownMenu from "./PriorityDropdown";
 import DateDropdownMenu from "./DateDropdownMenu";
-import { CalendarTodoItemType, NonNullableDateRange } from "@/types";
+import { TodoItemType, NonNullableDateRange } from "@/types";
 import RepeatDropdownMenu from "./RepeatDropdown/RepeatDropdownMenu";
 import { AlignLeft, Clock, Flag, Repeat } from "lucide-react";
 import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog";
@@ -30,7 +30,7 @@ const CreateCalendarForm = ({
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [priority, setPriority] =
-    useState<CalendarTodoItemType["priority"]>("Low");
+    useState<TodoItemType["priority"]>("Low");
   const [dateRange, setDateRange] = useState<NonNullableDateRange>({
     from: start,
     to: end,

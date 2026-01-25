@@ -1,4 +1,4 @@
-import { CalendarTodoItemType } from "@/types";
+import { TodoItemType } from "@/types";
 import { useEffect, useMemo, useState } from "react";
 import PriorityDropdownMenu from "./PriorityDropdown";
 import DateDropdownMenu from "./DateDropdownMenu";
@@ -17,7 +17,7 @@ import { useEditCalendarTodo } from "../../query/update-calendar-todo";
 import { useTranslations } from "next-intl";
 
 type CalendarFormProps = {
-  todo: CalendarTodoItemType;
+  todo: TodoItemType;
   displayForm: boolean;
   setDisplayForm: React.Dispatch<React.SetStateAction<boolean>>;
 };
