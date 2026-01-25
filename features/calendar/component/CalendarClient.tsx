@@ -31,7 +31,7 @@ import { useEditCalendarTodoInstance } from "../query/update-calendar-todo-insta
 import { useEffect, useState } from "react";
 import dynamic from "next/dynamic";
 
-const CalendarTutorialModal = dynamic(() => import("./CalendarTutorialModal"));
+const CalendarMobilePopup = dynamic(() => import("@/components/popups/CalendarMobilePopup"));
 
 const locales = { "en-US": enUS };
 const localizer = dateFnsLocalizer({
@@ -164,7 +164,7 @@ export default function CalendarClient() {
 
   return (
     <>
-      {width <= 600 && <CalendarTutorialModal />}
+      {width <= 600 && <CalendarMobilePopup />}
 
       <div className="h-full">
         {showCreateForm && selectDateRange && (
