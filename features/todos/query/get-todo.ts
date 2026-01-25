@@ -3,6 +3,7 @@ import { useQuery } from "@tanstack/react-query";
 import { api } from "@/lib/api-client";
 import { useToast } from "@/hooks/use-toast";
 import { useEffect } from "react";
+import { startOfToday, endOfToday } from "date-fns";
 
 export const useTodo = () => {
   const { toast } = useToast();
@@ -17,7 +18,9 @@ export const useTodo = () => {
     retry: 2,
 
     queryFn: async () => {
-      const data = await api.GET({ url: `/api/todo` });
+      const data = await api.GET({
+        url: `/api/todo?start=${startOfToday().getTime()}&end=${endOfToday().getTime()}`,
+      });
       const { todos }: { todos: TodoItemType[] } = data;
       if (!todos) {
         throw new Error(

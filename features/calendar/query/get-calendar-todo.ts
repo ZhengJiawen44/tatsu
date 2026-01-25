@@ -18,7 +18,7 @@ export const useCalendarTodo = (calendarRange: { start: Date; end: Date }) => {
     retry: 2,
     queryFn: async () => {
       const data = await api.GET({
-        url: `/api/calendar/todo?start=${calendarRange.start.getTime()}&end=${calendarRange.end.getTime()}`,
+        url: `/api/todo?start=${calendarRange.start.getTime()}&end=${calendarRange.end.getTime()}`,
       });
       const { todos }: { todos: TodoItemType[] } = data;
       if (!todos) {
