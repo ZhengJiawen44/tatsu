@@ -1,25 +1,9 @@
-"use client";
-import React, { useState, useEffect } from "react";
-import { useLocale } from "next-intl";
 
-const Day = () => {
-  const locale = useLocale();
-  const [mounted, setMounted] = useState(false);
+import React from "react";
+import { getLocale } from "next-intl/server";
 
-  useEffect(() => {
-    setMounted(true);
-  }, []);
-
-  //gotta fight ssr for this one
-  if (!mounted) {
-    return (
-      <div className="flex items-end gap-2 mb-8 sm:mb-16 text-muted-foreground">
-        <span className="leading-none text-[1.2rem] sm:text-3xl invisible">
-          Loading...
-        </span>
-      </div>
-    );
-  }
+const Day = async () => {
+  const locale = await getLocale();
 
   const currentDate = new Date();
 

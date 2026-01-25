@@ -1,5 +1,5 @@
-import { getCaretOffset } from "@/features/todos/lib/getCaretOffset";
-import { setCaretOffset } from "@/features/todos/lib/setCaretOffset";
+import { getCaretOffset } from "@/features/todayTodos/lib/getCaretOffset";
+import { setCaretOffset } from "@/features/todayTodos/lib/setCaretOffset";
 import { cn } from "@/lib/utils";
 import { NonNullableDateRange } from "@/types";
 import * as chrono from "chrono-node";

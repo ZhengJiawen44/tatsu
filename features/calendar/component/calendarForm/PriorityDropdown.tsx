@@ -5,7 +5,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { PriorityIndicator } from "@/features/todos/component/TodoItem/PriorityIndicator";
+import { PriorityIndicator } from "@/features/todayTodos/component/TodoItem/PriorityIndicator";
 import clsx from "clsx";
 import { TodoItemType } from "@/types";
 import { ChevronDown } from "lucide-react";

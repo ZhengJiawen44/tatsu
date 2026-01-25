@@ -15,7 +15,7 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import { Button } from "@/components/ui/button";
-import { getDisplayDate } from "@/features/todos/lib/getDisplayDate";
+import { getDisplayDate } from "@/features/todayTodos/lib/getDisplayDate";
 import clsx from "clsx";
 import { useLocale } from "next-intl";
 

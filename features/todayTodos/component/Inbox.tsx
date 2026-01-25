@@ -3,7 +3,7 @@ import LineSeparator from "@/components/ui/lineSeparator";
 import { TodoItemType } from "@/types";
 import clsx from "clsx";
 import React, { useState } from "react";
-import TodoGroup from "./TodoGroup";
+import TodoGroup from "../../../components/todo/TodoGroup";
 
 interface InboxProps {
   openDetails: Record<string, boolean>;

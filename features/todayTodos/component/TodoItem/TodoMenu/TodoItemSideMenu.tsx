@@ -1,6 +1,6 @@
 import React from "react";
-import { useDeleteTodo } from "@/features/todos/query/delete-todo";
-import { usePinTodo } from "@/features/todos/query/pin-todo";
+import { useDeleteTodo } from "@/features/todayTodos/query/delete-todo";
+import { usePinTodo } from "@/features/todayTodos/query/pin-todo";
 import Spinner from "@/components/ui/spinner";
 import { TodoItemType } from "@/types";
 import { Button } from "@/components/ui/button";
