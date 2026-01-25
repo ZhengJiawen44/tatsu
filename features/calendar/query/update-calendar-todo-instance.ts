@@ -41,7 +41,26 @@ export const useEditCalendarTodoInstance = () => {
   const { mutate: editCalendarTodoInstance, status: editTodoInstanceStatus } =
     useMutation({
       mutationFn: (params: TodoItemType) => patchTodo({ ghostTodo: params }),
-
+      onMutate: async (newTodo: TodoItemType) => {
+        await queryClient.cancelQueries({
+          queryKey: ["calendarTodo"],
+        });
+        const oldTodosBackup = queryClient.getQueriesData({
+          queryKey: ["calendarTodo"],
+        });
+        queryClient.setQueryData<TodoItemType[]>(
+          ["calendarTodo"],
+          (oldTodos) => {
+            return oldTodos?.map((oldTodo) => {
+              if (oldTodo.id === newTodo.id) {
+                return newTodo;
+              }
+              return oldTodo;
+            });
+          },
+        );
+        return { oldTodosBackup };
+      },
       onSuccess: () => {
         queryClient.invalidateQueries({ queryKey: ["calendarTodo"] });
         queryClient.invalidateQueries({
@@ -49,7 +68,8 @@ export const useEditCalendarTodoInstance = () => {
         });
       },
 
-      onError: (error) => {
+      onError: (error, newTodo, context) => {
+        queryClient.setQueryData(["calendarTodo"], context?.oldTodosBackup);
         toast({
           description: error.message,
           variant: "destructive",
