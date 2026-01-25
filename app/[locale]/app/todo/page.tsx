@@ -4,11 +4,11 @@ import TodayTodoContainer from "@/features/todayTodos/component/TodayTodoContain
 import Day from "@/components/todo/Day";
 import OverDueTodoContainer from "@/features/overdueTodos/component/overDueTodoContainer";
 const Page = () => {
-  return <div className="select-none bg-inherit">
+  return <div className="select-none bg-inherit mt-4">
     <Day />
-
-    <OverDueTodoContainer />
     <TodayTodoContainer />
+    <OverDueTodoContainer />
+
 
   </div>
 };

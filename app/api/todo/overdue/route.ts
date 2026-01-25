@@ -13,19 +13,42 @@ export async function GET(req: NextRequest) {
       throw new UnauthorizedError("You must be logged in to do this");
     }
 
-    //need a reference date to find overdue todos
     const referenceDateString = req.nextUrl.searchParams.get(
       "referenceDateString",
     );
+    const cursor = req.nextUrl.searchParams.get("cursor");
+    const count = req.nextUrl.searchParams.get("count");
 
-    if (!referenceDateString)
-      throw new BadRequestError("referenceDateString not specified");
+    if (!referenceDateString || !count) {
+      throw new BadRequestError("referenceDateString or count not specified");
+    }
 
     const referenceDate = new Date(Number(referenceDateString));
+    const take = Number(count);
+
     const overDueTodos = await prisma.todo.findMany({
-      where: { completed: false, due: { lt: referenceDate } },
+      where: {
+        userID: user.id,
+        completed: false,
+        due: { lt: referenceDate },
+      },
+      orderBy: { order: "desc" },
+      take,
+      ...(cursor && {
+        skip: 1,
+        cursor: { id: cursor },
+      }),
     });
-    return NextResponse.json({ todos: overDueTodos }, { status: 200 });
+
+    const nextCursor =
+      overDueTodos.length === take
+        ? overDueTodos[overDueTodos.length - 1].id
+        : null;
+
+    return NextResponse.json(
+      { todos: overDueTodos, nextCursor },
+      { status: 200 },
+    );
   } catch (error) {
     return errorHandler(error);
   }
