@@ -86,9 +86,13 @@ const TodayTodoContainer = () => {
       )}
       <div className="mb-3">
         <div className="sm:flex items-center justify-between gap-2">
-          <h3 className="text-lg font-semibold select-none">
-            {appDict("today")}
-          </h3>
+          <div className="flex items-end justify-start gap-2">
+            <h3 className="text-2xl font-semibold select-none">
+              {appDict("today")}
+            </h3>
+            <p className="text-muted-foreground text-lg">{new Date().toDateString().slice(0, 10)}</p>
+          </div>
+
           <TodoFilterBar
 
             containerHovered={containerHovered}
