@@ -22,11 +22,41 @@ model User {
   CompletedTodo CompletedTodo[]
   Note          Note[]
   File          File[]
+  UserPreferences       UserPreferences[]
   maxStorage    Decimal             @default(1000000.0) //default 100 mb of storage
   usedStoraged  Decimal             @default(0.0)
   protectedSymmetricKey String?
   enableEncryption      Boolean     @default(true)
   timeZone  String?
+}
+
+enum SortBy{
+  dtstart
+  due
+  duration
+  priority
+}
+
+enum GroupBy{
+  dtstart
+  due
+  duration
+  priority
+  rrule
+}
+
+enum Direction{
+  Ascending
+  Descending
+}
+
+model UserPreferences {
+  id                String    @id @default(cuid())
+  user              User      @relation(fields: [userID], references: [id])
+  userID            String    @unique
+  sortBy            SortBy?
+  groupBy           GroupBy?
+  direction         Direction?
 }
  
 model Account {
