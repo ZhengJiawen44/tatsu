@@ -17,6 +17,7 @@ import {
     DropdownMenuTrigger,
     DropdownMenuItem
 } from "@/components/ui/dropdown-menu";
+import { X } from 'lucide-react';
 
 type TodoFilterBarProps = {
     sortBy: string | undefined,
@@ -34,19 +35,19 @@ export default function TodoFilterBar({ sortBy, groupBy, setSortBy, setGroupBy, 
         <div className="flex gap-2">
             <div className="flex flex-wrap gap-2 items-center">
                 {groupBy &&
-                    <div className="bg-border py-1.5 px-3  rounded-md flex gap-2">
+                    <div className="bg-border py-1.5 px-3  rounded-md flex items-center gap-2">
                         <span>{`Grouped by: ${groupBy}`}</span>
                         <span className="hover:text-lime cursor-pointer w-4 text-center"
                             onClick={() => setGroupBy(undefined)}>
-                            x
+                            <X className='w-4 h-4' />
                         </span>
                     </div>}
                 {sortBy &&
-                    <div className="bg-border py-1.5 px-3  rounded-md flex gap-2">
+                    <div className="bg-border py-1.5 px-3  rounded-md flex items-center gap-2">
                         <span>{`Sorted by: ${sortBy}`}</span>
                         <span className="hover:text-lime cursor-pointer w-4 text-center"
                             onClick={() => setSortBy(undefined)}>
-                            x
+                            <X className='w-4 h-4' />
                         </span>
                     </div>}
                 {sortBy && <div className="bg-border py-1.5 px-3  rounded-md">{direction}</div>}
@@ -67,16 +68,16 @@ export default function TodoFilterBar({ sortBy, groupBy, setSortBy, setGroupBy, 
                                             value={sortBy}
                                             onValueChange={(value) => { setSortBy(value) }}
                                         >
-                                            <DropdownMenuRadioItem value="dtstart" className="hover:bg-popover-accent">
+                                            <DropdownMenuRadioItem value="Start date" className="hover:bg-popover-accent">
                                                 Start date
                                             </DropdownMenuRadioItem>
-                                            <DropdownMenuRadioItem value="due">
+                                            <DropdownMenuRadioItem value="Deadline">
                                                 Deadline
                                             </DropdownMenuRadioItem>
-                                            <DropdownMenuRadioItem value="duration">
+                                            <DropdownMenuRadioItem value="Duration">
                                                 Duration
                                             </DropdownMenuRadioItem>
-                                            <DropdownMenuRadioItem value="priority">
+                                            <DropdownMenuRadioItem value="Priority">
                                                 Priority
                                             </DropdownMenuRadioItem>
                                         </DropdownMenuRadioGroup>
@@ -93,10 +94,10 @@ export default function TodoFilterBar({ sortBy, groupBy, setSortBy, setGroupBy, 
                                                 onValueChange={(value) => { setDirection(value) }}
                                             >
                                                 <DropdownMenuRadioItem value="Descending">
-                                                    Ascending
+                                                    Descending
                                                 </DropdownMenuRadioItem>
                                                 <DropdownMenuRadioItem value="Ascending">
-                                                    Descending
+                                                    Ascending
                                                 </DropdownMenuRadioItem>
 
                                             </DropdownMenuRadioGroup>
@@ -116,19 +117,19 @@ export default function TodoFilterBar({ sortBy, groupBy, setSortBy, setGroupBy, 
                                             value={groupBy}
                                             onValueChange={(value) => { setGroupBy(value) }}
                                         >
-                                            <DropdownMenuRadioItem value="dtstart" className="hover:bg-popover-accent">
+                                            <DropdownMenuRadioItem value="Start date" className="hover:bg-popover-accent">
                                                 Start date
                                             </DropdownMenuRadioItem>
-                                            <DropdownMenuRadioItem value="due">
+                                            <DropdownMenuRadioItem value="Deadline">
                                                 Deadline
                                             </DropdownMenuRadioItem>
-                                            <DropdownMenuRadioItem value="duration">
+                                            <DropdownMenuRadioItem value="Duration">
                                                 Duration
                                             </DropdownMenuRadioItem>
-                                            <DropdownMenuRadioItem value="priority">
+                                            <DropdownMenuRadioItem value="Priority">
                                                 Priority
                                             </DropdownMenuRadioItem>
-                                            <DropdownMenuRadioItem value="rrule">
+                                            <DropdownMenuRadioItem value="Recurrence">
                                                 Recurrence
                                             </DropdownMenuRadioItem>
                                         </DropdownMenuRadioGroup>

@@ -12,7 +12,8 @@ import TodoFormLoading from "../../features/todayTodos/component/TodoItem/TodoFo
 import { Check } from "lucide-react";
 import TodoItemMenuContainer from "../../features/todayTodos/component/TodoItem/TodoMenu/TodoItemMenuContainer";
 import LineSeparator from "@/components/ui/lineSeparator";
-import { formatTime } from "@/lib/formatTime";
+import { getDisplayDate } from "@/lib/date/displayDate";
+import { useLocale } from "next-intl";
 const TodoFormContainer = dynamic(
   () => import("../../features/todayTodos/component/TodoItem/TodoForm/TodoFormContainer"),
   { loading: () => <TodoFormLoading /> },
@@ -24,6 +25,7 @@ type TodoItemContainerProps = {
 }
 
 export const TodoItemContainer = ({ todoItem, overdue }: TodoItemContainerProps) => {
+  const locale = useLocale();
   //dnd kit setups
   const { attributes, listeners, setNodeRef, transform, transition } =
     useSortable({ id: todoItem.id });
@@ -122,7 +124,7 @@ export const TodoItemContainer = ({ todoItem, overdue }: TodoItemContainerProps)
             </pre>
             <div className="flex items-center justify-start gap-2">
 
-              <p className={clsx(overdue ? "text-orange" : "text-lime")}>{formatTime(dtstart.getHours(), dtstart.getMinutes())}</p>
+              <p className={clsx(overdue ? "text-orange" : "text-lime")}>{getDisplayDate(dtstart, true, locale)}</p>
               {overdue && <p className='py-[0.2rem] px-2 rounded-full bg-border'>overdue</p>}
 
             </div>
