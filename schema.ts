@@ -65,3 +65,15 @@ export const noteSchema = z.object({
     .min(1, { message: "title cannot be left empty" }),
   content: z.string().nullable().optional(),
 });
+
+export const userPreferencesSchema = z.object({
+  sortBy: z
+    .enum(["dtstart", "due", "duration", "priority"])
+    .nullable()
+    .optional(),
+  groupBy: z
+    .enum(["dtstart", "due", "duration", "priority", "rrule"])
+    .nullable()
+    .optional(),
+  direction: z.enum(["Ascending", "Descending"]).nullable().optional(),
+});

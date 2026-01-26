@@ -2,10 +2,12 @@ import type { Metadata } from "next";
 import { Poppins } from "next/font/google";
 import { NextIntlClientProvider } from 'next-intl';
 import { getMessages } from 'next-intl/server';
-// import {routing} from '@/i18n/routing';
 import { SessionProvider } from "next-auth/react";
 import { ThemeProvider } from "@/providers/ThemeProvider";
 import "@/app/globals.css";
+import { prisma } from "@/lib/prisma/client";
+import { auth } from "../auth";
+import { UserPreferencesProvider } from "@/providers/UserPreferencesProvider";
 
 type Props = {
   children: React.ReactNode;
@@ -30,7 +32,16 @@ export default async function RootLayout({
 }: Props) {
   const { locale } = await params;
   const messages = await getMessages();
-
+  const session = await auth();
+  async function getInitialPreferences() {
+    try {
+      const preferences = await prisma.userPreferences.findUnique({ where: { userID: session!.user.id } })
+      return preferences
+    } catch {
+      return null;
+    }
+  }
+  const initialPreferences = await getInitialPreferences();
   return (
     <html lang={locale} suppressHydrationWarning>
       <head>
@@ -45,7 +56,9 @@ export default async function RootLayout({
             disableTransitionOnChange
           >
             <NextIntlClientProvider messages={messages}>
-              {children}
+              <UserPreferencesProvider initialPreferences={initialPreferences}>
+                {children}
+              </UserPreferencesProvider>
             </NextIntlClientProvider>
           </ThemeProvider>
         </body>
