@@ -15,7 +15,7 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import { Button } from "@/components/ui/button";
-import { getDisplayDate } from "@/features/todayTodos/lib/getDisplayDate";
+import { getDisplayDate } from "@/lib/date/displayDate";
 import clsx from "clsx";
 import { useLocale } from "next-intl";
 
@@ -46,7 +46,7 @@ const DateDropdownMenu = () => {
         >
           <CalenderIcon strokeWidth={1.3} className="w-4 h-4 sm:w-5 sm:h-5" />
           <span className="text-sm font-medium">
-            {getDisplayDate(dateRange.from, locale)}
+            {getDisplayDate(dateRange.from, true, locale)}
           </span>
         </Button>
       </PopoverTrigger>
