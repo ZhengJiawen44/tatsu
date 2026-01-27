@@ -166,7 +166,7 @@ export default function CalendarClient() {
     <>
       {width <= 600 && <CalendarMobilePopup />}
 
-      <div className="h-full">
+      <div className="h-screen flex flex-col overflow-hidden sm:py-10">
         {showCreateForm && selectDateRange && (
           <CreateCalendarForm
             start={selectDateRange.start}
@@ -210,6 +210,7 @@ export default function CalendarClient() {
             eventTimeRangeFormat: () => "",
           }}
           eventPropGetter={(event) => calendarEventPropStyles(event.priority)}
+
           onRangeChange={setCalendarRange}
           onEventResize={({ event: todo, ...resizeEvent }) => {
             if (!todo.rrule) {

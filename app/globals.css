@@ -38,7 +38,7 @@ body {
 
   :root {
     --calendar-lime: 83, 80%, 32%;
-    --calendar-orange: 33 100% 50%;
+    --calendar-orange: 33 100% 48%;
     --calendar-red: 4 90% 58%;
     --radius: 0.5rem;
 
@@ -106,7 +106,7 @@ body {
     --lime: 83 40% 45%;
     --calendar-lime: 83 38% 35%;
     --calendar-red: 4 70% 48%;
-    --calendar-orange: 34 93% 44%;
+    --calendar-orange: 34 70% 44%;
     --nlp: 0.8, 50%, 29.02%;
     --background: 235 32% 15%;
     --foreground: 0 0% 100%;
@@ -142,7 +142,6 @@ body {
     --chart-5: 16, 80%, 65%; */
 
     --sidebar: 235, 28%, 19%;
-    --sidebar-foreground: 0, 0%, 99%;
 
     --sidebar-primary: 235, 28%, 24%;
     --sidebar-primary-foreground: 0, 0%, 99%;
