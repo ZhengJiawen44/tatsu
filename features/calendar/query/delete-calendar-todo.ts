@@ -7,7 +7,7 @@ export const useDeleteCalendarTodo = () => {
   const queryClient = useQueryClient();
   const { mutate: deleteMutate, isPending: deletePending } = useMutation({
     mutationFn: async ({ id }: { id: string }) => {
-      await api.DELETE({ url: `/api/calendar/todo/${id.split(":")[0]}` });
+      await api.DELETE({ url: `/api/todo/${id.split(":")[0]}` });
     },
     onMutate: async ({ id }: { id: string }) => {
       await queryClient.cancelQueries({

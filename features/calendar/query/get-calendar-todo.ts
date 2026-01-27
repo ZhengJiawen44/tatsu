@@ -13,7 +13,11 @@ export const useCalendarTodo = (calendarRange: { start: Date; end: Date }) => {
     isError,
     error,
   } = useQuery<TodoItemType[]>({
-    queryKey: ["calendarTodo"],
+    queryKey: [
+      "calendarTodo",
+      calendarRange.start.getTime(),
+      calendarRange.end.getTime(),
+    ],
     staleTime: 5 * 60 * 1000,
     retry: 2,
     queryFn: async () => {

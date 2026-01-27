@@ -28,8 +28,9 @@ import { useDateRange } from "../hooks/useDateRange";
 import { useCalendarTodo } from "../query/get-calendar-todo";
 import { useEditCalendarTodo } from "../query/update-calendar-todo";
 import { useEditCalendarTodoInstance } from "../query/update-calendar-todo-instance";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import dynamic from "next/dynamic";
+import Spinner from "@/components/ui/spinner";
 
 const CalendarMobilePopup = dynamic(() => import("@/components/popups/CalendarMobilePopup"));
 
@@ -46,13 +47,12 @@ const DnDCalendar = withDragAndDrop<TodoItemType>(Calendar);
 export default function CalendarClient() {
   const [mounted, setMounted] = useState(false);
   const [calendarRange, setCalendarRange] = useDateRange();
-  const { todos: calendarTodos } = useCalendarTodo(calendarRange);
   const [showCreateForm, setShowCreateForm] = useState(false);
   const [selectDateRange, setSelectDateRange] = useState<{
     start: Date;
     end: Date;
   } | null>(null);
-
+  const { todos: calendarTodos } = useCalendarTodo(calendarRange);
   const { editCalendarTodo } = useEditCalendarTodo();
   const { editCalendarTodoInstance } = useEditCalendarTodoInstance();
 
@@ -67,7 +67,7 @@ export default function CalendarClient() {
   }, []);
 
   // Helper function to update calendar range based on date and view
-  const updateRangeForDate = (date: Date, currentView: View) => {
+  const updateRangeForDate = useCallback((date: Date, currentView: View) => {
     if (currentView === "month") {
       setCalendarRange({
         start: startOfWeek(startOfMonth(date)),
@@ -84,7 +84,7 @@ export default function CalendarClient() {
         end: endOfDay(date),
       });
     }
-  };
+  }, [setCalendarRange]);
 
   useEffect(() => {
     if (!selectedDate) return;
@@ -149,15 +149,15 @@ export default function CalendarClient() {
 
     document.addEventListener("keydown", handler, true);
     return () => document.removeEventListener("keydown", handler, true);
-  }, [view, selectedDate]);
+  }, [view, selectedDate, updateRangeForDate]);
 
   const { width } = useWindowSize();
 
   // Don't render calendar until mounted
   if (!mounted || !selectedDate) {
     return (
-      <div className="h-full flex items-center justify-center text-muted-foreground">
-        Loading calendar...
+      <div className="h-full w-full flex items-center justify-center">
+        <Spinner className="w-14 h-14" />
       </div>
     );
   }

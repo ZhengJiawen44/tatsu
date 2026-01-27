@@ -12,6 +12,7 @@ type PopupProps = {
   popupName: string,
   title: string,
   resetPopupToggle: boolean // simply change this boolean to the opposite if you want the banner to be displayed once again
+
   children: ReactElement<typeof CarouselItem>[]
 }
 
