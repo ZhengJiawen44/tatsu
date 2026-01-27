@@ -63,7 +63,7 @@ export default function Popup({ popupName, title, resetPopupToggle, children }: 
           );
         }}
       >
-        <DialogContent className="p-5 pb-10" showCloseButton={false}>
+        <DialogContent className="p-5 pb-10">
           <div className="flex items-center justify-between">
             <DialogTitle className="text-xl text-muted-foreground">
               {title}

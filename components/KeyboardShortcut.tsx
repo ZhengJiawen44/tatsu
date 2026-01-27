@@ -1,5 +1,5 @@
 import { SetStateAction } from "react";
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from "./ui/dialog";
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { useTranslations } from "next-intl";
 
 export default function KeyboardShortcuts({
@@ -15,7 +15,6 @@ export default function KeyboardShortcuts({
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent
         className="h-2/3  overflow-scroll scrollbar-none p-0"
-        showCloseButton={false}
       >
         <DialogHeader className="mt-6 mx-6">
           <DialogTitle className="text-lg m-auto">
