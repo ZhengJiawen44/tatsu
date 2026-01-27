@@ -31,6 +31,7 @@ import { useEditCalendarTodoInstance } from "../query/update-calendar-todo-insta
 import { useCallback, useEffect, useState } from "react";
 import dynamic from "next/dynamic";
 import Spinner from "@/components/ui/spinner";
+import { subMilliseconds } from "date-fns";
 
 const CalendarMobilePopup = dynamic(() => import("@/components/popups/CalendarMobilePopup"));
 
@@ -194,7 +195,8 @@ export default function CalendarClient() {
           }}
           selectable
           onSelectSlot={({ start, end }) => {
-            setSelectDateRange({ start, end });
+            const adjustedEnd = subMilliseconds(end, 1);
+            setSelectDateRange({ start, end: adjustedEnd });
             setShowCreateForm(true);
           }}
           localizer={localizer}
