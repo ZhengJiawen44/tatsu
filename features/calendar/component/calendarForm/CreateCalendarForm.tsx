@@ -3,7 +3,6 @@ import DateDropdownMenu from "./DateDropdownMenu";
 import { TodoItemType, NonNullableDateRange } from "@/types";
 import RepeatDropdownMenu from "./RepeatDropdown/RepeatDropdownMenu";
 import { AlignLeft, Clock, Flag, Repeat } from "lucide-react";
-import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog";
 import { useCreateCalendarTodo } from "../../query/create-calendar-todo";
 import ConfirmCancelEditDialog from "./ConfirmCancelEdit";
 import { useEffect, useMemo, useState } from "react";
@@ -38,7 +37,9 @@ const CreateCalendarForm = ({
   const [rruleOptions, setRruleOptions] = useState<Partial<Options> | null>(
     null,
   );
+
   const { createCalendarTodo, createTodoStatus } = useCreateCalendarTodo();
+
   const hasUnsavedChanges = useMemo(() => {
     const rruleString = rruleOptions
       ? RRule.optionsToString(rruleOptions)
@@ -63,28 +64,29 @@ const CreateCalendarForm = ({
     end,
   ]);
 
-  // Run side effect when editTodoStatus changes
   useEffect(() => {
     if (createTodoStatus === "success") {
       setDisplayForm(false);
     }
   }, [createTodoStatus, setDisplayForm]);
 
-  const handleClose = (open: boolean) => {
-    if (open === false && hasUnsavedChanges) {
+  const handleClose = () => {
+    if (hasUnsavedChanges) {
       setCancelEditDialogOpen(true);
       return;
     }
-
-    // Add small delay to allow state to update before allowing new slot selections
-    if (!open) {
-      setTimeout(() => {
-        setDisplayForm(open);
-      }, 0);
-    } else {
-      setDisplayForm(open);
-    }
+    setDisplayForm(false);
   };
+
+  useEffect(() => {
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape" && displayForm) handleClose();
+    };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [displayForm, hasUnsavedChanges]);
+
+  if (!displayForm) return null;
 
   return (
     <>
@@ -94,11 +96,24 @@ const CreateCalendarForm = ({
         setDisplayForm={setDisplayForm}
       />
 
-      <Dialog open={displayForm} onOpenChange={handleClose}>
-        <DialogTitle></DialogTitle>
-        <DialogContent className="w-full p-6">
+      {/* Overlay */}
+      <div
+        className="fixed inset-0 z-50 bg-black/40 flex items-center justify-center"
+        onMouseDown={(e) => {
+          e.preventDefault();
+          e.stopPropagation();
+          // defer close to avoid click-through
+          requestAnimationFrame(() => handleClose());
+        }}
+      >
+
+        {/* Modal */}
+        <div
+          className="bg-background rounded-lg w-full max-w-lg p-6"
+          onMouseDown={(e) => e.stopPropagation()}
+        >
           <form
-            className="flex flex-col gap-5 mt-4 min-w-0"
+            className="flex flex-col gap-5 mt-2 min-w-0"
             onSubmit={(e) => {
               e.preventDefault();
               createCalendarTodo({
@@ -107,7 +122,9 @@ const CreateCalendarForm = ({
                 priority,
                 dtstart: start,
                 due: end,
-                rrule: rruleOptions ? new RRule(rruleOptions).toString() : null,
+                rrule: rruleOptions
+                  ? new RRule(rruleOptions).toString()
+                  : null,
               });
             }}
           >
@@ -173,27 +190,21 @@ const CreateCalendarForm = ({
               <button
                 type="button"
                 className="px-4 py-2 rounded-md text-sm hover:bg-red hover:text-accent-foreground"
-                onClick={() => {
-                  if (hasUnsavedChanges) {
-                    setCancelEditDialogOpen(true);
-                  } else {
-                    setDisplayForm(false);
-                  }
-                }}
+                onClick={handleClose}
               >
                 {appDict("cancel")}
               </button>
 
               <button
                 type="submit"
-                className="px-4 py-2 rounded-md brightness-90 hover:brightness-100 bg-lime text-white text-sm hover:bg-lime"
+                className="px-4 py-2 rounded-md brightness-90 hover:brightness-100 bg-lime text-white text-sm"
               >
                 {appDict("save")}
               </button>
             </div>
           </form>
-        </DialogContent>
-      </Dialog>
+        </div>
+      </div>
     </>
   );
 };
