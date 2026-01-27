@@ -1,6 +1,6 @@
 import { addDays, endOfDay, startOfDay } from "date-fns";
 import { Calendar } from "@/components/ui/calendar";
-import React from "react";
+import React, { useMemo } from "react";
 import { nextMonday, differenceInDays } from "date-fns";
 import LineSeparator from "@/components/ui/lineSeparator";
 import { Sun } from "lucide-react";
@@ -14,6 +14,8 @@ import {
 } from "@/components/ui/popover";
 import { useLocale, useTranslations } from "next-intl";
 import { NonNullableDateRange } from "@/types";
+import { getDisplayDate } from "@/lib/date/displayDate";
+import { isSameDay } from "date-fns";
 
 type DateDropdownMenuProps = {
   dateRange: NonNullableDateRange;
@@ -30,22 +32,21 @@ const DateDropdownMenu = ({
   const tomorrow = startOfDay(addDays(dateRange?.from || new Date(), 1));
   const [isOpen, setIsOpen] = React.useState(false);
 
-  // Helper function to format dates with locale support
-  function getDisplayDate(date: Date) {
-    const formatter = new Intl.DateTimeFormat(locale, {
-      month: "short",
-      day: "2-digit",
-      hour: "2-digit",
-      minute: "2-digit",
-      year: date.getFullYear() === new Date().getFullYear() ? undefined : "numeric",
-    });
-    return formatter.format(date);
-  }
 
   // Helper function to format day abbreviation
   function formatDayAbbr(date: Date): string {
     return new Intl.DateTimeFormat(locale, { weekday: "short" }).format(date);
   }
+
+  const displayedDateRange = useMemo(() => {
+    if (isSameDay(dateRange.from, dateRange.to)) {
+      let displayedTime = `${new Intl.DateTimeFormat(locale, { hour: "numeric" }).format(dateRange.from)}-${new Intl.DateTimeFormat(locale, { hour: "numeric" }).format(dateRange.to)}`
+      if (displayedTime === "12 AM-11 PM") displayedTime = "All day"
+      console.log(displayedTime)
+      return `${getDisplayDate(dateRange.from, false, locale)},  ${displayedTime}`
+    }
+    return `${getDisplayDate(dateRange.from, false, locale)} - ${getDisplayDate(dateRange.to, false, locale)}`
+  }, [dateRange.from, dateRange.to, locale])
 
   const itemClass =
     "flex w-full cursor-pointer items-center justify-between rounded-sm px-2 py-1.5 text-sm hover:bg-popover-accent hover:text-foreground";
@@ -55,8 +56,7 @@ const DateDropdownMenu = ({
       <PopoverTrigger asChild>
         <button className="flex justify-start items-center gap-1 p-1 w-full h-full hover:bg-popover-accent rounded-md outline-none">
           <span className="text-sm font-medium">
-            {getDisplayDate(dateRange.from)}
-            {" "} {getDisplayDate(dateRange.to)}
+            {displayedDateRange}
           </span>
         </button>
       </PopoverTrigger>
