@@ -99,14 +99,16 @@ const CreateCalendarForm = ({
       {/* Overlay */}
       <div
         className="fixed inset-0 z-50 bg-black/40 flex items-center justify-center"
-        onMouseDown={(e) => {
-          e.preventDefault();
-          e.stopPropagation();
-          // defer close to avoid click-through
-          requestAnimationFrame(() => handleClose());
-        }}
+        onClick={(e) => {
+          if (e.target === e.currentTarget) {
+            e.preventDefault();
+            e.stopPropagation();
+            // defer close to avoid click-through
+            requestAnimationFrame(() => handleClose());
+          }
+        }
+        }
       >
-
         {/* Modal */}
         <div
           className="bg-background rounded-lg w-full max-w-lg p-6"
