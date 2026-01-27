@@ -56,7 +56,7 @@ const DateDropdownMenu = ({
   }, [dateRange.from, dateRange.to, locale]);
 
   return (
-    <DropdownMenu open={isOpen} onOpenChange={setIsOpen} >
+    <DropdownMenu open={isOpen} onOpenChange={setIsOpen} modal={false}>
       <DropdownMenuTrigger asChild>
         <button className="flex justify-start items-center gap-1 p-2 w-full h-full hover:bg-popover-accent rounded-md outline-none">
           <span className="text-sm font-medium">{displayedDateRange}</span>
