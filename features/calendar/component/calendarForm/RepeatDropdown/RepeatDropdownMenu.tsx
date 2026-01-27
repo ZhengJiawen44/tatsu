@@ -53,7 +53,7 @@ const RepeatDropdownMenu = ({
   };
 
   const menuItemClass =
-    "flex items-center justify-between w-full hover:bg-popover-accent rounded-sm px-2 py-1.5 hover:text-foreground cursor-pointer transition-colors";
+    "flex items-center justify-between w-full hover:bg-popover-accent rounded-sm  px-2 py-1.5 hover:text-foreground cursor-pointer transition-colors";
 
   return (
     <Popover>
@@ -183,7 +183,7 @@ const RepeatDropdownMenu = ({
             rruleOptions={rruleOptions}
             setRruleOptions={setRruleOptions}
             derivedRepeatType={derivedRepeatType}
-            className="flex items-center w-full hover:bg-accent rounded-sm px-2 py-1.5 hover:text-white cursor-pointer transition-colors text-sm"
+            className="flex items-center w-full hover:bg-popover-accent rounded-sm !px-2 !py-1.5 cursor-pointer text-sm"
           />
         </div>
 
