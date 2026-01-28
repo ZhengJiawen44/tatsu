@@ -30,7 +30,7 @@ export default function ConfirmDeleteAll({
   return (
     <Dialog open={deleteAllDialogOpen} onOpenChange={setDeleteAllDialogOpen}>
       <DialogContent
-        className="max-w-sm top-1/2 -translate-y-1/2 bg-popover"
+        className="top-1/2 -translate-y-1/2 bg-popover"
         onMouseDown={(e) => e.stopPropagation()}>
         <DialogHeader>
           <DialogTitle>{modalDict("deleteAll.title")}</DialogTitle>

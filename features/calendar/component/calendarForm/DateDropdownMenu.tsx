@@ -161,7 +161,7 @@ const DateDropdownMenu = ({
             </div>
           </DropdownMenuSubTrigger>
           <DropdownMenuPortal>
-            <DropdownMenuSubContent className="w-[320px] p-4 rounded-lg z-[60]"
+            <DropdownMenuSubContent className="w-[320px] p-4 rounded-lg z-[60]" sideOffset={-280} alignOffset={40}
               onPointerDown={(e) => e.stopPropagation()}
               onKeyDown={(e) => e.stopPropagation()}>
               <DurationPickerSub dateRange={dateRange} setDateRange={setDateRange} />
@@ -284,7 +284,7 @@ function DurationPickerSub({ dateRange, setDateRange }: DurationPickerSubProps) 
   const inputErrorClass = error ? "ring-1 ring-red" : "";
 
   return (
-    <div className="flex flex-col gap-4">
+    <div className=" flex flex-col gap-4">
       <div className="space-y-1">
         <h4 className="text-sm font-semibold leading-none tracking-tight">
           {appDict("durationMenu.title")}

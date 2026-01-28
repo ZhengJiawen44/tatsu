@@ -210,6 +210,11 @@ export default function CalendarClient() {
           messages={{ event: "Todo" }}
           resizable
           formats={{
+            timeGutterFormat: (date) => {
+              if (width < 600) return format(date, 'HH:mm')
+              return format(date, 'hh:mm a')
+            }
+            ,
             eventTimeRangeFormat: () => "",
           }}
           eventPropGetter={(event) => calendarEventPropStyles(event.priority)}
