@@ -146,7 +146,6 @@ const DateDropdownMenu = () => {
             className="p-0 pb-1"
             mode="range"
             defaultMonth={new Date()}
-            disabled={(date) => date <= addDays(new Date(), -1)}
             selected={dateRange}
             onSelect={(newDateRange) => {
               setDateRange(() => {
