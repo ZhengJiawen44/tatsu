@@ -194,7 +194,8 @@ export default function CalendarClient() {
             updateRangeForDate(newDate, view);
           }}
           selectable
-          onSelectSlot={({ start, end }) => {
+          onSelectSlot={({ start, end, action }) => {
+            if (action == "click") return
             const adjustedEnd = subMilliseconds(end, 1);
             setSelectDateRange({ start, end: adjustedEnd });
             setShowCreateForm(true);

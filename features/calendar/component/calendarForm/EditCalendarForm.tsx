@@ -120,7 +120,9 @@ const CalendarForm = ({
           />
         </PopoverTrigger>
 
-        <PopoverContent className="w-[calc(100vw-2rem)] max-w-md min-w-0 border p-2 sm:p-6">
+        <PopoverContent
+          className="w-[calc(100vw-2rem)] max-w-md min-w-0 border p-2 sm:p-6"
+          onMouseDown={(e) => e.stopPropagation()}>
           <form
             className="flex min-w-0 flex-col gap-5 mt-4"
             onSubmit={(e) => {
