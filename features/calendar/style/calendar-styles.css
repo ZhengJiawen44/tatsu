@@ -1,6 +1,10 @@
+.rbc-selected-cell {
+  background-color: hsla(0, 0%, 0%, 0.45) !important;
+}
+
 /* month view */
 .rbc-off-range-bg {
-  background-color: hsl(var(--background)) !important;
+  background-color: hsl(var(--background));
   color: hsl(var(--muted-foreground));
 }
 .rbc-month-row {

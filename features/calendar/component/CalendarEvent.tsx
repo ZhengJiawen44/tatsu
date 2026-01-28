@@ -63,7 +63,7 @@ const CalendarEvent = ({ event: todo }: EventProps<TodoItemType>) => {
           </div>
         </PopoverTrigger>
 
-        <PopoverContent className="p-0 w-[11rem] sm:w-[20rem] md:w-[25rem] lg:w-[30rem] bg-popover" onMouseDown={(e) => e.stopPropagation()}>
+        <PopoverContent className="p-0 w-screenb sm:w-[30rem] md:w-[25rem] lg:w-[30rem] bg-popover" onMouseDown={(e) => e.stopPropagation()}>
           {/* Header */}
           <div className="flex gap-0 md:gap-2 p-2 justify-end ">
             {/* EDIT */}
@@ -112,7 +112,7 @@ const CalendarEvent = ({ event: todo }: EventProps<TodoItemType>) => {
             <div className="flex items-start gap-4">
               <div
                 className={clsx(
-                  "w-2 h-2 sm:w-3 sm:h-3 md:w-4 md:h-4 rounded-sm mt-1",
+                  "min-w-4 min-h-4 sm:min-w-5 sm:min-h-5 md:min-w-6 md:min-h-6 rounded-sm mt-1",
                   todo.priority === "Low"
                     ? "bg-lime"
                     : todo.priority === "Medium"
@@ -120,8 +120,8 @@ const CalendarEvent = ({ event: todo }: EventProps<TodoItemType>) => {
                       : "bg-red",
                 )}
               />
-              <div>
-                <p className="text-md md:text-lg font-semibold leading-none">
+              <div className="min-w-0">
+                <p className="text-md md:text-lg font-semibold leading-none truncate w-full">
                   {todo.title}
                 </p>
                 <p className="text-[0.6rem] sm:text-xs md:text-sm text-foreground">
@@ -131,8 +131,8 @@ const CalendarEvent = ({ event: todo }: EventProps<TodoItemType>) => {
             </div>
 
             {todo.description && (
-              <div className="flex gap-2 sm:gap-3 md:gap-4 items-start">
-                <AlignCenterIcon className="w-3 h-3 sm:h-4 sm:w-4" />
+              <div className="flex gap-2 sm:gap-3 md:gap-4 items-start min-w-0">
+                <AlignCenterIcon className="w-4 h-4 text-muted-foreground shrink-0 flex-0" />
                 <p className="line-clamp-3 text-[0.7rem] md:text-sm">
                   {todo.description}
                 </p>
