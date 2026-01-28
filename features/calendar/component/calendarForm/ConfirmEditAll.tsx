@@ -34,7 +34,7 @@ export default function ConfirmEditAll({
 
   return (
     <Dialog open={editAllDialogOpen} onOpenChange={setEditAllDialogOpen}>
-      <DialogContent className="max-w-sm top-1/2 -translate-y-1/2 bg-popover">
+      <DialogContent className="max-w-sm top-1/2 -translate-y-1/2 bg-popover" onMouseDown={(e) => e.stopPropagation()}>
         <DialogHeader>
           <DialogTitle>{modalDict("editAll.title")}</DialogTitle>
         </DialogHeader>

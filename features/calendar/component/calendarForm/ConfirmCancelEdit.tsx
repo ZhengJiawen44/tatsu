@@ -23,7 +23,8 @@ export default function ConfirmCancelEdit({
 
   return (
     <Dialog open={cancelEditDialogOpen} onOpenChange={setCancelEditDialogOpen}>
-      <DialogContent className="max-w-sm top-1/2 -translate-y-1/2 bg-popover">
+      <DialogContent className="max-w-sm top-1/2 -translate-y-1/2 bg-popover"
+        onMouseDown={(e) => e.stopPropagation()}>
         <DialogHeader>
           <DialogTitle>{modalDict("cancelEdit.title")}</DialogTitle>
         </DialogHeader>
