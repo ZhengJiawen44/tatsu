@@ -1,15 +1,18 @@
-import {
-  Dialog,
-  DialogContent,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-} from "@/components/ui/dialog";
 import React from "react";
 import { useEditCalendarTodo } from "../../query/update-calendar-todo";
 import { useEditCalendarTodoInstance } from "../../query/update-calendar-todo-instance";
 import { TodoItemType } from "@/types";
+import { Button } from "@/components/ui/button";
 import { useTranslations } from "next-intl";
+import {
+  Modal,
+  ModalOverlay,
+  ModalContent,
+  ModalHeader,
+  ModalTitle,
+  ModalDescription,
+  ModalFooter,
+} from "@/components/ui/Modal";
 
 type ConfirmEditAllProp = {
   todo: TodoItemType;
@@ -32,42 +35,47 @@ export default function ConfirmEditAll({
   const { editCalendarTodo } = useEditCalendarTodo();
   const { editCalendarTodoInstance } = useEditCalendarTodoInstance();
 
+  if (!editAllDialogOpen) return null;
+
   return (
-    <Dialog open={editAllDialogOpen} onOpenChange={setEditAllDialogOpen}>
-      <DialogContent className="max-w-sm top-1/2 -translate-y-1/2 bg-popover" onMouseDown={(e) => e.stopPropagation()}>
-        <DialogHeader>
-          <DialogTitle>{modalDict("editAll.title")}</DialogTitle>
-        </DialogHeader>
-        <p className="text-sm text-muted-foreground">
-          {modalDict("editAll.subtitle")}
-        </p>
-        <DialogFooter className="mt-4">
-          <button
-            className="px-3 py-1 rounded-md border"
-            onClick={() => {
-              editCalendarTodoInstance(todo);
-              setEditAllDialogOpen(false);
-              setDisplayForm(false);
-            }}
-          >
-            {modalDict("editAll.editInstance")}
-          </button>
-          <button
-            className="px-3 py-1 rounded-md bg-red text-white hover:bg-red"
-            onClick={() => {
-              editCalendarTodo({
-                ...todo,
-                dateRangeChecksum: dateRangeChecksum,
-                rruleChecksum: rruleChecksum,
-              });
-              setEditAllDialogOpen(false);
-              setDisplayForm(false);
-            }}
-          >
-            {modalDict("editAll.editAll")}
-          </button>
-        </DialogFooter>
-      </DialogContent>
-    </Dialog>
+    <Modal open={editAllDialogOpen} onOpenChange={setEditAllDialogOpen}>
+      <ModalOverlay>
+        <ModalContent>
+          <ModalHeader>
+            <ModalTitle>{modalDict("editAll.title")}</ModalTitle>
+            <ModalDescription>{modalDict("editAll.subtitle")}</ModalDescription>
+          </ModalHeader>
+
+          <ModalFooter className="mt-4">
+            <Button
+              variant="outline"
+              className="w-full sm:w-auto"
+              onClick={() => {
+                editCalendarTodoInstance(todo);
+                setEditAllDialogOpen(false);
+                setDisplayForm(false);
+              }}
+            >
+              {modalDict("editAll.editInstance")}
+            </Button>
+            <Button
+              variant="destructive"
+              className="w-full sm:w-auto"
+              onClick={() => {
+                editCalendarTodo({
+                  ...todo,
+                  dateRangeChecksum: dateRangeChecksum,
+                  rruleChecksum: rruleChecksum,
+                });
+                setEditAllDialogOpen(false);
+                setDisplayForm(false);
+              }}
+            >
+              {modalDict("editAll.editAll")}
+            </Button>
+          </ModalFooter>
+        </ModalContent>
+      </ModalOverlay>
+    </Modal>
   );
 }

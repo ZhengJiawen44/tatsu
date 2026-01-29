@@ -1,12 +1,15 @@
-import {
-  Dialog,
-  DialogContent,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-} from "@/components/ui/dialog";
 import React from "react";
 import { useTranslations } from "next-intl";
+import { Button } from "@/components/ui/button";
+import {
+  Modal,
+  ModalOverlay,
+  ModalContent,
+  ModalHeader,
+  ModalTitle,
+  ModalDescription,
+  ModalFooter,
+} from "@/components/ui/Modal";
 
 type confirmCancelEditProp = {
   cancelEditDialogOpen: boolean;
@@ -21,34 +24,42 @@ export default function ConfirmCancelEdit({
 }: confirmCancelEditProp) {
   const modalDict = useTranslations("modal");
 
+  if (!cancelEditDialogOpen) return null;
+
   return (
-    <Dialog open={cancelEditDialogOpen} onOpenChange={setCancelEditDialogOpen}>
-      <DialogContent className="max-w-sm top-1/2 -translate-y-1/2 bg-popover"
-        onMouseDown={(e) => e.stopPropagation()}>
-        <DialogHeader>
-          <DialogTitle>{modalDict("cancelEdit.title")}</DialogTitle>
-        </DialogHeader>
-        <p className="text-sm text-muted-foreground">
-          {modalDict("cancelEdit.subtitle")}
-        </p>
-        <DialogFooter className="mt-4">
-          <button
-            className="px-3 py-1 rounded-md border"
-            onClick={() => setCancelEditDialogOpen(false)}
-          >
-            {modalDict("cancel")}
-          </button>
-          <button
-            className="px-3 py-1 rounded-md bg-red text-white hover:bg-red"
-            onClick={() => {
-              setCancelEditDialogOpen(false);
-              setDisplayForm(false);
-            }}
-          >
-            {modalDict("confirm")}
-          </button>
-        </DialogFooter>
-      </DialogContent>
-    </Dialog>
+    <Modal open={cancelEditDialogOpen} onOpenChange={setCancelEditDialogOpen}>
+      <ModalOverlay>
+        <ModalContent>
+          <ModalHeader>
+            <ModalTitle>{modalDict("cancelEdit.title")}</ModalTitle>
+            <ModalDescription>
+              {modalDict("cancelEdit.subtitle")}
+            </ModalDescription>
+          </ModalHeader>
+
+          <ModalFooter className="mt-4">
+            <Button
+              variant="outline"
+              className="w-full sm:w-auto bg-popover"
+              onClick={() => setCancelEditDialogOpen(false)}
+              onMouseDown={(e) => { e.stopPropagation(); e.preventDefault() }}
+            >
+              {modalDict("cancel")}
+            </Button>
+            <Button
+              variant="destructive"
+              className="w-full sm:w-auto"
+              onMouseDown={(e) => { e.stopPropagation(); e.preventDefault() }}
+              onClick={() => {
+                setCancelEditDialogOpen(false);
+                setDisplayForm(false);
+              }}
+            >
+              {modalDict("confirm")}
+            </Button>
+          </ModalFooter>
+        </ModalContent>
+      </ModalOverlay>
+    </Modal>
   );
 }
