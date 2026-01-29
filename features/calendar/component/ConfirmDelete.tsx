@@ -1,15 +1,17 @@
-import {
-  Dialog,
-  DialogContent,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-} from "@/components/ui/dialog";
 import React from "react";
 import { useDeleteCalendarTodo } from "../query/delete-calendar-todo";
 import { TodoItemType } from "@/types";
 import { Button } from "@/components/ui/button";
 import { useTranslations } from "next-intl";
+import {
+  Modal,
+  ModalOverlay,
+  ModalHeader,
+  ModalTitle,
+  ModalDescription,
+  ModalContent,
+  ModalFooter
+} from "@/components/ui/Modal";
 
 type confirmDeleteProp = {
   todo: TodoItemType;
@@ -25,37 +27,42 @@ export default function ConfirmDelete({
   const modalDict = useTranslations("modal");
   const { deleteMutate } = useDeleteCalendarTodo();
 
+  // Early return if not open, consistent with your ConfirmDeleteAll pattern
+  if (!deleteDialogOpen) return null;
+
   return (
-    <Dialog open={deleteDialogOpen} onOpenChange={setDeleteDialogOpen}>
-      <DialogContent className="max-w-sm top-1/2 -translate-y-1/2 bg-popover"
-        onMouseDown={(e) => e.stopPropagation()}>
-        <DialogHeader>
-          <DialogTitle>{modalDict("delete.title")}</DialogTitle>
-        </DialogHeader>
-        <p className="text-sm text-muted-foreground">
-          {modalDict("delete.subtitle")}{" "}
-          <span className="font-semibold">{todo.title}</span>
-        </p>
-        <DialogFooter className="mt-4">
-          <Button
-            variant={"outline"}
-            className="bg-popover"
-            onClick={() => setDeleteDialogOpen(false)}
-          >
-            {modalDict("cancel")}
-          </Button>
-          <Button
-            variant={"destructive"}
-            className=""
-            onClick={() => {
-              deleteMutate(todo);
-              setDeleteDialogOpen(false);
-            }}
-          >
-            {modalDict("delete.button")}
-          </Button>
-        </DialogFooter>
-      </DialogContent>
-    </Dialog>
+    <Modal open={deleteDialogOpen} onOpenChange={setDeleteDialogOpen}>
+      <ModalOverlay>
+        <ModalContent>
+          <ModalHeader>
+            <ModalTitle>{modalDict("delete.title")}</ModalTitle>
+            <ModalDescription>
+              {modalDict("delete.subtitle")}{" "}
+              <span className="font-semibold text-foreground">{todo.title}</span>
+            </ModalDescription>
+          </ModalHeader>
+
+          <ModalFooter className="mt-4">
+            <Button
+              variant={"outline"}
+              className="bg-popover w-full sm:w-auto"
+              onClick={() => setDeleteDialogOpen(false)}
+            >
+              {modalDict("cancel")}
+            </Button>
+            <Button
+              variant={"destructive"}
+              className="w-full sm:w-auto"
+              onClick={() => {
+                deleteMutate(todo);
+                setDeleteDialogOpen(false);
+              }}
+            >
+              {modalDict("delete.button")}
+            </Button>
+          </ModalFooter>
+        </ModalContent>
+      </ModalOverlay>
+    </Modal>
   );
 }
