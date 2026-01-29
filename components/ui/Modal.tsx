@@ -50,7 +50,9 @@ const ModalOverlay = ({ children }: { children: React.ReactElement }) => {
 
         <div
             className="fixed inset-0 z-50 bg-black/40 flex items-center justify-center"
-            onMouseDown={(e) => { e.stopPropagation() }}
+            onMouseDown={(e) => e.stopPropagation()}
+            onPointerDown={(e) => e.stopPropagation()}
+            onTouchStart={(e) => e.stopPropagation()}
             onClick={(e) => {
                 if (e.target === e.currentTarget) {
                     e.preventDefault();
@@ -72,6 +74,8 @@ const ModalContent = ({ children }: { children: React.ReactNode }) => {
         <div
             className="bg-popover rounded-lg w-full max-w-lg p-6"
             onMouseDown={(e) => e.stopPropagation()}
+            onPointerDown={(e) => e.stopPropagation()}
+            onTouchStart={(e) => e.stopPropagation()}
         >
             {children}
         </div>
