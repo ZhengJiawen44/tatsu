@@ -65,7 +65,7 @@ export default function CreateCalendarDrawer({
             if (rruleOptions.byweekday && Array.isArray(rruleOptions.byweekday)) {
                 const weekdays = [RRule.MO, RRule.TU, RRule.WE, RRule.TH, RRule.FR];
                 const containsAllWeekdays = weekdays.every((d) =>
-                    (rruleOptions.byweekday as any[]).some((bw) => bw === d)
+                    (rruleOptions.byweekday as unknown[]).some((bw) => bw === d)
                 );
                 if (containsAllWeekdays) return "Weekday";
             }
@@ -218,7 +218,7 @@ export default function CreateCalendarDrawer({
 
                             {/* Description */}
                             <textarea
-                                className="w-full bg-secondary/40 rounded-md p-3 text-sm resize-none focus:outline-none ring-1 ring-border"
+                                className="w-full bg-secondary/40 rounded-md p-3 text-base resize-none focus:outline-none ring-1 ring-border"
                                 rows={4}
                                 value={description}
                                 onChange={(e) => setDescription(e.target.value)}
