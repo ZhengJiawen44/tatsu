@@ -4,7 +4,7 @@ import { Calendar, dateFnsLocalizer, View } from "react-big-calendar";
 import "react-big-calendar/lib/css/react-big-calendar.css";
 import "../style/calendar-styles.css";
 import "react-big-calendar/lib/addons/dragAndDrop/styles.css";
-import CreateCalendarForm from "./calendarForm/CreateCalendarForm";
+import CreateCalendarFormContainer from "./calendarForm/CreateCalendarFormContainer";
 import useWindowSize from "@/hooks/useWindowSize";
 import withDragAndDrop from "react-big-calendar/lib/addons/dragAndDrop";
 import {
@@ -169,7 +169,7 @@ export default function CalendarClient() {
 
       <div className="h-screen flex flex-col overflow-hidden sm:py-10">
         {showCreateForm && selectDateRange && (
-          <CreateCalendarForm
+          <CreateCalendarFormContainer
             start={selectDateRange.start}
             end={selectDateRange.end}
             displayForm={showCreateForm}
