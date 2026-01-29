@@ -102,12 +102,7 @@
 .rbc-addons-dnd-resize-ns-icon:active {
   background-color: rgb(190, 0, 0) !important;
 }
-@media (max-width: 1500px) {
-  .rbc-addons-dnd-resize-ew-icon,
-  .rbc-addons-dnd-resize-ns-icon {
-    width: 20px !important;
-  }
-}
+/* responsive drag handle size */
 @media (max-width: 400px) {
   .rbc-addons-dnd-resize-ew-icon,
   .rbc-addons-dnd-resize-ns-icon {
