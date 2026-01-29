@@ -1,0 +1,22 @@
+// layout.tsx
+import { Link } from "@/i18n/navigation";
+import { Home } from "lucide-react";
+
+export default function RootLayout({
+  children,
+}: Readonly<{
+  children: React.ReactNode;
+}>) {
+  return (
+    <>
+      <div className="w-full h-16 p-4 border mb-4">
+        <Link href="/app/todo">
+          <Home className="w-8 h-8 text-foreground/50 hover:text-foreground" />
+        </Link>
+      </div>
+      <div className="flex flex-col xl:flex-row justify-between gap-6 lg:gap-10 px-4 sm:px-8 md:px-16 lg:px-32  2xl:px-80">
+        {children}
+      </div>
+    </>
+  );
+}

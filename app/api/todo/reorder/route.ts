@@ -6,6 +6,7 @@ import {
   BaseServerError,
 } from "@/lib/customError";
 import { prisma } from "@/lib/prisma/client";
+import { Prisma } from "@prisma/client";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function PATCH(req: NextRequest) {
@@ -16,22 +17,20 @@ export async function PATCH(req: NextRequest) {
     if (!user?.id)
       throw new UnauthorizedError("You must be logged in to do this");
 
-    const { changedTodos }: { changedTodos: { id: string; order: number }[] } =
-      await req.json();
-    if (!changedTodos) throw new BadRequestError("Invalid request body");
+    const changeMap: { id: string; order: number }[] = await req.json();
+    if (!changeMap) throw new BadRequestError("Invalid request body");
 
-    // Run all updates in a transaction
-    const updatedTodos = await prisma.$transaction(
-      changedTodos.map(({ id, order }) =>
-        prisma.todo.update({
-          where: { id },
-          data: { order },
-        })
-      )
-    );
-
+    //run all updates in bulk
+    const updatedTodos = await prisma.$executeRaw`
+      UPDATE "todos" SET "order" = updates.new_order
+      FROM (VALUES ${Prisma.join(
+        changeMap.map((t) => Prisma.sql`(${t.id}, ${t.order})`),
+      )})
+      AS updates(id, new_order)
+      WHERE "todos".id = updates.id
+    `;
     // Check if all updates were successful
-    const allUpdated = updatedTodos.length === changedTodos.length;
+    const allUpdated = updatedTodos === changeMap.length;
 
     if (!allUpdated) {
       throw new InternalError("Failed to update todo order");
@@ -44,7 +43,7 @@ export async function PATCH(req: NextRequest) {
     if (error instanceof BaseServerError) {
       return NextResponse.json(
         { message: error.message },
-        { status: error.status }
+        { status: error.status },
       );
     }
 
@@ -55,7 +54,7 @@ export async function PATCH(req: NextRequest) {
             ? error.message.slice(0, 50)
             : "An unexpected error occurred",
       },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }
