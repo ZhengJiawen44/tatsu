@@ -6,15 +6,11 @@ import { NonNullableDateRange } from "@/types";
 import { RRule } from "rrule";
 import RepeatDropdownMenu from "./RepeatDropdown/RepeatDropdownMenu";
 import { AlignLeft, Clock, Flag, Repeat } from "lucide-react";
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover";
 import ConfirmCancelEditDialog from "./ConfirmCancelEdit";
 import ConfirmEditAllDialog from "./ConfirmEditAll";
 import { useEditCalendarTodo } from "../../query/update-calendar-todo";
 import { useTranslations } from "next-intl";
+import { createPortal } from "react-dom";
 
 type CalendarFormProps = {
   todo: TodoItemType;
@@ -24,7 +20,6 @@ type CalendarFormProps = {
 
 const CalendarForm = ({
   todo,
-  displayForm,
   setDisplayForm,
 }: CalendarFormProps) => {
   const appDict = useTranslations("app");
@@ -70,8 +65,14 @@ const CalendarForm = ({
       setDisplayForm(false);
     }
   }, [editTodoStatus, setDisplayForm]);
-
-  return (
+  const handleClose = () => {
+    if (hasUnsavedChanges) {
+      setCancelEditDialogOpen(true);
+      return;
+    }
+    setDisplayForm(false);
+  };
+  return createPortal(
     <>
       <ConfirmCancelEditDialog
         cancelEditDialogOpen={cancelEditDialogOpen}
@@ -96,33 +97,23 @@ const CalendarForm = ({
         setEditAllDialogOpen={setEditAllDialogOpen}
       />
 
-      <Popover
-        open={displayForm}
-        onOpenChange={(open) => {
-          // If the popover is trying to close and there are unsaved changes and the edit dialogue is not open,
-          // show the cancel confirmation dialog instead
-          if (open === false && hasUnsavedChanges && !editAllDialogOpen) {
-            setCancelEditDialogOpen(true);
-            return;
+      <div
+        className="fixed inset-0 z-50 bg-black/40 flex items-center justify-center"
+        onClick={(e) => {
+          if (e.target === e.currentTarget) {
+            e.preventDefault();
+            e.stopPropagation();
+            // defer close to avoid click-through
+            requestAnimationFrame(() => handleClose());
           }
-          //if edit dialog is open and there are changes, disregard the on open change
-          if (editAllDialogOpen && hasUnsavedChanges) {
-            return;
-          }
-
-          setDisplayForm(open);
-        }}
+        }
+        }
       >
-        <PopoverTrigger asChild>
-          <div
-            className="absolute right-1/2 h-full cursor-pointer w-0"
-            title={todo.title}
-          />
-        </PopoverTrigger>
-
-        <PopoverContent
-          className="w-[calc(100vw-2rem)] max-w-md min-w-0 border p-2 sm:p-6"
-          onMouseDown={(e) => e.stopPropagation()}>
+        {/* Modal */}
+        <div
+          className=" bg-background rounded-lg w-full max-w-lg p-6"
+          onMouseDown={(e) => e.stopPropagation()}
+        >
           <form
             className="flex min-w-0 flex-col gap-5 mt-4"
             onSubmit={(e) => {
@@ -218,10 +209,10 @@ const CalendarForm = ({
               </button>
             </div>
           </form>
-        </PopoverContent>
-      </Popover>
+        </div>
+      </div>
     </>
-  );
+    , document.body);
 };
 
 export default CalendarForm;

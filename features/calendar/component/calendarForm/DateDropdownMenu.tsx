@@ -161,7 +161,7 @@ const DateDropdownMenu = ({
             </div>
           </DropdownMenuSubTrigger>
           <DropdownMenuPortal>
-            <DropdownMenuSubContent className="w-[320px] p-4 rounded-lg z-[60]" sideOffset={-280} alignOffset={40}
+            <DropdownMenuSubContent className="w-[320px] p-4 rounded-lg z-[60]"
               onPointerDown={(e) => e.stopPropagation()}
               onKeyDown={(e) => e.stopPropagation()}>
               <DurationPickerSub dateRange={dateRange} setDateRange={setDateRange} />

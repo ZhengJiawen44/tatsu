@@ -8,6 +8,7 @@ import ConfirmCancelEditDialog from "./ConfirmCancelEdit";
 import { useEffect, useMemo, useState } from "react";
 import { Options, RRule } from "rrule";
 import { useTranslations } from "next-intl";
+import { createPortal } from "react-dom";
 
 type CreateCalendarFormProps = {
   start: Date;
@@ -88,7 +89,7 @@ const CreateCalendarForm = ({
 
   if (!displayForm) return null;
 
-  return (
+  return createPortal(
     <>
       <ConfirmCancelEditDialog
         cancelEditDialogOpen={cancelEditDialogOpen}
@@ -208,7 +209,7 @@ const CreateCalendarForm = ({
         </div>
       </div>
     </>
-  );
+    , document.body);
 };
 
 export default CreateCalendarForm;
