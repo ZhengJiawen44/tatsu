@@ -1,4 +1,3 @@
-
 import React, { useEffect, useMemo, useState } from "react";
 import { useTranslations, useLocale } from "next-intl";
 import { Options, RRule } from "rrule";
@@ -16,11 +15,11 @@ import {
     DrawerClose,
 } from "@/components/ui/drawer";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
 import { Calendar } from "@/components/ui/calendar";
 import { DateDrawerMenu } from "../DateDropdown/Mobile/DateDrawerMenu";
 import RepeatDrawerMenu from "../RepeatDropdown/Mobile/RepeatDrawerMenu";
 import { useCreateCalendarTodo } from "@/features/calendar/query/create-calendar-todo";
+import ConfirmCancelEditDrawer from "../ConfirmCancelEditDrawer";
 
 // --- Types ---
 type CreateCalendarFormProps = {
@@ -45,14 +44,20 @@ export default function CreateCalendarDrawer({
     const [title, setTitle] = useState("");
     const [description, setDescription] = useState("");
     const [priority, setPriority] = useState<TodoItemType["priority"]>("Low");
-    const [dateRange, setDateRange] = useState<NonNullableDateRange>({ from: start, to: end });
+    const [dateRange, setDateRange] = useState<NonNullableDateRange>({
+        from: start,
+        to: end,
+    });
     const [rruleOptions, setRruleOptions] = useState<Partial<Options> | null>(null);
+
+    const [cancelEditDialogOpen, setCancelEditDialogOpen] = useState(false);
 
     const { createCalendarTodo, createTodoStatus } = useCreateCalendarTodo();
 
     const hasUnsavedChanges = useMemo(() => {
         return title !== "" || description !== "" || priority !== "Low";
     }, [title, description, priority]);
+
     const derivedRepeatType = useMemo(() => {
         if (!rruleOptions) return null;
         const f = rruleOptions.freq;
@@ -60,7 +65,6 @@ export default function CreateCalendarDrawer({
         if (f === RRule.WEEKLY) {
             if (rruleOptions.byweekday && Array.isArray(rruleOptions.byweekday)) {
                 const weekdays = [RRule.MO, RRule.TU, RRule.WE, RRule.TH, RRule.FR];
-                // check if byweekday contains all weekdays (Mon-Fri)
                 const containsAllWeekdays = weekdays.every((d) =>
                     (rruleOptions.byweekday as any[]).some((bw) => bw === d)
                 );
@@ -89,95 +93,131 @@ export default function CreateCalendarDrawer({
         });
     };
 
+    const handleClose = () => {
+        if (hasUnsavedChanges) {
+            setCancelEditDialogOpen(true);
+            return;
+        }
+        setDisplayForm(false);
+    };
+
     return (
-        <Drawer open={displayForm} onOpenChange={setDisplayForm}>
-            <DrawerContent className="max-h-[96vh] flex flex-col">
-                <DrawerHeader><DrawerTitle className="hidden">create todo</DrawerTitle></DrawerHeader>
-                <div className="mx-auto w-full max-w-lg overflow-y-auto p-4 pt-0">
-                    <form className="flex flex-col gap-6 mt-2" onSubmit={handleSubmit}>
-                        {/* Title Input */}
-                        <input
-                            className="w-full bg-transparent border-b border-border py-2 text-lg sm:text-xl font-medium focus:outline-none focus:border-lime"
-                            placeholder={todayDict("titlePlaceholder")}
-                            value={title}
-                            onChange={(e) => setTitle(e.target.value)}
-                            autoFocus
-                        />
+        <>
+            <ConfirmCancelEditDrawer
+                cancelEditDialogOpen={cancelEditDialogOpen}
+                setCancelEditDialogOpen={setCancelEditDialogOpen}
+                setDisplayForm={setDisplayForm}
+            />
 
-                        {/* List-style Menu for mobile feel */}
-                        <div className="flex flex-col border rounded-md divide-y bg-secondary/20">
+            <Drawer
+                open={displayForm}
+                onOpenChange={(open) => {
+                    if (!open) {
+                        handleClose();
+                    } else {
+                        setDisplayForm(true);
+                    }
+                }}
+            >
+                <DrawerContent className="max-h-[96vh] flex flex-col">
+                    <DrawerHeader>
+                        <DrawerTitle className="hidden">create todo</DrawerTitle>
+                    </DrawerHeader>
 
-                            {/* Date Selection Drawer */}
-                            <NestedDrawerItem
-                                title="Date"
-                                icon={<Clock className="w-4 h-4 sm:w-4 sm:h-4 " />}
-                                label={getDisplayDate(dateRange.from, false, locale)}
-                            >
-                                <div className="p-4 space-y-4 w-full max-w-lg m-auto ">
-                                    <DateDrawerMenu dateRange={dateRange} setDateRange={setDateRange} />
-                                    <Calendar
-                                        mode="range"
-                                        selected={dateRange}
-                                        onSelect={(range) => range?.from && setDateRange({ from: range.from, to: range.to || range.from })}
-                                        className="w-full flex justify-center"
-                                        classNames={{
-                                            // Increase these values to make the picker wider
-                                            day: " h-10 w-10 p-0 font-normal aria-selected:opacity-100",
-                                            head_cell: "w-10 font-normal text-[1rem] text-muted-foreground",
-                                            cell: "h-10 w-10 text-center text-sm p-0 relative",
-                                        }}
-                                    />
-                                    <DrawerClose asChild>
-                                        <Button className="w-full bg-lime">{appDict("save")}</Button>
-                                    </DrawerClose>
-                                </div>
-                            </NestedDrawerItem>
+                    <div className="mx-auto w-full max-w-lg overflow-y-auto p-4 pt-0">
+                        <form className="flex flex-col gap-6 mt-2" onSubmit={handleSubmit}>
+                            {/* Title Input */}
+                            <input
+                                className="w-full bg-transparent border-b border-border py-2 text-lg sm:text-xl font-medium focus:outline-none focus:border-lime"
+                                placeholder={todayDict("titlePlaceholder")}
+                                value={title}
+                                onChange={(e) => setTitle(e.target.value)}
+                                autoFocus
+                            />
 
-                            {/* Priority Selection Drawer */}
-                            <NestedDrawerItem
-                                icon={<Flag className="w-4 h-4 sm:w-4 sm:h-4" />}
-                                label={priority}
-                                title={appDict("priority")}
-                            >
-                                <div className="p-4 space-y-2">
-                                    {(["Low", "Medium", "High"] as const).map((p) => (
-                                        <button
-                                            key={p}
-                                            onClick={() => setPriority(p)}
-                                            data-close-on-click
-                                            className="flex items-center justify-between w-full p-4 hover:bg-accent rounded-md text-sm"
-                                        >
-                                            <span>{p}</span>
-                                            {priority === p && <Check className="w-4 h-4 sm:w-4 sm:h-4 text-lime" />}
-                                        </button>
-                                    ))}
-                                    <DrawerClose asChild>
-                                        <Button variant="outline" className="w-full mt-4">{appDict("save")}</Button>
-                                    </DrawerClose>
-                                </div>
-                            </NestedDrawerItem>
+                            {/* List-style Menu */}
+                            <div className="flex flex-col border rounded-md divide-y bg-secondary/20">
+                                {/* Date */}
+                                <NestedDrawerItem
+                                    title="Date"
+                                    icon={<Clock className="w-4 h-4" />}
+                                    label={getDisplayDate(dateRange.from, false, locale)}
+                                >
+                                    <div className="p-4 space-y-4 w-full max-w-lg m-auto">
+                                        <DateDrawerMenu
+                                            dateRange={dateRange}
+                                            setDateRange={setDateRange}
+                                        />
+                                        <Calendar
+                                            mode="range"
+                                            selected={dateRange}
+                                            onSelect={(range) =>
+                                                range?.from &&
+                                                setDateRange({
+                                                    from: range.from,
+                                                    to: range.to || range.from,
+                                                })
+                                            }
+                                            className="w-full flex justify-center"
+                                        />
+                                        <DrawerClose asChild>
+                                            <Button className="w-full bg-lime">
+                                                {appDict("save")}
+                                            </Button>
+                                        </DrawerClose>
+                                    </div>
+                                </NestedDrawerItem>
 
-                            {/* Repeat Selection Drawer */}
-                            <NestedDrawerItem
-                                icon={<Repeat className="w-4 h-4 sm:w-4 sm:h-4" />}
-                                label={rruleOptions && derivedRepeatType || "No Repeat"}
-                                title={appDict("repeat")}
-                            >
-                                <div className="p-4 space-y-2">
-                                    <RepeatDrawerMenu rruleOptions={rruleOptions} setRruleOptions={setRruleOptions} derivedRepeatType={derivedRepeatType} />
-                                    {/* Simplified Repeat logic for brevity */}
+                                {/* Priority */}
+                                <NestedDrawerItem
+                                    icon={<Flag className="w-4 h-4" />}
+                                    label={priority}
+                                    title={appDict("priority")}
+                                >
+                                    <div className="p-4 space-y-2">
+                                        {(["Low", "Medium", "High"] as const).map((p) => (
+                                            <button
+                                                key={p}
+                                                onClick={() => setPriority(p)}
+                                                data-close-on-click
+                                                className="flex items-center justify-between w-full p-4 hover:bg-accent rounded-md text-sm"
+                                            >
+                                                <span>{p}</span>
+                                                {priority === p && (
+                                                    <Check className="w-4 h-4 text-lime" />
+                                                )}
+                                            </button>
+                                        ))}
+                                        <DrawerClose asChild>
+                                            <Button variant="outline" className="w-full mt-4">
+                                                {appDict("save")}
+                                            </Button>
+                                        </DrawerClose>
+                                    </div>
+                                </NestedDrawerItem>
 
-                                    <DrawerClose asChild>
-                                        <Button variant="outline" className="w-full mt-4">{appDict("save")}</Button>
-                                    </DrawerClose>
-                                </div>
-                            </NestedDrawerItem>
+                                {/* Repeat */}
+                                <NestedDrawerItem
+                                    icon={<Repeat className="w-4 h-4" />}
+                                    label={(rruleOptions && derivedRepeatType) || "No Repeat"}
+                                    title={appDict("repeat")}
+                                >
+                                    <div className="p-4 space-y-2">
+                                        <RepeatDrawerMenu
+                                            rruleOptions={rruleOptions}
+                                            setRruleOptions={setRruleOptions}
+                                            derivedRepeatType={derivedRepeatType}
+                                        />
+                                        <DrawerClose asChild>
+                                            <Button variant="outline" className="w-full mt-4">
+                                                {appDict("save")}
+                                            </Button>
+                                        </DrawerClose>
+                                    </div>
+                                </NestedDrawerItem>
+                            </div>
 
-                        </div>
-
-                        {/* Description area */}
-                        <div className="space-y-2">
-
+                            {/* Description */}
                             <textarea
                                 className="w-full bg-secondary/40 rounded-md p-3 text-sm resize-none focus:outline-none ring-1 ring-border"
                                 rows={4}
@@ -185,24 +225,28 @@ export default function CreateCalendarDrawer({
                                 onChange={(e) => setDescription(e.target.value)}
                                 placeholder={appDict("descPlaceholder")}
                             />
-                        </div>
 
-                        <DrawerFooter className="px-0 flex-row gap-3">
-                            <DrawerClose asChild>
-                                <Button variant="ghost" className="flex-1 h-12 rounded-md border">
+                            <DrawerFooter className="px-0 flex-row gap-3">
+                                <Button
+                                    type="button"
+                                    variant="ghost"
+                                    className="flex-1 h-12 rounded-md border"
+                                    onClick={handleClose}
+                                >
                                     {appDict("cancel")}
                                 </Button>
-                            </DrawerClose>
-                            <Button
-                                onClick={handleSubmit}
-                                className="flex-1 h-12 rounded-md bg-lime hover:bg-lime/90 text-white font-bold"
-                            >
-                                {appDict("save")}
-                            </Button>
-                        </DrawerFooter>
-                    </form>
-                </div>
-            </DrawerContent>
-        </Drawer>
+
+                                <Button
+                                    onClick={handleSubmit}
+                                    className="flex-1 h-12 rounded-md bg-lime hover:bg-lime/90 text-white font-bold"
+                                >
+                                    {appDict("save")}
+                                </Button>
+                            </DrawerFooter>
+                        </form>
+                    </div>
+                </DrawerContent>
+            </Drawer>
+        </>
     );
 }

@@ -18,7 +18,7 @@ import CompleteButton from "./CompleteButton";
 import { Button } from "@/components/ui/button";
 import Spinner from "@/components/ui/spinner";
 import dynamic from "next/dynamic";
-const CalendarForm = dynamic(() => import("./calendarForm/EditCalendarForm"), {
+const EditCalendarFormContainer = dynamic(() => import("./calendarForm/EditCalendarFormContainer"), {
   loading: () => (
     <div className="absolute right-full h-full z-[100]">
       <Spinner />
@@ -39,7 +39,7 @@ const CalendarEvent = ({ event: todo }: EventProps<TodoItemType>) => {
     <>
       {/* ----------------- Event Form popover ----------- */}
       {displayForm && (
-        <CalendarForm
+        <EditCalendarFormContainer
           todo={todo}
           displayForm={displayForm}
           setDisplayForm={setDisplayForm}
@@ -63,7 +63,7 @@ const CalendarEvent = ({ event: todo }: EventProps<TodoItemType>) => {
           </div>
         </PopoverTrigger>
 
-        <PopoverContent className="p-0 w-screenb sm:w-[30rem] md:w-[25rem] lg:w-[30rem] bg-popover" onMouseDown={(e) => e.stopPropagation()}>
+        <PopoverContent className="p-0 w-screen sm:w-[30rem] md:w-[25rem] lg:w-[30rem] bg-popover" onMouseDown={(e) => e.stopPropagation()}>
           {/* Header */}
           <div className="flex gap-0 md:gap-2 p-2 justify-end ">
             {/* EDIT */}
