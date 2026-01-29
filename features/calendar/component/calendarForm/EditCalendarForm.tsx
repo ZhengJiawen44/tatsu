@@ -1,7 +1,7 @@
 import { TodoItemType } from "@/types";
 import { useEffect, useMemo, useState } from "react";
-import PriorityDropdownMenu from "./PriorityDropdown";
-import DateDropdownMenu from "./DateDropdownMenu";
+import PriorityDropdownMenu from "./PriorityDropdown/PriorityDropdown";
+import DateDropdownMenu from "./DateDropdown/DateDropdownMenu";
 import { NonNullableDateRange } from "@/types";
 import { RRule } from "rrule";
 import RepeatDropdownMenu from "./RepeatDropdown/RepeatDropdownMenu";
