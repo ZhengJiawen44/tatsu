@@ -65,8 +65,8 @@ export default function CalendarClient() {
   useEffect(() => {
     const hasTouch =
       typeof window !== "undefined" &&
-      ("ontouchstart" in window || navigator.maxTouchPoints > 0);
-
+      (navigator.maxTouchPoints > 0 || "ontouchstart" in window) &&
+      window.innerWidth <= 1024; // treat wide devices as desktop
     setIsTouch(hasTouch);
   }, []);
   // Initialize on mount
