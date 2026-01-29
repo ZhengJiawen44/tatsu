@@ -53,6 +53,7 @@ export default function CalendarClient() {
     start: Date;
     end: Date;
   } | null>(null);
+  const [isTouch, setIsTouch] = useState(false);
   const { todos: calendarTodos } = useCalendarTodo(calendarRange);
   const { editCalendarTodo } = useEditCalendarTodo();
   const { editCalendarTodoInstance } = useEditCalendarTodoInstance();
@@ -60,7 +61,14 @@ export default function CalendarClient() {
   // --- keyboard navigation state ---
   const [selectedDate, setSelectedDate] = useState<Date | null>(null);
   const [view, setView] = useState<View>("month");
+  // detect touch devices (disable dnd on touch screens)
+  useEffect(() => {
+    const hasTouch =
+      typeof window !== "undefined" &&
+      ("ontouchstart" in window || navigator.maxTouchPoints > 0);
 
+    setIsTouch(hasTouch);
+  }, []);
   // Initialize on mount
   useEffect(() => {
     setMounted(true);
@@ -204,11 +212,11 @@ export default function CalendarClient() {
           events={calendarTodos}
           startAccessor="dtstart"
           endAccessor="due"
-          draggableAccessor={() => true}
+          draggableAccessor={() => !isTouch}
+          resizable={!isTouch}
           step={60}
           timeslots={1}
           messages={{ event: "Todo" }}
-          resizable
           formats={{
             timeGutterFormat: (date) => {
               if (width < 600) return format(date, 'HH:mm')
