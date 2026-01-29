@@ -150,6 +150,7 @@ export default function CreateCalendarDrawer({
                             } else {
                                 editCalendarTodo({
                                     ...todo,
+                                    rrule: rruleOptions ? new RRule(rruleOptions).toString() : null,
                                     title,
                                     description,
                                     priority,
