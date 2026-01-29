@@ -122,6 +122,7 @@ const CalendarForm = ({
                 } else {
                   editCalendarTodo({
                     ...todo,
+                    rrule: rruleOptions ? new RRule(rruleOptions).toString() : null,
                     title,
                     description,
                     priority,

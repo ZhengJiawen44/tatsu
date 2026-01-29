@@ -49,7 +49,6 @@ export default function CreateCalendarDrawer({
         to: end,
     });
     const [rruleOptions, setRruleOptions] = useState<Partial<Options> | null>(null);
-
     const [cancelEditDialogOpen, setCancelEditDialogOpen] = useState(false);
 
     const { createCalendarTodo, createTodoStatus } = useCreateCalendarTodo();
