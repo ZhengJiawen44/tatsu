@@ -165,7 +165,7 @@ export default function CreateCalendarDrawer({
                                 placeholder={todayDict("titlePlaceholder")}
                                 value={title}
                                 onChange={(e) => setTitle(e.target.value)}
-                                autoFocus
+
                             />
 
                             {/* List-style Menu for mobile feel */}
