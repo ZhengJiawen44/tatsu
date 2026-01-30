@@ -12,10 +12,6 @@ const TodoListLoading = () => {
           <Skeleton className="w-full h-6 mb-3" />
           <Skeleton className="w-2/3 h-6" />
         </div>
-        <div>
-          <Skeleton className="w-full h-6 mb-3" />
-          <Skeleton className="w-1/4 h-6" />
-        </div>
       </div>
     </div>
   );

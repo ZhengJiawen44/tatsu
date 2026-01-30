@@ -1,13 +1,11 @@
 import React from "react";
-import { useDeleteTodo } from "@/features/todayTodos/query/delete-todo";
-import { usePinTodo } from "@/features/todayTodos/query/pin-todo";
 import Spinner from "@/components/ui/spinner";
 import { TodoItemType } from "@/types";
 import { Button } from "@/components/ui/button";
-
 import Pin from "@/components/ui/icon/pin";
 import Edit from "@/components/ui/icon/edit";
 import Trash from "@/components/ui/icon/trash";
+import { useTodoMutation } from "@/providers/TodoMutationProvider";
 
 const TodoItemSideMenu = ({
   todo,
@@ -16,6 +14,7 @@ const TodoItemSideMenu = ({
   todo: TodoItemType;
   setDisplayForm: React.Dispatch<React.SetStateAction<boolean>>;
 }) => {
+  const { useDeleteTodo, usePinTodo } = useTodoMutation()
   const { deleteMutateFn, deletePending } = useDeleteTodo();
   const { pinMutateFn } = usePinTodo();
   return (

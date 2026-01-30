@@ -2,10 +2,10 @@
 import React, { useEffect, useState } from "react";
 import dynamic from "next/dynamic";
 import Plus from "@/components/ui/icon/plus";
-import TodoFormLoading from "../../../components/todo/TodoItem/TodoForm/TodoFormLoading";
+import TodoFormLoading from "../../../components/todo/component/TodoForm/TodoFormLoading";
 import { useTranslations } from "next-intl";
 const TodoForm = dynamic(
-  () => import("../../../components/todo/TodoItem/TodoForm/TodoFormContainer"),
+  () => import("../../../components/todo/component/TodoForm/TodoFormContainer"),
   { loading: () => <TodoFormLoading /> },
 );
 

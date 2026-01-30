@@ -8,9 +8,6 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import Spinner from "@/components/ui/spinner";
-import { useDeleteTodo } from "@/features/todayTodos/query/delete-todo";
-import { usePinTodo } from "@/features/todayTodos/query/pin-todo";
-import { usePrioritizeTodo } from "@/features/todayTodos/query/prioritize-todo";
 import Pin from "@/components/ui/icon/pin";
 import { SquarePen } from "lucide-react";
 import { Blocks } from "lucide-react";
@@ -20,6 +17,7 @@ import { TodoItemType } from "@/types";
 import { Button } from "@/components/ui/button";
 import Meatball from "@/components/ui/icon/meatball";
 import { useTranslations } from "next-intl";
+import { useTodoMutation } from "@/providers/TodoMutationProvider";
 
 function TodoItemMeatballMenu({
   todo,
@@ -31,6 +29,7 @@ function TodoItemMeatballMenu({
   setEditInstanceOnly: React.Dispatch<React.SetStateAction<boolean>>;
 }) {
   const todayDict = useTranslations("today");
+  const { usePrioritizeTodo, useDeleteTodo, usePinTodo } = useTodoMutation();
   const { prioritizeMutateFn } = usePrioritizeTodo();
 
   const { deleteMutateFn, deletePending } = useDeleteTodo();

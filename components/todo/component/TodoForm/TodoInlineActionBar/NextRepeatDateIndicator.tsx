@@ -8,8 +8,8 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 import { useTodoForm } from "@/providers/TodoFormProvider";
-import { useNextCalculatedRepeatDate } from "@/features/todayTodos/hooks/useNextRepeatDate";
-import { rruleDateToLocal } from "@/features/todayTodos/lib/rruleDateToLocal";
+import { useNextCalculatedRepeatDate } from "@/components/todo/hooks/useNextRepeatDate";
+import { rruleDateToLocal } from "@/components/todo/lib/rruleDateToLocal";
 import { useTranslations } from "next-intl";
 
 const NextRepeatDateIndicator = () => {

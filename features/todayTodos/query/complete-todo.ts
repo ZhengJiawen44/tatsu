@@ -2,9 +2,7 @@ import { useQueryClient, useMutation } from "@tanstack/react-query";
 import { api } from "@/lib/api-client";
 import { useToast } from "@/hooks/use-toast";
 import { TodoItemType } from "@/types";
-import { useTodoQueryKey } from "@/providers/TodoMutationProvider";
 export const useCompleteTodo = () => {
-  const queryKey = useTodoQueryKey();
   const { toast } = useToast();
   const queryClient = useQueryClient();
   const { mutate: completeMutateFn, isPending: completePending } = useMutation({
@@ -31,10 +29,10 @@ export const useCompleteTodo = () => {
       }
     },
     onMutate: async (todoItem: TodoItemType) => {
-      await queryClient.cancelQueries({ queryKey: [queryKey] });
-      const oldTodos = queryClient.getQueryData([queryKey]) as TodoItemType[];
-      console.log(oldTodos, queryKey);
-      queryClient.setQueryData([queryKey], (oldTodos: TodoItemType[]) =>
+      await queryClient.cancelQueries({ queryKey: ["todo"] });
+      const oldTodos = queryClient.getQueryData(["todo"]) as TodoItemType[];
+      console.log(oldTodos, "todo");
+      queryClient.setQueryData(["todo"], (oldTodos: TodoItemType[]) =>
         oldTodos.flatMap((oldTodo) => {
           if (oldTodo.id === todoItem.id) return [];
           return [oldTodo];
@@ -44,7 +42,7 @@ export const useCompleteTodo = () => {
     },
     onError: (error, newTodo, context) => {
       toast({ description: error.message, variant: "destructive" });
-      queryClient.setQueryData([queryKey], context?.oldTodos);
+      queryClient.setQueryData(["todo"], context?.oldTodos);
     },
     onSuccess: () => {},
     onSettled: () => {

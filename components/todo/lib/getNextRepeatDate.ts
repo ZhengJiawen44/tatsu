@@ -11,18 +11,18 @@ type RepeatInterval = "daily" | "weekly" | "monthly" | "weekdays" | null;
 export function getNextRepeatDate(
   startDate: Date,
   repeatInterval: RepeatInterval,
-  timeZone?: string | null
+  timeZone?: string | null,
 ): Date | null {
   const nextDate = new Date(startDate);
   //today is the utc date of user's local today
-  let today = getToday(timeZone);
+  const today = getToday(timeZone);
 
   switch (repeatInterval) {
     case "daily":
-      let dailyScheduledDate = addDays(nextDate, 1);
+      const dailyScheduledDate = addDays(nextDate, 1);
       //if the scheduled date is in the past, it needs to be readjusted to today
       if (dailyScheduledDate < today) {
-        return today
+        return today;
       }
       return dailyScheduledDate;
 
@@ -38,7 +38,6 @@ export function getNextRepeatDate(
       }
       return weeklyScheduledDate;
 
-
     case "monthly":
       let monthlyScheduledDate = addMonths(nextDate, 1);
       if (monthlyScheduledDate < today) {
@@ -50,9 +49,11 @@ export function getNextRepeatDate(
       }
       return monthlyScheduledDate;
 
-
     case "weekdays":
-      let scheduledWeekdayDate = getNextWeekdayDate(addDays(nextDate, 1), timeZone);
+      let scheduledWeekdayDate = getNextWeekdayDate(
+        addDays(nextDate, 1),
+        timeZone,
+      );
       if (scheduledWeekdayDate < today) {
         scheduledWeekdayDate = getNextWeekdayDate(today, timeZone);
       }
@@ -65,15 +66,12 @@ export function getNextRepeatDate(
 
 //accepts a date and skips saturday and sunday
 function getNextWeekdayDate(date: Date, timeZone?: string | null) {
-  let day = timeZone
-    ? toZonedTime(date, timeZone).getDay()
-    : date.getDay();
+  const day = timeZone ? toZonedTime(date, timeZone).getDay() : date.getDay();
 
   let nextWeekdayDate = new Date(date);
   if (day == 6) {
     nextWeekdayDate = addDays(nextWeekdayDate, 2);
-  }
-  else if (day == 0) {
+  } else if (day == 0) {
     nextWeekdayDate = addDays(nextWeekdayDate, 1);
   }
   return nextWeekdayDate;
@@ -81,14 +79,13 @@ function getNextWeekdayDate(date: Date, timeZone?: string | null) {
 
 //timeZone aware getToday
 function getToday(timeZone?: string | null) {
-  if (!timeZone)
-    return startOfDay(new Date());
+  if (!timeZone) return startOfDay(new Date());
 
   // Get current time in user's timezone
   const nowInUserTZ = toZonedTime(new Date(), timeZone);
   // Get start of day in user's timezone
   const todayInUserTZ = startOfDay(nowInUserTZ);
-  // Convert back to UTC 
+  // Convert back to UTC
   return fromZonedTime(todayInUserTZ, timeZone);
 }
 

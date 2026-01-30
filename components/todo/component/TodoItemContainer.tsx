@@ -6,7 +6,7 @@ import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
 import { TodoItemType } from "@/types";
 import GripVertical from "@/components/ui/icon/gripVertical";
-import TodoFormLoading from "./TodoItem/TodoForm/TodoFormLoading";
+import TodoFormLoading from "./TodoForm/TodoFormLoading";
 import { Check } from "lucide-react";
 import TodoItemMenuContainer from "./TodoItem/TodoMenu/TodoItemMenuContainer";
 import LineSeparator from "@/components/ui/lineSeparator";
@@ -15,7 +15,7 @@ import { useLocale } from "next-intl";
 import { useTodoMutation } from "@/providers/TodoMutationProvider";
 
 const TodoFormContainer = dynamic(
-  () => import("./TodoItem/TodoForm/TodoFormContainer"),
+  () => import("./TodoForm/TodoFormContainer"),
   { loading: () => <TodoFormLoading /> },
 );
 

@@ -6,7 +6,7 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import LaurelWreath from "@/components/ui/icon/laurelWreath";
-import { PriorityIndicator } from "../../../PriorityIndicator";
+import { PriorityIndicator } from "../../../TodoItem/PriorityIndicator";
 import { useTodoForm } from "@/providers/TodoFormProvider";
 import clsx from "clsx";
 import { Button } from "@/components/ui/button";
