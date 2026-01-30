@@ -130,7 +130,24 @@ export default function RepeatDrawerMenu({ rruleOptions, setRruleOptions, derive
                 title="Custom"
                 icon={<></>}
                 label=""
-            ><CustomRepeatDrawer rruleOptions={rruleOptions} setRruleOptions={setRruleOptions} derivedRepeatType={null} /></NestedDrawerItem>
+            >
+                <CustomRepeatDrawer rruleOptions={rruleOptions} setRruleOptions={setRruleOptions} derivedRepeatType={null} />
+            </NestedDrawerItem>
+
+            {/* clear repeat */}
+            <div
+                className={clsx("flex w-full cursor-pointer items-center justify-between rounded-md p-2 hover:bg-accent/50", derivedRepeatType === "Monthly" && "bg-accent")}
+                onClick={() =>
+                    setRruleOptions(() => {
+                        return null;
+                    })
+                }
+                data-close-on-click
+            >
+                <div className="flex items-center gap-2 text-red">
+                    <span className="text-sm">Clear</span>
+                </div>
+            </div>
         </div>
     )
 }

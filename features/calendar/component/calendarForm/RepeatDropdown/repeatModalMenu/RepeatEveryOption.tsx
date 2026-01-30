@@ -32,10 +32,10 @@ const RepeatEveryOption = ({
   return (
     <div className="flex flex-col gap-2">
       <p className="font-medium">{appDict("customMenu.every")}</p>
-      <div className="flex gap-2 w-1/2 m-0 p-0">
+      <div className="flex gap-2 m-0 p-0">
         {/* repeatInterval count input */}
         <Input
-          className="w-1/2 border-border"
+          className="flex-1 border-border"
           type="number"
           min={1}
           defaultValue={currentInterval}
@@ -48,7 +48,7 @@ const RepeatEveryOption = ({
         />
         {/* repeatInterval type input */}
         <NativeSelect
-          className="min-w-1/2 h-full border-border hover:bg-accent"
+          className="flex-1 h-full border-border hover:bg-accent"
           defaultValue={
             customRepeatOptions?.freq == RRule.DAILY
               ? "Day"
