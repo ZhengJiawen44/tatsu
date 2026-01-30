@@ -34,7 +34,7 @@ const RepeatOnOption = ({
     freq == RRule.WEEKLY && (
       <div className="flex flex-col gap-2">
         <p className="font-medium "> {appDict("customMenu.on")}</p>
-        <div className="flex gap-4">
+        <div className="flex gap-4 flex-wrap">
           <div className="flex items-center gap-1">
             <Checkbox
               id="Mo"

@@ -50,7 +50,7 @@ const RepeatEndOption = ({
           />
           <label htmlFor="never">{appDict("customMenu.never")}</label>
         </div>
-        <div className="flex items-center gap-3">
+        <div className="flex flex-wrap items-center gap-3">
           <RadioGroupItem
             value="exDate"
             id="exDate"

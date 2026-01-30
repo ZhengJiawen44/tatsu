@@ -2,13 +2,12 @@ import NestedDrawerItem from "@/components/mobile/NestedDrawerItem";
 import { NonNullableDateRange } from "@/types";
 import { startOfDay, nextMonday, addDays, endOfDay, differenceInDays } from "date-fns";
 import { Sun, Sunrise, CalendarIcon, Clock } from "lucide-react";
-import { useLocale, useTranslations } from "next-intl";
+import { useTranslations } from "next-intl";
 import { SetStateAction } from "react";
 import DurationPicker from "./DurationPicker"
 import { formatDayAbbr } from "@/lib/formatDayAbbr";
 
 export function DateDrawerMenu({ dateRange, setDateRange }: { dateRange: NonNullableDateRange, setDateRange: React.Dispatch<SetStateAction<NonNullableDateRange>> }) {
-    const locale = useLocale();
     const nextWeek = startOfDay(nextMonday(dateRange?.from || new Date()));
     const tomorrow = startOfDay(addDays(dateRange?.from || new Date(), 1));
     const appDict = useTranslations("app");

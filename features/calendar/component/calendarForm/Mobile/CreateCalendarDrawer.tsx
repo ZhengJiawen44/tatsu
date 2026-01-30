@@ -218,7 +218,7 @@ export default function CreateCalendarDrawer({
 
                             {/* Description */}
                             <textarea
-                                className="w-full bg-secondary/40 rounded-md p-3 text-lg resize-none border outline-none "
+                                className="w-full bg-secondary/40 rounded-md p-3 text-lg resize-none border max-h-[85dvh]outline-none "
                                 rows={4}
                                 value={description}
                                 onChange={(e) => setDescription(e.target.value)}

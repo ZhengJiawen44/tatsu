@@ -140,7 +140,7 @@ export default function CreateCalendarDrawer({
                     }
                 }}
             >
-                <DrawerContent className="flex flex-col h-fit">
+                <DrawerContent className="flex flex-col max-h-[85dvh]">
                     <DrawerHeader><DrawerTitle className="hidden">create todo</DrawerTitle></DrawerHeader>
                     <div className="mx-auto w-full max-w-lg overflow-y-auto p-4 pt-0">
                         <form className="flex flex-col gap-6 mt-2" onSubmit={(e) => {

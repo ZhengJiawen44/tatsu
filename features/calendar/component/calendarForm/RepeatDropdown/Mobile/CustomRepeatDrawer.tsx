@@ -1,10 +1,10 @@
 import { useTranslations } from "next-intl";
-import { useMemo } from "react";
 import { Button } from "@/components/ui/button";
 import { Options, RRule } from "rrule";
 import RepeatEndOption from "../repeatModalMenu/RepeatEndOption";
 import RepeatEveryOption from "../repeatModalMenu/RepeatEveryOption";
 import RepeatOnOption from "../repeatModalMenu/RepeatOnOption";
+import { cn } from "@/lib/utils";
 
 type CustomRepeatDrawerProps = {
     rruleOptions: Partial<Options> | null;
@@ -16,27 +16,12 @@ type CustomRepeatDrawerProps = {
 export default function CustomRepeatDrawer({
     rruleOptions,
     setRruleOptions,
-    derivedRepeatType,
     className,
 }: CustomRepeatDrawerProps) {
     const appDict = useTranslations("app");
     const freq = rruleOptions?.freq;
-
-    // Generate a human-readable string for the current selection
-    const rrulePreview = useMemo(() => {
-        try {
-            if (!rruleOptions) return "";
-            return new RRule(rruleOptions).toText();
-        } catch {
-            return "";
-        }
-    }, [rruleOptions]);
-
     return (
-
-
-
-        <div className="max-h-[92vh]">
+        <div className={cn("max-h-[92vh]", className)}>
             <div className="mx-auto w-full max-w-lg flex flex-col h-full">
                 <div className="flex-1 overflow-y-auto p-6 space-y-8">
                     {/* Frequency & Interval */}
@@ -84,6 +69,7 @@ export default function CustomRepeatDrawer({
                     <Button
                         className="h-12 w-full rounded-md bg-lime text-foreground text-base font-bold "
                         onClick={() => setRruleOptions(rruleOptions)}
+                        data-close-on-click
                     >
                         {appDict("save")}
                     </Button>
