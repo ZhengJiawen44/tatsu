@@ -31,10 +31,10 @@ function TodoItemMeatballMenu({
   setEditInstanceOnly: React.Dispatch<React.SetStateAction<boolean>>;
 }) {
   const todayDict = useTranslations("today");
-  const { mutatePrioritize } = usePrioritizeTodo();
+  const { prioritizeMutateFn } = usePrioritizeTodo();
 
-  const { deleteMutate, deletePending } = useDeleteTodo();
-  const { pinMutate } = usePinTodo(todo);
+  const { deleteMutateFn, deletePending } = useDeleteTodo();
+  const { pinMutateFn } = usePinTodo();
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
@@ -47,7 +47,7 @@ function TodoItemMeatballMenu({
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent className="bg-popover py-1.5 px-0 [&_svg:not([class*='size-'])]:size-5 lg:min-w-[220px]">
-        <DropdownMenuItem className="mx-1.5" onClick={() => pinMutate()}>
+        <DropdownMenuItem className="mx-1.5" onClick={() => pinMutateFn(todo)}>
           {!todo.pinned ? (
             <Pin className="w-4 h-4" />
           ) : (
@@ -79,7 +79,7 @@ function TodoItemMeatballMenu({
         </DropdownMenuItem>
         <DropdownMenuItem
           className="m-1.5"
-          onClick={() => deleteMutate({ id: todo.id })}
+          onClick={() => deleteMutateFn({ id: todo.id })}
         >
           {deletePending ? (
             <Spinner className="w-4 h-4" />
@@ -103,7 +103,7 @@ function TodoItemMeatballMenu({
               isSelected={todo.priority == "Low"}
               level={1}
               onClick={() => {
-                mutatePrioritize({
+                prioritizeMutateFn({
                   id: todo.id,
                   level: "Low",
                   isRecurring: todo.rrule ? true : false,
@@ -114,7 +114,7 @@ function TodoItemMeatballMenu({
               isSelected={todo.priority == "Medium"}
               level={2}
               onClick={() => {
-                mutatePrioritize({
+                prioritizeMutateFn({
                   id: todo.id,
                   level: "Medium",
                   isRecurring: todo.rrule ? true : false,
@@ -125,7 +125,7 @@ function TodoItemMeatballMenu({
               isSelected={todo.priority == "High"}
               level={3}
               onClick={() => {
-                mutatePrioritize({
+                prioritizeMutateFn({
                   id: todo.id,
                   level: "High",
                   isRecurring: todo.rrule ? true : false,

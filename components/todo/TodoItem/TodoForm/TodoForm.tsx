@@ -50,9 +50,9 @@ const TodoForm = ({
   useKeyboardSubmitForm(displayForm, handleForm);
   const { toast } = useToast();
   const clearInput = useClearInput(setEditInstanceOnly, titleRef);
-  const { editTodo } = useEditTodo();
-  const { editTodoInstance } = useEditTodoInstance(setEditInstanceOnly);
-  const { createTodo } = useCreateTodo();
+  const { editTodoMutateFn } = useEditTodo();
+  const { editTodoInstanceMutateFn } = useEditTodoInstance(setEditInstanceOnly);
+  const { createMutateFn } = useCreateTodo();
   const appDict = useTranslations("app");
   const todayDict = useTranslations("today")
 
@@ -135,7 +135,7 @@ const TodoForm = ({
       if (todo?.id) {
         setDisplayForm(false);
         if (editInstanceOnly) {
-          editTodoInstance({
+          editTodoInstanceMutateFn({
             ...todo,
             title,
             description: desc,
@@ -145,7 +145,7 @@ const TodoForm = ({
             rrule,
           });
         } else {
-          editTodo({
+          editTodoMutateFn({
             ...todo,
             dateRangeChecksum,
             rruleChecksum,
@@ -159,7 +159,7 @@ const TodoForm = ({
         }
       } else {
         clearInput();
-        createTodo({
+        createMutateFn({
           id: "-1",
           title,
           description: desc,

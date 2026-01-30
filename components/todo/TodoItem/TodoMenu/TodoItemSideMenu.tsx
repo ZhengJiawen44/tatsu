@@ -16,8 +16,8 @@ const TodoItemSideMenu = ({
   todo: TodoItemType;
   setDisplayForm: React.Dispatch<React.SetStateAction<boolean>>;
 }) => {
-  const { deleteMutate, deletePending } = useDeleteTodo();
-  const { pinMutate } = usePinTodo(todo);
+  const { deleteMutateFn, deletePending } = useDeleteTodo();
+  const { pinMutateFn } = usePinTodo();
   return (
     <div className="hidden sm:flex items-center gap-1 text-muted-foreground">
       <Button
@@ -25,7 +25,7 @@ const TodoItemSideMenu = ({
         size={"icon"}
         className="border-none"
         onClick={() => {
-          pinMutate();
+          pinMutateFn(todo);
         }}
       >
         <Pin className="w-[1.1rem] h-[1.1rem]" />
@@ -44,7 +44,7 @@ const TodoItemSideMenu = ({
         size={"icon"}
         className="border-none"
         onClick={() => {
-          deleteMutate({ id: todo.id });
+          deleteMutateFn({ id: todo.id });
         }}
       >
         {deletePending ? (

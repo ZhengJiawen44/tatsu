@@ -35,7 +35,7 @@ async function postTodo({ todo }: { todo: TodoItemType }) {
 export const useCreateTodo = () => {
   const { toast } = useToast();
   const queryClient = useQueryClient();
-  const { mutate: createTodo, status: createTodoStatus } = useMutation({
+  const { mutate: createMutateFn, status: createStatus } = useMutation({
     mutationFn: (todo: TodoItemType) => postTodo({ todo }),
     onMutate: async (newTodo) => {
       await queryClient.cancelQueries({ queryKey: ["todo"] });
@@ -67,5 +67,5 @@ export const useCreateTodo = () => {
       queryClient.invalidateQueries({ queryKey: ["calendarTodo"] });
     },
   });
-  return { createTodo, createTodoStatus };
+  return { createMutateFn, createStatus };
 };

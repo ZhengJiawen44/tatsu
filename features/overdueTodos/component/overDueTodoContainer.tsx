@@ -9,6 +9,7 @@ export default function OverDueTodoContainer() {
     const { todos: overdueTodos, isLoading, fetchNextPage, hasNextPage } =
         useOverdueTodo();
 
+    if (!overdueTodos.length) return null
     return (
         <div className="mb-20">
             <div className="flex items-center gap-2 mt-10 mb-4">
@@ -17,8 +18,7 @@ export default function OverDueTodoContainer() {
             </div>
             <div>
                 {isLoading && <TodoListLoading />}
-                <TodoGroup todos={overdueTodos} overdue={true} />
-
+                <TodoGroup todos={overdueTodos} overdue={true} queryKey="overdueTodo" />
                 {hasNextPage && (
                     <button
                         className="my-10 ml-[2px] w-fit group flex gap-3 items-center hover:cursor-pointer transition-all duration-200"

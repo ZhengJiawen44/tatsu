@@ -5,7 +5,7 @@ import { todoSchema } from "@/schema";
 import { TodoItemType } from "@/types";
 import { endOfDay } from "date-fns";
 
-interface TodoItemTypeWithDateChecksum extends TodoItemType {
+export interface TodoItemTypeWithDateChecksum extends TodoItemType {
   dateRangeChecksum: string;
   rruleChecksum: string | null;
 }
@@ -50,12 +50,12 @@ export const useEditTodo = () => {
   const { toast } = useToast();
   const queryClient = useQueryClient();
 
-  const { mutate: editTodo, status: editTodoStatus } = useMutation({
+  const { mutate: editTodoMutateFn, status: editTodoStatus } = useMutation({
     mutationFn: (params: TodoItemTypeWithDateChecksum) =>
       patchTodo({ todo: params }),
     onMutate: async (newTodo) => {
       await queryClient.cancelQueries({ queryKey: ["todo"] });
-      const oldTodos = queryClient.getQueryData(["todo"]);
+      const oldTodos = queryClient.getQueryData<TodoItemType[]>(["todo"]);
 
       queryClient.setQueryData(["todo"], (oldTodos: TodoItemType[]) =>
         oldTodos.flatMap((oldTodo) => {
@@ -92,5 +92,5 @@ export const useEditTodo = () => {
     },
   });
 
-  return { editTodo, editTodoStatus };
+  return { editTodoMutateFn, editTodoStatus };
 };
