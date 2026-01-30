@@ -1,20 +1,19 @@
 import clsx from "clsx";
 import React, { useState } from "react";
-import adjustHeight from "@/features/todayTodos/lib/adjustTextareaHeight";
+import adjustHeight from "@/components/todo/lib/adjustTextareaHeight";
 import { useToast } from "@/hooks/use-toast";
 import LineSeparator from "@/components/ui/lineSeparator";
-import { useEditTodo } from "@/features/todayTodos/query/update-todo";
-import { useCreateTodo } from "@/features/todayTodos/query/create-todo";
 import { useTodoForm } from "@/providers/TodoFormProvider";
-import { useEditTodoInstance } from "@/features/todayTodos/query/update-todo-instance";
-import { useTodoFormFocusAndAutosize } from "@/features/todayTodos/hooks/useTodoFormFocusAndAutosize";
-import { useKeyboardSubmitForm } from "@/features/todayTodos/hooks/useKeyboardSubmitForm";
-import { useClearInput } from "@/features/todayTodos/hooks/useClearInput";
+import { useTodoFormFocusAndAutosize } from "@/components/todo/hooks/useTodoFormFocusAndAutosize";
+import { useKeyboardSubmitForm } from "@/components/todo/hooks/useKeyboardSubmitForm";
+import { useClearInput } from "@/components/todo/hooks/useClearInput";
 import { RRule } from "rrule";
 import TodoInlineActionBar from "./TodoInlineActionBar/TodoInlineActionBar";
 import { Button } from "@/components/ui/button";
 import NLPTitleInput from "./NLPTitleInput";
 import { useTranslations } from "next-intl";
+import { useTodoMutation } from "@/providers/TodoMutationProvider";
+import { useCreateTodo } from "@/features/todayTodos/query/create-todo";
 
 interface TodoFormProps {
   editInstanceOnly?: boolean;
@@ -50,6 +49,7 @@ const TodoForm = ({
   useKeyboardSubmitForm(displayForm, handleForm);
   const { toast } = useToast();
   const clearInput = useClearInput(setEditInstanceOnly, titleRef);
+  const { useEditTodo, useEditTodoInstance } = useTodoMutation();
   const { editTodoMutateFn } = useEditTodo();
   const { editTodoInstanceMutateFn } = useEditTodoInstance(setEditInstanceOnly);
   const { createMutateFn } = useCreateTodo();

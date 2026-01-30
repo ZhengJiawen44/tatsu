@@ -2,7 +2,7 @@
 import React from "react";
 import { useOverdueTodo } from "../query/get-overdue-todo";
 import TodoListLoading from "@/components/ui/TodoListLoading";
-import TodoGroup from "@/components/todo/TodoGroup";
+import TodoGroup from "@/components/todo/component/TodoGroup";
 import LineSeparator from "@/components/ui/lineSeparator";
 
 export default function OverDueTodoContainer() {
@@ -18,7 +18,8 @@ export default function OverDueTodoContainer() {
             </div>
             <div>
                 {isLoading && <TodoListLoading />}
-                <TodoGroup todos={overdueTodos} overdue={true} queryKey="overdueTodo" />
+
+                <TodoGroup todos={overdueTodos} overdue={true} />
                 {hasNextPage && (
                     <button
                         className="my-10 ml-[2px] w-fit group flex gap-3 items-center hover:cursor-pointer transition-all duration-200"

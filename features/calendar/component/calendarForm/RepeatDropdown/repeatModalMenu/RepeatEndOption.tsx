@@ -10,7 +10,7 @@ import { ChevronDownIcon } from "lucide-react";
 import clsx from "clsx";
 import { Button } from "@/components/ui/button";
 import { Options } from "rrule";
-import { masqueradeAsUTC } from "@/features/todayTodos/lib/masqueradeAsUTC";
+import { masqueradeAsUTC } from "@/components/todo/lib/masqueradeAsUTC";
 import { useTranslations } from "next-intl";
 
 interface RepeatEndOptionProps {

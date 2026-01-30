@@ -34,6 +34,8 @@ export const useDeleteTodo = () => {
     onSettled: () => {
       //optimistically update calendar todos
       queryClient.invalidateQueries({ queryKey: ["completedTodo"] });
+      queryClient.invalidateQueries({ queryKey: ["calendarTodo"] });
+
       toast({ description: "todo deleted" });
     },
   });
