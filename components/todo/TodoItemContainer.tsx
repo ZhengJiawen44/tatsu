@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-// import TodoItemMenuContainer from "./TodoMenu/TodoItemMenuContainer";
 import dynamic from "next/dynamic";
 import TodoCheckbox from "@/components/ui/TodoCheckbox";
 import clsx from "clsx";
@@ -7,15 +6,16 @@ import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
 import { TodoItemType } from "@/types";
 import GripVertical from "@/components/ui/icon/gripVertical";
-import { useCompleteTodo } from "../../features/todayTodos/query/complete-todo";
-import TodoFormLoading from "../../features/todayTodos/component/TodoItem/TodoForm/TodoFormLoading";
+import TodoFormLoading from "./TodoItem/TodoForm/TodoFormLoading";
 import { Check } from "lucide-react";
-import TodoItemMenuContainer from "../../features/todayTodos/component/TodoItem/TodoMenu/TodoItemMenuContainer";
+import TodoItemMenuContainer from "./TodoItem/TodoMenu/TodoItemMenuContainer";
 import LineSeparator from "@/components/ui/lineSeparator";
 import { getDisplayDate } from "@/lib/date/displayDate";
 import { useLocale } from "next-intl";
+import { useTodoMutation } from "@/providers/TodoMutationProvider";
+
 const TodoFormContainer = dynamic(
-  () => import("../../features/todayTodos/component/TodoItem/TodoForm/TodoFormContainer"),
+  () => import("./TodoItem/TodoForm/TodoFormContainer"),
   { loading: () => <TodoFormLoading /> },
 );
 
@@ -25,6 +25,8 @@ type TodoItemContainerProps = {
 }
 
 export const TodoItemContainer = ({ todoItem, overdue }: TodoItemContainerProps) => {
+  const { useCompleteTodo } = useTodoMutation();
+  const { completeMutateFn } = useCompleteTodo();
   const locale = useLocale();
   //dnd kit setups
   const { attributes, listeners, setNodeRef, transform, transition } =
@@ -33,14 +35,12 @@ export const TodoItemContainer = ({ todoItem, overdue }: TodoItemContainerProps)
     transform: CSS.Translate.toString(transform),
     transition,
   };
-
   const { title, description, completed, priority, rrule, dtstart } = todoItem;
-
   const [displayForm, setDisplayForm] = useState(false);
   const [editInstanceOnly, setEditInstanceOnly] = useState(false);
   const [showHandle, setShowHandle] = useState(false);
   const [isGrabbing, setGrabbing] = useState(false);
-  const { mutateCompleted } = useCompleteTodo();
+
 
   useEffect(() => {
     if (!displayForm) {
@@ -99,7 +99,7 @@ export const TodoItemContainer = ({ todoItem, overdue }: TodoItemContainerProps)
             showHandle === true ? "text-card-foreground" : "text-transparent",
           )}
         >
-          <GripVertical className=" w-4 h-4 hover:text-foreground" />
+          <GripVertical className="w-4 h-4 hover:text-foreground" />
         </div>
 
         <div className="flex items-start gap-3">
@@ -108,7 +108,7 @@ export const TodoItemContainer = ({ todoItem, overdue }: TodoItemContainerProps)
             priority={priority}
             complete={completed}
             onChange={() => {
-              mutateCompleted(todoItem);
+              completeMutateFn(todoItem);
             }}
             checked={completed}
             variant={rrule ? "repeat" : "outline"}

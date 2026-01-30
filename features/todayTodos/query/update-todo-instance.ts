@@ -38,12 +38,12 @@ export const useEditTodoInstance = (
   const { toast } = useToast();
   const queryClient = useQueryClient();
 
-  const { mutate: editTodoInstance, status: editTodoInstanceStatus } =
+  const { mutate: editTodoInstanceMutateFn, status: editTodoInstanceStatus } =
     useMutation({
       mutationFn: (ghostTodo: TodoItemType) => patchTodo({ ghostTodo }),
       onMutate: async (newTodo) => {
         await queryClient.cancelQueries({ queryKey: ["todo"] });
-        const oldTodos = queryClient.getQueryData(["todo"]);
+        const oldTodos = queryClient.getQueryData<TodoItemType[]>(["todo"]);
 
         queryClient.setQueryData(["todo"], (oldTodos: TodoItemType[]) =>
           oldTodos.flatMap((oldTodo) => {
@@ -82,5 +82,5 @@ export const useEditTodoInstance = (
       },
     });
 
-  return { editTodoInstance, editTodoInstanceStatus };
+  return { editTodoInstanceMutateFn, editTodoInstanceStatus };
 };

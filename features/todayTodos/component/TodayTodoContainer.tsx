@@ -13,6 +13,15 @@ import { TodoItemType } from "@/types";
 import clsx from "clsx";
 import { useLocale } from "next-intl";
 import { useUserPreferences } from "@/providers/UserPreferencesProvider";
+import { usePinTodo } from "../query/pin-todo";
+import { useCompleteTodo } from "../query/complete-todo";
+import { useDeleteTodo } from "../query/delete-todo";
+import { usePrioritizeTodo } from "../query/prioritize-todo";
+import { useEditTodo } from "../query/update-todo";
+import { useEditTodoInstance } from "../query/update-todo-instance";
+import { useReorderTodo } from "../query/reorder-todo";
+import TodoMutationProvider from "@/providers/TodoMutationProvider";
+
 
 const TodayTodoContainer = () => {
   const locale = useLocale();
@@ -79,10 +88,21 @@ const TodayTodoContainer = () => {
       {todoLoading && <TodoListLoading />}
       {/* Render Pinned Todos */}
       {pinnedTodos.length > 0 && (
-        <TodoGroup
-          className="relative my-10 rounded-md p-2 border border-border-muted bg-card shadow-md"
-          todos={pinnedTodos}
-        />
+        <TodoMutationProvider
+          useCompleteTodo={useCompleteTodo}
+          useDeleteTodo={useDeleteTodo}
+          useEditTodo={useEditTodo}
+          useEditTodoInstance={useEditTodoInstance}
+          usePinTodo={usePinTodo}
+          usePrioritizeTodo={usePrioritizeTodo}
+          useReorderTodo={useReorderTodo}
+        >
+          <TodoGroup
+            className="relative my-10 rounded-md p-2 border border-border-muted bg-card shadow-md"
+            todos={pinnedTodos}
+          />
+        </TodoMutationProvider>
+
       )}
       <div className="mb-3">
         <div className="sm:flex items-center justify-between gap-2">
@@ -105,10 +125,20 @@ const TodayTodoContainer = () => {
           <div className={clsx(key !== "-1" && "my-16")}>
             {key !== "-1" && <p className="font-semibold text-muted-foreground text-lg">{preferences?.groupBy + ": " + key}</p>}
             {key !== "-1" && <LineSeparator />}
-            <TodoGroup
-              todos={todo}
-              className="flex flex-col bg-background gap-1"
-            />
+            <TodoMutationProvider
+              useCompleteTodo={useCompleteTodo}
+              useDeleteTodo={useDeleteTodo}
+              useEditTodo={useEditTodo}
+              useEditTodoInstance={useEditTodoInstance}
+              usePinTodo={usePinTodo}
+              usePrioritizeTodo={usePrioritizeTodo}
+              useReorderTodo={useReorderTodo}
+            >
+              <TodoGroup
+                todos={todo}
+                className="flex flex-col bg-background gap-1"
+              />
+            </TodoMutationProvider>
           </div>
 
         </div>

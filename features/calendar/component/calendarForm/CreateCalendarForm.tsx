@@ -8,7 +8,6 @@ import DateDropdownMenu from "./DateDropdown/DateDropdownMenu";
 import PriorityDropdownMenu from "./PriorityDropdown/PriorityDropdown";
 import RepeatDropdownMenu from "./RepeatDropdown/RepeatDropdownMenu";
 import ConfirmCancelEditDialog from "./ConfirmCancelEdit";
-import CreateCalendarDrawer from "./Mobile/CreateCalendarDrawer";
 import {
   Modal,
   ModalOverlay,

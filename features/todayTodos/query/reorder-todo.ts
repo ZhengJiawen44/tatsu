@@ -2,7 +2,7 @@ import { useQueryClient, useMutation } from "@tanstack/react-query";
 import { api } from "@/lib/api-client";
 import { useToast } from "@/hooks/use-toast";
 
-type changeMapType = {
+export type changeMapType = {
   id: string;
   order: number;
 };
@@ -10,7 +10,7 @@ type changeMapType = {
 export const useReorderTodo = () => {
   const { toast } = useToast();
   const queryClient = useQueryClient();
-  const { mutate: mutateReorder, isPending } = useMutation({
+  const { mutate: reorderMutateFn, isPending: reorderPending } = useMutation({
     mutationFn: async (changeMap: changeMapType[]) => {
       changeMap = changeMap.map(({ id, order }) => {
         const todoId = id.split(":")[0];
@@ -31,5 +31,5 @@ export const useReorderTodo = () => {
     },
   });
 
-  return { mutateReorder, isPending };
+  return { reorderMutateFn, reorderPending };
 };

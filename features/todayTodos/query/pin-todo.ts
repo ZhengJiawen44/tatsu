@@ -3,18 +3,18 @@ import { api } from "@/lib/api-client";
 import { useToast } from "@/hooks/use-toast";
 import { TodoItemType } from "@/types";
 
-export function usePinTodo(todoItem: TodoItemType) {
+export function usePinTodo() {
   const { toast } = useToast();
   const queryClient = useQueryClient();
-  const { mutate: pinMutate, isPending: pinPending } = useMutation({
-    mutationFn: async () => {
+  const { mutate: pinMutateFn, isPending: pinPending } = useMutation({
+    mutationFn: async (todoItem: TodoItemType) => {
       await api.PATCH({
         url: `/api/todo/${todoItem.id.split(":")[0]}`,
         body: JSON.stringify({ pinned: !todoItem.pinned }),
       });
     },
 
-    onMutate: async () => {
+    onMutate: async (todoItem: TodoItemType) => {
       await queryClient.cancelQueries({ queryKey: ["todo"] });
 
       const oldTodos = queryClient.getQueryData(["todo"]);
@@ -39,5 +39,5 @@ export function usePinTodo(todoItem: TodoItemType) {
     },
   });
 
-  return { pinMutate, pinPending };
+  return { pinMutateFn, pinPending };
 }

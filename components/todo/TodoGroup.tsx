@@ -10,19 +10,19 @@ import { verticalListSortingStrategy } from "@dnd-kit/sortable";
 import { TodoItemType } from "@/types";
 import { useCallback, useEffect, useState } from "react";
 import { TodoItemContainer } from "./TodoItemContainer";
-import { useReorderTodo } from "../../features/todayTodos/query/reorder-todo";
-
+import { useTodoMutation } from "@/providers/TodoMutationProvider";
 
 const TodoGroup = ({
   todos,
   className,
-  overdue
+  overdue,
 }: {
   todos: TodoItemType[];
   className?: string;
   overdue?: boolean
 }) => {
-  const { mutateReorder } = useReorderTodo();
+  const { useReorderTodo } = useTodoMutation()
+  const { reorderMutateFn } = useReorderTodo();
   const [items, setItems] = useState(todos);
 
   //update local state
@@ -46,12 +46,12 @@ const TodoGroup = ({
     if (todos.length !== items.length) return;
     const reorderList = reorderDiff();
     if (reorderList.length > 0) {
-      const timer = setTimeout(() => mutateReorder(reorderList), 3000);
+      const timer = setTimeout(() => reorderMutateFn(reorderList), 3000);
       return () => {
         clearTimeout(timer);
       };
     }
-  }, [items, todos, reorderDiff, mutateReorder]);
+  }, [items, todos, reorderDiff, reorderMutateFn]);
 
   const sensors = useSensors(
     useSensor(PointerSensor),
@@ -77,6 +77,7 @@ const TodoGroup = ({
 
   return (
     <div className={className}>
+
       <DndContext
         sensors={sensors}
         collisionDetection={closestCenter}
@@ -88,6 +89,8 @@ const TodoGroup = ({
           ))}
         </SortableContext>
       </DndContext>
+
+
     </div>
   );
 };

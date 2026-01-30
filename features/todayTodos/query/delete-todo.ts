@@ -5,7 +5,7 @@ import { TodoItemType } from "@/types";
 export const useDeleteTodo = () => {
   const { toast } = useToast();
   const queryClient = useQueryClient();
-  const { mutate: deleteMutate, isPending: deletePending } = useMutation({
+  const { mutate: deleteMutateFn, isPending: deletePending } = useMutation({
     mutationFn: async ({ id }: { id: string }) => {
       await api.DELETE({ url: `/api/todo/${id.split(":")[0]}` });
     },
@@ -37,5 +37,5 @@ export const useDeleteTodo = () => {
       toast({ description: "todo deleted" });
     },
   });
-  return { deleteMutate, deletePending };
+  return { deleteMutateFn, deletePending };
 };

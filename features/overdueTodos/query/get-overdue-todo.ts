@@ -29,19 +29,21 @@ export const useOverdueTodo = () => {
 
       const { todos, nextCursor } = data;
 
-      const todoWithFormattedDates = todos.map((todo: TodoItemType) => {
-        const todoInstanceDate = todo.instanceDate
-          ? new Date(todo.instanceDate)
-          : null;
-        return {
-          ...todo,
-          id: `${todo.id}:${todoInstanceDate?.getTime()}`,
-          createdAt: new Date(todo.createdAt),
-          dtstart: new Date(todo.dtstart),
-          due: new Date(todo.due),
-          instanceDate: todoInstanceDate,
-        };
-      });
+      const todoWithFormattedDates: TodoItemType[] = todos.map(
+        (todo: TodoItemType) => {
+          const todoInstanceDate = todo.instanceDate
+            ? new Date(todo.instanceDate)
+            : null;
+          return {
+            ...todo,
+            id: `${todo.id}:${todoInstanceDate?.getTime()}`,
+            createdAt: new Date(todo.createdAt),
+            dtstart: new Date(todo.dtstart),
+            due: new Date(todo.due),
+            instanceDate: todoInstanceDate,
+          };
+        },
+      );
 
       return {
         todos: todoWithFormattedDates,
