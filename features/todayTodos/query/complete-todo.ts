@@ -31,7 +31,6 @@ export const useCompleteTodo = () => {
     onMutate: async (todoItem: TodoItemType) => {
       await queryClient.cancelQueries({ queryKey: ["todo"] });
       const oldTodos = queryClient.getQueryData(["todo"]) as TodoItemType[];
-      console.log(oldTodos, "todo");
       queryClient.setQueryData(["todo"], (oldTodos: TodoItemType[]) =>
         oldTodos.flatMap((oldTodo) => {
           if (oldTodo.id === todoItem.id) return [];

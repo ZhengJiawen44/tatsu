@@ -5,6 +5,14 @@ import { startOfToday } from "date-fns";
 import { useEffect } from "react";
 import { TodoItemType } from "@/types";
 
+export type InfiniteQueryTodoData = {
+  pages: Array<{
+    todos: TodoItemType[];
+    nextCursor: string | null;
+  }>;
+  pageParams: Array<string | null>;
+};
+
 export const useOverdueTodo = () => {
   const { toast } = useToast();
   const count = 3;
