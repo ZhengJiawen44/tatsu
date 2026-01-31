@@ -18,23 +18,34 @@ const UserCard = ({ className }: { className?: string }) => {
     <>
       <div
         className={cn(
-          "flex justify-between items-center hover:cursor-pointer hover:bg-border-muted rounded-md py-1 px-2 transition-all duration-200",
-          className
+          "my-3 flex justify-between items-center rounded-lg py-2 px-2 transition-all duration-200",
+          className,
         )}
       >
-        <div className="overflow-hidden flex gap-2 justify-start items-center select-none">
-          {user?.image && (
+        <div className="overflow-hidden flex gap-3 justify-start items-center select-none">
+          {user?.image ? (
             <Image
               src={user?.image}
-              alt="user image"
-              width={28}
-              height={28}
-              className="rounded-full"
+              alt={user?.name || "User profile picture"}
+              width={32}
+              height={32}
+              sizes="32px"
+              className="rounded-md"
+              loading="lazy"
             />
+          ) : (
+            <div className="w-8 h-8 rounded-sm bg-lime"></div>
           )}
-          <p className="truncate">{user?.name || user?.email?.split("@")[0]}</p>
+          <div className="flex flex-col gap-[3px]">
+            <p className=" truncate font-[500]">
+              {user?.name || user?.email?.split("@")[0] || "User"}
+            </p>
+            <p className="truncate text-muted-foreground  text-xs">
+              {user?.email}
+            </p>
+          </div>
         </div>
-        <Sidebar>
+        <Sidebar className="text-muted-foreground hover:text-foreground">
           <SidebarIcon className="w-6 h-6" />
         </Sidebar>
       </div>

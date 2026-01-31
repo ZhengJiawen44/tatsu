@@ -35,6 +35,27 @@ export const todoSchema = z.object({
     .trim()
     .min(1, { message: "title cannot be left empty" }),
   description: z.string().optional(),
+  priority: z.enum(["Low", "Medium", "High"], {
+    errorMap: () => ({ message: "priority must be one of: low, medium, high" }),
+  }),
+  dtstart: z.date({ message: "start date is not identified" }),
+  due: z.date({ message: "end date is not identified" }),
+  rrule: z.string().nullable(),
+});
+
+export const todoInstanceSchema = z.object({
+  title: z
+    .string({ message: "title cannot be left empty" })
+    .trim()
+    .min(1, { message: "title cannot be left empty" }),
+  description: z.string().optional(),
+  priority: z.enum(["Low", "Medium", "High"], {
+    errorMap: () => ({ message: "priority must be one of: low, medium, high" }),
+  }),
+  dtstart: z.date({ message: "start date is not identified" }),
+  due: z.date({ message: "end date is not identified" }),
+  instanceDate: z.date({ message: "instance date is not identified" }),
+  rrule: z.string().nullable(),
 });
 
 export const noteSchema = z.object({
@@ -43,4 +64,16 @@ export const noteSchema = z.object({
     .trim()
     .min(1, { message: "title cannot be left empty" }),
   content: z.string().nullable().optional(),
+});
+
+export const userPreferencesSchema = z.object({
+  sortBy: z
+    .enum(["dtstart", "due", "duration", "priority"])
+    .nullable()
+    .optional(),
+  groupBy: z
+    .enum(["dtstart", "due", "duration", "priority", "rrule"])
+    .nullable()
+    .optional(),
+  direction: z.enum(["Ascending", "Descending"]).nullable().optional(),
 });
