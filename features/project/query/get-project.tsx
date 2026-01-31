@@ -4,7 +4,7 @@ import { useEffect } from "react";
 import { useToast } from "@/hooks/use-toast";
 import { api } from "@/lib/api-client";
 
-export const useNote = () => {
+export const useProjectTitles = () => {
   const { toast } = useToast();
   //get Notes
   const {
@@ -19,6 +19,7 @@ export const useNote = () => {
     retry: 2,
     staleTime: 5 * 60 * 1000,
     queryFn: async () => {
+      api.GET({ url: `/api/note` });
       const { notes } = await api.GET({ url: `/api/note` });
       return notes;
     },
@@ -31,3 +32,4 @@ export const useNote = () => {
   }, [isError]);
   return { notes, notesLoading, isFetching, isPending };
 };
+

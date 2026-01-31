@@ -9,6 +9,8 @@ import MenuSidebarItem from "./Settings/MenuSidebarItem";
 import TodoItem from "./Todo/TodoSidebarItem";
 import UserCard from "./User/UserCard";
 import VaultItem from "./Vault/VaultItem";
+import ProjectCollapsible from "./Project/ProjectCollapsible";
+import LineSeparator from "../ui/lineSeparator";
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const SidebarContainer = ({ children }: { children?: React.ReactNode }) => {
@@ -29,7 +31,7 @@ const SidebarContainer = ({ children }: { children?: React.ReactNode }) => {
       if (isResizing) {
         setSidebarWidth(
           mouseMoveEvent.clientX -
-            sidebarRef.current!.getBoundingClientRect().left,
+          sidebarRef.current!.getBoundingClientRect().left,
         );
       }
     },
@@ -66,12 +68,15 @@ const SidebarContainer = ({ children }: { children?: React.ReactNode }) => {
           <div className="px-4 mt-2">
             <UserCard />
           </div>
-          <div className="flex flex-col gap-2 overflow-y-scroll h-full scrollbar-none my-2 px-4 text-muted-foreground">
+          <div className="flex flex-col gap-2 overflow-y-scroll h-full  my-2 px-4 text-muted-foreground">
             <TodoItem />
             <CompletedItem />
             <CalendarItem />
             <NoteCollapsible />
             <VaultItem />
+            <LineSeparator className="m-0 mt-8" />
+            <ProjectCollapsible />
+
             <Toaster />
           </div>
           <div className="px-4">

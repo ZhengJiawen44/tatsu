@@ -1,26 +1,30 @@
 import { useToast } from "@/hooks/use-toast";
 import { useQueryClient, useMutation } from "@tanstack/react-query";
 import { api } from "@/lib/api-client";
+async function patchNote({ id, content }: { id: string; content?: string }) {
+  if (!id) {
+    throw new Error("this Note is missing");
+  }
 
-async function postNote({ name, content }: { name: string; content?: string }) {
-  const { note } = await api.POST({
-    url: "/api/note",
+  await api.PATCH({
+    url: `/api/note/${id}`,
     headers: { "content-type": "application/json" },
-    body: JSON.stringify({ name, content }),
+    body: JSON.stringify({ content }),
   });
-  return note;
 }
 
-export const useCreateNote = () => {
+export const useEditNote = () => {
   const { toast } = useToast();
   const queryClient = useQueryClient();
+
   const {
-    mutate: createNote,
-    isPending: createLoading,
+    mutate: editNote,
+    isPending: editLoading,
     isSuccess,
+    isError,
   } = useMutation({
-    mutationFn: (params: { name: string; content?: string }) =>
-      postNote({ ...params }),
+    mutationFn: (params: { id: string; content?: string | undefined }) =>
+      patchNote({ ...params }),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["note"] });
     },
@@ -29,5 +33,5 @@ export const useCreateNote = () => {
     },
   });
 
-  return { createNote, createLoading, isSuccess };
+  return { editNote, editLoading, isSuccess, isError };
 };

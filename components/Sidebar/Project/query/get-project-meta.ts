@@ -4,23 +4,22 @@ import { useEffect } from "react";
 import { useToast } from "@/hooks/use-toast";
 import { api } from "@/lib/api-client";
 
-export const useNote = () => {
+export const useProjectMeta = () => {
   const { toast } = useToast();
-  //get Notes
   const {
-    data: notes = [],
-    isLoading: notesLoading,
+    data: projectMeta = [],
+    isLoading: projectMetaLoading,
     isError,
     error,
     isFetching,
     isPending,
   } = useQuery<NoteItemType[]>({
-    queryKey: ["note"],
+    queryKey: ["projectMeta"],
     retry: 2,
     staleTime: 5 * 60 * 1000,
     queryFn: async () => {
-      const { notes } = await api.GET({ url: `/api/note` });
-      return notes;
+      const { projects } = await api.GET({ url: `/api/project` });
+      return projects;
     },
   });
 
@@ -29,5 +28,5 @@ export const useNote = () => {
       toast({ description: error.message, variant: "destructive" });
     }
   }, [isError]);
-  return { notes, notesLoading, isFetching, isPending };
+  return { projectMeta, projectMetaLoading, isFetching, isPending };
 };

@@ -22,6 +22,7 @@ model User {
   CompletedTodo CompletedTodo[]
   Note          Note[]
   File          File[]
+  Project       Project[]
   UserPreferences       UserPreferences[]
   maxStorage    Decimal             @default(1000000.0) //default 100 mb of storage
   usedStoraged  Decimal             @default(0.0)
@@ -120,9 +121,14 @@ model Todo {
   rrule             String?
   timeZone          String    @default("UTC")
 
-
   completed         Boolean   @default(false)
   instances         TodoInstance[]
+  project           Project?   @relation(fields: [projectID], references: [id], onDelete: SetNull)
+  projectID         String?
+
+  @@index([userID])
+  @@index([projectID])
+  @@index([userID, projectID])
   @@map("todos")
 }
 
@@ -162,6 +168,10 @@ model CompletedTodo{
   user          User            @relation(fields: [userID], references: [id])
   userID        String
   instanceDate  DateTime?
+  projectName   String?
+  projectColor  String?
+
+  @@index([userID])
 }
 
 model Note{
@@ -171,6 +181,18 @@ model Note{
   createdAt     DateTime        @default(now())
   user          User            @relation(fields: [userID], references: [id])
   userID        String
+}
+
+model Project {
+  id        String   @id @default(cuid())
+  name      String
+  color    String?
+  user      User     @relation(fields: [userID], references: [id])
+  userID    String
+  todos     Todo[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  @@index([userID])
 }
  
 model File{

@@ -25,6 +25,20 @@ export interface FileItemType {
   url: string;
   createdAt: Date;
 }
+export interface ProjectItemType {
+  id: string;
+  name: string;
+  color?: string;
+  todos: TodoItemType[];
+  completedTodos: CompletedTodoItemType[];
+  createdAt: Date;
+  updatedAt: Date;
+}
+
+export type ProjectItemMetaType = Pick<
+  ProjectItemType,
+  "id" | "color" | "name"
+>;
 
 export type NonNullableDateRange = {
   from: Date;
