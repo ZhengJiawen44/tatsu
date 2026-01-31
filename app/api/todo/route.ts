@@ -13,8 +13,8 @@ import generateTodosFromRRule from "@/lib/generateTodosFromRRule";
 import { resolveTimezone } from "@/lib/resolveTimeZone";
 import { errorHandler } from "@/lib/errorHandler";
 import { overrideBy } from "@/lib/overrideBy";
-import { recurringTodoItemType, TodoItemType } from "@/types";
-import { mergeInstanceAndTodo } from "@/lib/mergeInstanceAndTodo";
+import { recurringTodoItemType } from "@/types";
+import { getMovedInstances } from "@/lib/getMovedInstances";
 
 export async function POST(req: NextRequest) {
   try {
@@ -150,9 +150,6 @@ export async function GET(req: NextRequest) {
     // console.log("ghost: ", ghostTodos);
     // console.log("merged with reccur ID: ", mergedUsingRecurrId);
     // console.log("moved todos: ", movedTodos);
-    // console.log(
-    //   "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd",
-    // );
     const allTodos = [...oneOffTodos, ...allGhosts].sort(
       (a, b) => a.order - b.order,
     );
@@ -166,52 +163,4 @@ export async function GET(req: NextRequest) {
   } catch (error) {
     return errorHandler(error);
   }
-}
-
-// /**
-//  * @description generated "orphaned todos" by finding instances that had their dtstart overriden to another time
-//  * @param mergedTodos a list of todos that are used to check for duplicates
-//  * @param recurringParents a list of todos that has all the instances
-//  * @param bounds a { dateRangeStart: Date; dateRangeEnd: Date } object
-//  * @returns a list of orphaned todos
-//  */
-function getMovedInstances(
-  mergedTodos: TodoItemType[],
-  recurringParents: TodoItemType[],
-  bounds: { dateRangeStart: Date; dateRangeEnd: Date },
-): TodoItemType[] {
-  const mergedDtstarts = mergedTodos.map(
-    (merged) => merged.dtstart.getTime() + " " + merged.instanceDate?.getTime(),
-  );
-  const orphanedInstances = recurringParents.flatMap((todo: TodoItemType) => {
-    if (!todo.instances) return [];
-
-    return todo.instances.filter(
-      ({ overriddenDtstart, overriddenDue, instanceDate }) => {
-        const exDateList = todo.exdates.map((exdate) => {
-          return exdate.getTime();
-        });
-        return (
-          overriddenDtstart &&
-          overriddenDue &&
-          !exDateList.includes(instanceDate.getTime()) &&
-          //need to have started and crosses in to the current range
-          overriddenDtstart <= bounds.dateRangeEnd &&
-          overriddenDue >= bounds.dateRangeStart &&
-          !mergedDtstarts.includes(
-            overriddenDtstart.getTime() + " " + instanceDate.getTime(),
-          )
-        );
-      },
-    );
-  });
-
-  const orphanedTodos = orphanedInstances.flatMap((instance) => {
-    const parentTodo = recurringParents.find(
-      (parent) => parent.id === instance.todoId,
-    );
-    if (parentTodo) return mergeInstanceAndTodo(instance, parentTodo);
-    return [];
-  });
-  return orphanedTodos;
 }

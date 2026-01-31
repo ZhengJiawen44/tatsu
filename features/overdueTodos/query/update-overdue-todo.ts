@@ -4,18 +4,15 @@ import { api } from "@/lib/api-client";
 import { todoSchema } from "@/schema";
 import { TodoItemType } from "@/types";
 import { endOfDay } from "date-fns";
-import { InfiniteQueryTodoData } from "./get-overdue-todo";
 
 export interface TodoItemTypeWithDateChecksum extends TodoItemType {
   dateRangeChecksum: string;
   rruleChecksum: string | null;
 }
-
 async function patchTodo({ todo }: { todo: TodoItemTypeWithDateChecksum }) {
   if (!todo.id) {
     throw new Error("this todo is missing");
   }
-
   //validate input
   const parsedObj = todoSchema.safeParse({
     title: todo.title,
@@ -25,18 +22,17 @@ async function patchTodo({ todo }: { todo: TodoItemTypeWithDateChecksum }) {
     due: todo.due,
     rrule: todo.rrule,
   });
-
   if (!parsedObj.success) {
     console.log(parsedObj.error.errors[0]);
     return;
   }
-
   const dateChanged =
     todo.dateRangeChecksum !==
     todo.dtstart.toISOString() + todo.due.toISOString();
-  const rruleChanged = todo.rruleChecksum !== todo.rrule;
-  const todoId = todo.id.split(":")[0];
 
+  const rruleChanged = todo.rruleChecksum !== todo.rrule;
+
+  const todoId = todo.id.split(":")[0];
   await api.PATCH({
     url: `/api/todo/${todoId}`,
     headers: { "Content-Type": "application/json" },
@@ -59,56 +55,42 @@ export const useEditOverdueTodo = () => {
       patchTodo({ todo: params }),
     onMutate: async (newTodo) => {
       await queryClient.cancelQueries({ queryKey: ["overdueTodo"] });
-
-      const oldDataBackup = queryClient.getQueryData<InfiniteQueryTodoData>([
+      const oldTodos = queryClient.getQueryData<TodoItemType[]>([
         "overdueTodo",
       ]);
 
-      queryClient.setQueryData<InfiniteQueryTodoData>(
-        ["overdueTodo"],
-        (oldData) => {
-          if (!oldData) return oldData;
-
-          return {
-            ...oldData,
-            pages: oldData.pages.map((page) => ({
-              ...page,
-              todos: page.todos.flatMap((oldTodo) => {
-                if (oldTodo.id === newTodo.id) {
-                  // Remove if moved to future
-                  if (newTodo.dtstart > endOfDay(new Date())) {
-                    return [];
-                  }
-                  return [
-                    {
-                      ...oldTodo, // Keep all existing properties
-                      completed: newTodo.completed,
-                      order: newTodo.order,
-                      pinned: newTodo.pinned,
-                      title: newTodo.title,
-                      description: newTodo.description,
-                      priority: newTodo.priority,
-                      due: newTodo.due,
-                      dtstart: newTodo.dtstart,
-                      rrule: newTodo.rrule,
-                    },
-                  ];
-                }
-                return [oldTodo];
-              }),
-            })),
-          };
-        },
+      queryClient.setQueryData(["overdueTodo"], (oldTodos: TodoItemType[]) =>
+        oldTodos.flatMap((oldTodo) => {
+          if (oldTodo.id === newTodo.id) {
+            if (newTodo.dtstart > endOfDay(new Date())) {
+              return [];
+            }
+            return {
+              completed: newTodo.completed,
+              order: newTodo.order,
+              pinned: newTodo.pinned,
+              userID: newTodo.userID,
+              id: newTodo.id,
+              title: newTodo.title,
+              description: newTodo.description,
+              priority: newTodo.priority,
+              due: newTodo.due,
+              dtstart: newTodo.dtstart,
+              rrule: newTodo.rrule,
+              createdAt: new Date(),
+            };
+          }
+          return oldTodo;
+        }),
       );
-
-      return { oldDataBackup };
+      return { oldTodos };
     },
     onSettled: () => {
       queryClient.invalidateQueries({ queryKey: ["calendarTodo"] });
       queryClient.invalidateQueries({ queryKey: ["overdueTodo"] });
     },
     onError: (error, newTodo, context) => {
-      queryClient.setQueryData(["overdueTodo"], context?.oldDataBackup);
+      queryClient.setQueryData(["overdueTodo"], context?.oldTodos);
       toast({ description: error.message, variant: "destructive" });
     },
   });

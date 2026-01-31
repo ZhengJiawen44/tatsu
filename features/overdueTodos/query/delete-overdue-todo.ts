@@ -1,12 +1,10 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useToast } from "@/hooks/use-toast";
 import { api } from "@/lib/api-client";
-import { InfiniteQueryTodoData } from "./get-overdue-todo";
-
+import { TodoItemType } from "@/types";
 export const useDeleteOverdueTodo = () => {
   const { toast } = useToast();
   const queryClient = useQueryClient();
-
   const { mutate: deleteMutateFn, isPending: deletePending } = useMutation({
     mutationFn: async ({ id }: { id: string }) => {
       await api.DELETE({ url: `/api/todo/${id.split(":")[0]}` });
@@ -14,31 +12,20 @@ export const useDeleteOverdueTodo = () => {
     onMutate: async ({ id }: { id: string }) => {
       await queryClient.cancelQueries({ queryKey: ["overdueTodo"] });
       await queryClient.cancelQueries({ queryKey: ["calendarTodo"] });
-
-      const oldDataBackup = queryClient.getQueryData<InfiniteQueryTodoData>([
-        "overdueTodo",
-      ]);
-
-      queryClient.setQueryData<InfiniteQueryTodoData>(
+      const oldTodos = queryClient.getQueryData(["overdueTodo"]);
+      //optimistically update todos
+      queryClient.setQueryData<TodoItemType[]>(
         ["overdueTodo"],
-        (oldData) => {
-          if (!oldData) return oldData;
-
-          return {
-            ...oldData,
-            pages: oldData.pages.map((page) => ({
-              ...page,
-              todos: page.todos.filter((todo) => todo.id !== id),
-            })),
-          };
+        (oldTodos = []) => {
+          return oldTodos.filter((todo) => todo.id != id);
         },
       );
 
-      return { oldDataBackup };
+      return { oldTodos };
     },
     mutationKey: ["overdueTodo"],
     onError: (error, _, context) => {
-      queryClient.setQueryData(["overdueTodo"], context?.oldDataBackup);
+      queryClient.setQueryData(["overdueTodo"], context?.oldTodos);
       toast({
         description:
           error.message === "Failed to fetch"
@@ -48,11 +35,13 @@ export const useDeleteOverdueTodo = () => {
       });
     },
     onSettled: () => {
+      queryClient.invalidateQueries({ queryKey: ["overdueTodo"] });
+      queryClient.invalidateQueries({ queryKey: ["todo"] });
       queryClient.invalidateQueries({ queryKey: ["completedTodo"] });
       queryClient.invalidateQueries({ queryKey: ["calendarTodo"] });
+
       toast({ description: "todo deleted" });
     },
   });
-
   return { deleteMutateFn, deletePending };
 };

@@ -14,7 +14,7 @@ import { useCompleteOverdueTodo } from "../query/complete-overdue-todo";
 import TodoMutationProvider from "@/providers/TodoMutationProvider";
 
 export default function OverDueTodoContainer() {
-    const { todos: overdueTodos, isLoading, fetchNextPage, hasNextPage } =
+    const { todos: overdueTodos, isLoading } =
         useOverdueTodo();
 
     if (!overdueTodos.length) return null
@@ -38,16 +38,6 @@ export default function OverDueTodoContainer() {
                 >
                     <TodoGroup todos={overdueTodos} overdue={true} />
                 </TodoMutationProvider>
-                {hasNextPage && (
-                    <button
-                        className="my-10 ml-[2px] w-fit group flex gap-3 items-center hover:cursor-pointer transition-all duration-200"
-                        onClick={() => fetchNextPage()}
-                    >
-                        <p className="text-muted-foreground text-[0.95rem] group-hover:text-foreground">
-                            Show more
-                        </p>
-                    </button>
-                )}
             </div>
         </div >
     );

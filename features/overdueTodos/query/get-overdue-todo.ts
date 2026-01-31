@@ -1,7 +1,7 @@
-import { useInfiniteQuery } from "@tanstack/react-query";
+import { useQuery } from "@tanstack/react-query";
 import { api } from "@/lib/api-client";
 import { useToast } from "@/hooks/use-toast";
-import { startOfToday } from "date-fns";
+import { endOfYesterday, sub } from "date-fns";
 import { useEffect } from "react";
 import { TodoItemType } from "@/types";
 
@@ -15,27 +15,20 @@ export type InfiniteQueryTodoData = {
 
 export const useOverdueTodo = () => {
   const { toast } = useToast();
-  const count = 3;
 
   const {
-    data,
+    data: todos = [],
     isLoading,
     isError,
     error,
-    fetchNextPage,
-    hasNextPage,
-    isFetchingNextPage,
-  } = useInfiniteQuery({
+  } = useQuery({
     queryKey: ["overdueTodo"],
-    initialPageParam: null as string | null,
-    queryFn: async ({ pageParam }) => {
+    queryFn: async () => {
       const data = await api.GET({
-        url: `/api/todo/overdue?referenceDateString=${startOfToday().getTime()}${
-          pageParam ? `&cursor=${pageParam}` : ""
-        }&count=${count}`,
+        url: `/api/todo/overdue?start=${sub(endOfYesterday(), { days: 30 }).getTime()}&end=${endOfYesterday().getTime()}`,
       });
 
-      const { todos, nextCursor } = data;
+      const { todos } = data;
 
       const todoWithFormattedDates: TodoItemType[] = todos.map(
         (todo: TodoItemType) => {
@@ -53,12 +46,8 @@ export const useOverdueTodo = () => {
         },
       );
 
-      return {
-        todos: todoWithFormattedDates,
-        nextCursor,
-      };
+      return todoWithFormattedDates;
     },
-    getNextPageParam: (lastPage) => lastPage.nextCursor,
   });
 
   useEffect(() => {
@@ -67,13 +56,8 @@ export const useOverdueTodo = () => {
     }
   }, [isError]);
 
-  const todos = data?.pages.flatMap((p) => p.todos) ?? [];
-
   return {
     todos,
     isLoading,
-    fetchNextPage,
-    hasNextPage,
-    isFetchingNextPage,
   };
 };
