@@ -1,12 +1,11 @@
 import { useQueryClient, useMutation } from "@tanstack/react-query";
 import { api } from "@/lib/api-client";
 import { useToast } from "@/hooks/use-toast";
-import { InfiniteQueryTodoData } from "./get-overdue-todo";
+import { TodoItemType } from "@/types";
 
 export const usePrioritizeOverdueTodo = () => {
   const { toast } = useToast();
   const queryClient = useQueryClient();
-
   const { mutate: prioritizeMutateFn, isPending: prioritizePending } =
     useMutation({
       mutationFn: async ({
@@ -20,7 +19,6 @@ export const usePrioritizeOverdueTodo = () => {
       }) => {
         const todoId = id.split(":")[0];
         const instanceDate = id.split(":")[1];
-
         if (isRecurring) {
           await api.PATCH({
             url: `/api/todo/instance/${todoId}/prioritize/?priority=${level}&instanceDate=${instanceDate}`,
@@ -41,45 +39,32 @@ export const usePrioritizeOverdueTodo = () => {
       }) => {
         await queryClient.cancelQueries({ queryKey: ["overdueTodo"] });
 
-        const oldDataBackup = queryClient.getQueryData<InfiniteQueryTodoData>([
+        const oldTodos = queryClient.getQueryData<TodoItemType[]>([
           "overdueTodo",
         ]);
-
-        queryClient.setQueryData<InfiniteQueryTodoData>(
-          ["overdueTodo"],
-          (oldData) => {
-            if (!oldData) return oldData;
-
-            return {
-              ...oldData,
-              pages: oldData.pages.map((page) => ({
-                ...page,
-                todos: page.todos.map((todo) => {
-                  if (todo.id === id) {
-                    return {
-                      ...todo,
-                      priority: level,
-                    };
-                  }
-                  return todo;
-                }),
-              })),
-            };
-          },
+        queryClient.setQueryData(["overdueTodo"], (oldTodos: TodoItemType[]) =>
+          oldTodos.map((oldTodo) => {
+            if (oldTodo.id === id) {
+              return {
+                ...oldTodo,
+                priority: level,
+              };
+            }
+            return oldTodo;
+          }),
         );
 
-        return { oldDataBackup };
+        return { oldTodos };
       },
       onSuccess: () => {
         // queryClient.invalidateQueries({ queryKey: ["overdueTodo"] });
       },
-      onError: (error, _, context) => {
-        queryClient.setQueryData(["overdueTodo"], context?.oldDataBackup);
+      onError: (error) => {
         toast({ description: error.message, variant: "destructive" });
       },
       onSettled() {
+        //optimistically update calendar todos
         queryClient.invalidateQueries({ queryKey: ["completedTodo"] });
-        queryClient.invalidateQueries({ queryKey: ["calendarTodo"] });
       },
     });
 
