@@ -2,7 +2,9 @@ import { useQueryClient, useMutation } from "@tanstack/react-query";
 import { api } from "@/lib/api-client";
 import { useToast } from "@/hooks/use-toast";
 import { TodoItemType } from "@/types";
-export const useCompleteTodo = () => {
+import { InfiniteQueryTodoData } from "./get-overdue-todo";
+
+export const useCompleteOverdueTodo = () => {
   const { toast } = useToast();
   const queryClient = useQueryClient();
   const { mutate: completeMutateFn, isPending: completePending } = useMutation({
@@ -29,19 +31,32 @@ export const useCompleteTodo = () => {
       }
     },
     onMutate: async (todoItem: TodoItemType) => {
-      await queryClient.cancelQueries({ queryKey: ["todo"] });
-      const oldTodos = queryClient.getQueryData(["todo"]) as TodoItemType[];
-      queryClient.setQueryData(["todo"], (oldTodos: TodoItemType[]) =>
-        oldTodos.flatMap((oldTodo) => {
-          if (oldTodo.id === todoItem.id) return [];
-          return [oldTodo];
-        }),
+      await queryClient.cancelQueries({ queryKey: ["overdueTodo"] });
+
+      const oldDataBackup = queryClient.getQueryData<InfiniteQueryTodoData>([
+        "overdueTodo",
+      ]);
+
+      queryClient.setQueryData<InfiniteQueryTodoData>(
+        ["overdueTodo"],
+        (oldData) => {
+          if (!oldData) return oldData;
+
+          return {
+            ...oldData,
+            pages: oldData.pages.map((page) => ({
+              ...page,
+              todos: page.todos.filter((todo) => todo.id !== todoItem.id),
+            })),
+          };
+        },
       );
-      return { oldTodos };
+
+      return { oldDataBackup };
     },
     onError: (error, newTodo, context) => {
       toast({ description: error.message, variant: "destructive" });
-      queryClient.setQueryData(["todo"], context?.oldTodos);
+      queryClient.setQueryData(["overdueTodo"], context?.oldDataBackup);
     },
     onSuccess: () => {},
     onSettled: () => {

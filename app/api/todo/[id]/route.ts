@@ -133,6 +133,24 @@ export async function PATCH(
     });
 
     /**
+     * if rrule changed and is null then delete all exdates and instances
+     */
+    if (rruleChanged && rrule == null) {
+      console.log("sssssssssssss");
+
+      await prisma.todo.update({
+        where: {
+          id,
+          userID: userId,
+        },
+        data: {
+          instances: { deleteMany: {} },
+          exdates: [],
+        },
+      });
+    }
+
+    /**
      * if todo is a repeating todo and its dates or rrules were changed, remove all overriding instance,
      * this is to avoid drifting todo instance problem.
      *

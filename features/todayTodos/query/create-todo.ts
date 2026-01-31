@@ -52,18 +52,8 @@ export const useCreateTodo = () => {
       queryClient.setQueryData(["todo"], context?.oldTodos);
       toast({ description: error.message, variant: "destructive" });
     },
-    onSettled: (newTodo) => {
-      queryClient.setQueryData<TodoItemType[]>(["todo"], (oldTodos = []) => {
-        const index = oldTodos.findIndex((todo) => todo.id == "-1");
-        if (index == -1) {
-          console.log("could not find todo to create for optimistic update");
-          return oldTodos;
-        }
-        const newTodos = [...oldTodos];
-        newTodos[index] = newTodo;
-        return newTodos;
-      });
-      //calendarTodo is invalidated
+    onSettled: () => {
+      queryClient.invalidateQueries({ queryKey: ["todo"] });
       queryClient.invalidateQueries({ queryKey: ["calendarTodo"] });
     },
   });
