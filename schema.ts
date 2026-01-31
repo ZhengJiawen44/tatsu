@@ -66,6 +66,15 @@ export const noteSchema = z.object({
   content: z.string().nullable().optional(),
 });
 
+export const projectSchema = z.object({
+  name: z
+    .string({ message: "title cannot be left empty" })
+    .trim()
+    .min(1, { message: "title cannot be left empty" }),
+  color: z.string().nullable().optional(),
+  todos: z.array(todoSchema).nullable().optional(),
+});
+
 export const userPreferencesSchema = z.object({
   sortBy: z
     .enum(["dtstart", "due", "duration", "priority"])

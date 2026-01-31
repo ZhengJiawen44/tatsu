@@ -19,7 +19,6 @@ export const useNote = () => {
     retry: 2,
     staleTime: 5 * 60 * 1000,
     queryFn: async () => {
-      api.GET({ url: `/api/note` });
       const { notes } = await api.GET({ url: `/api/note` });
       return notes;
     },

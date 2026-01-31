@@ -1,5 +1,4 @@
 import { useToast } from "@/hooks/use-toast";
-import { NoteItemType } from "@/types";
 import { useQueryClient, useMutation } from "@tanstack/react-query";
 import { api } from "@/lib/api-client";
 
@@ -22,7 +21,7 @@ export const useCreateNote = () => {
   } = useMutation({
     mutationFn: (params: { name: string; content?: string }) =>
       postNote({ ...params }),
-    onSuccess: (newNote: NoteItemType) => {
+    onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["note"] });
     },
     onError: (error) => {
