@@ -21,6 +21,7 @@ async function patchTodo({ todo }: { todo: TodoItemTypeWithDateChecksum }) {
     dtstart: todo.dtstart,
     due: todo.due,
     rrule: todo.rrule,
+    projectID: todo.projectID,
   });
   if (!parsedObj.success) {
     console.log(parsedObj.error.errors[0]);
@@ -42,6 +43,7 @@ async function patchTodo({ todo }: { todo: TodoItemTypeWithDateChecksum }) {
       instanceDate: todo.instanceDate,
       dateChanged,
       rruleChanged,
+      projectID: todo.projectID,
     }),
   });
 }
@@ -78,6 +80,7 @@ export const useEditOverdueTodo = () => {
               dtstart: newTodo.dtstart,
               rrule: newTodo.rrule,
               createdAt: new Date(),
+              projectID: newTodo.projectID,
             };
           }
           return oldTodo;

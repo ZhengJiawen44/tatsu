@@ -54,18 +54,12 @@ export const useEditOverdueTodoInstance = (
                 return [];
               }
               return {
-                completed: newTodo.completed,
-                order: newTodo.order,
-                pinned: newTodo.pinned,
-                userID: newTodo.userID,
-                id: newTodo.id,
+                ...oldTodo,
                 title: newTodo.title,
                 description: newTodo.description,
                 priority: newTodo.priority,
                 due: newTodo.due,
                 dtstart: newTodo.dtstart,
-                rrule: newTodo.rrule,
-                createdAt: new Date(),
               };
             }
             return oldTodo;
