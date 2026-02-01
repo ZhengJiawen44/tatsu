@@ -59,7 +59,7 @@ export const todoSchema = z.object({
   dtstart: z.date({ message: "start date is not identified" }),
   due: z.date({ message: "end date is not identified" }),
   rrule: z.string().nullable(),
-  projectID: z.string().nullable(),
+  projectID: z.string().nullable().optional(),
 });
 
 export const todoInstanceSchema = z.object({
