@@ -70,6 +70,7 @@ export const useEditOverdueTodoInstance = (
       onSettled: () => {
         if (setEditInstanceOnly) setEditInstanceOnly(false);
         queryClient.invalidateQueries({ queryKey: ["calendarTodo"] });
+        queryClient.invalidateQueries({ queryKey: ["todo"] });
       },
 
       onError: (error, newTodo, context) => {

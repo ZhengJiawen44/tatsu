@@ -108,7 +108,7 @@ export default function TodoFilterBar({ containerHovered }: TodoFilterBarProps) 
                                 </DropdownMenuSub>
                             </DropdownMenuGroup>
                         </DropdownMenuGroup>
-                        <DropdownMenuSeparator className="border-border" />
+                        <DropdownMenuSeparator />
                         <DropdownMenuGroup>
                             <DropdownMenuSub>
                                 <DropdownMenuLabel className="font-semibold">Grouping</DropdownMenuLabel>
@@ -141,7 +141,7 @@ export default function TodoFilterBar({ containerHovered }: TodoFilterBarProps) 
                                 </DropdownMenuPortal>
                             </DropdownMenuSub>
                         </DropdownMenuGroup>
-                        <DropdownMenuSeparator className="border-border" />
+                        <DropdownMenuSeparator className='my-2' />
                         <DropdownMenuItem
                             className="text-center justify-center text-red hover:bg-red/65"
                             onClick={() => {
