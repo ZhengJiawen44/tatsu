@@ -35,7 +35,10 @@ export const useCreateProject = () => {
       queryClient.setQueryData(
         ["projectMeta"],
         (projectMetaList: ProjectItemMetaType[]) => {
-          return [...projectMetaList, newProjectMeta];
+          return [
+            ...projectMetaList,
+            { id: -1, ...newProjectMeta, createdAt: new Date() },
+          ];
         },
       );
 
