@@ -13,6 +13,7 @@ import LineSeparator from "@/components/ui/lineSeparator";
 import { getDisplayDate } from "@/lib/date/displayDate";
 import { useLocale } from "next-intl";
 import { useTodoMutation } from "@/providers/TodoMutationProvider";
+import { useProjectMetaData } from "@/components/Sidebar/Project/query/get-project-meta";
 
 const TodoFormContainer = dynamic(
   () => import("./TodoForm/TodoFormContainer"),
@@ -25,6 +26,7 @@ type TodoItemContainerProps = {
 }
 
 export const TodoItemContainer = ({ todoItem, overdue }: TodoItemContainerProps) => {
+  const { projectMetaData } = useProjectMetaData();
   const { useCompleteTodo } = useTodoMutation();
   const { completeMutateFn } = useCompleteTodo();
   const locale = useLocale();
@@ -41,6 +43,7 @@ export const TodoItemContainer = ({ todoItem, overdue }: TodoItemContainerProps)
   const [showHandle, setShowHandle] = useState(false);
   const [isGrabbing, setGrabbing] = useState(false);
 
+  console.log(todoItem.projectID)
 
   useEffect(() => {
     if (!displayForm) {
@@ -126,7 +129,7 @@ export const TodoItemContainer = ({ todoItem, overdue }: TodoItemContainerProps)
 
               <p className={clsx(overdue ? "text-orange" : "text-lime")}>{getDisplayDate(dtstart, true, locale)}</p>
               {overdue && <p className='py-[0.2rem] px-2 rounded-full bg-border'>overdue</p>}
-
+              {todoItem.projectID && <p className='py-[0.2rem] px-2 rounded-full bg-border'>{projectMetaData[todoItem.projectID]?.name}</p>}
             </div>
 
           </div>
