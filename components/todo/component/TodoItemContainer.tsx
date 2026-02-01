@@ -43,7 +43,6 @@ export const TodoItemContainer = ({ todoItem, overdue }: TodoItemContainerProps)
   const [showHandle, setShowHandle] = useState(false);
   const [isGrabbing, setGrabbing] = useState(false);
 
-  console.log(todoItem.projectID)
 
   useEffect(() => {
     if (!displayForm) {
@@ -128,8 +127,8 @@ export const TodoItemContainer = ({ todoItem, overdue }: TodoItemContainerProps)
             <div className="flex items-center justify-start gap-2">
 
               <p className={clsx(overdue ? "text-orange" : "text-lime")}>{getDisplayDate(dtstart, true, locale)}</p>
+              {todoItem.projectID && <p className='py-[0.2rem] px-2 rounded-full bg-border'><span className="text-lime">#</span> {projectMetaData[todoItem.projectID]?.name}</p>}
               {overdue && <p className='py-[0.2rem] px-2 rounded-full bg-border'>overdue</p>}
-              {todoItem.projectID && <p className='py-[0.2rem] px-2 rounded-full bg-border'>{projectMetaData[todoItem.projectID]?.name}</p>}
             </div>
 
           </div>
