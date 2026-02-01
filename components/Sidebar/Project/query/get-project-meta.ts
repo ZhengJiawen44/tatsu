@@ -1,4 +1,4 @@
-import { NoteItemType } from "@/types";
+import { ProjectItemMetaType } from "@/types";
 import { useQuery } from "@tanstack/react-query";
 import { useEffect } from "react";
 import { useToast } from "@/hooks/use-toast";
@@ -13,7 +13,7 @@ export const useProjectMeta = () => {
     error,
     isFetching,
     isPending,
-  } = useQuery<NoteItemType[]>({
+  } = useQuery<ProjectItemMetaType[]>({
     queryKey: ["projectMeta"],
     retry: 2,
     staleTime: 5 * 60 * 1000,

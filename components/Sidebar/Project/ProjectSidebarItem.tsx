@@ -14,10 +14,8 @@ import React, { useEffect, useRef, useState } from "react";
 import Spinner from "@/components/ui/spinner";
 import Meatball from "@/components/ui/icon/meatball";
 import useWindowSize from "@/hooks/useWindowSize";
-import { useTranslations } from "next-intl";
 
 const ProjectSidebarItem = ({ meta }: { meta: Pick<ProjectItemType, "id" | "color" | "name"> }) => {
-  const sidebarDict = useTranslations("sidebar");
   const { renameMutateFn } = useRenameProject();
   const { width } = useWindowSize();
   //states for renaming
@@ -108,9 +106,9 @@ const ProjectSidebarItem = ({ meta }: { meta: Pick<ProjectItemType, "id" | "colo
                 <Meatball className="w-5 h-5" />
               </MenuTrigger>
               <MenuContent>
-                <MenuItem onClick={() => setIsRenaming(true)}> {sidebarDict("metaMenu.rename")}</MenuItem>
+                <MenuItem onClick={() => setIsRenaming(true)}> rename</MenuItem>
                 <MenuItem onClick={() => deleteMutateFn({ id: meta.id })}>
-                  {sidebarDict("metaMenu.delete")}
+                  delete
                 </MenuItem>
               </MenuContent>
             </MenuContainer>

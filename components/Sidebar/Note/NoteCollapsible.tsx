@@ -29,7 +29,7 @@ const NoteCollapsible = () => {
   return (
     <Collapsible
       className="w-full"
-      open={activeMenu.open === true}
+      open={activeMenu.open && activeMenu.name == "Note" === true}
       onOpenChange={(open) => {
         setActiveMenu({ name: "Note", open });
       }}

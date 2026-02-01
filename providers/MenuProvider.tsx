@@ -59,6 +59,7 @@ export const MenuProvider = ({ children }: { children: React.ReactNode }) => {
         return;
       }
     }
+
     if (pathName.includes("todo")) {
       setActiveMenu({ name: "Todo" });
       return;

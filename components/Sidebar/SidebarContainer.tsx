@@ -9,7 +9,7 @@ import MenuSidebarItem from "./Settings/MenuSidebarItem";
 import TodoItem from "./Todo/TodoSidebarItem";
 import UserCard from "./User/UserCard";
 import VaultItem from "./Vault/VaultItem";
-import ProjectCollapsible from "./Project/ProjectCollapsible";
+import ProjectSidebarItemContainer from "./Project/ProjectsSidebarItemContainer";
 import LineSeparator from "../ui/lineSeparator";
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -75,7 +75,7 @@ const SidebarContainer = ({ children }: { children?: React.ReactNode }) => {
             <NoteCollapsible />
             <VaultItem />
             <LineSeparator className="m-0 mt-8" />
-            <ProjectCollapsible />
+            <ProjectSidebarItemContainer />
 
             <Toaster />
           </div>
