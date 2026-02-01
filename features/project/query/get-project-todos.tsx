@@ -3,6 +3,7 @@ import { useEffect } from "react";
 import { useToast } from "@/hooks/use-toast";
 import { api } from "@/lib/api-client";
 import { TodoItemType } from "@/types";
+import { endOfToday, startOfToday } from "date-fns";
 
 export const useProject = ({ id }: { id: string }) => {
   const { toast } = useToast();
@@ -20,8 +21,9 @@ export const useProject = ({ id }: { id: string }) => {
     staleTime: 5 * 60 * 1000,
     queryFn: async ({ queryKey }) => {
       const [, id] = queryKey;
-      const { projectTodos } = await api.GET({ url: `/api/project/${id}` });
-      return projectTodos;
+      const { todos } = await api.GET({ url: `/api/project/${id}?start=${startOfToday().getTime()}&end=${endOfToday().getTime()}` });
+      console.log(todos)
+      return todos;
     },
   });
 

@@ -2,7 +2,7 @@ import { TodoItemType } from "@/types";
 import { mergeInstanceAndTodo } from "./mergeInstanceAndTodo";
 
 // /**
-//  * @description generated "orphaned todos" by finding instances that had their dtstart overriden to another time
+//  * @description generate "orphaned todos" by finding instances that had their dtstart overriden to another time
 //  * @param mergedTodos a list of todos that are used to check for duplicates
 //  * @param recurringParents a list of todos that has all the instances
 //  * @param bounds a { dateRangeStart: Date; dateRangeEnd: Date } object
