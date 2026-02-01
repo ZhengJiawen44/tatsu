@@ -58,6 +58,7 @@ body {
     --popover: 0 0% 100%;
     --popover-foreground: 235 28% 23%;
     --popover-accent: 235 18% 95%;
+    --popover-border: 235 18% 85%;
     --primary: 83 45% 35%;
     --primary-foreground: 0 0% 100%;
     /* --secondary: 0 0% 96%;
@@ -117,6 +118,7 @@ body {
     --popover: 235, 28%, 23%;
     --popover-foreground: 0, 0%, 99%;
     --popover-accent: 235, 18%, 33%;
+    --popover-border: 235, 18%, 33%;
     --primary: 83 45% 35%;
     --primary-foreground: 0 0% 85%;
 

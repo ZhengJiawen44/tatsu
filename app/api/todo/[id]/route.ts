@@ -96,7 +96,6 @@ export async function PATCH(
     if (!parsed.success) {
       throw new BadRequestError("Invalid request body");
     }
-
     const {
       title,
       description,
@@ -109,6 +108,7 @@ export async function PATCH(
       rrule,
       dateChanged,
       rruleChanged,
+      projectID,
     } = parsed.data;
 
     if (dateChanged && !dtstart) {
@@ -129,6 +129,7 @@ export async function PATCH(
         dtstart: dateChanged || rruleChanged ? dtstart : undefined,
         due: dateChanged || rruleChanged ? due : undefined,
         rrule,
+        projectID,
       },
     });
 
@@ -136,8 +137,6 @@ export async function PATCH(
      * if rrule changed and is null then delete all exdates and instances
      */
     if (rruleChanged && rrule == null) {
-      console.log("sssssssssssss");
-
       await prisma.todo.update({
         where: {
           id,

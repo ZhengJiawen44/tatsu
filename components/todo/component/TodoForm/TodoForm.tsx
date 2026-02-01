@@ -161,6 +161,7 @@ const TodoForm = ({
             dtstart,
             due,
             rrule,
+            projectID
           });
         }
       } else {

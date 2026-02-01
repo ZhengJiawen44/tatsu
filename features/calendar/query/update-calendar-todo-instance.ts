@@ -3,15 +3,14 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { api } from "@/lib/api-client";
 import { todoSchema } from "@/schema";
 import { TodoItemType } from "@/types";
+import z from "zod";
 
 async function patchTodo({ ghostTodo }: { ghostTodo: TodoItemType }) {
   if (!ghostTodo.id) {
     throw new Error("this todo is missing");
   }
-  const { instanceDate } = ghostTodo;
-
   //validate input
-  const parsedObj = todoSchema.safeParse({
+  const parsedObj = todoSchema.extend({ instanceDate: z.date() }).safeParse({
     title: ghostTodo.title,
     description: ghostTodo.description,
     priority: ghostTodo.priority,
@@ -23,15 +22,14 @@ async function patchTodo({ ghostTodo }: { ghostTodo: TodoItemType }) {
     console.error(parsedObj.error.errors[0]);
     return;
   }
-  if (!instanceDate) {
-    console.error("instance date is required for todo instance override!");
-    return;
-  }
 
   await api.PATCH({
     url: `/api/todo/instance/${ghostTodo.id.split(":")[0]}`,
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ ...parsedObj.data, instanceDate }),
+    body: JSON.stringify({
+      ...parsedObj.data,
+      instanceDate: parsedObj.data.instanceDate,
+    }),
   });
 }
 
@@ -53,7 +51,15 @@ export const useEditCalendarTodoInstance = () => {
           (oldTodos) => {
             return oldTodos?.map((oldTodo) => {
               if (oldTodo.id === newTodo.id) {
-                return newTodo;
+                //only overwrite the overwritable fields from overriden instance
+                return {
+                  ...oldTodo,
+                  title: newTodo.title,
+                  description: newTodo.description,
+                  priority: newTodo.priority,
+                  dtstart: newTodo.dtstart,
+                  due: newTodo.due,
+                };
               }
               return oldTodo;
             });

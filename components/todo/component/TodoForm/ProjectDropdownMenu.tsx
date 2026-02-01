@@ -5,6 +5,8 @@ import React, { useState, useMemo } from 'react';
 import { Button } from '@/components/ui/button';
 import { useTodoForm } from '@/providers/TodoFormProvider';
 import { useProjectMetaData } from '@/components/Sidebar/Project/query/get-project-meta';
+import LineSeparator from '@/components/ui/lineSeparator';
+import { DropdownMenuSeparator } from '@/components/ui/dropdown-menu';
 
 export default function ProjectDropdownMenu() {
     const { projectID, setProjectID } = useTodoForm();
@@ -60,6 +62,21 @@ export default function ProjectDropdownMenu() {
                         <span className={projectColor ? `text-${projectColor}` : 'text-lime'}>#</span> {value.name}
                     </div>
                 ))}
+
+                {projectID &&
+                    <>
+                        <DropdownMenuSeparator />
+                        <div
+                            className='cursor-pointer p-1.5 rounded-sm hover:bg-red/40'
+                            onClick={() => {
+                                setProjectID(null);
+                                setOpen(false);
+                            }}
+                        >
+                            remove
+                        </div>
+                    </>
+                }
             </PopoverContent>
         </Popover>
     );
