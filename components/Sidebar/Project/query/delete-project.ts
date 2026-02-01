@@ -17,7 +17,7 @@ export const useDeleteProject = () => {
     mutationFn: (params: { id: string }) => deleteProject({ ...params }),
     onSuccess: () => {
       toast({ description: "project deleted" });
-      queryClient.invalidateQueries({ queryKey: ["projectMeta"] });
+      queryClient.invalidateQueries({ queryKey: ["projectMetaData"] });
     },
     onError: (error) => {
       toast({ description: error.message, variant: "destructive" });

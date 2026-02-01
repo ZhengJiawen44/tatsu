@@ -6,12 +6,12 @@ import Spinner from "@/components/ui/spinner";
 import { Folder } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import ProjectLoading from "./ProjectLoading";
-import { useProjectMeta } from "./query/get-project-meta";
+import { useProjectMetaData } from "./query/get-project-meta";
 import ProjectSidebarItem from "./ProjectSidebarItem";
 
 
 const ProjectCollapsible = () => {
-  const { projectMeta, isPending } = useProjectMeta();
+  const { projectMetaData, isPending } = useProjectMetaData();
   const { createMutateFn, createLoading } = useCreateProject();
   return (
     <div
@@ -55,8 +55,8 @@ const ProjectCollapsible = () => {
           {isPending ? (
             <ProjectLoading />
           ) : (
-            projectMeta.map((meta) => {
-              return <ProjectSidebarItem key={meta.id} meta={meta} />;
+            Object.entries(projectMetaData).map(([key, value]) => {
+              return <ProjectSidebarItem key={key} meta={{ id: key, ...value }} />;
             })
           )}
         </div>

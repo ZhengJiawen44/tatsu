@@ -14,7 +14,7 @@ import NLPTitleInput from "./NLPTitleInput";
 import { useTranslations } from "next-intl";
 import { useTodoMutation } from "@/providers/TodoMutationProvider";
 import { useCreateTodo } from "@/features/todayTodos/query/create-todo";
-
+import ProjectDropdownMenu from "./ProjectDropdownMenu";
 interface TodoFormProps {
   editInstanceOnly?: boolean;
   setEditInstanceOnly?: React.Dispatch<React.SetStateAction<boolean>>;
@@ -37,6 +37,7 @@ const TodoForm = ({
     setDesc,
     dateRange,
     setDateRange,
+    projectID,
     rruleOptions,
     dateRangeChecksum,
     rruleChecksum,
@@ -68,59 +69,64 @@ const TodoForm = ({
         onSubmit={handleForm}
         onBlur={() => setIsFocused(false)}
         className={clsx(
-          "flex border bg-card shadow-md flex-col my-4 rounded-md gap-3 w-full transition-colors",
+          "flex border  bg-card shadow-md flex-col rounded-md w-full transition-colors",
           !displayForm && "hidden",
           isFocused ? "border-muted-foreground" : "border-border",
         )}
       >
-        <NLPTitleInput
-          className="px-2 mt-5"
-          title={title}
-          setTitle={setTitle}
-          titleRef={titleRef}
-          setDateRange={setDateRange}
-        />
+        <div className="flex flex-col gap-3  mb-4">
+          <NLPTitleInput
+            className="px-2 mt-5"
+            title={title}
+            setTitle={setTitle}
+            titleRef={titleRef}
+            setDateRange={setDateRange}
+          />
 
-        <textarea
-          value={desc}
-          ref={textareaRef}
-          onChange={(e) => {
-            setDesc(e.target.value);
-            adjustHeight(textareaRef);
-          }}
-          className="px-2 w-full overflow-hidden bg-transparent my-1 placeholder-muted-foreground font-extralight focus:outline-none resize-none"
-          name="description"
-          placeholder={appDict("descPlaceholder")}
-        />
-
-        {/* DateRange, Priority, and Repeat menus */}
-        <TodoInlineActionBar />
-        <LineSeparator />
-        <div className="flex gap-2 text-sm w-fit ml-auto pb-2 px-2 ">
-          <Button
-            variant={"outline"}
-            type="button"
-            className="h-fit bg-accent !py-[0.3rem]"
-            onClick={() => {
-              clearInput();
-              setDisplayForm(false);
+          <textarea
+            value={desc}
+            ref={textareaRef}
+            onChange={(e) => {
+              setDesc(e.target.value);
+              adjustHeight(textareaRef);
             }}
-          >
-            {appDict("cancel")}
-          </Button>
-          <Button
-            type="submit"
-            variant={"default"}
-            disabled={title.length <= 0}
-            className={clsx(
-              "h-fit !py-[0.3rem]",
-              title.length <= 0 && "disabled opacity-40 !cursor-not-allowed",
-            )}
-          >
-            <p title="ctrl+enter">
-              {editInstanceOnly ? todayDict("saveInstance") : appDict("save")}
-            </p>
-          </Button>
+            className="px-2 w-full overflow-hidden bg-transparent my-1 placeholder-muted-foreground font-extralight focus:outline-none resize-none"
+            name="description"
+            placeholder={appDict("descPlaceholder")}
+          />
+          {/* DateRange, Priority, and Repeat menus */}
+          <TodoInlineActionBar />
+        </div>
+        <LineSeparator className="!m-0 !p-0" />
+        <div className="flex text-sm w-full justify-between items-center py-1.5 px-2">
+          <ProjectDropdownMenu />
+          <div className="flex gap-3 w-fit">
+            <Button
+              variant={"outline"}
+              type="button"
+              className="h-fit bg-accent !py-[0.3rem] border-none"
+              onClick={() => {
+                clearInput();
+                setDisplayForm(false);
+              }}
+            >
+              {appDict("cancel")}
+            </Button>
+            <Button
+              type="submit"
+              variant={"default"}
+              disabled={title.length <= 0}
+              className={clsx(
+                "h-fit !py-[0.3rem]",
+                title.length <= 0 && "disabled opacity-40 !cursor-not-allowed",
+              )}
+            >
+              <p title="ctrl+enter">
+                {editInstanceOnly ? todayDict("saveInstance") : appDict("save")}
+              </p>
+            </Button>
+          </div>
+
         </div>
       </form>
     </div>
@@ -177,6 +183,7 @@ const TodoForm = ({
           exdates: [],
           instanceDate: rrule ? dtstart : null,
           instances: [],
+          projectID
         });
       }
     } catch (error) {

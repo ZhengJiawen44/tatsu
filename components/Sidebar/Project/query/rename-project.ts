@@ -27,7 +27,7 @@ export const useRenameProject = () => {
     mutationFn: (params: { id: string; name: string }) =>
       renameProject({ ...params }),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["projectMeta"] });
+      queryClient.invalidateQueries({ queryKey: ["projectMetaData"] });
     },
     onError: (error) => {
       toast({ description: error.message, variant: "destructive" });

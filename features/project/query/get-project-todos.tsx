@@ -1,27 +1,27 @@
-import { NoteItemType } from "@/types";
 import { useQuery } from "@tanstack/react-query";
 import { useEffect } from "react";
 import { useToast } from "@/hooks/use-toast";
 import { api } from "@/lib/api-client";
+import { TodoItemType } from "@/types";
 
-export const useProjectTitles = () => {
+export const useProject = ({ id }: { id: string }) => {
   const { toast } = useToast();
   //get Notes
   const {
-    data: notes = [],
-    isLoading: notesLoading,
+    data: projectTodos = [],
+    isLoading: projectTodosLoading,
     isError,
     error,
     isFetching,
     isPending,
-  } = useQuery<NoteItemType[]>({
-    queryKey: ["note"],
+  } = useQuery<TodoItemType[]>({
+    queryKey: ["project", id],
     retry: 2,
     staleTime: 5 * 60 * 1000,
-    queryFn: async () => {
-      api.GET({ url: `/api/note` });
-      const { notes } = await api.GET({ url: `/api/note` });
-      return notes;
+    queryFn: async ({ queryKey }) => {
+      const [, id] = queryKey;
+      const { projectTodos } = await api.GET({ url: `/api/project/${id}` });
+      return projectTodos;
     },
   });
 
@@ -30,6 +30,6 @@ export const useProjectTitles = () => {
       toast({ description: error.message, variant: "destructive" });
     }
   }, [isError]);
-  return { notes, notesLoading, isFetching, isPending };
+  return { projectTodos, projectTodosLoading, isFetching, isPending };
 };
 

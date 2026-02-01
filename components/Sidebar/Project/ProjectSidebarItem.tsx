@@ -63,7 +63,7 @@ const ProjectSidebarItem = ({ meta }: { meta: Pick<ProjectItemType, "id" | "colo
     <>
       <div className="relative select-none">
         <Link
-          href={`/app/meta/${meta.id}`}
+          href={`/app/project/${meta.id}`}
           className={clsx(
             "select-none flex gap-2 justify-between mt-2 pl-12 py-2 px-2 rounded-lg hover:bg-border-muted hover:cursor-pointer pr-2",
             activeMenu.children?.name === meta.id && "bg-border-muted",

@@ -1,19 +1,13 @@
 import { useToast } from "@/hooks/use-toast";
 import { useQueryClient, useMutation } from "@tanstack/react-query";
 import { api } from "@/lib/api-client";
-import { ProjectItemMetaType } from "@/types";
+import { ProjectItemMetaMapType, ProjectItemMetaType } from "@/types";
 
-async function postProject({
-  name,
-  content,
-}: {
-  name: string;
-  content?: string;
-}) {
+async function postProject({ name }: { name: string }) {
   const { project } = await api.POST({
     url: "/api/project",
     headers: { "content-type": "application/json" },
-    body: JSON.stringify({ name, content }),
+    body: JSON.stringify({ name }),
   });
   return project;
 }
@@ -29,23 +23,25 @@ export const useCreateProject = () => {
     mutationFn: (params: { name: string; content?: string }) =>
       postProject({ ...params }),
     onMutate: (newProjectMeta: Omit<ProjectItemMetaType, "id">) => {
-      queryClient.cancelQueries({ queryKey: "projectMeta" });
-      const backupProjectMeta = queryClient.getQueryData(["projectMeta"]);
+      queryClient.cancelQueries({ queryKey: "projectMetaData" });
+      const backupProjectMeta = queryClient.getQueryData([
+        "projectMetaDataData",
+      ]);
 
       queryClient.setQueryData(
         ["projectMeta"],
-        (projectMetaList: ProjectItemMetaType[]) => {
-          return [
-            ...projectMetaList,
-            { id: -1, ...newProjectMeta, createdAt: new Date() },
-          ];
+        (projectMetaMap: ProjectItemMetaMapType) => {
+          return {
+            ...projectMetaMap,
+            "-1": { ...newProjectMeta, createdAt: new Date() },
+          };
         },
       );
 
       return backupProjectMeta;
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["projectMeta"] });
+      queryClient.invalidateQueries({ queryKey: ["projectMetaData"] });
     },
     onError: (error) => {
       toast({ description: error.message, variant: "destructive" });
