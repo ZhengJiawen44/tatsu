@@ -1,5 +1,23 @@
 import { z } from "zod";
-
+export const todoItemSchema = z.object({
+  id: z.string(),
+  title: z.string(),
+  description: z.string().nullable(),
+  pinned: z.boolean(),
+  createdAt: z.date(),
+  order: z.number(),
+  priority: z.enum(["Low", "Medium", "High"]),
+  dtstart: z.date(),
+  durationMinutes: z.number(),
+  due: z.date(),
+  rrule: z.string().nullable(),
+  timeZone: z.string(),
+  userID: z.string(),
+  completed: z.boolean(),
+  exdates: z.array(z.date()),
+  instances: z.array(z.any()).nullable(),
+  instanceDate: z.date().nullable(),
+});
 export const registrationSchema = z.object({
   fname: z
     .string({ message: "name cannot be left empty" })
@@ -66,13 +84,25 @@ export const noteSchema = z.object({
   content: z.string().nullable().optional(),
 });
 
-export const projectSchema = z.object({
+export const projectBaseSchema = z.object({
+  id: z.string({ message: "id cannot be left empty" }),
   name: z
     .string({ message: "title cannot be left empty" })
     .trim()
     .min(1, { message: "title cannot be left empty" }),
-  color: z.string().nullable().optional(),
-  todos: z.array(todoSchema).nullable().optional(),
+  color: z.string().nullable(),
+});
+
+export const projectCreateSchema = projectBaseSchema.pick({
+  name: true,
+});
+export const projectPatchSchema = projectBaseSchema.partial().extend({
+  name: z
+    .string({ message: "title cannot be left empty" })
+    .trim()
+    .min(1, { message: "title cannot be left empty" })
+    .optional(),
+  color: z.string().optional(),
 });
 
 export const userPreferencesSchema = z.object({
