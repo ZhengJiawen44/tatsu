@@ -13,6 +13,7 @@ async function postTodo({ todo }: { todo: TodoItemType }) {
     dtstart: todo.dtstart,
     due: todo.due,
     rrule: todo.rrule,
+    projectID: todo.projectID,
   });
 
   if (!parsedObj.success) {

@@ -30,7 +30,6 @@ export interface ProjectItemType {
   name: string;
   color?: string;
   todos: TodoItemType[];
-  completedTodos: CompletedTodoItemType[];
   createdAt: Date;
   updatedAt: Date;
 }
@@ -39,6 +38,9 @@ export type ProjectItemMetaType = Pick<
   ProjectItemType,
   "id" | "color" | "name"
 >;
+export type ProjectItemMetaMapType = {
+  [id: string]: Omit<ProjectItemMetaType, "id">;
+};
 
 export type NonNullableDateRange = {
   from: Date;
@@ -73,7 +75,7 @@ export interface TodoItemType {
   exdates: Date[];
   instances: overridingInstance[] | null;
   instanceDate: Date | null;
-  projectID: string;
+  projectID: string | null;
 }
 
 export interface overridingInstance {

@@ -15,6 +15,8 @@ interface TodoFormContextType {
   desc: string;
   setDesc: React.Dispatch<SetStateAction<string>>;
   priority: "Low" | "Medium" | "High";
+  projectID: string | null;
+  setProjectID: React.Dispatch<SetStateAction<string | null>>;
   setPriority: React.Dispatch<SetStateAction<"Low" | "Medium" | "High">>;
   dateRange: NonNullableDateRange;
   setDateRange: React.Dispatch<SetStateAction<NonNullableDateRange>>;
@@ -22,13 +24,13 @@ interface TodoFormContextType {
   setRruleOptions: React.Dispatch<SetStateAction<Partial<Options> | null>>;
   timeZone: string;
   derivedRepeatType:
-    | "Daily"
-    | "Weekly"
-    | "Monthly"
-    | "Yearly"
-    | "Weekday"
-    | "Custom"
-    | null;
+  | "Daily"
+  | "Weekly"
+  | "Monthly"
+  | "Yearly"
+  | "Weekday"
+  | "Custom"
+  | null;
   instanceDate?: Date;
   dateRangeChecksum: string;
   rruleChecksum: string | null; //send what was changed to the backend, to either delete override instances or overwrite them
@@ -47,6 +49,7 @@ const TodoFormContext = createContext<TodoFormContextType | undefined>(
 const TodoFormProvider = ({ children, todoItem }: TodoFormProviderProps) => {
   const [title, setTitle] = useState<string>(todoItem?.title || "");
   const [desc, setDesc] = useState<string>(todoItem?.description || "");
+  const [projectID, setProjectID] = useState<string | null>(todoItem?.projectID || null);
   const [priority, setPriority] = useState<"Low" | "Medium" | "High">(
     todoItem?.priority || "Low",
   );
@@ -74,27 +77,27 @@ const TodoFormProvider = ({ children, todoItem }: TodoFormProviderProps) => {
   const derivedRepeatType =
     // Check for weekday pattern first (before generic byweekday check)
     rruleOptions?.freq === RRule.WEEKLY &&
-    rruleOptions?.byweekday &&
-    Array.isArray(rruleOptions.byweekday) &&
-    rruleOptions.byweekday.length === 5 &&
-    !rruleOptions?.bymonth &&
-    !rruleOptions?.bymonthday &&
-    !rruleOptions?.bysetpos &&
-    !rruleOptions?.byweekno &&
-    !rruleOptions?.byyearday &&
-    !rruleOptions?.interval
+      rruleOptions?.byweekday &&
+      Array.isArray(rruleOptions.byweekday) &&
+      rruleOptions.byweekday.length === 5 &&
+      !rruleOptions?.bymonth &&
+      !rruleOptions?.bymonthday &&
+      !rruleOptions?.bysetpos &&
+      !rruleOptions?.byweekno &&
+      !rruleOptions?.byyearday &&
+      !rruleOptions?.interval
       ? "Weekday"
       : // check for custom patterns
-        rruleOptions?.bymonth ||
-          rruleOptions?.bymonthday ||
-          rruleOptions?.bysetpos ||
-          rruleOptions?.byweekday ||
-          rruleOptions?.byweekno ||
-          rruleOptions?.byyearday ||
-          (rruleOptions?.interval && rruleOptions.interval > 1)
+      rruleOptions?.bymonth ||
+        rruleOptions?.bymonthday ||
+        rruleOptions?.bysetpos ||
+        rruleOptions?.byweekday ||
+        rruleOptions?.byweekno ||
+        rruleOptions?.byyearday ||
+        (rruleOptions?.interval && rruleOptions.interval > 1)
         ? "Custom"
         : // check for simple patterns
-          rruleOptions?.freq === RRule.DAILY
+        rruleOptions?.freq === RRule.DAILY
           ? "Daily"
           : rruleOptions?.freq === RRule.WEEKLY
             ? "Weekly"
@@ -114,6 +117,8 @@ const TodoFormProvider = ({ children, todoItem }: TodoFormProviderProps) => {
     setDesc,
     priority,
     setPriority,
+    projectID,
+    setProjectID,
     dateRange,
     setDateRange,
     rruleOptions,
