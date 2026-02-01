@@ -6,7 +6,7 @@ import {
   InternalError,
 } from "@/lib/customError";
 import { prisma } from "@/lib/prisma/client";
-import { projectSchema } from "@/schema";
+import { projectCreateSchema } from "@/schema";
 import { auth } from "@/app/auth";
 
 export async function POST(req: NextRequest) {
@@ -18,7 +18,7 @@ export async function POST(req: NextRequest) {
 
     //validate req body
     const body = await req.json();
-    const parsedObj = projectSchema.safeParse(body);
+    const parsedObj = projectCreateSchema.safeParse(body);
     if (!parsedObj.success) throw new BadRequestError();
 
     const { name } = parsedObj.data;

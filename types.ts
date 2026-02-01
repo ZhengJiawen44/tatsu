@@ -73,6 +73,7 @@ export interface TodoItemType {
   exdates: Date[];
   instances: overridingInstance[] | null;
   instanceDate: Date | null;
+  projectID: string;
 }
 
 export interface overridingInstance {
@@ -108,4 +109,6 @@ export interface CompletedTodoItemType {
   userID: string;
   rrule: string | null;
   instanceDate: Date | null;
+  projectName: string;
+  projectColour: string;
 }

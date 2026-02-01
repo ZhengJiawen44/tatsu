@@ -6,12 +6,13 @@ async function renameProject({ id, name }: { id: string; name: string }) {
   if (!id) {
     throw new Error("this Note is missing");
   }
-  //final line of defense
   if (name.trim().length <= 0) {
     throw new Error("project name cannot be empty");
   }
-
-  await api.PATCH({ url: `/api/project/${id}` });
+  await api.PATCH({
+    url: `/api/project/${id}`,
+    body: JSON.stringify({ name }),
+  });
 }
 
 export const useRenameProject = () => {
@@ -26,7 +27,7 @@ export const useRenameProject = () => {
     mutationFn: (params: { id: string; name: string }) =>
       renameProject({ ...params }),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["note"] });
+      queryClient.invalidateQueries({ queryKey: ["projectMeta"] });
     },
     onError: (error) => {
       toast({ description: error.message, variant: "destructive" });
