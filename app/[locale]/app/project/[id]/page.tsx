@@ -5,6 +5,7 @@ interface PageProps {
     params: { id: string };
 }
 
-export default function Page({ params }: PageProps) {
-    return <ProjectContainer id={params.id} />;
+export default async function Page({ params }: PageProps) {
+    const { id } = await params;
+    return <ProjectContainer id={id} />;
 }
