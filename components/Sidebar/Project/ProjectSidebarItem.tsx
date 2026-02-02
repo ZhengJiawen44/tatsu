@@ -81,7 +81,7 @@ const ProjectSidebarItem = ({ meta }: { meta: Pick<ProjectItemType, "id" | "colo
         <Link
           href={`/app/project/${meta.id}`}
           className={clsx(
-            "select-none flex gap-2 justify-between mt-2 pl-12 py-2 px-2 rounded-lg hover:bg-popover hover:cursor-pointer pr-2",
+            "select-none flex gap-2 justify-between mt-2 pl-7 py-2 px-2 rounded-lg hover:bg-popover hover:cursor-pointer pr-2",
             activeMenu.children?.name === meta.id && "bg-popover",
           )}
           onClick={() => {
@@ -136,7 +136,7 @@ const ProjectSidebarItem = ({ meta }: { meta: Pick<ProjectItemType, "id" | "colo
                         key={color.value}
                         onClick={() => recolorMutateFn({ id: meta.id, color: color.value })}
                       >
-                        <span className={`w-5 h-5 ${color.tailwind} rounded-sm`}></span>
+                        <span className={`w-5 h-5 ${color.tailwind} border border-popover-border rounded-sm`}></span>
                         {color.name}
                       </DropdownMenuItem>
                     ))}
