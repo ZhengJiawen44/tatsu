@@ -81,7 +81,7 @@ const ProjectSidebarItem = ({ meta }: { meta: Pick<ProjectItemType, "id" | "colo
         <Link
           href={`/app/project/${meta.id}`}
           className={clsx(
-            "select-none flex gap-2 justify-between mt-2 pl-7 py-2 px-2 rounded-lg hover:bg-popover hover:cursor-pointer pr-2",
+            "select-none flex gap-2 justify-between mt-2 pl-7 py-1 px-2 rounded-lg hover:bg-popover hover:cursor-pointer pr-2",
             activeMenu.children?.name === meta.id && "bg-popover",
           )}
           onClick={() => {

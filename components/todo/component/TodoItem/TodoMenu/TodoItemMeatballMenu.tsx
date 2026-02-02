@@ -22,6 +22,7 @@ import Meatball from "@/components/ui/icon/meatball";
 import { useTranslations } from "next-intl";
 import { useTodoMutation } from "@/providers/TodoMutationProvider";
 import { useProjectMetaData } from "@/components/Sidebar/Project/query/get-project-meta";
+import ProjectTag from "@/components/ProjectTag";
 
 function TodoItemMeatballMenu({
   todo,
@@ -89,15 +90,15 @@ function TodoItemMeatballMenu({
             Move to...
           </DropdownMenuSubTrigger>
           <DropdownMenuSubContent className="max-h-56 overflow-scroll">
-            {Object.entries(projectMetaData).map(([Key, value]) => {
+            {Object.entries(projectMetaData).map(([key, value]) => {
               const dateRangeChecksum = todo.dtstart.toISOString() + todo.due.toISOString();
               const rruleChecksum = todo.rrule
               return <DropdownMenuItem
-                key={Key}
+                key={key}
                 onClick={() => {
-                  editTodoMutateFn({ ...todo, projectID: Key, dateRangeChecksum, rruleChecksum })
+                  editTodoMutateFn({ ...todo, projectID: key, dateRangeChecksum, rruleChecksum })
                 }}>
-                <span className="text-lime">#</span>{value.name}
+                <ProjectTag id={key} className="text-base pr-0" />{value.name}
               </DropdownMenuItem>
             })}
           </DropdownMenuSubContent>
