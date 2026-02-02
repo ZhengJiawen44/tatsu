@@ -98,6 +98,7 @@ const TodoForm = ({
           <TodoInlineActionBar />
         </div>
         <LineSeparator className="!m-0 !p-0" />
+        {/* form footer */}
         <div className="flex text-sm w-full justify-between items-center py-1.5 px-2">
           <ProjectDropdownMenu />
           <div className="flex gap-3 w-fit">

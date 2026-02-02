@@ -6,16 +6,14 @@ import { Button } from '@/components/ui/button';
 import { useTodoForm } from '@/providers/TodoFormProvider';
 import { useProjectMetaData } from '@/components/Sidebar/Project/query/get-project-meta';
 import { DropdownMenuSeparator } from '@/components/ui/dropdown-menu';
+import ProjectTag from '@/components/ProjectTag';
 
 export default function ProjectDropdownMenu() {
     const { projectID, setProjectID } = useTodoForm();
     const { projectMetaData } = useProjectMetaData();
     const [open, setOpen] = useState(false);
     const [search, setSearch] = useState('');
-    const projectColor = useMemo(() => {
-        if (!projectID) return null;
-        return projectMetaData[projectID].color;
-    }, [projectID, projectMetaData])
+
 
     // Filter projects based on search input
     const filteredProjects = useMemo(() => {
@@ -31,7 +29,14 @@ export default function ProjectDropdownMenu() {
         <Popover modal={false} open={open} onOpenChange={setOpen}>
             <PopoverTrigger asChild>
                 <Button variant="ghost" type="button" className="h-8 !px-2 gap-1 text-muted-foreground">
-                    <span className={projectColor ? `text-${projectColor}` : 'text-lime'}>#</span> {projectID ? projectMetaData[projectID]?.name : "Project"}
+
+                    {projectID
+                        ?
+                        <>
+                            <ProjectTag id={projectID} className='text-sm pr-0' /> <>{projectMetaData[projectID]?.name}</>
+                        </>
+                        : <><span>#</span>Project</>
+                    }
                     <ChevronDown className="w-4 h-4 text-muted-foreground" />
                 </Button>
             </PopoverTrigger>
@@ -59,7 +64,7 @@ export default function ProjectDropdownMenu() {
                             setOpen(false);
                         }}
                     >
-                        <span className={projectColor ? `text-${projectColor}` : 'text-lime'}>#</span> {value.name}
+                        <ProjectTag id={key} className='text-sm pr-0' /> {value.name}
                     </div>
                 ))}
 
