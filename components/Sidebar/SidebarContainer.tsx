@@ -74,7 +74,7 @@ const SidebarContainer = ({ children }: { children?: React.ReactNode }) => {
             <CalendarItem />
             <NoteCollapsible />
             <VaultItem />
-            <LineSeparator className="m-0 mt-8" />
+            <LineSeparator className="m-0 mt-8 mb-4" />
             <ProjectSidebarItemContainer />
 
             <Toaster />
