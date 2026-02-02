@@ -1,9 +1,3 @@
-import {
-  MenuContainer,
-  MenuContent,
-  MenuItem,
-  MenuTrigger,
-} from "@/components/ui/Menu";
 import { useDeleteProject } from "./query/delete-project";
 import { useRenameProject } from "./query/rename-project";
 import { useMenu } from "@/providers/MenuProvider";
@@ -14,9 +8,31 @@ import React, { useEffect, useRef, useState } from "react";
 import Spinner from "@/components/ui/spinner";
 import Meatball from "@/components/ui/icon/meatball";
 import useWindowSize from "@/hooks/useWindowSize";
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger, DropdownMenuSub, DropdownMenuSubTrigger, DropdownMenuSubContent } from "@/components/ui/dropdown-menu";
+import { useRecolorProject } from "./query/update-project-color";
+import { ProjectColor } from "@prisma/client";
+import ProjectTag from "@/components/ProjectTag";
 
 const ProjectSidebarItem = ({ meta }: { meta: Pick<ProjectItemType, "id" | "color" | "name"> }) => {
+  const colors: { name: string; value: ProjectColor; tailwind: string }[] = [
+    { name: "Red", value: "RED", tailwind: "bg-accent-red" },
+    { name: "Orange", value: "ORANGE", tailwind: "bg-accent-orange" },
+    { name: "Yellow", value: "YELLOW", tailwind: "bg-accent-yellow" },
+    { name: "Lime", value: "LIME", tailwind: "bg-accent-lime" },
+    { name: "Blue", value: "BLUE", tailwind: "bg-accent-blue" },
+    { name: "Purple", value: "PURPLE", tailwind: "bg-accent-purple" },
+    { name: "Pink", value: "PINK", tailwind: "bg-accent-pink" },
+    { name: "Teal", value: "TEAL", tailwind: "bg-accent-teal" },
+    { name: "Coral", value: "CORAL", tailwind: "bg-accent-coral" },
+    { name: "Gold", value: "GOLD", tailwind: "bg-accent-gold" },
+    { name: "Deep Blue", value: "DEEP_BLUE", tailwind: "bg-accent-deep-blue" },
+    { name: "Rose", value: "ROSE", tailwind: "bg-accent-rose" },
+    { name: "Light Red", value: "LIGHT_RED", tailwind: "bg-accent-light-red" },
+    { name: "Brick", value: "BRICK", tailwind: "bg-accent-brick" },
+    { name: "Slate", value: "SLATE", tailwind: "bg-accent-slate" },
+  ];
   const { renameMutateFn } = useRenameProject();
+  const { recolorMutateFn } = useRecolorProject();
   const { width } = useWindowSize();
   //states for renaming
   const [name, setName] = useState(meta.name);
@@ -65,8 +81,8 @@ const ProjectSidebarItem = ({ meta }: { meta: Pick<ProjectItemType, "id" | "colo
         <Link
           href={`/app/project/${meta.id}`}
           className={clsx(
-            "select-none flex gap-2 justify-between mt-2 pl-12 py-2 px-2 rounded-lg hover:bg-border-muted hover:cursor-pointer pr-2",
-            activeMenu.children?.name === meta.id && "bg-border-muted",
+            "select-none flex gap-2 justify-between mt-2 pl-12 py-2 px-2 rounded-lg hover:bg-popover hover:cursor-pointer pr-2",
+            activeMenu.children?.name === meta.id && "bg-popover",
           )}
           onClick={() => {
             setActiveMenu({
@@ -91,8 +107,8 @@ const ProjectSidebarItem = ({ meta }: { meta: Pick<ProjectItemType, "id" | "colo
               }}
             />
           ) : (
-            <div className={clsx("flex justify-between  rounded-lg ")}>
-              # {name}
+            <div className={clsx("flex justify-between items-center rounded-lg ")}>
+              <ProjectTag id={meta.id} />{name}
             </div>
           )}
         </Link>
@@ -101,17 +117,33 @@ const ProjectSidebarItem = ({ meta }: { meta: Pick<ProjectItemType, "id" | "colo
           {deleteLoading ? (
             <Spinner className="w-5 h-5" />
           ) : (
-            <MenuContainer>
-              <MenuTrigger>
+            <DropdownMenu>
+              <DropdownMenuTrigger>
                 <Meatball className="w-5 h-5" />
-              </MenuTrigger>
-              <MenuContent>
-                <MenuItem onClick={() => setIsRenaming(true)}> rename</MenuItem>
-                <MenuItem onClick={() => deleteMutateFn({ id: meta.id })}>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent>
+                <DropdownMenuItem onClick={() => setIsRenaming(true)}> rename</DropdownMenuItem>
+                <DropdownMenuItem onClick={() => deleteMutateFn({ id: meta.id })}>
                   delete
-                </MenuItem>
-              </MenuContent>
-            </MenuContainer>
+                </DropdownMenuItem>
+                <DropdownMenuSub>
+                  <DropdownMenuSubTrigger>
+                    Edit colours...
+                  </DropdownMenuSubTrigger>
+                  <DropdownMenuSubContent className="max-h-[15rem] overflow-scroll">
+                    {colors.map((color) => (
+                      <DropdownMenuItem
+                        key={color.value}
+                        onClick={() => recolorMutateFn({ id: meta.id, color: color.value })}
+                      >
+                        <span className={`w-5 h-5 ${color.tailwind} rounded-sm`}></span>
+                        {color.name}
+                      </DropdownMenuItem>
+                    ))}
+                  </DropdownMenuSubContent>
+                </DropdownMenuSub>
+              </DropdownMenuContent>
+            </DropdownMenu>
           )}
         </div>
       </div>
@@ -120,3 +152,5 @@ const ProjectSidebarItem = ({ meta }: { meta: Pick<ProjectItemType, "id" | "colo
 };
 
 export default ProjectSidebarItem;
+
+

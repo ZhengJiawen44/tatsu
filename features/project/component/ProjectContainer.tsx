@@ -113,7 +113,8 @@ const ProjectContainer = ({ id }: { id: string }) => {
                 {Object.entries(sortedGroupedTodos).map(([key, todo]) =>
                     <div key={key}>
                         <div className={clsx(key !== "-1" && "my-16")}>
-                            {key !== "-1" && <p className="font-semibold text-muted-foreground text-lg">{preferences?.groupBy + ": " + key}</p>}
+                            {key !== "-1" && <p className="font-semibold text-muted-foreground text-lg">{preferences?.groupBy?.slice(0, 1).toUpperCase() + "" + preferences?.groupBy?.slice(1,)}<span className="font-thin text-base">{" " + key} </span></p>}
+
                             {key !== "-1" && <LineSeparator />}
                             <TodoGroup
                                 todos={todo}

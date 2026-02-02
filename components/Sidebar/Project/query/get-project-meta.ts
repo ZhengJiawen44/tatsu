@@ -26,7 +26,6 @@ export const useProjectMetaData = () => {
       const projectMap = Object.fromEntries(
         projects.map(({ id, ...rest }) => [id, rest]),
       );
-
       return projectMap;
     },
   });
