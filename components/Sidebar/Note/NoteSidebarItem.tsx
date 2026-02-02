@@ -67,8 +67,8 @@ const NoteSidebarItem = ({ note }: { note: NoteItemType }) => {
         <Link
           href={`/app/note/${note.id}`}
           className={clsx(
-            "select-none flex gap-2 justify-between mt-2 pl-12 py-2 px-2 rounded-lg hover:bg-border-muted hover:cursor-pointer pr-2",
-            activeMenu.children?.name === note.id && "bg-border-muted",
+            "select-none flex gap-2 justify-between mt-2 pl-12 py-2 px-2 rounded-lg hover:bg-popover hover:cursor-pointer pr-2",
+            activeMenu.children?.name === note.id && "bg-popover",
           )}
           onClick={() => {
             setActiveMenu({

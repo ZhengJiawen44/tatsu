@@ -66,7 +66,7 @@ export async function GET() {
     const projects = await prisma.project.findMany({
       where: { userID: user.id },
       orderBy: { createdAt: "desc" },
-      select: { id: true, name: true, createdAt: true },
+      select: { id: true, name: true, createdAt: true, color: true },
     });
     if (!projects)
       throw new InternalError("project cannot be found at this time");

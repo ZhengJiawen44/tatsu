@@ -84,26 +84,45 @@ export const noteSchema = z.object({
     .min(1, { message: "title cannot be left empty" }),
   content: z.string().nullable().optional(),
 });
-
+export const ProjectColor = [
+  "RED",
+  "ORANGE",
+  "YELLOW",
+  "LIME",
+  "BLUE",
+  "PURPLE",
+  "PINK",
+  "TEAL",
+  "CORAL",
+  "GOLD",
+  "DEEP_BLUE",
+  "ROSE",
+  "LIGHT_RED",
+  "BRICK",
+  "SLATE",
+] as const;
 export const projectBaseSchema = z.object({
   id: z.string({ message: "id cannot be left empty" }),
   name: z
     .string({ message: "title cannot be left empty" })
     .trim()
     .min(1, { message: "title cannot be left empty" }),
-  color: z.string().nullable(),
+  color: z.enum(ProjectColor).nullable(),
 });
 
 export const projectCreateSchema = projectBaseSchema.pick({
   name: true,
 });
+
+export type ProjectColorType = (typeof ProjectColor)[number];
+
 export const projectPatchSchema = projectBaseSchema.partial().extend({
   name: z
     .string({ message: "title cannot be left empty" })
     .trim()
     .min(1, { message: "title cannot be left empty" })
     .optional(),
-  color: z.string().optional(),
+  color: z.enum(ProjectColor).optional(),
 });
 
 export const userPreferencesSchema = z.object({

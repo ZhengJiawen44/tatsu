@@ -184,10 +184,28 @@ model Note{
   userID        String
 }
 
+enum ProjectColor {
+  RED
+  ORANGE
+  YELLOW
+  LIME
+  BLUE
+  PURPLE
+  PINK
+  TEAL
+  CORAL
+  GOLD
+  DEEP_BLUE
+  ROSE
+  LIGHT_RED
+  BRICK
+  SLATE
+}
+
 model Project {
   id        String   @id @default(cuid())
   name      String
-  color    String?
+  color     ProjectColor?
   user      User     @relation(fields: [userID], references: [id])
   userID    String
   todos     Todo[]

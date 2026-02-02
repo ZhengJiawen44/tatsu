@@ -14,6 +14,7 @@ import { getDisplayDate } from "@/lib/date/displayDate";
 import { useLocale } from "next-intl";
 import { useTodoMutation } from "@/providers/TodoMutationProvider";
 import { useProjectMetaData } from "@/components/Sidebar/Project/query/get-project-meta";
+import ProjectTag from "@/components/ProjectTag";
 
 const TodoFormContainer = dynamic(
   () => import("./TodoForm/TodoFormContainer"),
@@ -127,7 +128,11 @@ export const TodoItemContainer = ({ todoItem, overdue }: TodoItemContainerProps)
             <div className="flex items-center justify-start gap-2">
 
               <p className={clsx(overdue ? "text-orange" : "text-lime")}>{getDisplayDate(dtstart, true, locale)}</p>
-              {todoItem.projectID && <p className='py-[0.2rem] px-2 rounded-full bg-border'><span className="text-lime">#</span> {projectMetaData[todoItem.projectID]?.name}</p>}
+              {todoItem.projectID &&
+                <p className='flex items-center py-[0.2rem] px-2 rounded-full bg-border'>
+                  <ProjectTag id={todoItem.projectID} className="text-sm" />
+                  {projectMetaData[todoItem.projectID]?.name}
+                </p>}
               {overdue && <p className='py-[0.2rem] px-2 rounded-full bg-border'>overdue</p>}
             </div>
 

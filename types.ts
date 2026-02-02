@@ -1,4 +1,5 @@
 import { Prisma } from "@prisma/client";
+import { ProjectColor } from "@prisma/client";
 
 export interface RegisterFormProp {
   fname: string;
@@ -28,7 +29,7 @@ export interface FileItemType {
 export interface ProjectItemType {
   id: string;
   name: string;
-  color?: string;
+  color?: ProjectColor;
   todos: TodoItemType[];
   createdAt: Date;
   updatedAt: Date;
