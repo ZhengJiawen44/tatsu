@@ -130,9 +130,9 @@ export async function GET(
 
     //Collect future reccuring todos
     const futureRecurringTodos = recurringParents.filter(({ dtstart }) => {
-      dtstart > dateRangeEnd;
+      return dtstart > dateRangeEnd;
     });
-    //generate ghost todos from first instance occurence
+    //generate ghost todos from first instance occurence of future todo
     const ghostFutureTodos = futureRecurringTodos.map((todo) => {
       return { ...todo, instanceDate: todo.dtstart };
     });

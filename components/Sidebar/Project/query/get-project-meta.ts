@@ -35,6 +35,7 @@ export const useProjectMetaData = () => {
     if (isError === true) {
       toast({ description: error.message, variant: "destructive" });
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isError]);
   return { projectMetaData, projectMetaLoading, isFetching, isPending };
 };

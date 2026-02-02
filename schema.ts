@@ -112,7 +112,7 @@ export const userPreferencesSchema = z.object({
     .nullable()
     .optional(),
   groupBy: z
-    .enum(["dtstart", "due", "duration", "priority", "rrule"])
+    .enum(["dtstart", "due", "duration", "priority", "rrule", "project"])
     .nullable()
     .optional(),
   direction: z.enum(["Ascending", "Descending"]).nullable().optional(),

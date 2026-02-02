@@ -9,11 +9,12 @@ export interface TodoItemTypeWithDateChecksum extends TodoItemType {
   dateRangeChecksum: string;
   rruleChecksum: string | null;
 }
+
 async function patchTodo({ todo }: { todo: TodoItemTypeWithDateChecksum }) {
   if (!todo.id) {
     throw new Error("this todo is missing");
   }
-  //validate input
+
   const parsedObj = todoSchema.safeParse({
     title: todo.title,
     description: todo.description,
@@ -23,18 +24,20 @@ async function patchTodo({ todo }: { todo: TodoItemTypeWithDateChecksum }) {
     rrule: todo.rrule,
     projectID: todo.projectID,
   });
+
   if (!parsedObj.success) {
     console.log(parsedObj.error.errors[0]);
     return;
   }
+
   const dateChanged =
     todo.dateRangeChecksum !==
     todo.dtstart.toISOString() + todo.due.toISOString();
 
   const rruleChanged = todo.rruleChecksum !== todo.rrule;
 
-  console.log(dateChanged, rruleChanged);
   const todoId = todo.id.split(":")[0];
+
   await api.PATCH({
     url: `/api/todo/${todoId}`,
     headers: { "Content-Type": "application/json" },
@@ -49,19 +52,26 @@ async function patchTodo({ todo }: { todo: TodoItemTypeWithDateChecksum }) {
   });
 }
 
-export const useEditTodo = () => {
+export const useEditProjectTodo = () => {
   const { toast } = useToast();
   const queryClient = useQueryClient();
 
   const { mutate: editTodoMutateFn, status: editTodoStatus } = useMutation({
     mutationFn: (params: TodoItemTypeWithDateChecksum) =>
       patchTodo({ todo: params }),
+
     onMutate: async (newTodo) => {
       await queryClient.cancelQueries({ queryKey: ["todo"] });
-      const oldTodos = queryClient.getQueryData<TodoItemType[]>(["todo"]);
+      await queryClient.cancelQueries({ queryKey: ["project"] });
 
-      queryClient.setQueryData(["todo"], (oldTodos: TodoItemType[]) =>
-        oldTodos.flatMap((oldTodo) => {
+      const oldTodos = queryClient.getQueryData<TodoItemType[]>(["todo"]);
+      const oldProjectTodos = queryClient.getQueryData<TodoItemType[]>([
+        "project",
+      ]);
+
+      // update today/todo cache
+      queryClient.setQueryData<TodoItemType[]>(["todo"], (oldTodos) =>
+        oldTodos?.flatMap((oldTodo) => {
           if (oldTodo.id === newTodo.id) {
             if (newTodo.dtstart > endOfDay(new Date())) {
               return [];
@@ -86,14 +96,40 @@ export const useEditTodo = () => {
           return oldTodo;
         }),
       );
-      return { oldTodos };
+
+      // update project cache
+      queryClient.setQueriesData<TodoItemType[]>(
+        { queryKey: ["project"] },
+        (oldTodos) =>
+          oldTodos?.map((oldTodo) => {
+            if (oldTodo.id === newTodo.id) {
+              return {
+                ...oldTodo,
+                ...newTodo,
+              };
+            }
+            return oldTodo;
+          }),
+      );
+
+      return { oldTodos, oldProjectTodos };
     },
+
+    onError: (error, _, context) => {
+      queryClient.setQueryData(["todo"], context?.oldTodos);
+      queryClient.setQueryData(["project"], context?.oldProjectTodos);
+
+      toast({
+        description:
+          error.message === "Failed to fetch"
+            ? "failed to connect to server"
+            : error.message,
+        variant: "destructive",
+      });
+    },
+
     onSettled: () => {
       queryClient.invalidateQueries({ queryKey: ["calendarTodo"] });
-    },
-    onError: (error, newTodo, context) => {
-      queryClient.setQueryData(["todo"], context?.oldTodos);
-      toast({ description: error.message, variant: "destructive" });
     },
   });
 

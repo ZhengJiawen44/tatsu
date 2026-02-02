@@ -21,7 +21,7 @@ import { useEditTodo } from "../query/update-todo";
 import { useEditTodoInstance } from "../query/update-todo-instance";
 import { useReorderTodo } from "../query/reorder-todo";
 import TodoMutationProvider from "@/providers/TodoMutationProvider";
-
+import { useProjectMetaData } from "@/components/Sidebar/Project/query/get-project-meta";
 
 const TodayTodoContainer = () => {
   const locale = useLocale();
@@ -33,17 +33,19 @@ const TodayTodoContainer = () => {
     todos.filter(({ pinned }) => pinned),
     [todos]
   );
-
   const unpinnedTodos = useMemo(() =>
     todos.filter(({ pinned }) => !pinned),
     [todos]
   );
+  const { projectMetaData } = useProjectMetaData()
   const priorityMap = useRef({ "Low": 1, "Medium": 2, "High": 3 })
   const groupedTodos = useMemo(() => {
     return Object.groupBy((unpinnedTodos), (todo) => {
       switch (preferences?.groupBy) {
         case "dtstart":
           return getDisplayDate(todo.dtstart, false, locale);
+        case "project":
+          return todo.projectID ? projectMetaData[todo.projectID].name : "None";
         case "due":
           return getDisplayDate(todo.due, false, locale);
         case "duration":
@@ -122,7 +124,7 @@ const TodayTodoContainer = () => {
         {Object.entries(sortedGroupedTodos).map(([key, todo]) =>
           <div key={key}>
             <div className={clsx(key !== "-1" && "my-16")}>
-              {key !== "-1" && <p className="font-semibold text-muted-foreground text-lg">{preferences?.groupBy + ": " + key}</p>}
+              {key !== "-1" && <p className="font-semibold text-muted-foreground text-lg">{preferences?.groupBy?.slice(0, 1).toUpperCase() + "" + preferences?.groupBy?.slice(1,)}<span className="font-thin text-base">{" " + key} </span></p>}
               {key !== "-1" && <LineSeparator />}
 
               <TodoGroup

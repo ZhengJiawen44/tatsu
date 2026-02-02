@@ -48,6 +48,7 @@ export const useUnCompleteTodo = () => {
     },
     onSuccess: () => {},
     onSettled: () => {
+      queryClient.invalidateQueries({ queryKey: ["project"] });
       queryClient.invalidateQueries({ queryKey: ["todo"] });
       queryClient.invalidateQueries({ queryKey: ["calendarTodo"] });
     },
