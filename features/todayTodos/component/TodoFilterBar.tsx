@@ -136,6 +136,9 @@ export default function TodoFilterBar({ containerHovered }: TodoFilterBarProps) 
                                             <DropdownMenuRadioItem value="rrule">
                                                 Recurrence
                                             </DropdownMenuRadioItem>
+                                            <DropdownMenuRadioItem value="project" className="hover:bg-popover-accent">
+                                                Project
+                                            </DropdownMenuRadioItem>
                                         </DropdownMenuRadioGroup>
                                     </DropdownMenuSubContent>
                                 </DropdownMenuPortal>

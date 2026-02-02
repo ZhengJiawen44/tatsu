@@ -1,11 +1,14 @@
 import Unpin from "@/components/ui/icon/unpin";
 import LineSeparator from "@/components/ui/lineSeparator";
-
+import { ArrowRightLeft } from "lucide-react";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
+  DropdownMenuSub,
+  DropdownMenuSubContent,
+  DropdownMenuSubTrigger
 } from "@/components/ui/dropdown-menu";
 import Spinner from "@/components/ui/spinner";
 import Pin from "@/components/ui/icon/pin";
@@ -18,6 +21,7 @@ import { Button } from "@/components/ui/button";
 import Meatball from "@/components/ui/icon/meatball";
 import { useTranslations } from "next-intl";
 import { useTodoMutation } from "@/providers/TodoMutationProvider";
+import { useProjectMetaData } from "@/components/Sidebar/Project/query/get-project-meta";
 
 function TodoItemMeatballMenu({
   todo,
@@ -29,11 +33,12 @@ function TodoItemMeatballMenu({
   setEditInstanceOnly: React.Dispatch<React.SetStateAction<boolean>>;
 }) {
   const todayDict = useTranslations("today");
-  const { usePrioritizeTodo, useDeleteTodo, usePinTodo } = useTodoMutation();
+  const { usePrioritizeTodo, useDeleteTodo, usePinTodo, useEditTodo } = useTodoMutation();
   const { prioritizeMutateFn } = usePrioritizeTodo();
-
+  const { editTodoMutateFn } = useEditTodo();
   const { deleteMutateFn, deletePending } = useDeleteTodo();
   const { pinMutateFn } = usePinTodo();
+  const { projectMetaData } = useProjectMetaData();
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
@@ -76,6 +81,27 @@ function TodoItemMeatballMenu({
           {todayDict("menu.editAsInstance")}
 
         </DropdownMenuItem>
+
+        {/* move to project sub menu */}
+        <DropdownMenuSub>
+          <DropdownMenuSubTrigger className="bg-inherit hover:bg-popover mx-1">
+            <ArrowRightLeft />
+            Move to...
+          </DropdownMenuSubTrigger>
+          <DropdownMenuSubContent className="max-h-56 overflow-scroll">
+            {Object.entries(projectMetaData).map(([Key, value]) => {
+              const dateRangeChecksum = todo.dtstart.toISOString() + todo.due.toISOString();
+              const rruleChecksum = todo.rrule
+              return <DropdownMenuItem
+                key={Key}
+                onClick={() => {
+                  editTodoMutateFn({ ...todo, projectID: Key, dateRangeChecksum, rruleChecksum })
+                }}>
+                <span className="text-lime">#</span>{value.name}
+              </DropdownMenuItem>
+            })}
+          </DropdownMenuSubContent>
+        </DropdownMenuSub>
         <DropdownMenuItem
           className="m-1.5"
           onClick={() => deleteMutateFn({ id: todo.id })}

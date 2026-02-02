@@ -1,8 +1,8 @@
-import ProjectContainer from '@/features/project/component/projectContainer'
+import ProjectContainer from '@/features/project/component/ProjectContainer'
 import React from 'react'
 
 interface PageProps {
-    params: { id: string };
+    params: Promise<{ id: string; locale: string }>;
 }
 
 export default async function Page({ params }: PageProps) {

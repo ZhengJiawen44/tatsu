@@ -5,7 +5,6 @@ import React, { useState, useMemo } from 'react';
 import { Button } from '@/components/ui/button';
 import { useTodoForm } from '@/providers/TodoFormProvider';
 import { useProjectMetaData } from '@/components/Sidebar/Project/query/get-project-meta';
-import LineSeparator from '@/components/ui/lineSeparator';
 import { DropdownMenuSeparator } from '@/components/ui/dropdown-menu';
 
 export default function ProjectDropdownMenu() {
@@ -16,12 +15,13 @@ export default function ProjectDropdownMenu() {
     const projectColor = useMemo(() => {
         if (!projectID) return null;
         return projectMetaData[projectID].color;
-    }, [projectID])
+    }, [projectID, projectMetaData])
 
     // Filter projects based on search input
     const filteredProjects = useMemo(() => {
         if (!search.trim()) return Object.entries(projectMetaData);
         const lowerSearch = search.toLowerCase();
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
         return Object.entries(projectMetaData).filter(([_, value]) =>
             value.name.toLowerCase().includes(lowerSearch)
         );

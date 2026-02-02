@@ -4,7 +4,6 @@ import CreateTodoBtn from "./CreateTodoBtn";
 import TodoListLoading from "../../../components/todo/component/TodoListLoading";
 import TodoGroup from "@/components/todo/component/TodoGroup";
 import LineSeparator from "@/components/ui/lineSeparator";
-import { useTranslations } from "next-intl";
 import TodoFilterBar from "./TodoFilterBar";
 import { getDisplayDate } from "@/lib/date/displayDate";
 import { RRule } from "rrule";
@@ -12,13 +11,13 @@ import { TodoItemType } from "@/types";
 import clsx from "clsx";
 import { useLocale } from "next-intl";
 import { useUserPreferences } from "@/providers/UserPreferencesProvider";
-import { usePinTodo } from "@/features/todayTodos/query/pin-todo"
-import { useCompleteTodo } from "@/features/todayTodos/query/complete-todo";
-import { useDeleteTodo } from "@/features/todayTodos/query/delete-todo";
-import { usePrioritizeTodo } from "@/features/todayTodos/query/prioritize-todo";
-import { useEditTodo } from "@/features/todayTodos/query/update-todo";
-import { useEditTodoInstance } from "@/features/todayTodos/query/update-todo-instance";
-import { useReorderTodo } from "@/features/todayTodos/query/reorder-todo";
+import { usePinProjectTodo } from "../query/pin-project-todo";
+import { useCompleteProjectTodo } from "../query/complete-project-todo";
+import { useDeleteProjectTodo } from "../query/delete-project-todo";
+import { usePrioritizeProjectTodo } from "../query/prioritize-project-todo";
+import { useEditProjectTodo } from "../query/update-project-todo";
+import { useEditProjectTodoInstance } from "../query/update-project-todo-instance";
+import { useReorderProjectTodo } from "../query/reorder-project-todo";
 import TodoMutationProvider from "@/providers/TodoMutationProvider";
 import { useProject } from "../query/get-project-todos";
 import { useProjectMetaData } from "@/components/Sidebar/Project/query/get-project-meta";
@@ -82,13 +81,13 @@ const ProjectContainer = ({ id }: { id: string }) => {
 
     return (
         <TodoMutationProvider
-            useCompleteTodo={useCompleteTodo}
-            useDeleteTodo={useDeleteTodo}
-            useEditTodo={useEditTodo}
-            useEditTodoInstance={useEditTodoInstance}
-            usePinTodo={usePinTodo}
-            usePrioritizeTodo={usePrioritizeTodo}
-            useReorderTodo={useReorderTodo}
+            useCompleteTodo={useCompleteProjectTodo}
+            useDeleteTodo={useDeleteProjectTodo}
+            useEditTodo={useEditProjectTodo}
+            useEditTodoInstance={useEditProjectTodoInstance}
+            usePinTodo={usePinProjectTodo}
+            usePrioritizeTodo={usePrioritizeProjectTodo}
+            useReorderTodo={useReorderProjectTodo}
         >
             <div className="mb-20" onMouseOver={() => (setContainerHovered(true))} onMouseOut={() => setContainerHovered(false)}>
                 {projectTodosLoading && <TodoListLoading />}
@@ -116,17 +115,13 @@ const ProjectContainer = ({ id }: { id: string }) => {
                         <div className={clsx(key !== "-1" && "my-16")}>
                             {key !== "-1" && <p className="font-semibold text-muted-foreground text-lg">{preferences?.groupBy + ": " + key}</p>}
                             {key !== "-1" && <LineSeparator />}
-
                             <TodoGroup
                                 todos={todo}
                                 className="flex flex-col bg-background gap-1"
                             />
-
                         </div>
-
                     </div>
                 )}
-
                 <CreateTodoBtn />
             </div>
         </TodoMutationProvider>

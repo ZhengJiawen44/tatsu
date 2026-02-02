@@ -33,6 +33,7 @@ async function patchTodo({ todo }: { todo: TodoItemTypeWithDateChecksum }) {
 
   const rruleChanged = todo.rruleChecksum !== todo.rrule;
 
+  console.log(dateChanged, rruleChanged);
   const todoId = todo.id.split(":")[0];
   await api.PATCH({
     url: `/api/todo/${todoId}`,
@@ -66,6 +67,7 @@ export const useEditTodo = () => {
               return [];
             }
             return {
+              ...oldTodo,
               completed: newTodo.completed,
               order: newTodo.order,
               pinned: newTodo.pinned,

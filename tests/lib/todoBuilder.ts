@@ -22,6 +22,7 @@ export class TodoBuilder {
       exdates: [],
       instanceDate: null,
       instances: [],
+      projectID: null,
     };
   }
 

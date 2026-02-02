@@ -40,17 +40,28 @@ export const useCreateTodo = () => {
     mutationFn: (todo: TodoItemType) => postTodo({ todo }),
     onMutate: async (newTodo) => {
       await queryClient.cancelQueries({ queryKey: ["todo"] });
+      await queryClient.cancelQueries({ queryKey: ["project"] });
+
       const oldTodos = queryClient.getQueryData(["todo"]);
+      const oldProjectTodos = queryClient.getQueryData<TodoItemType[]>([
+        "project",
+      ]);
+
       queryClient.setQueryData(["todo"], (old: TodoItemType[]) => [
         ...old,
         newTodo,
       ]);
+      queryClient.setQueriesData(
+        { queryKey: ["project"] },
+        (old: TodoItemType[]) => [...old, newTodo],
+      );
 
-      return { oldTodos };
+      return { oldTodos, oldProjectTodos };
     },
     //if fetch error then revert optimistic updates including form states
     onError: (error, newTodo, context) => {
       queryClient.setQueryData(["todo"], context?.oldTodos);
+      queryClient.setQueryData(["project"], context?.oldProjectTodos);
       toast({ description: error.message, variant: "destructive" });
     },
     onSettled: () => {
