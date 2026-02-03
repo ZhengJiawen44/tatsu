@@ -18,6 +18,8 @@ export const useDeleteProject = () => {
     onSuccess: () => {
       toast({ description: "project deleted" });
       queryClient.invalidateQueries({ queryKey: ["projectMetaData"] });
+      queryClient.invalidateQueries({ queryKey: ["todo"] });
+      queryClient.invalidateQueries({ queryKey: ["overdueTodo"] });
     },
     onError: (error) => {
       toast({ description: error.message, variant: "destructive" });

@@ -4,7 +4,6 @@ import clsx from 'clsx';
 
 export default function ProjectTag({ id, className }: { id: string, className?: string }) {
     const { projectMetaData } = useProjectMetaData();
-    console.log(projectMetaData[id]?.color)
 
     const colorClass = clsx({
         "text-accent-red": projectMetaData[id]?.color === "RED",

@@ -32,6 +32,7 @@ import { useCallback, useEffect, useState } from "react";
 import dynamic from "next/dynamic";
 import Spinner from "@/components/ui/spinner";
 import { subMilliseconds } from "date-fns";
+import { useProjectMetaData } from "@/components/Sidebar/Project/query/get-project-meta";
 
 const CalendarMobilePopup = dynamic(() => import("@/components/popups/CalendarMobilePopup"));
 
@@ -57,6 +58,7 @@ export default function CalendarClient() {
   const { todos: calendarTodos } = useCalendarTodo(calendarRange);
   const { editCalendarTodo } = useEditCalendarTodo();
   const { editCalendarTodoInstance } = useEditCalendarTodoInstance();
+  const { projectMetaData } = useProjectMetaData()
 
   // --- keyboard navigation state ---
   const [selectedDate, setSelectedDate] = useState<Date | null>(null);
@@ -225,7 +227,7 @@ export default function CalendarClient() {
             ,
             eventTimeRangeFormat: () => "",
           }}
-          eventPropGetter={(event) => calendarEventPropStyles(event.priority)}
+          eventPropGetter={(event) => calendarEventPropStyles(event.priority, event.projectID ? projectMetaData[event.projectID]?.color : undefined)}
 
           onRangeChange={setCalendarRange}
           onEventResize={({ event: todo, ...resizeEvent }) => {
