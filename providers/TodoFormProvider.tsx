@@ -39,6 +39,7 @@ interface TodoFormContextType {
 // Props for the provider
 interface TodoFormProviderProps {
   todoItem?: TodoItemType;
+  overrideFields?: { projectID?: string }
   children: React.ReactNode;
 }
 
@@ -46,10 +47,10 @@ const TodoFormContext = createContext<TodoFormContextType | undefined>(
   undefined,
 );
 
-const TodoFormProvider = ({ children, todoItem }: TodoFormProviderProps) => {
+const TodoFormProvider = ({ children, todoItem, overrideFields }: TodoFormProviderProps) => {
   const [title, setTitle] = useState<string>(todoItem?.title || "");
   const [desc, setDesc] = useState<string>(todoItem?.description || "");
-  const [projectID, setProjectID] = useState<string | null>(todoItem?.projectID || null);
+  const [projectID, setProjectID] = useState<string | null>(overrideFields?.projectID || todoItem?.projectID || null);
   const [priority, setPriority] = useState<"Low" | "Medium" | "High">(
     todoItem?.priority || "Low",
   );

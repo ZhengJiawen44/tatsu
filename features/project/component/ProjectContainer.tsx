@@ -122,7 +122,7 @@ const ProjectContainer = ({ id }: { id: string }) => {
                         </div>
                     </div>
                 )}
-                <CreateTodoBtn />
+                <CreateTodoBtn projectID={id} />
             </div>
         </TodoMutationProvider>
     );
