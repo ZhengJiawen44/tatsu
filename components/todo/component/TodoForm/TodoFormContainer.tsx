@@ -8,6 +8,7 @@ interface TodoFormContainerProps {
   displayForm: boolean;
   setDisplayForm: React.Dispatch<React.SetStateAction<boolean>>;
   todo?: TodoItemType;
+  overrideFields?: { projectID?: string }
 }
 const TodoFormContainer = ({
   editInstanceOnly,
@@ -15,9 +16,10 @@ const TodoFormContainer = ({
   displayForm,
   setDisplayForm,
   todo,
+  overrideFields
 }: TodoFormContainerProps) => {
   return (
-    <TodoFormProvider todoItem={todo}>
+    <TodoFormProvider todoItem={todo} overrideFields={overrideFields}>
       <TodoForm
         displayForm={displayForm}
         setDisplayForm={setDisplayForm}

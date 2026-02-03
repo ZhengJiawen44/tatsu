@@ -9,7 +9,7 @@ const TodoForm = dynamic(
   { loading: () => <TodoFormLoading /> },
 );
 
-const CreateTodoBtn = () => {
+const CreateTodoBtn = ({ projectID }: { projectID?: string }) => {
   const todayDict = useTranslations("today");
   const [displayForm, setDisplayForm] = useState(false);
   useEffect(() => {
@@ -53,7 +53,7 @@ const CreateTodoBtn = () => {
 
       {/* form */}
       {displayForm && (
-        <TodoForm displayForm={displayForm} setDisplayForm={setDisplayForm} />
+        <TodoForm displayForm={displayForm} setDisplayForm={setDisplayForm} overrideFields={{ projectID }} />
       )}
     </div>
   );
