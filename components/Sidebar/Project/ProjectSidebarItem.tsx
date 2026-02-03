@@ -117,16 +117,42 @@ const ProjectSidebarItem = ({ meta }: { meta: Pick<ProjectItemType, "id" | "colo
                     Edit colours...
                   </DropdownMenuSubTrigger>
                   <DropdownMenuSubContent className="max-h-[15rem] overflow-scroll">
-                    {projectColorMap.map((color) => (
-                      <DropdownMenuItem
-                        key={color.value}
-                        onClick={() => recolorMutateFn({ id: meta.id, color: color.value })}
-                      >
-                        <span className={`w-5 h-5 ${color.tailwind}  border border-popover-border rounded-sm`}></span>
-                        {color.name}
-                      </DropdownMenuItem>
-                    ))}
+                    {projectColorMap.map((color) => {
+                      // map ProjectColor values to static Tailwind classes
+                      const colorClassMap: Record<string, string> = {
+                        RED: "bg-accent-red",
+                        ORANGE: "bg-accent-orange",
+                        YELLOW: "bg-accent-yellow",
+                        LIME: "bg-accent-lime",
+                        BLUE: "bg-accent-blue",
+                        PURPLE: "bg-accent-purple",
+                        PINK: "bg-accent-pink",
+                        TEAL: "bg-accent-teal",
+                        CORAL: "bg-accent-coral",
+                        GOLD: "bg-accent-gold",
+                        DEEP_BLUE: "bg-accent-deep-blue",
+                        ROSE: "bg-accent-rose",
+                        LIGHT_RED: "bg-accent-light-red",
+                        BRICK: "bg-accent-brick",
+                        SLATE: "bg-accent-slate",
+                      };
+
+                      const bgClass = colorClassMap[color.value];
+
+                      return (
+                        <DropdownMenuItem
+                          key={color.value}
+                          onClick={() => recolorMutateFn({ id: meta.id, color: color.value })}
+                        >
+                          <span
+                            className={`w-5 h-5 ${bgClass} border border-popover-border rounded-sm`}
+                          ></span>
+                          {color.name}
+                        </DropdownMenuItem>
+                      );
+                    })}
                   </DropdownMenuSubContent>
+
                 </DropdownMenuSub>
               </DropdownMenuContent>
             </DropdownMenu>
