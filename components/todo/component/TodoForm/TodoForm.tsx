@@ -139,7 +139,7 @@ const TodoForm = ({
     const due = dateRange.to;
     try {
       const rrule = rruleOptions ? new RRule(rruleOptions).toString() : null;
-      if (todo?.id) {
+      if (todo?.id && todo.id != "-1") {
         setDisplayForm(false);
         if (editInstanceOnly) {
           editTodoInstanceMutateFn({

@@ -49,7 +49,7 @@ const CalendarEvent = ({ event: todo }: EventProps<TodoItemType>) => {
       <Popover open={open} onOpenChange={setOpen}>
         <PopoverTrigger asChild>
           <div
-            className="w-full h-full cursor-pointer !z-50"
+            className="w-full h-full cursor-pointer !z-50 text-foreground"
             title={todo.title}
             onContextMenu={(e) => {
               e.preventDefault();
@@ -57,7 +57,7 @@ const CalendarEvent = ({ event: todo }: EventProps<TodoItemType>) => {
             }}
 
           >
-            <p className="truncate max-w-full sm:max-w-xs md:max-w-sm lg:max-w-md xl:max-w-lg 2xl:max-w-xl">
+            <p className="text-sm truncate max-w-full sm:max-w-xs md:max-w-sm lg:max-w-md xl:max-w-lg 2xl:max-w-xl">
               {todo.title}
             </p>
           </div>
