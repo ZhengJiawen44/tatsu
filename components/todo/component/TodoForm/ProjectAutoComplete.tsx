@@ -13,7 +13,7 @@ type NLPProjectDropdownProps = {
     setSelectedIndex: Dispatch<number>;
 };
 
-export function NLPProjectDropdown({ projects, onSelect, style, selectedIndex, setSelectedIndex }: NLPProjectDropdownProps) {
+export function ProjectAutoComplete({ projects, onSelect, style, selectedIndex, setSelectedIndex }: NLPProjectDropdownProps) {
     const listRef = useRef<HTMLDivElement | null>(null);
     const optionRefs = useRef<Array<HTMLDivElement | null>>([]);
 
@@ -28,6 +28,7 @@ export function NLPProjectDropdown({ projects, onSelect, style, selectedIndex, s
         }
     }, [selectedIndex]);
 
+    if (!projects.length) return null;
     return (
         <div
             style={style}
@@ -36,15 +37,13 @@ export function NLPProjectDropdown({ projects, onSelect, style, selectedIndex, s
             role="listbox"
             aria-activedescendant={`project-option-${selectedIndex}`}
         >
-            {projects.length === 0 && (
-                <div className="p-2 text-xs text-muted-foreground text-center">No projects</div>
-            )}
-
             {projects.map(([key, value], i) => (
                 <div
                     key={key}
                     id={`project-option-${i}`}
-                    ref={(el) => (optionRefs.current[i] = el)}
+                    ref={(el) => {
+                        optionRefs.current[i] = el;
+                    }}
                     role="option"
                     aria-selected={selectedIndex === i}
                     className={`cursor-pointer text-sm font-normal p-1.5 rounded-sm flex items-center gap-1 ${selectedIndex === i ? "bg-popover-accent" : ""

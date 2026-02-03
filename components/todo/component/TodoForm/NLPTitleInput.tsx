@@ -1,3 +1,6 @@
+// NLPTitleInput + NLPProjectDropdown (keyboard autocomplete)
+// Paste into a single file or split as you prefer.
+
 import { getCaretOffset } from "@/components/todo/lib/getCaretOffset";
 import { setCaretOffset } from "@/components/todo/lib/setCaretOffset";
 import { cn } from "@/lib/utils";
@@ -9,7 +12,7 @@ import { useTranslations } from "next-intl";
 import { useLocale } from "next-intl";
 import { useProjectMetaData } from "@/components/Sidebar/Project/query/get-project-meta";
 import { useTodoForm } from "@/providers/TodoFormProvider";
-import { NLPProjectDropdown } from "./NLPProjectDropdown";
+import { ProjectAutoComplete } from "./ProjectAutoComplete";
 
 // --------------------------- NLPTitleInput ---------------------------
 
@@ -92,43 +95,20 @@ export default function NLPTitleInput({
     }
   };
 
-  const highlightText = (text: string, parsedResult: chrono.ParsedResult) => {
-    const { index, text: matchedText, start, end } = parsedResult;
-
-    const from = start.date();
-    const to = end?.date() ?? addHours(from, 3);
-    setDateRange({ from, to });
-
-    const before = text.slice(0, index);
-    const highlighted = `<span class="bg-nlp inline rounded-[2px]">${text.slice(
-      index,
-      index + matchedText.length
-    )}</span>`;
-    const after = text.slice(index + matchedText.length);
-
-    return { html: before + highlighted + after, cleanTitle: before + after };
-  };
-
   const escapeRegExp = (s: string) => s.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
 
-  /**
-   * Highlight project tokens in an HTML fragment without destroying existing markup.
-   * `baseHtml` is the HTML (may contain chrono <span>), `cleanTitle` is the plain text
-   * string that we'll keep as the canonical "clean" title (so we don't reintroduce the date
-   * into setTitle).
-   */
-  const highlightProjectsInHtml = (baseHtml: string, cleanTitle: string) => {
-    if (!projectMetaData) return { html: baseHtml, cleanText: cleanTitle };
+  // ---------------- HIGHLIGHTERS ----------------
+
+  const highlightProjectsInHtml = (baseText: string) => {
+    if (!projectMetaData) return { html: baseText, cleanText: baseText };
 
     const names = Object.values(projectMetaData).map((p) => p.name);
-    if (!names.length) return { html: baseHtml, cleanText: cleanTitle };
+    if (!names.length) return { html: baseText, cleanText: baseText };
 
-    // regex to match #ProjectName with lookahead for space or end
     const regex = new RegExp(`(#(${names.map((n) => escapeRegExp(n)).join("|")}))(?=\\s|$)`, "g");
 
-    // DOM-based safe replacement: traverse text nodes and replace matches with spans
     const container = document.createElement("div");
-    container.innerHTML = baseHtml;
+    container.textContent = baseText;
 
     const walker = (node: Node) => {
       const childNodes = Array.from(node.childNodes);
@@ -139,6 +119,7 @@ export default function NLPTitleInput({
           let match: RegExpExecArray | null = null;
           const frag = document.createDocumentFragment();
           regex.lastIndex = 0;
+
           while ((match = regex.exec(text)) !== null) {
             const mIndex = match.index;
             if (mIndex > lastIndex) {
@@ -151,17 +132,20 @@ export default function NLPTitleInput({
             frag.appendChild(span);
             lastIndex = mIndex + match[0].length;
           }
+
           if (lastIndex < text.length) {
             frag.appendChild(document.createTextNode(text.slice(lastIndex)));
           }
-          // only replace if we found matches
-          if (frag.childNodes.length > 0 && frag.childNodes.length !== 1 || (frag.firstChild && frag.firstChild.textContent !== text)) {
+
+          if (
+            frag.childNodes.length &&
+            (frag.childNodes.length !== 1 || frag.firstChild?.textContent !== text)
+          ) {
             child.parentNode?.replaceChild(frag, child);
           }
+
           regex.lastIndex = 0;
         } else if (child.nodeType === Node.ELEMENT_NODE) {
-          // don't descend into existing project spans to avoid double-wrapping,
-          // but allow descent otherwise
           const el = child as HTMLElement;
           if (el.getAttribute("data-project") == null) {
             walker(child);
@@ -171,36 +155,115 @@ export default function NLPTitleInput({
     };
 
     walker(container);
-
-    return { html: container.innerHTML, cleanText: cleanTitle };
+    return { html: container.innerHTML, cleanText: baseText };
   };
 
+  const highlightDatesInHtml = (baseHtml: string, parsed: chrono.ParsedResult) => {
+    const index = parsed.index as number;
+    const matchedText = parsed.text as string;
+
+    const container = document.createElement("div");
+    container.innerHTML = baseHtml;
+
+    let offset = 0;
+    let done = false;
+
+    const walker = (node: Node) => {
+      if (done) return;
+      const childNodes = Array.from(node.childNodes);
+
+      for (const child of childNodes) {
+        if (done) break;
+
+        if (child.nodeType === Node.TEXT_NODE) {
+          const txt = child.textContent ?? "";
+          const nodeStart = offset;
+          const nodeEnd = offset + txt.length;
+
+          const matchStart = index;
+          const matchEnd = index + matchedText.length;
+
+          if (nodeEnd <= matchStart || nodeStart >= matchEnd) {
+            offset += txt.length;
+            continue;
+          }
+
+          const localStart = Math.max(0, matchStart - nodeStart);
+          const localEnd = Math.min(txt.length, matchEnd - nodeStart);
+
+          const frag = document.createDocumentFragment();
+          if (localStart > 0) frag.appendChild(document.createTextNode(txt.slice(0, localStart)));
+
+          const span = document.createElement("span");
+          span.className = "bg-nlp inline rounded-[2px]";
+          span.textContent = txt.slice(localStart, localEnd);
+          frag.appendChild(span);
+
+          if (localEnd < txt.length) frag.appendChild(document.createTextNode(txt.slice(localEnd)));
+
+          child.parentNode?.replaceChild(frag, child);
+          offset += txt.length;
+          done = true;
+        } else if (child.nodeType === Node.ELEMENT_NODE) {
+          const el = child as HTMLElement;
+          if (el.getAttribute("data-project") != null) {
+            offset += el.textContent?.length ?? 0;
+          } else {
+            walker(child);
+          }
+        }
+      }
+    };
+
+    walker(container);
+
+    return { html: container.innerHTML, matchedText };
+  };
+
+  const stripProjectsFromText = (text: string) => {
+    if (!projectMetaData) return text;
+
+    const names = Object.values(projectMetaData).map((p) => p.name);
+    if (!names.length) return text;
+
+    const regex = new RegExp(`\\s*#(${names.map((n) => escapeRegExp(n)).join("|")})(?=\\s|$)`, "g");
+    return text.replace(regex, "").replace(/\s{2,}/g, " ").trim();
+  };
+
+
   const applyNLPHighlighting = (text: string) => {
-    let html = text;
+    // project first (html only)
+    const projectRes = highlightProjectsInHtml(text);
+    let html = projectRes.html;
+
     let cleanTitle = text;
 
-    // --- Chrono ---
+    // chrono
     const parsedResults = parseDate(text);
     if (parsedResults.length) {
-      const res = highlightText(text, parsedResults[0]);
-      html = res.html;
-      cleanTitle = res.cleanTitle;
+      const parsed = parsedResults[0];
+
+      const dateWrapRes = highlightDatesInHtml(html, parsed);
+      html = dateWrapRes.html;
+
+      const idx = parsed.index as number;
+      const matched = parsed.text as string;
+      cleanTitle = text.slice(0, idx) + text.slice(idx + matched.length);
+
+      const from = parsed.start.date();
+      const to = parsed.end?.date() ?? addHours(from, 3);
+      setDateRange({ from, to });
     }
 
-    // --- Projects ---
-    // Apply project highlighting to the current HTML (which still contains the chrono span),
-    // but keep `cleanTitle` as the canonical plain text without the parsed date.
-    const projectRes = highlightProjectsInHtml(html, cleanTitle);
-    html = projectRes.html;
+    //  strip project tokens from clean title
+    cleanTitle = stripProjectsFromText(cleanTitle);
 
     return { html, cleanTitle };
   };
 
-  const wrapProjectSpan = (name: string) => {
-    return `<span class="bg-nlp inline rounded-[2px]" data-project>${"#" + name}</span>`;
-  };
 
-  // --- NLP Input handler ---
+  // ---------------- INPUT HANDLERS ----------------
+
   const handleNLPInput = () => {
     if (isComposing.current) return;
 
@@ -212,18 +275,11 @@ export default function NLPTitleInput({
 
     const { html, cleanTitle } = applyNLPHighlighting(fullText);
 
-    // update the visible DOM with highlights (keeps date visible)
     node.innerHTML = html;
-
-    // but only set the "title" state to the clean text (date removed)
     setTitle(cleanTitle);
-
-    // restore caret to the same offset in the displayed content.
-    // Because we didn't remove the date from the displayed html, the offset should map correctly.
     setCaretOffset(node, caret);
   };
 
-  // --- Project Input handler ---
   const handleProjectInput = () => {
     if (isComposing.current) return;
     const node = titleRef.current;
@@ -231,22 +287,46 @@ export default function NLPTitleInput({
     const container = titleRef.current?.parentElement;
     if (!container) return;
 
+    const selection = window.getSelection();
+    if (!selection || !selection.rangeCount) {
+      setProjectDropdownVisible(false);
+      return;
+    }
+
+    const range = selection.getRangeAt(0);
+    const anchorNode: Node | null = range.startContainer;
+
+    //  If caret is inside a project span, do nothing
+    if (anchorNode) {
+      const el =
+        anchorNode.nodeType === Node.ELEMENT_NODE
+          ? (anchorNode as HTMLElement)
+          : anchorNode.parentElement;
+
+      if (el?.closest?.("[data-project]")) {
+        setProjectDropdownVisible(false);
+        return;
+      }
+    }
+
     const caret = getCaretOffset(node);
     const text = node.textContent ?? "";
 
-    // find the last '#' before caret
     const beforeCaret = text.slice(0, caret);
     const hashIndex = beforeCaret.lastIndexOf("#");
 
     if (hashIndex >= 0 && (hashIndex === 0 || /\s/.test(beforeCaret[hashIndex - 1]))) {
       const query = beforeCaret.slice(hashIndex + 1);
 
-      // get caret coordinates for dropdown
-      const selection = window.getSelection();
-      if (!selection?.rangeCount) return;
-      const range = selection.getRangeAt(0).cloneRange();
-      range.collapse(true);
-      const rect = range.getBoundingClientRect();
+      //  If user already finished token (space typed), don't reopen
+      if (query.includes(" ")) {
+        setProjectDropdownVisible(false);
+        return;
+      }
+
+      const rangeForRect = range.cloneRange();
+      rangeForRect.collapse(true);
+      const rect = rangeForRect.getBoundingClientRect();
       const containerRect = container.getBoundingClientRect();
       const x = rect.left - containerRect.left;
       const y = rect.bottom - containerRect.top;
@@ -260,7 +340,12 @@ export default function NLPTitleInput({
     }
   };
 
-  // --- Insert selected project ---
+
+  // ---------------- INSERT PROJECT ----------------
+
+  const wrapProjectSpan = (name: string) =>
+    `<span class="bg-nlp inline rounded-[2px]" data-project>#${name}</span>`;
+
   const insertProjectToken = (project: { id: string; name: string }) => {
     const node = titleRef.current;
     if (!node) return;
@@ -274,25 +359,30 @@ export default function NLPTitleInput({
     const before = beforeCaret.slice(0, hashIndex);
     const after = text.slice(caret);
 
-    const html =
-      before +
-      wrapProjectSpan(project.name) +
-      "&nbsp;" +
-      after;
+    const rawHtml = before + wrapProjectSpan(project.name) + "&nbsp;" + after;
+
+    // insert project
+    node.innerHTML = rawHtml;
+
+    // re-run NLP so chrono highlight is restored
+    const fullText = node.textContent ?? "";
+    const caretAfterInsert = before.length + project.name.length + 2;
+    const { html, cleanTitle } = applyNLPHighlighting(fullText);
 
     node.innerHTML = html;
-    setTitle(node.textContent ?? "");
+    setTitle(cleanTitle);
+
     setProjectDropdownVisible(false);
     setProjectID?.(project.id);
 
-    // move caret after inserted node
     requestAnimationFrame(() => {
-      // position is before.length + project.name.length + 2 (for '#' and a trailing space)
-      setCaretOffset(node, before.length + project.name.length + 2);
+      setCaretOffset(node, caretAfterInsert);
     });
   };
 
-  // --- Keyboard handling for contentEditable ---
+
+  // ---------------- KEYBOARD ----------------
+
   const onKeyDown = (e: React.KeyboardEvent<HTMLDivElement>) => {
     if (isComposing.current) return;
     if (!projectDropdownVisible) return;
@@ -303,8 +393,10 @@ export default function NLPTitleInput({
     switch (e.key) {
       case "Tab":
         e.preventDefault();
-        // select top result (or current selectedIndex if moved)
-        insertProjectToken({ id: filteredProjects[selectedIndex][0], name: filteredProjects[selectedIndex][1].name });
+        insertProjectToken({
+          id: filteredProjects[selectedIndex][0],
+          name: filteredProjects[selectedIndex][1].name,
+        });
         break;
       case "ArrowDown":
         e.preventDefault();
@@ -316,16 +408,19 @@ export default function NLPTitleInput({
         break;
       case "Enter":
         e.preventDefault();
-        insertProjectToken({ id: filteredProjects[selectedIndex][0], name: filteredProjects[selectedIndex][1].name });
+        insertProjectToken({
+          id: filteredProjects[selectedIndex][0],
+          name: filteredProjects[selectedIndex][1].name,
+        });
         break;
       case "Escape":
         e.preventDefault();
         setProjectDropdownVisible(false);
         break;
-      default:
-        break;
     }
   };
+
+  // ---------------- RENDER ----------------
 
   return (
     <div className={cn("relative text-[1.1rem] font-semibold", className)}>
@@ -352,7 +447,7 @@ export default function NLPTitleInput({
       )}
 
       {projectDropdownVisible && (
-        <NLPProjectDropdown
+        <ProjectAutoComplete
           projects={filteredProjects}
           selectedIndex={selectedIndex}
           setSelectedIndex={setSelectedIndex}
