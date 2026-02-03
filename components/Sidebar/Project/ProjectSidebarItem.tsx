@@ -25,14 +25,15 @@ const ProjectSidebarItem = ({ meta }: { meta: Pick<ProjectItemType, "id" | "colo
 
   const { activeMenu, setActiveMenu, setShowMenu } = useMenu();
   const { deleteMutateFn, deleteLoading } = useDeleteProject();
-
   //focus name input on isRenaming
   useEffect(() => {
     const nameInput = inputRef.current;
-    if (isRenaming === true && nameInput) {
-      nameInput.focus();
+
+    if (isRenaming && nameInput) {
+      setTimeout(() => nameInput.select(), 300)
     }
   }, [isRenaming]);
+
 
   //rename on click outside or enter key
   useEffect(() => {
@@ -47,7 +48,6 @@ const ProjectSidebarItem = ({ meta }: { meta: Pick<ProjectItemType, "id" | "colo
     function onClickOutside(e: MouseEvent) {
       if (nameInput && !nameInput.contains(e.target as Node)) {
         setIsRenaming(false);
-        renameMutateFn({ id: meta.id, name });
       }
     }
     document.addEventListener("keydown", onEnterKeyPress);
@@ -60,41 +60,44 @@ const ProjectSidebarItem = ({ meta }: { meta: Pick<ProjectItemType, "id" | "colo
 
   return (
     <>
-      <div className="relative select-none">
-        <Link
-          href={`/app/project/${meta.id}`}
-          className={clsx(
-            "select-none flex gap-2 justify-between mt-2 pl-7 py-1 px-2 rounded-lg hover:bg-popover hover:cursor-pointer pr-2",
-            activeMenu.children?.name === meta.id && "bg-popover",
-          )}
-          onClick={() => {
-            setActiveMenu({
-              name: "meta",
-              open: true,
-              children: { name: meta.id },
-            });
-            if (width <= 766) setShowMenu(false);
-          }}
-        >
-          {isRenaming ? (
+      <div className="relative ">
+        {isRenaming ? (
+          <div className="flex justify-between items-center rounded-lg pl-7 py-1 px-2 mt-2">
+            <ProjectTag id={meta.id} />
             <input
               ref={inputRef}
               type="text"
               title={meta.name}
-              className={clsx(
-                "select-none outline-none flex justify-between w-[clamp(4rem,50%,10rem)] truncate bg-transparent",
-              )}
+              className="select-text border w-full outline-none flex justify-between h-full ring-1 truncate bg-transparent"
+
               value={name}
-              onChange={(e) => {
-                setName(e.currentTarget.value);
-              }}
+              onChange={(e) => setName(e.currentTarget.value)}
+              onClick={(e) => e.stopPropagation()}
             />
-          ) : (
-            <div className={clsx("flex justify-between items-center rounded-lg ")}>
-              <ProjectTag id={meta.id} />{name}
+          </div>
+        ) : (
+          <Link
+            href={`/app/project/${meta.id}`}
+            className={clsx(
+              "select-none flex gap-2 justify-between mt-2 pl-7 py-1 px-2 rounded-lg hover:bg-popover hover:cursor-pointer pr-2",
+              activeMenu.children?.name === meta.id && "bg-popover",
+            )}
+            onClick={() => {
+              setActiveMenu({
+                name: "meta",
+                open: true,
+                children: { name: meta.id },
+              });
+              if (width <= 766) setShowMenu(false);
+            }}
+          >
+            <div className="flex justify-between items-center rounded-lg">
+              <ProjectTag id={meta.id} />
+              {meta.name}
             </div>
-          )}
-        </Link>
+          </Link>
+        )}
+
 
         <div className="absolute right-2 top-1/2 -translate-y-1/2 flex px-2">
           {deleteLoading ? (
@@ -119,7 +122,7 @@ const ProjectSidebarItem = ({ meta }: { meta: Pick<ProjectItemType, "id" | "colo
                         key={color.value}
                         onClick={() => recolorMutateFn({ id: meta.id, color: color.value })}
                       >
-                        <span className={`w-5 h-5 ${color.tailwind} border border-popover-border rounded-sm`}></span>
+                        <span className={`w-5 h-5 ${color.tailwind}  border border-popover-border rounded-sm`}></span>
                         {color.name}
                       </DropdownMenuItem>
                     ))}

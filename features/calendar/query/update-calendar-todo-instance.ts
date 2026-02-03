@@ -17,6 +17,7 @@ async function patchTodo({ ghostTodo }: { ghostTodo: TodoItemType }) {
     dtstart: ghostTodo.dtstart,
     due: ghostTodo.due,
     rrule: ghostTodo.rrule,
+    instanceDate: ghostTodo.instanceDate,
   });
   if (!parsedObj.success) {
     console.error(parsedObj.error.errors[0]);
