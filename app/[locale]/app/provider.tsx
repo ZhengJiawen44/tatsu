@@ -98,7 +98,7 @@ const Provider = ({ children }: { children: React.ReactNode }) => {
                 "px-4 md:px-[clamp(5px,5%,10%)] lg:px-[clamp(10px,10%,20%)] xl:px-[clamp(10px,15%,20%)] 2xl:px-[clamp(10px,20%,30%)] pt-4 sm:pt-[5rem]",
                 variant == "fullWidth" && "px-[clamp(5px,2%,5%)] ",
                 "w-full m-auto h-full overflow-scroll scrollbar-none",
-                isResizing && "select-none",
+                isResizing && "",
               )}
             >
               {mounted && !showMenu && <Toaster />}

@@ -26,7 +26,7 @@ async function patchCalendarTodo({
     dtstart: todo.dtstart,
     due: todo.due,
     rrule: todo.rrule,
-    projectID: null,
+    projectID: todo.projectID,
   });
   if (!parsedObj.success) {
     console.log(parsedObj.error.errors[0]);
