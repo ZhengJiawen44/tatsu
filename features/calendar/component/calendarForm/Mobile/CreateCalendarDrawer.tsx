@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useEffect, useMemo, useRef, useState } from "react";
 import { useTranslations, useLocale } from "next-intl";
 import { Options, RRule } from "rrule";
 import { Clock, Flag, Repeat, Check, Hash } from "lucide-react";
@@ -23,6 +23,7 @@ import ConfirmCancelEditDrawer from "../ConfirmCancelEditDrawer";
 import ProjectDrawer from "../ProjectDropdown/mobile/ProjectDrawer";
 import { useProjectMetaData } from "@/components/Sidebar/Project/query/get-project-meta";
 import ProjectTag from "@/components/ProjectTag";
+import NLPTitleInput from "@/components/todo/component/TodoForm/NLPTitleInput";
 
 // --- Types ---
 type CreateCalendarFormProps = {
@@ -40,8 +41,9 @@ export default function CreateCalendarDrawer({
     setDisplayForm,
 }: CreateCalendarFormProps) {
     const appDict = useTranslations("app");
-    const todayDict = useTranslations("today");
     const locale = useLocale();
+    const titleRef = useRef(null);
+
     const { projectMetaData } = useProjectMetaData();
     // Form State
     const [title, setTitle] = useState("");
@@ -130,12 +132,13 @@ export default function CreateCalendarDrawer({
                     <div className="mx-auto w-full max-w-lg overflow-y-auto p-4 pt-0">
                         <form className="flex flex-col gap-6 mt-2" onSubmit={handleSubmit}>
                             {/* Title Input */}
-                            <input
-                                className="w-full bg-transparent border-b border-border py-2 text-lg sm:text-xl font-medium focus:outline-none focus:border-lime"
-                                placeholder={todayDict("titlePlaceholder")}
-                                value={title}
-                                onChange={(e) => setTitle(e.target.value)}
-                                autoFocus
+                            <NLPTitleInput
+                                setProjectID={setProjectID}
+                                titleRef={titleRef}
+                                title={title}
+                                setTitle={setTitle}
+                                setDateRange={setDateRange}
+                                className="ml-9 flex-1 min-w-0 bg-transparent border-b border-border py-1 text-lg focus:outline-none focus:border-lime"
                             />
 
                             {/* List-style Menu */}

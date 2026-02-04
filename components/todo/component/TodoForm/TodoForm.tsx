@@ -80,6 +80,7 @@ const TodoForm = ({
             className="px-2 mt-5"
             title={title}
             setTitle={setTitle}
+            setProjectID={setProjectID}
             titleRef={titleRef}
             setDateRange={setDateRange}
           />
