@@ -49,7 +49,6 @@ const DateDropdownMenu = ({
     if (isSameDay(dateRange.from, dateRange.to)) {
       let displayedTime = `${new Intl.DateTimeFormat(locale, { hour: "numeric" }).format(dateRange.from)}-${new Intl.DateTimeFormat(locale, { hour: "numeric" }).format(dateRange.to)}`;
       if (displayedTime === "12 AM-11 PM") displayedTime = "All day";
-      console.log(displayedTime);
       return `${getDisplayDate(dateRange.from, false, locale)},  ${displayedTime}`;
     }
     return `${getDisplayDate(dateRange.from, false, locale)} - ${getDisplayDate(dateRange.to, false, locale)}`;

@@ -38,7 +38,7 @@ export default function RepeatDrawerMenu({ rruleOptions, setRruleOptions, derive
     };
     return (
 
-        <div className="p-4 space-y-4 w-full max-w-lg m-auto text-sm">
+        <div className="p-4 space-y-4 w-full max-w-lg m-auto text-base">
             {/* Every Day */}
             <div
                 className={clsx("flex w-full cursor-pointer items-center justify-between rounded-md p-2 hover:bg-accent/50", derivedRepeatType === "Daily" && "bg-accent")}
@@ -51,7 +51,7 @@ export default function RepeatDrawerMenu({ rruleOptions, setRruleOptions, derive
             >
                 <div className="flex items-center gap-2">
 
-                    <span className="text-sm">{appDict("everyDay")}</span>
+                    <span className="text-base">{appDict("everyDay")}</span>
                 </div>
             </div>
             {/* Every Week */}
@@ -65,7 +65,7 @@ export default function RepeatDrawerMenu({ rruleOptions, setRruleOptions, derive
                 data-close-on-click
             >
                 <div className="flex items-center gap-2">
-                    <span className="text-sm">{appDict("everyWeek")}</span>
+                    <span className="text-base">{appDict("everyWeek")}</span>
                 </div>
                 <span className="text-xs text-muted-foreground ml-auto">
                     {appDict("customMenu.on")} {formatDayAbbr(new Date())}
@@ -82,7 +82,7 @@ export default function RepeatDrawerMenu({ rruleOptions, setRruleOptions, derive
                 data-close-on-click
             >
                 <div className="flex items-center gap-2">
-                    <span className="text-sm">{appDict("everyMonth")}</span>
+                    <span className="text-base">{appDict("everyMonth")}</span>
                 </div>
                 <span className="text-xs text-muted-foreground ml-auto">
                     {appDict("customMenu.on")} {formatOrdinalDay(new Date())}
@@ -100,7 +100,7 @@ export default function RepeatDrawerMenu({ rruleOptions, setRruleOptions, derive
                 data-close-on-click
             >
                 <div className="flex items-center gap-2">
-                    <span className="text-sm">{appDict("everyYear")}</span>
+                    <span className="text-base">{appDict("everyYear")}</span>
                 </div>
                 <span className="text-xs text-muted-foreground ml-auto">
                     {appDict("customMenu.on")} {formatMonthDay(new Date())}
@@ -120,7 +120,7 @@ export default function RepeatDrawerMenu({ rruleOptions, setRruleOptions, derive
                 data-close-on-click
             >
                 <div className="flex items-center gap-2">
-                    <span className="text-sm">{appDict("weekdaysOnly")}</span>
+                    <span className="text-base">{appDict("weekdaysOnly")}</span>
                 </div>
                 <span className="text-xs text-muted-foreground ml-auto">Mon-Fri</span>
             </div>
@@ -135,19 +135,20 @@ export default function RepeatDrawerMenu({ rruleOptions, setRruleOptions, derive
             </NestedDrawerItem>
 
             {/* clear repeat */}
-            <div
-                className={clsx("flex w-full cursor-pointer items-center justify-between rounded-md p-2 hover:bg-accent/50", derivedRepeatType === "Monthly" && "bg-accent")}
-                onClick={() =>
-                    setRruleOptions(() => {
-                        return null;
-                    })
-                }
-                data-close-on-click
-            >
-                <div className="flex items-center gap-2 text-red">
-                    <span className="text-sm">Clear</span>
-                </div>
-            </div>
+            {rruleOptions &&
+                <div
+                    className={clsx("flex bg-inherit w-full cursor-pointer items-center justify-center border rounded-md p-2 hover:bg-red/40 hover:!text-foreground text-red", derivedRepeatType === "Monthly" && "bg-accent")}
+                    onClick={() =>
+                        setRruleOptions(() => {
+                            return null;
+                        })
+                    }
+                    data-close-on-click
+                >
+                    <div className="flex items-center gap-2  ">
+                        <span className="text-base">Clear</span>
+                    </div>
+                </div>}
         </div>
     )
 }

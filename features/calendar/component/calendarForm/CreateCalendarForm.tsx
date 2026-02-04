@@ -1,7 +1,7 @@
 import React, { useEffect, useMemo, useState } from "react";
 import { useTranslations } from "next-intl";
 import { Options, RRule } from "rrule";
-import { AlignLeft, Clock, Flag, Repeat } from "lucide-react";
+import { AlignLeft, Clock, Flag, Repeat, Hash } from "lucide-react";
 import { TodoItemType, NonNullableDateRange } from "@/types";
 import { useCreateCalendarTodo } from "../../query/create-calendar-todo";
 import DateDropdownMenu from "./DateDropdown/DateDropdownMenu";
@@ -15,6 +15,7 @@ import {
   ModalFooter,
 } from "@/components/ui/Modal";
 import { Button } from "@/components/ui/button";
+import ProjectDropdownMenu from "@/components/todo/component/TodoForm/ProjectDropdownMenu";
 type CreateCalendarFormProps = {
   start: Date;
   end: Date;
@@ -40,6 +41,7 @@ const CreateCalendarForm = ({
     to: end,
   });
   const [rruleOptions, setRruleOptions] = useState<Partial<Options> | null>(null);
+  const [projectID, setProjectID] = useState<string | null>(null);
 
   const { createCalendarTodo, createTodoStatus } = useCreateCalendarTodo();
 
@@ -93,6 +95,7 @@ const CreateCalendarForm = ({
                   dtstart: dateRange.from || start,
                   due: dateRange.to || end,
                   rrule: rruleOptions ? new RRule(rruleOptions).toString() : null,
+                  projectID: projectID
                 });
               }}
             >
@@ -108,7 +111,7 @@ const CreateCalendarForm = ({
               </div>
 
               {/* Date */}
-              <div className="flex items-start gap-4">
+              <div className="flex items-center gap-3">
                 <Clock className="w-4 h-4 text-muted-foreground mt-1" />
                 <div className="flex-1">
                   <DateDropdownMenu
@@ -119,7 +122,7 @@ const CreateCalendarForm = ({
               </div>
 
               {/* Repeat */}
-              <div className="flex items-start gap-4">
+              <div className="flex items-center gap-3">
                 <Repeat className="w-4 h-4 text-muted-foreground mt-1" />
                 <div className="flex-1">
                   <RepeatDropdownMenu
@@ -130,8 +133,21 @@ const CreateCalendarForm = ({
                 </div>
               </div>
 
+              {/* Project */}
+              <div className="flex items-center gap-3">
+                <Hash className="w-4 h-4 text-muted-foreground mt-1" />
+                <div className="flex-1">
+                  <ProjectDropdownMenu
+                    projectID={projectID}
+                    setProjectID={setProjectID}
+                    className="bg-input text-foreground text-sm flex justify-center items-center gap-2 hover:bg-popover-border rounded-md"
+                    variant={"noHash"}
+                  />
+                </div>
+              </div>
+
               {/* Priority */}
-              <div className="flex items-start gap-4">
+              <div className="flex items-center gap-3">
                 <Flag className="w-4 h-4 text-muted-foreground mt-1" />
                 <div className="flex-1">
                   <PriorityDropdownMenu
@@ -142,7 +158,7 @@ const CreateCalendarForm = ({
               </div>
 
               {/* Description */}
-              <div className="flex items-start gap-4">
+              <div className="flex items-start gap-3">
                 <AlignLeft className="w-4 h-4 text-muted-foreground mt-1" />
                 <textarea
                   className="flex-1 min-w-0 bg-input rounded-md px-3 py-2 text-sm resize-none focus:outline-none focus:ring-2 focus:ring-lime"

@@ -2,7 +2,7 @@
 import React, { useEffect, useMemo, useState } from "react";
 import { useTranslations, useLocale } from "next-intl";
 import { RRule } from "rrule";
-import { Clock, Flag, Repeat, Check } from "lucide-react";
+import { Clock, Flag, Repeat, Check, Hash } from "lucide-react";
 import NestedDrawerItem from "@/components/mobile/NestedDrawerItem";
 import { TodoItemType, NonNullableDateRange } from "@/types";
 import { getDisplayDate } from "@/lib/date/displayDate";
@@ -21,6 +21,9 @@ import RepeatDrawerMenu from "../RepeatDropdown/Mobile/RepeatDrawerMenu";
 import { useEditCalendarTodo } from "@/features/calendar/query/update-calendar-todo";
 import ConfirmEditAllDrawer from "../ConfirmEditAllDrawer";
 import ConfirmCancelEditDrawer from "../ConfirmCancelEditDrawer";
+import ProjectDrawer from "../ProjectDropdown/mobile/ProjectDrawer";
+import ProjectTag from "@/components/ProjectTag";
+import { useProjectMetaData } from "@/components/Sidebar/Project/query/get-project-meta";
 // --- Types ---
 type CreateCalendarFormProps = {
     todo: TodoItemType
@@ -37,6 +40,8 @@ export default function CreateCalendarDrawer({
     const appDict = useTranslations("app");
     const todayDict = useTranslations("today");
     const locale = useLocale();
+    const { projectMetaData } = useProjectMetaData();
+
     const dateRangeChecksum = useMemo(
         () => todo.dtstart.toISOString() + todo.due.toISOString(),
         [todo.dtstart, todo.due],
@@ -56,6 +61,8 @@ export default function CreateCalendarDrawer({
     const [rruleOptions, setRruleOptions] = useState(
         todo?.rrule ? RRule.parseString(todo.rrule) : null,
     );
+    const [projectID, setProjectID] = useState<string | null>(todo.projectID);
+
 
     const hasUnsavedChanges = useMemo(() => {
         const rruleString = rruleOptions
@@ -123,6 +130,7 @@ export default function CreateCalendarDrawer({
                     dtstart: dateRange.from,
                     due: dateRange.to,
                     rrule: rruleOptions ? new RRule(rruleOptions).toString() : null,
+                    projectID
                 }}
                 rruleChecksum={rruleChecksum!}
                 dateRangeChecksum={dateRangeChecksum}
@@ -130,6 +138,7 @@ export default function CreateCalendarDrawer({
                 editAllDialogOpen={editAllDialogOpen}
                 setEditAllDialogOpen={setEditAllDialogOpen}
             />
+
             <Drawer
                 open={displayForm}
                 onOpenChange={(open) => {
@@ -140,129 +149,173 @@ export default function CreateCalendarDrawer({
                     }
                 }}
             >
-                <DrawerContent className="flex flex-col max-h-[85dvh]">
-                    <DrawerHeader><DrawerTitle className="hidden">create todo</DrawerTitle></DrawerHeader>
+                <DrawerContent className="max-h-[96vh] flex flex-col">
+                    <DrawerHeader>
+                        <DrawerTitle className="hidden">create todo</DrawerTitle>
+                    </DrawerHeader>
+
                     <div className="mx-auto w-full max-w-lg overflow-y-auto p-4 pt-0">
-                        <form className="flex flex-col gap-6 mt-2" onSubmit={(e) => {
-                            e.preventDefault();
-                            if (todo.rrule) {
-                                setEditAllDialogOpen(true);
-                            } else {
-                                editCalendarTodo({
-                                    ...todo,
-                                    rrule: rruleOptions ? new RRule(rruleOptions).toString() : null,
-                                    title,
-                                    description,
-                                    priority,
-                                    dtstart: dateRange.from,
-                                    due: dateRange.to,
-                                });
-                            }
-                        }}>
+                        <form className="flex flex-col gap-6 mt-2" onSubmit={
+                            (e) => {
+                                e.preventDefault();
+                                if (todo.rrule) {
+                                    setEditAllDialogOpen(true);
+                                } else {
+                                    editCalendarTodo({
+                                        ...todo,
+                                        rrule: rruleOptions ? new RRule(rruleOptions).toString() : null,
+                                        title,
+                                        description,
+                                        priority,
+                                        dtstart: dateRange.from,
+                                        due: dateRange.to,
+                                        projectID
+                                    });
+                                }
+                            }}>
                             {/* Title Input */}
                             <input
                                 className="w-full bg-transparent border-b border-border py-2 text-lg sm:text-xl font-medium focus:outline-none focus:border-lime"
                                 placeholder={todayDict("titlePlaceholder")}
                                 value={title}
                                 onChange={(e) => setTitle(e.target.value)}
-
+                                autoFocus
                             />
 
-                            {/* List-style Menu for mobile feel */}
+                            {/* List-style Menu */}
                             <div className="flex flex-col border rounded-md divide-y bg-secondary/20">
-
-                                {/* Date Selection Drawer */}
+                                {/* Date */}
                                 <NestedDrawerItem
                                     title="Date"
-                                    icon={<Clock className="w-4 h-4 sm:w-4 sm:h-4 " />}
+                                    icon={<Clock className="w-4 h-4" />}
                                     label={getDisplayDate(dateRange.from, false, locale)}
                                 >
-                                    <div className="p-4 space-y-4 w-full max-w-lg m-auto ">
-                                        <DateDrawerMenu dateRange={dateRange} setDateRange={setDateRange} />
+                                    <div className="p-4 space-y-4 w-full max-w-lg m-auto">
+                                        <DateDrawerMenu
+                                            dateRange={dateRange}
+                                            setDateRange={setDateRange}
+                                        />
                                         <Calendar
                                             mode="range"
                                             selected={dateRange}
-                                            onSelect={(range) => range?.from && setDateRange({ from: range.from, to: range.to || range.from })}
+                                            onSelect={(range) =>
+                                                range?.from &&
+                                                setDateRange({
+                                                    from: range.from,
+                                                    to: range.to || range.from,
+                                                })
+                                            }
                                             className="w-full flex justify-center"
-                                            classNames={{
-                                                // Increase these values to make the picker wider
-                                                day: " h-10 w-10 p-0 font-normal aria-selected:opacity-100",
-                                                head_cell: "w-10 font-normal text-[1rem] text-muted-foreground",
-                                                cell: "h-10 w-10 text-center text-sm p-0 relative",
-                                            }}
                                         />
                                         <DrawerClose asChild>
-                                            <Button className="w-full bg-lime">{appDict("save")}</Button>
+                                            <Button className="w-full h-fit text-foreground font-normal border bg-inherit hover:bg-lime/90">
+                                                {appDict("save")}
+                                            </Button>
                                         </DrawerClose>
                                     </div>
                                 </NestedDrawerItem>
 
-                                {/* Priority Selection Drawer */}
+                                {/* Priority */}
                                 <NestedDrawerItem
-                                    icon={<Flag className="w-4 h-4 sm:w-4 sm:h-4" />}
+                                    icon={<Flag className="w-4 h-4" />}
                                     label={priority}
                                     title={appDict("priority")}
                                 >
-                                    <div className="p-4 space-y-2">
+                                    <div className="p-4 space-y-2 w-full max-w-lg m-auto">
                                         {(["Low", "Medium", "High"] as const).map((p) => (
                                             <button
                                                 key={p}
                                                 onClick={() => setPriority(p)}
                                                 data-close-on-click
-                                                className="flex items-center justify-between w-full p-4 hover:bg-accent rounded-md text-sm"
+                                                className="flex items-center justify-between w-full p-2 hover:bg-accent/50 rounded-md text-base"
                                             >
                                                 <span>{p}</span>
-                                                {priority === p && <Check className="w-4 h-4 sm:w-4 sm:h-4 text-lime" />}
+                                                {priority === p && (
+                                                    <Check className="w-4 h-4 text-lime" />
+                                                )}
                                             </button>
                                         ))}
                                         <DrawerClose asChild>
-                                            <Button variant="outline" className="w-full mt-4">{appDict("save")}</Button>
+                                            <Button variant="outline" className="w-full mt-4 hover:bg-lime/80 font-normal">
+                                                {appDict("save")}
+                                            </Button>
                                         </DrawerClose>
                                     </div>
                                 </NestedDrawerItem>
 
-                                {/* Repeat Selection Drawer */}
+                                {/* Repeat */}
                                 <NestedDrawerItem
-                                    icon={<Repeat className="w-4 h-4 sm:w-4 sm:h-4" />}
-                                    label={rruleOptions && derivedRepeatType || "No Repeat"}
+                                    icon={<Repeat className="w-4 h-4" />}
+                                    label={(rruleOptions && derivedRepeatType) || "No Repeat"}
                                     title={appDict("repeat")}
                                 >
                                     <div className="p-4 space-y-2">
-                                        <RepeatDrawerMenu rruleOptions={rruleOptions} setRruleOptions={setRruleOptions} derivedRepeatType={derivedRepeatType} />
-                                        {/* Simplified Repeat logic for brevity */}
-
-                                        <DrawerClose asChild>
-                                            <Button variant="outline" className="w-full mt-4">{appDict("save")}</Button>
-                                        </DrawerClose>
+                                        <RepeatDrawerMenu
+                                            rruleOptions={rruleOptions}
+                                            setRruleOptions={setRruleOptions}
+                                            derivedRepeatType={derivedRepeatType}
+                                        />
                                     </div>
                                 </NestedDrawerItem>
 
+                                {/* project */}
+                                <NestedDrawerItem
+                                    icon={<Hash className="w-4 h-4" />}
+                                    label={
+                                        projectID
+                                            ?
+                                            <>
+                                                <ProjectTag id={projectID} />
+                                                <span>{projectMetaData[projectID]?.name}</span>
+                                            </>
+                                            :
+                                            "No project"
+                                    }
+                                    title={"Project"}
+                                >
+                                    <div className="p-4 space-y-2">
+                                        <ProjectDrawer projectID={projectID} setProjectID={setProjectID} />
+                                    </div>
+                                </NestedDrawerItem>
                             </div>
 
-                            {/* Description area */}
-                            <div className="space-y-2">
-                                <textarea
-                                    className="w-full bg-secondary/40 rounded-md p-3 text-lg resize-none border outline-none"
-                                    rows={4}
-                                    value={description}
-                                    onChange={(e) => setDescription(e.target.value)}
-                                    placeholder={appDict("descPlaceholder")}
-                                />
-                            </div>
+                            {/* Description */}
+                            <textarea
+                                className="w-full bg-secondary/40 rounded-md p-3 text-lg resize-none border max-h-[85dvh]outline-none "
+                                rows={4}
+                                value={description}
+                                onChange={(e) => setDescription(e.target.value)}
+                                placeholder={appDict("descPlaceholder")}
+                            />
 
                             <DrawerFooter className="px-0 flex-row gap-3">
-                                <DrawerClose asChild>
-                                    <Button
-                                        type="button"
-                                        variant="ghost"
-                                        className="flex-1 h-12 rounded-md border"
-                                        onClick={handleClose}
-                                    >
-                                        {appDict("cancel")}
-                                    </Button>
-                                </DrawerClose>
                                 <Button
+                                    type="button"
+                                    variant="ghost"
+                                    className="flex-1 h-12 rounded-md border"
+                                    onClick={handleClose}
+                                >
+                                    {appDict("cancel")}
+                                </Button>
 
+                                <Button
+                                    onClick={(e) => {
+                                        e.preventDefault();
+                                        if (todo.rrule) {
+                                            setEditAllDialogOpen(true);
+                                        } else {
+                                            editCalendarTodo({
+                                                ...todo,
+                                                rrule: rruleOptions ? new RRule(rruleOptions).toString() : null,
+                                                title,
+                                                description,
+                                                priority,
+                                                dtstart: dateRange.from,
+                                                due: dateRange.to,
+                                                projectID
+                                            });
+                                        }
+                                    }}
                                     className="flex-1 h-12 rounded-md bg-lime hover:bg-lime/90 text-white font-bold"
                                 >
                                     {appDict("save")}

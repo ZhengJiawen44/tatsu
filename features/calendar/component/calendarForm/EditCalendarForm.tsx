@@ -5,7 +5,7 @@ import DateDropdownMenu from "./DateDropdown/DateDropdownMenu";
 import { NonNullableDateRange } from "@/types";
 import { RRule } from "rrule";
 import RepeatDropdownMenu from "./RepeatDropdown/RepeatDropdownMenu";
-import { AlignLeft, Clock, Flag, Repeat } from "lucide-react";
+import { AlignLeft, Clock, Flag, Hash, Repeat } from "lucide-react";
 import ConfirmCancelEditDialog from "./ConfirmCancelEdit";
 import ConfirmEditAllDialog from "./ConfirmEditAll";
 import { useEditCalendarTodo } from "../../query/update-calendar-todo";
@@ -17,6 +17,7 @@ import {
   ModalFooter,
 } from "@/components/ui/Modal";
 import { Button } from "@/components/ui/button";
+import ProjectDropdownMenu from "@/components/todo/component/TodoForm/ProjectDropdownMenu";
 
 type CalendarFormProps = {
   todo: TodoItemType;
@@ -51,6 +52,7 @@ const CalendarForm = ({
   const [rruleOptions, setRruleOptions] = useState(
     todo?.rrule ? RRule.parseString(todo.rrule) : null,
   );
+  const [projectID, setProjectID] = useState<string | null>(todo.projectID);
 
   const hasUnsavedChanges = useMemo(() => {
     const rruleString = rruleOptions
@@ -100,6 +102,7 @@ const CalendarForm = ({
           dtstart: dateRange.from,
           due: dateRange.to,
           rrule: rruleOptions ? new RRule(rruleOptions).toString() : null,
+          projectID
         }}
         rruleChecksum={rruleChecksum!}
         dateRangeChecksum={dateRangeChecksum}
@@ -128,6 +131,7 @@ const CalendarForm = ({
                     priority,
                     dtstart: dateRange.from,
                     due: dateRange.to,
+                    projectID
                   });
                 }
               }}
@@ -163,6 +167,19 @@ const CalendarForm = ({
                       rruleOptions={rruleOptions}
                       setRruleOptions={setRruleOptions}
                       derivedRepeatType={null}
+                    />
+                  </div>
+                </div>
+
+                {/* Project */}
+                <div className="flex items-center gap-3">
+                  <Hash className="w-4 h-4 text-muted-foreground mt-1" />
+                  <div className="flex-1">
+                    <ProjectDropdownMenu
+                      projectID={projectID}
+                      setProjectID={setProjectID}
+                      className="bg-input text-foreground text-sm flex justify-center items-center gap-2 hover:bg-popover-border rounded-md"
+                      variant={"noHash"}
                     />
                   </div>
                 </div>
