@@ -13,7 +13,7 @@ export function DateDrawerMenu({ dateRange, setDateRange }: { dateRange: NonNull
     const appDict = useTranslations("app");
     return (
 
-        <div className="p-4 space-y-4 w-full max-w-lg m-auto  text-sm">
+        <div className="p-4 space-y-4 w-full max-w-lg m-auto text-base">
             {/* --- OPTION: Today --- */}
             <div
                 className="flex w-full cursor-pointer items-center justify-between rounded-md p-2 hover:bg-accent/50"
@@ -94,11 +94,13 @@ export function DateDrawerMenu({ dateRange, setDateRange }: { dateRange: NonNull
                 </p>
             </div>
             <NestedDrawerItem
-                className="flex w-full !gap-3 cursor-pointer items-center justify-between rounded-md p-2 hover:bg-accent/50 text-base"
+                className="flex w-full !gap-3 cursor-pointer items-center justify-between rounded-md p-2 hover:bg-accent/50"
                 title="Duration"
-                icon={<Clock className="w-4 h-4 sm:w-4 sm:h-4" />}
+                icon={<Clock className="w-5 h-5" />}
                 label=""
-            ><DurationPicker dateRange={dateRange} setDateRange={setDateRange} /></NestedDrawerItem>
+            >
+                <DurationPicker dateRange={dateRange} setDateRange={setDateRange} />
+            </NestedDrawerItem>
         </div>
 
     )

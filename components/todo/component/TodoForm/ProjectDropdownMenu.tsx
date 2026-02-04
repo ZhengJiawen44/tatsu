@@ -1,15 +1,21 @@
 import { Input } from '@/components/ui/input';
 import { Popover, PopoverTrigger, PopoverContent } from '@/components/ui/popover';
 import { ChevronDown } from 'lucide-react';
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, SetStateAction } from 'react';
 import { Button } from '@/components/ui/button';
-import { useTodoForm } from '@/providers/TodoFormProvider';
 import { useProjectMetaData } from '@/components/Sidebar/Project/query/get-project-meta';
 import { DropdownMenuSeparator } from '@/components/ui/dropdown-menu';
 import ProjectTag from '@/components/ProjectTag';
+import { cn } from '@/lib/utils';
 
-export default function ProjectDropdownMenu() {
-    const { projectID, setProjectID } = useTodoForm();
+type ProjectDropdownMenuProp = {
+    projectID: string | null;
+    setProjectID: React.Dispatch<SetStateAction<string | null>>;
+    className?: string;
+    variant?: "default" | "noHash"
+}
+
+export default function ProjectDropdownMenu({ projectID, setProjectID, className, variant = "default" }: ProjectDropdownMenuProp) {
     const { projectMetaData } = useProjectMetaData();
     const [open, setOpen] = useState(false);
     const [search, setSearch] = useState('');
@@ -28,14 +34,15 @@ export default function ProjectDropdownMenu() {
     return (
         <Popover modal={false} open={open} onOpenChange={setOpen}>
             <PopoverTrigger asChild>
-                <Button variant="ghost" type="button" className="h-8 !px-2 gap-1 text-muted-foreground">
-
+                <Button variant="ghost" type="button" className={cn("h-fit !px-2 gap-1 text-muted-foreground font-normal", className)}>
                     {projectID
                         ?
                         <>
                             <ProjectTag id={projectID} className='text-sm pr-0' /> <>{projectMetaData[projectID]?.name}</>
                         </>
-                        : <><span>#</span>Project</>
+                        : <>
+                            {variant == "default" && <span>#</span>}<p>Project</p>
+                        </>
                     }
                     <ChevronDown className="w-4 h-4 text-muted-foreground" />
                 </Button>

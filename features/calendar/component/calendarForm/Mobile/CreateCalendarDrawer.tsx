@@ -1,7 +1,7 @@
 import React, { useEffect, useMemo, useState } from "react";
 import { useTranslations, useLocale } from "next-intl";
 import { Options, RRule } from "rrule";
-import { Clock, Flag, Repeat, Check } from "lucide-react";
+import { Clock, Flag, Repeat, Check, Hash } from "lucide-react";
 import NestedDrawerItem from "@/components/mobile/NestedDrawerItem";
 import { TodoItemType, NonNullableDateRange } from "@/types";
 import { getDisplayDate } from "@/lib/date/displayDate";
@@ -20,6 +20,9 @@ import { DateDrawerMenu } from "../DateDropdown/Mobile/DateDrawerMenu";
 import RepeatDrawerMenu from "../RepeatDropdown/Mobile/RepeatDrawerMenu";
 import { useCreateCalendarTodo } from "@/features/calendar/query/create-calendar-todo";
 import ConfirmCancelEditDrawer from "../ConfirmCancelEditDrawer";
+import ProjectDrawer from "../ProjectDropdown/mobile/ProjectDrawer";
+import { useProjectMetaData } from "@/components/Sidebar/Project/query/get-project-meta";
+import ProjectTag from "@/components/ProjectTag";
 
 // --- Types ---
 type CreateCalendarFormProps = {
@@ -39,7 +42,7 @@ export default function CreateCalendarDrawer({
     const appDict = useTranslations("app");
     const todayDict = useTranslations("today");
     const locale = useLocale();
-
+    const { projectMetaData } = useProjectMetaData();
     // Form State
     const [title, setTitle] = useState("");
     const [description, setDescription] = useState("");
@@ -49,8 +52,8 @@ export default function CreateCalendarDrawer({
         to: end,
     });
     const [rruleOptions, setRruleOptions] = useState<Partial<Options> | null>(null);
+    const [projectID, setProjectID] = useState<string | null>(null);
     const [cancelEditDialogOpen, setCancelEditDialogOpen] = useState(false);
-
     const { createCalendarTodo, createTodoStatus } = useCreateCalendarTodo();
 
     const hasUnsavedChanges = useMemo(() => {
@@ -89,6 +92,7 @@ export default function CreateCalendarDrawer({
             dtstart: dateRange.from,
             due: dateRange.to,
             rrule: rruleOptions ? new RRule(rruleOptions).toString() : null,
+            projectID: projectID
         });
     };
 
@@ -160,7 +164,7 @@ export default function CreateCalendarDrawer({
                                             className="w-full flex justify-center"
                                         />
                                         <DrawerClose asChild>
-                                            <Button className="w-full bg-lime">
+                                            <Button className="w-full h-fit text-foreground font-normal border bg-inherit hover:bg-lime/90">
                                                 {appDict("save")}
                                             </Button>
                                         </DrawerClose>
@@ -173,13 +177,13 @@ export default function CreateCalendarDrawer({
                                     label={priority}
                                     title={appDict("priority")}
                                 >
-                                    <div className="p-4 space-y-2">
+                                    <div className="p-4 space-y-2 w-full max-w-lg m-auto">
                                         {(["Low", "Medium", "High"] as const).map((p) => (
                                             <button
                                                 key={p}
                                                 onClick={() => setPriority(p)}
                                                 data-close-on-click
-                                                className="flex items-center justify-between w-full p-4 hover:bg-accent rounded-md text-sm"
+                                                className="flex items-center justify-between w-full p-2 hover:bg-accent/50 rounded-md text-base"
                                             >
                                                 <span>{p}</span>
                                                 {priority === p && (
@@ -188,7 +192,7 @@ export default function CreateCalendarDrawer({
                                             </button>
                                         ))}
                                         <DrawerClose asChild>
-                                            <Button variant="outline" className="w-full mt-4">
+                                            <Button variant="outline" className="w-full mt-4 hover:bg-lime/80 font-normal">
                                                 {appDict("save")}
                                             </Button>
                                         </DrawerClose>
@@ -207,11 +211,26 @@ export default function CreateCalendarDrawer({
                                             setRruleOptions={setRruleOptions}
                                             derivedRepeatType={derivedRepeatType}
                                         />
-                                        <DrawerClose asChild>
-                                            <Button variant="outline" className="w-full mt-4">
-                                                {appDict("save")}
-                                            </Button>
-                                        </DrawerClose>
+                                    </div>
+                                </NestedDrawerItem>
+
+                                {/* project */}
+                                <NestedDrawerItem
+                                    icon={<Hash className="w-4 h-4" />}
+                                    label={
+                                        projectID
+                                            ?
+                                            <>
+                                                <ProjectTag id={projectID} />
+                                                <span>{projectMetaData[projectID]?.name}</span>
+                                            </>
+                                            :
+                                            "No project"
+                                    }
+                                    title={"Project"}
+                                >
+                                    <div className="p-4 space-y-2">
+                                        <ProjectDrawer projectID={projectID} setProjectID={setProjectID} />
                                     </div>
                                 </NestedDrawerItem>
                             </div>
@@ -249,3 +268,6 @@ export default function CreateCalendarDrawer({
         </>
     );
 }
+
+
+

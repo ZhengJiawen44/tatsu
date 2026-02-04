@@ -1,6 +1,6 @@
 import { cn } from "@/lib/utils";
 import { ChevronRight } from "lucide-react";
-import { useState } from "react";
+import React, { useState } from "react";
 import { Drawer, DrawerTrigger, DrawerContent, DrawerHeader, DrawerTitle } from "../ui/drawer";
 
 export default function NestedDrawerItem({
@@ -11,7 +11,7 @@ export default function NestedDrawerItem({
     className
 }: {
     icon: React.ReactNode;
-    label: string;
+    label: string | React.ReactNode;
     title?: string;
     children: React.ReactNode
     className?: string
@@ -34,7 +34,7 @@ export default function NestedDrawerItem({
                 <button type="button" className={cn("flex items-center justify-between w-full p-4 hover:bg-accent/50 active:bg-accent transition-colors", className)}>
                     <div className="flex items-center gap-3">
                         {icon}
-                        <span className="text-sm font-medium">{title}</span>
+                        <span className="text-base font-medium">{title}</span>
                     </div>
                     <div className="flex items-center gap-2 text-muted-foreground">
                         <span className="text-sm">{label}</span>

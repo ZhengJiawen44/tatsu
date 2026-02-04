@@ -67,7 +67,7 @@ export default function CustomRepeatDrawer({
                 <div className="p-6 pt-2  bg-background  w-full max-w-lg " >
 
                     <Button
-                        className="h-12 w-full rounded-md bg-lime text-foreground text-base font-bold "
+                        className="h-fit w-full rounded-md bg-inherit border text-foreground "
                         onClick={() => setRruleOptions(rruleOptions)}
                         data-close-on-click
                     >

@@ -5,7 +5,13 @@ import { TodoItemType } from "@/types";
 
 type CreateTodoInput = Pick<
   TodoItemType,
-  "title" | "description" | "rrule" | "dtstart" | "due" | "priority"
+  | "title"
+  | "description"
+  | "rrule"
+  | "dtstart"
+  | "due"
+  | "priority"
+  | "projectID"
 >;
 
 async function postTodo({ todo }: { todo: CreateTodoInput }) {
@@ -17,6 +23,7 @@ async function postTodo({ todo }: { todo: CreateTodoInput }) {
     dtstart: todo.dtstart,
     due: todo.due,
     rrule: todo.rrule,
+    projectID: todo.projectID,
   });
 
   if (!parsedObj.success) {
