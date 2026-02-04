@@ -8,11 +8,11 @@ import Footer from "./Footer";
 import EyeToggle from "../ui/eyeToggle";
 import { useTranslations } from "next-intl";
 import FlagsCarousel from "./FlagsCarousel";
+import MoreFeatures from "./MoreFeatures";
 
 const LandingPage = () => {
   const dict = useTranslations("landingPage");
   const [activeFeature, setActiveFeature] = useState(0);
-  const [scrollProgress, setScrollProgress] = useState(0);
   const observerRefs = useRef<(HTMLDivElement | null)[]>([]);
 
   // Build features array from translations
@@ -100,26 +100,6 @@ const LandingPage = () => {
     };
   }, []);
 
-  // Scroll listener for 3D tilt
-  useEffect(() => {
-    const onScroll = () => {
-      const max = 400; // pixels to flatten
-      const scrolled = Math.min(window.scrollY, max);
-      setScrollProgress(scrolled / max);
-    };
-
-    window.addEventListener("scroll", onScroll);
-    return () => window.removeEventListener("scroll", onScroll);
-  }, []);
-
-  // Compute 3D transform
-  const initialRotateX = 10; // tilt backward
-  const initialRotateY = -5; // slight side tilt
-  const initialTranslateZ = -50; // pull back
-
-  const rotateX = initialRotateX * (1 - scrollProgress);
-  const rotateY = initialRotateY * (1 - scrollProgress);
-  const translateZ = initialTranslateZ * (1 - scrollProgress);
 
   const [showPassword, setShowPassword] = useState(false);
 
@@ -134,11 +114,11 @@ const LandingPage = () => {
       <div className="flex flex-col gap-10 items-center justify-center text-foreground text-center px-4 sm:px-6 lg:px-8">
         {/* Hero Section */}
         <div className=" flex flex-col items-center gap-6 sm:gap-8 lg:gap-9 mb-16 sm:mb-24 lg:mb-32 pt-12 sm:pt-16 lg:pt-20 max-w-7xl w-full">
-          <div className="flex-1 w-full">
+          <div className="flex-1 w-full mb-10">
             <h1 className="text-4xl sm:text-5xl lg:text-6xl font-semibold mb-4 sm:mb-6">
               {dict("hero.title")}
             </h1>
-            <p className="text-base sm:text-lg lg:text-xl max-w-2xl mx-auto mb-6 sm:mb-8 px-4">
+            <p className="text-base sm:text-lg lg:text-xl max-w-4xl mx-auto mb-6 sm:mb-8 px-2">
               {dict("hero.subtitle")}
             </p>
             <div className="flex flex-col sm:flex-row justify-center gap-3 sm:gap-4 px-4">
@@ -151,7 +131,7 @@ const LandingPage = () => {
                 </Button>
               </Link>
               <Link href="/login" className="z-50 w-full sm:w-auto">
-                <Button className="w-full sm:w-auto text-foreground px-6 py-5 sm:p-6 text-base sm:text-lg font-semibold rounded-lg shadow-md hover:translate-y-[2px] transition-transform duration-100">
+                <Button className="bg-lime/65 w-full sm:w-auto text-foreground px-6 py-5 sm:p-6 text-base sm:text-lg font-normal rounded-lg shadow-md hover:translate-y-[2px] transition-transform duration-100">
                   {dict("hero.start")}
                 </Button>
               </Link>
@@ -161,23 +141,17 @@ const LandingPage = () => {
           {/* Hero Image with 3D Tilt Hidden on mobile, visible on tablet+ */}
           <div className="flex-2 hidden sm:block w-full mt-8 lg:mt-0">
             <div
-              style={{ perspective: "1200px" }}
               className="w-full flex justify-center"
             >
               <div
-                style={{
-                  transform: `rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateZ(${translateZ}px)`,
-                  transformStyle: "preserve-3d",
-                  transition: "transform 0.1s ease-out",
-                  willChange: "transform",
-                }}
-                className="w-full max-w-5xl relative"
+                className="w-full  relative"
               >
                 <Image
-                  className="border rounded-lg m-auto mb-6 shadow-2xl w-full h-auto"
+                  className=" rounded-lg m-auto mb-6 shadow-2xl w-full h-auto"
                   src={"/heroImage.png"}
-                  width={1200}
-                  height={500}
+                  width={1899}
+                  height={982}
+                  quality={100}
                   alt="hero Image"
                   loading="eager"
                 />
@@ -190,8 +164,9 @@ const LandingPage = () => {
             <Image
               className="border rounded-lg shadow-2xl w-full h-auto"
               src={"/heroImage.png"}
-              width={1200}
-              height={500}
+              width={1899}
+              height={982}
+              quality={100}
               alt="example of weekly recurring todo"
               loading="lazy"
               sizes="(max-width: 1024px) 100vw, 50vw"
@@ -313,6 +288,13 @@ const LandingPage = () => {
                 </div>
               </div>
             </div>
+
+          </div>
+          <p className="w-full text-4xl font-semibold m-auto mb-16">And many more</p>
+
+          <div className="w-full flex  flex-wrap gap-4 justify-center">
+            <MoreFeatures />
+
           </div>
         </div>
 

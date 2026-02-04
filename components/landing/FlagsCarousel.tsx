@@ -19,7 +19,7 @@ export default function FlagsCarousel() {
                     <FlagImage />
                 </div>
             </div>
-            <p className='text-muted-foreground text-sm md:text-xl'>{landingDict("localizationTitle")}</p>
+            <p className='text-muted-foreground text-sm md:text-base'>{landingDict("localizationTitle")}</p>
         </div>
     )
 }
