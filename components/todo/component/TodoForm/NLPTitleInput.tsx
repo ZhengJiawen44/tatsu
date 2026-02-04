@@ -11,7 +11,6 @@ import React, { SetStateAction, useEffect, useRef, useState, useMemo } from "rea
 import { useTranslations } from "next-intl";
 import { useLocale } from "next-intl";
 import { useProjectMetaData } from "@/components/Sidebar/Project/query/get-project-meta";
-import { useTodoForm } from "@/providers/TodoFormProvider";
 import { ProjectAutoComplete } from "./ProjectAutoComplete";
 
 // --------------------------- NLPTitleInput ---------------------------
@@ -21,6 +20,7 @@ type NLPTitleInputProps = {
   title: string;
   setTitle: React.Dispatch<SetStateAction<string>>;
   setDateRange: React.Dispatch<SetStateAction<NonNullableDateRange>>;
+  setProjectID: React.Dispatch<SetStateAction<string | null>>;
   className?: string;
 };
 
@@ -38,6 +38,7 @@ export default function NLPTitleInput({
   title,
   setTitle,
   setDateRange,
+  setProjectID,
   className,
 }: NLPTitleInputProps) {
   const locale = useLocale();
@@ -51,7 +52,6 @@ export default function NLPTitleInput({
   const [selectedIndex, setSelectedIndex] = useState(0);
 
   const { projectMetaData } = useProjectMetaData();
-  const { setProjectID } = useTodoForm();
 
   // compute filtered projects here so parent knows the list length
   const filteredProjects = useMemo(() => {

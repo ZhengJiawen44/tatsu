@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useEffect, useMemo, useRef, useState } from "react";
 import { useTranslations } from "next-intl";
 import { Options, RRule } from "rrule";
 import { AlignLeft, Clock, Flag, Repeat, Hash } from "lucide-react";
@@ -16,6 +16,7 @@ import {
 } from "@/components/ui/Modal";
 import { Button } from "@/components/ui/button";
 import ProjectDropdownMenu from "@/components/todo/component/TodoForm/ProjectDropdownMenu";
+import NLPTitleInput from "@/components/todo/component/TodoForm/NLPTitleInput";
 type CreateCalendarFormProps = {
   start: Date;
   end: Date;
@@ -30,7 +31,6 @@ const CreateCalendarForm = ({
   setDisplayForm,
 }: CreateCalendarFormProps) => {
   const appDict = useTranslations("app");
-  const todayDict = useTranslations("today");
 
   const [cancelEditDialogOpen, setCancelEditDialogOpen] = useState(false);
   const [title, setTitle] = useState("");
@@ -42,6 +42,7 @@ const CreateCalendarForm = ({
   });
   const [rruleOptions, setRruleOptions] = useState<Partial<Options> | null>(null);
   const [projectID, setProjectID] = useState<string | null>(null);
+  const titleRef = useRef(null);
 
   const { createCalendarTodo, createTodoStatus } = useCreateCalendarTodo();
 
@@ -101,12 +102,13 @@ const CreateCalendarForm = ({
             >
               {/* Title */}
               <div className="flex items-start gap-4">
-                <input
+                <NLPTitleInput
+                  setProjectID={setProjectID}
+                  titleRef={titleRef}
+                  title={title}
+                  setTitle={setTitle}
+                  setDateRange={setDateRange}
                   className="ml-9 flex-1 min-w-0 bg-transparent border-b border-border py-1 text-lg focus:outline-none focus:border-lime"
-                  placeholder={todayDict("titlePlaceholder")}
-                  value={title}
-                  onChange={(e) => setTitle(e.target.value)}
-                  autoFocus
                 />
               </div>
 

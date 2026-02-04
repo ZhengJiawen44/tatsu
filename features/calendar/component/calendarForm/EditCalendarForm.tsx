@@ -1,5 +1,5 @@
 import { TodoItemType } from "@/types";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import PriorityDropdownMenu from "./PriorityDropdown/PriorityDropdown";
 import DateDropdownMenu from "./DateDropdown/DateDropdownMenu";
 import { NonNullableDateRange } from "@/types";
@@ -18,6 +18,7 @@ import {
 } from "@/components/ui/Modal";
 import { Button } from "@/components/ui/button";
 import ProjectDropdownMenu from "@/components/todo/component/TodoForm/ProjectDropdownMenu";
+import NLPTitleInput from "@/components/todo/component/TodoForm/NLPTitleInput";
 
 type CalendarFormProps = {
   todo: TodoItemType;
@@ -31,7 +32,7 @@ const CalendarForm = ({
   setDisplayForm,
 }: CalendarFormProps) => {
   const appDict = useTranslations("app");
-  const todayDict = useTranslations("today");
+  const titleRef = useRef(null);
 
   const dateRangeChecksum = useMemo(
     () => todo.dtstart.toISOString() + todo.due.toISOString(),
@@ -138,12 +139,13 @@ const CalendarForm = ({
             >
               {/* Title */}
               <div className="flex min-w-0 items-start gap-4">
-                <input
-                  className="ml-9 flex-1 min-w-0 bg-transparent border-b border-border sm:text-lg focus:outline-none focus:border-lime"
-                  placeholder={todayDict("titlePlaceholder")}
-                  value={title}
-                  onChange={(e) => setTitle(e.target.value)}
-                  autoFocus
+                <NLPTitleInput
+                  setProjectID={setProjectID}
+                  titleRef={titleRef}
+                  title={title}
+                  setTitle={setTitle}
+                  setDateRange={setDateRange}
+                  className="ml-9 flex-1 min-w-0 bg-transparent border-b border-border py-1 text-lg focus:outline-none focus:border-lime"
                 />
               </div>
 
