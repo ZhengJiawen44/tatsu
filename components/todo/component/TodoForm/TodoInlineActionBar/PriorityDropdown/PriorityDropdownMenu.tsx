@@ -5,7 +5,7 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-import LaurelWreath from "@/components/ui/icon/laurelWreath";
+import { Flag } from "lucide-react";
 import { PriorityIndicator } from "../../../TodoItem/PriorityIndicator";
 import { useTodoForm } from "@/providers/TodoFormProvider";
 import clsx from "clsx";
@@ -22,7 +22,7 @@ const PriorityDropdownMenu = ({ }) => {
           variant={"outline"}
           className="w-fit h-fit !p-2 text-muted-foreground bg-inherit"
         >
-          <LaurelWreath
+          <Flag
             className={clsx(
               "w-4 h-4 sm:h-5 sm:w-5 transition-text duration-200 ease-out",
               priority === "Low"
@@ -35,9 +35,9 @@ const PriorityDropdownMenu = ({ }) => {
           <p>{appDict("priority")}</p>
         </Button>
       </PopoverTrigger>
-      <PopoverContent className="min-w-[150px] text-foreground flex flex-col p-2 items-start justify-center">
+      <PopoverContent className="min-w-[150px] text-foreground flex flex-col p-1 items-start justify-center">
         <Button
-          className="hover:bg-popover-accent w-full justify-start p-2"
+          className="hover:bg-popover-accent w-full justify-start !p-2 h-fit"
           variant={"ghost"}
           onClick={() => setPriority("Low")}
         >
@@ -49,7 +49,7 @@ const PriorityDropdownMenu = ({ }) => {
           {appDict("normal")}
         </Button>
         <Button
-          className="hover:bg-popover-accent w-full  justify-start p-2"
+          className="hover:bg-popover-accent w-full justify-start !p-2 h-fit"
           variant={"ghost"}
           onClick={() => setPriority("Medium")}
         >
@@ -61,7 +61,7 @@ const PriorityDropdownMenu = ({ }) => {
           {appDict("important")}
         </Button>
         <Button
-          className="hover:bg-popover-accent w-full  justify-start p-2"
+          className="hover:bg-popover-accent w-full justify-start !p-2 h-fit"
           variant={"ghost"}
           onClick={() => setPriority("High")}
         >

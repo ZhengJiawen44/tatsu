@@ -91,8 +91,8 @@ const DurationPicker = ({ className }: { className?: string }) => {
               className)
           }
         >
-          <div className="flex gap-2 items-center">
-            <Clock className="!w-5 !h-5 stroke-[1.8px]" />
+          <div className="flex gap-2 items-center ">
+            <Clock strokeWidth={1.8} className="!w-5 !h-5 text-muted-foreground" />
             {appDict("duration")}
           </div>
           <ChevronRight className="ml-auto h-4 w-4 text-muted-foreground/50 group-hover:text-accent-foreground" />

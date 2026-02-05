@@ -37,7 +37,7 @@ const NextRepeatDateIndicator = () => {
       <TooltipContent className="text-sm">
         <p>
           {nextCalculatedRepeatDate
-            ? `${todayDict("nextRepeatText")}${isThisYear(new Date()) ? format(rruleDateToLocal(nextCalculatedRepeatDate), "dd MMM") : format(nextCalculatedRepeatDate, "dd MMM yyyy")} (${locallyInferredRruleObject?.toText()})`
+            ? `${todayDict("nextRepeatText")} ${isThisYear(new Date()) ? format(rruleDateToLocal(nextCalculatedRepeatDate), "dd MMM") : format(nextCalculatedRepeatDate, "dd MMM yyyy")} (${locallyInferredRruleObject?.toText()})`
             : "This todo has reached the end of repeat"}
         </p>
       </TooltipContent>

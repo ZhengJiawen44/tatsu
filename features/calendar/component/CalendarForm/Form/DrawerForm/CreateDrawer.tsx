@@ -15,7 +15,6 @@ import {
     DrawerClose,
 } from "@/components/ui/drawer";
 import { Button } from "@/components/ui/button";
-import { Calendar } from "@/components/ui/calendar";
 import { DateDrawerMenu } from "../../FormFields/Drawers/DateDrawer/DateDrawerMenu";
 import RepeatDrawerMenu from "../../FormFields/Drawers/RepeatDrawer/RepeatDrawerMenu";
 import { useCreateCalendarTodo } from "@/features/calendar/query/create-calendar-todo";
@@ -154,18 +153,7 @@ export default function CreateCalendarDrawer({
                                             dateRange={dateRange}
                                             setDateRange={setDateRange}
                                         />
-                                        <Calendar
-                                            mode="range"
-                                            selected={dateRange}
-                                            onSelect={(range) =>
-                                                range?.from &&
-                                                setDateRange({
-                                                    from: range.from,
-                                                    to: range.to || range.from,
-                                                })
-                                            }
-                                            className="w-full flex justify-center"
-                                        />
+
                                         <DrawerClose asChild>
                                             <Button className="w-full h-fit text-foreground font-normal border bg-inherit hover:bg-lime/90">
                                                 {appDict("save")}
