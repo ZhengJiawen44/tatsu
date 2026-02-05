@@ -35,7 +35,7 @@ export default function ConfirmCancelEditDrawer({
 
                 <DrawerFooter className="gap-2">
                     <Button
-                        onMouseDown={(e) => e.stopPropagation()}
+                        onMouseDown={(e) => { e.stopPropagation(); e.preventDefault() }}
                         variant="outline"
                         className="w-full bg-popover"
                         onClick={() => setCancelEditDialogOpen(false)}
@@ -44,7 +44,8 @@ export default function ConfirmCancelEditDrawer({
                     </Button>
 
                     <Button
-                        onMouseDown={(e) => e.stopPropagation()}
+                        onMouseDown={(e) => { e.stopPropagation(); e.preventDefault() }}
+
                         variant="destructive"
                         className="w-full"
                         onClick={() => {

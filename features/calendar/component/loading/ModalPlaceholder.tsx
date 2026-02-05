@@ -5,7 +5,7 @@ import { createPortal } from 'react-dom'
 export default function ModalPlaceholder() {
     return createPortal(
         <div className="fixed inset-0 z-50 bg-black/40 flex items-center justify-center">
-            <div className="bg-popover rounded-lg w-full max-w-lg p-6">
+            <div className="bg-background rounded-lg w-full max-w-lg p-6">
                 <div
                     className="flex min-w-0 flex-col gap-5 mt-4"
                 >
