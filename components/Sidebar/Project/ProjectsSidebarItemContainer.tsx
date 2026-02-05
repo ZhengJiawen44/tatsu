@@ -60,6 +60,24 @@ const ProjectCollapsible = () => {
             })
           )}
         </div>
+        <div>
+          {isPending ? (
+            <ProjectLoading />
+          ) : (
+            Object.entries(projectMetaData).map(([key, value]) => {
+              return <ProjectSidebarItem key={key} meta={{ id: key, ...value }} />;
+            })
+          )}
+        </div>
+        <div>
+          {isPending ? (
+            <ProjectLoading />
+          ) : (
+            Object.entries(projectMetaData).map(([key, value]) => {
+              return <ProjectSidebarItem key={key} meta={{ id: key, ...value }} />;
+            })
+          )}
+        </div>
 
 
       </div>

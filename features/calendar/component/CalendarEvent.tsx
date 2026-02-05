@@ -10,14 +10,13 @@ import { format } from "date-fns";
 import { AlignCenterIcon } from "lucide-react";
 import clsx from "clsx";
 import { Pen, Trash, X } from "lucide-react";
-
 import LineSeparator from "@/components/ui/lineSeparator";
-import ConfirmDelete from "./ConfirmDelete";
-import ConfirmDeleteAll from "./ConfirmDeleteAll";
 import CompleteButton from "./CompleteButton";
 import { Button } from "@/components/ui/button";
-import EditCalendarFormContainer from "./calendarForm/EditCalendarFormContainer";
-
+import dynamic from "next/dynamic";
+const ConfirmDelete = dynamic(() => import("./ConfirmationModals/ConfirmDelete"));
+const ConfirmDeleteAll = dynamic(() => import("./ConfirmationModals/ConfirmDeleteAll"))
+import EditCalendarFormContainer from "./CalendarForm/EditFormContainer";
 
 const formatDateRange = (start: Date, end: Date) =>
   `${format(start, "MMM dd hh:mm")} - ${format(end, "MMM dd hh:mm")}`;

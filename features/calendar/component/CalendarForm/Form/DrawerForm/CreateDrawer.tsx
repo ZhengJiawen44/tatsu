@@ -1,11 +1,11 @@
-
 import React, { useEffect, useMemo, useRef, useState } from "react";
 import { useTranslations, useLocale } from "next-intl";
-import { RRule } from "rrule";
+import { Options, RRule } from "rrule";
 import { Clock, Flag, Repeat, Check, Hash } from "lucide-react";
 import NestedDrawerItem from "@/components/mobile/NestedDrawerItem";
 import { TodoItemType, NonNullableDateRange } from "@/types";
 import { getDisplayDate } from "@/lib/date/displayDate";
+
 import {
     Drawer,
     DrawerContent,
@@ -16,85 +16,52 @@ import {
 } from "@/components/ui/drawer";
 import { Button } from "@/components/ui/button";
 import { Calendar } from "@/components/ui/calendar";
-import { DateDrawerMenu } from "../DateDropdown/Mobile/DateDrawerMenu";
-import RepeatDrawerMenu from "../RepeatDropdown/Mobile/RepeatDrawerMenu";
-import { useEditCalendarTodo } from "@/features/calendar/query/update-calendar-todo";
-import ConfirmEditAllDrawer from "../ConfirmEditAllDrawer";
-import ConfirmCancelEditDrawer from "../ConfirmCancelEditDrawer";
-import ProjectDrawer from "../ProjectDropdown/mobile/ProjectDrawer";
-import ProjectTag from "@/components/ProjectTag";
+import { DateDrawerMenu } from "../../FormFields/Drawers/DateDrawer/DateDrawerMenu";
+import RepeatDrawerMenu from "../../FormFields/Drawers/RepeatDrawer/RepeatDrawerMenu";
+import { useCreateCalendarTodo } from "@/features/calendar/query/create-calendar-todo";
+import ConfirmCancelEditDrawer from "../../../ConfirmationModals/ConfirmCancelEditDrawer";
+import ProjectDrawer from "../../FormFields/Drawers/ProjectDrawer/ProjectDrawer";
 import { useProjectMetaData } from "@/components/Sidebar/Project/query/get-project-meta";
+import ProjectTag from "@/components/ProjectTag";
 import NLPTitleInput from "@/components/todo/component/TodoForm/NLPTitleInput";
+
 // --- Types ---
 type CreateCalendarFormProps = {
-    todo: TodoItemType
+    start: Date;
+    end: Date;
     displayForm: boolean;
     setDisplayForm: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
 // --- Main Component ---
 export default function CreateCalendarDrawer({
-    todo,
+    start,
+    end,
     displayForm,
     setDisplayForm,
 }: CreateCalendarFormProps) {
     const appDict = useTranslations("app");
-    const titleRef = useRef(null);
     const locale = useLocale();
+    const titleRef = useRef(null);
+
     const { projectMetaData } = useProjectMetaData();
-
-    const dateRangeChecksum = useMemo(
-        () => todo.dtstart.toISOString() + todo.due.toISOString(),
-        [todo.dtstart, todo.due],
-    );
-    const rruleChecksum = useMemo(() => todo.rrule, [todo.rrule]);
-
-    const [cancelEditDialogOpen, setCancelEditDialogOpen] = useState(false);
-    const [editAllDialogOpen, setEditAllDialogOpen] = useState(false);
-
-    const [title, setTitle] = useState(todo.title);
-    const [description, setDescription] = useState(todo.description ?? "");
-    const [priority, setPriority] = useState(todo.priority);
+    // Form State
+    const [title, setTitle] = useState("");
+    const [description, setDescription] = useState("");
+    const [priority, setPriority] = useState<TodoItemType["priority"]>("Low");
     const [dateRange, setDateRange] = useState<NonNullableDateRange>({
-        from: todo.dtstart,
-        to: todo.due,
+        from: start,
+        to: end,
     });
-    const [rruleOptions, setRruleOptions] = useState(
-        todo?.rrule ? RRule.parseString(todo.rrule) : null,
-    );
-    const [projectID, setProjectID] = useState<string | null>(todo.projectID);
-
+    const [rruleOptions, setRruleOptions] = useState<Partial<Options> | null>(null);
+    const [projectID, setProjectID] = useState<string | null>(null);
+    const [cancelEditDialogOpen, setCancelEditDialogOpen] = useState(false);
+    const { createCalendarTodo, createTodoStatus } = useCreateCalendarTodo();
 
     const hasUnsavedChanges = useMemo(() => {
-        const rruleString = rruleOptions
-            ? RRule.optionsToString(rruleOptions)
-            : null;
+        return title !== "" || description !== "" || priority !== "Low";
+    }, [title, description, priority]);
 
-        return (
-            title !== todo.title ||
-            description !== (todo.description ?? "") ||
-            priority !== todo.priority ||
-            dateRange.from?.getTime() !== todo.dtstart?.getTime() ||
-            dateRange.to?.getTime() !== todo.due?.getTime() ||
-            rruleString !== (todo.rrule ?? null)
-        );
-    }, [title, description, priority, dateRange, rruleOptions, todo]);
-
-    const { editCalendarTodo, editTodoStatus } = useEditCalendarTodo();
-
-    useEffect(() => {
-        if (editTodoStatus === "success") {
-            setDisplayForm(false);
-        }
-    }, [editTodoStatus, setDisplayForm]);
-
-    const handleClose = () => {
-        if (hasUnsavedChanges) {
-            setCancelEditDialogOpen(true);
-            return;
-        }
-        setDisplayForm(false);
-    };
     const derivedRepeatType = useMemo(() => {
         if (!rruleOptions) return null;
         const f = rruleOptions.freq;
@@ -102,7 +69,6 @@ export default function CreateCalendarDrawer({
         if (f === RRule.WEEKLY) {
             if (rruleOptions.byweekday && Array.isArray(rruleOptions.byweekday)) {
                 const weekdays = [RRule.MO, RRule.TU, RRule.WE, RRule.TH, RRule.FR];
-                // check if byweekday contains all weekdays (Mon-Fri)
                 const containsAllWeekdays = weekdays.every((d) =>
                     (rruleOptions.byweekday as unknown[]).some((bw) => bw === d)
                 );
@@ -115,29 +81,37 @@ export default function CreateCalendarDrawer({
         return null;
     }, [rruleOptions]);
 
+    useEffect(() => {
+        if (createTodoStatus === "success") setDisplayForm(false);
+    }, [createTodoStatus, setDisplayForm]);
+
+    const handleSubmit = (e?: React.FormEvent) => {
+        e?.preventDefault();
+        createCalendarTodo({
+            title,
+            description,
+            priority,
+            dtstart: dateRange.from,
+            due: dateRange.to,
+            rrule: rruleOptions ? new RRule(rruleOptions).toString() : null,
+            projectID: projectID
+        });
+    };
+
+    const handleClose = () => {
+        if (hasUnsavedChanges) {
+            setCancelEditDialogOpen(true);
+            return;
+        }
+        setDisplayForm(false);
+    };
+
     return (
         <>
             <ConfirmCancelEditDrawer
                 cancelEditDialogOpen={cancelEditDialogOpen}
                 setCancelEditDialogOpen={setCancelEditDialogOpen}
                 setDisplayForm={setDisplayForm}
-            />
-            <ConfirmEditAllDrawer
-                todo={{
-                    ...todo,
-                    title,
-                    description,
-                    priority,
-                    dtstart: dateRange.from,
-                    due: dateRange.to,
-                    rrule: rruleOptions ? new RRule(rruleOptions).toString() : null,
-                    projectID
-                }}
-                rruleChecksum={rruleChecksum!}
-                dateRangeChecksum={dateRangeChecksum}
-                setDisplayForm={setDisplayForm}
-                editAllDialogOpen={editAllDialogOpen}
-                setEditAllDialogOpen={setEditAllDialogOpen}
             />
 
             <Drawer
@@ -156,24 +130,7 @@ export default function CreateCalendarDrawer({
                     </DrawerHeader>
 
                     <div className="mx-auto w-full max-w-lg overflow-y-auto p-4 pt-0">
-                        <form className="flex flex-col gap-6 mt-2" onSubmit={
-                            (e) => {
-                                e.preventDefault();
-                                if (todo.rrule) {
-                                    setEditAllDialogOpen(true);
-                                } else {
-                                    editCalendarTodo({
-                                        ...todo,
-                                        rrule: rruleOptions ? new RRule(rruleOptions).toString() : null,
-                                        title,
-                                        description,
-                                        priority,
-                                        dtstart: dateRange.from,
-                                        due: dateRange.to,
-                                        projectID
-                                    });
-                                }
-                            }}>
+                        <form className="flex flex-col gap-6 mt-2" onSubmit={handleSubmit}>
                             {/* Title Input */}
                             <NLPTitleInput
                                 setProjectID={setProjectID}
@@ -291,11 +248,7 @@ export default function CreateCalendarDrawer({
                             />
 
                             <DrawerFooter className="px-0 flex-row gap-3">
-
                                 <Button
-                                    onMouseDown={(e) => {
-                                        e.stopPropagation()
-                                    }}
                                     type="button"
                                     variant="ghost"
                                     className="flex-1 h-12 rounded-md border"
@@ -304,28 +257,8 @@ export default function CreateCalendarDrawer({
                                     {appDict("cancel")}
                                 </Button>
 
-
                                 <Button
-                                    onMouseDown={(e) => {
-                                        e.stopPropagation()
-                                    }}
-                                    onClick={(e) => {
-                                        e.preventDefault();
-                                        if (todo.rrule) {
-                                            setEditAllDialogOpen(true);
-                                        } else {
-                                            editCalendarTodo({
-                                                ...todo,
-                                                rrule: rruleOptions ? new RRule(rruleOptions).toString() : null,
-                                                title,
-                                                description,
-                                                priority,
-                                                dtstart: dateRange.from,
-                                                due: dateRange.to,
-                                                projectID
-                                            });
-                                        }
-                                    }}
+                                    onClick={handleSubmit}
                                     className="flex-1 h-12 rounded-md bg-lime hover:bg-lime/90 text-white font-bold"
                                 >
                                     {appDict("save")}
@@ -338,3 +271,6 @@ export default function CreateCalendarDrawer({
         </>
     );
 }
+
+
+

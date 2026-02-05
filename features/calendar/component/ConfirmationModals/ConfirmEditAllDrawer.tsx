@@ -1,6 +1,6 @@
 import React from "react";
-import { useEditCalendarTodo } from "../../query/update-calendar-todo";
-import { useEditCalendarTodoInstance } from "../../query/update-calendar-todo-instance";
+import { useEditCalendarTodo } from "@/features/calendar/query/update-calendar-todo";
+import { useEditCalendarTodoInstance } from "@/features/calendar/query/update-calendar-todo-instance";
 import { TodoItemType } from "@/types";
 import { Button } from "@/components/ui/button";
 import { useTranslations } from "next-intl";
