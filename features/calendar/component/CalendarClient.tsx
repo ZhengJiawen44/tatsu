@@ -29,12 +29,10 @@ import { useCalendarTodo } from "../query/get-calendar-todo";
 import { useEditCalendarTodo } from "../query/update-calendar-todo";
 import { useEditCalendarTodoInstance } from "../query/update-calendar-todo-instance";
 import { useCallback, useEffect, useState } from "react";
-import dynamic from "next/dynamic";
 import Spinner from "@/components/ui/spinner";
 import { subMilliseconds } from "date-fns";
 import { useProjectMetaData } from "@/components/Sidebar/Project/query/get-project-meta";
 
-const CalendarMobilePopup = dynamic(() => import("@/components/popups/CalendarMobilePopup"));
 
 const locales = { "en-US": enUS };
 const localizer = dateFnsLocalizer({
@@ -55,7 +53,7 @@ export default function CalendarClient() {
     end: Date;
   } | null>(null);
   const [isTouch, setIsTouch] = useState(false);
-  const { todos: calendarTodos } = useCalendarTodo(calendarRange);
+  const { todos: calendarTodos, todoLoading: calendarTodosLoading } = useCalendarTodo(calendarRange);
   const { editCalendarTodo } = useEditCalendarTodo();
   const { editCalendarTodoInstance } = useEditCalendarTodoInstance();
   const { projectMetaData } = useProjectMetaData()
@@ -175,7 +173,15 @@ export default function CalendarClient() {
 
   return (
     <>
-      {width <= 600 && <CalendarMobilePopup />}
+      {calendarTodosLoading && <>
+        <div className="w-full h-full bg-black/20 fixed z-[100]">
+          <div className="fixed top-1/2 left-1/2 -translate-y-1/2 ">
+            <Spinner className="h-20 w-20" />
+
+          </div>
+        </div>
+      </>
+      }
 
       <div className="h-screen flex flex-col overflow-hidden sm:py-10">
         {showCreateForm && selectDateRange && (

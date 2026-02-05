@@ -57,7 +57,7 @@ const RepeatDropdownMenu = ({
 
   return (
     <Popover>
-      <PopoverTrigger className="bg-input p-2 text-sm flex justify-center items-center gap-2 hover:bg-popover-border rounded-md hover:text-foreground transition-colors">
+      <PopoverTrigger className="bg-popover border p-2 text-sm flex justify-center items-center gap-2 hover:bg-popover-border rounded-md hover:text-foreground transition-colors">
         <p className="hidden sm:block text-sm">{appDict("repeat")}</p>
         <ChevronDown className="w-4 h-4 !text-muted-foreground" />
       </PopoverTrigger>

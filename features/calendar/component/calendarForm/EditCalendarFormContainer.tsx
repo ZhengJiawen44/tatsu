@@ -2,8 +2,10 @@ import React from 'react'
 import useWindowSize from '@/hooks/useWindowSize';
 import dynamic from 'next/dynamic';
 import { TodoItemType } from '@/types';
-const MobileDrawer = dynamic(() => import("./Mobile/EditCalendarDrawer"), { ssr: false });
-const DesktopModal = dynamic(() => import("./EditCalendarForm"), { ssr: false });
+import ModalPlaceholder from '../loading/ModalPlaceholder';
+import DrawerPlaceholder from '../loading/DrawerPlaceholder';
+const MobileDrawer = dynamic(() => import("./Mobile/EditCalendarDrawer"), { ssr: false, loading: () => <DrawerPlaceholder /> });
+const DesktopModal = dynamic(() => import("./EditCalendarForm"), { ssr: false, loading: () => <ModalPlaceholder /> },);
 
 type CreateCalendarFormContainerProps = {
     todo: TodoItemType

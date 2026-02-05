@@ -16,15 +16,8 @@ import ConfirmDelete from "./ConfirmDelete";
 import ConfirmDeleteAll from "./ConfirmDeleteAll";
 import CompleteButton from "./CompleteButton";
 import { Button } from "@/components/ui/button";
-import Spinner from "@/components/ui/spinner";
-import dynamic from "next/dynamic";
-const EditCalendarFormContainer = dynamic(() => import("./calendarForm/EditCalendarFormContainer"), {
-  loading: () => (
-    <div className="absolute right-full h-full z-[100]">
-      <Spinner />
-    </div>
-  ),
-});
+import EditCalendarFormContainer from "./calendarForm/EditCalendarFormContainer";
+
 
 const formatDateRange = (start: Date, end: Date) =>
   `${format(start, "MMM dd hh:mm")} - ${format(end, "MMM dd hh:mm")}`;

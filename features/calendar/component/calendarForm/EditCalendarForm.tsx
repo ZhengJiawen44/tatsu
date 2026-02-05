@@ -180,7 +180,7 @@ const CalendarForm = ({
                     <ProjectDropdownMenu
                       projectID={projectID}
                       setProjectID={setProjectID}
-                      className="bg-input text-foreground text-sm flex justify-center items-center gap-2 hover:bg-popover-border rounded-md"
+                      className="bg-popover border text-foreground text-sm flex justify-center items-center gap-2 hover:bg-popover-border rounded-md"
                       variant={"noHash"}
                     />
                   </div>
@@ -202,7 +202,7 @@ const CalendarForm = ({
               <div className="flex items-start gap-4">
                 <AlignLeft className="w-4 h-4 text-muted-foreground mt-1" />
                 <textarea
-                  className="flex-1 min-w-0 bg-input rounded-md px-3 py-2 text-sm resize-none focus:outline-none focus:ring-2 focus:ring-lime"
+                  className="flex-1 min-w-0 bg-popover border rounded-md px-3 py-2 text-sm resize-none focus:outline-none focus:ring-2 focus:ring-lime"
                   rows={3}
                   placeholder={appDict("descPlaceholder")}
                   value={description}
