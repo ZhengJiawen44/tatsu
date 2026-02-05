@@ -29,8 +29,8 @@ type TodoFilterBarProps = {
 export default function TodoFilterBar({ containerHovered }: TodoFilterBarProps) {
     const { updatePreferences, preferences } = useUserPreferences();
     return (
-        <div className="flex gap-2">
-            <div className="flex flex-wrap gap-2 items-center">
+        <div className='flex'>
+            <div className="flex gap-2 items-center">
                 {preferences?.groupBy &&
                     <div className="bg-border py-1.5 px-3  rounded-md flex items-center gap-2">
                         <span>{`Grouped by: ${preferences.groupBy}`}</span>
@@ -48,6 +48,8 @@ export default function TodoFilterBar({ containerHovered }: TodoFilterBarProps) 
                         </span>
                     </div>}
                 {preferences?.sortBy && <div className="bg-border py-1.5 px-3  rounded-md">{preferences.direction}</div>}
+            </div>
+            <div>
                 <DropdownMenu>
                     <DropdownMenuTrigger asChild>
                         <Button variant={"ghost"} className={clsx("w-8 h-8 opacity-0", (containerHovered || preferences?.sortBy || preferences?.groupBy) && "opacity-100")}>
