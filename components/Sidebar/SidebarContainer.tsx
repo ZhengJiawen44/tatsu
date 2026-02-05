@@ -5,7 +5,6 @@ import { Toaster } from "../ui/toaster";
 import CalendarItem from "./Calendar/CalendarItem";
 import CompletedItem from "./Completed/CompletedItem";
 import NoteCollapsible from "./Note/NoteCollapsible";
-import MenuSidebarItem from "./Settings/MenuSidebarItem";
 import TodoItem from "./Todo/TodoSidebarItem";
 import UserCard from "./User/UserCard";
 import VaultItem from "./Vault/VaultItem";
@@ -79,9 +78,7 @@ const SidebarContainer = ({ children }: { children?: React.ReactNode }) => {
 
             <Toaster />
           </div>
-          <div className="px-4">
-            <MenuSidebarItem />
-          </div>
+
         </div>
       </nav>
       <ResizeHandle isResizing={isResizing} startResizing={startResizing} />

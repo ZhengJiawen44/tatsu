@@ -16,8 +16,14 @@ const SidebarToggle = ({
         " overflow-visible relative p-1 rounded-md h-fit ",
         className,
       )}
+      onPointerDown={(e) => {
+        e.stopPropagation();
+        e.preventDefault();
+        setShowMenu((prev) => !prev);
+      }}
       onClick={(e) => {
         e.stopPropagation();
+        e.preventDefault();
         setShowMenu((prev) => !prev);
       }}
       onMouseOver={(e) => {
