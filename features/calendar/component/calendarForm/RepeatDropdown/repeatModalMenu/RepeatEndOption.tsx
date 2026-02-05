@@ -64,7 +64,7 @@ const RepeatEndOption = ({
           />
           <label htmlFor="exDate">{appDict("customMenu.onDate")}</label>
           {/* date picker */}
-          <Popover open={open} onOpenChange={setOpen}>
+          <Popover open={open} onOpenChange={setOpen} modal={true}>
             <PopoverTrigger asChild>
               <Button
                 type="button"
