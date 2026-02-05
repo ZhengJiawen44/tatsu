@@ -32,7 +32,7 @@ export default function ProjectDropdownMenu({ projectID, setProjectID, className
     }, [search, projectMetaData]);
 
     return (
-        <Popover modal={false} open={open} onOpenChange={setOpen}>
+        <Popover modal={true} open={open} onOpenChange={setOpen}>
             <PopoverTrigger asChild>
                 <Button variant="ghost" type="button" className={cn("h-fit !px-2 gap-1 text-muted-foreground font-normal", className)}>
                     {projectID
