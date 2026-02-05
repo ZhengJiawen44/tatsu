@@ -291,7 +291,11 @@ export default function CreateCalendarDrawer({
                             />
 
                             <DrawerFooter className="px-0 flex-row gap-3">
+
                                 <Button
+                                    onMouseDown={(e) => {
+                                        e.stopPropagation()
+                                    }}
                                     type="button"
                                     variant="ghost"
                                     className="flex-1 h-12 rounded-md border"
@@ -300,7 +304,11 @@ export default function CreateCalendarDrawer({
                                     {appDict("cancel")}
                                 </Button>
 
+
                                 <Button
+                                    onMouseDown={(e) => {
+                                        e.stopPropagation()
+                                    }}
                                     onClick={(e) => {
                                         e.preventDefault();
                                         if (todo.rrule) {
