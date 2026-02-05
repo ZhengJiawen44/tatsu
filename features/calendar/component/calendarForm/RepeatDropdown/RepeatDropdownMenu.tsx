@@ -56,7 +56,7 @@ const RepeatDropdownMenu = ({
     "flex items-center justify-between w-full hover:bg-popover-accent rounded-sm  px-2 py-1.5 hover:text-foreground cursor-pointer transition-colors";
 
   return (
-    <Popover>
+    <Popover modal={true}>
       <PopoverTrigger className="bg-popover border p-2 text-sm flex justify-center items-center gap-2 hover:bg-popover-border rounded-md hover:text-foreground transition-colors">
         <p className="hidden sm:block text-sm">{appDict("repeat")}</p>
         <ChevronDown className="w-4 h-4 !text-muted-foreground" />
