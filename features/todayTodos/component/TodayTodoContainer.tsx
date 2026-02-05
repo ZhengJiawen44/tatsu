@@ -82,9 +82,6 @@ const TodayTodoContainer = () => {
     return sorted;
   }, [groupedTodos, preferences?.sortBy, preferences?.direction]);
 
-
-
-
   return (
     <TodoMutationProvider
       useCompleteTodo={useCompleteTodo}
@@ -98,7 +95,6 @@ const TodayTodoContainer = () => {
       <div className="mb-20" onMouseOver={() => (setContainerHovered(true))} onMouseOut={() => setContainerHovered(false)}>
         {/* Render Pinned Todos */}
         {pinnedTodos.length > 0 && (
-
           <TodoGroup
             className="relative my-10 rounded-md p-2 border border-border-muted bg-card shadow-md"
             todos={pinnedTodos}
@@ -107,7 +103,7 @@ const TodayTodoContainer = () => {
 
         )}
         <div className="mb-3">
-          <div className="sm:flex items-center justify-between gap-2">
+          <div className="flex flex-wrap items-center justify-between gap-2">
             <div className="flex items-end justify-start gap-2">
               <h3 className="text-2xl font-semibold select-none">
                 {appDict("today")}
