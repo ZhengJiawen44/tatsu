@@ -1,8 +1,10 @@
 import React from 'react'
 import useWindowSize from '@/hooks/useWindowSize';
 import dynamic from 'next/dynamic';
-const MobileDrawer = dynamic(() => import("./Mobile/CreateCalendarDrawer"), { ssr: false });
-const DesktopModal = dynamic(() => import("./CreateCalendarForm"), { ssr: false });
+import ModalPlaceholder from '../loading/ModalPlaceholder';
+import DrawerPlaceholder from '../loading/DrawerPlaceholder';
+const MobileDrawer = dynamic(() => import("./Mobile/CreateCalendarDrawer"), { ssr: false, loading: () => <DrawerPlaceholder /> });
+const DesktopModal = dynamic(() => import("./CreateCalendarForm"), { ssr: false, loading: () => <ModalPlaceholder /> });
 
 type CreateCalendarFormContainerProps = {
     start: Date;

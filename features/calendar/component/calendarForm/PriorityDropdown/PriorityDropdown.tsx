@@ -26,7 +26,7 @@ const PriorityDropdownMenu = ({
 
   return (
     <DropdownMenu>
-      <DropdownMenuTrigger className="bg-input p-2 text-sm flex justify-center items-center gap-2 hover:bg-popover-border rounded-md hover:text-foreground">
+      <DropdownMenuTrigger className="bg-popover border p-2 text-sm flex justify-center items-center gap-2 hover:bg-popover-border rounded-md hover:text-foreground">
         <p className="hidden sm:block">{appDict("priority")}</p>
         <ChevronDown className="w-4 h-4 text-muted-foreground" />
       </DropdownMenuTrigger>

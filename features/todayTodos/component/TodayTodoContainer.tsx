@@ -58,7 +58,7 @@ const TodayTodoContainer = () => {
           return "-1"
       }
     }) as Record<string, TodoItemType[]>
-  }, [unpinnedTodos, preferences?.groupBy, locale])
+  }, [unpinnedTodos, preferences?.groupBy, locale, projectMetaData])
 
   const sortedGroupedTodos = useMemo(() => {
     const sorted: Record<string, TodoItemType[]> = {};
@@ -96,7 +96,6 @@ const TodayTodoContainer = () => {
       useReorderTodo={useReorderTodo}
     >
       <div className="mb-20" onMouseOver={() => (setContainerHovered(true))} onMouseOut={() => setContainerHovered(false)}>
-        {todoLoading && <TodoListLoading />}
         {/* Render Pinned Todos */}
         {pinnedTodos.length > 0 && (
 
@@ -121,6 +120,8 @@ const TodayTodoContainer = () => {
           </div>
           <LineSeparator className="flex-1" />
         </div>
+        {todoLoading && <TodoListLoading />}
+
         {Object.entries(sortedGroupedTodos).map(([key, todo]) =>
           <div key={key}>
             <div className={clsx(key !== "-1" && "my-16")}>

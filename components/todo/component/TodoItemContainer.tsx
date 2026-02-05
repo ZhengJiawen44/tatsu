@@ -129,7 +129,7 @@ export const TodoItemContainer = ({ todoItem, overdue }: TodoItemContainerProps)
 
               <p className={clsx(overdue ? "text-orange" : "text-lime")}>{getDisplayDate(dtstart, true, locale)}</p>
               {todoItem.projectID &&
-                <p className='flex items-center py-[0.2rem] px-2 rounded-full bg-border'>
+                <p className='flex items-center py-[0.2rem] px-2 rounded-full'>
                   <ProjectTag id={todoItem.projectID} className="text-sm" />
                   {projectMetaData[todoItem.projectID]?.name}
                 </p>}

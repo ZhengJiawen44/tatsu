@@ -30,7 +30,7 @@ export const MenuProvider = ({ children }: { children: React.ReactNode }) => {
   const { width } = useWindowSize();
   const pathName = usePathname();
   const [activeMenu, setActiveMenu] = useState<MenuState>({ name: "Todo" });
-  const [showMenu, setShowMenu] = useState(false); // Always start with false for SSR
+  const [showMenu, setShowMenu] = useState(true);
   const [isResizing, setIsResizing] = useState(false);
   const [mounted, setMounted] = useState(false);
 

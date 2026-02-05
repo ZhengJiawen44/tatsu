@@ -90,7 +90,6 @@ const ProjectContainer = ({ id }: { id: string }) => {
             useReorderTodo={useReorderProjectTodo}
         >
             <div className="mb-20" onMouseOver={() => (setContainerHovered(true))} onMouseOut={() => setContainerHovered(false)}>
-                {projectTodosLoading && <TodoListLoading />}
                 {/* Render Pinned Todos */}
                 {pinnedTodos.length > 0 && (
 
@@ -110,6 +109,8 @@ const ProjectContainer = ({ id }: { id: string }) => {
                     </div>
                     <LineSeparator className="flex-1" />
                 </div>
+                {projectTodosLoading && <TodoListLoading />}
+
                 {Object.entries(sortedGroupedTodos).map(([key, todo]) =>
                     <div key={key}>
                         <div className={clsx(key !== "-1" && "my-16")}>

@@ -49,7 +49,7 @@ const ModalOverlay = ({ children }: { children: React.ReactElement }) => {
     return createPortal(
 
         <div
-            className="fixed inset-0 z-50 bg-black/40 flex items-center justify-center"
+            className="fixed inset-0 z-50 bg-black/65 flex items-center justify-center"
             onMouseDown={(e) => e.stopPropagation()}
             onPointerDown={(e) => e.stopPropagation()}
             onTouchStart={(e) => e.stopPropagation()}
@@ -72,7 +72,7 @@ const ModalOverlay = ({ children }: { children: React.ReactElement }) => {
 const ModalContent = ({ children }: { children: React.ReactNode }) => {
     return (
         <div
-            className="bg-popover rounded-lg w-full max-w-lg p-6"
+            className="bg-background rounded-lg w-full max-w-lg p-6"
             onMouseDown={(e) => e.stopPropagation()}
             onPointerDown={(e) => e.stopPropagation()}
             onTouchStart={(e) => e.stopPropagation()}
