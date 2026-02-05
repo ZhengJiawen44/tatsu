@@ -1,3 +1,4 @@
+import { cn } from '@/lib/utils';
 import React, { createContext, useContext, useState } from 'react'
 import { createPortal } from 'react-dom'
 
@@ -69,10 +70,10 @@ const ModalOverlay = ({ children }: { children: React.ReactElement }) => {
 
 }
 
-const ModalContent = ({ children }: { children: React.ReactNode }) => {
+const ModalContent = ({ children, className }: { children: React.ReactNode, className?: string }) => {
     return (
         <div
-            className="bg-background rounded-lg w-full max-w-lg p-6"
+            className={cn("bg-background rounded-lg w-full max-w-lg p-6", className)}
             onMouseDown={(e) => e.stopPropagation()}
             onPointerDown={(e) => e.stopPropagation()}
             onTouchStart={(e) => e.stopPropagation()}

@@ -28,7 +28,7 @@ const DateDropdownMenu = () => {
   const [isOpen, setIsOpen] = React.useState(false);
 
   const itemClass =
-    "flex justify-between items-center p-2 rounded w-[95%] hover:bg-popover-accent m-auto text-sm";
+    "flex justify-between items-center p-1.5 rounded w-[96.5%] hover:bg-popover-accent m-auto text-sm";
 
   return (
     <Popover open={isOpen} onOpenChange={setIsOpen}>
@@ -52,7 +52,7 @@ const DateDropdownMenu = () => {
       </PopoverTrigger>
 
       <PopoverContent
-        className="flex flex-col gap-1 p-0 py-2 w-[250px] font-extralight border-popover-accent overflow-scroll scrollbar-none"
+        className="flex flex-col px-0 py-1.5 gap-1 w-[250px] font-extralight border-popover-accent overflow-scroll scrollbar-none"
         align="start"
       >
         {/* --- OPTION: TODAY --- */}
@@ -77,7 +77,7 @@ const DateDropdownMenu = () => {
           }}
         >
           <div className="flex gap-2 items-center">
-            <Target className="!w-5 !h-5 stroke-[1.8px]" />
+            <Target strokeWidth={1.5} className="!w-5 !h-5 text-muted-foreground" />
             {appDict("today")}
           </div>
           <p className="text-xs text-muted-foreground">
@@ -102,7 +102,7 @@ const DateDropdownMenu = () => {
           }}
         >
           <div className="flex gap-2 items-center">
-            <Tomorrow className="!w-5 !h-5" />
+            <Tomorrow strokeWidth={1.5} className="!w-5 !h-5 text-muted-foreground" />
             {appDict("tomorrow")}
           </div>
           <p className="text-xs text-muted-foreground">
@@ -129,7 +129,7 @@ const DateDropdownMenu = () => {
           }}
         >
           <div className="flex gap-2 items-center">
-            <CalenderIcon strokeWidth={1.4} className="!w-5 !h-5" />
+            <CalenderIcon strokeWidth={1.5} className="!w-5 !h-5 text-muted-foreground" />
             {appDict("nextWeek")}
           </div>
           <div className="text-xs text-muted-foreground">Mon</div>
@@ -141,9 +141,8 @@ const DateDropdownMenu = () => {
         <LineSeparator className="border-popover-accent w-full my-1 mb-4" />
 
         {/* --- CALENDAR --- */}
-        <div className="flex justify-center p-0">
+        <div className="w-full p-0">
           <Calendar
-            className="p-0 pb-1"
             mode="range"
             defaultMonth={new Date()}
             selected={dateRange}
