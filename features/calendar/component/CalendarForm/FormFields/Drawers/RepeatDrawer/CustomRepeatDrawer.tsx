@@ -1,9 +1,9 @@
 import { useTranslations } from "next-intl";
 import { Button } from "@/components/ui/button";
 import { Options, RRule } from "rrule";
-import RepeatEndOption from "../repeatModalMenu/RepeatEndOption";
-import RepeatEveryOption from "../repeatModalMenu/RepeatEveryOption";
-import RepeatOnOption from "../repeatModalMenu/RepeatOnOption";
+import RepeatEndOption from "../../Dropdowns/RepeatDropdown/repeatModalMenu/RepeatEndOption";
+import RepeatEveryOption from "../../Dropdowns/RepeatDropdown/repeatModalMenu/RepeatEveryOption";
+import RepeatOnOption from "../../Dropdowns/RepeatDropdown/repeatModalMenu/RepeatOnOption";
 import { cn } from "@/lib/utils";
 
 type CustomRepeatDrawerProps = {

@@ -1,6 +1,6 @@
 import React from "react";
-import { useEditCalendarTodo } from "../../query/update-calendar-todo";
-import { useEditCalendarTodoInstance } from "../../query/update-calendar-todo-instance";
+import { useEditCalendarTodo } from "@/features/calendar/query/update-calendar-todo";
+import { useEditCalendarTodoInstance } from "@/features/calendar/query/update-calendar-todo-instance";
 import { TodoItemType } from "@/types";
 import { Button } from "@/components/ui/button";
 import { useTranslations } from "next-intl";
@@ -14,7 +14,7 @@ import {
   ModalFooter,
 } from "@/components/ui/Modal";
 
-type ConfirmEditAllProp = {
+type ConfirmEditAllDialogProp = {
   todo: TodoItemType;
   rruleChecksum: string;
   dateRangeChecksum: string;
@@ -23,14 +23,14 @@ type ConfirmEditAllProp = {
   setEditAllDialogOpen: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
-export default function ConfirmEditAll({
+export default function ConfirmEditAllDialog({
   todo,
   rruleChecksum,
   dateRangeChecksum,
   setDisplayForm,
   editAllDialogOpen,
   setEditAllDialogOpen,
-}: ConfirmEditAllProp) {
+}: ConfirmEditAllDialogProp) {
   const modalDict = useTranslations("modal");
   const { editCalendarTodo } = useEditCalendarTodo();
   const { editCalendarTodoInstance } = useEditCalendarTodoInstance();

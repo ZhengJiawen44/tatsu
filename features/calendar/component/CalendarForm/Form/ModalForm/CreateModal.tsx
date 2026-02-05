@@ -3,11 +3,11 @@ import { useTranslations } from "next-intl";
 import { Options, RRule } from "rrule";
 import { AlignLeft, Clock, Flag, Repeat, Hash } from "lucide-react";
 import { TodoItemType, NonNullableDateRange } from "@/types";
-import { useCreateCalendarTodo } from "../../query/create-calendar-todo";
-import DateDropdownMenu from "./DateDropdown/DateDropdownMenu";
-import PriorityDropdownMenu from "./PriorityDropdown/PriorityDropdown";
-import RepeatDropdownMenu from "./RepeatDropdown/RepeatDropdownMenu";
-import ConfirmCancelEditDialog from "./ConfirmCancelEdit";
+import { useCreateCalendarTodo } from "@/features/calendar/query/create-calendar-todo";
+import DateDropdownMenu from "../../FormFields/Dropdowns/DateDropdown/DateDropdownMenu";
+import PriorityDropdownMenu from "../../FormFields/Dropdowns/PriorityDropdown/PriorityDropdown";
+import RepeatDropdownMenu from "../../FormFields/Dropdowns/RepeatDropdown/RepeatDropdownMenu";
+import ConfirmCancelEditDialog from "../../../ConfirmationModals/ConfirmCancelEdit";
 import {
   Modal,
   ModalOverlay,
