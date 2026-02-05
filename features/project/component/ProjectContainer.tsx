@@ -99,7 +99,7 @@ const ProjectContainer = ({ id }: { id: string }) => {
                     />
                 )}
                 <div className="mb-3">
-                    <div className="sm:flex items-center justify-between gap-2">
+                    <div className="flex flex-wrap items-center justify-between gap-2">
                         <h3 className="text-2xl font-semibold select-none">
                             {projectMetaData[id]?.name}
                         </h3>
