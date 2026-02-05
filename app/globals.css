@@ -7,6 +7,12 @@ body {
 }
 /* hsl(235, 28%, 22%) */
 @layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
   :lang(zh) .text-sm,
   :lang(ja) .text-sm {
     font-weight: 500;
@@ -172,15 +178,6 @@ body {
   }
 }
 
-@layer base {
-  * {
-    @apply border-border;
-  }
-  body {
-    @apply bg-background text-foreground;
-  }
-}
-
 @layer utilities {
   h1 {
     font-size: 3rem;
@@ -215,12 +212,3 @@ body {
   }
 }
 /* https://www.joshwcomeau.com/css/designing-shadows/ */
-
-@layer base {
-  * {
-    @apply border-border outline-ring/50;
-  }
-  body {
-    @apply bg-background text-foreground;
-  }
-}
