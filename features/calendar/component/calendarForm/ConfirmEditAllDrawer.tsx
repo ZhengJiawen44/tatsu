@@ -44,6 +44,7 @@ export default function ConfirmEditAllDrawer({
 
                 <DrawerFooter className="gap-2">
                     <Button
+                        onMouseDown={(e) => e.stopPropagation()}
                         variant="outline"
                         className="w-full"
                         onClick={() => {
@@ -56,6 +57,7 @@ export default function ConfirmEditAllDrawer({
                     </Button>
 
                     <Button
+                        onMouseDown={(e) => e.stopPropagation()}
                         variant="destructive"
                         className="w-full"
                         onClick={() => {
