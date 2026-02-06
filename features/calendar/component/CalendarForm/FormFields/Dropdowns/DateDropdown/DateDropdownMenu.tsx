@@ -57,7 +57,7 @@ const DateDropdownMenu = ({
   return (
     <DropdownMenu open={isOpen} onOpenChange={setIsOpen} modal={true}>
       <DropdownMenuTrigger asChild>
-        <button className="flex justify-start items-center gap-1 p-2 w-full h-full hover:bg-popover-accent rounded-md outline-none">
+        <button className="flex justify-start items-center gap-1 p-2 w-full h-full hover:bg-popover-accent rounded-md outline-hidden">
           <span className="text-sm font-medium">{displayedDateRange}</span>
         </button>
       </DropdownMenuTrigger>
@@ -89,7 +89,7 @@ const DateDropdownMenu = ({
           }}
         >
           <div className="flex gap-1 items-center">
-            <Sun className="!w-5 !h-5 stroke-[1.8px]" />
+            <Sun className="w-5! h-5! stroke-[1.8px]" />
             {appDict("today")}
           </div>
           <p className="text-xs text-muted-foreground">
@@ -115,7 +115,7 @@ const DateDropdownMenu = ({
           }}
         >
           <div className="flex gap-1 items-center">
-            <Sunrise className="!w-5 !h-5" />
+            <Sunrise className="w-5! h-5!" />
             {appDict("tomorrow")}
           </div>
           <p className="text-xs text-muted-foreground">
@@ -143,7 +143,7 @@ const DateDropdownMenu = ({
           }}
         >
           <div className="flex gap-1 items-center">
-            <CalendarIcon strokeWidth={1.4} className="!w-5 !h-5" />
+            <CalendarIcon strokeWidth={1.4} className="w-5! h-5!" />
             {appDict("nextWeek")}
           </div>
           <p className="text-xs text-muted-foreground">
@@ -153,14 +153,14 @@ const DateDropdownMenu = ({
 
         {/* --- DURATION (sub-menu) --- */}
         <DropdownMenuSub>
-          <DropdownMenuSubTrigger className="flex w-full cursor-pointer items-center justify-between rounded-sm px-2 py-1.5 text-sm outline-none hover:bg-accent hover:text-accent-foreground transition-colors group">
+          <DropdownMenuSubTrigger className="flex w-full cursor-pointer items-center justify-between rounded-sm px-2 py-1.5 text-sm outline-hidden hover:bg-accent hover:text-accent-foreground transition-colors group">
             <div className="flex gap-1 items-center">
-              <Clock className="!w-5 !h-5 stroke-[1.8px]" />
+              <Clock className="w-5! h-5! stroke-[1.8px]" />
               {appDict("duration")}
             </div>
           </DropdownMenuSubTrigger>
           <DropdownMenuPortal>
-            <DropdownMenuSubContent className="w-[320px] p-4 rounded-lg z-[60]"
+            <DropdownMenuSubContent className="w-[320px] p-4 rounded-lg z-60"
               onPointerDown={(e) => e.stopPropagation()}
               onKeyDown={(e) => e.stopPropagation()}>
               <DurationPickerSub dateRange={dateRange} setDateRange={setDateRange} />
@@ -305,7 +305,7 @@ function DurationPickerSub({ dateRange, setDateRange }: DurationPickerSubProps) 
                 value={timeFromStr}
                 onChange={(e) => handleFromChange(e.currentTarget.value)}
                 type="time"
-                className={`p-0 select-none border-none bg-transparent focus-visible:outline-none focus-visible:ring-0 focus-visible:ring-transparent focus-visible:ring-offset-0 hover:cursor-pointer ${inputErrorClass}`}
+                className={`p-0 select-none border-none bg-transparent focus-visible:outline-hidden focus-visible:ring-0 focus-visible:ring-transparent focus-visible:ring-offset-0 hover:cursor-pointer ${inputErrorClass}`}
                 aria-invalid={!!error}
                 aria-describedby={error ? "duration-error" : undefined}
               />
@@ -324,7 +324,7 @@ function DurationPickerSub({ dateRange, setDateRange }: DurationPickerSubProps) 
                 value={timeToStr}
                 onChange={(e) => handleToChange(e.currentTarget.value)}
                 type="time"
-                className={`p-0 select-none border-none bg-transparent focus-visible:outline-none focus-visible:ring-0 focus-visible:ring-transparent focus-visible:ring-offset-0 hover:cursor-pointer ${inputErrorClass}`}
+                className={`p-0 select-none border-none bg-transparent focus-visible:outline-hidden focus-visible:ring-0 focus-visible:ring-transparent focus-visible:ring-offset-0 hover:cursor-pointer ${inputErrorClass}`}
                 aria-invalid={!!error}
                 aria-describedby={error ? "duration-error" : undefined}
               />

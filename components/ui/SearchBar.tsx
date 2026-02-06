@@ -55,7 +55,7 @@ const SearchBar = ({ className, onSubmit, onChange }: SearchBarProps) => {
       </button>
       <input
         ref={inputRef}
-        className="bg-transparent w-full outline-none placeholder:text-sm text-white"
+        className="bg-transparent w-full outline-hidden placeholder:text-sm text-white"
         placeholder="Search in Vault"
         onClick={() => setClicked(true)}
         onFocus={() => setClicked(true)}

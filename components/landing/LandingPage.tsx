@@ -214,7 +214,7 @@ const LandingPage = () => {
                   <ul className="space-y-2 sm:space-y-3 text-muted-foreground text-sm sm:text-base">
                     {feature.bullets.map((bullet, idx) => (
                       <li key={idx} className="flex items-start gap-2 sm:gap-3">
-                        <span className="text-primary mt-1 flex-shrink-0">
+                        <span className="text-primary mt-1 shrink-0">
                           →
                         </span>
                         <span>{bullet}</span>
@@ -228,7 +228,7 @@ const LandingPage = () => {
             {/* Right Column: Sticky Feature Image Desktop only */}
             <div className="hidden lg:block relative">
               <div className="sticky top-0 h-screen flex items-center justify-center py-8">
-                <div className="relative w-full aspect-[4/3] bg-secondary/50 rounded-2xl overflow-hidden transition-all duration-500 ease-in-out">
+                <div className="relative w-full aspect-4/3 bg-secondary/50 rounded-2xl overflow-hidden transition-all duration-500 ease-in-out">
                   {FEATURES.map((feature, index) => {
                     if (feature.title === dict("features.3.title")) {
                       return (
@@ -255,7 +255,7 @@ const LandingPage = () => {
                                   type={
                                     showPassword !== true ? "password" : "text"
                                   }
-                                  className="bg-transparent outline-none border h-full px-2 pr-9  w-full rounded-md"
+                                  className="bg-transparent outline-hidden border h-full px-2 pr-9  w-full rounded-md"
                                 />
                                 <EyeToggle
                                   show={showPassword}

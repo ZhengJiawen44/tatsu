@@ -96,19 +96,19 @@ export default function Page() {
               <li>contains several important meta data like below</li>
               <table className="m-auto my-8 text-left" cellPadding={8}>
                 <thead>
-                  <tr className="border-t-[1px]">
+                  <tr className="border-t">
                     <th>Field</th>
                     <th>Type</th>
                     <th>Description / Example</th>
                   </tr>
                 </thead>
                 <tbody>
-                  <tr className="border-t-[1px]">
+                  <tr className="border-t">
                     <td>id</td>
                     <td>String</td>
                     <td>same as the parent ID</td>
                   </tr>
-                  <tr className="border-t-[1px]">
+                  <tr className="border-t">
                     <td>instanceDate</td>
                     <td>Date | null</td>
                     <td>
@@ -123,12 +123,12 @@ export default function Page() {
                       </p>
                     </td>
                   </tr>
-                  <tr className="border-t-[1px]">
+                  <tr className="border-t">
                     <td>instances</td>
                     <td>Date[]</td>
                     <td>all the overriding instances for its parent todo</td>
                   </tr>
-                  <tr className="border-t-[1px]">
+                  <tr className="border-t">
                     <td>dtstart</td>
                     <td>String</td>
                     <td>
@@ -136,7 +136,7 @@ export default function Page() {
                       overriden by overriding instances
                     </td>
                   </tr>
-                  <tr className="border-y-[1px]">
+                  <tr className="border-y">
                     <td>due</td>
                     <td>DateTime</td>
                     <td>
@@ -145,7 +145,7 @@ export default function Page() {
                       ghost&apos;s dtstart
                     </td>
                   </tr>
-                  <tr className="border-y-[1px]">
+                  <tr className="border-y">
                     <td>title</td>
                     <td>string</td>
                     <td>
@@ -153,7 +153,7 @@ export default function Page() {
                       exists
                     </td>
                   </tr>
-                  <tr className="border-y-[1px]">
+                  <tr className="border-y">
                     <td>description</td>
                     <td>string</td>
                     <td>
@@ -196,24 +196,24 @@ export default function Page() {
             </p>
             <table className="m-auto my-8 text-left" cellPadding={8}>
               <thead>
-                <tr className="border-t-[1px]">
+                <tr className="border-t">
                   <th>Field</th>
                   <th>Type</th>
                   <th>Description / Example</th>
                 </tr>
               </thead>
               <tbody>
-                <tr className="border-t-[1px]">
+                <tr className="border-t">
                   <td>id</td>
                   <td>String</td>
                   <td>cuid() - unique identifier for this instance</td>
                 </tr>
-                <tr className="border-t-[1px]">
+                <tr className="border-t">
                   <td>todoId</td>
                   <td>String</td>
                   <td>Reference to parent Todo</td>
                 </tr>
-                <tr className="border-t-[1px]">
+                <tr className="border-t">
                   <td>recurId</td>
                   <td>String</td>
                   <td>
@@ -225,7 +225,7 @@ export default function Page() {
                     </p>
                   </td>
                 </tr>
-                <tr className="border-y-[1px]">
+                <tr className="border-y">
                   <td>overriddenDtstart</td>
                   <td>DateTime?</td>
                   <td>Changed start time for this occurrence</td>
@@ -478,7 +478,7 @@ function InlineCode({ children }: { children: React.ReactNode }) {
 }
 function TableOfContents({ className }: { className?: string }) {
   return (
-    <aside className={cn("w-[25rem] py-10 ", className)}>
+    <aside className={cn("w-100 py-10 ", className)}>
       <nav className="sticky top-20">
         <h2 className="text-lg font-semibold mb-3">Table of Contents</h2>
         <a href="#overview" className="hover:underline hover:text-foreground">

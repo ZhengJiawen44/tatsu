@@ -1,11 +1,135 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import 'tailwindcss';
 
-body {
-  font-family: var(--font-poppins), Arial, Helvetica, sans-serif;
+@custom-variant dark (&:is(.dark *));
+
+@theme {
+  --font-mono: var(--font-mono);
+  --font-poppins: var(--font-poppins);
+
+  --color-form-background: hsl(var(--form-background));
+
+  --color-form-border: hsl(var(--border));
+  --color-form-border-muted: hsl(var(--border-muted));
+  --color-form-border-accent: hsl(var(--border-accent));
+
+  --color-form-foreground: hsl(var(--foreground));
+  --color-form-foreground-accent: hsl(var(--foreground-accent));
+
+  --color-form-input: hsl(var(--input-background));
+
+  --color-form-label: hsl(var(--form-label));
+  --color-form-label-accent: hsl(var(--form-label-accent));
+
+  --color-form-link: hsl(var(--form-link));
+  --color-form-link-accent: hsl(var(--form-link-accent));
+
+  --color-form-button: hsl(var(--form-button));
+  --color-form-button-accent: hsl(var(--form-button-accent));
+
+  --color-form-muted: hsl(var(--form-muted));
+
+  --color-tooltip: hsl(var(--tooltip));
+  --color-lime: hsl(var(--lime));
+  --color-orange: hsl(var(--orange));
+  --color-red: hsl(var(--red));
+  --color-nlp: hsl(var(--nlp));
+
+  --color-sidebar: hsla(var(--sidebar));
+  --color-sidebar-primary: hsla(var(--sidebar-primary));
+  --color-sidebar-border: hsla(var(--sidebar-border));
+
+  --color-background: hsl(var(--background));
+  --color-cream: hsl(var(--background-cream));
+  --color-foreground: hsl(var(--foreground));
+
+  --color-card: hsl(var(--card));
+
+  --color-card-foreground: hsl(var(--card-foreground));
+  --color-card-foreground-muted: hsl(var(--card-foreground-muted));
+
+  --color-card-muted: hsl(var(--card-muted));
+  --color-card-accent: hsl(var(--card-accent));
+
+  --color-calendar-lime: hsl(var(--calendar-lime));
+  --color-calendar-orange: hsl(var(--calendar-orange));
+  --color-calendar-red: hsl(var(--calendar-red));
+
+  --color-popover: hsla(var(--popover));
+  --color-popover-foreground: hsl(var(--popover-foreground));
+  --color-popover-accent: hsl(var(--popover-accent));
+  --color-popover-border: hsl(var(--popover-border));
+
+  --color-primary: hsl(var(--primary));
+  --color-primary-foreground: hsl(var(--primary-foreground));
+
+  --color-secondary: hsl(var(--secondary));
+  --color-secondary-foreground: hsl(var(--secondary-foreground));
+
+  --color-muted: hsl(var(--muted));
+  --color-muted-foreground: hsl(var(--muted-foreground));
+
+  --color-accent: hsl(var(--accent));
+  --color-accent-foreground: hsl(var(--accent-foreground));
+  --color-accent-red: hsl(var(--accent-red));
+  --color-accent-orange: hsl(var(--accent-orange));
+  --color-accent-yellow: hsl(var(--accent-yellow));
+  --color-accent-lime: hsl(var(--accent-lime));
+  --color-accent-blue: hsl(var(--accent-blue));
+  --color-accent-purple: hsl(var(--accent-purple));
+  --color-accent-pink: hsl(var(--accent-pink));
+  --color-accent-teal: hsl(var(--accent-teal));
+  --color-accent-coral: hsl(var(--accent-coral));
+  --color-accent-gold: hsl(var(--accent-gold));
+  --color-accent-deep-blue: hsl(var(--accent-deep-blue));
+  --color-accent-rose: hsl(var(--accent-rose));
+  --color-accent-light-red: hsl(var(--accent-light-red));
+  --color-accent-brick: hsl(var(--accent-brick));
+  --color-accent-slate: hsl(var(--accent-slate));
+
+  --color-destructive: hsl(var(--destructive));
+  --color-destructive-foreground: hsl(var(--destructive-foreground));
+
+  --color-border: hsla(var(--border));
+  --color-border-muted: hsla(var(--border-muted));
+
+  --color-input: hsl(var(--input));
+  --color-ring: hsl(var(--ring));
+
+  --color-chart-1: hsl(var(--chart-1));
+  --color-chart-2: hsl(var(--chart-2));
+  --color-chart-3: hsl(var(--chart-3));
+  --color-chart-4: hsl(var(--chart-4));
+  --color-chart-5: hsl(var(--chart-5));
+
+  --radius-lg: var(--radius);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-sm: calc(var(--radius) - 4px);
 }
-/* hsl(235, 28%, 22%) */
+
+/*
+  The default border color has changed to `currentcolor` in Tailwind CSS v4,
+  so we've added these compatibility styles to make sure everything still
+  looks the same as it did with Tailwind CSS v3.
+
+  If we ever want to remove these styles, we need to add an explicit border
+  color utility to any element that depends on these defaults.
+*/
+@layer base {
+  *,
+  ::after,
+  ::before,
+  ::backdrop,
+  ::file-selector-button {
+    border-color: var(--color-gray-200, currentcolor);
+  }
+}
+
+@layer utilities {
+  body {
+    font-family: var(--font-poppins), Arial, Helvetica, sans-serif;
+  }
+  /* hsl(235, 28%, 22%) */
+}
 @layer base {
   * {
     @apply border-border outline-ring/50;

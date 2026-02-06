@@ -10,14 +10,14 @@ export default function TodoCheckbox({
   checked,
   priority,
   icon: Icon,
-  variant = "outline",
+  variant = "outline-solid"
 }: {
   complete: boolean;
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   checked: boolean;
   priority: "Low" | "Medium" | "High";
   icon: React.ElementType;
-  variant?: "repeat" | "outline";
+  variant?: "repeat" | "outline-solid";
 }) {
   const [expand, setExpand] = useState(false);
   const popAudio = useRef<HTMLAudioElement | null>(null);
@@ -56,7 +56,7 @@ export default function TodoCheckbox({
         checked={checked}
       />
 
-      {variant === "outline" ? (
+      {variant === "outline-solid" ? (
         <div
           onMouseDown={(e) => {
             e.stopPropagation();
@@ -74,7 +74,7 @@ export default function TodoCheckbox({
           <Icon
             className={clsx(
               "pointer-events-none absolute bottom-1/2 translate-y-1/2 right-1/2 translate-x-1/2",
-              "hidden group-hover:block stroke-[3] w-5 h-5",
+              "hidden group-hover:block stroke-3 w-5 h-5",
               priority === "Low" && "text-lime",
               priority === "Medium" && "text-orange",
               priority === "High" && "text-red",
@@ -101,7 +101,7 @@ export default function TodoCheckbox({
           <Icon
             className={clsx(
               "pointer-events-none absolute bottom-1/2 translate-y-1/2 right-1/2 translate-x-1/2 transition-transform duration-200 ease-out",
-              "hidden group-hover:block stroke-[3] w-5 h-5",
+              "hidden group-hover:block stroke-3 w-5 h-5",
               expand && "scale-125",
               priority === "Low" && "text-lime",
               priority === "Medium" && "text-orange",

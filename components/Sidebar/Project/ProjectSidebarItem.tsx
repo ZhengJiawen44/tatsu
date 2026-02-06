@@ -68,7 +68,7 @@ const ProjectSidebarItem = ({ meta }: { meta: Pick<ProjectItemType, "id" | "colo
               ref={inputRef}
               type="text"
               title={meta.name}
-              className="select-text border w-full outline-none flex justify-between h-full ring-1 truncate bg-transparent"
+              className="select-text border w-full outline-hidden flex justify-between h-full ring-1 truncate bg-transparent"
 
               value={name}
               onChange={(e) => setName(e.currentTarget.value)}
@@ -116,7 +116,7 @@ const ProjectSidebarItem = ({ meta }: { meta: Pick<ProjectItemType, "id" | "colo
                   <DropdownMenuSubTrigger>
                     Edit colours...
                   </DropdownMenuSubTrigger>
-                  <DropdownMenuSubContent className="max-h-[15rem] overflow-scroll">
+                  <DropdownMenuSubContent className="max-h-60 overflow-scroll">
                     {projectColorMap.map((color) => {
                       // map ProjectColor values to static Tailwind classes
                       const colorClassMap: Record<string, string> = {

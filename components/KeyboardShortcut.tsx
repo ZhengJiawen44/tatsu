@@ -33,7 +33,7 @@ export default function KeyboardShortcuts({
                   <tbody className="divide-y divide-border">
                     <tr className="hover:bg-accent transition-colors">
                       <td className="px-6 py-3 whitespace-nowrap">
-                        <kbd className="px-3 py-1.5 text-sm font-mono bg-muted border border-border rounded shadow-sm">
+                        <kbd className="px-3 py-1.5 text-sm font-mono bg-muted border border-border rounded shadow-xs">
                           Ctrl+Enter
                         </kbd>
                       </td>
@@ -43,7 +43,7 @@ export default function KeyboardShortcuts({
                     </tr>
                     <tr className="hover:bg-accent transition-colors">
                       <td className="px-6 py-3 whitespace-nowrap">
-                        <kbd className="px-3 py-1.5 text-sm font-mono bg-muted border border-border rounded shadow-sm">
+                        <kbd className="px-3 py-1.5 text-sm font-mono bg-muted border border-border rounded shadow-xs">
                           Q
                         </kbd>
                       </td>
@@ -53,7 +53,7 @@ export default function KeyboardShortcuts({
                     </tr>
                     <tr className="hover:bg-accent transition-colors">
                       <td className="px-6 py-3 whitespace-nowrap">
-                        <kbd className="px-3 py-1.5 text-sm font-mono bg-muted border border-border rounded shadow-sm">
+                        <kbd className="px-3 py-1.5 text-sm font-mono bg-muted border border-border rounded shadow-xs">
                           Esc
                         </kbd>
                       </td>
@@ -63,7 +63,7 @@ export default function KeyboardShortcuts({
                     </tr>
                     <tr className="hover:bg-accent transition-colors">
                       <td className="px-6 py-3 whitespace-nowrap">
-                        <kbd className="px-3 py-1.5 text-sm font-mono bg-muted border border-border rounded shadow-sm">
+                        <kbd className="px-3 py-1.5 text-sm font-mono bg-muted border border-border rounded shadow-xs">
                           Double Click
                         </kbd>
                       </td>
@@ -85,7 +85,7 @@ export default function KeyboardShortcuts({
                   <tbody className="divide-y divide-border">
                     <tr className="hover:bg-accent transition-colors">
                       <td className="px-6 py-3 whitespace-nowrap">
-                        <kbd className="px-3 py-1.5 text-sm font-mono bg-muted border border-border rounded shadow-sm">
+                        <kbd className="px-3 py-1.5 text-sm font-mono bg-muted border border-border rounded shadow-xs">
                           ←
                         </kbd>
                       </td>
@@ -95,7 +95,7 @@ export default function KeyboardShortcuts({
                     </tr>
                     <tr className="hover:bg-accent transition-colors">
                       <td className="px-6 py-3 whitespace-nowrap">
-                        <kbd className="px-3 py-1.5 text-sm font-mono bg-muted border border-border rounded shadow-sm">
+                        <kbd className="px-3 py-1.5 text-sm font-mono bg-muted border border-border rounded shadow-xs">
                           →
                         </kbd>
                       </td>
@@ -105,7 +105,7 @@ export default function KeyboardShortcuts({
                     </tr>
                     <tr className="hover:bg-accent transition-colors">
                       <td className="px-6 py-3 whitespace-nowrap">
-                        <kbd className="px-3 py-1.5 text-sm font-mono bg-muted border border-border rounded shadow-sm">
+                        <kbd className="px-3 py-1.5 text-sm font-mono bg-muted border border-border rounded shadow-xs">
                           T
                         </kbd>
                       </td>
@@ -115,15 +115,15 @@ export default function KeyboardShortcuts({
                     </tr>
                     <tr className="hover:bg-accent transition-colors">
                       <td className="px-6 py-3 whitespace-nowrap">
-                        <kbd className="px-3 py-1.5 text-sm font-mono bg-muted border border-border rounded shadow-sm">
+                        <kbd className="px-3 py-1.5 text-sm font-mono bg-muted border border-border rounded shadow-xs">
                           1
                         </kbd>
                         <span className="mx-1 text-muted-foreground">/</span>
-                        <kbd className="px-3 py-1.5 text-sm font-mono bg-muted border border-border rounded shadow-sm">
+                        <kbd className="px-3 py-1.5 text-sm font-mono bg-muted border border-border rounded shadow-xs">
                           2
                         </kbd>
                         <span className="mx-1 text-muted-foreground">/</span>
-                        <kbd className="px-3 py-1.5 text-sm font-mono bg-muted border border-border rounded shadow-sm">
+                        <kbd className="px-3 py-1.5 text-sm font-mono bg-muted border border-border rounded shadow-xs">
                           3
                         </kbd>
                       </td>
@@ -145,13 +145,13 @@ export default function KeyboardShortcuts({
                   <tbody className="divide-y divide-border">
                     <tr className="hover:bg-accent transition-colors">
                       <td className="px-6 py-3 whitespace-nowrap">
-                        <kbd className="px-3 py-1.5 text-sm font-mono bg-muted border border-border rounded shadow-sm">
+                        <kbd className="px-3 py-1.5 text-sm font-mono bg-muted border border-border rounded shadow-xs">
                           G
                         </kbd>
                         <span className="mx-2 text-muted-foreground">
                           {shortcutsDict("navigation.then")}
                         </span>
-                        <kbd className="px-3 py-1.5 text-sm font-mono bg-muted border border-border rounded shadow-sm">
+                        <kbd className="px-3 py-1.5 text-sm font-mono bg-muted border border-border rounded shadow-xs">
                           T
                         </kbd>
                       </td>
@@ -161,13 +161,13 @@ export default function KeyboardShortcuts({
                     </tr>
                     <tr className="hover:bg-accent transition-colors">
                       <td className="px-6 py-3 whitespace-nowrap">
-                        <kbd className="px-3 py-1.5 text-sm font-mono bg-muted border border-border rounded shadow-sm">
+                        <kbd className="px-3 py-1.5 text-sm font-mono bg-muted border border-border rounded shadow-xs">
                           G
                         </kbd>
                         <span className="mx-2 text-muted-foreground">
                           {shortcutsDict("navigation.then")}
                         </span>
-                        <kbd className="px-3 py-1.5 text-sm font-mono bg-muted border border-border rounded shadow-sm">
+                        <kbd className="px-3 py-1.5 text-sm font-mono bg-muted border border-border rounded shadow-xs">
                           C
                         </kbd>
                       </td>
@@ -177,13 +177,13 @@ export default function KeyboardShortcuts({
                     </tr>
                     <tr className="hover:bg-accent transition-colors">
                       <td className="px-6 py-3 whitespace-nowrap">
-                        <kbd className="px-3 py-1.5 text-sm font-mono bg-muted border border-border rounded shadow-sm">
+                        <kbd className="px-3 py-1.5 text-sm font-mono bg-muted border border-border rounded shadow-xs">
                           G
                         </kbd>
                         <span className="mx-2 text-muted-foreground">
                           {shortcutsDict("navigation.then")}
                         </span>
-                        <kbd className="px-3 py-1.5 text-sm font-mono bg-muted border border-border rounded shadow-sm">
+                        <kbd className="px-3 py-1.5 text-sm font-mono bg-muted border border-border rounded shadow-xs">
                           D
                         </kbd>
                       </td>
@@ -193,13 +193,13 @@ export default function KeyboardShortcuts({
                     </tr>
                     <tr className="hover:bg-accent transition-colors">
                       <td className="px-6 py-3 whitespace-nowrap">
-                        <kbd className="px-3 py-1.5 text-sm font-mono bg-muted border border-border rounded shadow-sm">
+                        <kbd className="px-3 py-1.5 text-sm font-mono bg-muted border border-border rounded shadow-xs">
                           G
                         </kbd>
                         <span className="mx-2 text-muted-foreground">
                           {shortcutsDict("navigation.then")}
                         </span>
-                        <kbd className="px-3 py-1.5 text-sm font-mono bg-muted border border-border rounded shadow-sm">
+                        <kbd className="px-3 py-1.5 text-sm font-mono bg-muted border border-border rounded shadow-xs">
                           V
                         </kbd>
                       </td>

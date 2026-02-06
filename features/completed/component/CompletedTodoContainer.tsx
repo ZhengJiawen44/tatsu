@@ -13,9 +13,9 @@ const CompletedTodoContainer = () => {
   if (todoLoading)
     return (
       <>
-        <Skeleton className="w-[20rem] h-[2rem]" />
+        <Skeleton className="w-[20rem] h-8" />
         <br />
-        <Skeleton className="w-[10rem] h-[1rem]" />
+        <Skeleton className="w-40 h-4" />
       </>
     );
 

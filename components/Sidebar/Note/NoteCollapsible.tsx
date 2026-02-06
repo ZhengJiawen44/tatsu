@@ -46,7 +46,7 @@ const NoteCollapsible = () => {
           className={clsx(
             "flex gap-3 items-center border border-transparent w-full font-normal",
             activeMenu.name === "Note" &&
-            "bg-sidebar-primary shadow-md text-form-foreground-accent !border-border",
+            "bg-sidebar-primary shadow-md text-form-foreground-accent border-border!",
           )}
         >
           <FileText

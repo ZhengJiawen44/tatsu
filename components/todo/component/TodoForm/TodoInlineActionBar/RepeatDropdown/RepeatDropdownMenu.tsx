@@ -24,7 +24,7 @@ const RepeatDropdownMenu = ({ }) => {
       <DropdownMenuTrigger asChild>
         <Button
           variant={"outline"}
-          className="w-fit h-fit !p-2 text-muted-foreground bg-inherit"
+          className="w-fit h-fit p-2! text-muted-foreground bg-inherit"
         >
           <Repeat className="w-4 h-4 sm:w-5 sm:h-5" />
           <p className="text-sm">{appDict("repeat")}</p>
@@ -135,7 +135,7 @@ const RepeatDropdownMenu = ({ }) => {
           </div>
         </DropdownMenuItem>
         <DropdownMenuItem asChild>
-          <CustomRepeatModalMenu className="flex w-full hover:bg-accent !py-2 px-1" />
+          <CustomRepeatModalMenu className="flex w-full hover:bg-accent py-2! px-1" />
         </DropdownMenuItem>
 
         {rruleOptions && (

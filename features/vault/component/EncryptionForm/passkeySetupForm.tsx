@@ -77,7 +77,7 @@ const PasskeyForm = ({ email }: { email: string }) => {
             name="passKey"
             required
             type={showPassword !== true ? "password" : "text"}
-            className="bg-transparent outline-none border h-full px-2 pr-9 absolute w-full rounded-md"
+            className="bg-transparent outline-hidden border h-full px-2 pr-9 absolute w-full rounded-md"
           />
           <EyeToggle
             show={showPassword}

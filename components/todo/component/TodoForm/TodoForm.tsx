@@ -92,14 +92,14 @@ const TodoForm = ({
               setDesc(e.target.value);
               adjustHeight(textareaRef);
             }}
-            className="px-2 w-full overflow-hidden bg-transparent my-1 placeholder-muted-foreground font-extralight focus:outline-none resize-none"
+            className="px-2 w-full overflow-hidden bg-transparent my-1 placeholder-muted-foreground font-extralight focus:outline-hidden resize-none"
             name="description"
             placeholder={appDict("descPlaceholder")}
           />
           {/* DateRange, Priority, and Repeat menus */}
           <TodoInlineActionBar />
         </div>
-        <LineSeparator className="!m-0 !p-0" />
+        <LineSeparator className="m-0! p-0!" />
         {/* form footer */}
         <div className="flex text-sm w-full justify-between items-center py-1.5 px-2">
           <ProjectDropdownMenu projectID={projectID} setProjectID={setProjectID} />
@@ -107,7 +107,7 @@ const TodoForm = ({
             <Button
               variant={"outline"}
               type="button"
-              className="h-fit bg-accent !py-[0.3rem] border-none"
+              className="h-fit bg-accent py-[0.3rem]! border-none"
               onClick={() => {
                 clearInput();
                 setDisplayForm(false);
@@ -120,8 +120,8 @@ const TodoForm = ({
               variant={"default"}
               disabled={title.length <= 0}
               className={clsx(
-                "h-fit !py-[0.3rem]",
-                title.length <= 0 && "disabled opacity-40 !cursor-not-allowed",
+                "h-fit py-[0.3rem]!",
+                title.length <= 0 && "disabled opacity-40 cursor-not-allowed!",
               )}
             >
               <p title="ctrl+enter">

@@ -175,7 +175,7 @@ export default function CalendarClient() {
   return (
     <>
       {calendarTodosLoading && <>
-        <div className="w-full h-full bg-black/20 fixed z-[100]">
+        <div className="w-full h-full bg-black/20 fixed z-100">
           <div className="fixed top-1/2 left-1/2 -translate-y-1/2 ">
             <Spinner className="h-20 w-20" />
 

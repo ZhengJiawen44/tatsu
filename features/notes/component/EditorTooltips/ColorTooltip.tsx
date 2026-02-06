@@ -56,7 +56,7 @@ const ColorTooltip = ({
             editor!.chain().focus().setColor(e.currentTarget.value).run()
           }
           type="color"
-          className="absolute top-1/2 left-1/2 w-[150%] h-[150%] -translate-x-1/2 -translate-y-1/2 cursor-pointer border-0 outline-none bg-transparent p-0"
+          className="absolute top-1/2 left-1/2 w-[150%] h-[150%] -translate-x-1/2 -translate-y-1/2 cursor-pointer border-0 outline-hidden bg-transparent p-0"
           defaultValue={"#03A9F4"}
         />
       </div>
@@ -144,7 +144,7 @@ const UnsetHighlight = ({ editor }: { editor: Editor }) => {
         editor!.chain().focus().unsetHighlight().run();
       }}
     >
-      <div className="w-5 h-5 outline outline-[2px] outline-border   rounded cursor-pointer " />
+      <div className="w-5 h-5 outline-solid outline-2 outline-border   rounded cursor-pointer " />
     </MenuItem>
   );
 };
@@ -160,7 +160,7 @@ const UnsetText = ({ editor }: { editor: Editor }) => {
         editor!.chain().focus().unsetColor().run();
       }}
     >
-      <div className="w-5 h-5 outline outline-[2px] outline-border   rounded cursor-pointer " />
+      <div className="w-5 h-5 outline-solid outline-2 outline-border   rounded cursor-pointer " />
     </MenuItem>
   );
 };

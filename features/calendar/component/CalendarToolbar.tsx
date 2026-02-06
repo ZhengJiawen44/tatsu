@@ -64,7 +64,7 @@ export function CalendarToolbar({
 
         <div className="flex-1 sm:flex-none">
           <Select onValueChange={(value: View) => onView(value)}>
-            <SelectTrigger className="sm:min-w-24 h-fit !p-1 !px-2 sm:!p-2.5 sm:!px-4">
+            <SelectTrigger className="sm:min-w-24 h-fit p-1! px-2! sm:p-2.5! sm:px-4!">
               <span className="capitalize">{appDict(view.toLowerCase())}</span>
             </SelectTrigger>
             <SelectContent className="min-w-36">

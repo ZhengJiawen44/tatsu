@@ -20,7 +20,7 @@ const PriorityDropdownMenu = ({ }) => {
       <PopoverTrigger asChild>
         <Button
           variant={"outline"}
-          className="w-fit h-fit !p-2 text-muted-foreground bg-inherit"
+          className="w-fit h-fit p-2! text-muted-foreground bg-inherit"
         >
           <Flag
             className={clsx(
@@ -37,7 +37,7 @@ const PriorityDropdownMenu = ({ }) => {
       </PopoverTrigger>
       <PopoverContent className="min-w-[150px] text-foreground flex flex-col p-1 items-start justify-center">
         <Button
-          className="hover:bg-popover-accent w-full justify-start !p-2 h-fit"
+          className="hover:bg-popover-accent w-full justify-start p-2! h-fit"
           variant={"ghost"}
           onClick={() => setPriority("Low")}
         >
@@ -49,7 +49,7 @@ const PriorityDropdownMenu = ({ }) => {
           {appDict("normal")}
         </Button>
         <Button
-          className="hover:bg-popover-accent w-full justify-start !p-2 h-fit"
+          className="hover:bg-popover-accent w-full justify-start p-2! h-fit"
           variant={"ghost"}
           onClick={() => setPriority("Medium")}
         >
@@ -61,7 +61,7 @@ const PriorityDropdownMenu = ({ }) => {
           {appDict("important")}
         </Button>
         <Button
-          className="hover:bg-popover-accent w-full justify-start !p-2 h-fit"
+          className="hover:bg-popover-accent w-full justify-start p-2! h-fit"
           variant={"ghost"}
           onClick={() => setPriority("High")}
         >

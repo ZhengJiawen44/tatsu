@@ -108,7 +108,7 @@ const CreateCalendarForm = ({
                   title={title}
                   setTitle={setTitle}
                   setDateRange={setDateRange}
-                  className="ml-9 flex-1 min-w-0 bg-transparent border-b border-border py-1 text-lg focus:outline-none focus:border-lime"
+                  className="ml-9 flex-1 min-w-0 bg-transparent border-b border-border py-1 text-lg focus:outline-hidden focus:border-lime"
                 />
               </div>
 
@@ -163,7 +163,7 @@ const CreateCalendarForm = ({
               <div className="flex items-start gap-3">
                 <AlignLeft className="w-4 h-4 text-muted-foreground mt-1" />
                 <textarea
-                  className="flex-1 min-w-0 bg-popover border rounded-md px-3 py-2 text-sm resize-none focus:outline-none focus:ring-2 focus:ring-lime"
+                  className="flex-1 min-w-0 bg-popover border rounded-md px-3 py-2 text-sm resize-none focus:outline-hidden focus:ring-2 focus:ring-lime"
                   rows={3}
                   placeholder={appDict("descPlaceholder")}
                   value={description}

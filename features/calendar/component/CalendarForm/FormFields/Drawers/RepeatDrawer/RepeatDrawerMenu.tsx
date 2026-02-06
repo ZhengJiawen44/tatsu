@@ -126,7 +126,7 @@ export default function RepeatDrawerMenu({ rruleOptions, setRruleOptions, derive
             </div>
 
             <NestedDrawerItem
-                className="flex w-full !gap-3 cursor-pointer items-center justify-between rounded-md p-2 hover:bg-accent/50 text-base"
+                className="flex w-full gap-3! cursor-pointer items-center justify-between rounded-md p-2 hover:bg-accent/50 text-base"
                 title="Custom"
                 icon={<></>}
                 label=""
@@ -137,7 +137,7 @@ export default function RepeatDrawerMenu({ rruleOptions, setRruleOptions, derive
             {/* clear repeat */}
             {rruleOptions &&
                 <div
-                    className={clsx("flex bg-inherit w-full cursor-pointer items-center justify-center border rounded-md p-2 hover:bg-red/40 hover:!text-foreground text-red", derivedRepeatType === "Monthly" && "bg-accent")}
+                    className={clsx("flex bg-inherit w-full cursor-pointer items-center justify-center border rounded-md p-2 hover:bg-red/40 hover:text-foreground! text-red", derivedRepeatType === "Monthly" && "bg-accent")}
                     onClick={() =>
                         setRruleOptions(() => {
                             return null;

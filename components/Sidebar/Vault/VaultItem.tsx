@@ -18,7 +18,7 @@ const VaultItem = () => {
       className={clsx(
         "flex items-center border border-transparent font-normal",
         activeMenu.name === "Vault" &&
-        "bg-sidebar-primary shadow-md text-form-foreground-accent !border-border",
+        "bg-sidebar-primary shadow-md text-form-foreground-accent border-border!",
       )}
     >
       <Link

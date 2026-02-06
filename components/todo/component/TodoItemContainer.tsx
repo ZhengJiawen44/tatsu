@@ -8,18 +8,19 @@ import { TodoItemType } from "@/types";
 import GripVertical from "@/components/ui/icon/gripVertical";
 import TodoFormLoading from "./TodoForm/TodoFormLoading";
 import { Check } from "lucide-react";
-import TodoItemMenuContainer from "./TodoItem/TodoMenu/TodoItemMenuContainer";
 import LineSeparator from "@/components/ui/lineSeparator";
 import { getDisplayDate } from "@/lib/date/displayDate";
 import { useLocale } from "next-intl";
 import { useTodoMutation } from "@/providers/TodoMutationProvider";
 import { useProjectMetaData } from "@/components/Sidebar/Project/query/get-project-meta";
 import ProjectTag from "@/components/ProjectTag";
+import TodoItemMenuContainer from "./TodoItem/TodoMenu/TodoItemMenuContainer";
 
 const TodoFormContainer = dynamic(
   () => import("./TodoForm/TodoFormContainer"),
   { loading: () => <TodoFormLoading /> },
 );
+
 
 type TodoItemContainerProps = {
   todoItem: TodoItemType,
@@ -114,7 +115,7 @@ export const TodoItemContainer = ({ todoItem, overdue }: TodoItemContainerProps)
               completeMutateFn(todoItem);
             }}
             checked={completed}
-            variant={rrule ? "repeat" : "outline"}
+            variant={rrule ? "repeat" : "outline-solid"}
           />
 
           <div className=" max-w-full pl-2 sm:pl-0">
@@ -139,7 +140,9 @@ export const TodoItemContainer = ({ todoItem, overdue }: TodoItemContainerProps)
           </div>
         </div>
 
+
         <TodoItemMenuContainer
+          displayMenu={showHandle}
           className={clsx(
             "flex items-center gap-2",
             !showHandle && "opacity-0",

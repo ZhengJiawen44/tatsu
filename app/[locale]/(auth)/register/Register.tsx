@@ -99,7 +99,7 @@ export default function RegisterPage() {
               <input
                 {...register("fname")}
                 type="text"
-                className="text-white w-full bg-form-input rounded-md h-[45px] px-[18px] focus:outline-none focus:outline-form-border"
+                className="text-white w-full bg-form-input rounded-md h-[45px] px-[18px] focus:outline-hidden focus:outline-form-border"
                 placeholder={t("fields.fname.placeholder")}
               />
               {errors.fname && (
@@ -110,7 +110,7 @@ export default function RegisterPage() {
               <input
                 {...register("lname")}
                 type="text"
-                className="text-white w-full bg-form-input rounded-md h-[45px] px-[18px] focus:outline-none focus:outline-form-border"
+                className="text-white w-full bg-form-input rounded-md h-[45px] px-[18px] focus:outline-hidden focus:outline-form-border"
                 placeholder={t("fields.lname.placeholder")}
               />
               {errors.lname && (
@@ -123,7 +123,7 @@ export default function RegisterPage() {
             <input
               {...register("email")}
               type="text"
-              className="text-white bg-form-input rounded-md h-[45px] w-full px-[18px] focus:outline-none focus:outline-form-border"
+              className="text-white bg-form-input rounded-md h-[45px] w-full px-[18px] focus:outline-hidden focus:outline-form-border"
               placeholder={t("fields.email.placeholder")}
             />
             {errors.email && (
@@ -136,7 +136,7 @@ export default function RegisterPage() {
               <input
                 {...register("password")}
                 type={show ? "text" : "password"}
-                className="absolute inset-0 z-0 text-white bg-form-input rounded-md w-full px-[18px] pr-[55px] focus:outline-none focus:outline-form-border"
+                className="absolute inset-0 z-0 text-white bg-form-input rounded-md w-full px-[18px] pr-[55px] focus:outline-hidden focus:outline-form-border"
                 placeholder={t("fields.password.placeholder")}
               />
               <EyeToggle show={show} setShow={setShow} />
@@ -166,7 +166,7 @@ export default function RegisterPage() {
             <button
               onClick={onGoogle}
               type="button"
-              className="flex gap-3 justify-center items-center w-1/2 h-[3rem] border border-form-border rounded-md hover:border-form-border-accent transition-all duration-300"
+              className="flex gap-3 justify-center items-center w-1/2 h-12 border border-form-border rounded-md hover:border-form-border-accent transition-all duration-300"
             >
               <Image src="/google.svg" alt="google-logo" width={28} height={28} />
               <p className="text-white">{t("oauth.google")}</p>
@@ -174,7 +174,7 @@ export default function RegisterPage() {
             <button
               onClick={onDiscord}
               type="button"
-              className="flex gap-3 justify-center items-center w-1/2 h-[3rem] border border-form-border rounded-md hover:border-form-border-accent transition-all duration-300"
+              className="flex gap-3 justify-center items-center w-1/2 h-12 border border-form-border rounded-md hover:border-form-border-accent transition-all duration-300"
             >
               <Image src="/discord.svg" alt="discord-logo" width={28} height={28} />
               <p className="text-white">{t("oauth.discord")}</p>

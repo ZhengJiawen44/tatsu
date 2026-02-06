@@ -45,7 +45,7 @@ const MenuSidebarItem = () => {
         />
       )}
       <DropdownMenu open={dropdownOpen} onOpenChange={setDropdownOpen}>
-        <DropdownMenuTrigger className="focus:outline-none w-full" asChild>
+        <DropdownMenuTrigger className="focus:outline-hidden w-full" asChild>
           <Button
             variant={"ghost"}
             className={"flex justify-between py-2 px-2 gap-2 mb-3 font-normal"}
@@ -57,12 +57,12 @@ const MenuSidebarItem = () => {
             <ChevronDown
               className={clsx(
                 "w-6 h-6 transition-transform duration-200",
-                dropdownOpen ? "rotate-180" : "-rotate-0",
+                dropdownOpen ? "rotate-180" : "rotate-0",
               )}
             />
           </Button>
         </DropdownMenuTrigger>
-        <DropdownMenuContent className="text-foreground w-[var(--radix-dropdown-menu-trigger-width)]">
+        <DropdownMenuContent className="text-foreground w-(--radix-dropdown-menu-trigger-width)">
           <DropdownMenuLabel>
             {data?.user?.email || data?.user?.name || "user settings"}
           </DropdownMenuLabel>

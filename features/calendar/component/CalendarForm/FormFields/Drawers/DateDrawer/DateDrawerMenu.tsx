@@ -37,7 +37,7 @@ export function DateDrawerMenu({ dateRange, setDateRange }: { dateRange: NonNull
                     data-close-on-click
                 >
                     <div className="flex gap-3 items-center">
-                        <Sun className="!w-5 !h-5 stroke-[1.8px]" />
+                        <Sun className="w-5! h-5! stroke-[1.8px]" />
                         {appDict("today")}
                     </div>
                     <p className="text-xs text-muted-foreground">
@@ -61,7 +61,7 @@ export function DateDrawerMenu({ dateRange, setDateRange }: { dateRange: NonNull
                     data-close-on-click
                 >
                     <div className="flex gap-3 items-center">
-                        <Sunrise className="!w-5 !h-5" />
+                        <Sunrise className="w-5! h-5!" />
                         {appDict("tomorrow")}
                     </div>
                     <p className="text-xs text-muted-foreground">
@@ -87,7 +87,7 @@ export function DateDrawerMenu({ dateRange, setDateRange }: { dateRange: NonNull
                     data-close-on-click
                 >
                     <div className="flex gap-3 items-center">
-                        <CalendarIcon strokeWidth={1.4} className="!w-5 !h-5" />
+                        <CalendarIcon strokeWidth={1.4} className="w-5! h-5!" />
                         {appDict("nextWeek")}
                     </div>
                     <p className="text-xs text-muted-foreground">
@@ -95,7 +95,7 @@ export function DateDrawerMenu({ dateRange, setDateRange }: { dateRange: NonNull
                     </p>
                 </div>
                 <NestedDrawerItem
-                    className="flex w-full !gap-3 cursor-pointer items-center justify-between rounded-md p-2 hover:bg-accent/50"
+                    className="flex w-full gap-3! cursor-pointer items-center justify-between rounded-md p-2 hover:bg-accent/50"
                     title="Duration"
                     icon={<Clock className="w-5 h-5" />}
                     label=""
@@ -115,7 +115,7 @@ export function DateDrawerMenu({ dateRange, setDateRange }: { dateRange: NonNull
                     cell: "w-11 h-11",
                     day: "w-11 h-11 text-sm text-foreground/80",
                     nav_button:
-                        "z-50 w-10 h-10 rounded-full flex items-center justify-center bg-popover/60 hover:bg-popover-accent backdrop-blur",
+                        "z-50 w-10 h-10 rounded-full flex items-center justify-center bg-popover/60 hover:bg-popover-accent backdrop-blur-sm",
                     nav: "w-10 h-10"
 
                 }}

@@ -39,7 +39,7 @@ export default function MoreFeatures() {
     return (
         <>
             {featureMap.map(({ title, description }) => {
-                return <div key={title} className="rounded-md w-96 p-4 text-start border bg-background shadow-sm">
+                return <div key={title} className="rounded-md w-96 p-4 text-start border bg-background shadow-xs">
                     <p className="text-lg font-semibold mb-2">
                         {title}
                     </p>

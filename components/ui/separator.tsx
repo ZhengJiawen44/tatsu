@@ -26,7 +26,7 @@ const SeparatorWord = ({
   return (
     <p
       className={cn(
-        "text-form-muted text-[0.85rem] absolute w-fit left-1/2 translate-x-[-50%] top-1/2 translate-y-[-100%] leading-none bg-form-background px-4 z-10",
+        "text-form-muted text-[0.85rem] absolute w-fit left-1/2 translate-x-[-50%] top-1/2 -translate-y-full leading-none bg-form-background px-4 z-10",
         className
       )}
       {...props}
@@ -39,7 +39,7 @@ const SeparatorWord = ({
 const SeparatorLine = ({ className, ...props }: { className?: string }) => {
   return (
     <p
-      className={cn(className, "w-full h-1 border-t-[1px] border-form-border")}
+      className={cn(className, "w-full h-1 border-t border-form-border")}
       {...props}
     ></p>
   );

@@ -41,15 +41,15 @@ function Calendar({
           buttonVariants({ variant: "ghost" }),
           "h-8 w-8 p-0 font-normal aria-selected:opacity-100 text-xs text-foreground ",
         ),
-        day_range_start: "!bg-calendar--lime !font-bold !text-sm text-foreground relative z-10 !rounded-full",
-        day_range_end: "!bg-calendar--lime !font-bold !text-sm text-foreground  relative z-10",
+        day_range_start: "!bg-calendar--lime font-bold! text-sm! text-foreground relative z-10 rounded-full!",
+        day_range_end: "!bg-calendar--lime font-bold! text-sm! text-foreground  relative z-10",
         day_selected:
-          " bg-primary !rounded-full text-primary-foreground hover:bg-primary hover:text-primary-foreground focus:bg-primary focus:text-primary-foreground",
+          " bg-primary rounded-full! text-primary-foreground hover:bg-primary hover:text-primary-foreground focus:bg-primary focus:text-primary-foreground",
         day_today: "bg-accent text-accent-foreground",
         day_outside:
           "day-outside text-muted-foreground aria-selected:bg-accent/50 aria-selected:text-muted-foreground",
         day_disabled: "text-muted-foreground opacity-50",
-        day_range_middle: "!rounded-full !bg-popover-border aria-selected:bg-lime aria-selected:text-white",
+        day_range_middle: "rounded-full! bg-popover-border! aria-selected:bg-lime aria-selected:text-white",
         day_hidden: "invisible",
         ...classNames,
       }}

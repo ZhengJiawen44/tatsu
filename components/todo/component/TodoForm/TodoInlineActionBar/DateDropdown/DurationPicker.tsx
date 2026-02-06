@@ -86,13 +86,13 @@ const DurationPicker = ({ className }: { className?: string }) => {
         <button
           className={
             (cn(
-              "flex w-full cursor-pointer items-center justify-between rounded-sm px-2 py-1.5 text-sm outline-none hover:bg-accent hover:text-accent-foreground transition-colors group",
+              "flex w-full cursor-pointer items-center justify-between rounded-sm px-2 py-1.5 text-sm outline-hidden hover:bg-accent hover:text-accent-foreground transition-colors group",
             ),
               className)
           }
         >
           <div className="flex gap-2 items-center ">
-            <Clock strokeWidth={1.8} className="!w-5 !h-5 text-muted-foreground" />
+            <Clock strokeWidth={1.8} className="w-5! h-5! text-muted-foreground" />
             {appDict("duration")}
           </div>
           <ChevronRight className="ml-auto h-4 w-4 text-muted-foreground/50 group-hover:text-accent-foreground" />
@@ -126,7 +126,7 @@ const DurationPicker = ({ className }: { className?: string }) => {
                     value={timeFromStr}
                     onChange={(e) => handleFromChange(e.currentTarget.value)}
                     type="time"
-                    className={`p-0 select-none border-none bg-transparent focus-visible:outline-none focus-visible:ring-0 focus-visible:ring-transparent focus-visible:ring-offset-0 hover:cursor-pointer ${inputErrorClass}`}
+                    className={`p-0 select-none border-none bg-transparent focus-visible:outline-hidden focus-visible:ring-0 focus-visible:ring-transparent focus-visible:ring-offset-0 hover:cursor-pointer ${inputErrorClass}`}
                     aria-invalid={!!error}
                     aria-describedby={error ? "duration-error" : undefined}
                   />
@@ -145,7 +145,7 @@ const DurationPicker = ({ className }: { className?: string }) => {
                     value={timeToStr}
                     onChange={(e) => handleToChange(e.currentTarget.value)}
                     type="time"
-                    className={`p-0 select-none border-none bg-transparent focus-visible:outline-none focus-visible:ring-0 focus-visible:ring-transparent focus-visible:ring-offset-0 hover:cursor-pointer ${inputErrorClass}`}
+                    className={`p-0 select-none border-none bg-transparent focus-visible:outline-hidden focus-visible:ring-0 focus-visible:ring-transparent focus-visible:ring-offset-0 hover:cursor-pointer ${inputErrorClass}`}
                     aria-invalid={!!error}
                     aria-describedby={error ? "duration-error" : undefined}
                   />
