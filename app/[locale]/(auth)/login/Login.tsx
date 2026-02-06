@@ -75,7 +75,7 @@ export default function LoginPage() {
             <button
               type="button"
               onClick={onGoogle}
-              className="flex gap-3 justify-center items-center w-1/2 h-[3rem] border border-form-border rounded-md hover:border-form-border-accent transition-all duration-300"
+              className="flex gap-3 justify-center items-center w-1/2 h-12 border border-form-border rounded-md hover:border-form-border-accent transition-all duration-300"
             >
               <Image src="/google.svg" alt="google-logo" width={28} height={28} priority={false} />
               <p className="text-white">{t("oauth.google")}</p>
@@ -83,7 +83,7 @@ export default function LoginPage() {
             <button
               type="button"
               onClick={onDiscord}
-              className="flex gap-3 justify-center items-center w-1/2 h-[3rem] border border-form-border rounded-md hover:border-form-border-accent transition-all duration-300"
+              className="flex gap-3 justify-center items-center w-1/2 h-12 border border-form-border rounded-md hover:border-form-border-accent transition-all duration-300"
             >
               <Image src="/discord.svg" alt="discord-logo" width={28} height={28} priority={false} />
               <p className="text-white">{t("oauth.discord")}</p>
@@ -104,7 +104,7 @@ export default function LoginPage() {
               {...register("email")}
               type="text"
               placeholder={t("fields.email.placeholder")}
-              className="text-white bg-form-input rounded-md h-[45px] w-full px-[18px] focus:outline-none focus:outline-form-border"
+              className="text-white bg-form-input rounded-md h-[45px] w-full px-[18px] focus:outline-hidden focus:outline-form-border"
             />
             {errors.email && <p className="text-sm text-white mt-3">{errors.email.message || t("fields.email.error")}</p>}
           </div>
@@ -116,7 +116,7 @@ export default function LoginPage() {
                 {...register("password")}
                 type={show ? "text" : "password"}
                 placeholder={t("fields.password.placeholder")}
-                className="absolute inset-0 z-0 text-white bg-form-input rounded-md w-full px-[18px] pr-[55px] focus:outline-none focus:outline-form-border"
+                className="absolute inset-0 z-0 text-white bg-form-input rounded-md w-full px-[18px] pr-[55px] focus:outline-hidden focus:outline-form-border"
               />
               <EyeToggle show={show} setShow={setShow} />
             </div>

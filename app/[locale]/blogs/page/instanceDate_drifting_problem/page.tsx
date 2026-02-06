@@ -579,7 +579,7 @@ function InlineCode({ children }: { children: React.ReactNode }) {
 
 function TableOfContents({ className }: { className?: string }) {
   return (
-    <aside className={cn("w-[25rem] py-10 ", className)}>
+    <aside className={cn("w-100 py-10 ", className)}>
       <nav className="sticky top-20">
         <h2 className="text-lg font-semibold mb-3">Table of Contents</h2>
         <a href="#overview" className="hover:underline hover:text-foreground">

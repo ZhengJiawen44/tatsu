@@ -76,14 +76,14 @@ export default function DurationPicker({
                             type="time"
                             value={timeFrom}
                             onChange={(e) => handleTimeChange("from", e.target.value)}
-                            className="bg-transparent text-4xl sm:text-5xl font-black tracking-tighter focus:outline-none w-full cursor-pointer"
+                            className="bg-transparent text-4xl sm:text-5xl font-black tracking-tighter focus:outline-hidden w-full cursor-pointer"
                         />
                     </div>
                 </div>
 
                 {/* CONNECTING ICON */}
                 <div className="flex justify-center -my-6 z-10">
-                    <div className="bg-background border-2 border-border p-2 rounded-full shadow-sm">
+                    <div className="bg-background border-2 border-border p-2 rounded-full shadow-xs">
                         <Clock className="w-4 h-4 sm:w-4 sm:h-4 text-lime" />
                     </div>
                 </div>
@@ -100,7 +100,7 @@ export default function DurationPicker({
                             type="time"
                             value={timeTo}
                             onChange={(e) => handleTimeChange("to", e.target.value)}
-                            className="bg-transparent  text-4xl sm:text-5xl font-black tracking-tighter focus:outline-none w-full cursor-pointer"
+                            className="bg-transparent  text-4xl sm:text-5xl font-black tracking-tighter focus:outline-hidden w-full cursor-pointer"
                         />
                     </div>
                 </div>

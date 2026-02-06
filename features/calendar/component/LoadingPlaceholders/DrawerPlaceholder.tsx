@@ -49,7 +49,7 @@ export default function DrawerPlaceholder() {
                     </div>
                     {/* Description */}
                     <div className="flex items-start gap-4 mb-8">
-                        <Skeleton className="w-full h-28 min-w-0 bg-input rounded-md px-3 py-2 text-sm resize-none focus:outline-none focus:ring-2 focus:ring-lime" />
+                        <Skeleton className="w-full h-28 min-w-0 bg-input rounded-md px-3 py-2 text-sm resize-none focus:outline-hidden focus:ring-2 focus:ring-lime" />
                     </div>
 
                     {/* Actions */}

@@ -1,19 +1,23 @@
 import React from "react";
 import TodoItemMeatballMenu from "./TodoItemMeatballMenu";
-import TodoItemSideMenu from "./TodoItemSideMenu";
+import dynamic from "next/dynamic";
 import { TodoItemType } from "@/types";
+import InlineMenuLoading from "../../Loading/InlineMenuLoading";
+const TodoItemSideMenu = dynamic(() => import("./TodoItemSideMenu"), { ssr: false, loading: () => <InlineMenuLoading /> })
 
 const TodoItemMenuContainer = ({
   className,
   todo,
   setDisplayForm,
   setEditInstanceOnly,
+  displayMenu,
   ...props
 }: {
   className?: string;
   todo: TodoItemType;
   setDisplayForm: React.Dispatch<React.SetStateAction<boolean>>;
   setEditInstanceOnly: React.Dispatch<React.SetStateAction<boolean>>;
+  displayMenu: boolean
 }) => {
   return (
     <div
@@ -26,7 +30,10 @@ const TodoItemMenuContainer = ({
       }}
       {...props}
     >
-      <TodoItemSideMenu setDisplayForm={setDisplayForm} todo={todo} />
+      {displayMenu &&
+        <TodoItemSideMenu setDisplayForm={setDisplayForm} todo={todo} />
+      }
+
       <TodoItemMeatballMenu
         setDisplayForm={setDisplayForm}
         setEditInstanceOnly={setEditInstanceOnly}

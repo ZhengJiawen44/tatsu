@@ -34,7 +34,7 @@ export default function ProjectDropdownMenu({ projectID, setProjectID, className
     return (
         <Popover modal={true} open={open} onOpenChange={setOpen}>
             <PopoverTrigger asChild>
-                <Button variant="ghost" type="button" className={cn("h-fit !px-2 gap-1 text-muted-foreground font-normal", className)}>
+                <Button variant="ghost" type="button" className={cn("h-fit px-2! gap-1 text-muted-foreground font-normal", className)}>
                     {projectID
                         ?
                         <>
@@ -53,7 +53,7 @@ export default function ProjectDropdownMenu({ projectID, setProjectID, className
                     placeholder="Type to search..."
                     value={search}
                     onChange={(e) => setSearch(e.target.value)}
-                    className="!text-[1.1rem] md:!text-base lg:!text-sm w-full mb-1 bg-inherit brightness-75  outline-0 rounded-sm ring-0 ring-black focus-visible:ring-0 focus-visible:ring-offset-0"
+                    className="text-[1.1rem]! md:text-base! lg:text-sm! w-full mb-1 bg-inherit brightness-75  outline-0 rounded-sm ring-0 ring-black focus-visible:ring-0 focus-visible:ring-offset-0"
                     onKeyDown={(e) => e.stopPropagation()}
                     autoFocus
                 />

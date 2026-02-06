@@ -69,7 +69,7 @@ const UserCard = ({ className }: { className?: string }) => {
               )}
 
               <div className="flex flex-col gap-[3px]">
-                <p className=" truncate font-[500]">
+                <p className=" truncate font-medium">
                   {user?.name || user?.email?.split("@")[0] || "User"}
                 </p>
                 <p className="truncate text-muted-foreground  text-xs">
@@ -85,7 +85,7 @@ const UserCard = ({ className }: { className?: string }) => {
             </Sidebar>
           </div>
         </DropdownMenuTrigger>
-        <DropdownMenuContent className="text-foreground w-[var(--radix-dropdown-menu-trigger-width)]">
+        <DropdownMenuContent className="text-foreground w-(--radix-dropdown-menu-trigger-width)">
           <DropdownMenuLabel>
             {data?.user?.email || data?.user?.name || "user settings"}
           </DropdownMenuLabel>

@@ -41,7 +41,7 @@ const CalendarEvent = ({ event: todo }: EventProps<TodoItemType>) => {
       <Popover open={open} onOpenChange={setOpen}>
         <PopoverTrigger asChild>
           <div
-            className="w-full h-full cursor-pointer !z-50 text-foreground"
+            className="w-full h-full cursor-pointer z-50! text-foreground"
             title={todo.title}
             onContextMenu={(e) => {
               e.preventDefault();
@@ -55,7 +55,7 @@ const CalendarEvent = ({ event: todo }: EventProps<TodoItemType>) => {
           </div>
         </PopoverTrigger>
 
-        <PopoverContent className="p-0 w-screen sm:w-[30rem] md:w-[25rem] lg:w-[30rem] bg-popover" onMouseDown={(e) => e.stopPropagation()}>
+        <PopoverContent className="p-0 w-screen sm:w-120 md:w-100 lg:w-120 bg-popover" onMouseDown={(e) => e.stopPropagation()}>
           {/* Header */}
           <div className="flex gap-0 md:gap-2 p-2 justify-end ">
             {/* EDIT */}

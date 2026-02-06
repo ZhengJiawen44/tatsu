@@ -35,7 +35,7 @@ const TodoItem = () => {
       className={clsx(
         "flex items-center border border-transparent font-normal",
         activeMenu.name === "Todo" &&
-        "bg-sidebar-primary shadow-md !border-border",
+        "bg-sidebar-primary shadow-md border-border!",
       )}
     >
       <Link

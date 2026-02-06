@@ -18,7 +18,7 @@ const CalendarItem = () => {
       className={clsx(
         "flex items-center border border-transparent font-normal",
         activeMenu.name === "Calendar" &&
-        "bg-sidebar-primary shadow-md text-form-foreground-accent !border-border",
+        "bg-sidebar-primary shadow-md text-form-foreground-accent border-border!",
       )}
     >
       <Link

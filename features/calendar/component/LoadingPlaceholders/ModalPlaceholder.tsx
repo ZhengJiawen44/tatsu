@@ -44,7 +44,7 @@ export default function ModalPlaceholder() {
 
                     {/* Description */}
                     <div className="flex items-start gap-4">
-                        <Skeleton className="flex-1 h-20 min-w-0 bg-input rounded-md px-3 py-2 text-sm resize-none focus:outline-none focus:ring-2 focus:ring-lime" />
+                        <Skeleton className="flex-1 h-20 min-w-0 bg-input rounded-md px-3 py-2 text-sm resize-none focus:outline-hidden focus:ring-2 focus:ring-lime" />
                     </div>
 
                     {/* Actions */}

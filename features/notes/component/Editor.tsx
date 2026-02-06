@@ -54,10 +54,10 @@ const Editor = ({ note }: { note: NoteItemType }) => {
       }),
       TaskList,
       BulletList.configure({
-        HTMLAttributes: { class: "list-disc pl-[3rem] leading-loose" },
+        HTMLAttributes: { class: "list-disc pl-12 leading-loose" },
       }),
       OrderedList.configure({
-        HTMLAttributes: { class: "list-decimal pl-[3rem] leading-loose" },
+        HTMLAttributes: { class: "list-decimal pl-12 leading-loose" },
       }),
       HorizontalRule.configure({ HTMLAttributes: { class: "my-4" } }),
       TextStyle.configure({}),
@@ -76,7 +76,7 @@ const Editor = ({ note }: { note: NoteItemType }) => {
     },
     content: note.content || "<h1>new page</h1>",
     editorProps: {
-      attributes: { class: "focus:outline-none focus:border-none" },
+      attributes: { class: "focus:outline-hidden focus:border-none" },
     },
   });
 

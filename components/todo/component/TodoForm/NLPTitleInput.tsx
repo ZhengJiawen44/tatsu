@@ -435,7 +435,7 @@ export default function NLPTitleInput({
         }}
         onKeyDown={onKeyDown}
         ref={titleRef}
-        className="z-50 focus:outline-none"
+        className="z-50 focus:outline-hidden"
         role="textbox"
         aria-multiline="true"
       />

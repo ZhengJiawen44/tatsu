@@ -28,7 +28,7 @@ const MenuContent = ({
   return (
     <PopoverContent
       className={cn(
-        "bg-popover min-w-40 flex flex-col p-0 py-1 w-fit h-fit  text-card-foreground border backdrop-blur-sm text-sm",
+        "bg-popover min-w-40 flex flex-col p-0 py-1 w-fit h-fit  text-card-foreground border backdrop-blur-xs text-sm",
         className,
       )}
       onClick={(e) => {

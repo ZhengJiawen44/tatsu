@@ -137,7 +137,7 @@ export default function CreateCalendarDrawer({
                                 title={title}
                                 setTitle={setTitle}
                                 setDateRange={setDateRange}
-                                className="flex-1 min-w-0 bg-transparent border-b border-border py-1 text-lg focus:outline-none focus:border-lime"
+                                className="flex-1 min-w-0 bg-transparent border-b border-border py-1 text-lg focus:outline-hidden focus:border-lime"
                             />
 
                             {/* List-style Menu */}

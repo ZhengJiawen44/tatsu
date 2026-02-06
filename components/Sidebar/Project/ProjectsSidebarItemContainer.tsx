@@ -22,7 +22,7 @@ const ProjectCollapsible = () => {
       >
         <div
           className={clsx(
-            "flex gap-3 items-center pl-5 !pr-3 w-full h-11 font-normal hover:bg-inherit cursor-default",
+            "flex gap-3 items-center pl-5 pr-3! w-full h-11 font-normal hover:bg-inherit cursor-default",
           )}
         >
           <Folder
@@ -42,7 +42,7 @@ const ProjectCollapsible = () => {
                 createMutateFn({ name: "new Project" });
               }}
             >
-              <Button size={"icon"} className="w-fit h-fit p-1 bg-inherit hover:bg-popover-accent !cursor-pointer text-muted-foreground hover:text-foreground hidden group-hover:flex">
+              <Button size={"icon"} className="w-fit h-fit p-1 bg-inherit hover:bg-popover-accent cursor-pointer! text-muted-foreground hover:text-foreground hidden group-hover:flex">
                 <PlusCircle className="w-5 h-5" />
               </Button>
             </div>

@@ -36,7 +36,7 @@ const DateDropdownMenu = () => {
         <Button
           variant={"outline"}
           className={clsx(
-            " text-xs sm:text-sm font-medium w-fit h-fit !p-2 text-muted-foreground bg-inherit",
+            " text-xs sm:text-sm font-medium w-fit h-fit p-2! text-muted-foreground bg-inherit",
             getDisplayDate(dateRange.from) == "Today"
               ? "text-lime"
               : getDisplayDate(dateRange.from) == "Tomorrow"
@@ -77,7 +77,7 @@ const DateDropdownMenu = () => {
           }}
         >
           <div className="flex gap-2 items-center">
-            <Target strokeWidth={1.5} className="!w-5 !h-5 text-muted-foreground" />
+            <Target strokeWidth={1.5} className="w-5! h-5! text-muted-foreground" />
             {appDict("today")}
           </div>
           <p className="text-xs text-muted-foreground">
@@ -102,7 +102,7 @@ const DateDropdownMenu = () => {
           }}
         >
           <div className="flex gap-2 items-center">
-            <Tomorrow strokeWidth={1.5} className="!w-5 !h-5 text-muted-foreground" />
+            <Tomorrow strokeWidth={1.5} className="w-5! h-5! text-muted-foreground" />
             {appDict("tomorrow")}
           </div>
           <p className="text-xs text-muted-foreground">
@@ -129,7 +129,7 @@ const DateDropdownMenu = () => {
           }}
         >
           <div className="flex gap-2 items-center">
-            <CalenderIcon strokeWidth={1.5} className="!w-5 !h-5 text-muted-foreground" />
+            <CalenderIcon strokeWidth={1.5} className="w-5! h-5! text-muted-foreground" />
             {appDict("nextWeek")}
           </div>
           <div className="text-xs text-muted-foreground">Mon</div>

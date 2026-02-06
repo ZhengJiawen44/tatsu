@@ -19,7 +19,7 @@ const Page = async () => {
             {/* Logo */}
             <Link
               href="/"
-              className="flex items-center justify-center flex-shrink-0"
+              className="flex items-center justify-center shrink-0"
             >
               <Image
                 className="rounded-lg shadow-2xl"

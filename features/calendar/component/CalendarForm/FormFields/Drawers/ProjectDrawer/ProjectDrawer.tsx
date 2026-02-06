@@ -36,7 +36,7 @@ export default function ProjectDrawer({
                         placeholder="Type to search..."
                         value={search}
                         onChange={(e) => setSearch(e.target.value)}
-                        className="!text-[1.1rem] md:!text-base lg:!text-sm w-full mb-1 bg-inherit brightness-75  outline-0 rounded-sm ring-0 ring-black focus-visible:ring-0 focus-visible:ring-offset-0"
+                        className="text-[1.1rem]! md:text-base! lg:text-sm! w-full mb-1 bg-inherit brightness-75  outline-0 rounded-sm ring-0 ring-black focus-visible:ring-0 focus-visible:ring-offset-0"
                         onKeyDown={(e) => e.stopPropagation()}
                         autoFocus
                     />
@@ -62,7 +62,7 @@ export default function ProjectDrawer({
                         <>
                             <div
                                 data-close-on-click
-                                className='flex justify-center items-center border cursor-pointer p-1.5 rounded-sm hover:bg-red/40 hover:!text-foreground text-red'
+                                className='flex justify-center items-center border cursor-pointer p-1.5 rounded-sm hover:bg-red/40 hover:text-foreground! text-red'
                                 onClick={() => {
                                     setProjectID(null);
                                 }}

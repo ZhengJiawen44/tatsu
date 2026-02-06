@@ -85,7 +85,7 @@ const NoteSidebarItem = ({ note }: { note: NoteItemType }) => {
               type="text"
               title={note.name}
               className={clsx(
-                "select-none outline-none flex justify-between w-[clamp(4rem,50%,10rem)] truncate bg-transparent",
+                "select-none outline-hidden flex justify-between w-[clamp(4rem,50%,10rem)] truncate bg-transparent",
               )}
               value={name}
               onChange={(e) => {
