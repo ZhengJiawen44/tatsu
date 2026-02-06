@@ -1,3 +1,4 @@
+"use client"
 import clsx from "clsx";
 import React, { useRef, useState } from "react";
 import { useMenu } from "@/providers/MenuProvider";

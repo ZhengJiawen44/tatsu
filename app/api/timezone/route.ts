@@ -1,6 +1,11 @@
 import { NextRequest, NextResponse } from "next/server";
 import { auth } from "@/app/auth";
-import { UnauthorizedError, BadRequestError, NotFoundError, BaseServerError } from "@/lib/customError";
+import {
+  UnauthorizedError,
+  BadRequestError,
+  NotFoundError,
+  BaseServerError,
+} from "@/lib/customError";
 import { prisma } from "@/lib/prisma/client";
 
 export async function GET(req: NextRequest) {
@@ -10,41 +15,43 @@ export async function GET(req: NextRequest) {
     if (!user?.id)
       throw new UnauthorizedError("you must be logged in to do this");
 
-    const timeZone = req.headers.get("x-user-timezone");
+    const timeZone = req.headers.get("X-User-Timezone");
 
     if (!timeZone)
-      throw new BadRequestError(`missing time zone header! recieved: ${timeZone} for timeZone header`);
+      throw new BadRequestError(
+        `missing time zone header! recieved: ${timeZone} for timeZone header`,
+      );
 
-    const VALID_TIMEZONES = Intl.supportedValuesOf('timeZone')
+    const VALID_TIMEZONES = Intl.supportedValuesOf("timeZone");
     if (!VALID_TIMEZONES.includes(timeZone))
-      throw new BadRequestError(`Invalid timezone! recieved ${timeZone} as timezone`);
+      throw new BadRequestError(
+        `Invalid timezone! recieved ${timeZone} as timezone`,
+      );
 
     if (!/^[A-Za-z_]+\/[A-Za-z_]+$/.test(timeZone))
-      throw new BadRequestError(`Invalid timezone format recieved ${timeZone} as timezone`);
-
+      throw new BadRequestError(
+        `Invalid timezone format recieved ${timeZone} as timezone`,
+      );
 
     const queriedUser = await prisma.user.findUnique({
       where: {
-        id: user.id
-      }
+        id: user.id,
+      },
     });
-    if (!queriedUser)
-      throw new NotFoundError("user not found");
+    if (!queriedUser) throw new NotFoundError("user not found");
 
     if (queriedUser.timeZone != timeZone) {
       await prisma.user.update({
         where: {
-          id: queriedUser.id
+          id: queriedUser.id,
         },
         data: {
-          timeZone
-        }
-      })
+          timeZone,
+        },
+      });
     }
     return NextResponse.json({ status: 200 });
-
   } catch (error) {
-
     //handle custom error
     if (error instanceof BaseServerError) {
       await prisma.eventLog.create({
@@ -52,11 +59,11 @@ export async function GET(req: NextRequest) {
           eventName: "timezone.error",
           capturedTime: new Date(),
           log: error.message.slice(0, 500),
-        }
-      })
+        },
+      });
       return NextResponse.json(
         { message: error.message },
-        { status: error.status }
+        { status: error.status },
       );
     }
 
@@ -65,8 +72,8 @@ export async function GET(req: NextRequest) {
         eventName: "timezone.error",
         capturedTime: new Date(),
         log: String(error),
-      }
-    })
+      },
+    });
     //handle generic error
     return NextResponse.json(
       {
@@ -75,8 +82,7 @@ export async function GET(req: NextRequest) {
             ? error.message.slice(0, 50)
             : "an unexpected error occured",
       },
-      { status: 500 }
+      { status: 500 },
     );
-
   }
 }
