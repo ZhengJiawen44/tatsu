@@ -2,16 +2,17 @@ import { NextRequest, NextResponse } from "next/server";
 import {
   BaseServerError,
   UnauthorizedError,
-  InternalError,
   BadRequestError,
 } from "@/lib/customError";
 import { prisma } from "@/lib/prisma/client";
 import { auth } from "@/app/auth";
 import { todoSchema } from "@/schema";
+import { errorHandler } from "@/lib/errorHandler";
+import { z } from "zod";
 
 export async function DELETE(
   req: NextRequest,
-  { params }: { params: Promise<{ id: string }> }
+  { params }: { params: Promise<{ id: string }> },
 ) {
   try {
     const session = await auth();
@@ -24,16 +25,12 @@ export async function DELETE(
     if (!id) throw new BadRequestError("Invalid request, ID is required");
 
     // Find and delete the todo item
-    const deletedTodo = await prisma.todo.deleteMany({
+    await prisma.todo.delete({
       where: {
         id,
         userID: user.id,
       },
     });
-
-    if (deletedTodo.count === 0)
-      throw new InternalError("Todo not found or not authorized to delete");
-
     return NextResponse.json({ message: "todo deleted" }, { status: 200 });
   } catch (error) {
     console.log(error);
@@ -42,7 +39,7 @@ export async function DELETE(
     if (error instanceof BaseServerError) {
       return NextResponse.json(
         { message: error.message },
-        { status: error.status }
+        { status: error.status },
       );
     }
 
@@ -54,95 +51,135 @@ export async function DELETE(
             ? error.message.slice(0, 50)
             : "An unexpected error occurred",
       },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }
 
 export async function PATCH(
   req: NextRequest,
-  { params }: { params: Promise<{ id: string }> }
+  { params }: { params: Promise<{ id: string }> },
 ) {
   try {
     const session = await auth();
-    const user = session?.user;
+    const userId = session?.user?.id;
 
-    if (!user?.id)
+    if (!userId) {
       throw new UnauthorizedError("You must be logged in to do this");
+    }
 
     const { id } = await params;
-    if (!id) throw new BadRequestError("Invalid request, ID is required");
-
-    //for pinning todos
-    const isPin = req.nextUrl.searchParams.get("pin");
-    if (isPin != undefined || null) {
-      if (isPin === "true") {
-        //pin todo
-        await prisma.todo.updateMany({
-          where: { id, userID: user.id },
-          data: { pinned: true },
-        });
-      } else {
-        await prisma.todo.updateMany({
-          where: { id, userID: user.id },
-          data: { pinned: false },
-        });
-      }
-
-      return NextResponse.json({ message: "pin updated" }, { status: 200 });
+    if (!id) {
+      throw new BadRequestError("Todo ID is required");
     }
 
-    //for completing todos
-    const isComplete = req.nextUrl.searchParams.get("completed");
-    if (isComplete != undefined || null) {
-      if (isComplete === "true") {
-        //complete todo
-        await prisma.todo.updateMany({
-          where: { id, userID: user.id },
-          data: { completed: true },
-        });
-      } else {
-        await prisma.todo.updateMany({
-          where: { id, userID: user.id },
-          data: { completed: false },
-        });
-      }
+    const rawBody = await req.json();
 
-      return NextResponse.json({ message: "pin updated" }, { status: 200 });
+    const parsed = todoSchema
+      .partial()
+      .extend({
+        dateChanged: z.boolean().optional(),
+        rruleChanged: z.boolean().optional(),
+        pinned: z.boolean().optional(),
+        completed: z.boolean().optional(),
+        instanceDate: z.date().optional(),
+      })
+      .safeParse({
+        ...rawBody,
+        dtstart: rawBody.dtstart ? new Date(rawBody.dtstart) : undefined,
+        due: rawBody.due ? new Date(rawBody.due) : undefined,
+        instanceDate: rawBody.instanceDate
+          ? new Date(rawBody.instanceDate)
+          : undefined,
+      });
+
+    if (!parsed.success) {
+      throw new BadRequestError("Invalid request body");
+    }
+    const {
+      title,
+      description,
+      priority,
+      pinned,
+      completed,
+      dtstart,
+      due,
+      instanceDate,
+      rrule,
+      dateChanged,
+      rruleChanged,
+      projectID,
+    } = parsed.data;
+
+    if (dateChanged && !dtstart) {
+      throw new BadRequestError("dtstart is required when dateChanged is true");
     }
 
-    const body = await req.json();
-    const parsedObj = todoSchema.partial().safeParse(body);
-    if (!parsedObj.success) throw new BadRequestError("Invalid request body");
-
-    // Update todo
-    const updatedTodo = await prisma.todo.updateMany({
-      where: { id, userID: user.id },
-      data: parsedObj.data,
+    await prisma.todo.update({
+      where: {
+        id,
+        userID: userId,
+      },
+      data: {
+        title,
+        description,
+        priority,
+        pinned,
+        completed,
+        dtstart: dateChanged || rruleChanged ? dtstart : undefined,
+        due: dateChanged || rruleChanged ? due : undefined,
+        rrule,
+        projectID,
+      },
     });
 
-    if (updatedTodo.count === 0)
-      throw new InternalError("Todo not found or not authorized to update");
+    /**
+     * if rrule changed and is null then delete all exdates and instances
+     */
+    if (rruleChanged && rrule == null) {
+      await prisma.todo.update({
+        where: {
+          id,
+          userID: userId,
+        },
+        data: {
+          instances: { deleteMany: {} },
+          exdates: [],
+        },
+      });
+    }
+
+    /**
+     * if todo is a repeating todo and its dates or rrules were changed, remove all overriding instance,
+     * this is to avoid drifting todo instance problem.
+     *
+     * otherwise if its dates were not changed, overwrite the instance so the changes are reflected
+     * on the instance too
+     */
+    if (rrule && instanceDate) {
+      // If todo has changed dtstart or rrule, clear overridden instances
+      if (dateChanged || rruleChanged) {
+        await prisma.todoInstance.deleteMany({
+          where: { todoId: id },
+        });
+      }
+      //otherwise overwrite the overriding instance
+      else {
+        await prisma.todoInstance.updateMany({
+          where: {
+            todoId: id,
+          },
+          data: {
+            overriddenTitle: title,
+            overriddenDescription: description,
+            overriddenPriority: priority,
+          },
+        });
+      }
+    }
 
     return NextResponse.json({ message: "Todo updated" }, { status: 200 });
   } catch (error) {
-    console.log(error);
-
-    if (error instanceof BaseServerError) {
-      return NextResponse.json(
-        { message: error.message },
-        { status: error.status }
-      );
-    }
-
-    return NextResponse.json(
-      {
-        message:
-          error instanceof Error
-            ? error.message.slice(0, 50)
-            : "An unexpected error occurred",
-      },
-      { status: 500 }
-    );
+    return errorHandler(error);
   }
 }

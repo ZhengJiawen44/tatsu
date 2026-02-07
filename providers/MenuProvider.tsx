@@ -7,7 +7,7 @@ import {
   useState,
 } from "react";
 import { usePathname } from "next/navigation";
-import path from "path";
+import useWindowSize from "@/hooks/useWindowSize";
 
 type MenuState = {
   name: string;
@@ -27,12 +27,23 @@ type MenuContextType = {
 const MenuContext = createContext<MenuContextType | undefined>(undefined);
 
 export const MenuProvider = ({ children }: { children: React.ReactNode }) => {
+  const { width } = useWindowSize();
   const pathName = usePathname();
   const [activeMenu, setActiveMenu] = useState<MenuState>({ name: "Todo" });
   const [showMenu, setShowMenu] = useState(true);
   const [isResizing, setIsResizing] = useState(false);
-  //infer last visited tab from pathname or retrieve from local storage
+  const [mounted, setMounted] = useState(false);
+
+  // Set mounted state and initialize showMenu based on width
   useEffect(() => {
+    setMounted(true);
+    setShowMenu(width >= 1300);
+  }, [width]);
+
+  // Infer last visited tab from pathname or retrieve from local storage
+  useEffect(() => {
+    if (!mounted) return;
+
     if (pathName.includes("vault")) {
       setActiveMenu({ name: "Vault" });
       return;
@@ -48,27 +59,33 @@ export const MenuProvider = ({ children }: { children: React.ReactNode }) => {
         return;
       }
     }
+
     if (pathName.includes("todo")) {
       setActiveMenu({ name: "Todo" });
       return;
     }
-
-    let tab = localStorage.getItem("tab");
+    if (pathName.includes("completed")) {
+      setActiveMenu({ name: "Completed" });
+      return;
+    }
+    const tab = localStorage.getItem("tab");
     if (tab) {
       const tabObj = JSON.parse(tab);
       setActiveMenu(tabObj);
     }
-  }, []);
+  }, [mounted, pathName]);
 
-  //sync local menu state with local storage when menu state changes
+  // Sync local menu state with local storage when menu state changes
   useEffect(() => {
-    localStorage.setItem("tab", JSON.stringify(activeMenu));
-  }, [activeMenu]);
+    if (mounted) {
+      localStorage.setItem("tab", JSON.stringify(activeMenu));
+    }
+  }, [activeMenu, mounted]);
 
-  // toggle menu on ctrl+b
+  // Toggle menu on ctrl+`
   useEffect(() => {
     function closeOnKey(e: KeyboardEvent) {
-      if (e.ctrlKey && e.key.toLowerCase() === "b") {
+      if (e.ctrlKey && e.key.toLowerCase() === "`") {
         setShowMenu((prev) => !prev);
       }
     }
