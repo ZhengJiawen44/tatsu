@@ -99,8 +99,6 @@ const TodayTodoContainer = () => {
             className="relative my-10 rounded-md p-2 border border-border-muted bg-card shadow-md"
             todos={pinnedTodos}
           />
-
-
         )}
         <div className="mb-3">
           <div className="flex flex-wrap items-center justify-between gap-2">
