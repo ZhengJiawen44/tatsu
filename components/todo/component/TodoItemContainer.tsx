@@ -102,6 +102,8 @@ export const TodoItemContainer = ({ todoItem, overdue }: TodoItemContainerProps)
             "cursor-grabbing absolute -left-5 sm:-left-7 bottom-1/2 translate-y-1/2 text-muted-foreground p-1",
             showHandle === true ? "text-card-foreground" : "text-transparent",
           )}
+          role="button"
+          aria-label="Drag item"
         >
           <GripVertical className="w-4 h-4 hover:text-foreground" />
         </div>
