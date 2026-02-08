@@ -19,7 +19,7 @@ const RepeatDropdownMenu = ({ }) => {
   const appDict = useTranslations("app");
   const { rruleOptions, setRruleOptions, derivedRepeatType } = useTodoForm();
   return (
-    <DropdownMenu>
+    <DropdownMenu modal={false}>
       <DropdownMenuTrigger asChild>
         <Button
           variant={"outline"}
@@ -81,11 +81,9 @@ const RepeatDropdownMenu = ({ }) => {
               on the {format(new Date(), " do")}
             </span>
           </p>
-          <div
-            className={clsx(
-              "w-2 h-2 bg-muted-foreground rounded-full opacity-0",
-              derivedRepeatType == "Monthly" && "opacity-100",
-            )}
+          <Indicator
+            name="Monthly"
+            derivedRepeatType={derivedRepeatType}
           />
         </DropdownMenuItem>
         <DropdownMenuItem
@@ -130,14 +128,14 @@ const RepeatDropdownMenu = ({ }) => {
           />
         </DropdownMenuItem>
         <DropdownMenuItem asChild>
-          <CustomRepeatModalMenu className="flex w-full justify-between hover:bg-accent py-2! px-1" />
+          <CustomRepeatModalMenu className="flex w-full justify-between hover:bg-accent p-1.5 px-2" />
         </DropdownMenuItem>
 
         {rruleOptions && (
           <>
             <DropdownMenuSeparator className="my-3" />
             <DropdownMenuItem
-              className="text-red gap-1 flex justify-center hover:bg-red/80! hover:text-white!"
+              className="text-red gap-1 flex justify-center  hover:bg-red/80! hover:text-white!"
               onClick={() => setRruleOptions(null)}
             >
               Clear
@@ -154,7 +152,7 @@ export default RepeatDropdownMenu;
 export function Indicator({ derivedRepeatType, name }: { derivedRepeatType: "Monthly" | "Daily" | "Weekly" | "Yearly" | "Weekday" | "Custom" | null, name: "Monthly" | "Daily" | "Weekly" | "Yearly" | "Weekday" | "Custom" | null }) {
   return <div
     className={clsx(
-      "w-2 h-2 bg-muted-foreground rounded-full opacity-0",
+      "w-1.5 h-1.5 bg-muted-foreground rounded-full opacity-0",
       derivedRepeatType == name && "opacity-100",
     )}
   />

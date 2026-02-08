@@ -89,10 +89,10 @@ const RepeatEveryOption = ({
   return (
     <div className="flex flex-col gap-2">
       <p className="font-medium">{appDict("customMenu.every")}</p>
-      <div className="flex gap-2 w-1/2 m-0 p-0">
+      <div className="flex gap-2 w-full sm:w-1/2 m-0 p-0 ">
         {/* repeatInterval count input */}
         <Input
-          className="w-1/2 border-border"
+          className="w-full min-w-24 border-border"
           type="number"
           min={1}
           defaultValue={currentInterval}
@@ -105,7 +105,7 @@ const RepeatEveryOption = ({
         />
         {/* repeatInterval type input */}
         <Select onValueChange={(value) => handleFrequencyChange(value)}>
-          <SelectTrigger className="w-full max-w-48">
+          <SelectTrigger className="w-full max-w-48 cursor-pointer">
             <SelectValue placeholder={getCurrentFreqValue()} />
           </SelectTrigger>
           <SelectContent>
@@ -115,10 +115,6 @@ const RepeatEveryOption = ({
             <SelectItem value="Year">{appDict("year")}</SelectItem>
           </SelectContent>
         </Select>
-
-
-
-
       </div>
     </div>
   );

@@ -26,16 +26,11 @@ const CreateTodoBtn = () => {
       return;
     };
 
-    const exitCreateTodoForm = (e: KeyboardEvent) => {
-      if (e.code === "Escape") setDisplayForm(false);
-      return;
-    };
+
 
     document.addEventListener("keydown", showCreateTodoForm);
-    document.addEventListener("keydown", exitCreateTodoForm);
     return () => {
       document.removeEventListener("keydown", showCreateTodoForm);
-      document.removeEventListener("keydown", exitCreateTodoForm);
     };
   }, []);
   return (

@@ -12,12 +12,11 @@ import { Button } from "@/components/ui/button";
 import RepeatEveryOption from "./RepeatEveryOption";
 import RepeatOnOption from "./RepeatOnOption";
 import RepeatEndOption from "./RepeatEndOption";
-import { CheckIcon } from "lucide-react";
-import clsx from "clsx";
 import { useTodoForm } from "@/providers/TodoFormProvider";
 import { useState } from "react";
 import { Options, RRule } from "rrule";
 import { useTranslations } from "next-intl";
+import { Indicator } from "../RepeatDropdownMenu";
 
 const CustomRepeatModalMenu = ({ className }: { className?: string }) => {
   const appDict = useTranslations("app");
@@ -29,15 +28,10 @@ const CustomRepeatModalMenu = ({ className }: { className?: string }) => {
   return (
     <Dialog>
       <DialogTrigger className={className}>
-        <CheckIcon
-          className={clsx(
-            "opacity-0",
-            derivedRepeatType == "Custom" && "opacity-100",
-          )}
-        />
         {appDict("custom")}
+        <Indicator name="Custom" derivedRepeatType={derivedRepeatType} />
       </DialogTrigger>
-      <DialogContent>
+      <DialogContent className="text-sm sm:text-base min-w-0">
         <DialogHeader>
           <DialogTitle className="font-medium">{appDict("customMenu.title")}</DialogTitle>
           <DialogDescription>{appDict("customMenu.subtitle")}</DialogDescription>
@@ -59,7 +53,7 @@ const CustomRepeatModalMenu = ({ className }: { className?: string }) => {
             setCustomRepeatOptions={setCustomRepeatOptions}
           />
         </div>
-        <DialogFooter>
+        <DialogFooter className="mt-4 gap-3 sm:gap-2">
           <DialogClose asChild>
             <Button variant={"destructive"}>{appDict("cancel")}</Button>
           </DialogClose>
