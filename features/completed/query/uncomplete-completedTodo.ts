@@ -32,6 +32,7 @@ export const useUnCompleteTodo = () => {
       const oldTodos = queryClient.getQueryData([
         "completedTodo",
       ]) as CompletedTodoItemType[];
+
       queryClient.setQueryData(
         ["completedTodo"],
         (oldTodos: CompletedTodoItemType[]) =>

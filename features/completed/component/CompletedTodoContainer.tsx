@@ -10,6 +10,7 @@ const CompletedTodoContainer = () => {
   const { completedTodos, todoLoading } = useCompletedTodo();
   const groupedHistory = useGroupedHistory(completedTodos);
 
+
   if (todoLoading)
     return (
       <>

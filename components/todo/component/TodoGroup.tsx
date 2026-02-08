@@ -19,17 +19,23 @@ const TodoGroup = ({
 }: {
   todos: TodoItemType[];
   className?: string;
-  overdue?: boolean
+  overdue?: boolean;
 }) => {
-  const { useReorderTodo } = useTodoMutation()
+  const { useReorderTodo } = useTodoMutation();
   const { reorderMutateFn } = useReorderTodo();
   const [items, setItems] = useState(todos);
+  const [mounted, setMounted] = useState(false);
 
-  //update local state
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  // Update local state
   useEffect(() => {
     setItems(todos);
   }, [todos]);
-  //function to detect any changes between items and todos. creates an array that describes how the new todos should be arranged
+
+  // Function to detect any changes between items and todos
   const reorderDiff = useCallback(() => {
     const reorderList = [] as { id: string; order: number }[];
     items.forEach((todo, index) => {
@@ -40,9 +46,9 @@ const TodoGroup = ({
     return reorderList;
   }, [items, todos]);
 
-  //changes to local todo arrangement will update database
+  // Changes to local todo arrangement will update database
   useEffect(() => {
-    //wait for [items] to sync with [todos]
+    // Wait for [items] to sync with [todos]
     if (todos.length !== items.length) return;
     const reorderList = reorderDiff();
     if (reorderList.length > 0) {
@@ -69,15 +75,23 @@ const TodoGroup = ({
         const newIndex = items.findIndex((item) => {
           return item.id === over.id;
         });
-
         return arrayMove(items, oldIndex, newIndex);
       });
     }
   }
 
+  if (!mounted) {
+    return (
+      <div className={className}>
+        {items.map((item) => (
+          <TodoItemContainer todoItem={item} key={item.id} overdue={overdue} />
+        ))}
+      </div>
+    );
+  }
+
   return (
     <div className={className}>
-
       <DndContext
         sensors={sensors}
         collisionDetection={closestCenter}
@@ -89,8 +103,6 @@ const TodoGroup = ({
           ))}
         </SortableContext>
       </DndContext>
-
-
     </div>
   );
 };

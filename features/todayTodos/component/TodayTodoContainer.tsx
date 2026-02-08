@@ -6,13 +6,13 @@ import TodoListLoading from "../../../components/todo/component/TodoListLoading"
 import TodoGroup from "@/components/todo/component/TodoGroup";
 import LineSeparator from "@/components/ui/lineSeparator";
 import { useTranslations } from "next-intl";
-import TodoFilterBar from "./TodoFilterBar";
+// import TodoFilterBar from "./TodoFilterBar";
 import { getDisplayDate } from "@/lib/date/displayDate";
 import { RRule } from "rrule";
 import { TodoItemType } from "@/types";
 import clsx from "clsx";
 import { useLocale } from "next-intl";
-import { useUserPreferences } from "@/providers/UserPreferencesProvider";
+// import { useUserPreferences } from "@/providers/UserPreferencesProvider";
 import { usePinTodo } from "../query/pin-todo";
 import { useCompleteTodo } from "../query/complete-todo";
 import { useDeleteTodo } from "../query/delete-todo";
@@ -26,7 +26,8 @@ import { useProjectMetaData } from "@/components/Sidebar/Project/query/get-proje
 const TodayTodoContainer = () => {
   const locale = useLocale();
   const appDict = useTranslations("app")
-  const { preferences } = useUserPreferences();
+  // const { preferences } = useUserPreferences();
+  const preferences = null;
   const { todos, todoLoading } = useTodo();
   const [containerHovered, setContainerHovered] = useState(false);
   const pinnedTodos = useMemo(() =>
@@ -108,9 +109,9 @@ const TodayTodoContainer = () => {
               </h3>
               <p className="text-muted-foreground text-lg">{new Date().toDateString().slice(0, 10)}</p>
             </div>
-            <TodoFilterBar
+            {/* <TodoFilterBar
               containerHovered={containerHovered}
-            />
+            /> */}
           </div>
           <LineSeparator className="flex-1" />
         </div>

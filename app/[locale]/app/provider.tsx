@@ -1,11 +1,16 @@
-"use client"
+import QueryProvider from "@/providers/QueryProvider";
 import React from "react";
 import { MenuProvider } from "@/providers/MenuProvider";
 const Provider = ({ children }: { children: React.ReactNode }) => {
+
   return (
-    <MenuProvider>
-      {children}
-    </MenuProvider>
+    <>
+      <QueryProvider>
+        <MenuProvider>
+          {children}
+        </MenuProvider>
+      </QueryProvider>
+    </>
   );
 };
 

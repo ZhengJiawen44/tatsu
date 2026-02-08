@@ -9,11 +9,14 @@ import { NextRequest } from "next/server";
  * @param req the http request object
  * @returns timezone
  */
-export async function resolveTimezone(user: Session["user"], req: NextRequest) {
+export async function resolveTimezone(
+  user: Session["user"],
+  req?: NextRequest,
+) {
   // Resolve Timezone, this is critical as wrong timeZone means very inaccurate scheduling.
   // try: User preference -> req Header fallback -> DB fallback -> UTC fallback (worst case)
   let timeZone = user.timeZone;
-  if (!timeZone) {
+  if (!timeZone && req) {
     // Client-provided via header (client detects and sends)
     const clientTimeZone = req.headers.get("x-timezone")?.trim();
     if (clientTimeZone && isValidIANATimeZone(clientTimeZone)) {
