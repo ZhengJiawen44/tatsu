@@ -38,7 +38,7 @@ const SidebarToggle = ({
     >
       <span className="sr-only">Close sidebar</span>
       {showMacro && (
-        <div className="bg-border absolute border p-[3px] rounded-md left-full top-1/2 ml-1 -translate-y-1/2">
+        <div className="bg-border absolute border p-0.75 rounded-md left-full top-1/2 ml-1 -translate-y-1/2">
           ctrl+`
         </div>
       )}
