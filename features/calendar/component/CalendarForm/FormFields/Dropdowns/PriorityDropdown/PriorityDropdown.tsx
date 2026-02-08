@@ -4,9 +4,8 @@ import {
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-import { PriorityIndicator } from "@/components/todo/component/TodoItem/PriorityIndicator";
-import clsx from "clsx";
+} from "@/components/ui/dropdown-menu"
+import { Flag } from "lucide-react";
 import { TodoItemType } from "@/types";
 import { ChevronDown } from "lucide-react";
 import { useTranslations } from "next-intl";
@@ -19,7 +18,6 @@ type PriorityDropdownMenuProps = {
 };
 
 const PriorityDropdownMenu = ({
-  priority,
   setPriority,
 }: PriorityDropdownMenuProps) => {
   const appDict = useTranslations("app");
@@ -35,33 +33,23 @@ const PriorityDropdownMenu = ({
           className="hover:text-foreground hover:bg-popover-accent"
           onClick={() => setPriority("Low")}
         >
-          <PriorityIndicator
-            level={1}
-            className="h-4 w-4"
-            isSelected={priority == "Low"}
-          />
+          <Flag className="w-5 h-5 text-lime" />
           {appDict("normal")}
         </DropdownMenuItem>
         <DropdownMenuItem
           className="hover:text-foreground hover:bg-popover-accent"
           onClick={() => setPriority("Medium")}
         >
-          <PriorityIndicator
-            level={2}
-            className={clsx("h-4 w-4")}
-            isSelected={priority == "Medium"}
-          />
+          <Flag className="w-5 h-5 text-orange" />
+
           {appDict("important")}
         </DropdownMenuItem>
         <DropdownMenuItem
           className="hover:text-foreground hover:bg-popover-accent"
           onClick={() => setPriority("High")}
         >
-          <PriorityIndicator
-            level={3}
-            className={clsx("h-4 w-4")}
-            isSelected={priority == "High"}
-          />
+          <Flag className="w-5 h-5 text-red" />
+
           {appDict("urgent")}
         </DropdownMenuItem>
       </DropdownMenuContent>

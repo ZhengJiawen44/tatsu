@@ -3,8 +3,8 @@ import { Calendar } from "@/components/ui/calendar";
 import React from "react";
 import { format, nextMonday, differenceInDays } from "date-fns";
 import LineSeparator from "@/components/ui/lineSeparator";
-import { Target } from "lucide-react";
-import { Sunrise as Tomorrow } from "lucide-react";
+import { Sun } from "lucide-react";
+import { IterationCcw as Tomorrow } from "lucide-react";
 import { Calendar as CalenderIcon } from "lucide-react";
 import { useTodoForm } from "@/providers/TodoFormProvider";
 import DurationPicker from "./DurationPicker";
@@ -28,7 +28,7 @@ const DateDropdownMenu = () => {
   const [isOpen, setIsOpen] = React.useState(false);
 
   const itemClass =
-    "flex justify-between items-center p-1.5 rounded w-[96.5%] hover:bg-popover-accent m-auto text-sm";
+    "flex justify-between items-center p-1.5 px-2 rounded w-[96.5%] hover:bg-popover-accent cursor-pointer m-auto text-sm";
 
   return (
     <Popover open={isOpen} onOpenChange={setIsOpen}>
@@ -36,7 +36,7 @@ const DateDropdownMenu = () => {
         <Button
           variant={"outline"}
           className={clsx(
-            " text-xs sm:text-sm font-medium w-fit h-fit p-2! text-muted-foreground bg-inherit",
+            "cursor-pointer text-xs sm:text-sm font-medium w-fit h-fit p-2! text-muted-foreground bg-inherit",
             getDisplayDate(dateRange.from) == "Today"
               ? "text-lime"
               : getDisplayDate(dateRange.from) == "Tomorrow"
@@ -44,7 +44,7 @@ const DateDropdownMenu = () => {
                 : "text-red",
           )}
         >
-          <CalenderIcon strokeWidth={1.3} className="w-4 h-4 sm:w-5 sm:h-5" />
+          <CalenderIcon className="w-4 h-4" />
           <span className="text-sm font-medium">
             {getDisplayDate(dateRange.from, true, locale)}
           </span>
@@ -52,7 +52,7 @@ const DateDropdownMenu = () => {
       </PopoverTrigger>
 
       <PopoverContent
-        className="flex flex-col px-0 py-1.5 gap-1 w-[250px] font-extralight border-popover-accent overflow-scroll scrollbar-none"
+        className="shadow-2xl flex flex-col px-0 py-1.5 gap-1.5 w-62.5 font-extralight border-popover-accent overflow-scroll scrollbar-none"
         align="start"
       >
         {/* --- OPTION: TODAY --- */}
@@ -77,7 +77,7 @@ const DateDropdownMenu = () => {
           }}
         >
           <div className="flex gap-2 items-center">
-            <Target strokeWidth={1.5} className="w-5! h-5! text-muted-foreground" />
+            <Sun strokeWidth={1.7} className="w-4 h-4" />
             {appDict("today")}
           </div>
           <p className="text-xs text-muted-foreground">
@@ -102,7 +102,7 @@ const DateDropdownMenu = () => {
           }}
         >
           <div className="flex gap-2 items-center">
-            <Tomorrow strokeWidth={1.5} className="w-5! h-5! text-muted-foreground" />
+            <Tomorrow strokeWidth={1.7} className="w-4 h-4" />
             {appDict("tomorrow")}
           </div>
           <p className="text-xs text-muted-foreground">
@@ -129,7 +129,7 @@ const DateDropdownMenu = () => {
           }}
         >
           <div className="flex gap-2 items-center">
-            <CalenderIcon strokeWidth={1.5} className="w-5! h-5! text-muted-foreground" />
+            <CalenderIcon strokeWidth={1.7} className="w-4 h-4" />
             {appDict("nextWeek")}
           </div>
           <div className="text-xs text-muted-foreground">Mon</div>

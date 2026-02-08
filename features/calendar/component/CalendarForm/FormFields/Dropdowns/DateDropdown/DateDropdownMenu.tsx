@@ -63,7 +63,7 @@ const DateDropdownMenu = ({
       </DropdownMenuTrigger>
 
       <DropdownMenuContent
-        className="z-50 flex flex-col gap-1 p-1 w-[250px] font-extralight"
+        className="z-50 flex flex-col gap-1 p-1 w-62.5 font-extralight"
         align="start"
       >
         {/* --- OPTION: TODAY --- */}

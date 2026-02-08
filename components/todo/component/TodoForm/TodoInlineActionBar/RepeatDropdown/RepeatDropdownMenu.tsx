@@ -1,6 +1,5 @@
 import React from "react";
 import CustomRepeatModalMenu from "./repeatModalMenu/CutomRepeatModalMenu";
-import { CheckIcon } from "lucide-react";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -8,7 +7,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import Repeat from "@/components/ui/icon/repeat";
+import { Repeat } from "lucide-react";
 import { RRule } from "rrule";
 import { useTodoForm } from "@/providers/TodoFormProvider";
 import { format } from "date-fns";
@@ -24,94 +23,91 @@ const RepeatDropdownMenu = ({ }) => {
       <DropdownMenuTrigger asChild>
         <Button
           variant={"outline"}
-          className="w-fit h-fit p-2! text-muted-foreground bg-inherit"
+          className="w-fit h-fit p-2! text-muted-foreground bg-inherit cursor-pointer"
         >
-          <Repeat className="w-4 h-4 sm:w-5 sm:h-5" />
+          <Repeat className="w-4 h-4" />
           <p className="text-sm">{appDict("repeat")}</p>
         </Button>
       </DropdownMenuTrigger>
-      <DropdownMenuContent className="min-w-[250px] text-foreground">
+      <DropdownMenuContent className="min-w-62.5 text-foreground">
         <DropdownMenuItem
-          className="flex gap-1"
+          className="flex justify-between"
           onClick={() =>
             setRruleOptions(() => {
               return { freq: RRule.DAILY };
             })
           }
         >
-          <CheckIcon
-            className={clsx(
-              "opacity-0",
-              derivedRepeatType == "Daily" && "opacity-100",
-            )}
+          Daily
+          <Indicator
+            name="Daily"
+            derivedRepeatType={derivedRepeatType}
           />
-          {appDict("everyDay")}
         </DropdownMenuItem>
         <DropdownMenuItem
-          className="flex"
+          className="flex justify-between"
           onClick={() =>
             setRruleOptions(() => {
               return { freq: RRule.WEEKLY };
             })
           }
         >
-          <div className="flex gap-1">
-            <CheckIcon
-              className={clsx(
-                "opacity-0",
-                derivedRepeatType == "Weekly" && "opacity-100",
-              )}
-            />
-            <p>{appDict("everyWeek")}</p>
-          </div>
-
-          <p className="text-xs text-card-foreground-muted">
-            on{format(new Date(), " EEE")}
+          <p>
+            Weekly
+            <span className="text-xs text-muted-foreground ml-4">
+              on{format(new Date(), " EEE")}
+            </span>
           </p>
+          <Indicator
+            name="Weekly"
+            derivedRepeatType={derivedRepeatType}
+
+          />
+
+
         </DropdownMenuItem>
         <DropdownMenuItem
-          className="flex"
+          className="flex justify-between"
           onClick={() =>
             setRruleOptions(() => {
               return { freq: RRule.MONTHLY };
             })
           }
         >
-          <div className="flex gap-1">
-            <CheckIcon
-              className={clsx(
-                "opacity-0",
-                derivedRepeatType == "Monthly" && "opacity-100",
-              )}
-            />
-            <p>{appDict("everyMonth")}</p>
-          </div>
-          <p className="text-xs text-card-foreground-muted">
-            on the {format(new Date(), " do")}
+
+          <p>
+            Monthly
+            <span className="text-xs ml-4 text-muted-foreground">
+              on the {format(new Date(), " do")}
+            </span>
           </p>
+          <div
+            className={clsx(
+              "w-2 h-2 bg-muted-foreground rounded-full opacity-0",
+              derivedRepeatType == "Monthly" && "opacity-100",
+            )}
+          />
         </DropdownMenuItem>
         <DropdownMenuItem
-          className="flex"
+          className="flex justify-between"
           onClick={() =>
             setRruleOptions(() => {
               return { freq: RRule.YEARLY };
             })
           }
         >
-          <div className="flex gap-1">
-            <CheckIcon
-              className={clsx(
-                "opacity-0",
-                derivedRepeatType == "Yearly" && "opacity-100",
-              )}
-            />
-            <p>{appDict("everyYear")}</p>
-          </div>
-          <p className="text-xs text-card-foreground-muted">
-            on{format(new Date(), " MMM do")}
+          <p>
+            Yearly
+            <span className="text-xs ml-4 text-muted-foreground">
+              on{format(new Date(), " MMM do")}
+            </span>
           </p>
+          <Indicator
+            name="Yearly"
+            derivedRepeatType={derivedRepeatType}
+          />
         </DropdownMenuItem>
-        <DropdownMenuSeparator />
+        <DropdownMenuSeparator className="my-3" />
         <DropdownMenuItem
           className="flex justify-between"
           onClick={() =>
@@ -123,26 +119,25 @@ const RepeatDropdownMenu = ({ }) => {
             })
           }
         >
-          <div className="flex gap-1 items-center">
-            <CheckIcon
-              className={clsx(
-                "opacity-0",
-                derivedRepeatType == "Weekday" && "opacity-100",
-              )}
-            />
-            <p>{appDict("weekdaysOnly")}</p>
-            <p className="text-xs text-card-foreground-muted">Mon-Fri</p>
-          </div>
+
+          <p>
+            Weekdays
+            <span className="text-xs text-muted-foreground ml-4">Mon-Fri</span>
+          </p>
+          <Indicator
+            name="Weekday"
+            derivedRepeatType={derivedRepeatType}
+          />
         </DropdownMenuItem>
         <DropdownMenuItem asChild>
-          <CustomRepeatModalMenu className="flex w-full hover:bg-accent py-2! px-1" />
+          <CustomRepeatModalMenu className="flex w-full justify-between hover:bg-accent py-2! px-1" />
         </DropdownMenuItem>
 
         {rruleOptions && (
           <>
-            <DropdownMenuSeparator className="mt-[5px]" />
+            <DropdownMenuSeparator className="my-3" />
             <DropdownMenuItem
-              className="text-red gap-1 flex justify-center"
+              className="text-red gap-1 flex justify-center hover:bg-red/80! hover:text-white!"
               onClick={() => setRruleOptions(null)}
             >
               Clear
@@ -155,3 +150,12 @@ const RepeatDropdownMenu = ({ }) => {
 };
 
 export default RepeatDropdownMenu;
+
+export function Indicator({ derivedRepeatType, name }: { derivedRepeatType: "Monthly" | "Daily" | "Weekly" | "Yearly" | "Weekday" | "Custom" | null, name: "Monthly" | "Daily" | "Weekly" | "Yearly" | "Weekday" | "Custom" | null }) {
+  return <div
+    className={clsx(
+      "w-2 h-2 bg-muted-foreground rounded-full opacity-0",
+      derivedRepeatType == name && "opacity-100",
+    )}
+  />
+}

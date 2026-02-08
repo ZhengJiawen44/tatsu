@@ -1,4 +1,4 @@
-@import 'tailwindcss';
+@import "tailwindcss";
 
 @custom-variant dark (&:is(.dark *));
 
@@ -33,6 +33,7 @@
   --color-orange: hsl(var(--orange));
   --color-red: hsl(var(--red));
   --color-nlp: hsl(var(--nlp));
+  --color-shadow: hsl(var(--shadow));
 
   --color-sidebar: hsla(var(--sidebar));
   --color-sidebar-primary: hsla(var(--sidebar-primary));
@@ -199,6 +200,7 @@
     --red: 4 90% 62%;
     --nlp: 24.32, 90.24%, 81.96%;
 
+    --shadow: 235 5% 5%;
     --card: 0 0% 100%;
     --card-foreground: 235 32% 16%;
     --popover: 0 0% 100%;
@@ -258,6 +260,7 @@
     --background: 235 32% 15%;
     --foreground: 0 0% 100%;
 
+    --shadow: 235 32% 5%;
     --card: 235 32% 16%;
     --card-foreground: 0, 0%, 99%;
 
