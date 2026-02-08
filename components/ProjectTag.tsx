@@ -22,6 +22,5 @@ export default function ProjectTag({ id, className }: { id: string, className?: 
         "text-accent-brick": projectMetaData[id]?.color === "BRICK",
         "text-accent-slate": projectMetaData[id]?.color === "SLATE",
     });
-
     return <span className={colorClass + " text-lg pr-1 " + className}>{"#"}</span>;
 }

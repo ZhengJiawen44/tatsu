@@ -13,20 +13,7 @@ const TodoItem = () => {
   const { width } = useWindowSize();
   const { activeMenu, setActiveMenu, setShowMenu } = useMenu();
   const { todos } = useTodo();
-  // Get today's date string
-
-  // const today = new Date();
   const todayTodoCount = todos.length;
-  // Count only todos created today
-  // const todayTodoCount = todos
-  //   ? todos.filter(({ expiresAt, startedAt, completed }) => {
-  //       return (
-  //         today.getTime() <= expiresAt.getTime() &&
-  //         !completed &&
-  //         today.getTime() >= startedAt.getTime()
-  //       );
-  //     }).length
-  //   : 0;
 
   return (
     <Button

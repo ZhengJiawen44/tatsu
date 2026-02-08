@@ -1,7 +1,10 @@
 import { auth } from "@/app/auth";
 import { redirect } from "next/navigation";
 import Provider from "./provider";
-// import SidebarContainer from "@/components/Sidebar/SidebarContainer";
+import SidebarContainer from "@/components/Sidebar/SidebarContainer";
+import { dehydrate, HydrationBoundary, QueryClient } from "@tanstack/react-query";
+import { getCompletedTodos, getProjectMetaData, getUserPreferences, getTodayTodos } from "./actions";
+
 
 export default async function Layout({
   children,
@@ -13,6 +16,32 @@ export default async function Layout({
   if (!session?.user) {
     redirect("/login");
   }
+
+  const queryClient = new QueryClient();
+
+  // Prefetch preferences
+  await queryClient.prefetchQuery({
+    queryKey: ["userPreferences"],
+    queryFn: getUserPreferences,
+  });
+
+  //Prefetch todos
+  await queryClient.prefetchQuery({
+    queryKey: ["todo"],
+    queryFn: getTodayTodos
+  });
+
+  //Prefetch completedTodos 
+  await queryClient.prefetchQuery({
+    queryKey: ["completedTodo"],
+    queryFn: getCompletedTodos
+  });
+
+  //Prefetch projectMetaData
+  await queryClient.prefetchQuery({
+    queryKey: ["projectMetaData"],
+    queryFn: getProjectMetaData
+  });
 
   return (
     <Provider>
@@ -37,12 +66,15 @@ export default async function Layout({
               `,
         }}
       />
-      <div className="flex min-h-screen h-screen text-xs sm:text-sm md:text-md w-full">
-        {/* <SidebarContainer /> */}
-        <div className="flex flex-col z-0 flex-1 min-w-0">
-          {children}
+      <HydrationBoundary state={dehydrate(queryClient)}>
+        <div className="flex min-h-screen h-screen text-xs sm:text-sm md:text-md w-full">
+          <SidebarContainer />
+          <div className="flex flex-col z-0 flex-1 min-w-0">
+            {children}
+          </div>
         </div>
-      </div>
+      </HydrationBoundary>
+
     </Provider>
 
   );
