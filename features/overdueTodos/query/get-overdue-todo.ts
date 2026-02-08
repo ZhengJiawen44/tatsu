@@ -27,7 +27,6 @@ export const useOverdueTodo = () => {
       const data = await api.GET({
         url: `/api/todo/overdue?start=${sub(endOfYesterday(), { days: 30 }).getTime()}&end=${endOfYesterday().getTime()}`,
       });
-
       const { todos } = data;
 
       const todoWithFormattedDates: TodoItemType[] = todos.map(
