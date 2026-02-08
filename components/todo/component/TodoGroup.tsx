@@ -2,7 +2,7 @@ import { SortableContext } from "@dnd-kit/sortable";
 import { DndContext, DragEndEvent } from "@dnd-kit/core";
 import { useSensor } from "@dnd-kit/core";
 import { useSensors } from "@dnd-kit/core";
-import { KeyboardSensor, TouchSensor } from "@dnd-kit/core";
+import { KeyboardSensor, TouchSensor, MouseSensor } from "@dnd-kit/core";
 import { closestCenter } from "@dnd-kit/core";
 import { arrayMove } from "@dnd-kit/sortable";
 import { verticalListSortingStrategy } from "@dnd-kit/sortable";
@@ -60,6 +60,7 @@ const TodoGroup = ({
 
   const sensors = useSensors(
     useSensor(KeyboardSensor),
+    useSensor(MouseSensor),
     useSensor(TouchSensor, { activationConstraint: { delay: 250, tolerance: 5 } })
   );
 

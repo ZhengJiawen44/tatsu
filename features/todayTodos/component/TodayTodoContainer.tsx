@@ -101,17 +101,15 @@ const TodayTodoContainer = () => {
           />
         )}
         <div className="mb-3">
-          <div className="flex flex-wrap items-center justify-between gap-2">
-            <div className="flex items-end justify-start gap-2">
-              <h3 className="text-2xl font-semibold select-none">
-                {appDict("today")}
-              </h3>
-              <p className="text-muted-foreground text-lg">{new Date().toDateString().slice(0, 10)}</p>
-            </div>
-            <TodoFilterBar
-              containerHovered={containerHovered}
-            />
+          <div className="flex items-end justify-start gap-2 mb-4">
+            <h3 className="text-2xl font-semibold select-none">
+              {appDict("today")}
+            </h3>
+            <p className="text-muted-foreground text-lg">{new Date().toDateString().slice(0, 10)}</p>
           </div>
+          <TodoFilterBar
+            containerHovered={containerHovered}
+          />
           <LineSeparator className="flex-1" />
         </div>
         {todoLoading && <TodoListLoading />}

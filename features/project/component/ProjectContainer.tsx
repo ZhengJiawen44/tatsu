@@ -99,14 +99,12 @@ const ProjectContainer = ({ id }: { id: string }) => {
                     />
                 )}
                 <div className="mb-3">
-                    <div className="flex flex-wrap items-center justify-between gap-2">
-                        <h3 className="text-2xl font-semibold select-none">
-                            {projectMetaData[id]?.name}
-                        </h3>
-                        <TodoFilterBar
-                            containerHovered={containerHovered}
-                        />
-                    </div>
+                    <h3 className="text-2xl font-semibold select-none mb-4">
+                        {projectMetaData[id]?.name}
+                    </h3>
+                    <TodoFilterBar
+                        containerHovered={containerHovered}
+                    />
                     <LineSeparator className="flex-1" />
                 </div>
                 {projectTodosLoading && <TodoListLoading />}

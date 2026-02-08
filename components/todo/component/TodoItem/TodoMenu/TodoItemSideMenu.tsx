@@ -27,7 +27,7 @@ const TodoItemSideMenu = ({
           pinMutateFn(todo);
         }}
       >
-        <Pin className="w-[1.1rem] h-[1.1rem]" />
+        <Pin className="w-6.5! h-6.5!" />
       </Button>
 
       <Button
