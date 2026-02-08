@@ -1,7 +1,7 @@
 "use client"
 
 import React, { createContext, useContext } from 'react';
-import { useQuery, useMutation, useQueryClient, QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { SortBy, GroupBy, Direction } from '@prisma/client';
 
 type UserPreferences = {
@@ -46,18 +46,15 @@ async function updatePreferencesAPI(preferences: Partial<Omit<UserPreferences, '
 
 function UserPreferencesProviderInner({
     children,
-    initialPreferences
 }: {
     children: React.ReactNode;
-    initialPreferences?: UserPreferences | null;
 }) {
-    // const queryClient = useQueryClient();
+    const queryClient = useQueryClient();
 
     const { data: preferences, isLoading } = useQuery({
         queryKey: ['userPreferences'],
         queryFn: fetchPreferences,
-        initialData: initialPreferences || undefined,
-        staleTime: 5 * 60 * 1000, // 5 minutes
+        staleTime: 5 * 60 * 1000,
     });
 
     const { mutate: updatePreferences, isPending } = useMutation({
@@ -79,7 +76,6 @@ function UserPreferencesProviderInner({
                     ...cleanedPrefs,
                 });
             }
-
             return { previousPreferences };
         },
         onError: (err, newPrefs, context) => {
@@ -109,26 +105,13 @@ function UserPreferencesProviderInner({
 
 export function UserPreferencesProvider({
     children,
-    initialPreferences
 }: {
     children: React.ReactNode;
-    initialPreferences?: UserPreferences | null;
 }) {
-    const [queryClient] = React.useState(() => new QueryClient({
-        defaultOptions: {
-            queries: {
-                staleTime: 5 * 60 * 1000,
-                retry: 1,
-            },
-        },
-    }));
-
     return (
-        <QueryClientProvider client={queryClient}>
-            <UserPreferencesProviderInner initialPreferences={initialPreferences}>
-                {children}
-            </UserPreferencesProviderInner>
-        </QueryClientProvider>
+        <UserPreferencesProviderInner>
+            {children}
+        </UserPreferencesProviderInner>
     );
 }
 
