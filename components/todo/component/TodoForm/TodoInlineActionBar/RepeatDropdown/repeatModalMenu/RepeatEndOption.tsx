@@ -71,7 +71,7 @@ const RepeatEndOption = ({
                 variant="outline"
                 id="date"
                 className={clsx(
-                  "w-48 justify-between font-normal border-border opacity-0",
+                  " justify-between font-normal border-border opacity-0 border min-w-0",
                   customRepeatOptions?.until && "opacity-100",
                 )}
               >
@@ -82,7 +82,7 @@ const RepeatEndOption = ({
               </Button>
             </PopoverTrigger>
             <PopoverContent
-              className="w-auto p-0"
+              className="w-auto p-0 pointer-events-auto"
               align="start"
             >
               <Calendar

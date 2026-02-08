@@ -26,20 +26,14 @@ const CreateTodoBtn = ({ projectID }: { projectID?: string }) => {
       return;
     };
 
-    const exitCreateTodoForm = (e: KeyboardEvent) => {
-      if (e.code === "Escape") setDisplayForm(false);
-      return;
-    };
 
     document.addEventListener("keydown", showCreateTodoForm);
-    document.addEventListener("keydown", exitCreateTodoForm);
     return () => {
       document.removeEventListener("keydown", showCreateTodoForm);
-      document.removeEventListener("keydown", exitCreateTodoForm);
     };
   }, []);
   return (
-    <div className="sticky -top-20 my-10 ml-[2px]">
+    <div className="sticky -top-20 my-10 ml-0.5">
       {/* add more icon */}
       <button
         onClick={() => setDisplayForm(!displayForm)}

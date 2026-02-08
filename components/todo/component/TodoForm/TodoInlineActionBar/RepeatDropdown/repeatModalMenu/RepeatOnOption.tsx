@@ -34,70 +34,19 @@ const RepeatOnOption = ({
     freq == RRule.WEEKLY && (
       <div className="flex flex-col gap-2">
         <p className="font-medium "> {appDict("customMenu.on")}</p>
-        <div className="flex gap-4">
-          <div className="flex items-center gap-1">
-            <Checkbox
-              id="Mo"
-              value={0}
-              checked={byweekday?.includes(0) || false}
-              onCheckedChange={() => toggleByDay(0)}
-            />
-            <label htmlFor="Mo">Mo</label>
-          </div>
-          <div className="flex items-center gap-1">
-            <Checkbox
-              id="Tu"
-              value={1}
-              checked={byweekday?.includes(1) || false}
-              onCheckedChange={() => toggleByDay(1)}
-            />
-            <label htmlFor="Tu">Tu</label>
-          </div>
-          <div className="flex items-center gap-1">
-            <Checkbox
-              id="We"
-              value={2}
-              checked={byweekday?.includes(2) || false}
-              onCheckedChange={() => toggleByDay(2)}
-            />
-            <label htmlFor="We">We</label>
-          </div>
-          <div className="flex items-center gap-1">
-            <Checkbox
-              id="Th"
-              value={3}
-              checked={byweekday?.includes(3) || false}
-              onCheckedChange={() => toggleByDay(3)}
-            />
-            <label htmlFor="Th">Th</label>
-          </div>
-          <div className="flex items-center gap-1">
-            <Checkbox
-              id="Fr"
-              value={4}
-              checked={byweekday?.includes(4) || false}
-              onCheckedChange={() => toggleByDay(4)}
-            />
-            <label htmlFor="Fr">Fr</label>
-          </div>
-          <div className="flex items-center gap-1">
-            <Checkbox
-              id="Sa"
-              value={5}
-              checked={byweekday?.includes(5) || false}
-              onCheckedChange={() => toggleByDay(5)}
-            />
-            <label htmlFor="Sa">Sa</label>
-          </div>
-          <div className="flex items-center gap-1">
-            <Checkbox
-              id="Su"
-              value={6}
-              checked={byweekday?.includes(6) || false}
-              onCheckedChange={() => toggleByDay(6)}
-            />
-            <label htmlFor="Su">Su</label>
-          </div>
+        <div className="flex flex-wrap gap-4">
+          {["Mo", "Tu", "We", "Th", "Fr", "Sa", "Su"].map((day, index) => {
+            return (<div className="flex items-center gap-1" key={day}>
+              <Checkbox
+                id={day}
+                value={index}
+                checked={byweekday?.includes(index) || false}
+                onCheckedChange={() => toggleByDay(index)}
+              />
+              <label htmlFor={day} className="cursor-pointer hover:underline">{day}</label>
+            </div>)
+          })}
+
         </div>
       </div>
     )

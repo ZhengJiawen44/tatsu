@@ -34,11 +34,11 @@ export default function ProjectDropdownMenu({ projectID, setProjectID, className
     return (
         <Popover modal={true} open={open} onOpenChange={setOpen}>
             <PopoverTrigger asChild>
-                <Button variant="ghost" type="button" className={cn("h-fit px-2! gap-1 text-muted-foreground font-normal", className)}>
+                <Button variant="ghost" type="button" className={cn("h-fit px-2! gap-1 text-muted-foreground font-normal shrink-0", className)}>
                     {projectID
                         ?
                         <>
-                            <ProjectTag id={projectID} className='text-sm pr-0' /> <>{projectMetaData[projectID]?.name}</>
+                            <ProjectTag id={projectID} className='text-sm pr-0' /> <span className='truncate max-w-14 sm:max-w-24 md:max-w-52 lg:max-w-none'>{projectMetaData[projectID]?.name}</span>
                         </>
                         : <>
                             {variant == "default" && <span>#</span>}<p>Project</p>

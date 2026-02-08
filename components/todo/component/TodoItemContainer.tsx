@@ -51,16 +51,7 @@ export const TodoItemContainer = ({ todoItem, overdue }: TodoItemContainerProps)
       setShowHandle(false);
     }
   }, [displayForm]);
-  useEffect(() => {
-    const exitCreateTodoForm = (e: KeyboardEvent) => {
-      if (e.code === "Escape") setDisplayForm(false);
-      return;
-    };
-    document.addEventListener("keydown", exitCreateTodoForm);
-    return () => {
-      document.removeEventListener("keydown", exitCreateTodoForm);
-    };
-  }, []);
+
 
   if (displayForm)
     return (
@@ -80,7 +71,7 @@ export const TodoItemContainer = ({ todoItem, overdue }: TodoItemContainerProps)
         ref={setNodeRef}
         style={style}
         className={clsx(
-          " touch-none max-w-full min-h-11 relative flex justify-between items-center bg-inherit pt-4  rounded-md",
+          "max-w-full min-h-11 relative flex justify-between items-center bg-inherit pt-4  rounded-md",
           isGrabbing
             ? "shadow-[0px_10px_30px_rgba(6,8,30,0.3)] z-30  brightness-110"
             : "shadow-none",
@@ -99,7 +90,7 @@ export const TodoItemContainer = ({ todoItem, overdue }: TodoItemContainerProps)
           {...attributes}
           {...listeners}
           className={clsx(
-            "cursor-grabbing absolute -left-5 sm:-left-7 bottom-1/2 translate-y-1/2 text-muted-foreground p-1",
+            "cursor-grabbing hidden sm:block absolute -left-5 sm:-left-7 bottom-1/2 translate-y-1/2 text-muted-foreground p-1",
             showHandle === true ? "text-card-foreground" : "text-transparent",
           )}
           role="button"
@@ -128,15 +119,19 @@ export const TodoItemContainer = ({ todoItem, overdue }: TodoItemContainerProps)
             <pre className="pb-2 text-muted-foreground text-xs sm:text-sm whitespace-pre-wrap w-48 sm:w-full">
               {description}
             </pre>
-            <div className="flex items-center justify-start gap-2">
-
-              <p className={clsx(overdue ? "text-orange" : "text-lime")}>{getDisplayDate(dtstart, true, locale)}</p>
+            <div className="flex flex-wrap items-center justify-start gap-2">
+              <p className={clsx(overdue ? "text-orange" : "text-lime")}>
+                {getDisplayDate(dtstart, true, locale)}
+              </p>
               {todoItem.projectID &&
-                <p className='flex items-center py-[0.2rem] px-2 rounded-full'>
-                  <ProjectTag id={todoItem.projectID} className="text-sm" />
-                  {projectMetaData[todoItem.projectID]?.name}
-                </p>}
-              {overdue && <p className='py-[0.2rem] px-2 rounded-full bg-border'>overdue</p>}
+                <p className='flex items-center py-[0.2rem] px-2 rounded-full border bg-sidebar gap-1'>
+                  <ProjectTag id={todoItem.projectID} className="text-sm shrink-0" />
+                  <span className="truncate max-w-14 sm:max-w-24 md:max-w-52 lg:max-w-none">
+                    {projectMetaData[todoItem.projectID]?.name}
+                  </span>
+                </p>
+              }
+              {overdue && <p className='py-[0.2rem] px-2 rounded-full bg-sidebar border'>overdue</p>}
             </div>
 
           </div>
