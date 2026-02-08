@@ -52,7 +52,7 @@ const DateDropdownMenu = () => {
       </PopoverTrigger>
 
       <PopoverContent
-        className="shadow-2xl flex flex-col px-0 gap-1 py-1.5 w-62.5 font-extralight border-popover-accent overflow-scroll scrollbar-none"
+        className="shadow-2xl! flex flex-col px-0 gap-1 py-1.5 w-62.5 font-extralight border-popover-accent overflow-scroll scrollbar-none"
         align="start"
       >
         {/* --- OPTION: TODAY --- */}
@@ -138,7 +138,7 @@ const DateDropdownMenu = () => {
         {/* --- DURATION --- */}
         <DurationPicker className={itemClass} />
 
-        <LineSeparator className="border-popover-accent w-full my-1 mb-4" />
+        <LineSeparator className="w-full border-popover-border my-1 mb-4" />
 
         {/* --- CALENDAR --- */}
         <div className="w-full p-0">
