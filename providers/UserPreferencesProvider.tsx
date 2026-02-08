@@ -51,7 +51,7 @@ function UserPreferencesProviderInner({
     children: React.ReactNode;
     initialPreferences?: UserPreferences | null;
 }) {
-    const queryClient = useQueryClient();
+    // const queryClient = useQueryClient();
 
     const { data: preferences, isLoading } = useQuery({
         queryKey: ['userPreferences'],

@@ -1,7 +1,7 @@
 import { auth } from "@/app/auth";
 import { redirect } from "next/navigation";
 import Provider from "./provider";
-import SidebarContainer from "@/components/Sidebar/SidebarContainer";
+// import SidebarContainer from "@/components/Sidebar/SidebarContainer";
 
 export default async function Layout({
   children,
@@ -38,7 +38,7 @@ export default async function Layout({
         }}
       />
       <div className="flex min-h-screen h-screen text-xs sm:text-sm md:text-md w-full">
-        <SidebarContainer />
+        {/* <SidebarContainer /> */}
         <div className="flex flex-col z-0 flex-1 min-w-0">
           {children}
         </div>

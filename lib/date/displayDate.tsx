@@ -1,4 +1,3 @@
-
 const formatterCache = new Map<string, Intl.DateTimeFormat>();
 
 function getFormatter(
@@ -51,28 +50,50 @@ const relativeTranslations: Record<string, Record<string, string>> = {
   },
 };
 
-export function getDisplayDate(date: Date, displayTime?: boolean, locale: string = "en") {
-  const today = new Date();
-  const currentDate = new Date(date);
-
+export function getDisplayDate(
+  date: Date,
+  displayTime?: boolean,
+  locale: string = "en",
+  timezone: string = "UTC" // ✅ Add timezone parameter
+) {
   const translations = relativeTranslations[locale] || relativeTranslations.en;
 
-  // Time string formatting
+  // ✅ Get current date in the specified timezone
+  const nowInTimezone = new Date(
+    new Date().toLocaleString("en-US", { timeZone: timezone })
+  );
+
+  // ✅ Get the input date in the specified timezone
+  const dateInTimezone = new Date(
+    date.toLocaleString("en-US", { timeZone: timezone })
+  );
+
+  // Time string formatting with timezone
   let timeString = "";
   if (displayTime) {
     const timeFormatter = getFormatter(locale, {
-      hour: 'numeric',
-      minute: '2-digit',
-      hour12: true
+      hour: "numeric",
+      minute: "2-digit",
+      hour12: true,
+      timeZone: timezone, // ✅ Use consistent timezone
     });
-    timeString = ` ${timeFormatter.format(currentDate)}`;
+    timeString = ` ${timeFormatter.format(date)}`;
   }
 
-  // Normalize both to *local* midnight
-  const todayMidnight = new Date(today.getFullYear(), today.getMonth(), today.getDate());
-  const currentDateMidnight = new Date(currentDate.getFullYear(), currentDate.getMonth(), currentDate.getDate());
+  // ✅ Normalize both to midnight in the specified timezone
+  const todayMidnight = new Date(
+    nowInTimezone.getFullYear(),
+    nowInTimezone.getMonth(),
+    nowInTimezone.getDate()
+  );
 
-  // Difference in days (positive = past, negative = future)
+  const currentDateMidnight = new Date(
+    dateInTimezone.getFullYear(),
+    dateInTimezone.getMonth(),
+    dateInTimezone.getDate()
+  );
+
+  // Difference in days
   const diffInDays = Math.floor(
     (todayMidnight.getTime() - currentDateMidnight.getTime()) /
     (1000 * 60 * 60 * 24)
@@ -87,27 +108,32 @@ export function getDisplayDate(date: Date, displayTime?: boolean, locale: string
   // Tomorrow
   if (diffInDays === -1) return `${translations.tomorrow}${timeString}`;
 
-  // Within this week (past or future, within 6 days)
+  // Within this week
   if (Math.abs(diffInDays) <= 6) {
-    const weekdayFormatter = getFormatter(locale, { weekday: "long" });
-    const weekday = weekdayFormatter.format(currentDate);
+    const weekdayFormatter = getFormatter(locale, {
+      weekday: "long",
+      timeZone: timezone, // ✅ Use consistent timezone
+    });
+    const weekday = weekdayFormatter.format(date);
     return `${weekday}${timeString}`;
   }
 
-  // Same year, show date and month
-  if (today.getFullYear() === currentDate.getFullYear()) {
+  // Same year
+  if (nowInTimezone.getFullYear() === dateInTimezone.getFullYear()) {
     const dateFormatter = getFormatter(locale, {
       month: "short",
       day: "numeric",
+      timeZone: timezone, // ✅ Use consistent timezone
     });
-    return `${dateFormatter.format(currentDate)}${timeString}`;
+    return `${dateFormatter.format(date)}${timeString}`;
   }
 
-  // Different year, show full date
+  // Different year
   const dateFormatter = getFormatter(locale, {
     month: "short",
     day: "numeric",
     year: "numeric",
+    timeZone: timezone, // ✅ Use consistent timezone
   });
-  return `${dateFormatter.format(currentDate)}${timeString}`;
+  return `${dateFormatter.format(date)}${timeString}`;
 }
