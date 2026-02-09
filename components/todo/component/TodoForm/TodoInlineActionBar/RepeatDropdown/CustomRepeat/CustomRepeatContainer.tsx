@@ -2,7 +2,7 @@
 import useWindowSize from '@/hooks/useWindowSize';
 import dynamic from 'next/dynamic';
 import React from 'react'
-const MobileDrawer = dynamic(() => import("@/features/calendar/component/CalendarForm/FormFields/Drawers/RepeatDrawer/CustomRepeatDrawer"), { ssr: false });
+const MobileDrawer = dynamic(() => import("./repeatDrawerMenu/CustomRepeatDrawer"), { ssr: false });
 const DesktopModal = dynamic(() => import("./repeatModalMenu/CutomRepeatModalMenu"), { ssr: false, loading: () => <Skeleton className='h-7 w-full bg-popover-accent rounded-md' /> });
 import { useTodoForm } from '@/providers/TodoFormProvider';
 import { Skeleton } from '@/components/ui/skeleton';

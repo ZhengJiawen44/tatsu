@@ -34,8 +34,8 @@ const NextRepeatDateIndicator = () => {
           )}
         />
       </TooltipTrigger>
-      <TooltipContent className="text-sm">
-        <p>
+      <TooltipContent className="text-sm min-w-0! max-w-[90vw] p-3 bg-sidebar/80 brightness-110 border backdrop-blur-md">
+        <p className="min-w-0!">
           {nextCalculatedRepeatDate
             ? `${todayDict("nextRepeatText")} ${isThisYear(new Date()) ? format(rruleDateToLocal(nextCalculatedRepeatDate), "dd MMM") : format(nextCalculatedRepeatDate, "dd MMM yyyy")} (${locallyInferredRruleObject?.toText()})`
             : "This todo has reached the end of repeat"}

@@ -3,7 +3,7 @@ import { formatDayAbbr } from "@/lib/formatDayAbbr";
 import clsx from "clsx";
 import { useTranslations, useLocale } from "next-intl";
 import { Options, RRule } from "rrule";
-import CustomRepeatDrawer from "./CustomRepeatDrawer";
+import CustomRepeatDrawer from "./RepeatDrawer";
 
 export default function RepeatDrawerMenu({ rruleOptions, setRruleOptions, derivedRepeatType }: {
     rruleOptions: Partial<Options> | null;
@@ -124,7 +124,6 @@ export default function RepeatDrawerMenu({ rruleOptions, setRruleOptions, derive
                 </div>
                 <span className="text-xs text-muted-foreground ml-auto">Mon-Fri</span>
             </div>
-
             <NestedDrawerItem
                 className="flex w-full gap-3! cursor-pointer items-center justify-between rounded-md p-2 hover:bg-accent/50 text-base"
                 title="Custom"

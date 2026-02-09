@@ -246,6 +246,7 @@ export default function CreateCalendarDrawer({
                                 </Button>
 
                                 <Button
+                                    disabled={title.length <= 0}
                                     onClick={handleSubmit}
                                     className="flex-1 h-12 rounded-md bg-lime hover:bg-lime/90 text-white font-bold"
                                 >

@@ -1,9 +1,9 @@
 import { useTranslations } from "next-intl";
 import { Button } from "@/components/ui/button";
 import { Options, RRule } from "rrule";
-import RepeatEndOption from "../../Dropdowns/RepeatDropdown/repeatModalMenu/RepeatEndOption";
-import RepeatEveryOption from "../../Dropdowns/RepeatDropdown/repeatModalMenu/RepeatEveryOption";
-import RepeatOnOption from "../../Dropdowns/RepeatDropdown/repeatModalMenu/RepeatOnOption";
+import RepeatEndOption from "../repeatModalMenu/RepeatEndOption";
+import RepeatOnOption from "../repeatModalMenu/RepeatOnOption";
+import RepeatEveryOption from "../repeatModalMenu/RepeatEveryOption";
 import { cn } from "@/lib/utils";
 import { Drawer, DrawerContent, DrawerTrigger, DrawerClose } from "@/components/ui/drawer";
 
@@ -55,10 +55,7 @@ export default function CustomRepeatDrawer({
                                     </section>
 
                                 </>
-
-
                             }
-
                             {/* End Condition (until/count) */}
                             <section className="space-y-4">
 

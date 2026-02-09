@@ -24,7 +24,7 @@ const RepeatEveryOption = ({
   setCustomRepeatOptions,
 }: RepeatEveryOptionProps) => {
   const appDict = useTranslations("app");
-  const currentInterval = customRepeatOptions?.interval || 1;
+  const currentInterval = customRepeatOptions?.interval || 0;
 
   function removeByweekday(options: Partial<Options> | null) {
     //remove byweekday when freq is daily

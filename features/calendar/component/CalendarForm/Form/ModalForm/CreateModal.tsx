@@ -183,6 +183,7 @@ const CreateCalendarForm = ({
                 </Button>
 
                 <Button
+                  disabled={title.length <= 0}
                   type="submit"
                   className="bg-lime text-white hover:bg-lime/90"
                 >
