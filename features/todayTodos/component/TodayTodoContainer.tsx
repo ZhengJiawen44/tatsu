@@ -100,8 +100,8 @@ const TodayTodoContainer = () => {
             todos={pinnedTodos}
           />
         )}
-        <div className="mb-3">
-          <div className="flex items-end justify-start gap-2 mb-4">
+        <div className={clsx("mb-3", (!preferences?.groupBy && !preferences?.sortBy) && "flex items-end")}>
+          <div className={clsx("flex items-end justify-start gap-2 w-full", (preferences?.groupBy || preferences?.sortBy) && "mb-4")}>
             <h3 className="text-2xl font-semibold select-none">
               {appDict("today")}
             </h3>
@@ -110,8 +110,9 @@ const TodayTodoContainer = () => {
           <TodoFilterBar
             containerHovered={containerHovered}
           />
-          <LineSeparator className="flex-1" />
+
         </div>
+        <LineSeparator className="flex-1" />
         {todoLoading && <TodoListLoading />}
 
         {Object.entries(sortedGroupedTodos).map(([key, todo]) =>

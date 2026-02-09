@@ -7,6 +7,7 @@ import { SetStateAction } from "react";
 import DurationPicker from "./DurationPicker"
 import { formatDayAbbr } from "@/lib/formatDayAbbr";
 import { Calendar } from "@/components/ui/calendar";
+import LineSeparator from "@/components/ui/lineSeparator";
 
 export function DateDrawerMenu({ dateRange, setDateRange }: { dateRange: NonNullableDateRange, setDateRange: React.Dispatch<SetStateAction<NonNullableDateRange>> }) {
     const nextWeek = startOfDay(nextMonday(dateRange?.from || new Date()));
@@ -103,8 +104,9 @@ export function DateDrawerMenu({ dateRange, setDateRange }: { dateRange: NonNull
                     <DurationPicker dateRange={dateRange} setDateRange={setDateRange} />
                 </NestedDrawerItem>
             </div>
+            <LineSeparator className="my-3 border-popover-border" />
             <Calendar
-                className="w-full px-2 pt-0"
+                className="w-full px-4"
                 classNames={{
                     months: "w-full",
                     month: "w-full space-y-4 ",

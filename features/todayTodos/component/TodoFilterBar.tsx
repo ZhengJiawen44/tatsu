@@ -18,7 +18,7 @@ import {
     DropdownMenuItem
 } from "@/components/ui/dropdown-menu";
 import { X } from 'lucide-react';
-import { SortBy, GroupBy, Direction } from '@prisma/client';
+import { SortBy, GroupBy } from '@prisma/client';
 import { useUserPreferences } from '@/providers/UserPreferencesProvider';
 
 type TodoFilterBarProps = {
@@ -93,7 +93,8 @@ export default function TodoFilterBar({ containerHovered }: TodoFilterBarProps) 
                                         <DropdownMenuRadioGroup
                                             value={preferences?.direction || undefined}
                                             onValueChange={(value) => {
-                                                updatePreferences({ direction: value as Direction });
+                                                if (value == "Ascending" || value == "Descending")
+                                                    updatePreferences({ direction: value });
                                             }}
                                         >
                                             <DropdownMenuRadioItem value="Descending">

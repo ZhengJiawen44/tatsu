@@ -105,7 +105,7 @@ const ProjectSidebarItem = ({ meta }: { meta: Pick<ProjectItemType, "id" | "colo
           ) : (
             <DropdownMenu>
               <DropdownMenuTrigger>
-                <Meatball className="w-5 h-5" />
+                <Meatball className="w-5 h-5 hover:text-foreground cursor-pointer" />
               </DropdownMenuTrigger>
               <DropdownMenuContent>
                 <DropdownMenuItem onClick={() => setIsRenaming(true)}> rename</DropdownMenuItem>

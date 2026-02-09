@@ -24,6 +24,7 @@ import ProjectDrawer from "../../FormFields/Drawers/ProjectDrawer/ProjectDrawer"
 import ProjectTag from "@/components/ProjectTag";
 import { useProjectMetaData } from "@/components/Sidebar/Project/query/get-project-meta";
 import NLPTitleInput from "@/components/todo/component/TodoForm/NLPTitleInput";
+import deriveRepeatType from "@/lib/deriveRepeatType";
 // --- Types ---
 type CreateCalendarFormProps = {
     todo: TodoItemType
@@ -94,25 +95,8 @@ export default function CreateCalendarDrawer({
         }
         setDisplayForm(false);
     };
-    const derivedRepeatType = useMemo(() => {
-        if (!rruleOptions) return null;
-        const f = rruleOptions.freq;
-        if (f === RRule.DAILY) return "Daily";
-        if (f === RRule.WEEKLY) {
-            if (rruleOptions.byweekday && Array.isArray(rruleOptions.byweekday)) {
-                const weekdays = [RRule.MO, RRule.TU, RRule.WE, RRule.TH, RRule.FR];
-                // check if byweekday contains all weekdays (Mon-Fri)
-                const containsAllWeekdays = weekdays.every((d) =>
-                    (rruleOptions.byweekday as unknown[]).some((bw) => bw === d)
-                );
-                if (containsAllWeekdays) return "Weekday";
-            }
-            return "Weekly";
-        }
-        if (f === RRule.MONTHLY) return "Monthly";
-        if (f === RRule.YEARLY) return "Yearly";
-        return null;
-    }, [rruleOptions]);
+    const derivedRepeatType = deriveRepeatType({ rruleOptions });
+
 
     return (
         <>
@@ -271,7 +255,7 @@ export default function CreateCalendarDrawer({
 
                             {/* Description */}
                             <textarea
-                                className="w-full bg-secondary/40 rounded-md p-3 text-lg resize-none border max-h-[85dvh]outline-none "
+                                className="w-full bg-secondary/40 rounded-md p-3 text-lg resize-none border max-h-[85dvh]outline-none focus:outline-hidden focus:ring-0"
                                 rows={4}
                                 value={description}
                                 onChange={(e) => setDescription(e.target.value)}
