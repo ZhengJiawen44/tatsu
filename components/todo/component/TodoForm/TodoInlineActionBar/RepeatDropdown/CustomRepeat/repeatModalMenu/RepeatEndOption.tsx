@@ -1,14 +1,7 @@
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
-import React, { SetStateAction, useState } from "react";
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover";
+import React, { SetStateAction } from "react";
+
 import { Calendar } from "@/components/ui/calendar";
-import { ChevronDownIcon } from "lucide-react";
-import clsx from "clsx";
-import { Button } from "@/components/ui/button";
 import { Options } from "rrule";
 import { masqueradeAsUTC } from "@/components/todo/lib/masqueradeAsUTC";
 import { useTranslations } from "next-intl";
@@ -24,7 +17,6 @@ const RepeatEndOption = ({
   setCustomRepeatOptions,
 }: RepeatEndOptionProps) => {
   const appDict = useTranslations("app");
-  const [open, setOpen] = useState(false);
 
   function removeUntil(options: Partial<Options> | null) {
     //remove until when rrule is never ending
@@ -64,41 +56,36 @@ const RepeatEndOption = ({
           />
           <label htmlFor="exDate">{appDict("customMenu.onDate")}</label>
           {/* date picker */}
-          <Popover open={open} onOpenChange={setOpen}>
-            <PopoverTrigger asChild>
-              <Button
-                type="button"
-                variant="outline"
-                id="date"
-                className={clsx(
-                  " justify-between font-normal border-border opacity-0 border min-w-0",
-                  customRepeatOptions?.until && "opacity-100",
-                )}
-              >
-                {customRepeatOptions?.until
-                  ? customRepeatOptions?.until.toLocaleDateString()
-                  : "Select date"}
-                <ChevronDownIcon />
-              </Button>
-            </PopoverTrigger>
-            <PopoverContent
-              className="w-auto p-0 pointer-events-auto"
-              align="start"
-            >
-              <Calendar
-                mode="single"
-                selected={customRepeatOptions?.until || new Date()}
-                captionLayout="dropdown"
-                onSelect={(date) => {
-                  setCustomRepeatOptions({
-                    ...customRepeatOptions,
-                    until: masqueradeAsUTC(date || new Date()),
-                  });
-                  setOpen(false);
-                }}
-              />
-            </PopoverContent>
-          </Popover>
+        </div>
+        {/* date picker */}
+        <div className="w-full m-auto my-4">
+          <Calendar
+            disabled={!customRepeatOptions?.until}
+            className="w-full px-2 pt-0"
+            classNames={{
+              months: "w-full",
+              month: "w-full space-y-4 ",
+              table: "w-full table-fixed",
+              head_row: "w-full",
+              head_cell: "pb-2 text-muted-foreground font-normal text-xs",
+              row: "w-full",
+              cell: "w-11 h-11",
+              day: "w-11 h-11 text-sm text-foreground/80",
+              nav_button:
+                "z-50 w-10 h-10 rounded-full flex items-center justify-center bg-popover/60 hover:bg-popover-accent backdrop-blur-sm",
+              nav: "w-10 h-10"
+
+            }}
+            mode="single"
+            selected={customRepeatOptions?.until || undefined}
+            captionLayout="dropdown"
+            onSelect={(date) => {
+              setCustomRepeatOptions({
+                ...customRepeatOptions,
+                until: masqueradeAsUTC(date || new Date()),
+              });
+            }}
+          />
         </div>
       </RadioGroup>
     </div>

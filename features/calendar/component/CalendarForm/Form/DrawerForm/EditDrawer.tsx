@@ -294,6 +294,7 @@ export default function CreateCalendarDrawer({
 
 
                                 <Button
+                                    disabled={title.length <= 0}
                                     onMouseDown={(e) => {
                                         e.stopPropagation()
                                     }}
