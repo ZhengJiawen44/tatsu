@@ -10,7 +10,7 @@ export default async function Layout({
 
     return (
         <div
-            className="px-[clamp(5px,2%,5%)]"
+            className="px-[clamp(5px,2%,5%)] py-8"
         >
             <SidebarToggleContainer />
             <NewFeaturesAnnouncement />

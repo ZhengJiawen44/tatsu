@@ -18,9 +18,11 @@ import { Button } from "@/components/ui/button";
 import { getDisplayDate } from "@/lib/date/displayDate";
 import clsx from "clsx";
 import { useLocale } from "next-intl";
+import { useUserTimezone } from "@/features/user/query/get-timezone";
 
 const DateDropdownMenu = () => {
   const locale = useLocale()
+  const userTZ = useUserTimezone()
   const appDict = useTranslations("app");
   const { dateRange, setDateRange } = useTodoForm();
   const nextWeek = startOfDay(nextMonday(dateRange?.from || new Date()));
@@ -37,16 +39,16 @@ const DateDropdownMenu = () => {
           variant={"outline"}
           className={clsx(
             "cursor-pointer text-xs sm:text-sm font-medium w-fit h-fit p-2! text-muted-foreground bg-inherit",
-            getDisplayDate(dateRange.from) == "Today"
+            getDisplayDate(dateRange.from, false, "en", userTZ?.timeZone) == "Today"
               ? "text-lime"
-              : getDisplayDate(dateRange.from) == "Tomorrow"
+              : getDisplayDate(dateRange.from, false, "en", userTZ?.timeZone) == "Tomorrow"
                 ? "text-orange"
                 : "text-red",
           )}
         >
           <CalenderIcon className="w-4 h-4" />
           <span className="text-sm font-medium">
-            {getDisplayDate(dateRange.from, true, locale)}
+            {getDisplayDate(dateRange.from, true, locale, userTZ?.timeZone)}
           </span>
         </Button>
       </PopoverTrigger>

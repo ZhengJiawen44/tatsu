@@ -11,6 +11,7 @@ import { RRule } from "rrule";
 import { TodoItemType } from "@/types";
 import clsx from "clsx";
 import { useLocale } from "next-intl";
+import { useUserTimezone } from "@/features/user/query/get-timezone";
 import { usePinTodo } from "../query/pin-todo";
 import { useCompleteTodo } from "../query/complete-todo";
 import { useDeleteTodo } from "../query/delete-todo";
@@ -22,9 +23,11 @@ import TodoMutationProvider from "@/providers/TodoMutationProvider";
 import { useProjectMetaData } from "@/components/Sidebar/Project/query/get-project-meta";
 import { useUserPreferences } from "@/providers/UserPreferencesProvider";
 import TodoFilterBar from "./TodoFilterBar";
+import { formatDateInTZ } from "@/lib/date/formatDateinTZ";
 
 const TodayTodoContainer = () => {
   const locale = useLocale();
+  const userTZ = useUserTimezone();
   const appDict = useTranslations("app")
   const { preferences } = useUserPreferences();
   const { todos, todoLoading } = useTodo();
@@ -43,11 +46,11 @@ const TodayTodoContainer = () => {
     return Object.groupBy((unpinnedTodos), (todo) => {
       switch (preferences?.groupBy) {
         case "dtstart":
-          return getDisplayDate(todo.dtstart, false, locale);
+          return getDisplayDate(todo.dtstart, false, locale, userTZ?.timeZone);
         case "project":
           return todo.projectID ? projectMetaData[todo.projectID].name : "None";
         case "due":
-          return getDisplayDate(todo.due, false, locale);
+          return getDisplayDate(todo.due, false, locale, userTZ?.timeZone);
         case "duration":
           return String(todo.durationMinutes);
         case "priority":
@@ -58,6 +61,7 @@ const TodayTodoContainer = () => {
           return "-1"
       }
     }) as Record<string, TodoItemType[]>
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [unpinnedTodos, preferences?.groupBy, locale, projectMetaData])
 
   const sortedGroupedTodos = useMemo(() => {
@@ -105,7 +109,7 @@ const TodayTodoContainer = () => {
             <h3 className="text-2xl font-semibold select-none">
               {appDict("today")}
             </h3>
-            <p className="text-muted-foreground text-lg">{new Date().toDateString().slice(0, 10)}</p>
+            <p className="text-muted-foreground text-lg">{formatDateInTZ(userTZ?.timeZone).slice(0, 10)}</p>
           </div>
           <TodoFilterBar
             containerHovered={containerHovered}

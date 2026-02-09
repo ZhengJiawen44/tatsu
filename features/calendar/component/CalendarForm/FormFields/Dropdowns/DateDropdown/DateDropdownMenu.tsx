@@ -19,6 +19,7 @@ import { useLocale, useTranslations } from "next-intl";
 import { NonNullableDateRange } from "@/types";
 import { getDisplayDate } from "@/lib/date/displayDate";
 import { isSameDay } from "date-fns";
+import { useUserTimezone } from "@/features/user/query/get-timezone";
 
 import { Clock } from "lucide-react";
 import { format, parse, isValid } from "date-fns";
@@ -34,6 +35,7 @@ const DateDropdownMenu = ({
   setDateRange,
 }: DateDropdownMenuProps) => {
   const locale = useLocale();
+  const userTZ = useUserTimezone();
   const appDict = useTranslations("app");
   const nextWeek = startOfDay(nextMonday(dateRange?.from || new Date()));
   const tomorrow = startOfDay(addDays(dateRange?.from || new Date(), 1));
@@ -48,9 +50,10 @@ const DateDropdownMenu = ({
     if (isSameDay(dateRange.from, dateRange.to)) {
       let displayedTime = `${new Intl.DateTimeFormat(locale, { hour: "numeric" }).format(dateRange.from)}-${new Intl.DateTimeFormat(locale, { hour: "numeric" }).format(dateRange.to)}`;
       if (displayedTime === "12 AM-11 PM") displayedTime = "All day";
-      return `${getDisplayDate(dateRange.from, false, locale)},  ${displayedTime}`;
+      return `${getDisplayDate(dateRange.from, false, locale, userTZ?.timeZone)},  ${displayedTime}`;
     }
-    return `${getDisplayDate(dateRange.from, false, locale)} - ${getDisplayDate(dateRange.to, false, locale)}`;
+    return `${getDisplayDate(dateRange.from, false, locale, userTZ?.timeZone)} - ${getDisplayDate(dateRange.to, false, locale, userTZ?.timeZone)}`;
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [dateRange.from, dateRange.to, locale]);
 
   return (

@@ -6,6 +6,7 @@ import TodoGroup from "@/components/todo/component/TodoGroup";
 import LineSeparator from "@/components/ui/lineSeparator";
 import TodoFilterBar from "./TodoFilterBar";
 import { getDisplayDate } from "@/lib/date/displayDate";
+import { useUserTimezone } from "@/features/user/query/get-timezone";
 import { RRule } from "rrule";
 import { TodoItemType } from "@/types";
 import clsx from "clsx";
@@ -24,6 +25,7 @@ import { useProjectMetaData } from "@/components/Sidebar/Project/query/get-proje
 
 const ProjectContainer = ({ id }: { id: string }) => {
     const locale = useLocale();
+    const userTZ = useUserTimezone()
     const { projectMetaData } = useProjectMetaData();
     const { preferences } = useUserPreferences();
     const { projectTodos, projectTodosLoading } = useProject({ id });
@@ -42,9 +44,9 @@ const ProjectContainer = ({ id }: { id: string }) => {
         return Object.groupBy((unpinnedTodos), (todo) => {
             switch (preferences?.groupBy) {
                 case "dtstart":
-                    return getDisplayDate(todo.dtstart, false, locale);
+                    return getDisplayDate(todo.dtstart, false, locale, userTZ?.timeZone);
                 case "due":
-                    return getDisplayDate(todo.due, false, locale);
+                    return getDisplayDate(todo.due, false, locale, userTZ?.timeZone);
                 case "duration":
                     return String(todo.durationMinutes);
                 case "priority":

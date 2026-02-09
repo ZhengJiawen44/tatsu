@@ -15,6 +15,7 @@ import { useTodoMutation } from "@/providers/TodoMutationProvider";
 import { useProjectMetaData } from "@/components/Sidebar/Project/query/get-project-meta";
 import ProjectTag from "@/components/ProjectTag";
 import TodoItemMenuContainer from "./TodoItem/TodoMenu/TodoItemMenuContainer";
+import { useUserTimezone } from "@/features/user/query/get-timezone";
 
 const TodoFormContainer = dynamic(
   () => import("./TodoForm/TodoFormContainer"),
@@ -32,6 +33,7 @@ export const TodoItemContainer = ({ todoItem, overdue }: TodoItemContainerProps)
   const { useCompleteTodo } = useTodoMutation();
   const { completeMutateFn } = useCompleteTodo();
   const locale = useLocale();
+  const userTimeZone = useUserTimezone();
   //dnd kit setups
   const { attributes, listeners, setNodeRef, transform, transition, isDragging } =
     useSortable({ id: todoItem.id });
@@ -110,7 +112,7 @@ export const TodoItemContainer = ({ todoItem, overdue }: TodoItemContainerProps)
             </pre>
             <div className="flex flex-wrap items-center justify-start gap-2">
               <p className={clsx(overdue ? "text-orange" : "text-lime")}>
-                {getDisplayDate(dtstart, true, locale)}
+                {getDisplayDate(dtstart, true, locale, userTimeZone?.timeZone)}
               </p>
               {todoItem.projectID &&
                 <p className='flex items-center py-[0.2rem] px-2 rounded-full border bg-sidebar gap-1'>

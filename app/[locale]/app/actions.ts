@@ -47,6 +47,16 @@ export async function getProjectMetaData() {
   return projectMap;
 }
 
+export async function getUserTimezone() {
+  const session = await auth();
+  if (!session?.user?.id) return null;
+  const timezone = await prisma.user.findUnique({
+    where: { id: session.user.id },
+    select: { timeZone: true },
+  });
+  return timezone;
+}
+
 export async function getTodayTodos(): Promise<TodoItemType[]> {
   const session = await auth();
   const user = session?.user;

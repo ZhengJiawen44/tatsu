@@ -1,3 +1,5 @@
+import resolveTimezone from "./resolveTimezone";
+
 const formatterCache = new Map<string, Intl.DateTimeFormat>();
 
 function getFormatter(
@@ -54,18 +56,20 @@ export function getDisplayDate(
   date: Date,
   displayTime?: boolean,
   locale: string = "en",
-  timezone: string = "UTC" // ✅ Add timezone parameter
+  timezone?: string,
 ) {
+  timezone = resolveTimezone(timezone);
+
   const translations = relativeTranslations[locale] || relativeTranslations.en;
 
-  // ✅ Get current date in the specified timezone
+  //  Get current date in the specified timezone
   const nowInTimezone = new Date(
-    new Date().toLocaleString("en-US", { timeZone: timezone })
+    new Date().toLocaleString("en-US", { timeZone: timezone }),
   );
 
-  // ✅ Get the input date in the specified timezone
+  //  Get the input date in the specified timezone
   const dateInTimezone = new Date(
-    date.toLocaleString("en-US", { timeZone: timezone })
+    date.toLocaleString("en-US", { timeZone: timezone }),
   );
 
   // Time string formatting with timezone
@@ -75,28 +79,28 @@ export function getDisplayDate(
       hour: "numeric",
       minute: "2-digit",
       hour12: true,
-      timeZone: timezone, // ✅ Use consistent timezone
+      timeZone: timezone, //  Use consistent timezone
     });
     timeString = ` ${timeFormatter.format(date)}`;
   }
 
-  // ✅ Normalize both to midnight in the specified timezone
+  //  Normalize both to midnight in the specified timezone
   const todayMidnight = new Date(
     nowInTimezone.getFullYear(),
     nowInTimezone.getMonth(),
-    nowInTimezone.getDate()
+    nowInTimezone.getDate(),
   );
 
   const currentDateMidnight = new Date(
     dateInTimezone.getFullYear(),
     dateInTimezone.getMonth(),
-    dateInTimezone.getDate()
+    dateInTimezone.getDate(),
   );
 
   // Difference in days
   const diffInDays = Math.floor(
     (todayMidnight.getTime() - currentDateMidnight.getTime()) /
-    (1000 * 60 * 60 * 24)
+      (1000 * 60 * 60 * 24),
   );
 
   // Today
@@ -112,7 +116,7 @@ export function getDisplayDate(
   if (Math.abs(diffInDays) <= 6) {
     const weekdayFormatter = getFormatter(locale, {
       weekday: "long",
-      timeZone: timezone, // ✅ Use consistent timezone
+      timeZone: timezone, //  Use consistent timezone
     });
     const weekday = weekdayFormatter.format(date);
     return `${weekday}${timeString}`;
@@ -123,7 +127,7 @@ export function getDisplayDate(
     const dateFormatter = getFormatter(locale, {
       month: "short",
       day: "numeric",
-      timeZone: timezone, // ✅ Use consistent timezone
+      timeZone: timezone, //  Use consistent timezone
     });
     return `${dateFormatter.format(date)}${timeString}`;
   }
@@ -133,7 +137,7 @@ export function getDisplayDate(
     month: "short",
     day: "numeric",
     year: "numeric",
-    timeZone: timezone, // ✅ Use consistent timezone
+    timeZone: timezone, //  Use consistent timezone
   });
   return `${dateFormatter.format(date)}${timeString}`;
 }
