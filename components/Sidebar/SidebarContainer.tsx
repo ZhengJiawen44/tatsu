@@ -54,7 +54,7 @@ const SidebarContainer = () => {
         id="sidebar_container"
         ref={sidebarRef}
         className={clsx(
-          "flex border-r border-sidebar-border h-full fixed inset-0 xl:relative max-w-full xl:max-w-[500px] shrink-0 bg-sidebar z-20 duration-200",
+          "flex border-r border-sidebar-border h-full fixed inset-0 xl:relative w-full xl:max-w-125 shrink-0 bg-sidebar z-20 duration-200",
           !showMenu
             ? "-translate-x-full min-w-0 overflow-hidden transition-all"
             : "min-w-50 transition-transform overflow-visible",
@@ -76,7 +76,6 @@ const SidebarContainer = () => {
             <VaultItem />
             <LineSeparator className="m-0 mt-8 mb-4" />
             <ProjectSidebarItemContainer />
-
             <Toaster />
           </div>
 

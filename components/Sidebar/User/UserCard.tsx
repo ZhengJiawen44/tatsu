@@ -67,7 +67,7 @@ const UserCard = ({ className }: { className?: string }) => {
                 <div className="w-8 h-8 rounded-sm bg-lime"></div>
               )}
 
-              <div className="flex flex-col gap-[3px]">
+              <div className="flex flex-col gap-0.75">
                 <p className=" truncate font-medium">
                   {user?.name || user?.email?.split("@")[0] || "User"}
                 </p>
