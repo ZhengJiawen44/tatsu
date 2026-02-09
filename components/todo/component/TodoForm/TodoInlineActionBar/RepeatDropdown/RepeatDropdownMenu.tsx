@@ -1,5 +1,4 @@
 import React from "react";
-import CustomRepeatModalMenu from "./repeatModalMenu/CutomRepeatModalMenu";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -14,6 +13,7 @@ import { format } from "date-fns";
 import clsx from "clsx";
 import { Button } from "@/components/ui/button";
 import { useTranslations } from "next-intl";
+import CustomRepeatMenuContainer from "./CustomRepeat/CustomRepeatContainer";
 
 const RepeatDropdownMenu = ({ }) => {
   const appDict = useTranslations("app");
@@ -128,7 +128,8 @@ const RepeatDropdownMenu = ({ }) => {
           />
         </DropdownMenuItem>
         <DropdownMenuItem asChild>
-          <CustomRepeatModalMenu className="flex w-full justify-between hover:bg-accent p-1.5 px-2" />
+          {/* custom repeat */}
+          <CustomRepeatMenuContainer />
         </DropdownMenuItem>
 
         {rruleOptions && (
