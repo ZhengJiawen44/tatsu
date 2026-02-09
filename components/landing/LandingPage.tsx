@@ -138,7 +138,7 @@ const LandingPage = () => {
             </div>
           </div>
 
-          {/* Hero Image with 3D Tilt Hidden on mobile, visible on tablet+ */}
+          {/* Hero Image Hidden on mobile, visible on tablet+ */}
           <div className="flex-2 hidden sm:block w-full mt-8 lg:mt-0">
             <div
               className="w-full flex justify-center"
@@ -147,8 +147,8 @@ const LandingPage = () => {
                 className="w-full  relative"
               >
                 <Image
-                  className=" rounded-lg m-auto mb-6 shadow-2xl w-full h-auto"
-                  src={"/heroImage.png"}
+                  className=" rounded-lg m-auto mb-6 w-full h-auto"
+                  src={"/hero.webp"}
                   width={1899}
                   height={982}
                   quality={100}
@@ -162,8 +162,8 @@ const LandingPage = () => {
           {/* Mobile Hero Image  Visible only on mobile */}
           <div className="sm:hidden w-full mt-6">
             <Image
-              className="border rounded-lg shadow-2xl w-full h-auto"
-              src={"/heroImage.png"}
+              className=" rounded-lg w-full h-auto"
+              src={"/hero.webp"}
               width={1899}
               height={982}
               quality={100}

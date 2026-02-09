@@ -1,19 +1,37 @@
 import { cn } from "@/lib/utils";
 import { useMenu } from "@/providers/MenuProvider";
-import React, { useState } from "react";
+import { SidebarIcon } from "lucide-react";
+import React, { useEffect, useState } from "react";
 const SidebarToggle = ({
   className,
-  children,
+  isSecondary
 }: {
   className?: string;
-  children: React.ReactNode;
+  isSecondary?: boolean
 }) => {
-  const { setShowMenu } = useMenu();
+  const { setShowMenu, showMenu } = useMenu();
   const [showMacro, setShowMacro] = useState(false);
+  const [showButton, setShowButton] = useState(false);
+
+
+  // eslint-disable-next-line react-hooks/rules-of-hooks
+  useEffect(() => {
+    if (showMenu == true && !isSecondary) {
+      setTimeout(() => setShowButton(true), 180);
+    } else if (!showMenu && isSecondary) {
+      setShowButton(true)
+    } else {
+      setShowButton(false)
+    }
+
+  }, [showMenu])
+
+  if (!showButton) return null;
+
   return (
     <button
       className={cn(
-        " overflow-visible relative p-1 rounded-md h-fit ",
+        "overflow-visible p-2.5 rounded-md h-fit cursor-pointer hover:bg-popover-border",
         className,
       )}
       aria-label="Close sidebar"
@@ -38,11 +56,11 @@ const SidebarToggle = ({
     >
       <span className="sr-only">Close sidebar</span>
       {showMacro && (
-        <div className="bg-border absolute border p-0.75 rounded-md left-full top-1/2 ml-1 -translate-y-1/2">
+        <div className="bg-border absolute border p-0.75 rounded-md left-full top-1/2 ml-1 -translate-y-1/2 ">
           ctrl+`
         </div>
       )}
-      {children}
+      <SidebarIcon className="w-6! h-6!" />
     </button>
   );
 };

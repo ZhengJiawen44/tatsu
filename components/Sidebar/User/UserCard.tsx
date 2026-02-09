@@ -2,8 +2,7 @@ import React, { useState } from "react";
 import { useSession } from "next-auth/react";
 import Image from "next/image";
 import UserCardLoading from "./UserCardLoading";
-import SidebarIcon from "@/components/ui/icon/sidebar";
-import Sidebar from "@/components/ui/SidebarToggle";
+import SidebarIcon from "@/components/ui/SidebarToggle";
 import { cn } from "@/lib/utils";
 import { redirect } from "next/navigation";
 import {
@@ -49,11 +48,11 @@ const UserCard = ({ className }: { className?: string }) => {
         <DropdownMenuTrigger asChild>
           <div
             className={cn(
-              "my-3 flex justify-between items-center rounded-lg py-2 px-2 transition-all duration-200 hover:bg-accent",
+              "my-3 flex gap-2 items-center rounded-lg py-2 px-2 transition-all duration-200",
               className,
             )}
           >
-            <div className="overflow-hidden flex gap-3 justify-start items-center select-none">
+            <div className="overflow-hidden w-full flex gap-3 justify-start items-center select-none hover:bg-popover-accent p-1 rounded-md">
               {user?.image ? (
                 <Image
                   src={user?.image}
@@ -76,13 +75,8 @@ const UserCard = ({ className }: { className?: string }) => {
                   {user?.email}
                 </p>
               </div>
-
-
             </div>
-
-            <Sidebar className="text-muted-foreground hover:text-foreground">
-              <SidebarIcon className="w-6 h-6" />
-            </Sidebar>
+            <SidebarIcon className="text-muted-foreground hover:text-foreground relative" />
           </div>
         </DropdownMenuTrigger>
         <DropdownMenuContent className="text-foreground w-(--radix-dropdown-menu-trigger-width)">
