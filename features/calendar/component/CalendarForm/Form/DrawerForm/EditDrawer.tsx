@@ -6,6 +6,7 @@ import { Clock, Flag, Repeat, Check, Hash } from "lucide-react";
 import NestedDrawerItem from "@/components/mobile/NestedDrawerItem";
 import { TodoItemType, NonNullableDateRange } from "@/types";
 import { getDisplayDate } from "@/lib/date/displayDate";
+import { useUserTimezone } from "@/features/user/query/get-timezone";
 import {
     Drawer,
     DrawerContent,
@@ -41,6 +42,7 @@ export default function CreateCalendarDrawer({
     const appDict = useTranslations("app");
     const titleRef = useRef(null);
     const locale = useLocale();
+    const userTZ = useUserTimezone()
     const { projectMetaData } = useProjectMetaData();
 
     const dateRangeChecksum = useMemo(
@@ -173,7 +175,7 @@ export default function CreateCalendarDrawer({
                                 <NestedDrawerItem
                                     title="Date"
                                     icon={<Clock className="w-4 h-4" />}
-                                    label={getDisplayDate(dateRange.from, false, locale)}
+                                    label={getDisplayDate(dateRange.from, false, locale, userTZ?.timeZone)}
                                 >
                                     <div className="space-y-4 w-full max-w-lg m-auto">
                                         <DateDrawerMenu

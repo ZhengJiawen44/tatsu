@@ -3,7 +3,7 @@ import { redirect } from "next/navigation";
 import Provider from "./provider";
 import SidebarContainer from "@/components/Sidebar/SidebarContainer";
 import { dehydrate, HydrationBoundary, QueryClient } from "@tanstack/react-query";
-import { getCompletedTodos, getProjectMetaData, getUserPreferences, getTodayTodos } from "./actions";
+import { getCompletedTodos, getProjectMetaData, getUserPreferences, getTodayTodos, getUserTimezone } from "./actions";
 
 
 export default async function Layout({
@@ -41,6 +41,13 @@ export default async function Layout({
   await queryClient.prefetchQuery({
     queryKey: ["projectMetaData"],
     queryFn: getProjectMetaData
+  });
+
+  //prefetch user timezone
+  await queryClient.prefetchQuery({
+    queryKey: ["userTimezone"],
+    queryFn: getUserTimezone,
+    staleTime: Infinity
   });
 
   return (
