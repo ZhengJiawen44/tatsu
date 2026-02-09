@@ -175,16 +175,16 @@ export default function CreateCalendarDrawer({
                                     icon={<Clock className="w-4 h-4" />}
                                     label={getDisplayDate(dateRange.from, false, locale)}
                                 >
-                                    <div className="p-4 space-y-4 w-full max-w-lg m-auto">
+                                    <div className="space-y-4 w-full max-w-lg m-auto">
                                         <DateDrawerMenu
                                             dateRange={dateRange}
                                             setDateRange={setDateRange}
                                         />
 
-                                        <DrawerClose asChild>
-                                            <Button className="w-full h-fit text-foreground font-normal border bg-inherit hover:bg-lime/90">
+                                        <DrawerClose className="flex! justify-center! items-center! w-full!">
+                                            <div className="w-[92%]! py-1.5 rounded-md h-fit text-foreground font-normal border bg-inherit hover:bg-lime/90">
                                                 {appDict("save")}
-                                            </Button>
+                                            </div>
                                         </DrawerClose>
                                     </div>
                                 </NestedDrawerItem>

@@ -5,7 +5,6 @@ import { Clock, Flag, Repeat, Check, Hash } from "lucide-react";
 import NestedDrawerItem from "@/components/mobile/NestedDrawerItem";
 import { TodoItemType, NonNullableDateRange } from "@/types";
 import { getDisplayDate } from "@/lib/date/displayDate";
-
 import {
     Drawer,
     DrawerContent,
