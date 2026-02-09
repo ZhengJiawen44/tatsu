@@ -5,6 +5,7 @@ import RepeatEndOption from "../../Dropdowns/RepeatDropdown/repeatModalMenu/Repe
 import RepeatEveryOption from "../../Dropdowns/RepeatDropdown/repeatModalMenu/RepeatEveryOption";
 import RepeatOnOption from "../../Dropdowns/RepeatDropdown/repeatModalMenu/RepeatOnOption";
 import { cn } from "@/lib/utils";
+import { Drawer, DrawerContent, DrawerTrigger, DrawerClose } from "@/components/ui/drawer";
 
 type CustomRepeatDrawerProps = {
     rruleOptions: Partial<Options> | null;
@@ -21,62 +22,72 @@ export default function CustomRepeatDrawer({
     const appDict = useTranslations("app");
     const freq = rruleOptions?.freq;
     return (
-        <div className={cn("max-h-[92vh]", className)}>
-            <div className="mx-auto w-full max-w-lg flex flex-col h-full">
-                <div className="flex-1 overflow-y-auto p-6 space-y-8">
-                    {/* Frequency & Interval */}
-                    <section className="space-y-4">
+        <Drawer>
+            <DrawerTrigger className="flex w-full text-sm hover:bg-popover-accent cursor-pointer justify-between p-1.5 px-2">
+                Custom
+            </DrawerTrigger>
+            <DrawerContent>
 
-                        <div className="bg-secondary/10 rounded-md p-4 border">
-                            <RepeatEveryOption
-                                customRepeatOptions={rruleOptions}
-                                setCustomRepeatOptions={setRruleOptions}
-                            />
-                        </div>
-                    </section>
-
-                    {/* Specific Days (byday) */}
-                    {freq == RRule.WEEKLY &&
-                        <>
+                <div className={cn("max-h-[92vh]", className)}>
+                    <div className="mx-auto w-full max-w-lg flex flex-col h-full">
+                        <div className="flex-1 overflow-y-auto p-6 space-y-8">
+                            {/* Frequency & Interval */}
                             <section className="space-y-4">
+
                                 <div className="bg-secondary/10 rounded-md p-4 border">
-                                    <RepeatOnOption
+                                    <RepeatEveryOption
                                         customRepeatOptions={rruleOptions}
                                         setCustomRepeatOptions={setRruleOptions}
                                     />
                                 </div>
                             </section>
 
-                        </>
+                            {/* Specific Days (byday) */}
+                            {freq == RRule.WEEKLY &&
+                                <>
+                                    <section className="space-y-4">
+                                        <div className="bg-secondary/10 rounded-md p-4 border">
+                                            <RepeatOnOption
+                                                customRepeatOptions={rruleOptions}
+                                                setCustomRepeatOptions={setRruleOptions}
+                                            />
+                                        </div>
+                                    </section>
+
+                                </>
 
 
-                    }
+                            }
 
-                    {/* End Condition (until/count) */}
-                    <section className="space-y-4">
+                            {/* End Condition (until/count) */}
+                            <section className="space-y-4">
 
-                        <div className="bg-secondary/10 rounded-md p-4 border">
-                            <RepeatEndOption
-                                customRepeatOptions={rruleOptions}
-                                setCustomRepeatOptions={setRruleOptions}
-                            />
+                                <div className="bg-secondary/10 rounded-md p-4 border">
+                                    <RepeatEndOption
+                                        customRepeatOptions={rruleOptions}
+                                        setCustomRepeatOptions={setRruleOptions}
+                                    />
+                                </div>
+                            </section>
                         </div>
-                    </section>
+
+                        <div className="p-6 pt-2  bg-background  w-full max-w-lg " >
+                            <DrawerClose asChild>
+                                <Button
+                                    className=" w-full rounded-md bg-inherit border text-foreground "
+                                    onClick={() => setRruleOptions(rruleOptions)}
+                                    data-close-on-click
+                                >
+                                    {appDict("save")}
+                                </Button>
+                            </DrawerClose>
+
+
+                        </div>
+                    </div>
                 </div>
-
-                <div className="p-6 pt-2  bg-background  w-full max-w-lg " >
-
-                    <Button
-                        className="h-fit w-full rounded-md bg-inherit border text-foreground "
-                        onClick={() => setRruleOptions(rruleOptions)}
-                        data-close-on-click
-                    >
-                        {appDict("save")}
-                    </Button>
-
-                </div>
-            </div>
-        </div>
+            </DrawerContent>
+        </Drawer>
 
     );
 };
