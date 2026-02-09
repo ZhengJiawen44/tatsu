@@ -122,7 +122,7 @@ const TodayTodoContainer = () => {
 
               <TodoGroup
                 todos={todo}
-                className="flex flex-col bg-background gap-1"
+                className="flex flex-col bg-transparent gap-1"
               />
 
             </div>

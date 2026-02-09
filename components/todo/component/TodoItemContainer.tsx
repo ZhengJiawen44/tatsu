@@ -65,6 +65,7 @@ export const TodoItemContainer = ({ todoItem, overdue }: TodoItemContainerProps)
   return (
     <>
       <div
+        onTouchMove={(e) => { e.stopPropagation(); e.preventDefault() }}
         ref={setNodeRef}
         style={style}
         {...attributes}
@@ -73,9 +74,9 @@ export const TodoItemContainer = ({ todoItem, overdue }: TodoItemContainerProps)
         onMouseOver={() => setShowHandle(true)}
         onMouseOut={() => setShowHandle(false)}
         className={clsx(
-          "max-w-full min-h-11 relative flex justify-between items-center bg-inherit pt-4 rounded-md cursor-grab active:cursor-grabbing",
+          "max-w-full min-h-11 relative border border-black/0 bg-inherit flex justify-between items-center  pt-4 rounded-md cursor-grab active:cursor-grabbing",
           isDragging
-            ? "touch-manipulation shadow-[0px_10px_30px_rgba(6,8,30,0.3)] z-30 brightness-110 opacity-80"
+            ? "backdrop-blur-sm border border-white/20 shadow-2xl touch-manipulation  z-30 brightness-110 opacity-80"
             : "shadow-none",
         )}
       >
