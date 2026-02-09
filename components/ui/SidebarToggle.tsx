@@ -14,17 +14,17 @@ const SidebarToggle = ({
   const [showButton, setShowButton] = useState(false);
 
 
-  // eslint-disable-next-line react-hooks/rules-of-hooks
+  //delay icon to avoid misclicks on mobile
   useEffect(() => {
     if (showMenu == true && !isSecondary) {
-      setTimeout(() => setShowButton(true), 180);
+      setTimeout(() => setShowButton(true), 250);
     } else if (!showMenu && isSecondary) {
       setShowButton(true)
     } else {
       setShowButton(false)
     }
 
-  }, [showMenu])
+  }, [isSecondary, showMenu])
 
   if (!showButton) return null;
 
