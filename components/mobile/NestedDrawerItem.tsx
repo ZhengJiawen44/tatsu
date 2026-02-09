@@ -42,7 +42,7 @@ export default function NestedDrawerItem({
                     </div>
                 </button>
             </DrawerTrigger>
-            <DrawerContent className="max-h-[80vh]" onClick={handleContentClick}>
+            <DrawerContent className="max-h-[80vh] pb-8" onClick={handleContentClick}>
                 <DrawerHeader>
                     <DrawerTitle className="hidden">{title}</DrawerTitle>
                 </DrawerHeader>

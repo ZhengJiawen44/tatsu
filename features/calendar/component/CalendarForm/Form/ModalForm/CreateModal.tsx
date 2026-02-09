@@ -17,6 +17,7 @@ import {
 import { Button } from "@/components/ui/button";
 import ProjectDropdownMenu from "@/components/todo/component/TodoForm/ProjectDropdownMenu";
 import NLPTitleInput from "@/components/todo/component/TodoForm/NLPTitleInput";
+import deriveRepeatType from "@/lib/deriveRepeatType";
 type CreateCalendarFormProps = {
   start: Date;
   end: Date;
@@ -42,6 +43,8 @@ const CreateCalendarForm = ({
   });
   const [rruleOptions, setRruleOptions] = useState<Partial<Options> | null>(null);
   const [projectID, setProjectID] = useState<string | null>(null);
+  const derivedRepeatType = deriveRepeatType({ rruleOptions });
+
   const titleRef = useRef(null);
 
   const { createCalendarTodo, createTodoStatus } = useCreateCalendarTodo();
@@ -130,7 +133,7 @@ const CreateCalendarForm = ({
                   <RepeatDropdownMenu
                     rruleOptions={rruleOptions}
                     setRruleOptions={setRruleOptions}
-                    derivedRepeatType={null}
+                    derivedRepeatType={derivedRepeatType}
                   />
                 </div>
               </div>
@@ -163,7 +166,7 @@ const CreateCalendarForm = ({
               <div className="flex items-start gap-3">
                 <AlignLeft className="w-4 h-4 text-muted-foreground mt-1" />
                 <textarea
-                  className="flex-1 min-w-0 bg-popover border rounded-md px-3 py-2 text-sm resize-none focus:outline-hidden focus:ring-2 focus:ring-lime"
+                  className="flex-1 min-w-0 bg-sidebar border rounded-md px-3 py-2 text-sm resize-none focus:outline-hidden focus:ring-1 focus:ring-lime/80"
                   rows={3}
                   placeholder={appDict("descPlaceholder")}
                   value={description}

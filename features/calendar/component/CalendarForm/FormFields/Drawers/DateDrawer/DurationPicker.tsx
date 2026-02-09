@@ -117,7 +117,7 @@ export default function DurationPicker({
             {/* SUMMARY FOOTER */}
             <div className="mt-4 pt-6 flex items-center justify-between">
                 <DrawerClose asChild>
-                    <Button className="bg-lime text-white px-8 h-12 rounded-md font-bold shadow-lg shadow-lime/20 w-full">
+                    <Button className=" px-8 h-fit py-1.5! text-base rounded-md bg-transparent hover:text-foreground border  w-full">
                         {appDict("save")}
                     </Button>
                 </DrawerClose>

@@ -9,6 +9,7 @@ import { Flag } from "lucide-react";
 import { TodoItemType } from "@/types";
 import { ChevronDown } from "lucide-react";
 import { useTranslations } from "next-intl";
+import clsx from "clsx";
 
 type PriorityDropdownMenuProps = {
   priority: TodoItemType["priority"];
@@ -18,29 +19,31 @@ type PriorityDropdownMenuProps = {
 };
 
 const PriorityDropdownMenu = ({
+  priority,
   setPriority,
 }: PriorityDropdownMenuProps) => {
   const appDict = useTranslations("app");
 
   return (
     <DropdownMenu modal={true}>
-      <DropdownMenuTrigger className="bg-popover border p-2 text-sm flex justify-center items-center gap-2 hover:bg-popover-border rounded-md hover:text-foreground">
+      <DropdownMenuTrigger className="cursor-pointer bg-popover border p-2 text-sm flex justify-center items-center gap-2 hover:bg-popover-border rounded-md hover:text-foreground">
+        <Flag className={clsx("w-4 h-4", priority == "Low" ? "fill-lime text-lime" : priority == "Medium" ? "fill-orange text-orange" : "fill-red text-red")} />
         <p className="hidden sm:block">{appDict("priority")}</p>
         <ChevronDown className="w-4 h-4 text-muted-foreground" />
       </DropdownMenuTrigger>
-      <DropdownMenuContent className="min-w-[150px] text-foreground">
+      <DropdownMenuContent className="min-w-[150px] text-foreground space-y-1">
         <DropdownMenuItem
           className="hover:text-foreground hover:bg-popover-accent"
           onClick={() => setPriority("Low")}
         >
-          <Flag className="w-5 h-5 text-lime" />
+          <Flag className={clsx("w-4 h-4 text-lime", priority == "Low" && "fill-lime")} />
           {appDict("normal")}
         </DropdownMenuItem>
         <DropdownMenuItem
           className="hover:text-foreground hover:bg-popover-accent"
           onClick={() => setPriority("Medium")}
         >
-          <Flag className="w-5 h-5 text-orange" />
+          <Flag className={clsx("w-4 h-4 text-orange", priority == "Medium" && "fill-orange")} />
 
           {appDict("important")}
         </DropdownMenuItem>
@@ -48,7 +51,7 @@ const PriorityDropdownMenu = ({
           className="hover:text-foreground hover:bg-popover-accent"
           onClick={() => setPriority("High")}
         >
-          <Flag className="w-5 h-5 text-red" />
+          <Flag className={clsx("w-4 h-4 text-red", priority == "High" && "fill-red")} />
 
           {appDict("urgent")}
         </DropdownMenuItem>

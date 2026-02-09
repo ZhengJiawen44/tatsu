@@ -23,6 +23,7 @@ import ProjectDrawer from "../../FormFields/Drawers/ProjectDrawer/ProjectDrawer"
 import { useProjectMetaData } from "@/components/Sidebar/Project/query/get-project-meta";
 import ProjectTag from "@/components/ProjectTag";
 import NLPTitleInput from "@/components/todo/component/TodoForm/NLPTitleInput";
+import deriveRepeatType from "@/lib/deriveRepeatType";
 
 // --- Types ---
 type CreateCalendarFormProps = {
@@ -54,31 +55,14 @@ export default function CreateCalendarDrawer({
     });
     const [rruleOptions, setRruleOptions] = useState<Partial<Options> | null>(null);
     const [projectID, setProjectID] = useState<string | null>(null);
+    const derivedRepeatType = deriveRepeatType({ rruleOptions });
+
     const [cancelEditDialogOpen, setCancelEditDialogOpen] = useState(false);
     const { createCalendarTodo, createTodoStatus } = useCreateCalendarTodo();
 
     const hasUnsavedChanges = useMemo(() => {
         return title !== "" || description !== "" || priority !== "Low";
     }, [title, description, priority]);
-
-    const derivedRepeatType = useMemo(() => {
-        if (!rruleOptions) return null;
-        const f = rruleOptions.freq;
-        if (f === RRule.DAILY) return "Daily";
-        if (f === RRule.WEEKLY) {
-            if (rruleOptions.byweekday && Array.isArray(rruleOptions.byweekday)) {
-                const weekdays = [RRule.MO, RRule.TU, RRule.WE, RRule.TH, RRule.FR];
-                const containsAllWeekdays = weekdays.every((d) =>
-                    (rruleOptions.byweekday as unknown[]).some((bw) => bw === d)
-                );
-                if (containsAllWeekdays) return "Weekday";
-            }
-            return "Weekly";
-        }
-        if (f === RRule.MONTHLY) return "Monthly";
-        if (f === RRule.YEARLY) return "Yearly";
-        return null;
-    }, [rruleOptions]);
 
     useEffect(() => {
         if (createTodoStatus === "success") setDisplayForm(false);
@@ -148,16 +132,16 @@ export default function CreateCalendarDrawer({
                                     icon={<Clock className="w-4 h-4" />}
                                     label={getDisplayDate(dateRange.from, false, locale)}
                                 >
-                                    <div className="p-4 space-y-4 w-full max-w-lg m-auto">
+                                    <div className="space-y-4 w-full max-w-lg m-auto">
                                         <DateDrawerMenu
                                             dateRange={dateRange}
                                             setDateRange={setDateRange}
                                         />
 
-                                        <DrawerClose asChild>
-                                            <Button className="w-full h-fit text-foreground font-normal border bg-inherit hover:bg-lime/90">
+                                        <DrawerClose className="flex justify-center! items-center w-full" >
+                                            <div className="rounded-md w-[92%] h-fit py-1.5! text-foreground font-normal border bg-inherit hover:bg-lime/90">
                                                 {appDict("save")}
-                                            </Button>
+                                            </div>
                                         </DrawerClose>
                                     </div>
                                 </NestedDrawerItem>
@@ -182,11 +166,6 @@ export default function CreateCalendarDrawer({
                                                 )}
                                             </button>
                                         ))}
-                                        <DrawerClose asChild>
-                                            <Button variant="outline" className="w-full mt-4 hover:bg-lime/80 font-normal">
-                                                {appDict("save")}
-                                            </Button>
-                                        </DrawerClose>
                                     </div>
                                 </NestedDrawerItem>
 
@@ -196,13 +175,11 @@ export default function CreateCalendarDrawer({
                                     label={(rruleOptions && derivedRepeatType) || "No Repeat"}
                                     title={appDict("repeat")}
                                 >
-                                    <div className="p-4 space-y-2">
-                                        <RepeatDrawerMenu
-                                            rruleOptions={rruleOptions}
-                                            setRruleOptions={setRruleOptions}
-                                            derivedRepeatType={derivedRepeatType}
-                                        />
-                                    </div>
+                                    <RepeatDrawerMenu
+                                        rruleOptions={rruleOptions}
+                                        setRruleOptions={setRruleOptions}
+                                        derivedRepeatType={derivedRepeatType}
+                                    />
                                 </NestedDrawerItem>
 
                                 {/* project */}
@@ -228,7 +205,7 @@ export default function CreateCalendarDrawer({
 
                             {/* Description */}
                             <textarea
-                                className="w-full bg-secondary/40 rounded-md p-3 text-lg resize-none border max-h-[85dvh]outline-none "
+                                className="w-full bg-secondary/40 rounded-md p-3 text-lg resize-none border max-h-[85dvh]outline-none focus:outline-hidden focus:ring-0"
                                 rows={4}
                                 value={description}
                                 onChange={(e) => setDescription(e.target.value)}

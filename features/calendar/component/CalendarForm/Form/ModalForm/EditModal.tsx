@@ -19,6 +19,7 @@ import {
 import { Button } from "@/components/ui/button";
 import ProjectDropdownMenu from "@/components/todo/component/TodoForm/ProjectDropdownMenu";
 import NLPTitleInput from "@/components/todo/component/TodoForm/NLPTitleInput";
+import deriveRepeatType from "@/lib/deriveRepeatType";
 
 type CalendarFormProps = {
   todo: TodoItemType;
@@ -54,6 +55,7 @@ const CalendarForm = ({
     todo?.rrule ? RRule.parseString(todo.rrule) : null,
   );
   const [projectID, setProjectID] = useState<string | null>(todo.projectID);
+  const derivedRepeatType = deriveRepeatType({ rruleOptions });
 
   const hasUnsavedChanges = useMemo(() => {
     const rruleString = rruleOptions
@@ -138,7 +140,7 @@ const CalendarForm = ({
               }}
             >
               {/* Title */}
-              <div className="flex min-w-0 items-start gap-4">
+              <div className="flex min-w-0 items-center gap-4">
                 <NLPTitleInput
                   setProjectID={setProjectID}
                   titleRef={titleRef}
@@ -150,7 +152,7 @@ const CalendarForm = ({
               </div>
 
               {/* Date */}
-              <div className="flex items-start gap-4">
+              <div className="flex items-center gap-4">
                 <Clock className="w-4 h-4 text-muted-foreground mt-1" />
                 <div className="flex-1">
                   <DateDropdownMenu
@@ -162,19 +164,19 @@ const CalendarForm = ({
 
               <div className="flex gap-7 sm:flex-col sm:gap-4">
                 {/* Repeat */}
-                <div className="flex items-start gap-4">
+                <div className="flex items-center gap-4 ">
                   <Repeat className="w-4 h-4 text-muted-foreground mt-1" />
                   <div className="flex-1">
                     <RepeatDropdownMenu
                       rruleOptions={rruleOptions}
                       setRruleOptions={setRruleOptions}
-                      derivedRepeatType={null}
+                      derivedRepeatType={derivedRepeatType}
                     />
                   </div>
                 </div>
 
                 {/* Project */}
-                <div className="flex items-center gap-3">
+                <div className="flex items-center gap-4">
                   <Hash className="w-4 h-4 text-muted-foreground mt-1" />
                   <div className="flex-1">
                     <ProjectDropdownMenu
@@ -186,8 +188,9 @@ const CalendarForm = ({
                   </div>
                 </div>
 
+
                 {/* Priority */}
-                <div className="flex items-start gap-4">
+                <div className="flex items-center gap-4">
                   <Flag className="w-4 h-4 text-muted-foreground mt-1" />
                   <div className="flex-1">
                     <PriorityDropdownMenu
@@ -199,10 +202,10 @@ const CalendarForm = ({
               </div>
 
               {/* Description */}
-              <div className="flex items-start gap-4">
+              <div className="flex items-center gap-4">
                 <AlignLeft className="w-4 h-4 text-muted-foreground mt-1" />
                 <textarea
-                  className="flex-1 min-w-0 bg-popover border rounded-md px-3 py-2 text-sm resize-none focus:outline-hidden focus:ring-2 focus:ring-lime"
+                  className="flex-1 min-w-0 bg-sidebar border rounded-md px-3 py-2 text-sm resize-none focus:outline-hidden focus:ring-1 focus:ring-lime/80"
                   rows={3}
                   placeholder={appDict("descPlaceholder")}
                   value={description}

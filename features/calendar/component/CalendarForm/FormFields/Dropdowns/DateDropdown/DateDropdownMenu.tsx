@@ -3,8 +3,7 @@ import { Calendar } from "@/components/ui/calendar";
 import React, { useMemo } from "react";
 import { nextMonday, differenceInDays } from "date-fns";
 import LineSeparator from "@/components/ui/lineSeparator";
-import { Sun } from "lucide-react";
-import { Sunrise } from "lucide-react";
+import { IterationCcw, Sun } from "lucide-react";
 import { Calendar as CalendarIcon } from "lucide-react";
 import {
   DropdownMenu,
@@ -57,13 +56,13 @@ const DateDropdownMenu = ({
   return (
     <DropdownMenu open={isOpen} onOpenChange={setIsOpen} modal={true}>
       <DropdownMenuTrigger asChild>
-        <button className="flex justify-start items-center gap-1 p-2 w-full h-full hover:bg-popover-accent rounded-md outline-hidden">
+        <button className="cursor-pointer flex justify-start items-center gap-2 p-2 w-full h-full hover:bg-popover rounded-md outline-hidden">
           <span className="text-sm font-medium">{displayedDateRange}</span>
         </button>
       </DropdownMenuTrigger>
 
       <DropdownMenuContent
-        className="z-50 flex flex-col gap-1 p-1 w-62.5 font-extralight"
+        className="z-50 flex flex-col gap-2 p-1 w-62.5 font-extralight"
         align="start"
       >
         {/* --- OPTION: TODAY --- */}
@@ -88,8 +87,8 @@ const DateDropdownMenu = ({
             setIsOpen(false);
           }}
         >
-          <div className="flex gap-1 items-center">
-            <Sun className="w-5! h-5! stroke-[1.8px]" />
+          <div className="flex gap-2 items-center">
+            <Sun strokeWidth={1.7} className="w-4! h-4!" />
             {appDict("today")}
           </div>
           <p className="text-xs text-muted-foreground">
@@ -114,8 +113,8 @@ const DateDropdownMenu = ({
             setIsOpen(false);
           }}
         >
-          <div className="flex gap-1 items-center">
-            <Sunrise className="w-5! h-5!" />
+          <div className="flex gap-2 items-center">
+            <IterationCcw strokeWidth={1.7} className="w-4! h-4!" />
             {appDict("tomorrow")}
           </div>
           <p className="text-xs text-muted-foreground">
@@ -142,8 +141,8 @@ const DateDropdownMenu = ({
             setIsOpen(false);
           }}
         >
-          <div className="flex gap-1 items-center">
-            <CalendarIcon strokeWidth={1.4} className="w-5! h-5!" />
+          <div className="flex gap-2 items-center">
+            <CalendarIcon strokeWidth={1.7} className="w-4! h-4!" />
             {appDict("nextWeek")}
           </div>
           <p className="text-xs text-muted-foreground">
@@ -154,8 +153,8 @@ const DateDropdownMenu = ({
         {/* --- DURATION (sub-menu) --- */}
         <DropdownMenuSub>
           <DropdownMenuSubTrigger className="flex w-full cursor-pointer items-center justify-between rounded-sm px-2 py-1.5 text-sm outline-hidden hover:bg-accent hover:text-accent-foreground transition-colors group">
-            <div className="flex gap-1 items-center">
-              <Clock className="w-5! h-5! stroke-[1.8px]" />
+            <div className="flex gap-2 items-center">
+              <Clock strokeWidth={1.7} className="w-4! h-4!" />
               {appDict("duration")}
             </div>
           </DropdownMenuSubTrigger>
@@ -168,7 +167,7 @@ const DateDropdownMenu = ({
           </DropdownMenuPortal>
         </DropdownMenuSub>
 
-        <LineSeparator className="border-border w-full my-1 mb-4" />
+        <LineSeparator className="border-popover-border w-full my-1 mb-4" />
 
         {/* --- CALENDAR --- */}
         <div className="flex justify-center p-0">

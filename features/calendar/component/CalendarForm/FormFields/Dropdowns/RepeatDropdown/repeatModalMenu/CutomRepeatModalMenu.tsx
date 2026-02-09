@@ -12,11 +12,10 @@ import { Button } from "@/components/ui/button";
 import RepeatEveryOption from "./RepeatEveryOption";
 import RepeatOnOption from "./RepeatOnOption";
 import RepeatEndOption from "./RepeatEndOption";
-import { CheckIcon } from "lucide-react";
-import clsx from "clsx";
 import { useState } from "react";
 import { Options, RRule } from "rrule";
 import { useTranslations } from "next-intl";
+import { Indicator } from "@/components/todo/component/TodoForm/TodoInlineActionBar/RepeatDropdown/RepeatDropdownMenu";
 
 type CustomRepeatModalMenuProps = {
   rruleOptions: Partial<Options> | null;
@@ -51,13 +50,11 @@ const CustomRepeatModalMenu = ({
   return (
     <Dialog>
       <DialogTrigger className={className}>
-        <CheckIcon
-          className={clsx(
-            "opacity-0",
-            derivedRepeatType == "Custom" && "opacity-100",
-          )}
-        />
         {appDict("custom")}
+        <Indicator
+          name={"Custom"}
+          derivedRepeatType={derivedRepeatType}
+        />
       </DialogTrigger>
       <DialogContent>
         <DialogHeader>

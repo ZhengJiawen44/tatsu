@@ -29,49 +29,47 @@ export default function ProjectDrawer({
 
     return (
         <div className={cn("max-h-[92vh]", className)}>
-            <div className="mx-auto w-full max-w-lg flex flex-col h-full">
-                <div className="flex-1 overflow-y-auto p-6 space-y-8">
-                    {/* Frequency & Interval */}
-                    <Input
-                        placeholder="Type to search..."
-                        value={search}
-                        onChange={(e) => setSearch(e.target.value)}
-                        className="text-[1.1rem]! md:text-base! lg:text-sm! w-full mb-1 bg-inherit brightness-75  outline-0 rounded-sm ring-0 ring-black focus-visible:ring-0 focus-visible:ring-offset-0"
-                        onKeyDown={(e) => e.stopPropagation()}
-                        autoFocus
-                    />
+            <div className="mx-auto w-full max-w-lg flex flex-col h-full gap-4">
+                {/* Frequency & Interval */}
+                <Input
+                    placeholder="Type to search..."
+                    value={search}
+                    onChange={(e) => setSearch(e.target.value)}
+                    className="text-base! w-full mb-4 bg-inherit border-popover-border focus:brightness-100 brightness-75 outline-0 rounded-sm ring-0 ring-black focus-visible:ring-0 focus-visible:ring-offset-0"
+                    onKeyDown={(e) => e.stopPropagation()}
+                    autoFocus
+                />
 
-                    {filteredProjects.length === 0 && (
-                        <p className='text-xs text-muted-foreground py-10 text-center w-full'>
-                            No projects...
-                        </p>
-                    )}
-                    {filteredProjects.map(([key, value]) => (
+                {filteredProjects.length === 0 && (
+                    <p className='text-xs text-muted-foreground py-10 text-center w-full'>
+                        No projects...
+                    </p>
+                )}
+                {filteredProjects.map(([key, value]) => (
+                    <div
+                        data-close-on-click
+                        key={key}
+                        className='cursor-pointer p-1.5 rounded-sm hover:bg-accent/50'
+                        onClick={() => {
+                            setProjectID(key);
+                        }}
+                    >
+                        <ProjectTag id={key} className='text-sm pr-0' /> {value.name}
+                    </div>
+                ))}
+                {projectID != null &&
+                    <>
                         <div
                             data-close-on-click
-                            key={key}
-                            className='cursor-pointer p-1.5 rounded-sm hover:bg-accent/50'
+                            className='flex justify-center items-center border cursor-pointer p-1.5 rounded-sm hover:bg-red/40 hover:text-foreground! text-red'
                             onClick={() => {
-                                setProjectID(key);
+                                setProjectID(null);
                             }}
                         >
-                            <ProjectTag id={key} className='text-sm pr-0' /> {value.name}
+                            Clear
                         </div>
-                    ))}
-                    {projectID != null &&
-                        <>
-                            <div
-                                data-close-on-click
-                                className='flex justify-center items-center border cursor-pointer p-1.5 rounded-sm hover:bg-red/40 hover:text-foreground! text-red'
-                                onClick={() => {
-                                    setProjectID(null);
-                                }}
-                            >
-                                Clear
-                            </div>
-                        </>
-                    }
-                </div>
+                    </>
+                }
             </div>
         </div>
 

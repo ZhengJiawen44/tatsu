@@ -1,6 +1,6 @@
 import { Input } from '@/components/ui/input';
 import { Popover, PopoverTrigger, PopoverContent } from '@/components/ui/popover';
-import { ChevronDown } from 'lucide-react';
+import { ChevronDown, Trash } from 'lucide-react';
 import React, { useState, useMemo, SetStateAction } from 'react';
 import { Button } from '@/components/ui/button';
 import { useProjectMetaData } from '@/components/Sidebar/Project/query/get-project-meta';
@@ -48,7 +48,7 @@ export default function ProjectDropdownMenu({ projectID, setProjectID, className
                 </Button>
             </PopoverTrigger>
 
-            <PopoverContent className="p-1 text-sm">
+            <PopoverContent className="p-1 space-y-1 text-sm">
                 <Input
                     placeholder="Type to search..."
                     value={search}
@@ -58,14 +58,14 @@ export default function ProjectDropdownMenu({ projectID, setProjectID, className
                     autoFocus
                 />
                 {filteredProjects.length === 0 && (
-                    <p className='text-xs text-muted-foreground py-10 text-center w-full'>
+                    <p className='text-sm text-muted-foreground py-10 text-center w-full'>
                         No projects...
                     </p>
                 )}
                 {filteredProjects.map(([key, value]) => (
                     <div
                         key={key}
-                        className='cursor-pointer p-1.5 rounded-sm hover:bg-popover-accent'
+                        className='text-sm cursor-pointer p-1.5 rounded-sm hover:bg-popover-accent'
                         onClick={() => {
                             setProjectID(key);
                             setOpen(false);
@@ -79,13 +79,14 @@ export default function ProjectDropdownMenu({ projectID, setProjectID, className
                     <>
                         <DropdownMenuSeparator />
                         <div
-                            className='cursor-pointer p-1.5 rounded-sm hover:bg-red/40'
+                            className='flex gap-2 cursor-pointer p-1.5 rounded-sm hover:bg-red/80 hover:text-white'
                             onClick={() => {
                                 setProjectID(null);
                                 setOpen(false);
                             }}
                         >
-                            remove
+                            <Trash strokeWidth={1.7} className='w-4 h-4' />
+                            Remove
                         </div>
                     </>
                 }
