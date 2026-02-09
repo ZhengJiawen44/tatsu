@@ -5,7 +5,7 @@ import { TodoItemType } from '@/types';
 import ModalPlaceholder from '../LoadingPlaceholders/ModalPlaceholder';
 import DrawerPlaceholder from '../LoadingPlaceholders/DrawerPlaceholder';
 const MobileDrawer = dynamic(() => import("./Form/DrawerForm/EditDrawer"), { ssr: false, loading: () => <DrawerPlaceholder /> });
-const DesktopModal = dynamic(() => import("./Form/ModalForm/EditModal"), { ssr: false, loading: () => <ModalPlaceholder /> },);
+const DesktopModal = dynamic(() => import("./Form/ModalForm/EditModal"), { ssr: false, loading: () => <ModalPlaceholder /> });
 
 type EditCalendarFormContainerProps = {
     todo: TodoItemType

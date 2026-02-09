@@ -4,7 +4,6 @@ import { Calendar, dateFnsLocalizer, View } from "react-big-calendar";
 import "react-big-calendar/lib/css/react-big-calendar.css";
 import "../style/calendar-styles.css";
 import "react-big-calendar/lib/addons/dragAndDrop/styles.css";
-import dynamic from "next/dynamic";
 import useWindowSize from "@/hooks/useWindowSize";
 import withDragAndDrop from "react-big-calendar/lib/addons/dragAndDrop";
 import {
@@ -32,8 +31,7 @@ import { useCallback, useEffect, useState } from "react";
 import Spinner from "@/components/ui/spinner";
 import { subMilliseconds } from "date-fns";
 import { useProjectMetaData } from "@/components/Sidebar/Project/query/get-project-meta";
-import ModalPlaceholder from "./LoadingPlaceholders/ModalPlaceholder";
-const CreateCalendarFormContainer = dynamic(() => import("./CalendarForm/CreateFormContainer"), { loading: () => <ModalPlaceholder /> })
+import CreateCalendarFormContainer from "./CalendarForm/CreateFormContainer";
 
 const locales = { "en-US": enUS };
 const localizer = dateFnsLocalizer({
