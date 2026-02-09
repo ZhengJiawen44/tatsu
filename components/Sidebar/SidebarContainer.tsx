@@ -54,7 +54,7 @@ const SidebarContainer = () => {
         id="sidebar_container"
         ref={sidebarRef}
         className={clsx(
-          "flex border-r border-sidebar-border h-full fixed inset-0 xl:relative w-full xl:max-w-125 shrink-0 bg-sidebar z-20 duration-200",
+          "flex h-full fixed inset-0 xl:relative w-full xl:max-w-125 shrink-0 bg-sidebar z-20 duration-200",
           !showMenu
             ? "-translate-x-full min-w-0 overflow-hidden transition-all"
             : "min-w-50 transition-transform overflow-visible",
@@ -68,7 +68,7 @@ const SidebarContainer = () => {
           <div className="px-4 mt-2">
             <UserCard />
           </div>
-          <div className="flex flex-col gap-2 overflow-y-scroll   h-full  my-2 px-4 text-muted-foreground">
+          <div className="flex flex-col gap-1 overflow-y-scroll   h-full  my-2 px-4 text-muted-foreground">
             <TodoItem />
             <CompletedItem />
             <CalendarItem />

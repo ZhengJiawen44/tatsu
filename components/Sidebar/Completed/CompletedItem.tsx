@@ -22,9 +22,9 @@ const CompletedItem = () => {
       asChild
       variant={"ghost"}
       className={clsx(
-        "flex items-center border border-transparent font-normal",
+        "flex items-center border border-transparent font-normal px-2!",
         activeMenu.name === "Completed" &&
-        "bg-sidebar-primary shadow-md border-border!",
+        "bg-sidebar-primary",
       )}
     >
       <Link
@@ -36,9 +36,8 @@ const CompletedItem = () => {
         }}
       >
         <CheckCircleIcon
-          strokeWidth={2.5}
           className={clsx(
-            "w-5 h-5 stroke-muted-foreground",
+            "w-4.5 h-4.5 stroke-muted-foreground",
             activeMenu.name === "Completed" && "stroke-form-foreground-accent",
           )}
         />

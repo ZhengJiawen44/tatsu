@@ -60,9 +60,9 @@ const ProjectSidebarItem = ({ meta }: { meta: Pick<ProjectItemType, "id" | "colo
 
   return (
     <>
-      <div className="relative ">
+      <div className="relative text-foreground">
         {isRenaming ? (
-          <div className="flex justify-between items-center rounded-lg pl-7 py-1 px-2 mt-2">
+          <div className="flex justify-between items-center rounded-lg pl-4 py-1 px-2 mt-2">
             <ProjectTag id={meta.id} />
             <input
               ref={inputRef}
@@ -79,7 +79,7 @@ const ProjectSidebarItem = ({ meta }: { meta: Pick<ProjectItemType, "id" | "colo
           <Link
             href={`/app/project/${meta.id}`}
             className={clsx(
-              "select-none flex gap-2 justify-between mt-2 pl-7 py-1 px-2 rounded-lg hover:bg-popover hover:cursor-pointer pr-2",
+              "select-none flex gap-2 justify-between mt-2 pl-4 py-1 px-2 rounded-lg hover:bg-popover hover:cursor-pointer pr-2",
               activeMenu.children?.name === meta.id && "bg-popover",
             )}
             onClick={() => {

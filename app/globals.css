@@ -189,8 +189,8 @@
     --calendar-red: 4 90% 58%;
     --radius: 0.5rem;
 
-    --background: 235 5% 95%;
-    --foreground: 0 0% 5%;
+    --background: 0 0% 100%;
+    --foreground: 0 0% 0%;
     /* --lime: 83, 62%, 55%; */
     --lime: 83, 200%, 20%;
 
@@ -225,9 +225,9 @@
     --chart-3: 70 65% 77%;
     --chart-4: 304 80% 63%;
     --chart-5: 16 80% 65%; */
-    --sidebar: 0 0% 98%;
-    --sidebar-foreground: 235 28% 19%;
-    --sidebar-primary: 235 28% 94%;
+    --sidebar: 31 40% 98%;
+    --sidebar-foreground: 235 28% 9%;
+    --sidebar-primary: 31 10% 88%;
     --sidebar-primary-foreground: 235 32% 16%;
     --sidebar-border: 235 12% 88%;
     /* --sidebar-accent: 0 0% 96%;

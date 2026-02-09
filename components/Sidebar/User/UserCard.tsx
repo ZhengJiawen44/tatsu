@@ -9,8 +9,6 @@ import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { useTranslations } from "next-intl";
@@ -32,12 +30,12 @@ const UserCard = ({ className }: { className?: string }) => {
 
   return (
     <>
-      {showLogoutModal && (
-        <ConfirmLogoutModal
-          logoutDialogOpen={showLogoutModal}
-          setLogoutDialogOpen={setShowLogoutModal}
-        />
-      )}
+
+      <ConfirmLogoutModal
+        logoutModalOpen={showLogoutModal}
+        setLogoutModalOpen={setShowLogoutModal}
+      />
+
       {showShortcutModal && (
         <KeyboardShortcuts
           open={showShortcutModal}
@@ -80,16 +78,12 @@ const UserCard = ({ className }: { className?: string }) => {
           </div>
         </DropdownMenuTrigger>
         <DropdownMenuContent className="text-foreground w-(--radix-dropdown-menu-trigger-width)">
-          <DropdownMenuLabel>
-            {data?.user?.email || data?.user?.name || "user settings"}
-          </DropdownMenuLabel>
-          <DropdownMenuSeparator />
           <DropdownMenuItem
             onClick={() => {
               setShowLogoutModal(true);
             }}
           >
-            <LogOut className="w-6 h-6" />
+            <LogOut className="w-4! h-4!" />
             {sidebarDict("settingMenu.logout")}
           </DropdownMenuItem>
           <DropdownMenuItem
@@ -102,7 +96,7 @@ const UserCard = ({ className }: { className?: string }) => {
               }
             }}
           >
-            {theme == "light" ? <Sun /> : <Moon />}
+            {theme == "light" ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
             {sidebarDict("settingMenu.theme")}
           </DropdownMenuItem>
           <DropdownMenuItem
@@ -111,7 +105,7 @@ const UserCard = ({ className }: { className?: string }) => {
               setShowShortcutModal(true);
             }}
           >
-            <ArrowUpLeft />
+            <ArrowUpLeft className="w-4 h-4" />
             {sidebarDict("settingMenu.shortcuts")}
           </DropdownMenuItem>
         </DropdownMenuContent>

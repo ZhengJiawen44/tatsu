@@ -6,7 +6,7 @@ import {
 import clsx from "clsx";
 import React, { useState } from "react";
 import { useMenu } from "@/providers/MenuProvider";
-import PlusCircle from "@/components/ui/icon/plusCircle";
+import { PlusCircle } from "lucide-react";
 import { useCreateNote } from "@/features/notes/query/create-note";
 import Spinner from "@/components/ui/spinner";
 import { FileText } from "lucide-react";
@@ -44,14 +44,14 @@ const NoteCollapsible = () => {
         <Button
           variant={"ghost"}
           className={clsx(
-            "flex gap-3 items-center border border-transparent w-full font-normal",
+            "flex gap-3 items-center border border-transparent w-full font-normal px-2!",
             activeMenu.name === "Note" &&
-            "bg-sidebar-primary shadow-md text-form-foreground-accent border-border!",
+            "bg-sidebar-primary",
           )}
         >
           <FileText
             className={clsx(
-              "w-5 h-5 stroke-muted-foreground",
+              "w-4.5 h-4.5 stroke-muted-foreground",
               activeMenu.name === "Note" && "stroke-form-foreground-accent",
             )}
           />
@@ -60,17 +60,18 @@ const NoteCollapsible = () => {
             <Spinner className="mr-0 ml-auto w-5 h-5" />
           ) : (
             showPlus && (
-              <div
-                className="mr-0 ml-auto"
+              <div className="ml-auto hover:scale-120! transition-transform duration-150 ease-linear hover:stroke-foreground! w-fit h-fit bg-inherit! cursor-pointer! text-muted-foreground hover:text-foreground "
+
                 onClick={(e: React.MouseEvent<HTMLDivElement>) => {
                   e.stopPropagation();
                   createNote({ name: "new note" });
                   setActiveMenu({ name: "Note", open: true });
                 }}
               >
-                <PlusCircle className="w-5 h-5 stroke-muted-foreground hover:stroke-foreground" />
+                <PlusCircle className="w-5 h-5" />
               </div>
             )
+
           )}
         </Button>
       </CollapsibleTrigger>
