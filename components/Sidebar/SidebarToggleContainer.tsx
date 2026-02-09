@@ -1,7 +1,6 @@
 "use client"
 import React, { useEffect, useRef, useState } from 'react'
 import { useMenu } from "@/providers/MenuProvider";
-import SidebarIcon from "@/components/ui/icon/sidebar";
 import SidebarToggle from "@/components/ui/SidebarToggle";
 import { Toaster } from "@/components/ui/toaster";
 import { useRouter } from 'next/navigation';
@@ -76,9 +75,7 @@ export default function SidebarToggleContainer() {
   return (<>
     {mounted && !showMenu && <Toaster />}
     {!showMenu && (
-      <SidebarToggle className="mb-4 sm:fixed left-0 p-0 sm:left-2 md:left-3 sm:top-[35px] text-muted-foreground hover:text-foreground">
-        <SidebarIcon className="w-6 h-6 " />
-      </SidebarToggle>
+      <SidebarToggle isSecondary={true} className="mb-4 sm:fixed left-0 p-0 sm:left-2 md:left-3 sm:top-[35px] text-muted-foreground hover:text-foreground" />
     )}
   </>
   )
