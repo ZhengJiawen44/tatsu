@@ -38,7 +38,7 @@ const SidebarToggle = ({
         ctrl+`
       </div>
 
-      <SidebarIcon className="w-6! h-6!" />
+      <SidebarIcon className="w-5! h-5s!" />
     </button>
   );
 };

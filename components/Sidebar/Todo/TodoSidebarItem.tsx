@@ -20,9 +20,9 @@ const TodoItem = () => {
       asChild
       variant={"ghost"}
       className={clsx(
-        "flex items-center border border-transparent font-normal",
+        "flex items-center border border-transparent font-normal! px-2!",
         activeMenu.name === "Todo" &&
-        "bg-sidebar-primary shadow-md border-border!",
+        "bg-sidebar-primary",
       )}
     >
       <Link
@@ -34,9 +34,8 @@ const TodoItem = () => {
         }}
       >
         <Sun
-          strokeWidth={2.4}
           className={clsx(
-            "w-5 h-5 stroke-muted-foreground",
+            "w-4.5 h-4.5 stroke-muted-foreground",
             activeMenu.name === "Todo" && "stroke-form-foreground-accent",
           )}
         />

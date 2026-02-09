@@ -16,9 +16,9 @@ const VaultItem = () => {
       asChild
       variant={"ghost"}
       className={clsx(
-        "flex items-center border border-transparent font-normal",
+        "flex items-center border border-transparent font-normal px-2!",
         activeMenu.name === "Vault" &&
-        "bg-sidebar-primary shadow-md text-form-foreground-accent border-border!",
+        "bg-sidebar-primary",
       )}
     >
       <Link
@@ -31,7 +31,7 @@ const VaultItem = () => {
         <div className="flex gap-3 justify-start items-center w-full  select-none">
           <LockIcon
             className={clsx(
-              "w-5 h-5 stroke-muted-foreground",
+              "w-4.5 h-4.5 stroke-muted-foreground",
               activeMenu.name === "Vault" && "stroke-form-foreground-accent",
             )}
           />

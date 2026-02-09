@@ -16,9 +16,9 @@ const CalendarItem = () => {
       asChild
       variant={"ghost"}
       className={clsx(
-        "flex items-center border border-transparent font-normal",
+        "flex items-center justify-center border border-transparent font-normal px-2!",
         activeMenu.name === "Calendar" &&
-        "bg-sidebar-primary shadow-md text-form-foreground-accent border-border!",
+        "bg-sidebar-primary",
       )}
     >
       <Link
@@ -28,10 +28,10 @@ const CalendarItem = () => {
           if (width <= 1266) setShowMenu(false);
         }}
       >
-        <div className="flex gap-3 justify-start items-center w-full  select-none">
+        <div className="flex gap-3 items-center w-full  select-none">
           <Calendar1Icon
             className={clsx(
-              "w-5 h-5 stroke-muted-foreground",
+              "w-4.5 h-4.5 stroke-muted-foreground",
               activeMenu.name === "Calendar" && "stroke-form-foreground-accent",
             )}
           />
