@@ -75,7 +75,7 @@ export default function SidebarToggleContainer() {
   return (<>
     {mounted && !showMenu && <Toaster />}
 
-    <SidebarToggle className="mb-4 sm:fixed left-0 p-0 sm:left-2 md:left-3 sm:top-[35px] text-muted-foreground hover:text-foreground" />
+    <SidebarToggle className="mb-4 sm:fixed left-0 p-0 sm:left-2 md:left-3 sm:top-8.75 text-muted-foreground hover:text-foreground" />
 
   </>
   )
