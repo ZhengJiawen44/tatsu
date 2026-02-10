@@ -9,7 +9,8 @@ import { useRenameNote } from "@/features/notes/query/rename-note";
 import { useMenu } from "@/providers/MenuProvider";
 import { NoteItemType } from "@/types";
 import clsx from "clsx";
-import Link from "next/link";
+import { Link } from "@/i18n/navigation";
+
 import React, { useEffect, useRef, useState } from "react";
 import Spinner from "@/components/ui/spinner";
 import Meatball from "@/components/ui/icon/meatball";

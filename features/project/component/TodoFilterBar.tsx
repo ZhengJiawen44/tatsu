@@ -1,5 +1,5 @@
 import React from 'react'
-import { ListFilter } from "lucide-react";
+import { ArrowUpWideNarrowIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import clsx from "clsx";
 import {
@@ -18,48 +18,50 @@ import {
     DropdownMenuItem
 } from "@/components/ui/dropdown-menu";
 import { X } from 'lucide-react';
-import { SortBy, GroupBy, Direction } from '@prisma/client';
+import { SortBy, GroupBy } from '@prisma/client';
 import { useUserPreferences } from '@/providers/UserPreferencesProvider';
+import { useTranslations } from 'next-intl';
 
 type TodoFilterBarProps = {
     containerHovered: boolean
 }
-
-
 export default function TodoFilterBar({ containerHovered }: TodoFilterBarProps) {
+    const filterDict = useTranslations("filterMenu");
+    const appDict = useTranslations("app");
+
     const { updatePreferences, preferences } = useUserPreferences();
     return (
-        <div className="flex justify-between ">
-            <div className="flex flex-wrap gap-2 items-center">
+        <div className='flex w-full justify-between'>
+            <div className="flex gap-2 items-center flex-wrap">
                 {preferences?.groupBy &&
-                    <div className="bg-sidebar border py-1.5 px-3  rounded-md flex items-center gap-2">
-                        <span>{`Grouped by: ${preferences.groupBy}`}</span>
+                    <div className="bg-sidebar border py-1.5 px-3  rounded-md flex items-center gap-2 shrink-0">
+                        <span>{`${filterDict("groupedBy")}: ${preferences.groupBy}`}</span>
                         <span className="hover:text-lime cursor-pointer w-4 text-center"
                             onClick={() => updatePreferences({ groupBy: undefined })}>
                             <X className='w-4 h-4' />
                         </span>
                     </div>}
                 {preferences?.sortBy &&
-                    <div className="bg-sidebar border py-1.5 px-3  rounded-md flex items-center gap-2">
-                        <span>{`Sorted by: ${preferences.sortBy}`}</span>
+                    <div className="bg-sidebar border py-1.5 px-3  rounded-md flex items-center gap-2 shrink-0">
+                        <span>{`${filterDict("sortedBy")}: ${preferences.sortBy}`}</span>
                         <span className="hover:text-lime cursor-pointer w-4 text-center"
                             onClick={() => updatePreferences({ sortBy: undefined })}>
                             <X className='w-4 h-4' />
                         </span>
                     </div>}
-                {preferences?.sortBy && <div className="bg-sidebar border py-1.5 px-3  rounded-md">{preferences.direction}</div>}
+                {preferences?.sortBy && <div className="bg-sidebar border py-1.5 px-3  rounded-md">{filterDict(preferences.direction?.toLowerCase() || "ascending")}</div>}
             </div>
             <DropdownMenu>
                 <DropdownMenuTrigger asChild>
-                    <Button variant={"ghost"} className={clsx("w-8 h-8 opacity-0", (containerHovered || preferences?.sortBy || preferences?.groupBy) && "opacity-100")}>
-                        <ListFilter className="w-5 h-5" />
+                    <Button variant={"ghost"} className={clsx("w-8 h-8 opacity-0 border", (containerHovered || preferences?.sortBy || preferences?.groupBy) && "opacity-100")}>
+                        <ArrowUpWideNarrowIcon className="w-4 h-4" />
                     </Button>
                 </DropdownMenuTrigger>
                 <DropdownMenuContent className="min-w-[200px]">
                     <DropdownMenuGroup>
                         <DropdownMenuSub>
-                            <DropdownMenuLabel className="font-semibold">Sorting</DropdownMenuLabel>
-                            <DropdownMenuSubTrigger>Sort</DropdownMenuSubTrigger>
+                            <DropdownMenuLabel className="font-semibold">{filterDict("sorting")}</DropdownMenuLabel>
+                            <DropdownMenuSubTrigger>{filterDict("sort")}</DropdownMenuSubTrigger>
                             <DropdownMenuPortal>
                                 <DropdownMenuSubContent>
                                     <DropdownMenuRadioGroup
@@ -70,16 +72,16 @@ export default function TodoFilterBar({ containerHovered }: TodoFilterBarProps) 
                                         }}
                                     >
                                         <DropdownMenuRadioItem value="dtstart" className="hover:bg-popover-accent">
-                                            Start date
+                                            {filterDict("start Date")}
                                         </DropdownMenuRadioItem>
                                         <DropdownMenuRadioItem value="due">
-                                            Deadline
+                                            {filterDict("deadline")}
                                         </DropdownMenuRadioItem>
                                         <DropdownMenuRadioItem value="duration">
-                                            Duration
+                                            {filterDict("duration")}
                                         </DropdownMenuRadioItem>
                                         <DropdownMenuRadioItem value="priority">
-                                            Priority
+                                            {appDict("priority")}
                                         </DropdownMenuRadioItem>
                                     </DropdownMenuRadioGroup>
                                 </DropdownMenuSubContent>
@@ -87,20 +89,21 @@ export default function TodoFilterBar({ containerHovered }: TodoFilterBarProps) 
                         </DropdownMenuSub>
                         <DropdownMenuGroup>
                             <DropdownMenuSub>
-                                <DropdownMenuSubTrigger>Direction</DropdownMenuSubTrigger>
+                                <DropdownMenuSubTrigger>{filterDict("direction")}</DropdownMenuSubTrigger>
                                 <DropdownMenuPortal>
                                     <DropdownMenuSubContent>
                                         <DropdownMenuRadioGroup
                                             value={preferences?.direction || undefined}
                                             onValueChange={(value) => {
-                                                updatePreferences({ direction: value as Direction });
+                                                if (value == "Ascending" || value == "Descending")
+                                                    updatePreferences({ direction: value });
                                             }}
                                         >
                                             <DropdownMenuRadioItem value="Descending">
-                                                Descending
+                                                {filterDict("descending")}
                                             </DropdownMenuRadioItem>
                                             <DropdownMenuRadioItem value="Ascending">
-                                                Ascending
+                                                {filterDict("ascending")}
                                             </DropdownMenuRadioItem>
 
                                         </DropdownMenuRadioGroup>
@@ -109,11 +112,11 @@ export default function TodoFilterBar({ containerHovered }: TodoFilterBarProps) 
                             </DropdownMenuSub>
                         </DropdownMenuGroup>
                     </DropdownMenuGroup>
-                    <DropdownMenuSeparator />
+                    <DropdownMenuSeparator className='my-3' />
                     <DropdownMenuGroup>
                         <DropdownMenuSub>
-                            <DropdownMenuLabel className="font-semibold">Grouping</DropdownMenuLabel>
-                            <DropdownMenuSubTrigger>Group</DropdownMenuSubTrigger>
+                            <DropdownMenuLabel className="font-semibold">{filterDict("grouping")}</DropdownMenuLabel>
+                            <DropdownMenuSubTrigger>{filterDict("group")}</DropdownMenuSubTrigger>
                             <DropdownMenuPortal>
                                 <DropdownMenuSubContent>
                                     <DropdownMenuRadioGroup
@@ -123,31 +126,34 @@ export default function TodoFilterBar({ containerHovered }: TodoFilterBarProps) 
                                         }}
                                     >
                                         <DropdownMenuRadioItem value="dtstart" className="hover:bg-popover-accent">
-                                            Start date
+                                            {filterDict("start Date")}
                                         </DropdownMenuRadioItem>
                                         <DropdownMenuRadioItem value="due">
-                                            Deadline
+                                            {filterDict("deadline")}
                                         </DropdownMenuRadioItem>
                                         <DropdownMenuRadioItem value="duration">
-                                            Duration
+                                            {filterDict("duration")}
                                         </DropdownMenuRadioItem>
                                         <DropdownMenuRadioItem value="priority">
-                                            Priority
+                                            {appDict("priority")}
                                         </DropdownMenuRadioItem>
                                         <DropdownMenuRadioItem value="rrule">
-                                            Recurrence
+                                            {filterDict("recurrence")}
+                                        </DropdownMenuRadioItem>
+                                        <DropdownMenuRadioItem value="project" className="hover:bg-popover-accent">
+                                            {appDict("project")}
                                         </DropdownMenuRadioItem>
                                     </DropdownMenuRadioGroup>
                                 </DropdownMenuSubContent>
                             </DropdownMenuPortal>
                         </DropdownMenuSub>
                     </DropdownMenuGroup>
-                    <DropdownMenuSeparator className='my-2' />
+                    <DropdownMenuSeparator className='my-3' />
                     <DropdownMenuItem
                         className="text-center justify-center text-red hover:bg-red/65"
                         onClick={() => {
                             updatePreferences({ groupBy: undefined, sortBy: undefined, direction: undefined })
-                        }}>Clear all
+                        }}>{appDict("clear")}
                     </DropdownMenuItem>
                 </DropdownMenuContent>
 

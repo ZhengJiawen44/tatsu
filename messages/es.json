@@ -7,174 +7,172 @@
     },
     "hero": {
       "title": "Sanity",
-      "subtitle": "Una navaja suiza de planificación personal con editor estilo Notion y cifrado seguro.",
-      "readDocs": "Leer documentación",
-      "start": "Comenzar"
+      "subtitle": "Una navaja suiza para la planificación personal — con un editor estilo Notion, subida de archivos cifrados ultra-secretos, y un montón de extras geniales.",
+      "readDocs": "Leer la documentación",
+      "start": "Empezar"
     },
-    "localizationTitle": "soporte completo de localización para 11 idiomas",
+    "localizationTitle": "soporte de localización completo para 11 idiomas",
     "features": [
       {
         "tag": "01 / TAREAS INTELIGENTES",
         "title": "Procesamiento de lenguaje natural",
-        "description": "Escribe tus tareas naturalmente y el sistema extraerá fechas y horas.",
+        "description": "Simplemente escribe tus tareas con naturalidad. Nuestro motor inteligente de NLP extrae automáticamente fechas, horas y duraciones de lo que escribas.",
         "bullets": [
-          "Detección instantánea",
-          "Cálculo automático",
-          "Recordatorios inteligentes",
-          "Análisis de contexto"
+          "Detección instantánea de fecha y hora",
+          "Cálculo automático de duración",
+          "Programación inteligente de recordatorios",
+          "Análisis consciente del contexto"
         ]
       },
       {
         "tag": "02 / VISUALIZACIÓN",
-        "title": "Vista de calendario",
-        "description": "Mira todas tus tareas de un vistazo.",
+        "title": "Hermosa vista de calendario",
+        "description": "Mira todas tus tareas de un vistazo. El calendario integrado ofrece una visión clara de tu horario con indicadores visuales intuitivos.",
         "bullets": [
-          "Vista mensual, semanal y diaria",
-          "Categorías por color",
-          "Arrastrar y soltar",
+          "Vistas mensual, semanal y diaria",
+          "Categorías de tareas con código de colores",
+          "Reorganización mediante arrastrar y soltar",
           "Detección de conflictos"
         ]
       },
       {
-        "tag": "03 / NOTAS",
+        "tag": "03 / NOTAS RICAS",
         "title": "Editor estilo Notion",
-        "description": "Captura tus ideas con un editor potente.",
+        "description": "Captura tus pensamientos con un editor potente y sin distracciones. Formatea texto, inserta multimedia y organiza tus ideas sin esfuerzo.",
         "bullets": [
-          "Soporte Markdown",
-          "Texto enriquecido",
-          "Bloques de código",
-          "Listas anidadas"
+          "Soporte para Markdown",
+          "Formateo de texto enriquecido",
+          "Resaltado de sintaxis en bloques de código",
+          "Listas con viñetas anidadas"
         ]
       },
       {
         "tag": "04 / SEGURIDAD",
-        "title": "Cifrado de extremo a extremo",
-        "description": "Tus archivos están protegidos con cifrado avanzado.",
+        "title": "Almacenamiento cifrado de punto a punto",
+        "description": "Tus archivos están protegidos con cifrado de grado militar. Guarda documentos, imágenes y adjuntos con total tranquilidad.",
         "bullets": [
-          "AES-256",
-          "Arquitectura Zero-Knowledge",
-          "Compartir seguro",
-          "Copias automáticas"
+          "Cifrado AES-256",
+          "Arquitectura de conocimiento cero",
+          "Intercambio seguro de archivos",
+          "Copias de seguridad automáticas"
         ]
       }
     ],
     "securityDemo": {
-      "title": "Clave",
-      "subtitle": "Necesitamos tu clave para descifrar archivos",
+      "title": "Llave de paso (Passkey)",
+      "subtitle": "Necesitamos tu passkey para descifrar tus archivos",
       "enter": "Entrar"
     },
     "errors": {
-      "fallback": "Algo salió mal, pero enviamos un reporte."
+      "fallback": "Algo salió mal, pero no te preocupes, enviamos un informe de error."
     },
     "footer": {
       "privacyPolicy": "Política de privacidad",
       "termsOfService": "Términos de servicio",
-      "heroSubtitle": "The intelligent task management platform built for the not so sane."
+      "heroSubtitle": "La plataforma inteligente de gestión de tareas creada para los que no están tan cuerdos."
     }
   },
-
   "terms": {
-    "title": "Términos de Servicio",
+    "title": "Términos de servicio",
     "lastUpdated": "Última actualización: 19 de enero de 2026",
-    "intro": "Al usar Sanity en https://tatsu-gg.vercel.app/ (el “Servicio”), usted acepta estos Términos de Servicio.",
+    "intro": "Al usar Sanity en https://tatsu-gg.vercel.app/ (el “Servicio”), aceptas estos Términos de servicio.",
     "sections": {
       "1": {
         "title": "Uso del Servicio",
-        "content": "Sanity es una aplicación de productividad gratuita para gestionar tareas, notas y archivos. Usted acepta usar el Servicio de manera legal y no abusar ni interrumpir su funcionamiento."
+        "content": "Sanity es una aplicación gratuita de productividad para gestionar tareas, notas y archivos. Aceptas usar el Servicio de manera legal y no abusar de él ni interrumpirlo."
       },
       "2": {
         "title": "Cuentas",
-        "content": "Usted es responsable de mantener segura su cuenta y toda actividad realizada bajo ella. La información debe ser precisa."
+        "content": "Eres responsable de mantener la seguridad de tu cuenta y de toda la actividad bajo la misma. La información debe ser precisa."
       },
       "3": {
-        "title": "Su Contenido",
-        "content": "Usted conserva la propiedad de su contenido. Al usar Sanity, concede permiso para almacenarlo y procesarlo únicamente para operar el Servicio."
+        "title": "Tu Contenido",
+        "content": "Tú conservas la propiedad de tu contenido. Al usar Sanity, otorgas permiso para almacenarlo y procesarlo solo para operar el Servicio."
       },
       "4": {
         "title": "Uso Aceptable",
         "content": [
-          "No publicar contenido ilegal, dañino o malicioso",
-          "No acceder a los datos de otros usuarios",
-          "No abusar de la infraestructura",
-          "No uso ilegal del Servicio"
+          "Sin contenido ilegal, dañino o malicioso",
+          "Prohibido acceder a datos de otros usuarios",
+          "Prohibido abusar de la infraestructura",
+          "Prohibido el uso ilegal del Servicio"
         ]
       },
       "5": {
         "title": "Disponibilidad",
-        "content": "Sanity es un proyecto personal proporcionado con la mejor intención. El Servicio puede cambiar, desconectarse o descontinuarse en cualquier momento."
+        "content": "Sanity es un proyecto personal proporcionado bajo el mejor esfuerzo posible. El Servicio puede cambiar, dejar de estar en línea o ser descontinuado en cualquier momento."
       },
       "6": {
         "title": "Terminación",
-        "content": "Puede dejar de usar Sanity en cualquier momento. Podemos suspender el acceso si se violan estos Términos."
+        "content": "Puedes dejar de usar Sanity en cualquier momento. Podemos suspender el acceso si se violan estos Términos."
       },
       "7": {
-        "title": "Renuncia de Responsabilidad",
-        "content": "Sanity se proporciona “tal cual”. No somos responsables de la pérdida de datos, interrupciones o daños resultantes del uso del Servicio."
+        "title": "Descargo de responsabilidad",
+        "content": "Sanity se proporciona “tal cual”. No somos responsables por pérdida de datos, interrupciones o daños resultantes del uso del Servicio."
       },
       "8": {
         "title": "Cambios",
-        "content": "Podemos actualizar estos Términos. El uso continuado significa que acepta los cambios."
+        "content": "Podemos actualizar estos Términos. El uso continuado significa que aceptas los cambios."
       },
       "9": {
         "title": "Contacto",
-        "content": "¿Preguntas? Envíe un correo a zhengjiawen44@gmail.com"
+        "content": "¿Preguntas? Envía un correo a zhengjiawen44@gmail.com"
       }
     }
   },
   "privacy": {
-    "title": "Política de Privacidad",
+    "title": "Política de privacidad",
     "lastUpdated": "Última actualización: 19 de enero de 2026",
-    "intro": "Sanity (“nosotros”, “nuestro” o “nos”) es una aplicación de productividad personal disponible en https://tatsu-gg.vercel.app/. Esta Política de Privacidad explica qué datos recopilamos y cómo los usamos.",
+    "intro": "Sanity (“nosotros”, “nuestro” o “nos”) es una aplicación de productividad personal disponible en https://tatsu-gg.vercel.app/. Esta Política de privacidad explica qué datos recopilamos y cómo los usamos.",
     "sections": {
       "1": {
-        "title": "Información que Recopilamos",
+        "title": "Información que recopilamos",
         "content": [
-          "Datos de la cuenta: dirección de correo electrónico y zona horaria",
-          "Contenido del usuario: tareas, notas y archivos encriptados",
-          "Datos técnicos: dirección IP, información del navegador y sesión",
-          "Cookies y almacenamiento local para autenticación"
+          "Datos de la cuenta: correo electrónico y zona horaria",
+          "Contenido del usuario: tareas, notas y archivos cifrados",
+          "Datos técnicos: dirección IP, información del navegador y de la sesión",
+          "Cookies y almacenamiento local para la autenticación"
         ]
       },
       "2": {
-        "title": "Cómo Usamos Sus Datos",
+        "title": "Cómo usamos tus datos",
         "content": [
           "Proporcionar y operar Sanity",
-          "Autenticar a los usuarios",
-          "Almacenar y sincronizar su contenido",
-          "Mantener la seguridad y prevenir abusos"
+          "Autenticar usuarios",
+          "Almacenar y sincronizar tu contenido",
+          "Mantener la seguridad y prevenir el abuso"
         ]
       },
       "3": {
-        "title": "Almacenamiento y Seguridad de Datos",
-        "content": "Sanity utiliza NextAuth para autenticación, NeonDB para almacenamiento y Vercel para hosting. Los archivos están encriptados donde corresponde. Aunque ningún sistema es totalmente seguro, se toman medidas razonables para proteger sus datos."
+        "title": "Almacenamiento y seguridad de datos",
+        "content": "Sanity utiliza NextAuth para la autenticación, NeonDB para el almacenamiento y Vercel para el alojamiento. Los archivos se cifran cuando corresponde. Aunque ningún sistema es perfectamente seguro, se toman medidas razonables para proteger tus datos."
       },
       "4": {
-        "title": "Compartir Datos",
-        "content": "Solo compartimos datos con proveedores de servicios necesarios para operar Sanity. No vendemos sus datos personales."
+        "title": "Intercambio de datos",
+        "content": "Solo compartimos datos con los proveedores de servicios necesarios para operar Sanity. No vendemos tus datos personales."
       },
       "5": {
         "title": "Cookies",
-        "content": "Las cookies y el almacenamiento local se usan para sesiones de inicio, preferencias y seguridad. Desactivar cookies puede afectar la funcionalidad."
+        "content": "Las cookies y el almacenamiento local se utilizan para sesiones de inicio de sesión, preferencias y seguridad. Deshabilitar las cookies puede afectar la funcionalidad."
       },
       "6": {
-        "title": "Retención de Datos",
-        "content": "Mantenemos sus datos mientras su cuenta esté activa. Puede eliminar su cuenta en cualquier momento y su contenido se eliminará en un período razonable."
+        "title": "Retención de datos",
+        "content": "Conservamos tus datos mientras tu cuenta esté activa. Puedes eliminar tu cuenta en cualquier momento y tu contenido será eliminado en un periodo razonable."
       },
       "7": {
-        "title": "Sus Derechos",
-        "content": "Puede acceder, corregir, eliminar o exportar sus datos usando las funciones de la aplicación."
+        "title": "Tus Derechos",
+        "content": "Puedes acceder, corregir, eliminar o exportar tus datos utilizando las funciones de la aplicación."
       },
       "8": {
         "title": "Cambios",
-        "content": "Podemos actualizar esta política ocasionalmente. Las actualizaciones aparecerán en esta página."
+        "content": "Podemos actualizar esta política de vez en cuando. Las actualizaciones aparecerán en esta página."
       },
       "9": {
         "title": "Contacto",
-        "content": "¿Preguntas? Envíe un correo a zhengjiawen44@gmail.com"
+        "content": "¿Preguntas? Envía un correo a zhengjiawen44@gmail.com"
       }
     }
   },
-
   "login": {
     "title": "Iniciar sesión",
     "oauth": {
@@ -185,73 +183,74 @@
     "fields": {
       "email": {
         "placeholder": "Correo electrónico*",
-        "error": "Por favor ingrese un correo válido"
+        "error": "Por favor, introduce un correo válido"
       },
       "password": {
-        "placeholder": "Ingrese su contraseña*",
-        "error": "Por favor ingrese una contraseña válida"
+        "placeholder": "Introduce tu contraseña*",
+        "error": "Por favor, introduce una contraseña válida"
       }
     },
     "showPassword": "Mostrar contraseña",
     "hidePassword": "Ocultar contraseña",
-    "registerPrompt": "¿No tienes cuenta?",
+    "registerPrompt": "¿No tienes una cuenta?",
     "registerLink": "Registrarse",
     "buttons": {
       "login": "Iniciar sesión"
     },
     "toasts": {
-      "googleError": "No se pudo iniciar sesión con Google en este momento",
-      "discordError": "No se pudo iniciar sesión con Discord en este momento",
-      "invalidCredentials": "Correo o contraseña incorrectos",
-      "genericError": "No podemos iniciar sesión en este momento"
+      "googleError": "No pudimos iniciar tu sesión en Google en este momento",
+      "discordError": "No pudimos iniciar tu sesión en Discord en este momento",
+      "invalidCredentials": "Correo electrónico o contraseña inválidos",
+      "genericError": "No podemos iniciar tu sesión en este momento"
     }
   },
-
   "register": {
     "title": "Crear una cuenta",
     "loginPrompt": "¿Ya tienes una cuenta?",
     "loginLink": "Iniciar sesión",
     "oauth": {
-      "orRegisterWith": "o registrarse con",
+      "orRegisterWith": "o regístrate con",
       "google": "Google",
       "discord": "Discord"
     },
     "fields": {
       "fname": {
         "placeholder": "Nombre*",
-        "error": "Por favor ingresa tu nombre"
+        "error": "Por favor, introduce tu nombre"
       },
       "lname": {
         "placeholder": "Apellido",
-        "error": "Por favor ingresa un apellido válido"
+        "error": "Por favor, introduce un apellido válido"
       },
       "email": {
         "placeholder": "Correo electrónico*",
-        "error": "Por favor ingresa un correo válido"
+        "error": "Por favor, introduce un correo válido"
       },
       "password": {
-        "placeholder": "Ingresa tu contraseña*",
-        "error": "Por favor ingresa una contraseña válida"
+        "placeholder": "Introduce tu contraseña*",
+        "error": "Por favor, introduce una contraseña válida"
       }
     },
     "buttons": {
       "register": "Crear cuenta"
     },
     "toasts": {
-      "googleError": "No se pudo iniciar sesión con Google en este momento",
-      "discordError": "No se pudo iniciar sesión con Discord en este momento",
-      "genericError": "No se pudo registrar la cuenta en este momento"
+      "googleError": "No pudimos iniciar tu sesión en Google en este momento",
+      "discordError": "No pudimos iniciar tu sesión en Discord en este momento",
+      "genericError": "No podemos registrarte en este momento"
     }
   },
   "app": {
     "agenda": "agenda",
     "cancel": "Cancelar",
+    "clear": "Limpiar",
     "save": "Guardar",
     "today": "Hoy",
-    "tomorrow": "Mañana",
     "yesterday": "Ayer",
-    "nextWeek": "La próxima semana",
+    "tomorrow": "Mañana",
+    "nextWeek": "Próxima semana",
     "day": "Día",
+    "date": "Fecha",
     "week": "Semana",
     "month": "Mes",
     "year": "Año",
@@ -259,43 +258,44 @@
     "durationMenu": {
       "title": "Establecer duración",
       "subTitle": "Se aplica solo a la fecha actual",
-      "error": "Rango de fechas no válido: La hora de finalización debe ser posterior a la hora de inicio."
+      "error": "Rango de fechas inválido: la hora de fin debe ser posterior a la de inicio."
     },
     "priority": "Prioridad",
+    "project": "Proyecto",
+    "overdue": "Vencido",
     "normal": "Normal",
     "important": "Importante",
     "urgent": "Urgente",
     "repeat": "Repetir",
-    "everyDay": "Cada día",
-    "everyWeek": "Cada semana",
-    "everyMonth": "Cada mes",
-    "everyYear": "Cada año",
+    "everyDay": "Diariamente",
+    "everyWeek": "Semanalmente",
+    "everyMonth": "Mensualmente",
+    "everyYear": "Anualmente",
     "weekdaysOnly": "Solo días laborables",
     "custom": "Personalizado",
     "customMenu": {
       "title": "Repetición personalizada",
-      "subtitle": "Configurar un horario de repetición personalizado",
+      "subTitle": "Configura un horario de repetición personalizado",
       "every": "Cada",
-      "ends": "Termina",
-      "on": "el",
+      "on": "en",
+      "ends": "Finaliza",
       "never": "Nunca",
-      "onDate": "En fecha (incluido)"
+      "onDate": "En fecha (inclusive)"
     },
     "descPlaceholder": "descripción"
   },
-
   "today": {
-    "nextRepeatText": "Esta tarea está programada próximamente para",
-    "addATask": "Agregar tarea",
-    "titlePlaceholder": "Regar la planta a las 17:00",
+    "saveInstance": "Guardar instancia",
+    "nextRepeatText": "Esta tarea está programada a continuación para el",
+    "addATask": "Añadir una tarea",
+    "titlePlaceholder": "regar las plantas a las 5pm",
     "menu": {
       "pinToTop": "Fijar arriba",
-      "unpin": "Desfijar",
       "edit": "Editar",
       "editAsInstance": "Editar como instancia",
-      "delete": "Eliminar"
-    },
-    "saveInstance": "Guardar instancia"
+      "delete": "Eliminar",
+      "Move to": "Mover a..."
+    }
   },
   "sidebar": {
     "completed": "Completado",
@@ -314,7 +314,7 @@
     }
   },
   "completed": {
-    "title": "Historial de completados"
+    "title": "Historial de tareas completadas"
   },
   "modal": {
     "confirm": "Confirmar",
@@ -325,20 +325,20 @@
       "button": "Eliminar"
     },
     "deleteAll": {
-      "title": "¿Eliminar todas las repeticiones de la tarea?",
-      "subtitle": "Esta es una tarea recurrente, ¿eliminar todas las demás repeticiones?",
-      "deleteInstance": "Eliminar solo esta ocurrencia",
-      "deleteAll": "Eliminar todas las repeticiones"
+      "title": "¿Eliminar todas las recurrencias?",
+      "subtitle": "Esta es una tarea recurrente, ¿eliminar todas las demás recurrencias?",
+      "deleteInstance": "Eliminar solo esta instancia",
+      "deleteAll": "Eliminar todas las recurrencias"
     },
     "cancelEdit": {
       "title": "¿Cancelar edición?",
-      "subtitle": "Los cambios que haya realizado se descartarán"
+      "subtitle": "Los cambios realizados se descartarán"
     },
     "editAll": {
-      "title": "¿Editar todas las repeticiones de la tarea?",
-      "subtitle": "Esta es una tarea recurrente, ¿hacer la misma edición para todas las demás repeticiones?",
-      "editInstance": "Editar solo esta ocurrencia",
-      "editAll": "Editar todas las repeticiones"
+      "title": "¿Editar todas las recurrencias?",
+      "subtitle": "Esta es una tarea recurrente, ¿aplicar el mismo cambio a todas las demás recurrencias?",
+      "editInstance": "Editar solo esta instancia",
+      "editAll": "Editar todas las recurrencias"
     }
   },
   "shortcuts": {
@@ -352,10 +352,11 @@
     },
     "calendar": {
       "title": "Atajos de calendario",
+      "markComplete": "Marcar como completada",
       "previous": "Mes/semana/día anterior",
-      "next": "Siguiente mes/semana/día",
+      "next": "Mes/semana/día siguiente",
       "todayView": "Vista de hoy",
-      "viewModes": "Vista de mes/semana/día"
+      "viewModes": "Vista Mes/Semana/Día"
     },
     "navigation": {
       "title": "Navegación",
@@ -365,5 +366,40 @@
       "completed": "Completado",
       "vault": "Bóveda"
     }
+  },
+  "filterMenu": {
+    "sorting": "Ordenación",
+    "sort": "Ordenar",
+    "direction": "Dirección",
+    "grouping": "Agrupación",
+    "group": "Agrupar",
+    "start Date": "Fecha de inicio",
+    "deadline": "Fecha límite",
+    "duration": "Duración",
+    "ascending": "Ascendente",
+    "descending": "Descendente",
+    "recurrence": "Recurrencia",
+    "sortedBy": "Ordenado por",
+    "groupedBy": "Agrupado por",
+    "none": "Ninguno"
+  },
+  "projectMenu": {
+    "typeToSearch": "Escribe para buscar",
+    "editColors": "Editar colores",
+    "red": "Rojo",
+    "orange": "Naranja",
+    "yellow": "Amarillo",
+    "lime": "Lima",
+    "blue": "Azul",
+    "purple": "Púrpura",
+    "pink": "Rosa",
+    "teal": "Cian",
+    "coral": "Coral",
+    "gold": "Oro",
+    "deepBlue": "Azul oscuro",
+    "rose": "Rosa viejo",
+    "lightRed": "Rojo claro",
+    "brick": "Ladrillo",
+    "slate": "Pizarra"
   }
 }

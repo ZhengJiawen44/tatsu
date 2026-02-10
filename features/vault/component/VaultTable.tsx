@@ -59,8 +59,8 @@ const VaultContent = ({
                   >
                     {name.length > 20
                       ? name.slice(0, 10) +
-                        "..." +
-                        name.slice(name.length - 6, name.length)
+                      "..." +
+                      name.slice(name.length - 6, name.length)
                       : name}
                   </a>
                 </td>
@@ -92,6 +92,7 @@ const VaultContent = ({
           })}
         </tbody>
       </table>
+      <p className="text-4xl text-muted-foreground font-semibold text-center p-10">Work In progress</p>
     </div>
   );
 };

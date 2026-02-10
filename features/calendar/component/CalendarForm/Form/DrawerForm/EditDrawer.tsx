@@ -40,6 +40,8 @@ export default function CreateCalendarDrawer({
     setDisplayForm,
 }: CreateCalendarFormProps) {
     const appDict = useTranslations("app");
+    const priorityMap = { "Low": "normal", "Medium": "important", "High": "urgent" }
+    const repeatMap = { "Daily": "everyDay", "Weekly": "everyWeek", "Monthly": "everyMonth", "Yearly": "everyYear", "Weekday": "weekdaysOnly", "Custom": "custom" }
     const titleRef = useRef(null);
     const locale = useLocale();
     const userTZ = useUserTimezone()
@@ -173,7 +175,7 @@ export default function CreateCalendarDrawer({
                             <div className="flex flex-col border rounded-md divide-y bg-secondary/20">
                                 {/* Date */}
                                 <NestedDrawerItem
-                                    title="Date"
+                                    title={appDict("date")}
                                     icon={<Clock className="w-4 h-4" />}
                                     label={getDisplayDate(dateRange.from, false, locale, userTZ?.timeZone)}
                                 >
@@ -194,35 +196,30 @@ export default function CreateCalendarDrawer({
                                 {/* Priority */}
                                 <NestedDrawerItem
                                     icon={<Flag className="w-4 h-4" />}
-                                    label={priority}
+                                    label={appDict(priorityMap[priority])}
                                     title={appDict("priority")}
                                 >
                                     <div className="p-4 space-y-2 w-full max-w-lg m-auto">
-                                        {(["Low", "Medium", "High"] as const).map((p) => (
+                                        {Object.entries(priorityMap).map(([key, val]) => (
                                             <button
-                                                key={p}
-                                                onClick={() => setPriority(p)}
+                                                key={key}
+                                                onClick={() => setPriority(key as "Low" | "Medium" | "High")}
                                                 data-close-on-click
                                                 className="flex items-center justify-between w-full p-2 hover:bg-accent/50 rounded-md text-base"
                                             >
-                                                <span>{p}</span>
-                                                {priority === p && (
+                                                <span>{appDict(val)}</span>
+                                                {priority === key && (
                                                     <Check className="w-4 h-4 text-lime" />
                                                 )}
                                             </button>
                                         ))}
-                                        <DrawerClose asChild>
-                                            <Button variant="outline" className="w-full mt-4 hover:bg-lime/80 font-normal">
-                                                {appDict("save")}
-                                            </Button>
-                                        </DrawerClose>
                                     </div>
                                 </NestedDrawerItem>
 
                                 {/* Repeat */}
                                 <NestedDrawerItem
                                     icon={<Repeat className="w-4 h-4" />}
-                                    label={(rruleOptions && derivedRepeatType) || "No Repeat"}
+                                    label={derivedRepeatType && appDict(repeatMap[derivedRepeatType]) || "No Repeat"}
                                     title={appDict("repeat")}
                                 >
                                     <div className="p-4 space-y-2">
@@ -247,7 +244,7 @@ export default function CreateCalendarDrawer({
                                             :
                                             "No project"
                                     }
-                                    title={"Project"}
+                                    title={appDict("project")}
                                 >
                                     <div className="p-4 space-y-2">
                                         <ProjectDrawer projectID={projectID} setProjectID={setProjectID} />

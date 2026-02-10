@@ -26,6 +26,8 @@ function TodoItemMeatballMenuContent({
     setEditInstanceOnly: React.Dispatch<React.SetStateAction<boolean>>;
 }) {
     const todayDict = useTranslations("today");
+    const appDict = useTranslations("app");
+
     const { usePrioritizeTodo, useDeleteTodo, usePinTodo, useEditTodo } = useTodoMutation();
     const { prioritizeMutateFn } = usePrioritizeTodo();
     const { editTodoMutateFn } = useEditTodo();
@@ -33,17 +35,17 @@ function TodoItemMeatballMenuContent({
     const { pinMutateFn } = usePinTodo();
     const { projectMetaData } = useProjectMetaData();
     return (
-
         <>
-            <DropdownMenuItem className="mx-1 p-1.5 px-2 gap-2" onClick={() => pinMutateFn(todo)}>
+            <DropdownMenuItem className="mx-1 p-1.5 px-2 gap-1.5" onClick={() => pinMutateFn(todo)}>
                 {!todo.pinned ? (
-                    <Pin className="" />
+                    <Pin className="m-0" />
                 ) : (
                     <Unpin />
                 )}
-                {todo.pinned ? todayDict("menu.unpin")
+                <p className="">{todo.pinned ? todayDict("menu.unpin")
                     : todayDict("menu.pinToTop")
                 }
+                </p>
             </DropdownMenuItem>
             <DropdownMenuItem
                 className="m-1.5"
@@ -70,7 +72,7 @@ function TodoItemMeatballMenuContent({
             <DropdownMenuSub>
                 <DropdownMenuSubTrigger className="bg-inherit hover:bg-popover mx-1">
                     <ArrowRightLeft strokeWidth={1.7} className="w-4! h-4!" />
-                    Move to...
+                    {todayDict("menu.Move to")}
                 </DropdownMenuSubTrigger>
                 <DropdownMenuSubContent className="max-h-56 overflow-scroll">
                     {Object.entries(projectMetaData).map(([key, value]) => {
@@ -105,7 +107,7 @@ function TodoItemMeatballMenuContent({
                 onClick={() => { }}
             >
                 <p className="text-sm font-semibold text-card-foreground-muted ">
-                    priority
+                    {appDict("priority")}
                 </p>
                 <div className=" flex gap-4 items-center pl-2">
                     <button className="group cursor-pointer"

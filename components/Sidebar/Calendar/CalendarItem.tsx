@@ -2,7 +2,7 @@ import React from "react";
 import { useMenu } from "@/providers/MenuProvider";
 import clsx from "clsx";
 import { Calendar1Icon } from "lucide-react";
-import Link from "next/link";
+import { Link } from "@/i18n/navigation";
 import useWindowSize from "@/hooks/useWindowSize";
 import { Button } from "@/components/ui/button";
 import { useTranslations } from "next-intl";

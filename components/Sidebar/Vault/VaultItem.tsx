@@ -1,7 +1,8 @@
 import React from "react";
 import { useMenu } from "@/providers/MenuProvider";
 import clsx from "clsx";
-import Link from "next/link";
+import { Link } from "@/i18n/navigation";
+
 import useWindowSize from "@/hooks/useWindowSize";
 import { LockIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";

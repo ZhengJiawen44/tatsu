@@ -1,6 +1,7 @@
 import { SetStateAction } from "react";
-import { Modal, ModalOverlay, ModalContent, ModalHeader, ModalTitle } from "./ui/Modal";
+import { Modal, ModalOverlay, ModalContent, ModalHeader, ModalTitle, ModalClose } from "./ui/Modal";
 import { useTranslations } from "next-intl";
+import { X } from "lucide-react";
 
 export default function KeyboardShortcuts({
   open,
@@ -15,13 +16,16 @@ export default function KeyboardShortcuts({
     <Modal open={open} onOpenChange={onOpenChange}>
       <ModalOverlay>
         <ModalContent
-          className="h-fit max-h-full w-full max-w-xl overflow-scroll scrollbar-none p-0"
+          className="h-fit max-h-full w-full max-w-xl overflow-scroll scrollbar-none p-0 relative"
         >
-          <ModalHeader className="mt-6 mx-6">
-            <ModalTitle className="text-lg m-auto">
+          <ModalHeader className="mt-8 mx-6">
+            <ModalTitle className="text-lg m-auto ">
               {shortcutsDict("title")}
             </ModalTitle>
           </ModalHeader>
+          <ModalClose className="absolute top-2 right-2 text-muted-foreground hover:text-foreground">
+            <X />
+          </ModalClose>
           <div className="max-w-4xl mx-auto p-6 bg-background">
             {/* Form Operations Table */}
             <div className="mb-8">

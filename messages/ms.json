@@ -2,12 +2,12 @@
   "landingPage": {
     "nav": {
       "docs": "Dokumentasi",
-      "docsShort": "Docs",
+      "docsShort": "Dokumen",
       "login": "Log masuk"
     },
     "hero": {
       "title": "Sanity",
-      "subtitle": "Perancang peribadi serba boleh — dengan editor gaya Notion, muat naik fail yang disulitkan, dan pelbagai tambahan yang berguna!",
+      "subtitle": "Pisau tentera Swiss untuk perancangan peribadi — dengan editor gaya Notion, muat naik fail disulitkan rahsia besar, dan pelbagai tambahan menarik!",
       "readDocs": "Baca dokumentasi",
       "start": "Mula"
     },
@@ -16,160 +16,160 @@
       {
         "tag": "01 / TUGASAN PINTAR",
         "title": "Pemprosesan bahasa semula jadi",
-        "description": "Hanya taip tugasan anda secara semula jadi. Enjin NLP pintar kami secara automatik mengekstrak tarikh, masa dan tempoh daripada input anda.",
+        "description": "Hanya taip tugasan anda secara semula jadi. Enjin NLP pintar kami secara automatik mengekstrak tarikh, masa, dan tempoh daripada input anda.",
         "bullets": [
           "Pengesanan tarikh dan masa segera",
           "Pengiraan tempoh automatik",
           "Penjadualan peringatan pintar",
-          "Penghuraian berasaskan konteks"
+          "Penghuraian mengikut konteks"
         ]
       },
       {
         "tag": "02 / VISUALISASI",
         "title": "Paparan kalendar yang cantik",
-        "description": "Lihat semua tugasan anda sepintas lalu. Kalendar bersepadu menyediakan gambaran keseluruhan jadual anda yang jelas dengan penunjuk visual yang intuitif.",
+        "description": "Lihat semua tugasan anda dengan sekali imbas. Kalendar bersepadu memberikan gambaran jelas tentang jadual anda dengan penunjuk visual yang intuitif.",
         "bullets": [
-          "Paparan bulanan, mingguan dan harian",
+          "Paparan bulanan, mingguan, dan harian",
           "Kategori tugasan berkod warna",
-          "Penjadualan semula seret dan lepas",
+          "Penjadualan semula seret-dan-lepas",
           "Pengesanan konflik"
         ]
       },
       {
         "tag": "03 / NOTA KAYA",
         "title": "Editor gaya Notion",
-        "description": "Tangkap pemikiran anda dengan editor yang berkuasa dan tanpa gangguan. Format teks, benamkan media dan susun idea anda dengan mudah.",
+        "description": "Rakam pemikiran anda dengan editor yang berkuasa dan bebas gangguan. Format teks, benam media, dan atur idea anda dengan mudah.",
         "bullets": [
           "Sokongan Markdown",
-          "Pemformatan teks kaya",
-          "Penyerlahan sintaks blok kod",
-          "Senarai mata bertingkat"
+          "Format teks kaya",
+          "Sorotan sintaks blok kod",
+          "Senarai peluru bersarang"
         ]
       },
       {
         "tag": "04 / KESELAMATAN",
-        "title": "Storan disulitkan hujung ke hujung",
-        "description": "Fail anda dilindungi dengan penyulitan gred ketenteraan. Simpan dokumen, imej dan lampiran dengan ketenangan fikiran sepenuhnya.",
+        "title": "Simpanan disulitkan hujung-ke-hujung",
+        "description": "Fail anda dilindungi dengan penyulitan gred tentera. Simpan dokumen, imej, dan lampiran dengan ketenangan fikiran sepenuhnya.",
         "bullets": [
           "Penyulitan AES-256",
-          "Seni bina pengetahuan sifar",
+          "Seni bina pengetahuan-sifar",
           "Perkongsian fail selamat",
           "Sandaran automatik"
         ]
       }
     ],
     "securityDemo": {
-      "title": "Kunci laluan",
-      "subtitle": "Kami perlukan kunci laluan anda untuk menyahsulit fail anda",
+      "title": "Passkey",
+      "subtitle": "Kami memerlukan passkey anda untuk menyahsulit fail anda",
       "enter": "Masuk"
     },
     "errors": {
-      "fallback": "Ada yang tidak kena, tetapi jangan risau, kami telah menghantar laporan ralat."
+      "fallback": "Sesuatu telah berlaku, tetapi jangan risau, kami telah menghantar laporan ralat."
     },
     "footer": {
       "privacyPolicy": "Dasar Privasi",
-      "termsOfService": "Terma Perkhidmatan",
-      "heroSubtitle": "Platform pengurusan tugasan pintar yang dibina untuk mereka yang tidak begitu waras."
+      "termsOfService": "Syarat Perkhidmatan",
+      "heroSubtitle": "Platform pengurusan tugasan pintar yang dibina untuk mereka yang mencabar kewarasan."
     }
   },
   "terms": {
-    "title": "Terma Perkhidmatan",
-    "lastUpdated": "Kemas kini terakhir: 19 Januari 2026",
-    "intro": "Dengan menggunakan Sanity di https://tatsu-gg.vercel.app/ (\"Perkhidmatan\"), anda bersetuju dengan Terma Perkhidmatan ini.",
+    "title": "Syarat Perkhidmatan",
+    "lastUpdated": "Terakhir dikemas kini: 19 Januari 2026",
+    "intro": "Dengan menggunakan Sanity di https://tatsu-gg.vercel.app/ (“Perkhidmatan”), anda bersetuju dengan Syarat Perkhidmatan ini.",
     "sections": {
       "1": {
         "title": "Penggunaan Perkhidmatan",
-        "content": "Sanity ialah aplikasi produktiviti percuma untuk mengurus tugasan, nota dan fail. Anda bersetuju untuk menggunakan Perkhidmatan secara sah dan tidak menyalahgunakan atau mengganggu Perkhidmatan."
+        "content": "Sanity adalah aplikasi produktiviti percuma untuk mengurus tugasan, nota, dan fail. Anda bersetuju untuk menggunakan Perkhidmatan secara sah dan tidak menyalahgunakan atau mengganggunya."
       },
       "2": {
         "title": "Akaun",
-        "content": "Anda bertanggungjawab untuk memastikan akaun anda selamat dan semua aktiviti di bawah akaun anda. Maklumat mestilah tepat."
+        "content": "Anda bertanggungjawab untuk menjaga keselamatan akaun anda dan semua aktiviti di bawah akaun anda. Maklumat mestilah tepat."
       },
       "3": {
-        "title": "Kandungan anda",
-        "content": "Anda mengekalkan pemilikan kandungan anda. Dengan menggunakan Sanity, anda memberikan kebenaran untuk menyimpan dan memprosesnya hanya untuk mengendalikan Perkhidmatan."
+        "title": "Kandungan Anda",
+        "content": "Anda mengekalkan pemilikan kandungan anda. Dengan menggunakan Sanity, anda memberi kebenaran untuk menyimpan dan memprosesnya hanya untuk mengendalikan Perkhidmatan."
       },
       "4": {
-        "title": "Penggunaan yang boleh diterima",
+        "title": "Penggunaan Diterima",
         "content": [
-          "Tiada kandungan yang menyalahi undang-undang, berbahaya atau berniat jahat",
-          "Tiada akses kepada data pengguna lain",
-          "Tiada penyalahgunaan infrastruktur",
+          "Tiada kandungan haram, berbahaya, atau berniat jahat",
+          "Tidak mengakses data pengguna lain",
+          "Tidak menyalahgunakan infrastruktur",
           "Tiada penggunaan Perkhidmatan yang menyalahi undang-undang"
         ]
       },
       "5": {
         "title": "Ketersediaan",
-        "content": "Sanity adalah projek peribadi yang disediakan atas dasar usaha terbaik. Perkhidmatan mungkin berubah, luar talian atau dihentikan pada bila-bila masa."
+        "content": "Sanity adalah projek peribadi yang disediakan atas dasar usaha terbaik. Perkhidmatan mungkin berubah, luar talian, atau dihentikan pada bila-bila masa."
       },
       "6": {
         "title": "Penamatan",
-        "content": "Anda boleh berhenti menggunakan Sanity pada bila-bila masa. Kami boleh menggantung akses jika Terma ini dilanggar."
+        "content": "Anda boleh berhenti menggunakan Sanity pada bila-bila masa. Kami boleh menggantung akses jika Syarat ini dilanggar."
       },
       "7": {
         "title": "Penafian",
-        "content": "Sanity disediakan \"seperti sedia ada\". Kami tidak bertanggungjawab untuk kehilangan data, gangguan atau kerosakan yang terhasil daripada penggunaan Perkhidmatan."
+        "content": "Sanity disediakan “seadanya”. Kami tidak bertanggungjawab atas kehilangan data, gangguan, atau kerosakan yang disebabkan oleh penggunaan Perkhidmatan."
       },
       "8": {
         "title": "Perubahan",
-        "content": "Kami mungkin mengemas kini Terma ini. Penggunaan berterusan bermakna anda menerima perubahan tersebut."
+        "content": "Kami mungkin mengemas kini Syarat ini. Penggunaan berterusan bermakna anda menerima perubahan tersebut."
       },
       "9": {
-        "title": "Hubungi",
-        "content": "Soalan? E-mel ke zhengjiawen44@gmail.com"
+        "title": "Hubungan",
+        "content": "Soalan? E-mel zhengjiawen44@gmail.com"
       }
     }
   },
   "privacy": {
     "title": "Dasar Privasi",
-    "lastUpdated": "Kemas kini terakhir: 19 Januari 2026",
-    "intro": "Sanity (\"kami\", \"milik kami\" atau \"kita\") ialah aplikasi produktiviti peribadi yang tersedia di https://tatsu-gg.vercel.app/. Dasar Privasi ini menerangkan data yang kami kumpulkan dan cara kami menggunakannya.",
+    "lastUpdated": "Terakhir dikemas kini: 19 Januari 2026",
+    "intro": "Sanity (“kami”, atau “kita”) adalah aplikasi produktiviti peribadi yang tersedia di https://tatsu-gg.vercel.app/. Dasar Privasi ini menjelaskan data apa yang kami kumpul dan bagaimana kami menggunakannya.",
     "sections": {
       "1": {
-        "title": "Maklumat yang kami kumpulkan",
+        "title": "Maklumat Yang Kami Kumpul",
         "content": [
-          "Data akaun: alamat e-mel dan zon waktu",
-          "Kandungan pengguna: tugasan, nota dan fail yang disulitkan",
-          "Data teknikal: alamat IP, penyemak imbas dan maklumat sesi",
-          "Kuki dan storan tempatan untuk pengesahan"
+          "Data akaun: alamat e-mel dan zon masa",
+          "Kandungan pengguna: tugasan, nota, dan fail disulitkan",
+          "Data teknikal: alamat IP, maklumat pelayar dan sesi",
+          "Kuki dan simpanan tempatan untuk pengesahan"
         ]
       },
       "2": {
-        "title": "Cara kami menggunakan data anda",
+        "title": "Bagaimana Kami Menggunakan Data Anda",
         "content": [
           "Menyediakan dan mengendalikan Sanity",
           "Mengesahkan pengguna",
-          "Menyimpan dan menyegerakkan kandungan anda",
-          "Mengekalkan keselamatan dan mencegah penyalahgunaan"
+          "Menyimpan dan menyinkronkan kandungan anda",
+          "Menjaga keselamatan dan mencegah penyalahgunaan"
         ]
       },
       "3": {
-        "title": "Penyimpanan dan keselamatan data",
-        "content": "Sanity menggunakan NextAuth untuk pengesahan, NeonDB untuk penyimpanan dan Vercel untuk pengehosan. Fail disulitkan jika berkenaan. Walaupun tiada sistem yang sempurna selamat, langkah munasabah diambil untuk melindungi data anda."
+        "title": "Penyimpanan & Keselamatan Data",
+        "content": "Sanity menggunakan NextAuth untuk pengesahan, NeonDB untuk penyimpanan, dan Vercel untuk pengehosan. Fail disulitkan di mana berkenaan. Walaupun tiada sistem yang benar-benar selamat, langkah-langkah munasabah diambil untuk melindungi data anda."
       },
       "4": {
-        "title": "Perkongsian data",
+        "title": "Perkongsian Data",
         "content": "Kami hanya berkongsi data dengan penyedia perkhidmatan yang diperlukan untuk mengendalikan Sanity. Kami tidak menjual data peribadi anda."
       },
       "5": {
         "title": "Kuki",
-        "content": "Kuki dan storan tempatan digunakan untuk sesi log masuk, keutamaan dan keselamatan. Melumpuhkan kuki mungkin menjejaskan fungsi."
+        "content": "Kuki dan simpanan tempatan digunakan untuk sesi log masuk, pilihan, dan keselamatan. Menyahaktifkan kuki mungkin menjejaskan fungsi."
       },
       "6": {
-        "title": "Pengekalan data",
-        "content": "Kami menyimpan data anda selagi akaun anda aktif. Anda boleh memadamkan akaun anda pada bila-bila masa dan kandungan anda akan dikeluarkan dalam tempoh yang munasabah."
+        "title": "Pengekalan Data",
+        "content": "Kami menyimpan data anda selagi akaun anda aktif. Anda boleh memadam akaun anda pada bila-bila masa dan kandungan anda akan dikeluarkan dalam tempoh yang munasabah."
       },
       "7": {
-        "title": "Hak anda",
-        "content": "Anda boleh mengakses, membetulkan, memadamkan atau mengeksport data anda menggunakan ciri aplikasi."
+        "title": "Hak Anda",
+        "content": "Anda boleh mengakses, membetulkan, memadam, atau mengeksport data anda menggunakan ciri aplikasi."
       },
       "8": {
         "title": "Perubahan",
         "content": "Kami mungkin mengemas kini dasar ini dari semasa ke semasa. Kemas kini akan muncul di halaman ini."
       },
       "9": {
-        "title": "Hubungi",
-        "content": "Soalan? E-mel ke zhengjiawen44@gmail.com"
+        "title": "Hubungan",
+        "content": "Soalan? E-mel zhengjiawen44@gmail.com"
       }
     }
   },
@@ -190,18 +190,18 @@
         "error": "Sila masukkan kata laluan yang sah"
       }
     },
-    "showPassword": "Tunjukkan kata laluan",
-    "hidePassword": "Sembunyikan kata laluan",
+    "showPassword": "Tunjuk kata laluan",
+    "hidePassword": "Sembunyi kata laluan",
     "registerPrompt": "Tidak mempunyai akaun?",
     "registerLink": "Daftar",
     "buttons": {
       "login": "Log masuk"
     },
     "toasts": {
-      "googleError": "Kami tidak dapat log masuk anda ke Google pada masa ini",
-      "discordError": "Kami tidak dapat log masuk anda ke Discord pada masa ini",
+      "googleError": "Kami tidak dapat melog masuk anda ke Google pada masa ini",
+      "discordError": "Kami tidak dapat melog masuk anda ke Discord pada masa ini",
       "invalidCredentials": "E-mel atau kata laluan tidak sah",
-      "genericError": "Kami tidak dapat log masuk anda pada masa ini"
+      "genericError": "Kami tidak dapat melog masuk anda pada masa ini"
     }
   },
   "register": {
@@ -219,8 +219,8 @@
         "error": "Sila masukkan nama pertama anda"
       },
       "lname": {
-        "placeholder": "Nama Keluarga",
-        "error": "Sila masukkan nama keluarga yang sah"
+        "placeholder": "Nama Belakang",
+        "error": "Sila masukkan nama belakang yang sah"
       },
       "email": {
         "placeholder": "E-mel*",
@@ -232,17 +232,18 @@
       }
     },
     "buttons": {
-      "register": "Cipta akaun"
+      "register": "Cipta Akaun"
     },
     "toasts": {
-      "googleError": "Kami tidak dapat log masuk anda ke Google pada masa ini",
-      "discordError": "Kami tidak dapat log masuk anda ke Discord pada masa ini",
+      "googleError": "Kami tidak dapat melog masuk anda ke Google pada masa ini",
+      "discordError": "Kami tidak dapat melog masuk anda ke Discord pada masa ini",
       "genericError": "Kami tidak dapat mendaftarkan anda pada masa ini"
     }
   },
   "app": {
     "agenda": "agenda",
     "cancel": "Batal",
+    "clear": "Kosongkan",
     "save": "Simpan",
     "today": "Hari ini",
     "yesterday": "Semalam",
@@ -253,32 +254,35 @@
     "month": "Bulan",
     "year": "Tahun",
     "duration": "Tempoh",
+    "date": "Tarikh",
     "durationMenu": {
       "title": "Tetapkan tempoh",
-      "subTitle": "Digunakan pada tarikh semasa sahaja",
-      "error": "Julat tarikh tidak sah: Masa tamat mesti selepas masa mula."
+      "subTitle": "Digunakan untuk tarikh semasa sahaja",
+      "error": "Julat tarikh tidak sah: Masa tamat mestilah selepas masa mula."
     },
     "priority": "Keutamaan",
-    "normal": "Biasa",
+    "project": "Projek",
+    "overdue": "Tunggakan",
+    "normal": "Normal",
     "important": "Penting",
-    "urgent": "Mendesak",
+    "urgent": "Segera",
     "repeat": "Ulang",
     "everyDay": "Setiap hari",
-    "everyWeek": "Setiap minggu",
-    "everyMonth": "Setiap bulan",
-    "everyYear": "Setiap tahun",
+    "everyWeek": "Mingguan",
+    "everyMonth": "Bulanan",
+    "everyYear": "Tahunan",
     "weekdaysOnly": "Hari bekerja sahaja",
     "custom": "Tersuai",
     "customMenu": {
-      "title": "Ulangan tersuai",
-      "subTitle": "Sediakan jadual ulangan tersuai",
+      "title": "Ulang Tersuai",
+      "subTitle": "Tetapkan jadual ulang tersuai",
       "every": "Setiap",
       "on": "pada",
-      "ends": "Berakhir",
+      "ends": "Tamat",
       "never": "Tidak pernah",
-      "onDate": "Pada tarikh (termasuk)"
+      "onDate": "Pada Tarikh (inklusif)"
     },
-    "descPlaceholder": "penerangan"
+    "descPlaceholder": "keterangan"
   },
   "today": {
     "saveInstance": "Simpan kejadian",
@@ -289,14 +293,15 @@
       "pinToTop": "Semat ke atas",
       "edit": "Edit",
       "editAsInstance": "Edit sebagai kejadian",
-      "delete": "Padam"
+      "delete": "Padam",
+      "Move to": "Pindah ke..."
     }
   },
   "sidebar": {
     "completed": "Selesai",
     "calendar": "Kalendar",
     "note": "Nota",
-    "vault": "Bilik kebal",
+    "vault": "Peti Besi",
     "settings": "Tetapan",
     "settingMenu": {
       "logout": "Log keluar",
@@ -304,36 +309,36 @@
       "shortcuts": "Pintasan"
     },
     "noteMenu": {
-      "rename": "namakan semula",
+      "rename": "tukar nama",
       "delete": "padam"
     }
   },
   "completed": {
-    "title": "Sejarah penyiapan"
+    "title": "Sejarah penyelesaian"
   },
   "modal": {
     "confirm": "Sahkan",
     "cancel": "Batal",
     "delete": {
       "title": "Padam tugasan?",
-      "subtitle": "Tindakan ini tidak boleh dibatalkan. Ini akan memadamkan secara kekal",
+      "subtitle": "Tindakan ini tidak boleh diubah. Ini akan memadamkan secara kekal",
       "button": "Padam"
     },
     "deleteAll": {
-      "title": "Padam semua pengulangan tugasan?",
-      "subtitle": "Ini adalah tugasan berulang, padam semua pengulangan lain?",
+      "title": "Padam semua ulangan tugasan?",
+      "subtitle": "Ini adalah tugasan berulang, padam semua ulangan lain?",
       "deleteInstance": "Padam kejadian ini sahaja",
-      "deleteAll": "Padam semua pengulangan"
+      "deleteAll": "Padam semua ulangan"
     },
     "cancelEdit": {
-      "title": "Batal edit?",
+      "title": "Batal Edit?",
       "subtitle": "Perubahan yang anda buat akan dibuang"
     },
     "editAll": {
-      "title": "Edit semua pengulangan tugasan?",
-      "subtitle": "Ini adalah tugasan berulang, buat edit yang sama untuk semua pengulangan lain?",
+      "title": "Edit semua ulangan tugasan?",
+      "subtitle": "Ini adalah tugasan berulang, buat edit yang sama untuk semua ulangan lain?",
       "editInstance": "Edit kejadian ini sahaja",
-      "editAll": "Edit semua pengulangan"
+      "editAll": "Edit semua ulangan"
     }
   },
   "shortcuts": {
@@ -342,13 +347,14 @@
       "title": "Pintasan tugasan",
       "submitAndOpen": "Hantar borang dan buka yang lain",
       "openForm": "Buka borang",
-      "exitForm": "Keluar dari borang",
+      "exitForm": "Keluar borang",
       "editForm": "Edit borang"
     },
     "calendar": {
       "title": "Pintasan kalendar",
-      "previous": "Bulan/Minggu/Hari sebelumnya",
-      "next": "Bulan/Minggu/Hari seterusnya",
+      "markComplete": "Tanda selesai",
+      "previous": "Bulan/minggu/hari sebelumnya",
+      "next": "Bulan/minggu/hari seterusnya",
       "todayView": "Paparan hari ini",
       "viewModes": "Paparan Bulan/Minggu/Hari"
     },
@@ -358,7 +364,42 @@
       "today": "Hari ini",
       "calendar": "Kalendar",
       "completed": "Selesai",
-      "vault": "Bilik kebal"
+      "vault": "Peti Besi"
     }
+  },
+  "filterMenu": {
+    "sorting": "Isihan",
+    "sort": "Isih",
+    "direction": "Arah",
+    "grouping": "Pengelompokan",
+    "group": "Kumpul",
+    "start Date": "Tarikh Mula",
+    "deadline": "Tarikh Akhir",
+    "duration": "Tempoh",
+    "ascending": "Menaik",
+    "descending": "Menurun",
+    "recurrence": "Ulangan",
+    "sortedBy": "Diisih mengikut",
+    "groupedBy": "Dikumpul mengikut",
+    "none": "Tiada"
+  },
+  "projectMenu": {
+    "typeToSearch": "Taip untuk cari",
+    "editColors": "Edit Warna",
+    "red": "Merah",
+    "orange": "Oren",
+    "yellow": "Kuning",
+    "lime": "Limau",
+    "blue": "Biru",
+    "purple": "Ungu",
+    "pink": "Merah Jambu",
+    "teal": "Teal",
+    "coral": "Koral",
+    "gold": "Emas",
+    "deepBlue": "Biru Tua",
+    "rose": "Ros",
+    "lightRed": "Merah Muda",
+    "brick": "Bata",
+    "slate": "Slat"
   }
 }

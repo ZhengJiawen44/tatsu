@@ -126,7 +126,7 @@ export default function RepeatDrawerMenu({ rruleOptions, setRruleOptions, derive
             </div>
             <NestedDrawerItem
                 className="flex w-full gap-3! cursor-pointer items-center justify-between rounded-md p-2 hover:bg-accent/50 text-base"
-                title="Custom"
+                title={appDict("custom")}
                 icon={<></>}
                 label=""
             >
@@ -145,7 +145,7 @@ export default function RepeatDrawerMenu({ rruleOptions, setRruleOptions, derive
                     data-close-on-click
                 >
                     <div className="flex items-center gap-2  ">
-                        <span className="text-base">Clear</span>
+                        <span className="text-base">{appDict("clear")}</span>
                     </div>
                 </div>}
         </div>

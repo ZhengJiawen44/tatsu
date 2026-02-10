@@ -20,34 +20,36 @@ import {
 import { X } from 'lucide-react';
 import { SortBy, GroupBy } from '@prisma/client';
 import { useUserPreferences } from '@/providers/UserPreferencesProvider';
+import { useTranslations } from 'next-intl';
 
 type TodoFilterBarProps = {
     containerHovered: boolean
 }
-
-
 export default function TodoFilterBar({ containerHovered }: TodoFilterBarProps) {
+    const filterDict = useTranslations("filterMenu");
+    const appDict = useTranslations("app");
+
     const { updatePreferences, preferences } = useUserPreferences();
     return (
         <div className='flex w-full justify-between'>
             <div className="flex gap-2 items-center flex-wrap">
                 {preferences?.groupBy &&
                     <div className="bg-sidebar border py-1.5 px-3  rounded-md flex items-center gap-2 shrink-0">
-                        <span>{`Grouped by: ${preferences.groupBy}`}</span>
+                        <span>{`${filterDict("groupedBy")}: ${preferences.groupBy}`}</span>
                         <span className="hover:text-lime cursor-pointer w-4 text-center"
                             onClick={() => updatePreferences({ groupBy: undefined })}>
                             <X className='w-4 h-4' />
                         </span>
                     </div>}
                 {preferences?.sortBy &&
-                    <div className="bg-sidebar borer py-1.5 px-3  rounded-md flex items-center gap-2 shrink-0">
-                        <span>{`Sorted by: ${preferences.sortBy}`}</span>
+                    <div className="bg-sidebar border py-1.5 px-3  rounded-md flex items-center gap-2 shrink-0">
+                        <span>{`${filterDict("sortedBy")}: ${preferences.sortBy}`}</span>
                         <span className="hover:text-lime cursor-pointer w-4 text-center"
                             onClick={() => updatePreferences({ sortBy: undefined })}>
                             <X className='w-4 h-4' />
                         </span>
                     </div>}
-                {preferences?.sortBy && <div className="bg-sidebar border py-1.5 px-3  rounded-md">{preferences.direction || "Ascending"}</div>}
+                {preferences?.sortBy && <div className="bg-sidebar border py-1.5 px-3  rounded-md">{filterDict(preferences.direction?.toLowerCase() || "ascending")}</div>}
             </div>
             <DropdownMenu>
                 <DropdownMenuTrigger asChild>
@@ -58,8 +60,8 @@ export default function TodoFilterBar({ containerHovered }: TodoFilterBarProps) 
                 <DropdownMenuContent className="min-w-[200px]">
                     <DropdownMenuGroup>
                         <DropdownMenuSub>
-                            <DropdownMenuLabel className="font-semibold">Sorting</DropdownMenuLabel>
-                            <DropdownMenuSubTrigger>Sort</DropdownMenuSubTrigger>
+                            <DropdownMenuLabel className="font-semibold">{filterDict("sorting")}</DropdownMenuLabel>
+                            <DropdownMenuSubTrigger>{filterDict("sort")}</DropdownMenuSubTrigger>
                             <DropdownMenuPortal>
                                 <DropdownMenuSubContent>
                                     <DropdownMenuRadioGroup
@@ -70,16 +72,16 @@ export default function TodoFilterBar({ containerHovered }: TodoFilterBarProps) 
                                         }}
                                     >
                                         <DropdownMenuRadioItem value="dtstart" className="hover:bg-popover-accent">
-                                            Start date
+                                            {filterDict("start Date")}
                                         </DropdownMenuRadioItem>
                                         <DropdownMenuRadioItem value="due">
-                                            Deadline
+                                            {filterDict("deadline")}
                                         </DropdownMenuRadioItem>
                                         <DropdownMenuRadioItem value="duration">
-                                            Duration
+                                            {filterDict("duration")}
                                         </DropdownMenuRadioItem>
                                         <DropdownMenuRadioItem value="priority">
-                                            Priority
+                                            {appDict("priority")}
                                         </DropdownMenuRadioItem>
                                     </DropdownMenuRadioGroup>
                                 </DropdownMenuSubContent>
@@ -87,7 +89,7 @@ export default function TodoFilterBar({ containerHovered }: TodoFilterBarProps) 
                         </DropdownMenuSub>
                         <DropdownMenuGroup>
                             <DropdownMenuSub>
-                                <DropdownMenuSubTrigger>Direction</DropdownMenuSubTrigger>
+                                <DropdownMenuSubTrigger>{filterDict("direction")}</DropdownMenuSubTrigger>
                                 <DropdownMenuPortal>
                                     <DropdownMenuSubContent>
                                         <DropdownMenuRadioGroup
@@ -98,10 +100,10 @@ export default function TodoFilterBar({ containerHovered }: TodoFilterBarProps) 
                                             }}
                                         >
                                             <DropdownMenuRadioItem value="Descending">
-                                                Descending
+                                                {filterDict("descending")}
                                             </DropdownMenuRadioItem>
                                             <DropdownMenuRadioItem value="Ascending">
-                                                Ascending
+                                                {filterDict("ascending")}
                                             </DropdownMenuRadioItem>
 
                                         </DropdownMenuRadioGroup>
@@ -113,8 +115,8 @@ export default function TodoFilterBar({ containerHovered }: TodoFilterBarProps) 
                     <DropdownMenuSeparator className='my-3' />
                     <DropdownMenuGroup>
                         <DropdownMenuSub>
-                            <DropdownMenuLabel className="font-semibold">Grouping</DropdownMenuLabel>
-                            <DropdownMenuSubTrigger>Group</DropdownMenuSubTrigger>
+                            <DropdownMenuLabel className="font-semibold">{filterDict("grouping")}</DropdownMenuLabel>
+                            <DropdownMenuSubTrigger>{filterDict("group")}</DropdownMenuSubTrigger>
                             <DropdownMenuPortal>
                                 <DropdownMenuSubContent>
                                     <DropdownMenuRadioGroup
@@ -124,22 +126,22 @@ export default function TodoFilterBar({ containerHovered }: TodoFilterBarProps) 
                                         }}
                                     >
                                         <DropdownMenuRadioItem value="dtstart" className="hover:bg-popover-accent">
-                                            Start date
+                                            {filterDict("start Date")}
                                         </DropdownMenuRadioItem>
                                         <DropdownMenuRadioItem value="due">
-                                            Deadline
+                                            {filterDict("deadline")}
                                         </DropdownMenuRadioItem>
                                         <DropdownMenuRadioItem value="duration">
-                                            Duration
+                                            {filterDict("duration")}
                                         </DropdownMenuRadioItem>
                                         <DropdownMenuRadioItem value="priority">
-                                            Priority
+                                            {appDict("priority")}
                                         </DropdownMenuRadioItem>
                                         <DropdownMenuRadioItem value="rrule">
-                                            Recurrence
+                                            {filterDict("recurrence")}
                                         </DropdownMenuRadioItem>
                                         <DropdownMenuRadioItem value="project" className="hover:bg-popover-accent">
-                                            Project
+                                            {appDict("project")}
                                         </DropdownMenuRadioItem>
                                     </DropdownMenuRadioGroup>
                                 </DropdownMenuSubContent>
@@ -151,7 +153,7 @@ export default function TodoFilterBar({ containerHovered }: TodoFilterBarProps) 
                         className="text-center justify-center text-red hover:bg-red/65"
                         onClick={() => {
                             updatePreferences({ groupBy: undefined, sortBy: undefined, direction: undefined })
-                        }}>Clear all
+                        }}>{appDict("clear")}
                     </DropdownMenuItem>
                 </DropdownMenuContent>
 

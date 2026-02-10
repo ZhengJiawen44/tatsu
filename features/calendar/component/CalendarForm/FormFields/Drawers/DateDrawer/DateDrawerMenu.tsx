@@ -97,7 +97,7 @@ export function DateDrawerMenu({ dateRange, setDateRange }: { dateRange: NonNull
                 </div>
                 <NestedDrawerItem
                     className="flex w-full gap-3! cursor-pointer items-center justify-between rounded-md p-2 hover:bg-accent/50"
-                    title="Duration"
+                    title={appDict("duration")}
                     icon={<Clock className="w-5 h-5" />}
                     label=""
                 >

@@ -7,27 +7,27 @@
     },
     "hero": {
       "title": "Sanity",
-      "subtitle": "Un coltellino svizzero di pianificatore personale — con un editor in stile Notion, caricamenti di file crittografati top-secret e un sacco di extra utili!",
+      "subtitle": "Un coltellino svizzero della pianificazione personale — con un editor in stile Notion, caricamento file criptati top-secret e un sacco di fantastici extra!",
       "readDocs": "Leggi la documentazione",
       "start": "Inizia"
     },
-    "localizationTitle": "supporto completo per la localizzazione in 11 lingue",
+    "localizationTitle": "supporto completo per 11 lingue",
     "features": [
       {
         "tag": "01 / ATTIVITÀ INTELLIGENTI",
         "title": "Elaborazione del linguaggio naturale",
-        "description": "Digita semplicemente le tue attività in modo naturale. Il nostro motore NLP intelligente estrae automaticamente date, orari e durate dal tuo input.",
+        "description": "Scrivi semplicemente le tue attività in modo naturale. Il nostro motore NLP intelligente estrae automaticamente date, orari e durate dai tuoi input.",
         "bullets": [
           "Rilevamento istantaneo di data e ora",
           "Calcolo automatico della durata",
           "Pianificazione intelligente dei promemoria",
-          "Analisi contestuale"
+          "Analisi sensibile al contesto"
         ]
       },
       {
         "tag": "02 / VISUALIZZAZIONE",
-        "title": "Bella vista calendario",
-        "description": "Visualizza tutte le tue attività a colpo d'occhio. Il calendario integrato fornisce una panoramica chiara della tua agenda con indicatori visivi intuitivi.",
+        "title": "Splendida vista calendario",
+        "description": "Visualizza tutte le tue attività a colpo d'occhio. Il calendario integrato offre una panoramica chiara del tuo programma con indicatori visivi intuitivi.",
         "bullets": [
           "Viste mensile, settimanale e giornaliera",
           "Categorie di attività codificate per colore",
@@ -38,114 +38,114 @@
       {
         "tag": "03 / NOTE RICCHE",
         "title": "Editor in stile Notion",
-        "description": "Cattura i tuoi pensieri con un editor potente e senza distrazioni. Formatta il testo, incorpora contenuti multimediali e organizza le tue idee senza sforzo.",
+        "description": "Cattura i tuoi pensieri con un editor potente e senza distrazioni. Formatta il testo, inserisci contenuti multimediali e organizza le tue idee senza sforzo.",
         "bullets": [
           "Supporto Markdown",
-          "Formattazione del testo ricco",
-          "Evidenziazione della sintassi dei blocchi di codice",
-          "Elenchi puntati nidificati"
+          "Formattazione rich text",
+          "Evidenziazione sintassi blocchi di codice",
+          "Elenchi puntati annidati"
         ]
       },
       {
         "tag": "04 / SICUREZZA",
         "title": "Archiviazione crittografata end-to-end",
-        "description": "I tuoi file sono protetti con crittografia di livello militare. Archivia documenti, immagini e allegati con completa tranquillità.",
+        "description": "I tuoi file sono protetti con crittografia di livello militare. Archivia documenti, immagini e allegati in totale tranquillità.",
         "bullets": [
           "Crittografia AES-256",
-          "Architettura a conoscenza zero",
+          "Architettura zero-knowledge",
           "Condivisione sicura dei file",
           "Backup automatici"
         ]
       }
     ],
     "securityDemo": {
-      "title": "Chiave di accesso",
-      "subtitle": "Abbiamo bisogno della tua chiave di accesso per decrittografare i tuoi file",
-      "enter": "Invio"
+      "title": "Passkey",
+      "subtitle": "Abbiamo bisogno della tua passkey per decriptare i tuoi file",
+      "enter": "Entra"
     },
     "errors": {
-      "fallback": "Qualcosa è andato storto, ma non preoccuparti, abbiamo inviato un rapporto di errore."
+      "fallback": "Qualcosa è andato storto, ma non preoccuparti, abbiamo inviato un rapporto sull'errore."
     },
     "footer": {
       "privacyPolicy": "Informativa sulla privacy",
       "termsOfService": "Termini di servizio",
-      "heroSubtitle": "La piattaforma intelligente di gestione delle attività costruita per i non così sani di mente."
+      "heroSubtitle": "La piattaforma intelligente per la gestione delle attività costruita per i non proprio sani di mente."
     }
   },
   "terms": {
     "title": "Termini di servizio",
     "lastUpdated": "Ultimo aggiornamento: 19 gennaio 2026",
-    "intro": "Utilizzando Sanity su https://tatsu-gg.vercel.app/ (il \"Servizio\"), accetti questi Termini di servizio.",
+    "intro": "Utilizzando Sanity su https://tatsu-gg.vercel.app/ (il “Servizio”), accetti i presenti Termini di servizio.",
     "sections": {
       "1": {
         "title": "Uso del Servizio",
-        "content": "Sanity è un'app di produttività gratuita per gestire attività, note e file. Accetti di utilizzare il Servizio legalmente e di non abusarne o interromperlo."
+        "content": "Sanity è un'app di produttività gratuita per la gestione di attività, note e file. Accetti di utilizzare il Servizio in modo lecito e di non abusarne o interromperlo."
       },
       "2": {
         "title": "Account",
-        "content": "Sei responsabile di mantenere il tuo account sicuro e di tutte le attività sotto il tuo account. Le informazioni devono essere accurate."
+        "content": "Sei responsabile della sicurezza del tuo account e di tutte le attività svolte tramite esso. Le informazioni devono essere accurate."
       },
       "3": {
-        "title": "I tuoi contenuti",
-        "content": "Mantieni la proprietà dei tuoi contenuti. Utilizzando Sanity, ci concedi l'autorizzazione a memorizzarli e elaborarli solo per gestire il Servizio."
+        "title": "I Tuoi Contenuti",
+        "content": "Mantieni la proprietà dei tuoi contenuti. Utilizzando Sanity, concedi il permesso di memorizzarli ed elaborarli esclusivamente per gestire il Servizio."
       },
       "4": {
-        "title": "Uso accettabile",
+        "title": "Uso Accettabile",
         "content": [
           "Nessun contenuto illegale, dannoso o dannoso",
           "Nessun accesso ai dati di altri utenti",
           "Nessun abuso dell'infrastruttura",
-          "Nessun uso illegale del Servizio"
+          "Nessun uso illecito del Servizio"
         ]
       },
       "5": {
         "title": "Disponibilità",
-        "content": "Sanity è un progetto personale fornito su base best-effort. Il Servizio può cambiare, andare offline o essere interrotto in qualsiasi momento."
+        "content": "Sanity è un progetto personale fornito secondo le migliori possibilità. Il Servizio può cambiare, andare offline o essere interrotto in qualsiasi momento."
       },
       "6": {
-        "title": "Risoluzione",
+        "title": "Cessazione",
         "content": "Puoi smettere di usare Sanity in qualsiasi momento. Potremmo sospendere l'accesso se questi Termini vengono violati."
       },
       "7": {
-        "title": "Disclaimer",
-        "content": "Sanity viene fornito \"così com'è\". Non siamo responsabili per la perdita di dati, interruzioni o danni derivanti dall'uso del Servizio."
+        "title": "Esclusione di responsabilità",
+        "content": "Sanity viene fornito “così com'è”. Non siamo responsabili per perdite di dati, interruzioni o danni derivanti dall'uso del Servizio."
       },
       "8": {
         "title": "Modifiche",
-        "content": "Potremmo aggiornare questi Termini. L'uso continuato significa che accetti le modifiche."
+        "content": "Potremmo aggiornare questi Termini. L'uso continuato implica l'accettazione delle modifiche."
       },
       "9": {
-        "title": "Contatto",
-        "content": "Domande? Invia un'email a zhengjiawen44@gmail.com"
+        "title": "Contatti",
+        "content": "Domande? Invia un'e-mail a zhengjiawen44@gmail.com"
       }
     }
   },
   "privacy": {
     "title": "Informativa sulla privacy",
     "lastUpdated": "Ultimo aggiornamento: 19 gennaio 2026",
-    "intro": "Sanity (\"noi\", \"nostro\" o \"ci\") è un'app di produttività personale disponibile su https://tatsu-gg.vercel.app/. Questa Informativa sulla privacy spiega quali dati raccogliamo e come li utilizziamo.",
+    "intro": "Sanity (“noi”, “nostro” o “ci”) è un'app di produttività personale disponibile su https://tatsu-gg.vercel.app/. Questa Informativa sulla privacy spiega quali dati raccogliamo e come li usiamo.",
     "sections": {
       "1": {
         "title": "Informazioni che raccogliamo",
         "content": [
           "Dati dell'account: indirizzo email e fuso orario",
-          "Contenuto utente: attività, note e file crittografati",
-          "Dati tecnici: indirizzo IP, browser e informazioni sulla sessione",
-          "Cookie e archiviazione locale per l'autenticazione"
+          "Contenuto dell'utente: attività, note e file crittografati",
+          "Dati tecnici: indirizzo IP, informazioni sul browser e sulla sessione",
+          "Cookie e memoria locale per l'autenticazione"
         ]
       },
       "2": {
-        "title": "Come utilizziamo i tuoi dati",
+        "title": "Come usiamo i tuoi dati",
         "content": [
           "Fornire e gestire Sanity",
           "Autenticare gli utenti",
-          "Archiviare e sincronizzare i tuoi contenuti",
-          "Mantenere la sicurezza e prevenire abusi"
+          "Memorizzare e sincronizzare i tuoi contenuti",
+          "Mantenere la sicurezza e prevenire gli abusi"
         ]
       },
       "3": {
-        "title": "Archiviazione e sicurezza dei dati",
-        "content": "Sanity utilizza NextAuth per l'autenticazione, NeonDB per l'archiviazione e Vercel per l'hosting. I file sono crittografati ove applicabile. Sebbene nessun sistema sia perfettamente sicuro, vengono adottate misure ragionevoli per proteggere i tuoi dati."
+        "title": "Archiviazione dei dati e sicurezza",
+        "content": "Sanity utilizza NextAuth per l'autenticazione, NeonDB per l'archiviazione e Vercel per l'hosting. I file sono crittografati dove applicabile. Sebbene nessun sistema sia perfettamente sicuro, vengono adottate misure ragionevoli per proteggere i dati."
       },
       "4": {
         "title": "Condivisione dei dati",
@@ -153,23 +153,23 @@
       },
       "5": {
         "title": "Cookie",
-        "content": "I cookie e l'archiviazione locale vengono utilizzati per le sessioni di accesso, le preferenze e la sicurezza. La disabilitazione dei cookie può influire sulla funzionalità."
+        "content": "I cookie e la memoria locale vengono utilizzati per le sessioni di accesso, le preferenze e la sicurezza. La disattivazione dei cookie potrebbe influire sulla funzionalità."
       },
       "6": {
         "title": "Conservazione dei dati",
         "content": "Conserviamo i tuoi dati finché il tuo account è attivo. Puoi eliminare il tuo account in qualsiasi momento e i tuoi contenuti verranno rimossi entro un periodo ragionevole."
       },
       "7": {
-        "title": "I tuoi diritti",
-        "content": "Puoi accedere, correggere, eliminare o esportare i tuoi dati utilizzando le funzionalità dell'app."
+        "title": "I Tuoi Diritti",
+        "content": "Puoi accedere, correggere, eliminare o esportare i tuoi dati utilizzando le funzioni dell'app."
       },
       "8": {
         "title": "Modifiche",
-        "content": "Potremmo aggiornare questa politica di tanto in tanto. Gli aggiornamenti appariranno su questa pagina."
+        "content": "Potremmo aggiornare questa informativa di volta in volta. Gli aggiornamenti appariranno su questa pagina."
       },
       "9": {
-        "title": "Contatto",
-        "content": "Domande? Invia un'email a zhengjiawen44@gmail.com"
+        "title": "Contatti",
+        "content": "Domande? Invia un'e-mail a zhengjiawen44@gmail.com"
       }
     }
   },
@@ -198,10 +198,10 @@
       "login": "Accedi"
     },
     "toasts": {
-      "googleError": "Non siamo riusciti ad accederti a Google al momento",
-      "discordError": "Non siamo riusciti ad accederti a Discord al momento",
-      "invalidCredentials": "Email o password non validi",
-      "genericError": "Non possiamo accederti al momento"
+      "googleError": "Al momento non è stato possibile accedere con Google",
+      "discordError": "Al momento non è stato possibile accedere con Discord",
+      "invalidCredentials": "Email o password non valida",
+      "genericError": "Non è possibile accedere in questo momento"
     }
   },
   "register": {
@@ -235,14 +235,15 @@
       "register": "Crea un account"
     },
     "toasts": {
-      "googleError": "Non siamo riusciti ad accederti a Google al momento",
-      "discordError": "Non siamo riusciti ad accederti a Discord al momento",
-      "genericError": "Non possiamo registrarti al momento"
+      "googleError": "Al momento non è stato possibile accedere con Google",
+      "discordError": "Al momento non è stato possibile accedere con Discord",
+      "genericError": "Non è possibile registrarsi in questo momento"
     }
   },
   "app": {
     "agenda": "agenda",
     "cancel": "Annulla",
+    "clear": "साफ़ करें",
     "save": "Salva",
     "today": "Oggi",
     "yesterday": "Ieri",
@@ -253,25 +254,28 @@
     "month": "Mese",
     "year": "Anno",
     "duration": "Durata",
+    "date": "Data",
     "durationMenu": {
       "title": "Imposta durata",
       "subTitle": "Applicato solo alla data corrente",
-      "error": "Intervallo di date non valido: l'ora di fine deve essere successiva all'ora di inizio."
+      "error": "Intervallo di date non valido: l'ora di fine deve essere successiva a quella di inizio."
     },
     "priority": "Priorità",
+    "project": "Progetto",
+    "overdue": "Scaduto",
     "normal": "Normale",
     "important": "Importante",
     "urgent": "Urgente",
     "repeat": "Ripeti",
-    "everyDay": "Ogni giorno",
-    "everyWeek": "Ogni settimana",
-    "everyMonth": "Ogni mese",
-    "everyYear": "Ogni anno",
+    "everyDay": "Giornaliero",
+    "everyWeek": "Settimanale",
+    "everyMonth": "Mensile",
+    "everyYear": "Annuale",
     "weekdaysOnly": "Solo giorni feriali",
     "custom": "Personalizzato",
     "customMenu": {
       "title": "Ripetizione personalizzata",
-      "subTitle": "Imposta una pianificazione di ripetizione personalizzata",
+      "subTitle": "Imposta un programma di ripetizione personalizzato",
       "every": "Ogni",
       "on": "il",
       "ends": "Termina",
@@ -282,14 +286,15 @@
   },
   "today": {
     "saveInstance": "Salva istanza",
-    "nextRepeatText": "Questa attività è pianificata per",
+    "nextRepeatText": "Questa attività è programmata per il",
     "addATask": "Aggiungi un'attività",
-    "titlePlaceholder": "annaffiare la pianta alle 17",
+    "titlePlaceholder": "annaffiare le piante alle 17:00",
     "menu": {
       "pinToTop": "Fissa in alto",
       "edit": "Modifica",
       "editAsInstance": "Modifica come istanza",
-      "delete": "Elimina"
+      "delete": "Elimina",
+      "Move to": "Sposta in..."
     }
   },
   "sidebar": {
@@ -315,22 +320,22 @@
     "confirm": "Conferma",
     "cancel": "Annulla",
     "delete": {
-      "title": "Eliminare attività?",
+      "title": "Eliminare l'attività?",
       "subtitle": "Questa azione non può essere annullata. Questo eliminerà permanentemente",
       "button": "Elimina"
     },
     "deleteAll": {
-      "title": "Eliminare tutte le ricorrenze dell'attività?",
+      "title": "Eliminare tutte le ricorrenze?",
       "subtitle": "Questa è un'attività ricorrente, eliminare tutte le altre ricorrenze?",
       "deleteInstance": "Elimina solo questa occorrenza",
       "deleteAll": "Elimina tutte le ricorrenze"
     },
     "cancelEdit": {
       "title": "Annullare la modifica?",
-      "subtitle": "Le modifiche apportate verranno scartate"
+      "subtitle": "Le modifiche apportate verranno eliminate"
     },
     "editAll": {
-      "title": "Modificare tutte le ricorrenze dell'attività?",
+      "title": "Modificare tutte le ricorrenze?",
       "subtitle": "Questa è un'attività ricorrente, apportare la stessa modifica a tutte le altre ricorrenze?",
       "editInstance": "Modifica solo questa occorrenza",
       "editAll": "Modifica tutte le ricorrenze"
@@ -340,16 +345,17 @@
     "title": "Scorciatoie",
     "todo": {
       "title": "Scorciatoie attività",
-      "submitAndOpen": "Invia modulo e aprirne un altro",
+      "submitAndOpen": "Invia modulo e aprine un altro",
       "openForm": "Apri modulo",
       "exitForm": "Esci dal modulo",
       "editForm": "Modifica modulo"
     },
     "calendar": {
       "title": "Scorciatoie calendario",
-      "previous": "Mese/Settimana/Giorno precedente",
-      "next": "Prossimo mese/settimana/giorno",
-      "todayView": "Vista di oggi",
+      "markComplete": "Segna come completato",
+      "previous": "Mese/settimana/giorno precedente",
+      "next": "Mese/settimana/giorno successivo",
+      "todayView": "Vista oggi",
       "viewModes": "Vista Mese/Settimana/Giorno"
     },
     "navigation": {
@@ -360,5 +366,40 @@
       "completed": "Completato",
       "vault": "Cassaforte"
     }
+  },
+  "filterMenu": {
+    "sorting": "Ordinamento",
+    "sort": "Ordina",
+    "direction": "Direzione",
+    "grouping": "Raggruppamento",
+    "group": "Raggruppa",
+    "start Date": "Data d'inizio",
+    "deadline": "Scadenza",
+    "duration": "Durata",
+    "ascending": "Crescente",
+    "descending": "Decrescente",
+    "recurrence": "Ricorrenza",
+    "sortedBy": "Ordinato per",
+    "groupedBy": "Raggruppato per",
+    "none": "Nessuno"
+  },
+  "projectMenu": {
+    "typeToSearch": "Digita per cercare",
+    "editColors": "Modifica colori",
+    "red": "Rosso",
+    "orange": "Arancione",
+    "yellow": "Giallo",
+    "lime": "Lime",
+    "blue": "Blu",
+    "purple": "Viola",
+    "pink": "Rosa",
+    "teal": "Verde acqua",
+    "coral": "Corallo",
+    "gold": "Oro",
+    "deepBlue": "Blu profondo",
+    "rose": "Rosa antico",
+    "lightRed": "Rosso chiaro",
+    "brick": "Mattone",
+    "slate": "Ardesia"
   }
 }

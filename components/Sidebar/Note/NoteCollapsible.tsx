@@ -60,7 +60,7 @@ const NoteCollapsible = () => {
             <Spinner className="mr-0 ml-auto w-5 h-5" />
           ) : (
             showPlus && (
-              <div className="ml-auto hover:scale-120! transition-transform duration-150 ease-linear hover:stroke-foreground! w-fit h-fit bg-inherit! cursor-pointer! text-muted-foreground hover:text-foreground "
+              <div className="ml-auto  hover:stroke-foreground! w-fit h-fit bg-inherit! cursor-pointer! text-muted-foreground hover:text-foreground "
 
                 onClick={(e: React.MouseEvent<HTMLDivElement>) => {
                   e.stopPropagation();
