@@ -48,7 +48,7 @@ const ProjectContainer = ({ id }: { id: string }) => {
                 case "due":
                     return getDisplayDate(todo.due, false, locale, userTZ?.timeZone);
                 case "duration":
-                    return String(todo.durationMinutes);
+                    return Number((Math.round(todo.durationMinutes / 60 * 10) / 10).toFixed(1)).toString() + " hr";
                 case "priority":
                     return String(todo.priority);
                 case "rrule":

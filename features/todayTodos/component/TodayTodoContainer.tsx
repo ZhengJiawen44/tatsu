@@ -109,7 +109,7 @@ const TodayTodoContainer = () => {
             <h3 className="text-2xl font-semibold select-none">
               {appDict("today")}
             </h3>
-            <p className="text-muted-foreground text-lg">{formatDateInTZ(userTZ?.timeZone).slice(0, 10)}</p>
+            <p className="text-muted-foreground text-lg">{formatDateInTZ(userTZ?.timeZone).slice(0, 6)}</p>
           </div>
           <TodoFilterBar
             containerHovered={containerHovered}
@@ -124,17 +124,13 @@ const TodayTodoContainer = () => {
             <div className={clsx(key !== "-1" && "my-8")}>
               {key !== "-1" && <p className="text-muted-foreground text-sm">{preferences?.groupBy?.slice(0, 1).toUpperCase() + "" + preferences?.groupBy?.slice(1,)}<span className="text-lg">{" " + key} </span></p>}
               {key !== "-1" && <LineSeparator />}
-
               <TodoGroup
                 todos={todo}
                 className="flex flex-col bg-transparent gap-1"
               />
-
             </div>
-
           </div>
         )}
-
         <CreateTodoBtn />
       </div>
     </TodoMutationProvider>

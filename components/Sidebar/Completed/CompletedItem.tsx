@@ -1,7 +1,8 @@
 import clsx from "clsx";
 import React from "react";
 import { useMenu } from "@/providers/MenuProvider";
-import Link from "next/link";
+import { Link } from "@/i18n/navigation";
+
 import { useCompletedTodo } from "@/features/completed/query/get-completedTodo";
 import useWindowSize from "@/hooks/useWindowSize";
 import { CheckCircleIcon } from "lucide-react";

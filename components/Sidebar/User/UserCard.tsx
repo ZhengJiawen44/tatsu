@@ -4,19 +4,22 @@ import Image from "next/image";
 import UserCardLoading from "./UserCardLoading";
 import SidebarIcon from "@/components/ui/SidebarToggle";
 import { cn } from "@/lib/utils";
-import { redirect } from "next/navigation";
+import { redirect } from "@/i18n/navigation";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
+  DropdownMenuSub,
+  DropdownMenuSubContent,
+  DropdownMenuSubTrigger
 } from "@/components/ui/dropdown-menu";
 import { useTranslations } from "next-intl";
 import { useTheme } from "next-themes";
-import { ArrowUpLeft, LogOut, Moon, Sun } from "lucide-react";
+import { ArrowUpLeft, LogOut, Moon, Sun, Globe } from "lucide-react";
 import ConfirmLogoutModal from "../Settings/ConfirmLogoutModal";
 import KeyboardShortcuts from "@/components/KeyboardShortcut";
-
+import { useLocale } from "next-intl";
 const UserCard = ({ className }: { className?: string }) => {
   const { data, status } = useSession();
   const sidebarDict = useTranslations("sidebar");
@@ -24,8 +27,9 @@ const UserCard = ({ className }: { className?: string }) => {
   const [showShortcutModal, setShowShortcutModal] = useState(false);
   const [showLogoutModal, setShowLogoutModal] = useState(false);
   const [open, setOpen] = useState(false);
+  const locale = useLocale();
   if (status === "loading") return <UserCardLoading />;
-  if (!data) return redirect("/login");
+  if (!data) return redirect({ href: "/login", locale });
   const { user } = data;
 
   return (
@@ -41,7 +45,7 @@ const UserCard = ({ className }: { className?: string }) => {
           onOpenChange={setShowShortcutModal}
         />
       )}
-      <DropdownMenu open={open} onOpenChange={setOpen}>
+      <DropdownMenu open={open} onOpenChange={setOpen} modal={false}>
         <DropdownMenuTrigger asChild>
           <div
             onContextMenu={(e) => {
@@ -111,8 +115,60 @@ const UserCard = ({ className }: { className?: string }) => {
             <ArrowUpLeft className="w-4 h-4" />
             {sidebarDict("settingMenu.shortcuts")}
           </DropdownMenuItem>
+          <DropdownMenuSub>
+            <DropdownMenuSubTrigger>
+              <Globe className="w-4! h-4!" strokeWidth={1.7} />
+              {locale}
+            </DropdownMenuSubTrigger>
+            <DropdownMenuSubContent sideOffset={-125} alignOffset={50}>
+              <DropdownMenuItem asChild>
+                <div onClick={() => redirect({ href: "/app/todo", locale: "en" })}>English</div>
+              </DropdownMenuItem>
+
+              <DropdownMenuItem asChild>
+                <div onClick={() => redirect({ href: "/app/todo", locale: "ru" })}>Русский</div>
+              </DropdownMenuItem>
+
+              <DropdownMenuItem asChild>
+                <div onClick={() => redirect({ href: "/app/todo", locale: "es" })}>Español</div>
+              </DropdownMenuItem>
+
+              <DropdownMenuItem asChild>
+                <div onClick={() => redirect({ href: "/app/todo", locale: "ja" })}>日本語</div>
+              </DropdownMenuItem>
+
+              <DropdownMenuItem asChild>
+                <div onClick={() => redirect({ href: "/app/todo", locale: "ar" })}>العربية</div>
+              </DropdownMenuItem>
+
+              <DropdownMenuItem asChild>
+                <div onClick={() => redirect({ href: "/app/todo", locale: "zh" })}>中文</div>
+              </DropdownMenuItem>
+
+              <DropdownMenuItem asChild>
+                <div onClick={() => redirect({ href: "/app/todo", locale: "de" })}>Deutsch</div>
+              </DropdownMenuItem>
+
+              <DropdownMenuItem asChild>
+                <div onClick={() => redirect({ href: "/app/todo", locale: "it" })}>Italiano</div>
+              </DropdownMenuItem>
+
+              <DropdownMenuItem asChild>
+                <div onClick={() => redirect({ href: "/app/todo", locale: "ms" })}>Melayu</div>
+              </DropdownMenuItem>
+
+              <DropdownMenuItem asChild>
+                <div onClick={() => redirect({ href: "/app/todo", locale: "pt" })}>Português</div>
+              </DropdownMenuItem>
+
+              <DropdownMenuItem asChild>
+                <div onClick={() => redirect({ href: "/app/todo", locale: "fr" })}>Français</div>
+              </DropdownMenuItem>
+
+            </DropdownMenuSubContent>
+          </DropdownMenuSub>
         </DropdownMenuContent>
-      </DropdownMenu>
+      </DropdownMenu >
 
     </>
   );

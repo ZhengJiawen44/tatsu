@@ -3,7 +3,8 @@ import { useRenameProject } from "./query/rename-project";
 import { useMenu } from "@/providers/MenuProvider";
 import { ProjectItemType } from "@/types";
 import clsx from "clsx";
-import Link from "next/link";
+import { Link } from "@/i18n/navigation";
+
 import React, { useEffect, useRef, useState } from "react";
 import Spinner from "@/components/ui/spinner";
 import Meatball from "@/components/ui/icon/meatball";
@@ -12,8 +13,11 @@ import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigge
 import { useRecolorProject } from "./query/update-project-color";
 import { projectColorMap } from "@/lib/projectColorMap";
 import ProjectTag from "@/components/ProjectTag";
+import { useTranslations } from "next-intl";
 
 const ProjectSidebarItem = ({ meta }: { meta: Pick<ProjectItemType, "id" | "color" | "name"> }) => {
+  const projectDict = useTranslations("projectMenu");
+  const noteMenu = useTranslations("sidebar.noteMenu");
   const { renameMutateFn } = useRenameProject();
   const { recolorMutateFn } = useRecolorProject();
   const { width } = useWindowSize();
@@ -108,13 +112,13 @@ const ProjectSidebarItem = ({ meta }: { meta: Pick<ProjectItemType, "id" | "colo
                 <Meatball className="w-5 h-5 hover:text-foreground cursor-pointer" />
               </DropdownMenuTrigger>
               <DropdownMenuContent>
-                <DropdownMenuItem onClick={() => setIsRenaming(true)}> rename</DropdownMenuItem>
+                <DropdownMenuItem onClick={() => setIsRenaming(true)}> {noteMenu("rename")}</DropdownMenuItem>
                 <DropdownMenuItem onClick={() => deleteMutateFn({ id: meta.id })}>
-                  delete
+                  {noteMenu("delete")}
                 </DropdownMenuItem>
                 <DropdownMenuSub>
                   <DropdownMenuSubTrigger>
-                    Edit colours...
+                    {projectDict("editColors")}
                   </DropdownMenuSubTrigger>
                   <DropdownMenuSubContent className="max-h-60 overflow-scroll">
                     {projectColorMap.map((color) => {
@@ -147,7 +151,7 @@ const ProjectSidebarItem = ({ meta }: { meta: Pick<ProjectItemType, "id" | "colo
                           <span
                             className={`w-5 h-5 ${bgClass} border border-popover-border rounded-sm`}
                           ></span>
-                          {color.name}
+                          {color.name == "Deep Blue" ? projectDict("deepBlue") : color.name == "Light Red" ? projectDict("lightRed") : projectDict(color.name.toLowerCase())}
                         </DropdownMenuItem>
                       );
                     })}

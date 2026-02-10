@@ -8,12 +8,16 @@ type ProjectDrawerProps = {
     setProjectID: React.Dispatch<SetStateAction<string | null>>;
     className?: string;
 };
+import { useTranslations } from "next-intl";
 
 export default function ProjectDrawer({
     projectID,
     setProjectID,
     className,
 }: ProjectDrawerProps) {
+    const appDict = useTranslations("app")
+    const projectDict = useTranslations("projectMenu")
+
     const { projectMetaData } = useProjectMetaData();
     const [search, setSearch] = useState('');
 
@@ -32,7 +36,7 @@ export default function ProjectDrawer({
             <div className="mx-auto w-full max-w-lg flex flex-col h-full gap-4">
                 {/* Frequency & Interval */}
                 <Input
-                    placeholder="Type to search..."
+                    placeholder={projectDict("typeToSearch")}
                     value={search}
                     onChange={(e) => setSearch(e.target.value)}
                     className="text-base! w-full mb-4 bg-inherit border-popover-border focus:brightness-100 brightness-75 outline-0 rounded-sm ring-0 ring-black focus-visible:ring-0 focus-visible:ring-offset-0"
@@ -66,7 +70,7 @@ export default function ProjectDrawer({
                                 setProjectID(null);
                             }}
                         >
-                            Clear
+                            {appDict("clear")}
                         </div>
                     </>
                 }

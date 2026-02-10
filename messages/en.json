@@ -245,6 +245,7 @@
     "agenda": "agenda",
     "cancel": "Cancel",
     "save": "Save",
+    "clear": "Clear",
     "today": "Today",
     "yesterday": "Yesterday",
     "tomorrow": "Tomorrow",
@@ -254,20 +255,23 @@
     "month": "Month",
     "year": "Year",
     "duration": "Duration",
+    "date": "Date",
     "durationMenu": {
       "title": "Set duration",
       "subTitle": "Applied to the current date only",
       "error": "Invalid date range: End time must be after start time."
     },
     "priority": "Priority",
+    "project": "Project",
+    "overdue": "Overdue",
     "normal": "Normal",
     "important": "Important",
     "urgent": "Urgent",
     "repeat": "Repeat",
-    "everyDay": "Every day",
-    "everyWeek": "Every week",
-    "everyMonth": "Every month",
-    "everyYear": "Every year",
+    "everyDay": "Daily",
+    "everyWeek": "Weekly",
+    "everyMonth": "Monthly",
+    "everyYear": "Yearly",
     "weekdaysOnly": "Weekdays only",
     "custom": "Custom",
     "customMenu": {
@@ -291,7 +295,8 @@
       "pinToTop": "Pin to top",
       "edit": "Edit",
       "editAsInstance": "Edit as instance",
-      "delete": "Delete"
+      "delete": "Delete",
+      "Move to": "Move to..."
     }
   },
   "sidebar": {
@@ -349,6 +354,7 @@
       "editForm": "Edit form"
     },
     "calendar": {
+      "markComplete": "Mark complete",
       "title": "Calendar shortcuts",
       "previous": "Previous month/week/day",
       "next": "Next month/week/day",
@@ -363,5 +369,40 @@
       "completed": "Completed",
       "vault": "Vault"
     }
+  },
+  "filterMenu": {
+    "sorting": "Sorting",
+    "sort": "Sort",
+    "direction": "Direction",
+    "grouping": "Grouping",
+    "group": "Group",
+    "start Date": "Start Date",
+    "deadline": "Deadline",
+    "duration": "Duration",
+    "ascending": "Ascending",
+    "descending": "Descending",
+    "recurrence": "Recurrence",
+    "sortedBy": "Sorted by",
+    "groupedBy": "Grouped by",
+    "none": "None"
+  },
+  "projectMenu": {
+    "typeToSearch": "Type to search",
+    "editColors": "Edit Colors",
+    "red": "Red",
+    "orange": "Orange",
+    "yellow": "Yellow",
+    "lime": "Lime",
+    "blue": "Blue",
+    "purple": "Purple",
+    "pink": "Pink",
+    "teal": "Teal",
+    "coral": "Coral",
+    "gold": "Gold",
+    "deepBlue": "Deep Blue",
+    "rose": "Rose",
+    "lightRed": "Light Red",
+    "brick": "Brick",
+    "slate": "Slate"
   }
 }

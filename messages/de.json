@@ -2,113 +2,113 @@
   "landingPage": {
     "nav": {
       "docs": "Dokumentation",
-      "docsShort": "Doku",
+      "docsShort": "Docs",
       "login": "Anmelden"
     },
     "hero": {
       "title": "Sanity",
-      "subtitle": "Ein Schweizer Taschenmesser unter den Planern – mit Notion-Editor, starker Verschlüsselung und vielen Extras.",
-      "readDocs": "Doku lesen",
+      "subtitle": "Ein Schweizer Taschenmesser für die persönliche Planung – mit einem Editor im Notion-Stil, streng geheimen, verschlüsselten Dateiuploads und vielen raffinierten Extras!",
+      "readDocs": "Dokumentation lesen",
       "start": "Starten"
     },
-    "localizationTitle": "vollständige Lokalisierungsunterstützung für 11 Sprachen",
+    "localizationTitle": "Vollständige Lokalisierung für 11 Sprachen",
     "features": [
       {
         "tag": "01 / SMARTE AUFGABEN",
         "title": "Natürliche Sprachverarbeitung",
-        "description": "Tippe deine Aufgaben natürlich ein. Die NLP-Engine erkennt automatisch Daten und Zeiten.",
+        "description": "Geben Sie Ihre Aufgaben einfach ganz natürlich ein. Unsere intelligente NLP-Engine extrahiert automatisch Daten, Uhrzeiten und Zeiträume aus Ihrer Eingabe.",
         "bullets": [
-          "Sofortige Datumserkennung",
+          "Sofortige Datums- und Zeitserkennung",
           "Automatische Dauerberechnung",
-          "Intelligente Erinnerungen",
-          "Kontextanalyse"
+          "Smarte Erinnerungsplanung",
+          "Kontextbewusste Analyse"
         ]
       },
       {
         "tag": "02 / VISUALISIERUNG",
         "title": "Schöne Kalenderansicht",
-        "description": "Alle Aufgaben auf einen Blick mit einer klaren Übersicht.",
+        "description": "Alle Aufgaben auf einen Blick sehen. Der integrierte Kalender bietet eine klare Übersicht über Ihren Zeitplan mit intuitiven visuellen Indikatoren.",
         "bullets": [
           "Monats-, Wochen- und Tagesansicht",
-          "Farbcodierte Kategorien",
-          "Drag & Drop Planung",
+          "Farbcodierte Aufgabenkategorien",
+          "Drag-and-Drop Umplanung",
           "Konflikterkennung"
         ]
       },
       {
-        "tag": "03 / NOTIZEN",
-        "title": "Notion-ähnlicher Editor",
-        "description": "Halte deine Gedanken mit einem leistungsstarken Editor fest.",
+        "tag": "03 / RICH NOTES",
+        "title": "Editor im Notion-Stil",
+        "description": "Halten Sie Ihre Gedanken mit einem leistungsstarken, ablenkungsfreien Editor fest. Formatieren Sie Texte, betten Sie Medien ein und organisieren Sie Ihre Ideen mühelos.",
         "bullets": [
-          "Markdown Unterstützung",
-          "Rich-Text Formatierung",
-          "Code-Highlighting",
-          "Verschachtelte Listen"
+          "Markdown-Unterstützung",
+          "Rich-Text-Formatierung",
+          "Syntax-Highlighting für Code-Blöcke",
+          "Verschachtelte Aufzählungslisten"
         ]
       },
       {
         "tag": "04 / SICHERHEIT",
-        "title": "Ende-zu-Ende Verschlüsselung",
-        "description": "Deine Dateien sind mit militärischer Verschlüsselung geschützt.",
+        "title": "End-to-End verschlüsselter Speicher",
+        "description": "Ihre Dateien sind mit militärischer Verschlüsselung geschützt. Speichern Sie Dokumente, Bilder und Anhänge mit absolutem Seelenfrieden.",
         "bullets": [
           "AES-256 Verschlüsselung",
-          "Zero-Knowledge Architektur",
-          "Sicheres Teilen",
+          "Zero-Knowledge-Architektur",
+          "Sichere Dateifreigabe",
           "Automatische Backups"
         ]
       }
     ],
     "securityDemo": {
       "title": "Passkey",
-      "subtitle": "Wir benötigen deinen Schlüssel zum Entschlüsseln",
-      "enter": "Bestätigen"
+      "subtitle": "Wir benötigen Ihren Passkey, um Ihre Dateien zu entschlüsseln",
+      "enter": "Eingeben"
     },
     "errors": {
-      "fallback": "Etwas ist schiefgelaufen, aber wir haben den Fehler gemeldet."
+      "fallback": "Etwas ist schiefgelaufen, aber keine Sorge, wir haben einen Fehlerbericht gesendet."
     },
     "footer": {
-      "privacyPolicy": "Datenschutzrichtlinie",
+      "privacyPolicy": "Datenschutzbestimmungen",
       "termsOfService": "Nutzungsbedingungen",
-      "heroSubtitle": "The intelligent task management platform built for the not so sane."
+      "heroSubtitle": "Die intelligente Aufgabenmanagement-Plattform für die nicht ganz so Vernünftigen."
     }
   },
   "terms": {
     "title": "Nutzungsbedingungen",
     "lastUpdated": "Zuletzt aktualisiert: 19. Januar 2026",
-    "intro": "Durch die Nutzung von Sanity auf https://tatsu-gg.vercel.app/ (der „Dienst“) stimmen Sie diesen Nutzungsbedingungen zu.",
+    "intro": "Durch die Nutzung von Sanity auf https://tatsu-gg.vercel.app/ (der „Dienst“) erklären Sie sich mit diesen Nutzungsbedingungen einverstanden.",
     "sections": {
       "1": {
         "title": "Nutzung des Dienstes",
-        "content": "Sanity ist eine kostenlose Produktivitäts-App zur Verwaltung von Aufgaben, Notizen und Dateien. Sie stimmen zu, den Dienst gesetzlich zu nutzen und ihn nicht zu missbrauchen oder zu stören."
+        "content": "Sanity ist eine kostenlose Produktivitäts-App zur Verwaltung von Aufgaben, Notizen und Dateien. Sie stimmen zu, den Dienst rechtmäßig zu nutzen und ihn nicht zu missbrauchen oder zu stören."
       },
       "2": {
         "title": "Konten",
-        "content": "Sie sind verantwortlich für die Sicherheit Ihres Kontos und alle Aktivitäten darunter. Informationen müssen korrekt sein."
+        "content": "Sie sind dafür verantwortlich, Ihr Konto sicher zu halten, sowie für alle Aktivitäten unter Ihrem Konto. Informationen müssen korrekt sein."
       },
       "3": {
-        "title": "Ihr Inhalt",
-        "content": "Sie behalten das Eigentum an Ihren Inhalten. Durch die Nutzung von Sanity erteilen Sie die Erlaubnis, diese nur zur Betreibung des Dienstes zu speichern und zu verarbeiten."
+        "title": "Ihre Inhalte",
+        "content": "Sie behalten das Eigentum an Ihren Inhalten. Durch die Nutzung von Sanity gewähren Sie die Erlaubnis, diese ausschließlich für den Betrieb des Dienstes zu speichern und zu verarbeiten."
       },
       "4": {
         "title": "Zulässige Nutzung",
         "content": [
           "Keine illegalen, schädlichen oder bösartigen Inhalte",
           "Kein Zugriff auf Daten anderer Nutzer",
-          "Keine Missbrauch der Infrastruktur",
+          "Kein Missbrauch der Infrastruktur",
           "Keine rechtswidrige Nutzung des Dienstes"
         ]
       },
       "5": {
         "title": "Verfügbarkeit",
-        "content": "Sanity ist ein persönliches Projekt, das nach bestem Wissen bereitgestellt wird. Der Dienst kann jederzeit geändert, offline genommen oder eingestellt werden."
+        "content": "Sanity ist ein persönliches Projekt, das auf Best-Effort-Basis bereitgestellt wird. Der Dienst kann sich jederzeit ändern, offline gehen oder eingestellt werden."
       },
       "6": {
         "title": "Beendigung",
-        "content": "Sie können die Nutzung von Sanity jederzeit einstellen. Wir können den Zugang sperren, wenn diese Bedingungen verletzt werden."
+        "content": "Sie können die Nutzung von Sanity jederzeit beenden. Wir können den Zugriff sperren, wenn diese Bedingungen verletzt werden."
       },
       "7": {
         "title": "Haftungsausschluss",
-        "content": "Sanity wird „wie besehen“ bereitgestellt. Wir übernehmen keine Verantwortung für Datenverlust, Unterbrechungen oder Schäden durch die Nutzung des Dienstes."
+        "content": "Sanity wird „wie besehen“ bereitgestellt. Wir sind nicht verantwortlich für Datenverlust, Unterbrechungen oder Schäden, die aus der Nutzung des Dienstes resultieren."
       },
       "8": {
         "title": "Änderungen",
@@ -116,64 +116,63 @@
       },
       "9": {
         "title": "Kontakt",
-        "content": "Fragen? Senden Sie eine E-Mail an zhengjiawen44@gmail.com"
+        "content": "Fragen? E-Mail an zhengjiawen44@gmail.com"
       }
     }
   },
   "privacy": {
-    "title": "Datenschutzrichtlinie",
+    "title": "Datenschutzbestimmungen",
     "lastUpdated": "Zuletzt aktualisiert: 19. Januar 2026",
-    "intro": "Sanity („wir“, „unser“) ist eine persönliche Produktivitäts-App, verfügbar unter https://tatsu-gg.vercel.app/. Diese Datenschutzrichtlinie erklärt, welche Daten wir sammeln und wie wir sie verwenden.",
+    "intro": "Sanity („wir“, „unser“ oder „uns“) ist eine persönliche Produktivitäts-App, verfügbar unter https://tatsu-gg.vercel.app/. Diese Datenschutzbestimmung erklärt, welche Daten wir sammeln und wie wir sie verwenden.",
     "sections": {
       "1": {
-        "title": "Gesammelte Informationen",
+        "title": "Informationen, die wir sammeln",
         "content": [
           "Kontodaten: E-Mail-Adresse und Zeitzone",
           "Nutzerinhalte: Aufgaben, Notizen und verschlüsselte Dateien",
           "Technische Daten: IP-Adresse, Browser- und Sitzungsinformationen",
-          "Cookies und lokaler Speicher für Authentifizierung"
+          "Cookies und lokaler Speicher für die Authentifizierung"
         ]
       },
       "2": {
         "title": "Wie wir Ihre Daten verwenden",
         "content": [
           "Bereitstellung und Betrieb von Sanity",
-          "Benutzerauthentifizierung",
+          "Authentifizierung von Nutzern",
           "Speicherung und Synchronisierung Ihrer Inhalte",
-          "Sicherheitsmaßnahmen und Missbrauchsprävention"
+          "Aufrechterhaltung der Sicherheit und Missbrauchsprävention"
         ]
       },
       "3": {
         "title": "Datenspeicherung & Sicherheit",
-        "content": "Sanity verwendet NextAuth für Authentifizierung, NeonDB für Speicherung und Vercel für Hosting. Dateien werden dort verschlüsselt, wo es zutrifft. Obwohl kein System perfekt sicher ist, werden angemessene Maßnahmen zum Schutz Ihrer Daten getroffen."
+        "content": "Sanity nutzt NextAuth für die Authentifizierung, NeonDB für die Speicherung und Vercel für das Hosting. Dateien werden nach Möglichkeit verschlüsselt. Obwohl kein System perfekt sicher ist, werden angemessene Schritte zum Schutz Ihrer Daten unternommen."
       },
       "4": {
-        "title": "Datenweitergabe",
-        "content": "Wir teilen Daten nur mit Dienstleistern, die für den Betrieb von Sanity erforderlich sind. Wir verkaufen keine persönlichen Daten."
+        "title": "Weitergabe von Daten",
+        "content": "Wir geben Daten nur an Dienstleister weiter, die für den Betrieb von Sanity erforderlich sind. Wir verkaufen Ihre persönlichen Daten nicht."
       },
       "5": {
         "title": "Cookies",
         "content": "Cookies und lokaler Speicher werden für Login-Sitzungen, Präferenzen und Sicherheit verwendet. Das Deaktivieren von Cookies kann die Funktionalität beeinträchtigen."
       },
       "6": {
-        "title": "Datenaufbewahrung",
+        "title": "Datenspeicherung",
         "content": "Wir bewahren Ihre Daten auf, solange Ihr Konto aktiv ist. Sie können Ihr Konto jederzeit löschen, und Ihre Inhalte werden innerhalb eines angemessenen Zeitraums entfernt."
       },
       "7": {
         "title": "Ihre Rechte",
-        "content": "Sie können auf Ihre Daten zugreifen, sie korrigieren, löschen oder exportieren, indem Sie die Funktionen der App verwenden."
+        "content": "Sie können über die App-Funktionen auf Ihre Daten zugreifen, sie korrigieren, löschen oder exportieren."
       },
       "8": {
         "title": "Änderungen",
-        "content": "Wir können diese Richtlinie gelegentlich aktualisieren. Aktualisierungen werden auf dieser Seite angezeigt."
+        "content": "Wir können diese Bestimmungen von Zeit zu Zeit aktualisieren. Aktualisierungen werden auf dieser Seite veröffentlicht."
       },
       "9": {
         "title": "Kontakt",
-        "content": "Fragen? Senden Sie eine E-Mail an zhengjiawen44@gmail.com"
+        "content": "Fragen? E-Mail an zhengjiawen44@gmail.com"
       }
     }
   },
-
   "login": {
     "title": "Anmelden",
     "oauth": {
@@ -184,7 +183,7 @@
     "fields": {
       "email": {
         "placeholder": "E-Mail*",
-        "error": "Bitte geben Sie eine gültige E-Mail ein"
+        "error": "Bitte geben Sie eine gültige E-Mail-Adresse ein"
       },
       "password": {
         "placeholder": "Passwort eingeben*",
@@ -192,20 +191,19 @@
       }
     },
     "showPassword": "Passwort anzeigen",
-    "hidePassword": "Passwort verbergen",
+    "hidePassword": "Passwort ausblenden",
     "registerPrompt": "Noch kein Konto?",
     "registerLink": "Registrieren",
     "buttons": {
       "login": "Anmelden"
     },
     "toasts": {
-      "googleError": "Wir konnten derzeit nicht bei Google anmelden",
-      "discordError": "Wir konnten derzeit nicht bei Discord anmelden",
-      "invalidCredentials": "Ungültige E-Mail oder Passwort",
+      "googleError": "Wir konnten Sie derzeit nicht bei Google anmelden",
+      "discordError": "Wir konnten Sie derzeit nicht bei Discord anmelden",
+      "invalidCredentials": "Ungültige E-Mail-Adresse oder Passwort",
       "genericError": "Wir können Sie derzeit nicht anmelden"
     }
   },
-
   "register": {
     "title": "Konto erstellen",
     "loginPrompt": "Haben Sie bereits ein Konto?",
@@ -226,7 +224,7 @@
       },
       "email": {
         "placeholder": "E-Mail*",
-        "error": "Bitte geben Sie eine gültige E-Mail ein"
+        "error": "Bitte geben Sie eine gültige E-Mail-Adresse ein"
       },
       "password": {
         "placeholder": "Passwort eingeben*",
@@ -237,64 +235,67 @@
       "register": "Konto erstellen"
     },
     "toasts": {
-      "googleError": "Google-Anmeldung momentan nicht möglich",
-      "discordError": "Discord-Anmeldung momentan nicht möglich",
-      "genericError": "Registrierung momentan nicht möglich"
+      "googleError": "Wir konnten Sie derzeit nicht bei Google anmelden",
+      "discordError": "Wir konnten Sie derzeit nicht bei Discord anmelden",
+      "genericError": "Wir können Sie derzeit nicht registrieren"
     }
   },
   "app": {
     "agenda": "Agenda",
+    "clear": "Leeren",
     "cancel": "Abbrechen",
     "save": "Speichern",
     "today": "Heute",
-    "tomorrow": "Morgen",
     "yesterday": "Gestern",
+    "tomorrow": "Morgen",
     "nextWeek": "Nächste Woche",
     "day": "Tag",
+    "date": "Datum",
     "week": "Woche",
     "month": "Monat",
     "year": "Jahr",
     "duration": "Dauer",
     "durationMenu": {
       "title": "Dauer festlegen",
-      "subTitle": "Nur auf das aktuelle Datum angewendet",
-      "error": "Ungültiger Datumsbereich: Endzeit muss nach der Startzeit liegen."
+      "subTitle": "Wird nur auf das aktuelle Datum angewendet",
+      "error": "Ungültiger Datumsbereich: Die Endzeit muss nach der Startzeit liegen."
     },
     "priority": "Priorität",
+    "project": "Projekt",
+    "overdue": "Überfällig",
     "normal": "Normal",
     "important": "Wichtig",
     "urgent": "Dringend",
     "repeat": "Wiederholen",
-    "everyDay": "Jeden Tag",
-    "everyWeek": "Jede Woche",
-    "everyMonth": "Jeden Monat",
-    "everyYear": "Jedes Jahr",
-    "weekdaysOnly": "Nur Wochentage",
+    "everyDay": "Täglich",
+    "everyWeek": "Wöchentlich",
+    "everyMonth": "Monatlich",
+    "everyYear": "Jährlich",
+    "weekdaysOnly": "Nur an Wochentagen",
     "custom": "Benutzerdefiniert",
     "customMenu": {
-      "title": "Benutzerdefinierte Wiederholung",
-      "subtitle": "Einen benutzerdefinierten Wiederholungsplan erstellen",
+      "title": "Eigene Wiederholung",
+      "subTitle": "Einen benutzerdefinierten Wiederholungsplan erstellen",
       "every": "Alle",
-      "ends": "Endet",
       "on": "am",
+      "ends": "Endet",
       "never": "Nie",
-      "onDate": "Am Datum (inklusive)"
+      "onDate": "Am Datum (einschließlich)"
     },
     "descPlaceholder": "Beschreibung"
   },
-
   "today": {
-    "nextRepeatText": "Diese Aufgabe ist als Nächstes geplant für",
+    "saveInstance": "Instanz speichern",
+    "nextRepeatText": "Diese Aufgabe ist als Nächstes geplant für am",
     "addATask": "Aufgabe hinzufügen",
-    "titlePlaceholder": "Die Pflanze um 17 Uhr gießen",
+    "titlePlaceholder": "Pflanzen gießen um 17 Uhr",
     "menu": {
-      "pinToTop": "Anpinnen",
-      "unpin": "Lösen",
+      "pinToTop": "Oben anheften",
       "edit": "Bearbeiten",
       "editAsInstance": "Als Instanz bearbeiten",
-      "delete": "Löschen"
-    },
-    "saveInstance": "Instanz speichern"
+      "delete": "Löschen",
+      "Move to": "Verschieben nach..."
+    }
   },
   "sidebar": {
     "completed": "Abgeschlossen",
@@ -304,28 +305,28 @@
     "settings": "Einstellungen",
     "settingMenu": {
       "logout": "Abmelden",
-      "theme": "Thema",
-      "shortcuts": "Verknüpfungen"
+      "theme": "Design",
+      "shortcuts": "Shortcuts"
     },
     "noteMenu": {
-      "rename": "Umbenennen",
-      "delete": "Löschen"
+      "rename": "umbenennen",
+      "delete": "löschen"
     }
   },
   "completed": {
-    "title": "Abschlussverlauf"
+    "title": "Verlauf der Erledigungen"
   },
   "modal": {
     "confirm": "Bestätigen",
     "cancel": "Abbrechen",
     "delete": {
       "title": "Aufgabe löschen?",
-      "subtitle": "Diese Aktion kann nicht rückgängig gemacht werden. Dies wird dauerhaft gelöscht",
+      "subtitle": "Diese Aktion kann nicht rückgängig gemacht werden. Dies löscht dauerhaft",
       "button": "Löschen"
     },
     "deleteAll": {
-      "title": "Alle Wiederholungen der Aufgabe löschen?",
-      "subtitle": "Dies ist eine wiederkehrende Aufgabe. Alle anderen Wiederholungen löschen?",
+      "title": "Alle Wiederholungen löschen?",
+      "subtitle": "Dies ist eine wiederkehrende Aufgabe. Sollen alle anderen Wiederholungen ebenfalls gelöscht werden?",
       "deleteInstance": "Nur dieses Vorkommen löschen",
       "deleteAll": "Alle Wiederholungen löschen"
     },
@@ -334,35 +335,71 @@
       "subtitle": "Ihre Änderungen werden verworfen"
     },
     "editAll": {
-      "title": "Alle Wiederholungen der Aufgabe bearbeiten?",
-      "subtitle": "Dies ist eine wiederkehrende Aufgabe. Dieselbe Bearbeitung für alle anderen Wiederholungen vornehmen?",
+      "title": "Alle Wiederholungen bearbeiten?",
+      "subtitle": "Dies ist eine wiederkehrende Aufgabe. Soll die Bearbeitung für alle anderen Wiederholungen übernommen werden?",
       "editInstance": "Nur dieses Vorkommen bearbeiten",
       "editAll": "Alle Wiederholungen bearbeiten"
     }
   },
   "shortcuts": {
-    "title": "Tastenkombinationen",
+    "title": "Shortcuts",
     "todo": {
-      "title": "Aufgaben-Tastenkombinationen",
-      "submitAndOpen": "Formular senden und neues öffnen",
+      "title": "Aufgaben-Shortcuts",
+      "submitAndOpen": "Formular absenden und weiteres öffnen",
       "openForm": "Formular öffnen",
-      "exitForm": "Formular beenden",
+      "exitForm": "Formular schließen",
       "editForm": "Formular bearbeiten"
     },
     "calendar": {
-      "title": "Kalender-Tastenkombinationen",
+      "title": "Kalender-Shortcuts",
+      "markComplete": "Marcar como completada",
       "previous": "Vorheriger Monat/Woche/Tag",
       "next": "Nächster Monat/Woche/Tag",
       "todayView": "Heutige Ansicht",
-      "viewModes": "Monats-/Wochen-/Tagesansicht"
+      "viewModes": "Monat/Woche/Tag-Ansicht"
     },
     "navigation": {
       "title": "Navigation",
       "then": "dann",
       "today": "Heute",
       "calendar": "Kalender",
-      "completed": "Erledigt",
+      "completed": "Abgeschlossen",
       "vault": "Tresor"
     }
+  },
+  "filterMenu": {
+    "sorting": "Sortierung",
+    "sort": "Sortieren",
+    "direction": "Richtung",
+    "grouping": "Gruppierung",
+    "group": "Gruppieren",
+    "start Date": "Startdatum",
+    "deadline": "Deadline",
+    "duration": "Dauer",
+    "ascending": "Aufsteigend",
+    "descending": "Absteigend",
+    "recurrence": "Wiederholung",
+    "sortedBy": "Sortiert nach",
+    "groupedBy": "Gruppiert nach",
+    "none": "Keine"
+  },
+  "projectMenu": {
+    "typeToSearch": "Suchen...",
+    "editColors": "Farben bearbeiten",
+    "red": "Rot",
+    "orange": "Orange",
+    "yellow": "Gelb",
+    "lime": "Limette",
+    "blue": "Blau",
+    "purple": "Lila",
+    "pink": "Rosa",
+    "teal": "Blaugrün",
+    "coral": "Koralle",
+    "gold": "Gold",
+    "deepBlue": "Dunkelblau",
+    "rose": "Rose",
+    "lightRed": "Hellrot",
+    "brick": "Ziegelrot",
+    "slate": "Schiefer"
   }
 }

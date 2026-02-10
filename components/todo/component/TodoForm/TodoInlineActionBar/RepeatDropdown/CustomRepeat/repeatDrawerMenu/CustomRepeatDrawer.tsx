@@ -24,7 +24,7 @@ export default function CustomRepeatDrawer({
     return (
         <Drawer>
             <DrawerTrigger className="flex w-full text-sm hover:bg-popover-accent cursor-pointer justify-between p-1.5 px-2">
-                Custom
+                {appDict("custom")}
             </DrawerTrigger>
             <DrawerContent>
 
@@ -58,7 +58,6 @@ export default function CustomRepeatDrawer({
                             }
                             {/* End Condition (until/count) */}
                             <section className="space-y-4">
-
                                 <div className="bg-secondary/10 rounded-md p-4 border">
                                     <RepeatEndOption
                                         customRepeatOptions={rruleOptions}

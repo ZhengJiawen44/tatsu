@@ -38,7 +38,7 @@ const RepeatDropdownMenu = ({ }) => {
             })
           }
         >
-          Daily
+          {appDict("everyDay")}
           <Indicator
             name="Daily"
             derivedRepeatType={derivedRepeatType}
@@ -53,7 +53,7 @@ const RepeatDropdownMenu = ({ }) => {
           }
         >
           <p>
-            Weekly
+            {appDict("everyWeek")}
             <span className="text-xs text-muted-foreground ml-4">
               on{format(new Date(), " EEE")}
             </span>
@@ -76,7 +76,7 @@ const RepeatDropdownMenu = ({ }) => {
         >
 
           <p>
-            Monthly
+            {appDict("everyMonth")}
             <span className="text-xs ml-4 text-muted-foreground">
               on the {format(new Date(), " do")}
             </span>
@@ -95,7 +95,7 @@ const RepeatDropdownMenu = ({ }) => {
           }
         >
           <p>
-            Yearly
+            {appDict("everyYear")}
             <span className="text-xs ml-4 text-muted-foreground">
               on{format(new Date(), " MMM do")}
             </span>
@@ -119,7 +119,7 @@ const RepeatDropdownMenu = ({ }) => {
         >
 
           <p>
-            Weekdays
+            {appDict("weekdaysOnly")}
             <span className="text-xs text-muted-foreground ml-4">Mon-Fri</span>
           </p>
           <Indicator

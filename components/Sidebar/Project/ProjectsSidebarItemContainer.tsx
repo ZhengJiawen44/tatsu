@@ -8,9 +8,11 @@ import { Button } from "@/components/ui/button";
 import ProjectLoading from "./ProjectLoading";
 import { useProjectMetaData } from "./query/get-project-meta";
 import ProjectSidebarItem from "./ProjectSidebarItem";
+import { useTranslations } from "next-intl";
 
 
 const ProjectCollapsible = () => {
+  const appDict = useTranslations("app")
   const { projectMetaData, isPending } = useProjectMetaData();
   const { createMutateFn, createLoading } = useCreateProject();
   return (
@@ -30,7 +32,7 @@ const ProjectCollapsible = () => {
               "w-5 h-5 stroke-muted-foreground",
             )}
           />
-          <p className="select-none text-foreground">Project</p>
+          <p className="select-none text-foreground">{appDict("project")}</p>
           {createLoading ? (
             <Spinner className="mr-0 ml-auto w-5 h-5" />
           ) : (

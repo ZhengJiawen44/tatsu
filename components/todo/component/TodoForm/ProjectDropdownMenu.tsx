@@ -7,6 +7,7 @@ import { useProjectMetaData } from '@/components/Sidebar/Project/query/get-proje
 import { DropdownMenuSeparator } from '@/components/ui/dropdown-menu';
 import ProjectTag from '@/components/ProjectTag';
 import { cn } from '@/lib/utils';
+import { useTranslations } from 'next-intl';
 
 type ProjectDropdownMenuProp = {
     projectID: string | null;
@@ -19,7 +20,8 @@ export default function ProjectDropdownMenu({ projectID, setProjectID, className
     const { projectMetaData } = useProjectMetaData();
     const [open, setOpen] = useState(false);
     const [search, setSearch] = useState('');
-
+    const projectDict = useTranslations("projectMenu")
+    const appDict = useTranslations("app");
 
     // Filter projects based on search input
     const filteredProjects = useMemo(() => {
@@ -41,7 +43,7 @@ export default function ProjectDropdownMenu({ projectID, setProjectID, className
                             <ProjectTag id={projectID} className='text-sm pr-0' /> <span className='truncate max-w-14 sm:max-w-24 md:max-w-52 lg:max-w-none'>{projectMetaData[projectID]?.name}</span>
                         </>
                         : <>
-                            {variant == "default" && <span>#</span>}<p>Project</p>
+                            {variant == "default" && <span>#</span>}<p>{appDict("project")}</p>
                         </>
                     }
                     <ChevronDown className="w-4 h-4 text-muted-foreground" />
@@ -50,7 +52,7 @@ export default function ProjectDropdownMenu({ projectID, setProjectID, className
 
             <PopoverContent className="p-1 space-y-1 text-sm">
                 <Input
-                    placeholder="Type to search..."
+                    placeholder={projectDict("typeToSearch")}
                     value={search}
                     onChange={(e) => setSearch(e.target.value)}
                     className="text-[1.1rem]! md:text-base! lg:text-sm! w-full mb-1 bg-inherit brightness-75  outline-0 rounded-sm ring-0 ring-black focus-visible:ring-0 focus-visible:ring-offset-0"
@@ -86,7 +88,7 @@ export default function ProjectDropdownMenu({ projectID, setProjectID, className
                             }}
                         >
                             <Trash strokeWidth={1.7} className='w-4 h-4' />
-                            Remove
+                            {appDict("clear")}
                         </div>
                     </>
                 }
