@@ -76,7 +76,7 @@ const Editor = ({ note }: { note: NoteItemType }) => {
     },
     content: note.content || "<h1>new page</h1>",
     editorProps: {
-      attributes: { class: "focus:outline-hidden focus:border-none" },
+      attributes: { class: "focus:outline-hidden focus:border-none text-lg leading-relaxed sm:text-base sm:leading-normal " },
     },
   });
 
