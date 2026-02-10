@@ -149,9 +149,8 @@ const LandingPage = () => {
                 <Image
                   className=" rounded-lg m-auto mb-6 w-full h-auto"
                   src={"/hero.webp"}
-                  width={1899}
-                  height={982}
-                  quality={100}
+                  width={1750}
+                  height={1150}
                   alt="hero Image"
                   loading="eager"
                 />
@@ -164,9 +163,8 @@ const LandingPage = () => {
             <Image
               className=" rounded-lg w-full h-auto"
               src={"/hero.webp"}
-              width={1899}
-              height={982}
-              quality={100}
+              width={1750}
+              height={1150}
               alt="example of weekly recurring todo"
               loading="lazy"
               sizes="(max-width: 1024px) 100vw, 50vw"
