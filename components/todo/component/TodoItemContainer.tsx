@@ -67,7 +67,6 @@ export const TodoItemContainer = ({ todoItem, overdue }: TodoItemContainerProps)
   return (
     <>
       <div
-        onTouchMove={(e) => { e.stopPropagation(); e.preventDefault() }}
         ref={setNodeRef}
         style={style}
         {...attributes}

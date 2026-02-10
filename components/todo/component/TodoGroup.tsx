@@ -10,6 +10,8 @@ import { TodoItemType } from "@/types";
 import { useCallback, useEffect, useState } from "react";
 import { TodoItemContainer } from "./TodoItemContainer";
 import { useTodoMutation } from "@/providers/TodoMutationProvider";
+import { useUserPreferences } from "@/providers/UserPreferencesProvider";
+import { useToast } from "@/hooks/use-toast";
 
 const TodoGroup = ({
   todos,
@@ -20,6 +22,8 @@ const TodoGroup = ({
   className?: string;
   overdue?: boolean;
 }) => {
+  const { toast } = useToast()
+  const { preferences } = useUserPreferences();
   const { useReorderTodo } = useTodoMutation();
   const { reorderMutateFn } = useReorderTodo();
   const [items, setItems] = useState(todos);
@@ -80,15 +84,25 @@ const TodoGroup = ({
     }
   }
 
-  if (!mounted) {
+  if (!mounted || preferences?.sortBy) {
     return (
       <div className={className}>
         {items.map((item) => (
-          <TodoItemContainer todoItem={item} key={item.id} overdue={overdue} />
+          <div
+            key={item.id}
+            draggable={true}
+            onDragStart={(e) => {
+              e.preventDefault();
+              toast({ title: "Drag disabled; a global filter is active" })
+            }}
+          >
+            <TodoItemContainer todoItem={item} overdue={overdue} />
+          </div>
         ))}
       </div>
     );
   }
+
 
   return (
     <div className={className}>
@@ -97,7 +111,9 @@ const TodoGroup = ({
         collisionDetection={closestCenter}
         onDragEnd={handleDragEnd}
       >
-        <SortableContext items={items} strategy={verticalListSortingStrategy}>
+        <SortableContext
+          items={items}
+          strategy={verticalListSortingStrategy}>
           {items.map((item) => (
             <TodoItemContainer todoItem={item} key={item.id} overdue={overdue} />
           ))}

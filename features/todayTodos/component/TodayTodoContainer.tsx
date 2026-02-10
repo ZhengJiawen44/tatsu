@@ -52,7 +52,7 @@ const TodayTodoContainer = () => {
         case "due":
           return getDisplayDate(todo.due, false, locale, userTZ?.timeZone);
         case "duration":
-          return String(todo.durationMinutes);
+          return Number((Math.round(todo.durationMinutes / 60 * 10) / 10).toFixed(1)).toString() + " hr";
         case "priority":
           return String(todo.priority);
         case "rrule":
@@ -121,8 +121,8 @@ const TodayTodoContainer = () => {
 
         {Object.entries(sortedGroupedTodos).map(([key, todo]) =>
           <div key={key}>
-            <div className={clsx(key !== "-1" && "my-16")}>
-              {key !== "-1" && <p className="font-light text-muted-foreground text-sm">{preferences?.groupBy?.slice(0, 1).toUpperCase() + "" + preferences?.groupBy?.slice(1,)}<span className="text-lg">{" " + key} </span></p>}
+            <div className={clsx(key !== "-1" && "my-8")}>
+              {key !== "-1" && <p className="text-muted-foreground text-sm">{preferences?.groupBy?.slice(0, 1).toUpperCase() + "" + preferences?.groupBy?.slice(1,)}<span className="text-lg">{" " + key} </span></p>}
               {key !== "-1" && <LineSeparator />}
 
               <TodoGroup

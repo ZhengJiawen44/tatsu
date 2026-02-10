@@ -23,14 +23,13 @@ const UserCard = ({ className }: { className?: string }) => {
   const { setTheme, theme } = useTheme();
   const [showShortcutModal, setShowShortcutModal] = useState(false);
   const [showLogoutModal, setShowLogoutModal] = useState(false);
+  const [open, setOpen] = useState(false);
   if (status === "loading") return <UserCardLoading />;
   if (!data) return redirect("/login");
-
   const { user } = data;
 
   return (
     <>
-
       <ConfirmLogoutModal
         logoutModalOpen={showLogoutModal}
         setLogoutModalOpen={setShowLogoutModal}
@@ -42,9 +41,13 @@ const UserCard = ({ className }: { className?: string }) => {
           onOpenChange={setShowShortcutModal}
         />
       )}
-      <DropdownMenu>
+      <DropdownMenu open={open} onOpenChange={setOpen}>
         <DropdownMenuTrigger asChild>
           <div
+            onContextMenu={(e) => {
+              e.preventDefault()
+              setOpen(true)
+            }}
             className={cn(
               "my-3 flex gap-2 items-center rounded-lg py-2 px-2 transition-all duration-200",
               className,

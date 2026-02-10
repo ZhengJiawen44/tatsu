@@ -58,6 +58,7 @@ export const useEditTodoInstance = (
                 priority: newTodo.priority,
                 due: newTodo.due,
                 dtstart: newTodo.dtstart,
+                durationMinutes: newTodo.durationMinutes,
               };
             }
             return oldTodo;

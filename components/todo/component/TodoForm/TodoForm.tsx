@@ -42,6 +42,7 @@ const TodoForm = ({
     rruleOptions,
     dateRangeChecksum,
     rruleChecksum,
+    durationMinutes
   } = useTodoForm();
 
   //adjust height of the todo description based on content size
@@ -151,6 +152,7 @@ const TodoForm = ({
             priority,
             dtstart,
             due,
+            durationMinutes,
             rrule,
           });
         } else {
@@ -163,6 +165,7 @@ const TodoForm = ({
             priority,
             dtstart,
             due,
+            durationMinutes,
             rrule,
             projectID
           });
@@ -176,11 +179,11 @@ const TodoForm = ({
           priority,
           dtstart,
           due,
+          durationMinutes,
           rrule,
           order: Number.MAX_VALUE,
           createdAt: new Date(),
           completed: false,
-          durationMinutes: 30,
           pinned: false,
           timeZone: "",
           userID: "",

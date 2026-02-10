@@ -128,6 +128,10 @@ export async function PATCH(
         completed,
         dtstart: dateChanged || rruleChanged ? dtstart : undefined,
         due: dateChanged || rruleChanged ? due : undefined,
+        durationMinutes:
+          dateChanged && dtstart && due
+            ? (due?.getTime() - dtstart?.getTime()) / (1000 * 60)
+            : undefined,
         rrule,
         projectID,
       },

@@ -47,7 +47,7 @@ export default function TodoFilterBar({ containerHovered }: TodoFilterBarProps) 
                             <X className='w-4 h-4' />
                         </span>
                     </div>}
-                {preferences?.sortBy && <div className="bg-sidebar border py-1.5 px-3  rounded-md">{preferences.direction}</div>}
+                {preferences?.sortBy && <div className="bg-sidebar border py-1.5 px-3  rounded-md">{preferences.direction || "Ascending"}</div>}
             </div>
             <DropdownMenu>
                 <DropdownMenuTrigger asChild>
