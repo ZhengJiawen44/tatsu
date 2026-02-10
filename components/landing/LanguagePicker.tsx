@@ -9,10 +9,10 @@ export default function LanguagePicker() {
     <DropdownMenu>
       <DropdownMenuTrigger className="bg-border flex items-center gap-2 px-3 py-1 rounded-sm">{locale}<ChevronDown className="w-3 h-3" /></DropdownMenuTrigger>
       <DropdownMenuContent>
-        <DropdownMenuItem asChild><Link href={"/app/todo"} locale="en">English</Link></DropdownMenuItem>
-        <DropdownMenuItem asChild><Link href={"/app/todo"} locale="ru">Русский</Link></DropdownMenuItem>
-        <DropdownMenuItem asChild><Link href={"/app/todo"} locale="es">Español</Link></DropdownMenuItem>
-        <DropdownMenuItem asChild><Link href={"/app/todo"} locale="ja">日本語</Link></DropdownMenuItem>
+        <DropdownMenuItem asChild><Link href={"/"} locale="en">English</Link></DropdownMenuItem>
+        <DropdownMenuItem asChild><Link href={"/"} locale="ru">Русский</Link></DropdownMenuItem>
+        <DropdownMenuItem asChild><Link href={"/"} locale="es">Español</Link></DropdownMenuItem>
+        <DropdownMenuItem asChild><Link href={"/"} locale="ja">日本語</Link></DropdownMenuItem>
         <DropdownMenuItem asChild><Link href={"/"} locale="ar">العربية</Link></DropdownMenuItem>
         <DropdownMenuItem asChild><Link href={"/"} locale="zh">中文</Link></DropdownMenuItem>
         <DropdownMenuItem asChild><Link href={"/"} locale="de">Deutsch</Link></DropdownMenuItem>
