@@ -3,6 +3,7 @@ import React, {
   createContext,
   SetStateAction,
   useContext,
+  useMemo,
   useState,
 } from "react";
 import { NonNullableDateRange } from "@/types";
@@ -24,6 +25,7 @@ interface TodoFormContextType {
   rruleOptions: Partial<Options> | null;
   setRruleOptions: React.Dispatch<SetStateAction<Partial<Options> | null>>;
   timeZone: string;
+  durationMinutes: number;
   derivedRepeatType:
   | "Daily"
   | "Weekly"
@@ -76,9 +78,12 @@ const TodoFormProvider = ({ children, todoItem, overrideFields }: TodoFormProvid
     todoItem?.timeZone ||
     "UTC";
 
+  const durationMinutes = useMemo(() => (dateRange.to.getTime() - dateRange.from.getTime()) / (60 * 1000), [dateRange])
+  console.log(durationMinutes)
+
   const derivedRepeatType = deriveRepeatType({ rruleOptions })
 
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+  //eslint-disable-next-line react-hooks/exhaustive-deps
 
   const contextValue: TodoFormContextType = {
     todoItem,
@@ -95,6 +100,7 @@ const TodoFormProvider = ({ children, todoItem, overrideFields }: TodoFormProvid
     rruleOptions,
     setRruleOptions,
     timeZone,
+    durationMinutes,
     derivedRepeatType,
     dateRangeChecksum,
     rruleChecksum,

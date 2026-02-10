@@ -16,7 +16,7 @@ import { useProjectMetaData } from "@/components/Sidebar/Project/query/get-proje
 import ProjectTag from "@/components/ProjectTag";
 import { Flag } from "lucide-react";
 
-function TodoItemMeatballMenu({
+function TodoItemMeatballMenuContent({
     todo,
     setDisplayForm,
     setEditInstanceOnly,
@@ -98,7 +98,7 @@ function TodoItemMeatballMenu({
                 {todayDict("menu.delete")}
 
             </DropdownMenuItem>
-            <LineSeparator className=" my-3 w-full" />
+            <LineSeparator className=" my-3 w-full border-popover-border" />
 
             <DropdownMenuItem
                 className="flex-col items-start hover:bg-inherit! cursor-default text-xs gap-4 pb-4"
@@ -152,4 +152,4 @@ function TodoItemMeatballMenu({
     );
 }
 
-export default TodoItemMeatballMenu;
+export default TodoItemMeatballMenuContent;

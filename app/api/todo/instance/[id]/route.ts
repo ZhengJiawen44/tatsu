@@ -57,6 +57,10 @@ export async function PATCH(
         overriddenPriority: priority as Priority,
         overriddenDtstart: dtstart,
         overriddenDue: due,
+        overriddenDurationMinutes:
+          dtstart && due
+            ? (due?.getTime() - dtstart?.getTime()) / (1000 * 60)
+            : undefined,
       },
       create: {
         todoId: id,
@@ -67,6 +71,10 @@ export async function PATCH(
         overriddenPriority: priority,
         overriddenDtstart: dtstart,
         overriddenDue: due,
+        overriddenDurationMinutes:
+          dtstart && due
+            ? (dtstart?.getTime() - due?.getTime()) / (1000 * 60)
+            : undefined,
       },
     });
 

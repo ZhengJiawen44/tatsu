@@ -50,6 +50,7 @@ export async function POST(req: NextRequest) {
         due,
         rrule,
         projectID,
+        durationMinutes: (due?.getTime() - dtstart?.getTime()) / (1000 * 60),
       },
     });
     if (!todo) throw new InternalError("todo cannot be created at this time");
