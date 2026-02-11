@@ -74,9 +74,9 @@ export default function FeedbackForm() {
             </Modal >}
             <div
                 onClick={() => setOpen(true)}
-                className='mt-auto flex justify-start items-center gap-2 p-2 hover:bg-popover rounded-md cursor-pointer hover:text-foreground'>
-                <Mail className='w-4 h-4' />
-                Feedback
+                className='mt-auto flex justify-start items-center gap-2.5 p-2 hover:bg-popover rounded-md cursor-pointer hover:text-foreground'>
+                <Mail className='w-4! h-4!' />
+                <p>Feedback</p>
             </div>
         </>
     )
