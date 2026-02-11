@@ -26,7 +26,7 @@ const getFiles = (dir: string): string[] => {
 
 const runAudit = () => {
   if (!fs.existsSync(UI_DIR)) {
-    console.error(`❌ Error: UI directory not found at ${UI_DIR}`);
+    console.error(` Error: UI directory not found at ${UI_DIR}`);
     return;
   }
 
@@ -43,7 +43,7 @@ const runAudit = () => {
         EXTENSIONS.some((ext) => file.endsWith(ext)) && file !== "index.ts",
     );
 
-  console.log(`🔎 Auditing ${uiComponents.length} Shadcn components...\n`);
+  console.log(`Auditing ${uiComponents.length} Shadcn components...\n`);
 
   const unused: string[] = [];
 
