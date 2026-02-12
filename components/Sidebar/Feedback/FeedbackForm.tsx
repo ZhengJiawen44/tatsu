@@ -22,17 +22,15 @@ export default function FeedbackForm() {
 
                                 const title = formData.get("title") as string;
                                 const description = formData.get("description") as string;
-
-                                console.log({ title, description });
-
                                 createMutateFn({ title, description });
+                                setOpen(false)
                             }}>
                             <ModalTitle className='mt-8 text-xl font-bold!'>
                                 Feedback Form
                             </ModalTitle>
                             <div className='mt-8'>
                                 <label htmlFor="title" className='text-muted-foreground text-sm'>title*</label>
-                                <input required id="title" name="title" maxLength={100} className='bg-popover mt-1 w-full rounded-md outline-0 focus:outline-0 p-2 text-lg sm:text-base'></input>
+                                <input required id="title" name="title" maxLength={100} minLength={4} className='bg-popover mt-1 w-full rounded-md outline-0 focus:outline-0 p-2 text-lg sm:text-base'></input>
                             </div>
                             <div className='mt-8'>
                                 <div className='flex justify-between'>
