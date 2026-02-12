@@ -163,8 +163,7 @@
   }
 
   .animate-scroll-left {
-    animation-duration: 5000s;
-    animation: scroll-left linear infinite;
+    animation: scroll-left 30s infinite linear;
   }
 
   :root {

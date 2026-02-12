@@ -10,7 +10,7 @@ const nextConfig: NextConfig = {
   async headers() {
     return [
       {
-        source: "/:all*.(mp3|wav|ogg)",
+        source: "/:all*.(mp3|wav|ogg|avif)",
         headers: [
           {
             key: "Cache-Control",
