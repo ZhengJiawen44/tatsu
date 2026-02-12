@@ -19,20 +19,25 @@ export async function POST(req: NextRequest) {
     //validate req body
     const body = await req.json();
     const feedbackRequestSchema = z.object({
-      title: z.string().min(1).max(100),
-      description: z.string().min(5).max(500).nullable().optional(),
+      title: z.string().min(4).max(100),
+      description: z
+        .string()
+        .max(500)
+        .refine(
+          (val) => val === "" || val.length >= 5,
+          "Description must be at least 5 characters or empty",
+        )
+        .optional(),
     });
     const parsedResult = feedbackRequestSchema.safeParse(body);
 
     if (parsedResult.error)
-      throw new BadRequestError(
-        "title or description is in wrong format or missing",
-      );
+      throw new BadRequestError("title or description too short or missing");
 
     const resendClient = new Resend(process.env.RESEND_API_KEY);
 
     const data = await resendClient.emails.send({
-      from: "Sanity <onboarding@resend.dev>",
+      from: "Feedback <admin@sanity.my>",
       to: "zhengjiawen44@gmail.com",
       replyTo: user.email || "invalid@email",
       subject: `Sanity Feedback — ${parsedResult.data.title}`,
@@ -64,6 +69,6 @@ export async function POST(req: NextRequest) {
 
     return NextResponse.json({ message: "feedback created" }, { status: 200 });
   } catch (error) {
-    errorHandler(error);
+    return errorHandler(error);
   }
 }
