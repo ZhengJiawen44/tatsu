@@ -130,7 +130,7 @@ const LandingPage = () => {
                   {dict("hero.readDocs")}
                 </Button>
               </Link>
-              <Link href="/login" className="z-50 w-full sm:w-auto">
+              <Link href="/login" className="z-50 w-full sm:w-auto" aria-label="Start by logging in">
                 <Button className="bg-lime/65 w-full sm:w-auto text-foreground px-6 py-5 sm:p-6 text-base sm:text-lg font-normal rounded-lg shadow-md hover:translate-y-[2px] transition-transform duration-100">
                   {dict("hero.start")}
                 </Button>
@@ -138,36 +138,19 @@ const LandingPage = () => {
             </div>
           </div>
 
-          {/* Hero Image Hidden on mobile, visible on tablet+ */}
-          <div className="flex-2 hidden sm:block w-full mt-8 lg:mt-0">
-            <div
-              className="w-full flex justify-center"
-            >
-              <div
-                className="w-full  relative"
-              >
-                <Image
-                  className=" rounded-lg m-auto mb-6 w-full h-auto"
-                  src={"/hero.webp"}
-                  width={1750}
-                  height={1150}
-                  alt="hero Image"
-                  loading="eager"
-                />
-              </div>
-            </div>
-          </div>
 
-          {/* Mobile Hero Image  Visible only on mobile */}
-          <div className="sm:hidden w-full mt-6">
+          <div className="mb-8 w-full">
             <Image
-              className=" rounded-lg w-full h-auto"
-              src={"/hero.webp"}
+              src="/hero.webp"
               width={1750}
               height={1150}
-              alt="example of weekly recurring todo"
-              loading="lazy"
-              sizes="(max-width: 1024px) 100vw, 50vw"
+              alt="hero"
+              quality={80}
+              className="w-full h-auto"
+              sizes="(max-width: 640px) 60vw,
+                     (max-width: 1024px) 60vw,
+                     (max-width: 1280px) 45vw,
+                    100vw"
             />
           </div>
         </div>
@@ -190,22 +173,27 @@ const LandingPage = () => {
                   className="space-y-4 sm:space-y-6 text-start flex flex-col justify-center min-h-0 lg:min-h-[80vh]"
                 >
                   {/* Mobile & Tablet Image */}
-                  <div className="lg:hidden relative h-[250px] sm:h-[350px] w-full bg-secondary/50 rounded-xl sm:rounded-2xl border border-border overflow-hidden shadow-2xl mb-4 sm:mb-6">
+                  <div className=" lg:hidden relative w-full bg-secondary/50 rounded-xl sm:rounded-2xl border border-border overflow-hidden shadow-2xl mb-4 sm:mb-6">
                     <Image
                       src={feature.image}
                       alt={feature.title}
-                      fill
-                      className="object-cover"
+                      width={1280}
+                      height={720}
+                      sizes="(max-width: 640px) 30vw,
+                      (max-width: 1024px) 45vw,
+                      100vw"
+
+                      className="w-full h-auto object-cover"
                       loading="lazy"
                     />
                   </div>
 
-                  <div className="text-xs sm:text-sm font-mono text-primary/70 tracking-wider">
+                  <div className="text-xs sm:text-sm font-mono text-lime brightness-150 tracking-wider">
                     {feature.tag}
                   </div>
-                  <h3 className="text-2xl sm:text-3xl lg:text-4xl font-bold">
+                  <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold">
                     {feature.title}
-                  </h3>
+                  </h2>
                   <p className="text-muted-foreground text-base sm:text-lg leading-relaxed">
                     {feature.description}
                   </p>
@@ -240,7 +228,7 @@ const LandingPage = () => {
                           <div className="flex justify-center items-center h-full w-full ">
                             <div className="flex flex-col p-9 w-full gap-4 rounded-xl ">
                               <div className="text-start ">
-                                <h3>{dict("securityDemo.title")}</h3>
+                                <h2>{dict("securityDemo.title")}</h2>
                                 <div className="mt-4 ">
                                   {dict("securityDemo.subtitle")}
                                 </div>
@@ -272,11 +260,16 @@ const LandingPage = () => {
                     }
                     return (
                       <Image
-                        unoptimized={true}
                         key={feature.id}
                         src={feature.image}
                         alt={feature.title}
-                        fill
+                        width={1280}
+                        height={720}
+
+                        sizes="(max-width: 640px) 50vw,
+                     (max-width: 1024px) 50vw,
+                     (max-width: 1280px) 45vw,
+                    100vw"
                         className={`object-contain transition-opacity duration-500 absolute inset-0 ${activeFeature === index ? "opacity-100" : "opacity-0"
                           }`}
                         priority={index === 0}

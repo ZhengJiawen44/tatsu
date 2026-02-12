@@ -49,7 +49,7 @@ const Page = async () => {
                 variant={"ghost"}
                 className="text-sm sm:text-base px-2 sm:px-4"
               >
-                <Link href="/login">{dict("nav.login")}</Link>
+                <Link href="/login" aria-label="Start by logging in">{dict("nav.login")}</Link>
               </Button>
               <LanguagePicker />
             </div>
