@@ -179,10 +179,7 @@ const LandingPage = () => {
                       alt={feature.title}
                       width={1280}
                       height={720}
-                      sizes="(max-width: 640px) 30vw,
-                      (max-width: 1024px) 45vw,
-                      100vw"
-
+                      unoptimized
                       className="w-full h-auto object-cover"
                       loading="lazy"
                     />
@@ -265,11 +262,7 @@ const LandingPage = () => {
                         alt={feature.title}
                         width={1280}
                         height={720}
-
-                        sizes="(max-width: 640px) 50vw,
-                     (max-width: 1024px) 50vw,
-                     (max-width: 1280px) 45vw,
-                    100vw"
+                        unoptimized
                         className={`object-contain transition-opacity duration-500 absolute inset-0 ${activeFeature === index ? "opacity-100" : "opacity-0"
                           }`}
                         priority={index === 0}
