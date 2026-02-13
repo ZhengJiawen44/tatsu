@@ -20,6 +20,19 @@ All files are end to end encrypted and stored in a aws s3 bucket. the module des
 ![e2ee](images/e2ee1.png)![e2ee](images/e2ee2.png)
 
 ## Running with Docker (Recommended)
+
+You can run the prebuilt image directly from GitHub Container Registry:
+
+```bash
+docker run -d \
+  --name tatsu \
+  -p 3000:3000 \
+  --env-file .env \
+  --restart unless-stopped \
+  ghcr.io/zhengjiawen44/tatsu:latest
+```
+
+alternatively, you can build the image yourself.
 The project includes a **Dockerfile** and **docker-compose.yml** for containerized development.
 
 Make sure **Docker** and **Docker Compose** are installed.
