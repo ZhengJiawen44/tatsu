@@ -17,11 +17,18 @@ import dynamic from "next/dynamic";
 const ConfirmDelete = dynamic(() => import("./ConfirmationModals/ConfirmDelete"));
 const ConfirmDeleteAll = dynamic(() => import("./ConfirmationModals/ConfirmDeleteAll"))
 import EditCalendarFormContainer from "./CalendarForm/EditFormContainer";
+import TodoCheckbox from "@/components/ui/TodoCheckbox";
+import { Check } from "lucide-react";
+import { useCompleteCalendarTodo } from "../query/complete-calendar-todo";
+import { useCompleteCalendarTodoInstance } from "../query/complete-calendar-todo-instance";
+
 
 const formatDateRange = (start: Date, end: Date) =>
   `${format(start, "MMM dd hh:mm")} - ${format(end, "MMM dd hh:mm")}`;
 
 const CalendarEvent = ({ event: todo }: EventProps<TodoItemType>) => {
+  const { mutateComplete } = useCompleteCalendarTodo();
+  const { mutateComplete: mutateCompleteInstance } = useCompleteCalendarTodoInstance();
   const [open, setOpen] = useState(false);
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
   const [deleteAllDialogOpen, setDeleteAllDialogOpen] = useState(false);
@@ -41,14 +48,32 @@ const CalendarEvent = ({ event: todo }: EventProps<TodoItemType>) => {
       <Popover open={open} onOpenChange={setOpen}>
         <PopoverTrigger asChild>
           <div
-            className="w-full h-full cursor-pointer z-50! text-foreground"
+            className="relative group w-full h-full cursor-pointer z-50! text-foreground flex pl-2  gap-2 items-center"
             title={todo.title}
             onContextMenu={(e) => {
               e.preventDefault();
               setOpen(true);
             }}
-
           >
+            <div className="absolute top-0 sm:block group-hover:bg-muted-foreground/10 rounded-full group-hover:backdrop-blur-md ">
+              <TodoCheckbox
+                className="border-transparent group-hover:border-foreground stroke-transparent hover:stroke-foreground! z-50"
+                icon={Check}
+                priority={todo.priority}
+                complete={todo.completed}
+                onChange={() => {
+                  if (!todo.rrule) {
+                    mutateComplete({ todoItem: todo })
+                  } else {
+                    mutateCompleteInstance({ todoItem: todo })
+                  }
+                }
+                }
+                checked={todo.completed}
+              />
+            </div>
+
+
             <p className="text-sm truncate max-w-full sm:max-w-xs md:max-w-sm lg:max-w-md xl:max-w-lg 2xl:max-w-xl">
               {todo.title}
             </p>
