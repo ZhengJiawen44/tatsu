@@ -1,0 +1,405 @@
+{
+  "landingPage": {
+    "nav": {
+      "docs": "Documentação",
+      "docsShort": "Docs",
+      "login": "Entrar"
+    },
+    "hero": {
+      "title": "Sanity",
+      "subtitle": "Um canivete suíço de planeamento pessoal — com um editor estilo Notion, carregamento de ficheiros encriptados ultra-secretos e muitos extras fantásticos!",
+      "readDocs": "Ler a documentação",
+      "start": "Começar"
+    },
+    "localizationTitle": "suporte total de localização para 11 idiomas",
+    "features": [
+      {
+        "tag": "01 / TAREFAS INTELIGENTES",
+        "title": "Processamento de linguagem natural",
+        "description": "Basta digitar as suas tarefas naturalmente. O nosso motor inteligente de NLP extrai automaticamente datas, horas e durações da sua escrita.",
+        "bullets": [
+          "Deteção instantânea de data e hora",
+          "Cálculo automático de duração",
+          "Agendamento inteligente de lembretes",
+          "Análise sensível ao contexto"
+        ]
+      },
+      {
+        "tag": "02 / VISUALIZAÇÃO",
+        "title": "Bela visualização de calendário",
+        "description": "Veja todas as suas tarefas num relance. O calendário integrado oferece uma visão clara do seu horário com indicadores visuais intuitivos.",
+        "bullets": [
+          "Visualizações mensal, semanal e diária",
+          "Categorias de tarefas codificadas por cores",
+          "Reagendamento por arrastar e soltar",
+          "Deteção de conflitos"
+        ]
+      },
+      {
+        "tag": "03 / NOTAS RICAS",
+        "title": "Editor estilo Notion",
+        "description": "Registe os seus pensamentos com um editor poderoso e sem distrações. Formate texto, incorpore media e organize as suas ideias sem esforço.",
+        "bullets": [
+          "Suporte para Markdown",
+          "Formatação de texto rico",
+          "Destaque de sintaxe em blocos de código",
+          "Listas de marcas aninhadas"
+        ]
+      },
+      {
+        "tag": "04 / SEGURANÇA",
+        "title": "Armazenamento encriptado de ponta a ponta",
+        "description": "Os seus ficheiros estão protegidos com encriptação de nível militar. Guarde documentos, imagens e anexos com total tranquilidade.",
+        "bullets": [
+          "Encriptação AES-256",
+          "Arquitetura de conhecimento zero",
+          "Partilha segura de ficheiros",
+          "Cópias de segurança automáticas"
+        ]
+      }
+    ],
+    "securityDemo": {
+      "title": "Passkey",
+      "subtitle": "Precisamos da sua passkey para desencriptar os seus ficheiros",
+      "enter": "Entrar"
+    },
+    "errors": {
+      "fallback": "Algo correu mal, mas não se preocupe, enviámos um relatório de erro."
+    },
+    "footer": {
+      "privacyPolicy": "Política de Privacidade",
+      "termsOfService": "Termos de Serviço",
+      "heroSubtitle": "A plataforma inteligente de gestão de tarefas construída para os não tão sãos."
+    }
+  },
+  "terms": {
+    "title": "Termos de Serviço",
+    "lastUpdated": "Última atualização: 19 de janeiro de 2026",
+    "intro": "Ao utilizar o Sanity em https://tatsu-gg.vercel.app/ (o “Serviço”), concorda com estes Termos de Serviço.",
+    "sections": {
+      "1": {
+        "title": "Uso do Serviço",
+        "content": "O Sanity é uma aplicação de produtividade gratuita para gerir tarefas, notas e ficheiros. Concorda em utilizar o Serviço legalmente e não abusar ou interromper o mesmo."
+      },
+      "2": {
+        "title": "Contas",
+        "content": "É responsável por manter a sua conta segura e por toda a atividade na sua conta. A informação deve ser precisa."
+      },
+      "3": {
+        "title": "O Seu Conteúdo",
+        "content": "Mantém a propriedade do seu conteúdo. Ao utilizar o Sanity, concede permissão para o armazenar e processar apenas para operar o Serviço."
+      },
+      "4": {
+        "title": "Uso Aceitável",
+        "content": [
+          "Nenhum conteúdo ilegal, prejudicial ou malicioso",
+          "Nenhum acesso a dados de outros utilizadores",
+          "Nenhum abuso da infraestrutura",
+          "Nenhum uso ilegal do Serviço"
+        ]
+      },
+      "5": {
+        "title": "Disponibilidade",
+        "content": "O Sanity é um projeto pessoal fornecido numa base de melhor esforço. O Serviço pode ser alterado, ficar offline ou ser descontinuado a qualquer momento."
+      },
+      "6": {
+        "title": "Rescisão",
+        "content": "Pode parar de utilizar o Sanity a qualquer momento. Podemos suspender o acesso se estes Termos forem violados."
+      },
+      "7": {
+        "title": "Exoneração de Responsabilidade",
+        "content": "O Sanity é fornecido “tal como está”. Não somos responsáveis por perda de dados, interrupções ou danos resultantes do uso do Serviço."
+      },
+      "8": {
+        "title": "Alterações",
+        "content": "Podemos atualizar estes Termos. O uso continuado significa que aceita as alterações."
+      },
+      "9": {
+        "title": "Contacto",
+        "content": "Dúvidas? Envie e-mail para zhengjiawen44@gmail.com"
+      }
+    }
+  },
+  "privacy": {
+    "title": "Política de Privacidade",
+    "lastUpdated": "Última atualização: 19 de janeiro de 2026",
+    "intro": "O Sanity (“nós”, ou “nosso”) é uma aplicação de produtividade pessoal disponível em https://tatsu-gg.vercel.app/. Esta Política de Privacidade explica quais os dados que recolhemos e como os utilizamos.",
+    "sections": {
+      "1": {
+        "title": "Informação que Recolhemos",
+        "content": [
+          "Dados da conta: endereço de e-mail e fuso horário",
+          "Conteúdo do utilizador: tarefas, notas e ficheiros encriptados",
+          "Dados técnicos: endereço IP, informações do navegador e da sessão",
+          "Cookies e armazenamento local para autenticação"
+        ]
+      },
+      "2": {
+        "title": "Como Utilizamos os Seus Dados",
+        "content": [
+          "Fornecer e operar o Sanity",
+          "Autenticar utilizadores",
+          "Armazenar e sincronizar o seu conteúdo",
+          "Manter a segurança e prevenir o abuso"
+        ]
+      },
+      "3": {
+        "title": "Armazenamento de Dados e Segurança",
+        "content": "O Sanity utiliza NextAuth para autenticação, NeonDB para armazenamento e Vercel para alojamento. Os ficheiros são encriptados onde aplicável. Embora nenhum sistema seja perfeitamente seguro, são tomadas medidas razoáveis para proteger os seus dados."
+      },
+      "4": {
+        "title": "Partilha de Dados",
+        "content": "Apenas partilhamos dados com fornecedores de serviços necessários para operar o Sanity. Não vendemos os seus dados pessoais."
+      },
+      "5": {
+        "title": "Cookies",
+        "content": "Cookies e armazenamento local são utilizados para sessões de login, preferências e segurança. Desativar os cookies pode afetar a funcionalidade."
+      },
+      "6": {
+        "title": "Retenção de Dados",
+        "content": "Mantemos os seus dados enquanto a sua conta estiver ativa. Pode eliminar a sua conta a qualquer momento e o seu conteúdo será removido num período razoável."
+      },
+      "7": {
+        "title": "Os Seus Direitos",
+        "content": "Pode aceder, corrigir, eliminar ou exportar os seus dados utilizando as funcionalidades da aplicação."
+      },
+      "8": {
+        "title": "Alterações",
+        "content": "Podemos atualizar esta política periodicamente. As atualizações aparecerão nesta página."
+      },
+      "9": {
+        "title": "Contacto",
+        "content": "Dúvidas? Envie e-mail para zhengjiawen44@gmail.com"
+      }
+    }
+  },
+  "login": {
+    "title": "Login",
+    "oauth": {
+      "orLogInWith": "ou entre com",
+      "google": "Google",
+      "discord": "Discord"
+    },
+    "fields": {
+      "email": {
+        "placeholder": "E-mail*",
+        "error": "Por favor introduza um e-mail válido"
+      },
+      "password": {
+        "placeholder": "Introduza a sua palavra-passe*",
+        "error": "Por favor introduza uma palavra-passe válida"
+      }
+    },
+    "showPassword": "Mostrar palavra-passe",
+    "hidePassword": "Ocultar palavra-passe",
+    "registerPrompt": "Não tem uma conta?",
+    "registerLink": "Registar",
+    "buttons": {
+      "login": "Login"
+    },
+    "toasts": {
+      "googleError": "Não foi possível iniciar sessão no Google de momento",
+      "discordError": "Não foi possível iniciar sessão no Discord de momento",
+      "invalidCredentials": "E-mail ou palavra-passe inválidos",
+      "genericError": "Não é possível iniciar sessão de momento"
+    }
+  },
+  "register": {
+    "title": "Criar uma conta",
+    "loginPrompt": "Já tem uma conta?",
+    "loginLink": "Login",
+    "oauth": {
+      "orRegisterWith": "ou registe-se com",
+      "google": "Google",
+      "discord": "Discord"
+    },
+    "fields": {
+      "fname": {
+        "placeholder": "Primeiro Nome*",
+        "error": "Por favor introduza o seu primeiro nome"
+      },
+      "lname": {
+        "placeholder": "Apelido",
+        "error": "Por favor introduza um apelido válido"
+      },
+      "email": {
+        "placeholder": "E-mail*",
+        "error": "Por favor introduza um e-mail válido"
+      },
+      "password": {
+        "placeholder": "Introduza a sua palavra-passe*",
+        "error": "Por favor introduza uma palavra-passe válida"
+      }
+    },
+    "buttons": {
+      "register": "Criar uma Conta"
+    },
+    "toasts": {
+      "googleError": "Não foi possível iniciar sessão no Google de momento",
+      "discordError": "Não foi possível iniciar sessão no Discord de momento",
+      "genericError": "Não é possível registar-se de momento"
+    }
+  },
+  "app": {
+    "agenda": "agenda",
+    "cancel": "Cancelar",
+    "clear": "Limpar",
+    "save": "Guardar",
+    "today": "Hoje",
+    "yesterday": "Ontem",
+    "tomorrow": "Amanhã",
+    "nextWeek": "Próxima semana",
+    "day": "Dia",
+    "week": "Semana",
+    "month": "Mês",
+    "year": "Ano",
+    "duration": "Duração",
+    "date": "Data",
+    "durationMenu": {
+      "title": "Definir duração",
+      "subTitle": "Aplicado apenas à data atual",
+      "error": "Intervalo de datas inválido: A hora de fim deve ser após a hora de início."
+    },
+    "priority": "Prioridade",
+    "project": "Projeto",
+    "overdue": "Atrasado",
+    "normal": "Normal",
+    "important": "Importante",
+    "urgent": "Urgente",
+    "repeat": "Repetir",
+    "everyDay": "Diário",
+    "everyWeek": "Semanal",
+    "everyMonth": "Mensal",
+    "everyYear": "Anual",
+    "weekdaysOnly": "Apenas dias úteis",
+    "custom": "Personalizado",
+    "customMenu": {
+      "title": "Repetição Personalizada",
+      "subTitle": "Configurar um plano de repetição personalizado",
+      "every": "A cada",
+      "on": "em",
+      "ends": "Termina",
+      "never": "Nunca",
+      "onDate": "Na Data (inclusive)"
+    },
+    "descPlaceholder": "descrição"
+  },
+  "today": {
+    "saveInstance": "Guardar instância",
+    "nextRepeatText": "Esta tarefa está agendada a seguir para",
+    "addATask": "Adicionar uma tarefa",
+    "titlePlaceholder": "regar a planta às 17h",
+    "menu": {
+      "pinToTop": "Fixar no topo",
+      "edit": "Editar",
+      "editAsInstance": "Editar como instância",
+      "delete": "Eliminar",
+      "Move to": "Mover para..."
+    }
+  },
+  "sidebar": {
+    "completed": "Concluído",
+    "calendar": "Calendário",
+    "note": "Nota",
+    "vault": "Cofre",
+    "settings": "Definições",
+    "settingMenu": {
+      "logout": "Sair",
+      "theme": "Tema",
+      "shortcuts": "Atalhos"
+    },
+    "noteMenu": {
+      "rename": "renomear",
+      "delete": "eliminar"
+    }
+  },
+  "completed": {
+    "title": "Histórico de conclusão"
+  },
+  "modal": {
+    "confirm": "Confirmar",
+    "cancel": "Cancelar",
+    "delete": {
+      "title": "Eliminar tarefa?",
+      "subtitle": "Esta ação não pode ser desfeita. Isto irá eliminar permanentemente",
+      "button": "Eliminar"
+    },
+    "deleteAll": {
+      "title": "Eliminar todas as recorrências da tarefa?",
+      "subtitle": "Esta é uma tarefa recorrente, eliminar todas as outras recorrências?",
+      "deleteInstance": "Eliminar apenas esta ocorrência",
+      "deleteAll": "Eliminar todas as recorrências"
+    },
+    "cancelEdit": {
+      "title": "Cancelar Edição?",
+      "subtitle": "As alterações que fez serão descartadas"
+    },
+    "editAll": {
+      "title": "Editar todas as recorrências da tarefa?",
+      "subtitle": "Esta é uma tarefa recorrente, fazer a mesma edição para todas as outras recorrências?",
+      "editInstance": "Editar apenas esta ocorrência",
+      "editAll": "Editar todas as recorrências"
+    }
+  },
+  "shortcuts": {
+    "title": "Atalhos",
+    "todo": {
+      "title": "Atalhos de tarefas",
+      "submitAndOpen": "Submeter formulário e abrir outro",
+      "openForm": "Abrir formulário",
+      "exitForm": "Sair do formulário",
+      "editForm": "Editar formulário"
+    },
+    "calendar": {
+      "title": "Atalhos de calendário",
+      "markComplete": "Marcar como concluída",
+      "previous": "Mês/semana/dia anterior",
+      "next": "Mês/semana/dia seguinte",
+      "todayView": "Visualização de hoje",
+      "viewModes": "Visualização Mês/Semana/Dia"
+    },
+    "navigation": {
+      "title": "Navegação",
+      "then": "depois",
+      "today": "Hoje",
+      "calendar": "Calendário",
+      "completed": "Concluído",
+      "vault": "Cofre"
+    }
+  },
+  "filterMenu": {
+    "sorting": "Ordenação",
+    "sort": "Ordenar",
+    "direction": "Direção",
+    "grouping": "Agrupamento",
+    "group": "Agrupar",
+    "start Date": "Data de Início",
+    "deadline": "Prazo",
+    "duration": "Duração",
+    "ascending": "Ascendente",
+    "descending": "Descendente",
+    "recurrence": "Recorrência",
+    "sortedBy": "Ordenado por",
+    "groupedBy": "Agrupado por",
+    "none": "Nenhum"
+  },
+  "projectMenu": {
+    "typeToSearch": "Digite para pesquisar",
+    "editColors": "Editar Cores",
+    "red": "Vermelho",
+    "orange": "Laranja",
+    "yellow": "Amarelo",
+    "lime": "Lima",
+    "blue": "Azul",
+    "purple": "Roxo",
+    "pink": "Rosa",
+    "teal": "Cerceta",
+    "coral": "Coral",
+    "gold": "Ouro",
+    "deepBlue": "Azul Profundo",
+    "rose": "Rosa",
+    "lightRed": "Vermelho Claro",
+    "brick": "Tijolo",
+    "slate": "Ardosia"
+  }
+}

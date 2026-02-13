@@ -12,7 +12,7 @@ function makeQueryClient() {
       queries: {
         // With SSR, we usually want to set some default staleTime
         // above 0 to avoid refetching immediately on the client
-        staleTime: 6 * 1000, // 6 sec
+        staleTime: 6 * 10 * 1000,
       },
     },
   });
@@ -28,7 +28,7 @@ function getQueryClient() {
     // This is very important, so we don't re-make a new client if React
     // suspends during the initial render. This may not be needed if we
     // have a suspense boundary BELOW the creation of the query client
-    if (!browserQueryClient) browserQueryClient = makeQueryClient();
+    if (!browserQueryClient) { browserQueryClient = makeQueryClient(); console.log("creating new browser client") };
     return browserQueryClient;
   }
 }

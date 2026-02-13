@@ -7,9 +7,10 @@ import Discord from "next-auth/providers/discord";
 import { sha256 } from "@noble/hashes/sha256";
 import { pbkdf2 } from "@noble/hashes/pbkdf2";
 import { hexToBytes, bytesToHex } from "@noble/hashes/utils";
+import type { Adapter } from "next-auth/adapters";
 
 export const { handlers, signIn, signOut, auth } = NextAuth({
-  adapter: PrismaAdapter(prisma),
+  adapter: PrismaAdapter(prisma) as Adapter,
   session: { strategy: "jwt" },
   providers: [
     Google,
@@ -71,6 +72,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
     jwt({ token, user, account }) {
       if (user) {
         token.id = user.id;
+        token.timeZone = user.timeZone;
         if (account?.provider === "credentials") {
           token.name = user.name;
         }
@@ -79,6 +81,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
     },
     session({ session, token }) {
       session.user.id = token.id as string;
+      session.user.timeZone = token.timeZone
       return session;
     },
   },

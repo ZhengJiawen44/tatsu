@@ -5,26 +5,31 @@ import {
 } from "@radix-ui/react-collapsible";
 import clsx from "clsx";
 import React, { useState } from "react";
-import Note from "@/components/ui/icon/note";
 import { useMenu } from "@/providers/MenuProvider";
-import PlusCircle from "@/components/ui/icon/plusCircle";
-import CaretOutline from "@/components/ui/icon/caretOutline";
-import { useNote } from "@/hooks/useNote";
-import NoteLoading from "./NoteLoading";
-import { useCreateNote } from "@/hooks/useNote";
+import { PlusCircle } from "lucide-react";
+import { useCreateNote } from "@/features/notes/query/create-note";
 import Spinner from "@/components/ui/spinner";
-import NoteItem from "../Note/NoteItem";
+import { FileText } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import dynamic from "next/dynamic";
+import NoteLoading from "./NoteLoading";
+import { useTranslations } from "next-intl";
+const NoteSidebarItemContainer = dynamic(
+  () => import("./NoteSidebarItemContainer"),
+  { loading: () => <NoteLoading /> },
+);
 
 const NoteCollapsible = () => {
+  const sidebarDict = useTranslations("sidebar")
+
   const { activeMenu, setActiveMenu } = useMenu();
   const [showPlus, setShowPlus] = useState(false);
 
-  const { notes, isPending } = useNote(activeMenu.open);
-  const { createNote, createLoading } = useCreateNote({ onSuccess: () => {} });
+  const { createNote, createLoading } = useCreateNote();
   return (
     <Collapsible
       className="w-full"
-      open={activeMenu.open === true}
+      open={activeMenu.open && activeMenu.name == "Note" === true}
       onOpenChange={(open) => {
         setActiveMenu({ name: "Note", open });
       }}
@@ -32,45 +37,46 @@ const NoteCollapsible = () => {
       <CollapsibleTrigger
         onMouseEnter={() => setShowPlus(true)}
         onMouseLeave={() => setShowPlus(false)}
-        onClick={() => {}}
-        className={clsx(
-          "flex gap-1 justify-start items-center w-full py-2 px-2 rounded-lg hover:bg-border-muted hover:bg-opacity-85 ",
-          activeMenu.name === "Note" && "bg-border"
-        )}
+        onClick={() => { }}
+        asChild
+        className={clsx("w-full items-start justify-start")}
       >
-        <CaretOutline
+        <Button
+          variant={"ghost"}
           className={clsx(
-            "w-3 h-3 transition-transform duration-300 stroke-card-foreground",
-            activeMenu.open && "rotate-90"
+            "flex gap-3 items-center border border-transparent w-full font-normal px-2!",
+            activeMenu.name === "Note" &&
+            "bg-sidebar-primary",
           )}
-        />
-        <Note className="w-5 h-5" />
-        <p className="select-none">Note</p>
-        {createLoading ? (
-          <Spinner className="mr-0 ml-auto w-5 h-5" />
-        ) : (
-          showPlus && (
-            <div
-              className="mr-0 ml-auto"
-              onClick={(e: React.MouseEvent<HTMLDivElement>) => {
-                e.stopPropagation();
-                createNote({ name: "new note" });
-                setActiveMenu({ name: "Note", open: true });
-              }}
-            >
-              <PlusCircle className="w-5 h-5 stroke-card-foreground hover:stroke-white" />
-            </div>
-          )
-        )}
+        >
+          <FileText
+            className={clsx(
+              "w-4.5 h-4.5 stroke-muted-foreground",
+              activeMenu.name === "Note" && "stroke-form-foreground-accent",
+            )}
+          />
+          <p className="select-none text-foreground">{sidebarDict("note")}</p>
+          {createLoading ? (
+            <Spinner className="mr-0 ml-auto w-5 h-5" />
+          ) : (
+            showPlus && (
+              <div className="ml-auto  hover:stroke-foreground! w-fit h-fit bg-inherit! cursor-pointer! text-muted-foreground hover:text-foreground "
+
+                onClick={(e: React.MouseEvent<HTMLDivElement>) => {
+                  e.stopPropagation();
+                  createNote({ name: "new note" });
+                  setActiveMenu({ name: "Note", open: true });
+                }}
+              >
+                <PlusCircle className="w-5 h-5" />
+              </div>
+            )
+
+          )}
+        </Button>
       </CollapsibleTrigger>
       <CollapsibleContent>
-        <div>
-          {isPending ? (
-            <NoteLoading />
-          ) : (
-            notes.map((note) => <NoteItem note={note} key={note.id} />)
-          )}
-        </div>
+        {activeMenu.open && <NoteSidebarItemContainer />}
       </CollapsibleContent>
     </Collapsible>
   );

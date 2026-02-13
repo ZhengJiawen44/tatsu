@@ -1,0 +1,53 @@
+import type { Metadata } from "next";
+import { Poppins } from "next/font/google";
+import { NextIntlClientProvider } from 'next-intl';
+import { getMessages } from 'next-intl/server';
+import { SessionProvider } from "next-auth/react";
+import { ThemeProvider } from "@/providers/ThemeProvider";
+import "@/app/globals.css";
+
+
+type Props = {
+  children: React.ReactNode;
+  params: Promise<{ locale: string }>;
+};
+
+export const metadata: Metadata = {
+  title: "Sanity",
+  description: "Organize your tasks, schedule your day, and plan projects with Sanity, a secure and easy-to-use task planner."
+};
+
+const poppins = Poppins({
+  weight: ["400", "500", "600", "700"],
+  variable: "--font-poppins",
+  subsets: ["latin"],
+  display: "swap",
+});
+
+export default async function RootLayout({
+  children,
+  params,
+}: Props) {
+  const { locale } = await params;
+  const messages = await getMessages();
+  return (
+    <html lang={locale} suppressHydrationWarning>
+      <SessionProvider>
+        <body className={`${poppins.variable} antialiased`}>
+          <ThemeProvider
+            attribute="class"
+            defaultTheme="dark"
+            enableSystem
+            disableTransitionOnChange
+          >
+            <NextIntlClientProvider messages={messages}>
+              <main>
+                {children}
+              </main>
+            </NextIntlClientProvider>
+          </ThemeProvider>
+        </body>
+      </SessionProvider>
+    </html>
+  );
+}

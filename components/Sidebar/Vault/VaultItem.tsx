@@ -1,26 +1,46 @@
 import React from "react";
 import { useMenu } from "@/providers/MenuProvider";
 import clsx from "clsx";
-import Lock from "@/components/ui/icon/lock";
-import Link from "next/link";
+import { Link } from "@/i18n/navigation";
+
+import useWindowSize from "@/hooks/useWindowSize";
+import { LockIcon } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { useTranslations } from "next-intl";
 const VaultItem = () => {
-  const { activeMenu, setActiveMenu } = useMenu();
+  const sidebarDict = useTranslations("sidebar")
+
+  const { width } = useWindowSize();
+  const { activeMenu, setActiveMenu, setShowMenu } = useMenu();
   return (
-    <Link
-      href="/app/vault"
+    <Button
+      asChild
+      variant={"ghost"}
       className={clsx(
-        "py-2 px-6 w-full rounded-lg hover:cursor-pointer hover:bg-border-muted",
-        activeMenu.name === "Vault" && "bg-border"
+        "flex items-center border border-transparent font-normal px-2!",
+        activeMenu.name === "Vault" &&
+        "bg-sidebar-primary",
       )}
-      onClick={() => {
-        setActiveMenu({ name: "Vault" });
-      }}
     >
-      <div className="flex gap-1 justify-start items-center w-full  select-none">
-        <Lock className="w-5 h-5 " />
-        Vault
-      </div>
-    </Link>
+      <Link
+        href="/app/vault"
+        onClick={() => {
+          setActiveMenu({ name: "Vault" });
+          if (width <= 766) setShowMenu(false);
+        }}
+      >
+        <div className="flex gap-3 justify-start items-center w-full  select-none">
+          <LockIcon
+            className={clsx(
+              "w-4.5 h-4.5 stroke-muted-foreground",
+              activeMenu.name === "Vault" && "stroke-form-foreground-accent",
+            )}
+          />
+
+          <p className="text-foreground">{sidebarDict("vault")}</p>
+        </div>
+      </Link>
+    </Button>
   );
 };
 

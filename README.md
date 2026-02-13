@@ -1,40 +1,171 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Tatsu - The Ultimate Todo App
 
 ## Introduction
-tatsu is a todo app on steriods. featuring avatars that grow as you complete your todo goals, tracking your long term todos, a notion-like editor, and more!
+Tatsu is a todo app on steroids, designed to keep you motivated and productive. Key features include:
 
+**Evolving Avatars**: Your avatar grows as you complete your todo goals (TBD).
 
-## Getting Started
+**Long-term Todo Tracking**: Stay on top of your big-picture tasks (TBD).
 
-First, run the development server:
+**Notion-like Editor**: A powerful, intuitive interface for note taking.
+
+**End-to-End Encrypted File Uploads**: Securely store and manage your files.
+
+More exciting features coming soon! 
+
+## End to End encryption
+All files are end to end encrypted and stored in a aws s3 bucket. the module designated for retrieval, and encryption/decryption of files is called "Vault" in the app. you can read more about how I implemented it [here](https://excalidraw.com/#room=8feca98c331feac8d27b,XeidBTw8Bp2qXTVBjf41Yg)
+
+![e2ee](images/e2ee1.png)![e2ee](images/e2ee2.png)
+
+## RoadMap
+https://github.com/ZhengJiawen44/tatsu/wiki/Roadmap
+
+## Running with Docker (Recommended)
+
+You can run the prebuilt image directly from GitHub Container Registry:
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+docker run -d \
+  --name tatsu \
+  -p 3000:3000 \
+  --env-file .env \
+  --restart unless-stopped \
+  ghcr.io/zhengjiawen44/tatsu:latest
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+alternatively, you can build the image yourself.
+The project includes a **Dockerfile** and **docker-compose.yml** for containerized development.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+Make sure **Docker** and **Docker Compose** are installed.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Copy **.env.example** to **.env** and fill in the required values (AWS credentials, database URL, etc.).
 
-## Learn More
+**Note**: Ensure DATABASE_URL in your .env matches the values in docker-compose.yml. If you haven't changed anything there, simply use the one provided in .env.example.
 
-To learn more about Next.js, take a look at the following resources:
+Build and start the containers:
+```bash
+docker compose up --build
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+This will:
+- Start a Postgres database (postgres:15) with persistent storage.
+- Start the Next.js app inside a Node.js container.
+- Run Prisma migrations automatically on startup.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+Once running, the app will be available at http://localhost:3000.
 
-## Deploy on Vercel
+To stop the containers:
+```bash
+docker compose down
+```
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## Running Locally
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+### Prerequisites
+- Node.js 18+ installed
+- PostgreSQL 12+ installed
+
+### PostgreSQL Setup
+
+#### 1. Install PostgreSQL (Fedora/RHEL)
+```bash
+sudo dnf install postgresql postgresql-server
+sudo postgresql-setup --initdb
+sudo systemctl start postgresql
+sudo systemctl enable postgresql
+```
+
+For other operating systems, refer to the [official PostgreSQL documentation](https://www.postgresql.org/download/).
+
+#### 2. Configure PostgreSQL Authentication
+**Note**: This step may not be necessary depending on your PostgreSQL installation. If you can already connect using `psql -U myuser -d mydb -h localhost -W` with a password, skip this step.
+Edit the PostgreSQL configuration file to allow password authentication:
+
+```bash
+sudo nano /var/lib/pgsql/data/pg_hba.conf
+```
+
+Change the following lines from `ident` to `md5`:
+
+```
+# IPv4 local connections:
+host    all             all             127.0.0.1/32            md5
+# IPv6 local connections:
+host    all             all             ::1/128                 md5
+```
+
+Restart PostgreSQL to apply changes:
+
+```bash
+sudo systemctl restart postgresql
+```
+
+#### 3. Create Database User and Database
+
+Connect to PostgreSQL as the postgres superuser:
+
+```bash
+sudo -u postgres psql
+```
+
+Create a user with a password and necessary privileges:
+
+```sql
+-- Create user with password
+CREATE USER myuser WITH PASSWORD 'mypass';
+
+-- Grant create database privilege (required for Prisma migrations)
+ALTER USER myuser CREATEDB;
+
+-- Create the database with myuser as owner
+CREATE DATABASE mydb OWNER myuser;
+
+-- Exit psql
+\q
+```
+
+#### 4. Verify Connection
+
+Test that you can connect with the new user:
+
+```bash
+psql -U myuser -d mydb -h localhost -W
+```
+
+Enter your password when prompted. If successful, you'll see the psql prompt. Type `\q` to exit.
+
+### Application Setup
+
+1. Install dependencies:
+```bash
+npm install
+```
+
+2. Copy `.env.example` to `.env` and update with your PostgreSQL credentials:
+```bash
+DATABASE_URL="postgresql://myuser:mypass@localhost:5432/mydb"
+```
+
+3. Run Prisma migrations to set up the database schema:
+```bash
+npx prisma migrate dev --name init
+```
+
+This will create all the necessary tables in your database.
+
+4. Start the development server:
+```bash
+npm run dev
+```
+
+Then, open http://localhost:3000 in your browser.
+
+### Additional Prisma Commands
+
+- **Generate Prisma Client**: `npx prisma generate`
+- **Open Prisma Studio** (database GUI): `npx prisma studio`
+- **Reset database** (drops all data): `npx prisma migrate reset`
+
+## Fonts
+This project uses next/font for optimized font loading. It features Poppins, a modern and elegant font from Google.

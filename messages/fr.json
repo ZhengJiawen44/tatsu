@@ -1,0 +1,405 @@
+{
+  "landingPage": {
+    "nav": {
+      "docs": "Documentation",
+      "docsShort": "Docs",
+      "login": "Se connecter"
+    },
+    "hero": {
+      "title": "Sanity",
+      "subtitle": "Un couteau suisse de la planification personnelle — avec un éditeur style Notion, des téléchargements de fichiers cryptés ultra-secrets, et une foule de petits extras géniaux !",
+      "readDocs": "Lire la documentation",
+      "start": "Commencer"
+    },
+    "localizationTitle": "support complet pour 11 langues",
+    "features": [
+      {
+        "tag": "01 / TÂCHES INTELLIGENTES",
+        "title": "Traitement du langage naturel",
+        "description": "Saisissez simplement vos tâches naturellement. Notre moteur NLP intelligent extrait automatiquement les dates, les heures et les durées de votre saisie.",
+        "bullets": [
+          "Détection instantanée de la date et de l'heure",
+          "Calcul automatique de la durée",
+          "Planification intelligente des rappels",
+          "Analyse syntaxique contextuelle"
+        ]
+      },
+      {
+        "tag": "02 / VISUALISATION",
+        "title": "Belle vue calendrier",
+        "description": "Consultez toutes vos tâches d'un coup d'œil. Le calendrier intégré offre une vue d'ensemble claire de votre emploi du temps avec des indicateurs visuels intuitifs.",
+        "bullets": [
+          "Vues mensuelle, hebdomadaire et quotidienne",
+          "Catégories de tâches avec code couleur",
+          "Réorganisation par glisser-déposer",
+          "Détection de conflits"
+        ]
+      },
+      {
+        "tag": "03 / NOTES RICHES",
+        "title": "Éditeur style Notion",
+        "description": "Capturez vos pensées avec un éditeur puissant et sans distraction. Formatez le texte, intégrez des médias et organisez vos idées sans effort.",
+        "bullets": [
+          "Prise en charge du Markdown",
+          "Formatage de texte riche",
+          "Coloration syntaxique des blocs de code",
+          "Listes à puces imbriquées"
+        ]
+      },
+      {
+        "tag": "04 / SÉCURITÉ",
+        "title": "Stockage crypté de bout en bout",
+        "description": "Vos fichiers sont protégés par un cryptage de qualité militaire. Stockez documents, images et pièces jointes en toute tranquillité.",
+        "bullets": [
+          "Cryptage AES-256",
+          "Architecture zero-knowledge",
+          "Partage de fichiers sécurisé",
+          "Sauvegardes automatiques"
+        ]
+      }
+    ],
+    "securityDemo": {
+      "title": "Passkey",
+      "subtitle": "Nous avons besoin de votre passkey pour décrypter vos fichiers",
+      "enter": "Entrer"
+    },
+    "errors": {
+      "fallback": "Un problème est survenu, mais ne vous inquiétez pas, nous avons envoyé un rapport d'erreur."
+    },
+    "footer": {
+      "privacyPolicy": "Politique de confidentialité",
+      "termsOfService": "Conditions d'utilisation",
+      "heroSubtitle": "La plateforme de gestion de tâches intelligente conçue pour ceux qui ne sont pas si sains d'esprit."
+    }
+  },
+  "terms": {
+    "title": "Conditions d'utilisation",
+    "lastUpdated": "Dernière mise à jour : 19 janvier 2026",
+    "intro": "En utilisant Sanity sur https://tatsu-gg.vercel.app/ (le « Service »), vous acceptez ces Conditions d'utilisation.",
+    "sections": {
+      "1": {
+        "title": "Utilisation du Service",
+        "content": "Sanity est une application de productivité gratuite pour gérer les tâches, les notes et les fichiers. Vous acceptez d'utiliser le Service légalement et de ne pas en abuser ni de l'interrompre."
+      },
+      "2": {
+        "title": "Comptes",
+        "content": "Vous êtes responsable de la sécurité de votre compte et de toute activité effectuée sous votre compte. Les informations doivent être exactes."
+      },
+      "3": {
+        "title": "Votre Contenu",
+        "content": "Vous conservez la propriété de votre contenu. En utilisant Sanity, vous accordez la permission de le stocker et de le traiter uniquement pour faire fonctionner le Service."
+      },
+      "4": {
+        "title": "Utilisation Acceptable",
+        "content": [
+          "Pas de contenu illégal, nuisible ou malveillant",
+          "Pas d'accès aux données d'autres utilisateurs",
+          "Pas d'abus de l'infrastructure",
+          "Pas d'utilisation illégale du Service"
+        ]
+      },
+      "5": {
+        "title": "Disponibilité",
+        "content": "Sanity est un projet personnel fourni au mieux. Le Service peut changer, être hors ligne ou être interrompu à tout moment."
+      },
+      "6": {
+        "title": "Résiliation",
+        "content": "Vous pouvez cesser d'utiliser Sanity à tout moment. Nous pouvons suspendre l'accès si ces Conditions sont violées."
+      },
+      "7": {
+        "title": "Clause de non-responsabilité",
+        "content": "Sanity est fourni « tel quel ». Nous ne sommes pas responsables de la perte de données, des interruptions ou des dommages résultant de l'utilisation du Service."
+      },
+      "8": {
+        "title": "Changements",
+        "content": "Nous pouvons mettre à jour ces Conditions. L'utilisation continue signifie que vous acceptez les changements."
+      },
+      "9": {
+        "title": "Contact",
+        "content": "Des questions ? Envoyez un e-mail à zhengjiawen44@gmail.com"
+      }
+    }
+  },
+  "privacy": {
+    "title": "Politique de confidentialité",
+    "lastUpdated": "Dernière mise à jour : 19 janvier 2026",
+    "intro": "Sanity (« nous », « notre » ou « nos ») est une application de productivité personnelle disponible sur https://tatsu-gg.vercel.app/. Cette politique de confidentialité explique quelles données nous collectons et comment nous les utilisons.",
+    "sections": {
+      "1": {
+        "title": "Informations que nous collectons",
+        "content": [
+          "Données de compte : adresse e-mail et fuseau horaire",
+          "Contenu utilisateur : tâches, notes et fichiers cryptés",
+          "Données techniques : adresse IP, informations sur le navigateur et la session",
+          "Cookies et stockage local pour l'authentification"
+        ]
+      },
+      "2": {
+        "title": "Comment nous utilisons vos données",
+        "content": [
+          "Fournir et exploiter Sanity",
+          "Authentifier les utilisateurs",
+          "Stocker et synchroniser votre contenu",
+          "Maintenir la sécurité et prévenir les abus"
+        ]
+      },
+      "3": {
+        "title": "Stockage des données et sécurité",
+        "content": "Sanity utilise NextAuth pour l'authentification, NeonDB pour le stockage et Vercel pour l'hébergement. Les fichiers sont cryptés le cas échéant. Bien qu'aucun système ne soit parfaitement sécurisé, des mesures raisonnables sont prises pour protéger vos données."
+      },
+      "4": {
+        "title": "Partage des données",
+        "content": "Nous ne partageons les données qu'avec les prestataires de services requis pour exploiter Sanity. Nous ne vendons pas vos données personnelles."
+      },
+      "5": {
+        "title": "Cookies",
+        "content": "Les cookies et le stockage local sont utilisés pour les sessions de connexion, les préférences et la sécurité. La désactivation des cookies peut affecter la fonctionnalité."
+      },
+      "6": {
+        "title": "Rétention des données",
+        "content": "Nous conservons vos données tant que votre compte est actif. Vous pouvez supprimer votre compte à tout moment et votre contenu sera supprimé dans un délai raisonnable."
+      },
+      "7": {
+        "title": "Vos droits",
+        "content": "Vous pouvez accéder, corriger, supprimer ou exporter vos données en utilisant les fonctionnalités de l'application."
+      },
+      "8": {
+        "title": "Changements",
+        "content": "Nous pouvons mettre à jour cette politique de temps à autre. Les mises à jour apparaîtront sur cette page."
+      },
+      "9": {
+        "title": "Contact",
+        "content": "Des questions ? Envoyez un e-mail à zhengjiawen44@gmail.com"
+      }
+    }
+  },
+  "login": {
+    "title": "Connexion",
+    "oauth": {
+      "orLogInWith": "ou connectez-vous avec",
+      "google": "Google",
+      "discord": "Discord"
+    },
+    "fields": {
+      "email": {
+        "placeholder": "E-mail*",
+        "error": "Veuillez entrer un e-mail valide"
+      },
+      "password": {
+        "placeholder": "Entrez votre mot de passe*",
+        "error": "Veuillez entrer un mot de passe valide"
+      }
+    },
+    "showPassword": "Afficher le mot de passe",
+    "hidePassword": "Masquer le mot de passe",
+    "registerPrompt": "Vous n'avez pas de compte ?",
+    "registerLink": "S'inscrire",
+    "buttons": {
+      "login": "Se connecter"
+    },
+    "toasts": {
+      "googleError": "Nous n'avons pas pu vous connecter à Google pour le moment",
+      "discordError": "Nous n'avons pas pu vous connecter à Discord pour le moment",
+      "invalidCredentials": "E-mail ou mot de passe invalide",
+      "genericError": "Nous ne pouvons pas vous connecter pour le moment"
+    }
+  },
+  "register": {
+    "title": "Créer un compte",
+    "loginPrompt": "Vous avez déjà un compte ?",
+    "loginLink": "Se connecter",
+    "oauth": {
+      "orRegisterWith": "ou inscrivez-vous avec",
+      "google": "Google",
+      "discord": "Discord"
+    },
+    "fields": {
+      "fname": {
+        "placeholder": "Prénom*",
+        "error": "Veuillez entrer votre prénom"
+      },
+      "lname": {
+        "placeholder": "Nom",
+        "error": "Veuillez entrer un nom valide"
+      },
+      "email": {
+        "placeholder": "E-mail*",
+        "error": "Veuillez entrer un e-mail valide"
+      },
+      "password": {
+        "placeholder": "Entrez votre mot de passe*",
+        "error": "Veuillez entrer un mot de passe valide"
+      }
+    },
+    "buttons": {
+      "register": "Créer un compte"
+    },
+    "toasts": {
+      "googleError": "Nous n'avons pas pu vous connecter à Google pour le moment",
+      "discordError": "Nous n'avons pas pu vous connecter à Discord pour le moment",
+      "genericError": "Nous ne pouvons pas vous inscrire pour le moment"
+    }
+  },
+  "app": {
+    "agenda": "agenda",
+    "clear": "Effacer",
+    "cancel": "Annuler",
+    "save": "Enregistrer",
+    "today": "Aujourd'hui",
+    "yesterday": "Hier",
+    "tomorrow": "Demain",
+    "nextWeek": "La semaine prochaine",
+    "day": "Jour",
+    "week": "Semaine",
+    "month": "Mois",
+    "year": "An",
+    "date": "Date",
+    "duration": "Durée",
+    "durationMenu": {
+      "title": "Définir la durée",
+      "subTitle": "Appliqué à la date actuelle uniquement",
+      "error": "Plage de dates invalide : l'heure de fin doit être après l'heure de début."
+    },
+    "priority": "Priorité",
+    "project": "Projet",
+    "overdue": "En retard",
+    "normal": "Normale",
+    "important": "Importante",
+    "urgent": "Urgente",
+    "repeat": "Répéter",
+    "everyDay": "Quotidien",
+    "everyWeek": "Hebdomadaire",
+    "everyMonth": "Mensuel",
+    "everyYear": "Annuel",
+    "weekdaysOnly": "Jours de semaine uniquement",
+    "custom": "Personnalisé",
+    "customMenu": {
+      "title": "Répétition personnalisée",
+      "subTitle": "Configurer un calendrier de répétition personnalisé",
+      "every": "Tous les",
+      "on": "le",
+      "ends": "Se termine",
+      "never": "Jamais",
+      "onDate": "À la date (inclus)"
+    },
+    "descPlaceholder": "description"
+  },
+  "today": {
+    "saveInstance": "Enregistrer l'instance",
+    "nextRepeatText": "Cette tâche est ensuite prévue pour le",
+    "addATask": "Ajouter une tâche",
+    "titlePlaceholder": "arroser les plantes à 17h",
+    "menu": {
+      "pinToTop": "Épingler en haut",
+      "edit": "Modifier",
+      "editAsInstance": "Modifier comme instance",
+      "delete": "Supprimer",
+      "Move to": "Déplacer vers..."
+    }
+  },
+  "sidebar": {
+    "completed": "Terminé",
+    "calendar": "Calendrier",
+    "note": "Note",
+    "vault": "Coffre-fort",
+    "settings": "Paramètres",
+    "settingMenu": {
+      "logout": "Déconnexion",
+      "theme": "Thème",
+      "shortcuts": "Raccourcis"
+    },
+    "noteMenu": {
+      "rename": "renommer",
+      "delete": "supprimer"
+    }
+  },
+  "completed": {
+    "title": "Historique des achèvements"
+  },
+  "modal": {
+    "confirm": "Confirmer",
+    "cancel": "Annuler",
+    "delete": {
+      "title": "Supprimer la tâche ?",
+      "subtitle": "Cette action ne peut pas être annulée. Cela supprimera définitivement",
+      "button": "Supprimer"
+    },
+    "deleteAll": {
+      "title": "Supprimer toutes les récurrences de la tâche ?",
+      "subtitle": "Il s'agit d'une tâche récurrente, supprimer toutes les autres récurrences ?",
+      "deleteInstance": "Supprimer cette occurrence uniquement",
+      "deleteAll": "Supprimer toutes les récurrences"
+    },
+    "cancelEdit": {
+      "title": "Annuler la modification ?",
+      "subtitle": "Les modifications que vous avez apportées seront ignorées"
+    },
+    "editAll": {
+      "title": "Modifier toutes les récurrences de la tâche ?",
+      "subtitle": "Il s'agit d'une tâche récurrente, appliquer la même modification à toutes les autres récurrences ?",
+      "editInstance": "Modifier cette occurrence uniquement",
+      "editAll": "Modifier toutes les récurrences"
+    }
+  },
+  "shortcuts": {
+    "title": "Raccourcis",
+    "todo": {
+      "title": "Raccourcis des tâches",
+      "submitAndOpen": "Soumettre le formulaire et en ouvrir un autre",
+      "openForm": "Ouvrir le formulaire",
+      "exitForm": "Quitter le formulaire",
+      "editForm": "Modifier le formulaire"
+    },
+    "calendar": {
+      "title": "Raccourcis du calendrier",
+      "markComplete": "Marquer comme terminé",
+      "previous": "Mois/semaine/jour précédent",
+      "next": "Mois/semaine/jour suivant",
+      "todayView": "Vue d'aujourd'hui",
+      "viewModes": "Vue Mois/Semaine/Jour"
+    },
+    "navigation": {
+      "title": "Navigation",
+      "then": "puis",
+      "today": "Aujourd'hui",
+      "calendar": "Calendrier",
+      "completed": "Terminé",
+      "vault": "Coffre-fort"
+    }
+  },
+  "filterMenu": {
+    "sorting": "Tri",
+    "sort": "Trier",
+    "direction": "Direction",
+    "grouping": "Groupement",
+    "group": "Grouper",
+    "start Date": "Date de début",
+    "deadline": "Échéance",
+    "duration": "Durée",
+    "ascending": "Croissant",
+    "descending": "Décroissant",
+    "recurrence": "Récurrence",
+    "sortedBy": "Trié par",
+    "groupedBy": "Groupé par",
+    "none": "Aucun"
+  },
+  "projectMenu": {
+    "typeToSearch": "Taper pour rechercher",
+    "editColors": "Modifier les couleurs",
+    "red": "Rouge",
+    "orange": "Orange",
+    "yellow": "Jaune",
+    "lime": "Citron vert",
+    "blue": "Bleu",
+    "purple": "Violet",
+    "pink": "Rose",
+    "teal": "Sarcelle",
+    "coral": "Corail",
+    "gold": "Or",
+    "deepBlue": "Bleu profond",
+    "rose": "Rose",
+    "lightRed": "Rouge clair",
+    "brick": "Brique",
+    "slate": "Ardoise"
+  }
+}

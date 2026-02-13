@@ -1,0 +1,119 @@
+.rbc-selected-cell {
+  background-color: hsla(0, 0%, 0%, 0.45) !important;
+}
+
+/* month view */
+.rbc-off-range-bg {
+  background-color: hsl(var(--background));
+  color: hsl(var(--muted-foreground));
+}
+.rbc-month-row {
+  border-top: 1px solid hsl(var(--calendar-border)) !important;
+}
+.rbc-month-view {
+  border: 1px solid hsl(var(--calendar-border)) !important;
+  border-radius: 10px;
+  overflow: hidden;
+}
+.rbc-day-bg {
+  border-left: 1px solid hsl(var(--calendar-border)) !important;
+}
+.rbc-header {
+  border: none !important;
+  background-color: hsl(var(--calendar-border)) !important;
+  font-weight: 600 !important;
+}
+
+.rbc-today {
+  background-color: hsl(var(--calendar-border)) !important;
+}
+
+/* week view */
+.rbc-time-view .rbc-header {
+  padding-bottom: 25px !important;
+}
+.rbc-allday-cell {
+  margin: 0px !important;
+  padding: 1px !important;
+}
+
+.rbc-time-view {
+  border: 1px solid hsl(var(--calendar-border)) !important;
+  border-radius: 10px;
+  overflow: hidden;
+}
+.rbc-time-content {
+  border-top: transparent !important;
+}
+.rbc-time-slot {
+  border: 1px solid hsl(var(--calendar-border)) !important;
+}
+
+.rbc-timeslot-group {
+  border: transparent !important;
+}
+.rbc-events-container {
+  border: transparent !important;
+}
+.rbc-time-header-content {
+  border: transparent !important;
+}
+
+/* agenda view */
+
+.rbc-agenda-table {
+  border: transparent !important;
+  border-bottom: 1px solid hsl(var(--calendar-border)) !important;
+}
+.rbc-agenda-time-cell {
+  border: transparent !important;
+}
+.rbc-agenda-event-cell {
+  border: transparent !important;
+}
+
+/* calendar show more */
+.rbc-month-view .rbc-show-more {
+  background-color: transparent;
+  color: hsl(var(--foreground));
+  font-size: 0.75rem;
+  font-weight: 500;
+  display: inline-block;
+}
+
+.rbc-addons-dnd-resize-ew-anchor:first-child {
+  top: 0px !important;
+  left: -5px !important;
+}
+/* Move the Right Handle further right */
+.rbc-addons-dnd-resize-ew-anchor:last-child {
+  top: 0px !important;
+  right: -5px !important;
+}
+.rbc-addons-dnd-resize-ew-icon,
+.rbc-addons-dnd-resize-ns-icon {
+  border: 2px solid white !important;
+  height: 100% !important;
+  width: 8px !important;
+  border-radius: 4px;
+  background-color: rgba(255, 255, 255, 0.5);
+}
+.rbc-addons-dnd-resize-ew-icon:active,
+.rbc-addons-dnd-resize-ns-icon:active {
+  background-color: rgb(190, 0, 0) !important;
+}
+/* responsive drag handle size */
+@media (max-width: 400px) {
+  .rbc-addons-dnd-resize-ew-icon,
+  .rbc-addons-dnd-resize-ns-icon {
+    width: 10px !important;
+  }
+}
+
+.rbc-addons-dnd-resize-ns-anchor:first-child .rbc-addons-dnd-resize-ns-icon {
+  border-radius: 0px 0px 4px 4px !important;
+}
+
+.rbc-addons-dnd-resize-ns-anchor:last-child .rbc-addons-dnd-resize-ns-icon {
+  border-radius: 4px 4px 0px 0px !important;
+}

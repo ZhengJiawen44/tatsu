@@ -1,11 +1,23 @@
+"use client"
 import clsx from "clsx";
 import React, { useRef, useState } from "react";
 import { useMenu } from "@/providers/MenuProvider";
+import { Toaster } from "../ui/toaster";
+import CalendarItem from "./Calendar/CalendarItem";
+import CompletedItem from "./Completed/CompletedItem";
+import NoteCollapsible from "./Note/NoteCollapsible";
+import TodoItem from "./Todo/TodoSidebarItem";
+import UserCard from "./User/UserCard";
+import VaultItem from "./Vault/VaultItem";
+import ProjectSidebarItemContainer from "./Project/ProjectsSidebarItemContainer";
+import LineSeparator from "../ui/lineSeparator";
+import FeedbackForm from "./Feedback/FeedbackForm";
 
-const SidebarContainer = ({ children }: { children: React.ReactNode }) => {
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+const SidebarContainer = () => {
   const sidebarRef = useRef<HTMLDivElement | null>(null);
   const { isResizing, setIsResizing, showMenu } = useMenu();
-  const [sidebarWidth, setSidebarWidth] = useState(300);
+  const [sidebarWidth, setSidebarWidth] = useState(350);
 
   const startResizing = React.useCallback(() => {
     setIsResizing(true);
@@ -20,11 +32,11 @@ const SidebarContainer = ({ children }: { children: React.ReactNode }) => {
       if (isResizing) {
         setSidebarWidth(
           mouseMoveEvent.clientX -
-            sidebarRef.current!.getBoundingClientRect().left
+          sidebarRef.current!.getBoundingClientRect().left,
         );
       }
     },
-    [isResizing]
+    [isResizing],
   );
 
   React.useEffect(() => {
@@ -39,22 +51,37 @@ const SidebarContainer = ({ children }: { children: React.ReactNode }) => {
   return (
     <>
       <Overlay />
-
       <nav
         id="sidebar_container"
         ref={sidebarRef}
         className={clsx(
-          "fixed inset-0 overflow-y-scroll scrollbar-thin scrollbar-track-transparent scrollbar-thumb-border-muted  md:relative flex flex-row   max-w-[500px] flex-shrink-0 bg-sidebar border-r z-20 justify-between duration-200",
+          "flex h-full fixed inset-0 xl:relative w-full xl:max-w-125 shrink-0 bg-sidebar z-20 duration-200",
           !showMenu
-            ? "-translate-x-full  min-w-0 overflow-hidden  transition-all"
-            : "min-w-[200px]  transition-transform"
+            ? "-translate-x-full min-w-0 overflow-hidden transition-all"
+            : "min-w-50 transition-transform overflow-visible",
         )}
-        style={{ width: showMenu ? `${sidebarWidth}px` : "0px" }}
+        style={{ width: showMenu ? `min(100vw, ${sidebarWidth}px)` : "0px" }}
         onMouseDown={(e) => {
           if (isResizing) e.preventDefault();
         }}
       >
-        <div className="flex flex-col flex-1 p-2 min-w-0 gap-2">{children}</div>
+        <div className="flex flex-col justify-between flex-1 min-w-0 m-0 p-0">
+          <div className="px-4 mt-2">
+            <UserCard />
+          </div>
+          <div className="flex flex-col gap-1 overflow-y-scroll   h-full  my-2 px-4 text-muted-foreground">
+            <TodoItem />
+            <CompletedItem />
+            <CalendarItem />
+            <NoteCollapsible />
+            <VaultItem />
+            <LineSeparator className="m-0 mt-8 mb-4" />
+            <ProjectSidebarItemContainer />
+            <FeedbackForm />
+            <Toaster />
+          </div>
+
+        </div>
       </nav>
       <ResizeHandle isResizing={isResizing} startResizing={startResizing} />
     </>
@@ -68,8 +95,8 @@ const Overlay = () => {
   return (
     <div
       className={clsx(
-        "fixed w-screen h-screen bg-black z-10 md:hidden opacity-50",
-        !showMenu && "hidden"
+        "fixed w-screen h-screen bg-black z-10 xl:hidden opacity-50",
+        !showMenu && "hidden",
       )}
       onClick={() => setShowMenu(false)}
     />
@@ -86,8 +113,8 @@ const ResizeHandle = ({
   return (
     <div
       className={clsx(
-        "hidden md:block w-1 cursor-col-resize hover:bg-border",
-        isResizing && "bg-border"
+        "hidden xl:block w-1 cursor-col-resize hover:bg-border",
+        isResizing && "bg-border",
       )}
       onMouseDown={startResizing}
     />
