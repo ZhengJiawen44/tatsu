@@ -19,6 +19,9 @@ All files are end to end encrypted and stored in a aws s3 bucket. the module des
 
 ![e2ee](images/e2ee1.png)![e2ee](images/e2ee2.png)
 
+## RoadMap
+https://github.com/ZhengJiawen44/tatsu/wiki/Roadmap
+
 ## Running with Docker (Recommended)
 
 You can run the prebuilt image directly from GitHub Container Registry:
