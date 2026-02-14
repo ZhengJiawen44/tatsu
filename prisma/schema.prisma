@@ -115,10 +115,10 @@ model Todo {
   priority          Priority  @default(Low)
 
   // RFC 5545 scheduling fields
-  dtstart           DateTime  @default(now())
-  due               DateTime
+  dtstart           DateTime?
+  due               DateTime?
   exdates           DateTime[]
-  durationMinutes   Int       @default(30)
+  durationMinutes   Int?       @default(30)
   rrule             String?
   timeZone          String    @default("UTC")
 
