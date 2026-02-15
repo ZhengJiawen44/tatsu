@@ -14,13 +14,13 @@ import { useTranslations } from "next-intl";
 
 const NextRepeatDateIndicator = () => {
   const todayDict = useTranslations("today");
-  const { rruleOptions } = useTodoForm();
+  const { rruleOptions, dateRange } = useTodoForm();
   // calculates the next date this todo will occur on, then returns that
   // date and the rrule object used for the calculation
   const { nextCalculatedRepeatDate, locallyInferredRruleObject } =
     useNextCalculatedRepeatDate();
 
-  if (!rruleOptions) return <></>;
+  if (!rruleOptions || !dateRange.from) return <></>;
   return (
     <Tooltip>
       <TooltipTrigger

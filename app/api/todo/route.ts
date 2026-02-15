@@ -16,7 +16,6 @@ import expandAndMergeTodos from "@/lib/RRule/expandAndMergeTodos";
 
 export async function POST(req: NextRequest) {
   try {
-    //throw new Error("expected error happened");
     const session = await auth();
     const user = session?.user;
 
@@ -28,11 +27,12 @@ export async function POST(req: NextRequest) {
 
     body = {
       ...body,
-      dtstart: new Date(body.dtstart),
-      due: new Date(body.due),
+      dtstart: body.dtstart ? new Date(body.dtstart) : body.dtstart,
+      due: body.due ? new Date(body.due) : body.due,
     };
 
     const parsedObj = todoSchema.safeParse(body);
+    console.log(parsedObj.error);
     if (!parsedObj.success) throw new BadRequestError();
 
     const { title, description, priority, dtstart, due, rrule, projectID } =
@@ -48,7 +48,10 @@ export async function POST(req: NextRequest) {
         due,
         rrule,
         projectID,
-        durationMinutes: (due?.getTime() - dtstart?.getTime()) / (1000 * 60),
+        durationMinutes:
+          dtstart && due
+            ? (due?.getTime() - dtstart?.getTime()) / (1000 * 60)
+            : undefined,
       },
     });
     if (!todo) throw new InternalError("todo cannot be created at this time");

@@ -66,9 +66,9 @@ export interface TodoItemType {
   createdAt: Date;
   order: number;
   priority: "Low" | "Medium" | "High";
-  dtstart: Date | null;
+  dtstart: Date | null | undefined;
   durationMinutes: number | null;
-  due: Date | null;
+  due: Date | null | undefined;
   rrule: string | null;
   timeZone: string;
   userID: string;

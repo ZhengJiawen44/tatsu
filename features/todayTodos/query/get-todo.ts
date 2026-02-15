@@ -26,8 +26,8 @@ export const getTodo = async () => {
       ...todo,
       id: todoId,
       createdAt: new Date(todo.createdAt),
-      dtstart: new Date(todo.dtstart),
-      due: new Date(todo.due),
+      dtstart: todo.dtstart ? new Date(todo.dtstart) : undefined,
+      due: todo.due ? new Date(todo.due) : undefined,
       instanceDate: todoInstanceDate,
     };
   });

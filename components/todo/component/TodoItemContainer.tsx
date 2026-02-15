@@ -41,7 +41,7 @@ export const TodoItemContainer = ({ todoItem, overdue }: TodoItemContainerProps)
     transform: CSS.Translate.toString(transform),
     transition,
   };
-  const { title, description, completed, priority, rrule, dtstart } = todoItem;
+  const { title, description, completed, priority, rrule, dtstart, due } = todoItem;
   const [displayForm, setDisplayForm] = useState(false);
   const [editInstanceOnly, setEditInstanceOnly] = useState(false);
   const [showHandle, setShowHandle] = useState(false);
@@ -111,7 +111,13 @@ export const TodoItemContainer = ({ todoItem, overdue }: TodoItemContainerProps)
             </pre>
             <div className="flex flex-wrap items-center justify-start gap-2">
               <p className={clsx(overdue ? "text-orange" : "text-lime")}>
-                {getDisplayDate(dtstart, true, locale, userTimeZone?.timeZone)}
+                {
+                  dtstart ?
+                    getDisplayDate(dtstart, true, locale, userTimeZone?.timeZone)
+                    : due ?
+                      getDisplayDate(due, true, locale, userTimeZone?.timeZone)
+                      : ""
+                }
               </p>
               {todoItem.projectID &&
                 <p className='flex items-center py-[0.2rem] px-2 rounded-full border bg-sidebar gap-1'>

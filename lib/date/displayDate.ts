@@ -53,11 +53,12 @@ const relativeTranslations: Record<string, Record<string, string>> = {
 };
 
 export function getDisplayDate(
-  date: Date,
+  date: Date | undefined | null,
   displayTime?: boolean,
   locale: string = "en",
   timezone?: string,
 ) {
+  if (!date) return "No Date";
   timezone = resolveTimezone(timezone);
 
   const translations = relativeTranslations[locale] || relativeTranslations.en;

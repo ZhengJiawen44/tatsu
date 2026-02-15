@@ -188,7 +188,7 @@ const TodoForm = ({
           timeZone: "",
           userID: "",
           exdates: [],
-          instanceDate: rrule ? dtstart : null,
+          instanceDate: rrule && dtstart ? dtstart : null,
           instances: [],
           projectID
         });
