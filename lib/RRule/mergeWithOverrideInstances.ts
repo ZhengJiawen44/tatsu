@@ -1,4 +1,4 @@
-import { TodoItemType, overridingInstance } from "@/types";
+import { overridingInstance, recurringTodoItemType } from "@/types";
 import { mergeInstanceAndTodo } from "./mergeInstanceAndTodo";
 
 /**
@@ -7,13 +7,12 @@ import { mergeInstanceAndTodo } from "./mergeInstanceAndTodo";
  * @param ghostTodos a list of generated "ghost" todos from the function generateTodosFromRRule
  * @returns the same ghost todos but some are overriden by todo Instances table
  */
-export function overrideBy(
-  ghostTodos: TodoItemType[],
-  keyFn: (instance: overridingInstance) => string | undefined,
-): TodoItemType[] {
+export function mergeWithOverrideInstances(
+  ghostTodos: recurringTodoItemType[],
+): recurringTodoItemType[] {
   return ghostTodos.map((ghost) => {
     if (!ghost.instances) return ghost;
-    const overrideMap = constructOverrideMap(ghost.instances, keyFn);
+    const overrideMap = constructOverrideMap(ghost.instances);
     const todoInstance = overrideMap.get(
       ghost.dtstart.toISOString() + ghost.id,
     );
@@ -21,16 +20,10 @@ export function overrideBy(
     return mergeInstanceAndTodo(todoInstance, ghost);
   });
 }
-function constructOverrideMap(
-  overrides: overridingInstance[],
-  keyFn: (instance: overridingInstance) => string | undefined,
-) {
+function constructOverrideMap(overrides: overridingInstance[]) {
   const map = new Map();
   for (const instance of overrides) {
-    const key = keyFn(instance);
-    if (key) {
-      map.set(key + instance.todoId, instance);
-    }
+    map.set(instance.recurId + instance.todoId, instance);
   }
   return map;
 }

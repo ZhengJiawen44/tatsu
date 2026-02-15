@@ -66,9 +66,9 @@ export interface TodoItemType {
   createdAt: Date;
   order: number;
   priority: "Low" | "Medium" | "High";
-  dtstart: Date;
-  durationMinutes: number;
-  due: Date;
+  dtstart: Date | null;
+  durationMinutes: number | null;
+  due: Date | null;
   rrule: string | null;
   timeZone: string;
   userID: string;
@@ -94,6 +94,7 @@ export interface overridingInstance {
 }
 
 export interface recurringTodoItemType extends TodoItemType {
+  dtstart: Date;
   rrule: string;
   instances: overridingInstance[];
   instanceDate: Date;
