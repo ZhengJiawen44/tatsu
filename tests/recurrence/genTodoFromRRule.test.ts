@@ -1,6 +1,6 @@
 import getTodayBoundaries from "@/lib/getTodayBoundaries";
 import { TodoBuilder } from "../lib/todoBuilder";
-import generateTodosFromRRule from "@/lib/generateTodosFromRRule";
+import generateTodosFromRRule from "@/lib/RRule/generateTodosFromRRule";
 
 /**
  * These tests assume user is in China and the server uses UTC as its timezone.

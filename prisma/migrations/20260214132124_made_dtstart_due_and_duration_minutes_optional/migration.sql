@@ -1,0 +1,5 @@
+-- AlterTable
+ALTER TABLE "todos" ALTER COLUMN "dtstart" DROP NOT NULL,
+ALTER COLUMN "dtstart" DROP DEFAULT,
+ALTER COLUMN "due" DROP NOT NULL,
+ALTER COLUMN "durationMinutes" DROP NOT NULL;

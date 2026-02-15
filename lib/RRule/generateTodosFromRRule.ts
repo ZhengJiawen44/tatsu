@@ -1,29 +1,34 @@
 import { RRule, RRuleSet } from "rrule";
-import { TodoItemType, recurringTodoItemType } from "@/types";
+import { recurringTodoItemType } from "@/types";
 import { toZonedTime } from "date-fns-tz";
 type bounds = {
   dateRangeStart: Date;
   dateRangeEnd: Date;
 };
-import { addMilliseconds } from "date-fns";
+import { addMinutes } from "date-fns";
 
 /**
- * generates in-memory instances of todo based on the RRule field in todo.
+ * expands todo occurences based on the RRule and dtstart field.
  *
- * @param recurringParents array of todos with the rrule and optional instances field
+ * @param recurringTodos array of todos with the rrule and optional instances field
  * @param timeZone user timeZone in standard IANA format
  * @param bounds time in UTC of user's start and end of day
  * @returns an array of "ghost" todos
  */
 
 export default function generateTodosFromRRule(
-  recurringParents: recurringTodoItemType[],
+  recurringTodos: recurringTodoItemType[],
   timeZone: string,
   bounds: bounds,
-): TodoItemType[] {
-  return recurringParents.flatMap((parent) => {
+): recurringTodoItemType[] {
+  return recurringTodos.flatMap((parent) => {
     try {
-      const durationMs = parent.due.getTime() - parent.dtstart.getTime();
+      // duration and due are both optional. getting duration is trickier
+      const calculatedDuration = parent.durationMinutes
+        ? parent.durationMinutes
+        : parent.due
+          ? (parent.due.getTime() - parent.dtstart.getTime()) / 1000
+          : null;
 
       const ruleSet = genRuleSet(
         parent.rrule,
@@ -31,9 +36,12 @@ export default function generateTodosFromRRule(
         timeZone,
         parent.exdates,
       );
-      const searchStart = new Date(
-        bounds.dateRangeStart.getTime() - durationMs,
-      );
+
+      //enlarge the start of the search window
+      const searchStart = calculatedDuration
+        ? new Date(bounds.dateRangeStart.getTime() / 1000 - calculatedDuration)
+        : bounds.dateRangeStart;
+
       const occurrences = ruleSet.between(
         searchStart,
         bounds.dateRangeEnd,
@@ -44,8 +52,9 @@ export default function generateTodosFromRRule(
         return {
           ...parent,
           dtstart: occ,
-          durationMinutes: durationMs / 60000,
-          due: addMilliseconds(occ, durationMs),
+          ...(calculatedDuration && {
+            due: addMinutes(occ, calculatedDuration),
+          }),
           instanceDate: occ,
         };
       });

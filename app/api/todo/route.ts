@@ -9,12 +9,10 @@ import {
 import { prisma } from "@/lib/prisma/client";
 import { todoSchema } from "@/schema";
 import { auth } from "@/app/auth";
-import generateTodosFromRRule from "@/lib/generateTodosFromRRule";
 import { resolveTimezone } from "@/lib/resolveTimeZone";
 import { errorHandler } from "@/lib/errorHandler";
-import { overrideBy } from "@/lib/overrideBy";
 import { recurringTodoItemType } from "@/types";
-import { getMovedInstances } from "@/lib/getMovedInstances";
+import expandAndMergeTodos from "@/lib/RRule/expandAndMergeTodos";
 
 export async function POST(req: NextRequest) {
   try {
@@ -92,7 +90,6 @@ export async function GET(req: NextRequest) {
     if (!user?.id) {
       throw new UnauthorizedError("You must be logged in to do this");
     }
-    const timeZone = await resolveTimezone(user, req);
     const start = req.nextUrl.searchParams.get("start");
     const end = req.nextUrl.searchParams.get("end");
 
@@ -101,58 +98,50 @@ export async function GET(req: NextRequest) {
     const dateRangeStart = new Date(Number(start));
     const dateRangeEnd = new Date(Number(end));
 
-    // Fetch One-Off Todos scheduled for today
+    // Fetch One-Off Todos
     const oneOffTodos = await prisma.todo.findMany({
       where: {
         userID: user.id,
         rrule: null,
         completed: false,
-        due: {
-          gte: dateRangeStart,
-        },
-        dtstart: {
-          lte: dateRangeEnd,
-        },
+        AND: [
+          {
+            OR: [{ due: null }, { due: { gte: dateRangeStart } }],
+          },
+          {
+            OR: [{ dtstart: null }, { dtstart: { lte: dateRangeEnd } }],
+          },
+        ],
       },
       orderBy: { createdAt: "desc" },
     });
 
-    // Fetch all Recurring todos that have already started
-    const recurringParents = (await prisma.todo.findMany({
+    // Fetch all Recurring todos
+    const recurringTodos = (await prisma.todo.findMany({
       where: {
         userID: user.id,
         rrule: { not: null },
-        dtstart: { lte: dateRangeEnd },
+        dtstart: { not: null, lte: dateRangeEnd },
         completed: false,
       },
       include: { instances: true },
     })) as recurringTodoItemType[];
 
-    // Expand RRULEs to generate occurrences happening "Today"
-    const ghostTodos = generateTodosFromRRule(recurringParents, timeZone, {
+    const timeZone = await resolveTimezone(user, req);
+    const ghostTodos = expandAndMergeTodos(
+      recurringTodos,
+      timeZone,
       dateRangeStart,
       dateRangeEnd,
-    });
-
-    // // Apply overrides
-    const mergedUsingRecurrId = overrideBy(ghostTodos, (inst) => inst.recurId);
-
-    //find out of range overrides
-    const movedTodos = getMovedInstances(
-      mergedUsingRecurrId,
-      recurringParents,
-      { dateRangeStart, dateRangeEnd },
     );
 
-    const allGhosts = [...mergedUsingRecurrId, ...movedTodos].filter((todo) => {
-      return todo.due >= dateRangeStart && todo.completed === false;
+    //remove ghosts that are either overdue or completed
+    const filteredGhosts = ghostTodos.filter((todo) => {
+      return (
+        (!todo.due || todo.due >= dateRangeStart) && todo.completed === false
+      );
     });
-    // console.log("one off todos: : ", oneOffTodos);
-    // console.log("recurring parents : ", recurringParents);
-    // console.log("ghost: ", ghostTodos);
-    // console.log("merged with reccur ID: ", mergedUsingRecurrId);
-    // console.log("moved todos: ", movedTodos);
-    const allTodos = [...oneOffTodos, ...allGhosts].sort(
+    const allTodos = [...oneOffTodos, ...filteredGhosts].sort(
       (a, b) => a.order - b.order,
     );
 
