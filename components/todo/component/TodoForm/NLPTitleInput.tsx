@@ -4,7 +4,6 @@
 import { getCaretOffset } from "@/components/todo/lib/getCaretOffset";
 import { setCaretOffset } from "@/components/todo/lib/setCaretOffset";
 import { cn } from "@/lib/utils";
-import { NonNullableDateRange } from "@/types";
 import * as chrono from "chrono-node";
 import { addHours } from "date-fns";
 import React, { SetStateAction, useEffect, useRef, useState, useMemo } from "react";
@@ -12,6 +11,7 @@ import { useTranslations } from "next-intl";
 import { useLocale } from "next-intl";
 import { useProjectMetaData } from "@/components/Sidebar/Project/query/get-project-meta";
 import { ProjectAutoComplete } from "./ProjectAutoComplete";
+import { DateRange } from "react-day-picker";
 
 // --------------------------- NLPTitleInput ---------------------------
 
@@ -19,7 +19,7 @@ type NLPTitleInputProps = {
   titleRef: React.RefObject<HTMLDivElement | null>;
   title: string;
   setTitle: React.Dispatch<SetStateAction<string>>;
-  setDateRange: React.Dispatch<SetStateAction<NonNullableDateRange>>;
+  setDateRange: React.Dispatch<SetStateAction<DateRange>>;
   setProjectID: React.Dispatch<SetStateAction<string | null>>;
   className?: string;
 };

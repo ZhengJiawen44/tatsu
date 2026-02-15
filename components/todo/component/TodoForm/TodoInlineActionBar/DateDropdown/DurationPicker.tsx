@@ -11,6 +11,7 @@ import { Input } from "@/components/ui/input";
 import useWindowSize from "@/hooks/useWindowSize";
 import { cn } from "@/lib/utils";
 import { useTranslations } from "next-intl";
+import clsx from "clsx";
 
 
 const DurationPicker = ({ className }: { className?: string }) => {
@@ -24,6 +25,8 @@ const DurationPicker = ({ className }: { className?: string }) => {
   );
   const [error, setError] = useState<string | null>(null);
   const { width } = useWindowSize();
+  const disabled = !dateRange.from || !dateRange.to
+
 
   useEffect(() => {
     if (dateRange?.from) setTimeFromStr(format(dateRange.from, "HH:mm"));
@@ -33,6 +36,7 @@ const DurationPicker = ({ className }: { className?: string }) => {
   }, [dateRange?.from?.getTime(), dateRange?.to?.getTime()]);
 
   const handleFromChange = (val: string) => {
+    if (!dateRange.from || !dateRange.to) return
     setTimeFromStr(val);
 
     const parsed = parse(val || "00:00", "HH:mm", dateRange.from);
@@ -42,6 +46,7 @@ const DurationPicker = ({ className }: { className?: string }) => {
     }
 
     setDateRange((old) => {
+      if (!old.from || !old.to) return old
       const newFrom = parsed;
       if (isSameDay(old.from, old.to) && newFrom.getTime() > old.to.getTime()) {
         setTimeToStr(format(newFrom, "HH:mm"));
@@ -54,6 +59,8 @@ const DurationPicker = ({ className }: { className?: string }) => {
   };
 
   const handleToChange = (val: string) => {
+    if (!dateRange.from || !dateRange.to) return
+
     setTimeToStr(val);
 
     const parsed = parse(val || "23:59", "HH:mm", dateRange.to);
@@ -84,18 +91,21 @@ const DurationPicker = ({ className }: { className?: string }) => {
     <Popover>
       <PopoverTrigger asChild>
         <button
+          title={disabled ? "need to set start and end dates" : ""}
+          disabled={disabled}
           className={
-            (cn(
+            clsx(cn(
               "flex w-full cursor-pointer items-center justify-between rounded-sm px-2 py-1.5 text-sm outline-hidden hover:bg-accent hover:text-accent-foreground transition-colors group",
-            ),
-              className)
+              className),
+              disabled && "text-muted-foreground hover:bg-transparent hover:text-muted-foreground cursor-default!"
+            )
           }
         >
           <div className="flex gap-2 items-center ">
             <Clock strokeWidth={1.7} className="w-4 h-4" />
             {appDict("duration")}
           </div>
-          <ChevronRight className="ml-auto h-4 w-4 text-muted-foreground/50 group-hover:text-accent-foreground" />
+          <ChevronRight className={clsx("ml-auto h-4 w-4 text-muted-foreground/50 group-hover:text-accent-foreground", disabled && "group-hover:text-muted-foreground/50")} />
         </button>
       </PopoverTrigger>
 
@@ -119,7 +129,7 @@ const DurationPicker = ({ className }: { className?: string }) => {
             <div className="rounded-md border p-1">
               <div className="flex justify-center gap-2 items-center">
                 <span className="text-xs font-medium text-muted-foreground">
-                  {format(dateRange.from, "dd MMM")}
+                  {dateRange.from && format(dateRange.from, "dd MMM")}
                 </span>
                 <div className="p-0 flex-1">
                   <Input
@@ -138,7 +148,7 @@ const DurationPicker = ({ className }: { className?: string }) => {
             <div className="rounded-md border p-1">
               <div className="flex justify-center gap-2 items-center">
                 <span className="text-xs font-medium text-muted-foreground">
-                  {format(dateRange.to, "dd MMM")}
+                  {dateRange.to && format(dateRange.to, "dd MMM")}
                 </span>
                 <div className="p-0 flex-1">
                   <Input
