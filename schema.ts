@@ -72,9 +72,9 @@ export const todoInstanceSchema = z.object({
     errorMap: () => ({ message: "priority must be one of: low, medium, high" }),
   }),
   dtstart: z.date({ message: "start date is not identified" }),
-  due: z.date().nullable(),
+  due: z.date({ message: "end date is not identified" }),
   instanceDate: z.date({ message: "instance date is not identified" }),
-  rrule: z.string().nullable(),
+  rrule: z.string({ message: "rrule is undefined" }).nullable(),
 });
 
 export const noteSchema = z.object({

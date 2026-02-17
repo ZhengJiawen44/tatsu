@@ -109,16 +109,15 @@ export const TodoItemContainer = ({ todoItem, overdue }: TodoItemContainerProps)
             <pre className="pb-2 text-muted-foreground text-xs sm:text-sm whitespace-pre-wrap w-48 sm:w-full">
               {description}
             </pre>
-            <div className="flex flex-wrap items-center justify-start gap-2">
-              <p className={clsx(overdue ? "text-orange" : "text-lime")}>
+            <div className="flex flex-wrap items-center justify-start space-x-2 ">
+              {(dtstart || due) && <p className={clsx(overdue ? "text-orange" : "text-lime")}>
                 {
                   dtstart ?
                     getDisplayDate(dtstart, true, locale, userTimeZone?.timeZone)
-                    : due ?
-                      getDisplayDate(due, true, locale, userTimeZone?.timeZone)
-                      : ""
+                    :
+                    getDisplayDate(due, true, locale, userTimeZone?.timeZone)
                 }
-              </p>
+              </p>}
               {todoItem.projectID &&
                 <p className='flex items-center py-[0.2rem] px-2 rounded-full border bg-sidebar gap-1'>
                   <ProjectTag id={todoItem.projectID} className="text-sm shrink-0" />

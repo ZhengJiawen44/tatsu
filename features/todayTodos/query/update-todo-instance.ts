@@ -19,7 +19,7 @@ async function patchTodo({ ghostTodo }: { ghostTodo: TodoItemType }) {
   });
   if (!parsedObj.success) {
     console.error(parsedObj.error.errors[0]);
-    return;
+    throw new Error(parsedObj.error.errors[0].message);
   }
   const todoId = ghostTodo.id.split(":")[0];
 
@@ -48,7 +48,7 @@ export const useEditTodoInstance = (
         queryClient.setQueryData(["todo"], (oldTodos: TodoItemType[]) =>
           oldTodos.flatMap((oldTodo) => {
             if (oldTodo.id === newTodo.id) {
-              if (newTodo.dtstart > endOfDay(new Date())) {
+              if (newTodo.dtstart && newTodo.dtstart > endOfDay(new Date())) {
                 return [];
               }
               return {
