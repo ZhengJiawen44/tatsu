@@ -78,6 +78,8 @@ export async function PATCH(
     const parsed = todoSchema
       .partial()
       .extend({
+        dtstart: z.date().optional().nullable(),
+        due: z.date().optional().nullable(),
         dateChanged: z.boolean().optional(),
         rruleChanged: z.boolean().optional(),
         pinned: z.boolean().optional(),
@@ -86,8 +88,16 @@ export async function PATCH(
       })
       .safeParse({
         ...rawBody,
-        dtstart: rawBody.dtstart ? new Date(rawBody.dtstart) : undefined,
-        due: rawBody.due ? new Date(rawBody.due) : undefined,
+        dtstart: rawBody.dtstart
+          ? new Date(rawBody.dtstart)
+          : rawBody.dateChanged
+            ? null
+            : undefined,
+        due: rawBody.due
+          ? new Date(rawBody.due)
+          : rawBody.dateChanged
+            ? null
+            : undefined,
         instanceDate: rawBody.instanceDate
           ? new Date(rawBody.instanceDate)
           : undefined,
@@ -110,10 +120,6 @@ export async function PATCH(
       rruleChanged,
       projectID,
     } = parsed.data;
-
-    if (dateChanged && !dtstart) {
-      throw new BadRequestError("dtstart is required when dateChanged is true");
-    }
 
     await prisma.todo.update({
       where: {

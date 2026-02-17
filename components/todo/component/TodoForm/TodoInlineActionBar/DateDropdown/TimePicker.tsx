@@ -14,7 +14,7 @@ import { useTranslations } from "next-intl";
 import clsx from "clsx";
 
 
-const DurationPicker = ({ className }: { className?: string }) => {
+const TimePicker = ({ className }: { className?: string }) => {
   const appDict = useTranslations("app");
   const { dateRange, setDateRange } = useTodoForm();
   const [timeFromStr, setTimeFromStr] = useState(
@@ -103,7 +103,7 @@ const DurationPicker = ({ className }: { className?: string }) => {
         >
           <div className="flex gap-2 items-center ">
             <Clock strokeWidth={1.7} className="w-4 h-4" />
-            {appDict("duration")}
+            Time
           </div>
           <ChevronRight className={clsx("ml-auto h-4 w-4 text-muted-foreground/50 group-hover:text-accent-foreground", disabled && "group-hover:text-muted-foreground/50")} />
         </button>
@@ -176,4 +176,4 @@ const DurationPicker = ({ className }: { className?: string }) => {
   );
 };
 
-export default DurationPicker;
+export default TimePicker;

@@ -61,8 +61,8 @@ const TodoFormProvider = ({ children, todoItem, overrideFields }: TodoFormProvid
   threeHoursFromNow.setHours(threeHoursFromNow.getHours() + 3);
 
   const [dateRange, setDateRange] = useState<DateRange>({
-    from: todoItem?.dtstart ?? new Date(),
-    to: todoItem?.due ?? threeHoursFromNow,
+    from: todoItem?.id && !todoItem.dtstart ? undefined : todoItem?.dtstart ?? new Date(),
+    to: todoItem?.id && !todoItem.due ? undefined : todoItem?.due ?? threeHoursFromNow,
   });
   const [rruleOptions, setRruleOptions] = useState(
     todoItem?.rrule ? RRule.parseString(todoItem.rrule) : null,

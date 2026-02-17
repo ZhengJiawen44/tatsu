@@ -1,13 +1,13 @@
 import { addDays, endOfDay, startOfDay } from "date-fns";
 import { Calendar } from "@/components/ui/calendar";
-import React from "react";
+import React, { useState } from "react";
 import { format, nextMonday, differenceInDays } from "date-fns";
 import LineSeparator from "@/components/ui/lineSeparator";
 import { Sun, X } from "lucide-react";
 import { IterationCcw as Tomorrow } from "lucide-react";
 import { Calendar as CalenderIcon } from "lucide-react";
 import { useTodoForm } from "@/providers/TodoFormProvider";
-import DurationPicker from "./DurationPicker";
+import TimePicker from "./TimePicker";
 import { useTranslations } from "next-intl";
 import {
   Popover,
@@ -25,10 +25,10 @@ const DateDropdownMenu = () => {
   const userTZ = useUserTimezone()
   const appDict = useTranslations("app");
   const { dateRange, setDateRange } = useTodoForm();
+
   const nextWeek = startOfDay(nextMonday(dateRange?.from || new Date()));
   const tomorrow = startOfDay(addDays(dateRange?.from || new Date(), 1));
-  const [isOpen, setIsOpen] = React.useState(false);
-
+  const [isOpen, setIsOpen] = useState(false);
   const itemClass =
     "flex justify-between items-center p-1.5 px-2 rounded w-[96.5%] hover:bg-popover-accent cursor-pointer m-auto text-sm";
 
@@ -139,7 +139,7 @@ const DateDropdownMenu = () => {
         </button>
 
         {/* --- DURATION --- */}
-        {<DurationPicker className={itemClass} />}
+        {<TimePicker className={itemClass} />}
 
         <LineSeparator className="w-full border-popover-border my-1 mb-4" />
 
