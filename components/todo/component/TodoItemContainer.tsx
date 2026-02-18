@@ -77,7 +77,7 @@ export const TodoItemContainer = ({ todoItem, overdue }: TodoItemContainerProps)
         className={clsx(
           "bg-transparent max-w-full min-h-11 relative border border-black/0 flex justify-between items-center  pt-4 rounded-md cursor-grab active:cursor-grabbing",
           isDragging
-            ? "backdrop-blur-xs brightness-110 border border-white/20 shadow-2xl touch-manipulation  z-30"
+            ? "backdrop-blur-xs brightness-110 border border-white/20 shadow-xl touch-manipulation  z-30"
             : "shadow-none",
         )}
       >
