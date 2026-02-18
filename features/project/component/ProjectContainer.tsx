@@ -45,10 +45,12 @@ const ProjectContainer = ({ id }: { id: string }) => {
             switch (preferences?.groupBy) {
                 case "dtstart":
                     return getDisplayDate(todo.dtstart, false, locale, userTZ?.timeZone);
+                case "project":
+                    return todo.projectID ? projectMetaData[todo.projectID].name : "None";
                 case "due":
                     return getDisplayDate(todo.due, false, locale, userTZ?.timeZone);
                 case "duration":
-                    return Number((Math.round(todo.durationMinutes / 60 * 10) / 10).toFixed(1)).toString() + " hr";
+                    return todo.durationMinutes ? Number((Math.round(todo.durationMinutes / 60 * 10) / 10).toFixed(1)).toString() + " hr" : "No Duration";
                 case "priority":
                     return String(todo.priority);
                 case "rrule":
@@ -57,26 +59,52 @@ const ProjectContainer = ({ id }: { id: string }) => {
                     return "-1"
             }
         }) as Record<string, TodoItemType[]>
-    }, [unpinnedTodos, preferences?.groupBy, locale])
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [unpinnedTodos, preferences?.groupBy, locale, projectMetaData])
 
+    const getTimeOr = (d: Date | null | undefined, fallback: number) =>
+        d ? d.getTime() : fallback;
+
+    const getNumberOr = (n: number | null | undefined, fallback: number) =>
+        n ?? fallback;
     const sortedGroupedTodos = useMemo(() => {
         const sorted: Record<string, TodoItemType[]> = {};
         for (const [key, todos] of Object.entries(groupedTodos)) {
             sorted[key] = [...todos].sort((a, b) => {
+                const dir = preferences?.direction === "Descending" ? 1 : -1;
+
                 switch (preferences?.sortBy) {
-                    case "dtstart":
-                        return preferences.direction == "Descending" ? a.dtstart.getTime() - b.dtstart.getTime() : b.dtstart.getTime() - a.dtstart.getTime();
-                    case "due":
-                        return preferences.direction == "Descending" ? a.due.getTime() - b.due.getTime() : b.due.getTime() - a.due.getTime();
-                    case "duration":
-                        return preferences.direction == "Descending" ? a.durationMinutes - b.durationMinutes : b.durationMinutes - a.durationMinutes;
+                    case "dtstart": {
+                        const aVal = getTimeOr(a.dtstart, Infinity);
+                        const bVal = getTimeOr(b.dtstart, Infinity);
+                        return dir * (aVal - bVal);
+                    }
+
+                    case "due": {
+                        const aVal = getTimeOr(a.due, Infinity);
+                        const bVal = getTimeOr(b.due, Infinity);
+                        return dir * (aVal - bVal);
+                    }
+
+                    case "duration": {
+                        const aVal = getNumberOr(a.durationMinutes, Infinity);
+                        const bVal = getNumberOr(b.durationMinutes, Infinity);
+                        return dir * (aVal - bVal);
+                    }
+
                     case "priority":
-                        return preferences.direction == "Descending" ? priorityMap.current[a.priority] - priorityMap.current[b.priority] : priorityMap.current[b.priority] - priorityMap.current[a.priority];
+                        return (
+                            dir *
+                            (priorityMap.current[a.priority] -
+                                priorityMap.current[b.priority])
+                        );
+
                     default:
                         return a.order - b.order;
                 }
             });
         }
+
 
         return sorted;
     }, [groupedTodos, preferences?.sortBy, preferences?.direction]);

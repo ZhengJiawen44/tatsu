@@ -21,7 +21,9 @@ export const useProject = ({ id }: { id: string }) => {
     staleTime: 5 * 60 * 1000,
     queryFn: async ({ queryKey }) => {
       const [, id] = queryKey;
-      const { todos } = await api.GET({ url: `/api/project/${id}?start=${startOfToday().getTime()}&end=${endOfToday().getTime()}` });
+      const { todos } = await api.GET({
+        url: `/api/project/${id}?start=${startOfToday().getTime()}&end=${endOfToday().getTime()}`,
+      });
 
       const todoWithFormattedDates = todos.map((todo: TodoItemType) => {
         // id needs to be todo id + instance date, so that ghost todos of the same parent can have unique ids
@@ -34,8 +36,8 @@ export const useProject = ({ id }: { id: string }) => {
           ...todo,
           id: todoId,
           createdAt: new Date(todo.createdAt),
-          dtstart: new Date(todo.dtstart),
-          due: new Date(todo.due),
+          dtstart: todo.dtstart ? new Date(todo.dtstart) : null,
+          due: todo.due ? new Date(todo.due) : null,
           instanceDate: todoInstanceDate,
         };
       });
@@ -50,4 +52,3 @@ export const useProject = ({ id }: { id: string }) => {
   }, [isError]);
   return { projectTodos, projectTodosLoading, isFetching, isPending };
 };
-
