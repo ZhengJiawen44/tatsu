@@ -75,9 +75,9 @@ export const TodoItemContainer = ({ todoItem, overdue }: TodoItemContainerProps)
         onMouseOver={() => setShowHandle(true)}
         onMouseOut={() => setShowHandle(false)}
         className={clsx(
-          "max-w-full min-h-11 relative border border-black/0 bg-inherit flex justify-between items-center  pt-4 rounded-md cursor-grab active:cursor-grabbing",
+          "bg-transparent max-w-full min-h-11 relative border border-black/0 flex justify-between items-center  pt-4 rounded-md cursor-grab active:cursor-grabbing",
           isDragging
-            ? "backdrop-blur-sm brightness-110  opacity-80 border border-white/20 shadow-2xl touch-manipulation  z-30 "
+            ? "backdrop-blur-xs brightness-110 border border-white/20 shadow-2xl touch-manipulation  z-30"
             : "shadow-none",
         )}
       >
@@ -109,15 +109,29 @@ export const TodoItemContainer = ({ todoItem, overdue }: TodoItemContainerProps)
             <pre className="pb-2 text-muted-foreground text-xs sm:text-sm whitespace-pre-wrap w-48 sm:w-full">
               {description}
             </pre>
-            <div className="flex flex-wrap items-center justify-start space-x-2 ">
-              {(dtstart || due) && <p className={clsx(overdue ? "text-orange" : "text-lime")}>
-                {
-                  dtstart ?
-                    getDisplayDate(dtstart, true, locale, userTimeZone?.timeZone)
-                    :
-                    getDisplayDate(due, true, locale, userTimeZone?.timeZone)
-                }
+            <div className="flex flex-wrap items-center justify-start  transition-normal duration-300 gap-2">
+              {(dtstart || due) &&
+                <p className={clsx(overdue ? "text-orange" : "text-lime")}>
+                  {
+                    dtstart ?
+                      getDisplayDate(dtstart, true, locale, userTimeZone?.timeZone)
+                      :
+                      getDisplayDate(due, true, locale, userTimeZone?.timeZone)
+                  }
+                </p>
+
+              }
+              {dtstart && <p
+                className={clsx(
+                  "overflow-hidden line-clamp-1 transition-all duration-300 ease-out",
+                  showHandle && dtstart ? "max-w-xs " : "max-w-0"
+                )}
+              >
+                <span className="mr-0.5">-</span>
+                {getDisplayDate(due, true, locale, userTimeZone?.timeZone, true)}
               </p>}
+
+
               {todoItem.projectID &&
                 <p className='flex items-center py-[0.2rem] px-2 rounded-full border bg-sidebar gap-1'>
                   <ProjectTag id={todoItem.projectID} className="text-sm shrink-0" />
