@@ -183,10 +183,9 @@ export default function CalendarClient() {
       }
 
       <div className="h-screen flex flex-col overflow-hidden sm:py-10">
-        {showCreateForm && selectDateRange && (
+        {showCreateForm && (
           <CreateCalendarFormContainer
-            start={selectDateRange.start}
-            end={selectDateRange.end}
+            selectDateRange={selectDateRange}
             displayForm={showCreateForm}
             setDisplayForm={setShowCreateForm}
           />
@@ -245,7 +244,7 @@ export default function CalendarClient() {
             } else {
               editCalendarTodoInstance({
                 ...todo,
-                instanceDate: todo.instanceDate || todo.dtstart,
+                instanceDate: todo.instanceDate || todo.dtstart || null,
                 dtstart: new Date(resizeEvent.start),
                 due: new Date(resizeEvent.end),
               });
@@ -261,7 +260,7 @@ export default function CalendarClient() {
             } else {
               editCalendarTodoInstance({
                 ...todo,
-                instanceDate: todo.instanceDate || todo.dtstart,
+                instanceDate: todo.instanceDate || todo.dtstart || null,
                 dtstart: new Date(dropEvent.start),
                 due: new Date(dropEvent.end),
               });
