@@ -1,9 +1,9 @@
 import { addDays, endOfDay, startOfDay } from "date-fns";
 import { Calendar } from "@/components/ui/calendar";
-import React, { useMemo } from "react";
+import React, { useEffect, useMemo } from "react";
 import { nextMonday, differenceInDays } from "date-fns";
 import LineSeparator from "@/components/ui/lineSeparator";
-import { IterationCcw, Sun } from "lucide-react";
+import { IterationCcw, Sun, X } from "lucide-react";
 import { Calendar as CalendarIcon } from "lucide-react";
 import {
   DropdownMenu,
@@ -16,7 +16,6 @@ import {
   DropdownMenuPortal
 } from "@/components/ui/dropdown-menu";
 import { useLocale, useTranslations } from "next-intl";
-import { NonNullableDateRange } from "@/types";
 import { getDisplayDate } from "@/lib/date/displayDate";
 import { isSameDay } from "date-fns";
 import { useUserTimezone } from "@/features/user/query/get-timezone";
@@ -24,10 +23,13 @@ import { useUserTimezone } from "@/features/user/query/get-timezone";
 import { Clock } from "lucide-react";
 import { format, parse, isValid } from "date-fns";
 import { Input } from "@/components/ui/input";
+import { DateRange } from "react-day-picker";
+import clsx from "clsx";
+import { NonNullableDateRange } from "@/types";
 
 type DateDropdownMenuProps = {
-  dateRange: NonNullableDateRange;
-  setDateRange: React.Dispatch<React.SetStateAction<NonNullableDateRange>>;
+  dateRange: DateRange;
+  setDateRange: React.Dispatch<React.SetStateAction<DateRange>>;
 };
 
 const DateDropdownMenu = ({
@@ -47,6 +49,8 @@ const DateDropdownMenu = ({
   }
 
   const displayedDateRange = useMemo(() => {
+    if (!dateRange.from || !dateRange.to) return getDisplayDate(dateRange.to ?? dateRange.from, false, locale, userTZ?.timeZone);
+    if (!dateRange.from && !dateRange.to) return "";
     if (isSameDay(dateRange.from, dateRange.to)) {
       let displayedTime = `${new Intl.DateTimeFormat(locale, { hour: "numeric" }).format(dateRange.from)}-${new Intl.DateTimeFormat(locale, { hour: "numeric" }).format(dateRange.to)}`;
       if (displayedTime === "12 AM-11 PM") displayedTime = "All day";
@@ -155,40 +159,68 @@ const DateDropdownMenu = ({
 
         {/* --- DURATION (sub-menu) --- */}
         <DropdownMenuSub>
-          <DropdownMenuSubTrigger className="flex w-full cursor-pointer items-center justify-between rounded-sm px-2 py-1.5 text-sm outline-hidden hover:bg-accent hover:text-accent-foreground transition-colors group">
+          <DropdownMenuSubTrigger
+            title={(!dateRange.from || !dateRange.to) ? "need to set start and end date" : ""}
+            disabled={!dateRange.from || !dateRange.to}
+            className={clsx("text-muted-foreground hover:bg-transparent! cursor-default! flex w-full items-center justify-between rounded-sm px-2 py-1.5 text-sm outline-hidden transition-colors group",
+              (dateRange.from && dateRange.to) && "text-foreground hover:bg-popover-accent! hover:text-accent-foreground! cursor-pointer!")}>
             <div className="flex gap-2 items-center">
               <Clock strokeWidth={1.7} className="w-4! h-4!" />
-              {appDict("duration")}
+              Time
             </div>
           </DropdownMenuSubTrigger>
           <DropdownMenuPortal>
-            <DropdownMenuSubContent className="w-[320px] p-4 rounded-lg z-60"
-              onPointerDown={(e) => e.stopPropagation()}
-              onKeyDown={(e) => e.stopPropagation()}>
-              <DurationPickerSub dateRange={dateRange} setDateRange={setDateRange} />
-            </DropdownMenuSubContent>
+            {(dateRange.from && dateRange.to) && (
+              <DropdownMenuSubContent
+                className="w-[320px] p-4 rounded-lg z-60"
+                onPointerDown={(e) => e.stopPropagation()}
+                onKeyDown={(e) => e.stopPropagation()}
+              >
+                <DurationPickerSub
+                  dateRange={dateRange as NonNullableDateRange}
+                  setDateRange={setDateRange as React.Dispatch<
+                    React.SetStateAction<NonNullableDateRange>
+                  >}
+                />
+
+              </DropdownMenuSubContent>
+            )}
+
           </DropdownMenuPortal>
         </DropdownMenuSub>
 
         <LineSeparator className="border-popover-border w-full my-1 mb-4" />
 
         {/* --- CALENDAR --- */}
-        <div className="flex justify-center p-0">
+        <div className="w-full p-0">
           <Calendar
-            className="p-0 pb-2"
             mode="range"
             defaultMonth={new Date()}
             selected={dateRange}
-            onSelect={(newDateRange) => {
-              setDateRange(() => {
-                const from = startOfDay(newDateRange?.from || new Date());
-                const to = endOfDay(newDateRange?.to || from);
-                return { from, to };
-              });
-            }}
+            onSelect={(dateRange) => { setDateRange({ from: dateRange?.from, to: dateRange?.to }) }}
             numberOfMonths={1}
+
           />
         </div>
+        <LineSeparator className="border-popover-border my-1" />
+        {/* --- OPTION: No Date --- */}
+        <button
+          className="flex justify-between items-center p-1.5 px-2 rounded w-[96.5%] hover:bg-popover-accent cursor-pointer m-auto text-sm"
+          onClick={() => {
+            setDateRange(() => ({
+              from: undefined,
+              to: undefined
+            }));
+            setIsOpen(false);
+          }}
+        >
+
+          <div className="flex gap-2 items-center">
+            <X strokeWidth={1.7} className="w-4 h-4" />
+            No Date
+          </div>
+
+        </button>
       </DropdownMenuContent>
     </DropdownMenu>
   );
@@ -218,7 +250,7 @@ function DurationPickerSub({ dateRange, setDateRange }: DurationPickerSubProps) 
 
   const [error, setError] = React.useState<string | null>(null);
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (dateRange?.from) setTimeFromStr(format(dateRange.from, "HH:mm"));
     if (dateRange?.to) setTimeToStr(format(dateRange.to, "HH:mm"));
     setError(null);
@@ -283,6 +315,7 @@ function DurationPickerSub({ dateRange, setDateRange }: DurationPickerSubProps) 
   };
 
   const inputErrorClass = error ? "ring-1 ring-red" : "";
+
 
   return (
     <div className=" flex flex-col gap-4">

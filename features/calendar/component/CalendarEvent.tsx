@@ -55,7 +55,7 @@ const CalendarEvent = ({ event: todo }: EventProps<TodoItemType>) => {
               setOpen(true);
             }}
           >
-            <div className="absolute top-0 sm:block group-hover:bg-muted-foreground/10 rounded-full group-hover:backdrop-blur-md ">
+            <div className="max-w-0 group-hover:max-w-18 transition-all duration-200  rounded-full">
               <TodoCheckbox
                 className="border-transparent group-hover:border-foreground stroke-transparent hover:stroke-foreground! z-50"
                 icon={Check}
@@ -142,7 +142,7 @@ const CalendarEvent = ({ event: todo }: EventProps<TodoItemType>) => {
                   {todo.title}
                 </p>
                 <p className="text-[0.6rem] sm:text-xs md:text-sm text-foreground">
-                  {formatDateRange(todo.dtstart, todo.due)}
+                  {(todo.dtstart && todo.due) && formatDateRange(todo.dtstart, todo.due)}
                 </p>
               </div>
             </div>

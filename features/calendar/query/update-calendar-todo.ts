@@ -36,7 +36,7 @@ async function patchCalendarTodo({
   const rruleChanged = rruleChecksum !== todo.rrule;
   const dateChanged =
     dateRangeChecksum !==
-    todo.dtstart.toISOString() + "" + todo.due.toISOString();
+    `${todo.dtstart?.toISOString() ?? "null"}-${todo.due?.toISOString() ?? "null"}`;
 
   await api.PATCH({
     url: `/api/todo/${todo.id.split(":")[0]}`,

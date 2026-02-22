@@ -2,7 +2,7 @@ import React, { useEffect, useMemo, useRef, useState } from "react";
 import { useTranslations } from "next-intl";
 import { Options, RRule } from "rrule";
 import { AlignLeft, Clock, Flag, Repeat, Hash } from "lucide-react";
-import { TodoItemType, NonNullableDateRange } from "@/types";
+import { TodoItemType } from "@/types";
 import { useCreateCalendarTodo } from "@/features/calendar/query/create-calendar-todo";
 import DateDropdownMenu from "../../FormFields/Dropdowns/DateDropdown/DateDropdownMenu";
 import PriorityDropdownMenu from "../../FormFields/Dropdowns/PriorityDropdown/PriorityDropdown";
@@ -18,16 +18,15 @@ import { Button } from "@/components/ui/button";
 import ProjectDropdownMenu from "@/components/todo/component/TodoForm/ProjectDropdownMenu";
 import NLPTitleInput from "@/components/todo/component/TodoForm/NLPTitleInput";
 import deriveRepeatType from "@/lib/deriveRepeatType";
+import { DateRange } from "react-day-picker";
 type CreateCalendarFormProps = {
-  start: Date;
-  end: Date;
+  selectDateRange: { start: Date, end: Date } | null;
   displayForm: boolean;
   setDisplayForm: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
 const CreateCalendarForm = ({
-  start,
-  end,
+  selectDateRange,
   displayForm,
   setDisplayForm,
 }: CreateCalendarFormProps) => {
@@ -37,9 +36,9 @@ const CreateCalendarForm = ({
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [priority, setPriority] = useState<TodoItemType["priority"]>("Low");
-  const [dateRange, setDateRange] = useState<NonNullableDateRange>({
-    from: start,
-    to: end,
+  const [dateRange, setDateRange] = useState<DateRange>({
+    from: selectDateRange?.start || undefined,
+    to: selectDateRange?.end || undefined,
   });
   const [rruleOptions, setRruleOptions] = useState<Partial<Options> | null>(null);
   const [projectID, setProjectID] = useState<string | null>(null);
@@ -55,11 +54,11 @@ const CreateCalendarForm = ({
       title !== "" ||
       description !== "" ||
       priority !== "Low" ||
-      dateRange.from?.getTime() !== start.getTime() ||
-      dateRange.to?.getTime() !== end.getTime() ||
+      dateRange.from?.getTime() !== selectDateRange?.start.getTime() ||
+      dateRange.to?.getTime() !== selectDateRange?.end.getTime() ||
       rruleString !== null
     );
-  }, [rruleOptions, title, description, priority, dateRange, start, end]);
+  }, [rruleOptions, title, description, priority, dateRange, selectDateRange]);
 
   useEffect(() => {
     if (createTodoStatus === "success") {
@@ -96,8 +95,8 @@ const CreateCalendarForm = ({
                   title,
                   description,
                   priority,
-                  dtstart: dateRange.from || start,
-                  due: dateRange.to || end,
+                  dtstart: dateRange.from,
+                  due: dateRange.to,
                   rrule: rruleOptions ? new RRule(rruleOptions).toString() : null,
                   projectID: projectID
                 });
