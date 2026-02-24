@@ -23,8 +23,8 @@ export async function PATCH(
     const todo: TodoItemType = {
       ...body,
       createdAt: new Date(body.createdAt),
-      dtstart: new Date(body.dtstart),
-      due: new Date(body.due),
+      dtstart: body.dtstart ? new Date(body.dtstart) : undefined,
+      due: body.due ? new Date(body.due) : undefined,
     };
 
     if (!todo) throw new BadRequestError("bad request body recieved");

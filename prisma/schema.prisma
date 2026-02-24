@@ -161,8 +161,8 @@ model CompletedTodo{
   description   String?
   priority      Priority
   completedAt   DateTime        @default(now())
-  dtstart     DateTime
-  due     DateTime
+  dtstart     DateTime?
+  due     DateTime?
   completedOnTime Boolean
   daysToComplete  Decimal @db.Decimal(10, 2)
   rrule  String?

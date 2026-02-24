@@ -24,8 +24,8 @@ export async function PATCH(
     const todo: TodoItemType = {
       ...body,
       createdAt: new Date(body.createdAt),
-      dtstart: new Date(body.dtstart),
-      due: new Date(body.due),
+      dtstart: body.dtstart ? new Date(body.dtstart) : undefined,
+      due: body.due ? new Date(body.due) : undefined,
     };
 
     if (!todo) throw new BadRequestError("bad request body recieved");
@@ -37,7 +37,7 @@ export async function PATCH(
 
     //insert a new completed todo record
     const currentTime = new Date();
-    const completedOnTime = todo.due > currentTime;
+    const completedOnTime = todo.due ? todo.due > currentTime : true;
     const daysToComplete =
       (Number(currentTime) - Number(todo.dtstart)) / (1000 * 60 * 60 * 24);
 
@@ -47,8 +47,8 @@ export async function PATCH(
         title: todo.title,
         description: todo.description,
         priority: todo.priority,
-        dtstart: todo.dtstart,
-        due: todo.due,
+        dtstart: todo.dtstart || undefined,
+        due: todo.due || undefined,
         completedAt: new Date(),
         completedOnTime,
         daysToComplete: new Prisma.Decimal(daysToComplete),

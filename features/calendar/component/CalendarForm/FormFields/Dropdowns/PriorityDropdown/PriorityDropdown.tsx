@@ -31,7 +31,7 @@ const PriorityDropdownMenu = ({
         <p className="hidden sm:block">{appDict("priority")}</p>
         <ChevronDown className="w-4 h-4 text-muted-foreground" />
       </DropdownMenuTrigger>
-      <DropdownMenuContent className="min-w-[150px] text-foreground space-y-1">
+      <DropdownMenuContent align="start" className="min-w-[150px] text-foreground space-y-1">
         <DropdownMenuItem
           className="hover:text-foreground hover:bg-popover-accent"
           onClick={() => setPriority("Low")}

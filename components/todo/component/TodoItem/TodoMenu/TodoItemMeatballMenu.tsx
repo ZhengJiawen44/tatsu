@@ -34,7 +34,7 @@ export default function TodoItemMeatballMenu({ ...props }: TodoItemMeatballMenuP
           <Meatball className="w-5 h-5" />
         </Button>
       </DropdownMenuTrigger>
-      <DropdownMenuContent className="bg-popover py-1.5 px-0 [&_svg:not([class*='size-'])]:size-5 lg:min-w-60 border border-popover-border shadow-2xl">
+      <DropdownMenuContent className="py-1.5 px-0 [&_svg:not([class*='size-'])]:size-5 lg:min-w-60 border border-popover-border shadow-2xl">
         {open && <MenuContent {...props} />}
       </DropdownMenuContent>
     </DropdownMenu >
