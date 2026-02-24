@@ -1,13 +1,13 @@
 # Tatsu - The Ultimate Todo App
 
-![hero](public/hero.webp)![hero](public/hero.webp)
+![hero](public/hero.webp)
 
 ## Introduction
 Tatsu is a todo app on steroids, designed to keep you motivated and productive. Key features include:
 
-**Evolving Avatars**: Your avatar grows as you complete your todo goals (TBD).
+**Natural language processing** NLP engine to automatically extract dates, times, and durations from your input.
 
-**Long-term Todo Tracking**: Stay on top of your big-picture tasks (TBD).
+**Calendar View** See all your tasks at a glance with monthly, weekly, and daily views.
 
 **Notion-like Editor**: A powerful, intuitive interface for note taking.
 
@@ -15,10 +15,8 @@ Tatsu is a todo app on steroids, designed to keep you motivated and productive. 
 
 More exciting features coming soon! 
 
-## End to End encryption
-All files are end to end encrypted and stored in a aws s3 bucket. the module designated for retrieval, and encryption/decryption of files is called "Vault" in the app. you can read more about how I implemented it [here](https://excalidraw.com/#room=8feca98c331feac8d27b,XeidBTw8Bp2qXTVBjf41Yg)
-
-![e2ee](images/e2ee1.png)![e2ee](images/e2ee2.png)
+## Documentation
+https://sanity.my/en/blogs
 
 ## RoadMap
 https://github.com/ZhengJiawen44/tatsu/wiki/Roadmap
