@@ -1,6 +1,7 @@
 ![CI](https://github.com/zhengjiawen44/tatsu/actions/workflows/publish.yml/badge.svg)
 ![Tests](https://github.com/zhengjiawen44/tatsu/actions/workflows/test.yml/badge.svg)
 ![License](https://img.shields.io/github/license/zhengjiawen44/tatsu)
+![TypeScript](https://img.shields.io/badge/TypeScript-3178C6?logo=typescript&logoColor=white)
 
 # Tatsu - The Ultimate Todo App
 
