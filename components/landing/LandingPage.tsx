@@ -9,6 +9,7 @@ import EyeToggle from "../ui/eyeToggle";
 import { useTranslations } from "next-intl";
 import FlagsCarousel from "./FlagsCarousel";
 import MoreFeatures from "./MoreFeatures";
+import CodeBlock from "./CodeBlock";
 
 const LandingPage = () => {
   const dict = useTranslations("landingPage");
@@ -155,6 +156,8 @@ const LandingPage = () => {
           </div>
         </div>
 
+
+
         {/* infinte scrolling flags */}
         <FlagsCarousel />
 
@@ -278,8 +281,9 @@ const LandingPage = () => {
 
           <div className="w-full flex  flex-wrap gap-4 justify-center">
             <MoreFeatures />
-
           </div>
+          <p className="w-full text-4xl font-semibold m-auto mt-30">Host it yourself</p>
+          <CodeBlock />
         </div>
 
         {/* Footer */}
