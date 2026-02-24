@@ -138,7 +138,7 @@ const DateDropdownMenu = () => {
           <div className="text-xs text-muted-foreground">Mon</div>
         </button>
 
-        {/* --- DURATION --- */}
+        {/* --- TIME --- */}
         {<TimePicker className={itemClass} />}
 
         <LineSeparator className="w-full border-popover-border my-1 mb-4" />

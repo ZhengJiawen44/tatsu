@@ -3,7 +3,7 @@ import { useTranslations, useLocale } from "next-intl";
 import { Options, RRule } from "rrule";
 import { Clock, Flag, Repeat, Check, Hash } from "lucide-react";
 import NestedDrawerItem from "@/components/mobile/NestedDrawerItem";
-import { TodoItemType, NonNullableDateRange } from "@/types";
+import { TodoItemType } from "@/types";
 import { getDisplayDate } from "@/lib/date/displayDate";
 import { useUserTimezone } from "@/features/user/query/get-timezone";
 import {
@@ -24,19 +24,18 @@ import { useProjectMetaData } from "@/components/Sidebar/Project/query/get-proje
 import ProjectTag from "@/components/ProjectTag";
 import NLPTitleInput from "@/components/todo/component/TodoForm/NLPTitleInput";
 import deriveRepeatType from "@/lib/deriveRepeatType";
+import { DateRange } from "react-day-picker";
 
 // --- Types ---
 type CreateCalendarFormProps = {
-    start: Date;
-    end: Date;
+    selectDateRange: { start: Date, end: Date } | null;
     displayForm: boolean;
     setDisplayForm: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
 // --- Main Component ---
 export default function CreateCalendarDrawer({
-    start,
-    end,
+    selectDateRange,
     displayForm,
     setDisplayForm,
 }: CreateCalendarFormProps) {
@@ -52,9 +51,10 @@ export default function CreateCalendarDrawer({
     const [title, setTitle] = useState("");
     const [description, setDescription] = useState("");
     const [priority, setPriority] = useState<TodoItemType["priority"]>("Low");
-    const [dateRange, setDateRange] = useState<NonNullableDateRange>({
-        from: start,
-        to: end,
+    const [dateRange, setDateRange] = useState<DateRange>({
+        from: selectDateRange?.start || undefined,
+        to: selectDateRange?.end || undefined,
+
     });
     const [rruleOptions, setRruleOptions] = useState<Partial<Options> | null>(null);
     const [projectID, setProjectID] = useState<string | null>(null);
