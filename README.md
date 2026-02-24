@@ -21,7 +21,7 @@ https://sanity.my/en/blogs
 ## RoadMap
 https://github.com/ZhengJiawen44/tatsu/wiki/Roadmap
 
-## Running with Docker (Recommended)
+## Running with prebuilt Docker image (recommended)
 
 You can run the prebuilt image directly from GitHub Container Registry:
 
@@ -34,6 +34,7 @@ docker run -d \
   ghcr.io/zhengjiawen44/tatsu:latest
 ```
 
+## Building and running a docker image yourself
 alternatively, you can build the image yourself.
 The project includes a **Dockerfile** and **docker-compose.yml** for containerized development.
 
