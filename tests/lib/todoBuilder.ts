@@ -13,7 +13,7 @@ export class TodoBuilder {
       order: 0,
       priority: "Low",
       dtstart: new Date(),
-      durationMinutes: 30,
+      durationMinutes: null,
       rrule: "",
       timeZone: "Asia/Shanghai",
       userID: crypto.randomUUID(),
@@ -38,10 +38,16 @@ export class TodoBuilder {
 
   withdtstart(dtstart: Date): this {
     this.todo.dtstart = dtstart;
+    if (this.todo.dtstart && this.todo.due)
+      this.todo.durationMinutes =
+        (this.todo.due.getTime() - this.todo.dtstart.getTime()) / (1000 * 60);
     return this;
   }
   withdue(due: Date): this {
     this.todo.due = due;
+    if (this.todo.dtstart && this.todo.due)
+      this.todo.durationMinutes =
+        (this.todo.due.getTime() - this.todo.dtstart.getTime()) / (1000 * 60);
     return this;
   }
 

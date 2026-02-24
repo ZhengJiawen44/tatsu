@@ -1,4 +1,5 @@
-import getTodayBoundaries from "@/lib/getTodayBoundaries";
+import { recurringTodoItemType } from "@/types";
+import getTodayBoundaries from "../lib/getTodayBoundaries";
 import { TodoBuilder } from "../lib/todoBuilder";
 import generateTodosFromRRule from "@/lib/RRule/generateTodosFromRRule";
 
@@ -17,7 +18,11 @@ test("daily repeat generates a correct todo", () => {
     .withRRule("FREQ=DAILY")
     .withdue(new Date("2025-10-10T17:00:00Z"));
   const bounds = getTodayBoundaries(todo.timeZone);
-  const todoInstance = generateTodosFromRRule([todo], todo.timeZone, bounds)[0];
+  const todoInstance = generateTodosFromRRule(
+    [todo as recurringTodoItemType],
+    todo.timeZone,
+    bounds,
+  )[0];
 
   //expecting an instance to be generated with dtStart at Oct-13-00:00 in China
   expect(todoInstance.dtstart).toEqual(new Date("2025-10-12T16:00:00.000Z"));
@@ -32,7 +37,11 @@ test("weekly repeat on Tuesdays generates the correct todo", () => {
     .withRRule("FREQ=WEEKLY;BYDAY=TU")
     .withdue(new Date("2025-12-01T17:00:00Z"));
   const bounds = getTodayBoundaries(todo.timeZone);
-  const todoInstance = generateTodosFromRRule([todo], todo.timeZone, bounds)[0];
+  const todoInstance = generateTodosFromRRule(
+    [todo as recurringTodoItemType],
+    todo.timeZone,
+    bounds,
+  )[0];
   //expecting an instance to be generated with dtStart at Dec-09 China
   expect(todoInstance.dtstart).toEqual(new Date("2025-12-08T16:00:00.000Z"));
 });
@@ -46,8 +55,12 @@ test("weekly repeat on Tuesdays and Thursdays generates the correct todo", () =>
     .withRRule("FREQ=WEEKLY;BYDAY=TU,TH")
     .withdue(new Date("2025-12-01T20:00:00Z"));
   const bounds = getTodayBoundaries(todo.timeZone);
-  bounds.todayEndUTC = new Date("2025-12-10T16:00:00Z"); // Dec-11 Th in china
-  const todoInstances = generateTodosFromRRule([todo], todo.timeZone, bounds);
+  bounds.dateRangeStart = new Date("2025-12-10T16:00:00Z"); // Dec-11 Th in china
+  const todoInstances = generateTodosFromRRule(
+    [todo as recurringTodoItemType],
+    todo.timeZone,
+    bounds,
+  );
   //expecting 2 instance to be generated with dtStart at Dec-09 Tu China and Dec-11 Th China
   expect(todoInstances.map(({ dtstart }) => dtstart)).toEqual([
     new Date("2025-12-08T16:00:00.000Z"),
@@ -64,7 +77,11 @@ test("daily repeat at midnight boundary generates correct todo instance", () => 
     .withRRule("FREQ=DAILY;WKST=MO")
     .withdue(new Date("2025-10-11T17:00:00Z"));
   const bounds = getTodayBoundaries(todo.timeZone);
-  const todoInstance = generateTodosFromRRule([todo], todo.timeZone, bounds)[0];
+  const todoInstance = generateTodosFromRRule(
+    [todo as recurringTodoItemType],
+    todo.timeZone,
+    bounds,
+  )[0];
 
   // Expecting an instance to be generated with dtStart at Oct-14-00:00 in China
   expect(todoInstance.dtstart).toEqual(new Date("2025-10-13T16:00:00.000Z"));
@@ -79,7 +96,11 @@ test("daily repeat one second before midnight generates correct todo", () => {
     .withRRule("FREQ=DAILY;WKST=MO")
     .withdue(new Date("2025-10-11T17:00:00Z"));
   const bounds = getTodayBoundaries(todo.timeZone);
-  const todoInstance = generateTodosFromRRule([todo], todo.timeZone, bounds)[0];
+  const todoInstance = generateTodosFromRRule(
+    [todo as recurringTodoItemType],
+    todo.timeZone,
+    bounds,
+  )[0];
 
   // Expecting an instance to be generated with dtStart at Oct-13-00:00 in China (today's instance)
   expect(todoInstance.dtstart).toEqual(new Date("2025-10-12T16:00:00.000Z"));
@@ -94,7 +115,11 @@ test("daily repeat one second after midnight generates correct todo", () => {
     .withRRule("FREQ=DAILY;WKST=MO")
     .withdue(new Date("2025-10-11T17:00:00Z"));
   const bounds = getTodayBoundaries(todo.timeZone);
-  const todoInstance = generateTodosFromRRule([todo], todo.timeZone, bounds)[0];
+  const todoInstance = generateTodosFromRRule(
+    [todo as recurringTodoItemType],
+    todo.timeZone,
+    bounds,
+  )[0];
 
   // Expecting an instance to be generated with dtStart at Oct-14-00:00 in China (today's instance)
   expect(todoInstance.dtstart).toEqual(new Date("2025-10-13T16:00:00.000Z"));
@@ -109,7 +134,11 @@ test("every January on Satuday generates and correct occurrence", () => {
     .withRRule("FREQ=MONTHLY;COUNT=30;WKST=MO;BYDAY=SA;BYMONTH=1")
     .withdue(new Date("2025-01-17T17:00:00Z"));
   const bounds = getTodayBoundaries(todo.timeZone);
-  const todoInstance = generateTodosFromRRule([todo], todo.timeZone, bounds)[0];
+  const todoInstance = generateTodosFromRRule(
+    [todo as recurringTodoItemType],
+    todo.timeZone,
+    bounds,
+  )[0];
 
   // Expecting an instance to be generated with dtStart at Jan-25-00:00 in China (today's instance)
   expect(todoInstance.dtstart).toEqual(new Date("2025-01-24T16:00:00.000Z"));
@@ -128,7 +157,11 @@ test("daily repeat with count=3 generates correct todo on day 2", () => {
     .withRRule("FREQ=DAILY;COUNT=3;WKST=MO")
     .withdue(new Date("2025-01-12T17:00:00Z"));
   const bounds = getTodayBoundaries(todo.timeZone);
-  const todoInstance = generateTodosFromRRule([todo], todo.timeZone, bounds)[0];
+  const todoInstance = generateTodosFromRRule(
+    [todo as recurringTodoItemType],
+    todo.timeZone,
+    bounds,
+  )[0];
 
   // Expecting an instance to be generated with dtStart at Jan-14-00:00 in China
   expect(todoInstance.dtstart).toEqual(new Date("2025-01-13T16:00:00.000Z"));
@@ -143,7 +176,11 @@ test("daily repeat with count=3 generates no todo after count exhausted", () => 
     .withRRule("FREQ=DAILY;COUNT=3;WKST=MO")
     .withdue(new Date("2025-01-12T17:00:00Z"));
   const bounds = getTodayBoundaries(todo.timeZone);
-  const todoInstances = generateTodosFromRRule([todo], todo.timeZone, bounds);
+  const todoInstances = generateTodosFromRRule(
+    [todo as recurringTodoItemType],
+    todo.timeZone,
+    bounds,
+  );
 
   // Expecting no instances since count is exhausted (only 3 occurrences: Jan-13, Jan-14, Jan-15)
   expect(todoInstances.length).toEqual(0);
@@ -158,7 +195,11 @@ test("weekly repeat with until generates correct todo on week 3", () => {
     .withRRule("FREQ=WEEKLY;UNTIL=20251230T020000;WKST=MO")
     .withdue(new Date("2025-12-01T18:00:00Z"));
   const bounds = getTodayBoundaries(todo.timeZone);
-  const todoInstance = generateTodosFromRRule([todo], todo.timeZone, bounds)[0];
+  const todoInstance = generateTodosFromRRule(
+    [todo as recurringTodoItemType],
+    todo.timeZone,
+    bounds,
+  )[0];
 
   // Expecting an instance to be generated with dtStart at Dec-16-01:00 in China
   expect(todoInstance.dtstart).toEqual(new Date("2025-12-15T17:00:00.000Z"));
@@ -173,7 +214,11 @@ test("weekly repeat with until generates correct todo on last occurrence", () =>
     .withRRule("FREQ=WEEKLY;UNTIL=20251230T020000;WKST=MO")
     .withdue(new Date("2025-12-01T18:00:00Z"));
   const bounds = getTodayBoundaries(todo.timeZone);
-  const todoInstance = generateTodosFromRRule([todo], todo.timeZone, bounds)[0];
+  const todoInstance = generateTodosFromRRule(
+    [todo as recurringTodoItemType],
+    todo.timeZone,
+    bounds,
+  )[0];
 
   // Expecting an instance to be generated with dtStart at Dec-30-01:00 in China (last valid occurrence)
   expect(todoInstance.dtstart).toEqual(new Date("2025-12-29T17:00:00.000Z"));
@@ -188,7 +233,11 @@ test("weekly repeat with until generates no todo after until date", () => {
     .withRRule("FREQ=WEEKLY;UNTIL=20251230T020000;WKST=MO")
     .withdue(new Date("2025-12-01T18:00:00Z"));
   const bounds = getTodayBoundaries(todo.timeZone);
-  const todoInstances = generateTodosFromRRule([todo], todo.timeZone, bounds);
+  const todoInstances = generateTodosFromRRule(
+    [todo as recurringTodoItemType],
+    todo.timeZone,
+    bounds,
+  );
 
   // Expecting no instances since until date has passed
   expect(todoInstances.length).toEqual(0);
