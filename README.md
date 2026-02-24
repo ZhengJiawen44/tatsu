@@ -1,3 +1,6 @@
+![CI](https://github.com/zhengjiawen44/tatsu/actions/workflows/publish.yml/badge.svg)
+![License](https://img.shields.io/github/license/zhengjiawen44/tatsu)
+
 # Tatsu - The Ultimate Todo App
 
 ![hero](public/hero.webp)
