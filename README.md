@@ -1,5 +1,7 @@
 # Tatsu - The Ultimate Todo App
 
+![hero](public/hero.webp)![hero](public/hero.webp)
+
 ## Introduction
 Tatsu is a todo app on steroids, designed to keep you motivated and productive. Key features include:
 
