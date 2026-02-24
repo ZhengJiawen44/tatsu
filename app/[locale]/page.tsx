@@ -6,6 +6,8 @@ import { Button } from "@/components/ui/button";
 import Image from "next/image";
 import { getTranslations } from "next-intl/server"
 import LanguagePicker from "@/components/landing/LanguagePicker";
+import { Github } from "lucide-react";
+
 
 const Page = async () => {
   const session = await auth();
@@ -33,6 +35,7 @@ const Page = async () => {
 
             {/* Navigation */}
             <div className="flex items-center gap-2 sm:gap-4">
+
               <Button
                 asChild
                 variant={"ghost"}
@@ -51,13 +54,25 @@ const Page = async () => {
               >
                 <Link href="/login" aria-label="Start by logging in">{dict("nav.login")}</Link>
               </Button>
+
+              {/* Github link */}
+              <Link
+                target="_blank"
+                className="flex justify-center items-center p-2 px-3 border rounded-full bg-background hover:bg-popover text-muted-foreground hover:text-foreground"
+                href="https://github.com/ZhengJiawen44/tatsu">
+                <Github className="w-4 h-4" />
+              </Link>
+
               <LanguagePicker />
             </div>
           </div>
+
         </div>
 
         {/* Landing Page Content */}
         <LandingPage />
+
+
       </div>
     );
   redirect("/app/todo");

@@ -7,7 +7,7 @@ export default function LanguagePicker() {
   const locale = useLocale();
   return (
     <DropdownMenu>
-      <DropdownMenuTrigger className="bg-border flex items-center gap-2 px-3 py-1 rounded-sm">{locale}<ChevronDown className="w-3 h-3" /></DropdownMenuTrigger>
+      <DropdownMenuTrigger className="border cursor-pointer bg-background hover:bg-popover text-muted-foreground hover:text-foreground flex items-center gap-2 px-3 py-1 rounded-full">{locale}<ChevronDown className="w-3 h-3" /></DropdownMenuTrigger>
       <DropdownMenuContent>
         <DropdownMenuItem asChild><Link href={"/"} locale="en">English</Link></DropdownMenuItem>
         <DropdownMenuItem asChild><Link href={"/"} locale="ru">Русский</Link></DropdownMenuItem>
