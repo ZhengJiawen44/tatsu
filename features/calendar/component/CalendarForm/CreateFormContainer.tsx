@@ -19,7 +19,7 @@ const CreateCalendarFormContainer = ({
 }: CreateCalendarFormContainerProps) => {
     const { width } = useWindowSize();
     if (width > 1300) return <DesktopModal displayForm={displayForm} setDisplayForm={setDisplayForm} selectDateRange={selectDateRange} />
-    return <MobileDrawer displayForm={displayForm} setDisplayForm={setDisplayForm} start={new Date()} end={new Date()} />
+    return <MobileDrawer displayForm={displayForm} setDisplayForm={setDisplayForm} selectDateRange={selectDateRange} />
 };
 
 export default CreateCalendarFormContainer;

@@ -1,10 +1,10 @@
 import { DrawerClose } from "@/components/ui/drawer";
-import { NonNullableDateRange } from "@/types";
 import { isSameDay, isValid, format, parse } from "date-fns";
 import { Clock, Flag } from "lucide-react";
 import { useTranslations, useLocale } from "next-intl";
 import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button"
+import { NonNullableDateRange } from "@/types";
 
 export default function DurationPicker({
     dateRange,

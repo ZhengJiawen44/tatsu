@@ -1,15 +1,16 @@
 import NestedDrawerItem from "@/components/mobile/NestedDrawerItem";
-import { NonNullableDateRange } from "@/types";
 import { startOfDay, nextMonday, addDays, endOfDay, differenceInDays } from "date-fns";
-import { Sun, Sunrise, CalendarIcon, Clock } from "lucide-react";
+import { Sun, Sunrise, CalendarIcon, Clock, CircleMinus } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { SetStateAction } from "react";
 import DurationPicker from "./DurationPicker"
 import { formatDayAbbr } from "@/lib/formatDayAbbr";
 import { Calendar } from "@/components/ui/calendar";
 import LineSeparator from "@/components/ui/lineSeparator";
+import { DateRange } from "react-day-picker";
+import { NonNullableDateRange } from "@/types";
 
-export function DateDrawerMenu({ dateRange, setDateRange }: { dateRange: NonNullableDateRange, setDateRange: React.Dispatch<SetStateAction<NonNullableDateRange>> }) {
+export function DateDrawerMenu({ dateRange, setDateRange }: { dateRange: DateRange, setDateRange: React.Dispatch<SetStateAction<DateRange>> }) {
     const nextWeek = startOfDay(nextMonday(dateRange?.from || new Date()));
     const tomorrow = startOfDay(addDays(dateRange?.from || new Date(), 1));
     const appDict = useTranslations("app");
@@ -95,16 +96,42 @@ export function DateDrawerMenu({ dateRange, setDateRange }: { dateRange: NonNull
                         {formatDayAbbr(nextWeek)}
                     </p>
                 </div>
+
+                {/* No Date */}
+                <div
+                    className="flex w-full cursor-pointer items-center justify-between rounded-md p-2 hover:bg-accent/50"
+                    onClick={() => {
+                        setDateRange(() => ({
+                            from: undefined,
+                            to: undefined
+                        }));
+                    }}
+                    data-close-on-click
+                >
+                    <div className="flex gap-3 items-center">
+                        <CircleMinus className="w-5! h-5!" />
+                        No Date
+                    </div>
+                </div>
+
+                {/* time */}
                 <NestedDrawerItem
+                    disabled={!dateRange.from || !dateRange.to}
                     className="flex w-full gap-3! cursor-pointer items-center justify-between rounded-md p-2 hover:bg-accent/50"
-                    title={appDict("duration")}
+                    title="Time"
                     icon={<Clock className="w-5 h-5" />}
                     label=""
                 >
-                    <DurationPicker dateRange={dateRange} setDateRange={setDateRange} />
+                    {(dateRange.from && dateRange.to) &&
+                        <DurationPicker
+                            dateRange={dateRange as NonNullableDateRange}
+                            setDateRange={setDateRange as React.Dispatch<SetStateAction<NonNullableDateRange>>}
+                        />
+                    }
                 </NestedDrawerItem>
             </div>
             <LineSeparator className="my-3 border-popover-border" />
+            {/* day picker */}
             <Calendar
                 className="w-full px-4"
                 classNames={{
@@ -123,13 +150,10 @@ export function DateDrawerMenu({ dateRange, setDateRange }: { dateRange: NonNull
                 }}
                 mode="range"
                 selected={dateRange}
-                onSelect={(range) =>
-                    range?.from &&
-                    setDateRange({
-                        from: range.from,
-                        to: range.to || range.from,
-                    })
-                }
+                onSelect={(dateRange) => setDateRange(
+                    () => {
+                        return { from: dateRange?.from, to: dateRange?.to }
+                    })}
             />
         </>
 
