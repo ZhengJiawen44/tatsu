@@ -3,17 +3,23 @@
 ![hero](public/hero.webp)
 [demo video](https://www.youtube.com/watch?v=NWD6fUluXuE)
 ## Introduction
-Tatsu is a todo app on steroids, designed to keep you motivated and productive. Key features include:
+Tatsu is a todo app on steroids, designed to keep you motivated and productive.
 
-**Natural language processing** NLP engine to automatically extract dates, times, and durations from your input.
+## Features
 
-**Calendar View** See all your tasks at a glance with monthly, weekly, and daily views.
+1. **Natural Language Processing**  
+   Automatically extracts dates, times, and durations from your input. Just type naturally and the system handles the rest.
 
-**Notion-like Editor**: A powerful, intuitive interface for note taking.
+2. **Calendar View**  
+   View all your tasks at a glance with monthly, weekly, and daily layouts to stay organized.
 
-**End-to-End Encrypted File Uploads**: Securely store and manage your files.
+3. **Notion-like Editor**  
+   A powerful and intuitive editor for structured note-taking and task management.
 
-More exciting features coming soon! 
+4. **End-to-End Encrypted File Uploads**  
+   Securely upload and manage files with full end-to-end encryption to protect your data.
+
+   More exciting features coming soon.
 
 ## Documentation
 https://sanity.my/en/blogs
