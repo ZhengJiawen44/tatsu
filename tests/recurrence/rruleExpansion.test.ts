@@ -1,5 +1,5 @@
 import { test, expect } from "@jest/globals";
-import { genRule } from "../lib/generateTodosFromRRule";
+import { genRuleSet as genRule } from "@/lib/RRule/generateTodosFromRRule";
 
 /**
  * These tests assume user is in China and the server uses UTC as its timezone.
