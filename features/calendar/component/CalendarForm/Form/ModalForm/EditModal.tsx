@@ -2,7 +2,6 @@ import { TodoItemType } from "@/types";
 import { useEffect, useMemo, useRef, useState } from "react";
 import PriorityDropdownMenu from "../../FormFields/Dropdowns/PriorityDropdown/PriorityDropdown";
 import DateDropdownMenu from "../../FormFields/Dropdowns/DateDropdown/DateDropdownMenu";
-import { NonNullableDateRange } from "@/types";
 import { RRule } from "rrule";
 import RepeatDropdownMenu from "../../FormFields/Dropdowns/RepeatDropdown/RepeatDropdownMenu";
 import { AlignLeft, Clock, Flag, Hash, Repeat } from "lucide-react";
@@ -20,6 +19,7 @@ import { Button } from "@/components/ui/button";
 import ProjectDropdownMenu from "@/components/todo/component/TodoForm/ProjectDropdownMenu";
 import NLPTitleInput from "@/components/todo/component/TodoForm/NLPTitleInput";
 import deriveRepeatType from "@/lib/deriveRepeatType";
+import { DateRange } from "react-day-picker";
 
 type CalendarFormProps = {
   todo: TodoItemType;
@@ -36,7 +36,8 @@ const CalendarForm = ({
   const titleRef = useRef(null);
 
   const dateRangeChecksum = useMemo(
-    () => todo.dtstart.toISOString() + todo.due.toISOString(),
+    () => `${todo.dtstart?.toISOString() ?? "null"}-${todo.due?.toISOString() ?? "null"}`
+    ,
     [todo.dtstart, todo.due],
   );
   const rruleChecksum = useMemo(() => todo.rrule, [todo.rrule]);
@@ -47,9 +48,9 @@ const CalendarForm = ({
   const [title, setTitle] = useState(todo.title);
   const [description, setDescription] = useState(todo.description ?? "");
   const [priority, setPriority] = useState(todo.priority);
-  const [dateRange, setDateRange] = useState<NonNullableDateRange>({
-    from: todo.dtstart,
-    to: todo.due,
+  const [dateRange, setDateRange] = useState<DateRange>({
+    from: todo.dtstart || undefined,
+    to: todo.due || undefined,
   });
   const [rruleOptions, setRruleOptions] = useState(
     todo?.rrule ? RRule.parseString(todo.rrule) : null,

@@ -45,7 +45,7 @@ function Calendar({
         day_range_start:
           "!bg-calendar-lime font-bold! text-sm! text-foreground relative! z-40! rounded-full!",
         day_range_end: hasRangeEnd
-          ? "!bg-calendar-lime outline-foreground outline-dotted font-bold! text-sm! text-foreground relative! z-10!"
+          ? "!bg-calendar-orange font-bold! text-sm! text-foreground relative! z-10!"
           : "!bg-calendar-lime font-bold! text-sm! text-foreground relative! z-40! rounded-full!",
         day_selected:
           "bg-primary rounded-full! text-primary-foreground hover:bg-primary hover:text-primary-foreground focus:bg-primary focus:text-primary-foreground",

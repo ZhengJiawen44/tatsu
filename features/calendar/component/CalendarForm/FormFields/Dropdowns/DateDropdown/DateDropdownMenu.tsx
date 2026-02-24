@@ -2,7 +2,6 @@ import { addDays, endOfDay, startOfDay } from "date-fns";
 import { Calendar } from "@/components/ui/calendar";
 import React, { useEffect, useMemo } from "react";
 import { nextMonday, differenceInDays } from "date-fns";
-import LineSeparator from "@/components/ui/lineSeparator";
 import { IterationCcw, Sun, X } from "lucide-react";
 import { Calendar as CalendarIcon } from "lucide-react";
 import {
@@ -13,7 +12,8 @@ import {
   DropdownMenuSub,
   DropdownMenuSubTrigger,
   DropdownMenuSubContent,
-  DropdownMenuPortal
+  DropdownMenuPortal,
+  DropdownMenuSeparator
 } from "@/components/ui/dropdown-menu";
 import { useLocale, useTranslations } from "next-intl";
 import { getDisplayDate } from "@/lib/date/displayDate";
@@ -69,7 +69,7 @@ const DateDropdownMenu = ({
       </DropdownMenuTrigger>
 
       <DropdownMenuContent
-        className="z-50 flex flex-col gap-2 p-1 w-62.5 font-extralight"
+        className="z-50 flex flex-col gap-2 w-62.5 font-extralight bg-popover/65"
         align="start"
       >
         {/* --- OPTION: TODAY --- */}
@@ -188,9 +188,7 @@ const DateDropdownMenu = ({
 
           </DropdownMenuPortal>
         </DropdownMenuSub>
-
-        <LineSeparator className="border-popover-border w-full my-1 mb-4" />
-
+        <DropdownMenuSeparator />
         {/* --- CALENDAR --- */}
         <div className="w-full p-0">
           <Calendar
@@ -202,10 +200,12 @@ const DateDropdownMenu = ({
 
           />
         </div>
-        <LineSeparator className="border-popover-border my-1" />
+        <DropdownMenuSeparator className="h-[1.1px] my-0 -mb-0.5" />
+
         {/* --- OPTION: No Date --- */}
-        <button
-          className="flex justify-between items-center p-1.5 px-2 rounded w-[96.5%] hover:bg-popover-accent cursor-pointer m-auto text-sm"
+        <DropdownMenuItem
+          onSelect={(e) => { e.preventDefault(); }}
+          className="flex w-full cursor-pointer items-center justify-between"
           onClick={() => {
             setDateRange(() => ({
               from: undefined,
@@ -214,13 +214,11 @@ const DateDropdownMenu = ({
             setIsOpen(false);
           }}
         >
-
           <div className="flex gap-2 items-center">
             <X strokeWidth={1.7} className="w-4 h-4" />
             No Date
           </div>
-
-        </button>
+        </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
   );

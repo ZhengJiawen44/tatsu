@@ -70,7 +70,7 @@ function TodoItemMeatballMenuContent({
 
             {/* move to project sub menu */}
             <DropdownMenuSub>
-                <DropdownMenuSubTrigger className="bg-inherit hover:bg-popover mx-1">
+                <DropdownMenuSubTrigger className=" hover:bg-popover mx-1">
                     <ArrowRightLeft strokeWidth={1.7} className="w-4! h-4!" />
                     {todayDict("menu.Move to")}
                 </DropdownMenuSubTrigger>

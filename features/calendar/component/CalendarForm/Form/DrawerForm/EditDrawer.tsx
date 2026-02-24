@@ -4,7 +4,7 @@ import { useTranslations, useLocale } from "next-intl";
 import { RRule } from "rrule";
 import { Clock, Flag, Repeat, Check, Hash } from "lucide-react";
 import NestedDrawerItem from "@/components/mobile/NestedDrawerItem";
-import { TodoItemType, NonNullableDateRange } from "@/types";
+import { TodoItemType } from "@/types";
 import { getDisplayDate } from "@/lib/date/displayDate";
 import { useUserTimezone } from "@/features/user/query/get-timezone";
 import {
@@ -26,6 +26,7 @@ import ProjectTag from "@/components/ProjectTag";
 import { useProjectMetaData } from "@/components/Sidebar/Project/query/get-project-meta";
 import NLPTitleInput from "@/components/todo/component/TodoForm/NLPTitleInput";
 import deriveRepeatType from "@/lib/deriveRepeatType";
+import { DateRange } from "react-day-picker";
 // --- Types ---
 type CreateCalendarFormProps = {
     todo: TodoItemType
@@ -48,7 +49,8 @@ export default function CreateCalendarDrawer({
     const { projectMetaData } = useProjectMetaData();
 
     const dateRangeChecksum = useMemo(
-        () => todo.dtstart.toISOString() + todo.due.toISOString(),
+        () => `${todo.dtstart?.toISOString() ?? "null"}-${todo.due?.toISOString() ?? "null"}`
+        ,
         [todo.dtstart, todo.due],
     );
     const rruleChecksum = useMemo(() => todo.rrule, [todo.rrule]);
@@ -59,9 +61,9 @@ export default function CreateCalendarDrawer({
     const [title, setTitle] = useState(todo.title);
     const [description, setDescription] = useState(todo.description ?? "");
     const [priority, setPriority] = useState(todo.priority);
-    const [dateRange, setDateRange] = useState<NonNullableDateRange>({
-        from: todo.dtstart,
-        to: todo.due,
+    const [dateRange, setDateRange] = useState<DateRange>({
+        from: todo.dtstart || undefined,
+        to: todo.due || undefined,
     });
     const [rruleOptions, setRruleOptions] = useState(
         todo?.rrule ? RRule.parseString(todo.rrule) : null,

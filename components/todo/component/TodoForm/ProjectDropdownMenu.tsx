@@ -50,7 +50,7 @@ export default function ProjectDropdownMenu({ projectID, setProjectID, className
                 </Button>
             </PopoverTrigger>
 
-            <PopoverContent className="p-1 space-y-1 text-sm">
+            <PopoverContent className="p-1 space-y-1 text-sm" align='start' alignOffset={-7}>
                 <Input
                     placeholder={projectDict("typeToSearch")}
                     value={search}

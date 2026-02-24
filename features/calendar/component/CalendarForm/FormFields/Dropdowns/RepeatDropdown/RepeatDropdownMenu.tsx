@@ -3,7 +3,7 @@ import CustomRepeatModalMenu from "./repeatModalMenu/CutomRepeatModalMenu";
 import { Popover } from "@/components/ui/popover";
 import { Options, RRule } from "rrule";
 import { ChevronDown } from "lucide-react";
-import { PopoverContent, PopoverTrigger } from "@radix-ui/react-popover";
+import { PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import LineSeparator from "@/components/ui/lineSeparator";
 import { useLocale, useTranslations } from "next-intl";
 import { Indicator } from "@/components/todo/component/TodoForm/TodoInlineActionBar/RepeatDropdown/RepeatDropdownMenu";
@@ -59,7 +59,7 @@ const RepeatDropdownMenu = ({
         <p className="hidden sm:block text-sm">{appDict("repeat")}</p>
         <ChevronDown className="w-4 h-4 text-muted-foreground!" />
       </PopoverTrigger>
-      <PopoverContent className="min-w-62.5 py-1 border-popover-border flex flex-col gap-1 text-foreground bg-popover border rounded-md shadow-lg z-50">
+      <PopoverContent align="start" alignOffset={-7} className="min-w-62.5 p-0 py-1 border-popover-border flex flex-col gap-1 text-foreground border rounded-md shadow-lg z-50">
         {/* Every Day */}
         <div
           className={menuItemClass}
