@@ -2,7 +2,8 @@
 ![Tests](https://github.com/zhengjiawen44/tatsu/actions/workflows/test.yml/badge.svg)
 ![License](https://img.shields.io/github/license/zhengjiawen44/tatsu)
 ![TypeScript](https://img.shields.io/badge/TypeScript-3178C6?logo=typescript&logoColor=white)
-
+![Docker Image Size](https://img.shields.io/docker/image-size/zhengjiawen44/tatsu)
+![Last Commit](https://img.shields.io/github/last-commit/zhengjiawen44/tatsu)
 # Tatsu - The Ultimate Todo App
 
 ![hero](public/hero.webp)
