@@ -17,6 +17,7 @@ async function postTodo({ todo }: { todo: TodoItemType }) {
   });
 
   if (!parsedObj.success) {
+    console.log(todo);
     throw new Error(parsedObj.error.errors[0].message);
   }
 
@@ -39,6 +40,8 @@ export const useCreateTodo = () => {
   const { mutate: createMutateFn, status: createStatus } = useMutation({
     mutationFn: (todo: TodoItemType) => postTodo({ todo }),
     onMutate: async (newTodo) => {
+      console.log(newTodo);
+
       await queryClient.cancelQueries({ queryKey: ["todo"] });
       await queryClient.cancelQueries({ queryKey: ["project"] });
 
@@ -77,18 +80,18 @@ export const useCreateTodo = () => {
       });
       queryClient.invalidateQueries({ queryKey: ["calendarTodo"] });
     },
-    onSuccess: (createdTodo: TodoItemType, newTodo) => {
-      queryClient.setQueryData(["todo"], (old: TodoItemType[] = []) =>
-        old.map((t) => (t.id === newTodo.id ? createdTodo : t)),
-      );
-      if (createdTodo.projectID) {
-        queryClient.setQueryData(
-          ["project", createdTodo.projectID],
-          (old: TodoItemType[] = []) =>
-            old.map((t) => (t.id === newTodo.id ? createdTodo : t)),
-        );
-      }
-    },
+    // onSuccess: (createdTodo: TodoItemType, newTodo) => {
+    //   queryClient.setQueryData(["todo"], (old: TodoItemType[] = []) =>
+    //     old.map((t) => (t.id === newTodo.id ? createdTodo : t)),
+    //   );
+    //   if (createdTodo.projectID) {
+    //     queryClient.setQueryData(
+    //       ["project", createdTodo.projectID],
+    //       (old: TodoItemType[] = []) =>
+    //         old.map((t) => (t.id === newTodo.id ? createdTodo : t)),
+    //     );
+    //   }
+    // },
   });
   return { createMutateFn, createStatus };
 };

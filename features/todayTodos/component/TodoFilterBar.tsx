@@ -57,7 +57,7 @@ export default function TodoFilterBar({ containerHovered }: TodoFilterBarProps) 
                         <ArrowUpWideNarrowIcon className="w-4 h-4" />
                     </Button>
                 </DropdownMenuTrigger>
-                <DropdownMenuContent className="min-w-[200px]">
+                <DropdownMenuContent className="min-w-50">
                     <DropdownMenuGroup>
                         <DropdownMenuSub>
                             <DropdownMenuLabel className="font-semibold">{filterDict("sorting")}</DropdownMenuLabel>

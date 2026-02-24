@@ -19,13 +19,16 @@ export async function PATCH(
     if (!id) throw new BadRequestError("Invalid request, ID is required");
 
     const body = (await req.json()) as TodoItemType;
-
+    if (!body.dtstart)
+      throw new BadRequestError(
+        "Invalid request, todo instance us missing dtstart",
+      );
     const todo: TodoItemType = {
       ...body,
       createdAt: new Date(body.createdAt),
       dtstart: new Date(body.dtstart),
       instanceDate: body.instanceDate ? new Date(body.instanceDate) : null,
-      due: new Date(body.due),
+      due: body.due ? new Date(body.due) : undefined,
     };
     if (!todo.instanceDate)
       throw new BadRequestError(

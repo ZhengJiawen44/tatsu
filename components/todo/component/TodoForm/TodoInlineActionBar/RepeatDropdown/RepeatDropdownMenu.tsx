@@ -11,23 +11,21 @@ import { RRule } from "rrule";
 import { useTodoForm } from "@/providers/TodoFormProvider";
 import { format } from "date-fns";
 import clsx from "clsx";
-import { Button } from "@/components/ui/button";
 import { useTranslations } from "next-intl";
 import CustomRepeatMenuContainer from "./CustomRepeat/CustomRepeatContainer";
 
 const RepeatDropdownMenu = ({ }) => {
   const appDict = useTranslations("app");
-  const { rruleOptions, setRruleOptions, derivedRepeatType } = useTodoForm();
+  const { rruleOptions, setRruleOptions, derivedRepeatType, dateRange } = useTodoForm();
   return (
     <DropdownMenu modal={false}>
-      <DropdownMenuTrigger asChild>
-        <Button
-          variant={"outline"}
-          className="w-fit h-fit p-2! text-muted-foreground bg-inherit cursor-pointer"
-        >
-          <Repeat className="w-4 h-4" />
-          <p className="text-sm">{appDict("repeat")}</p>
-        </Button>
+      <DropdownMenuTrigger
+        disabled={!dateRange.from}
+        title={"need to set a start date"}
+        className={clsx("flex items-center gap-2 rounded-md border border-input w-fit h-fit p-2! text-muted-foreground bg-inherit", dateRange.from && "cursor-pointer hover:bg-accent hover:text-accent-foreground")}
+      >
+        <Repeat className="w-4 h-4" />
+        <p className="text-sm">{appDict("repeat")}</p>
       </DropdownMenuTrigger>
       <DropdownMenuContent className="min-w-62.5 text-foreground">
         <DropdownMenuItem

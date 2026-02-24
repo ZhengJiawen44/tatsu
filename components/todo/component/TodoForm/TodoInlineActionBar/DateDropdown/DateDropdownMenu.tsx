@@ -1,13 +1,13 @@
 import { addDays, endOfDay, startOfDay } from "date-fns";
 import { Calendar } from "@/components/ui/calendar";
-import React from "react";
+import React, { useState } from "react";
 import { format, nextMonday, differenceInDays } from "date-fns";
 import LineSeparator from "@/components/ui/lineSeparator";
-import { Sun } from "lucide-react";
+import { Sun, X } from "lucide-react";
 import { IterationCcw as Tomorrow } from "lucide-react";
 import { Calendar as CalenderIcon } from "lucide-react";
 import { useTodoForm } from "@/providers/TodoFormProvider";
-import DurationPicker from "./DurationPicker";
+import TimePicker from "./TimePicker";
 import { useTranslations } from "next-intl";
 import {
   Popover,
@@ -25,10 +25,10 @@ const DateDropdownMenu = () => {
   const userTZ = useUserTimezone()
   const appDict = useTranslations("app");
   const { dateRange, setDateRange } = useTodoForm();
+
   const nextWeek = startOfDay(nextMonday(dateRange?.from || new Date()));
   const tomorrow = startOfDay(addDays(dateRange?.from || new Date(), 1));
-  const [isOpen, setIsOpen] = React.useState(false);
-
+  const [isOpen, setIsOpen] = useState(false);
   const itemClass =
     "flex justify-between items-center p-1.5 px-2 rounded w-[96.5%] hover:bg-popover-accent cursor-pointer m-auto text-sm";
 
@@ -39,16 +39,17 @@ const DateDropdownMenu = () => {
           variant={"outline"}
           className={clsx(
             "cursor-pointer text-xs sm:text-sm font-medium w-fit h-fit p-2! text-muted-foreground bg-inherit",
-            getDisplayDate(dateRange.from, false, "en", userTZ?.timeZone) == "Today"
+            dateRange.from && getDisplayDate(dateRange.from, false, "en", userTZ?.timeZone) == "Today"
               ? "text-lime"
-              : getDisplayDate(dateRange.from, false, "en", userTZ?.timeZone) == "Tomorrow"
+              : dateRange.from && getDisplayDate(dateRange.from, false, "en", userTZ?.timeZone) == "Tomorrow"
                 ? "text-orange"
-                : "text-red",
+                : !dateRange.from && !dateRange.to ? "text-muted-foreground"
+                  : "text-red",
           )}
         >
           <CalenderIcon className="w-4 h-4" />
           <span className="text-sm font-medium">
-            {getDisplayDate(dateRange.from, true, locale, userTZ?.timeZone)}
+            {dateRange.from ? getDisplayDate(dateRange.from, true, locale, userTZ?.timeZone) : "Date"}
           </span>
         </Button>
       </PopoverTrigger>
@@ -137,8 +138,8 @@ const DateDropdownMenu = () => {
           <div className="text-xs text-muted-foreground">Mon</div>
         </button>
 
-        {/* --- DURATION --- */}
-        <DurationPicker className={itemClass} />
+        {/* --- TIME --- */}
+        {<TimePicker className={itemClass} />}
 
         <LineSeparator className="w-full border-popover-border my-1 mb-4" />
 
@@ -148,16 +149,29 @@ const DateDropdownMenu = () => {
             mode="range"
             defaultMonth={new Date()}
             selected={dateRange}
-            onSelect={(newDateRange) => {
-              setDateRange(() => {
-                const from = startOfDay(newDateRange?.from || new Date());
-                const to = endOfDay(newDateRange?.to || from);
-                return { from, to };
-              });
-            }}
+            onSelect={(dateRange) => { setDateRange({ from: dateRange?.from, to: dateRange?.to }) }}
             numberOfMonths={1}
           />
         </div>
+        <LineSeparator className="border-popover-border my-1" />
+        {/* --- OPTION: No Date --- */}
+        <button
+          className={itemClass}
+          onClick={() => {
+            setDateRange(() => ({
+              from: undefined,
+              to: undefined
+            }));
+            setIsOpen(false);
+          }}
+        >
+
+          <div className="flex gap-2 items-center">
+            <X strokeWidth={1.7} className="w-4 h-4" />
+            No Date
+          </div>
+
+        </button>
       </PopoverContent>
     </Popover>
   );

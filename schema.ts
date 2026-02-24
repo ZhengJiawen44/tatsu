@@ -7,9 +7,9 @@ export const todoItemSchema = z.object({
   createdAt: z.date(),
   order: z.number(),
   priority: z.enum(["Low", "Medium", "High"]),
-  dtstart: z.date(),
-  durationMinutes: z.number(),
-  due: z.date(),
+  dtstart: z.date().nullable(),
+  durationMinutes: z.number().nullable(),
+  due: z.date().nullable(),
   rrule: z.string().nullable(),
   timeZone: z.string(),
   userID: z.string(),
@@ -56,8 +56,8 @@ export const todoSchema = z.object({
   priority: z.enum(["Low", "Medium", "High"], {
     errorMap: () => ({ message: "priority must be one of: low, medium, high" }),
   }),
-  dtstart: z.date({ message: "start date is not identified" }),
-  due: z.date({ message: "end date is not identified" }),
+  dtstart: z.date().optional(),
+  due: z.date().optional(),
   rrule: z.string().nullable(),
   projectID: z.string().nullable().optional(),
 });
@@ -74,7 +74,7 @@ export const todoInstanceSchema = z.object({
   dtstart: z.date({ message: "start date is not identified" }),
   due: z.date({ message: "end date is not identified" }),
   instanceDate: z.date({ message: "instance date is not identified" }),
-  rrule: z.string().nullable(),
+  rrule: z.string({ message: "rrule is undefined" }).nullable(),
 });
 
 export const noteSchema = z.object({

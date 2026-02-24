@@ -7,21 +7,19 @@ const MobileDrawer = dynamic(() => import("./Form/DrawerForm/CreateDrawer"), { s
 const DesktopModal = dynamic(() => import("./Form/ModalForm/CreateModal"), { ssr: false, loading: () => <ModalPlaceholder /> });
 
 type CreateCalendarFormContainerProps = {
-    start: Date;
-    end: Date;
+    selectDateRange: { start: Date, end: Date } | null;
     displayForm: boolean;
     setDisplayForm: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
 const CreateCalendarFormContainer = ({
-    start,
-    end,
+    selectDateRange,
     displayForm,
     setDisplayForm,
 }: CreateCalendarFormContainerProps) => {
     const { width } = useWindowSize();
-    if (width > 1300) return <DesktopModal displayForm={displayForm} setDisplayForm={setDisplayForm} start={start} end={end} />
-    return <MobileDrawer displayForm={displayForm} setDisplayForm={setDisplayForm} start={start} end={end} />
+    if (width > 1300) return <DesktopModal displayForm={displayForm} setDisplayForm={setDisplayForm} selectDateRange={selectDateRange} />
+    return <MobileDrawer displayForm={displayForm} setDisplayForm={setDisplayForm} selectDateRange={selectDateRange} />
 };
 
 export default CreateCalendarFormContainer;

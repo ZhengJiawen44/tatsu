@@ -32,7 +32,7 @@ async function patchTodo({ todo }: { todo: TodoItemTypeWithDateChecksum }) {
 
   const dateChanged =
     todo.dateRangeChecksum !==
-    todo.dtstart.toISOString() + todo.due.toISOString();
+    `${todo.dtstart?.toISOString() ?? "null"}-${todo.due?.toISOString() ?? "null"}`;
 
   const rruleChanged = todo.rruleChecksum !== todo.rrule;
 
@@ -73,7 +73,7 @@ export const useEditProjectTodo = () => {
       queryClient.setQueryData<TodoItemType[]>(["todo"], (oldTodos) =>
         oldTodos?.flatMap((oldTodo) => {
           if (oldTodo.id === newTodo.id) {
-            if (newTodo.dtstart > endOfDay(new Date())) {
+            if (newTodo.dtstart && newTodo.dtstart > endOfDay(new Date())) {
               return [];
             }
             return {

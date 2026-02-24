@@ -10,14 +10,17 @@ import { useMemo } from "react";
 export const useNextCalculatedRepeatDate = function () {
   const { rruleOptions, dateRange } = useTodoForm();
   const locallyInferredRruleObject = useMemo(() => {
-    if (!rruleOptions) return null;
+    if (!rruleOptions || !dateRange.from) return null;
     return new RRule({
       ...rruleOptions,
       dtstart: masqueradeAsUTC(dateRange.from),
     });
   }, [rruleOptions, dateRange]);
   const nextCalculatedRepeatDate = useMemo(
-    () => locallyInferredRruleObject?.after(masqueradeAsUTC(dateRange.from)),
+    () => {
+      if (!dateRange.from) return null;
+      return locallyInferredRruleObject?.after(masqueradeAsUTC(dateRange.from));
+    },
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [rruleOptions, dateRange],
   );

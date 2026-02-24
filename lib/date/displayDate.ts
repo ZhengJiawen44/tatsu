@@ -53,11 +53,13 @@ const relativeTranslations: Record<string, Record<string, string>> = {
 };
 
 export function getDisplayDate(
-  date: Date,
+  date: Date | undefined | null,
   displayTime?: boolean,
   locale: string = "en",
   timezone?: string,
+  abbreviateToday?: boolean,
 ) {
+  if (!date) return "No Date";
   timezone = resolveTimezone(timezone);
 
   const translations = relativeTranslations[locale] || relativeTranslations.en;
@@ -104,7 +106,13 @@ export function getDisplayDate(
   );
 
   // Today
-  if (diffInDays === 0) return `${translations.today}${timeString}`;
+  if (diffInDays === 0) {
+    if (!abbreviateToday) {
+      return `${translations.today}${timeString}`;
+    } else {
+      return `${timeString}`;
+    }
+  }
 
   // Yesterday
   if (diffInDays === 1) return `${translations.yesterday}${timeString}`;

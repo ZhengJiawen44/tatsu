@@ -6,9 +6,9 @@ import React, {
   useMemo,
   useState,
 } from "react";
-import { NonNullableDateRange } from "@/types";
 import { Options, RRule } from "rrule";
 import deriveRepeatType from "@/lib/deriveRepeatType";
+import { DateRange } from "react-day-picker";
 // Types for context values
 interface TodoFormContextType {
   todoItem?: TodoItemType;
@@ -20,12 +20,12 @@ interface TodoFormContextType {
   projectID: string | null;
   setProjectID: React.Dispatch<SetStateAction<string | null>>;
   setPriority: React.Dispatch<SetStateAction<"Low" | "Medium" | "High">>;
-  dateRange: NonNullableDateRange;
-  setDateRange: React.Dispatch<SetStateAction<NonNullableDateRange>>;
+  dateRange: DateRange;
+  setDateRange: React.Dispatch<SetStateAction<DateRange>>;
   rruleOptions: Partial<Options> | null;
   setRruleOptions: React.Dispatch<SetStateAction<Partial<Options> | null>>;
   timeZone: string;
-  durationMinutes: number;
+  durationMinutes: number | null;
   derivedRepeatType:
   | "Daily"
   | "Weekly"
@@ -57,20 +57,21 @@ const TodoFormProvider = ({ children, todoItem, overrideFields }: TodoFormProvid
   const [priority, setPriority] = useState<"Low" | "Medium" | "High">(
     todoItem?.priority || "Low",
   );
-  const now = new Date();
-  now.setHours(now.getHours() + 3);
+  const threeHoursFromNow = new Date();
+  threeHoursFromNow.setHours(threeHoursFromNow.getHours() + 3);
 
-  const [dateRange, setDateRange] = useState<NonNullableDateRange>({
-    from: todoItem?.dtstart ?? new Date(),
-    to: todoItem?.due ?? now,
+  const [dateRange, setDateRange] = useState<DateRange>({
+    from: todoItem?.id && !todoItem.dtstart ? undefined : todoItem?.dtstart ?? new Date(),
+    to: todoItem?.id && !todoItem.due ? undefined : todoItem?.due ?? threeHoursFromNow,
   });
   const [rruleOptions, setRruleOptions] = useState(
     todoItem?.rrule ? RRule.parseString(todoItem.rrule) : null,
   );
   const dateRangeChecksum = todoItem
-    ? todoItem?.dtstart.toISOString() + todoItem?.due.toISOString()
-    : dateRange.from.toISOString() + dateRange.to.toISOString();
-
+    ? `${todoItem.dtstart?.toISOString() ?? "null"}-${todoItem.due?.toISOString() ?? "null"
+    }`
+    : `${dateRange.from?.toISOString() ?? "null"}-${dateRange.to?.toISOString() ?? "null"
+    }`;
   const rruleChecksum = todoItem?.rrule || null;
 
   const timeZone =
@@ -78,8 +79,12 @@ const TodoFormProvider = ({ children, todoItem, overrideFields }: TodoFormProvid
     todoItem?.timeZone ||
     "UTC";
 
-  const durationMinutes = useMemo(() => (dateRange.to.getTime() - dateRange.from.getTime()) / (60 * 1000), [dateRange])
-  console.log(durationMinutes)
+  const durationMinutes = useMemo(() =>
+    (dateRange.to && dateRange.from)
+      ? ((dateRange.to.getTime() - dateRange.from.getTime()) / (60 * 1000))
+      : null,
+    [dateRange])
+
 
   const derivedRepeatType = deriveRepeatType({ rruleOptions })
 

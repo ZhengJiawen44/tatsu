@@ -54,7 +54,7 @@ export const useEditProjectTodoInstance = (
         queryClient.setQueryData<TodoItemType[]>(["todo"], (oldTodos) =>
           oldTodos?.flatMap((oldTodo) => {
             if (oldTodo.id === newTodo.id) {
-              if (newTodo.dtstart > endOfDay(new Date())) {
+              if (newTodo.dtstart && newTodo.dtstart > endOfDay(new Date())) {
                 return [];
               }
               return {

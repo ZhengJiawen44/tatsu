@@ -20,13 +20,17 @@ export async function PATCH(
     if (!id) throw new BadRequestError("Invalid request, ID is required");
 
     const body = (await req.json()) as TodoItemType;
+    if (!body.dtstart)
+      throw new BadRequestError(
+        "Invalid request, todo instance us missing dtstart",
+      );
 
     const todo: TodoItemType = {
       ...body,
       createdAt: new Date(body.createdAt),
       dtstart: new Date(body.dtstart),
       instanceDate: body.instanceDate ? new Date(body.instanceDate) : null,
-      due: new Date(body.due),
+      due: body.due ? new Date(body.due) : undefined,
     };
 
     if (!todo.instanceDate)
@@ -64,7 +68,7 @@ export async function PATCH(
 
     //insert a new completed todo record
     const currentTime = new Date();
-    let completedOnTime = todo.due > currentTime;
+    let completedOnTime = todo.due ? todo.due > currentTime : true;
     let daysToComplete =
       (Number(currentTime) - Number(todo.dtstart)) / (1000 * 60 * 60 * 24);
 

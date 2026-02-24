@@ -1,0 +1,3 @@
+-- AlterTable
+ALTER TABLE "CompletedTodo" ALTER COLUMN "dtstart" DROP NOT NULL,
+ALTER COLUMN "due" DROP NOT NULL;
