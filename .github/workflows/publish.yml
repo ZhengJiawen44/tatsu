@@ -3,13 +3,12 @@ name: Build and publish Docker image
 on:
   push:
 
-permissions:
-  contents: read
-  packages: write
-
 jobs:
   build-and-push:
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
 
     steps:
       - name: Checkout repository
