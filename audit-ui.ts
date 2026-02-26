@@ -3,7 +3,6 @@ import path from "path";
 
 /**
  * CONFIGURATION
- * Adjust these paths based on your project structure
  */
 const UI_DIR = path.join(process.cwd(), "components/ui");
 const SEARCH_DIRS = ["app", "components", "features"];
@@ -50,7 +49,7 @@ const runAudit = () => {
   uiComponents.forEach((compFile) => {
     const compName = path.parse(compFile).name;
 
-    // Pattern matches: "@/components/ui/button" or "../ui/button" or "components/ui/button"
+    // Pattern matching "@/components/ui/button" or "../ui/button" or "components/ui/button"
     const importPattern = new RegExp(`from ['"].*\/ui\/${compName}['"]`, "i");
 
     let isUsed = false;

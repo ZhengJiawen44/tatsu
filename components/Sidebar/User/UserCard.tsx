@@ -16,10 +16,12 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { useTranslations } from "next-intl";
 import { useTheme } from "next-themes";
-import { ArrowUpLeft, LogOut, Moon, Sun, Globe } from "lucide-react";
+import { ArrowUpLeft, LogOut, Moon, Sun, Globe, Languages } from "lucide-react";
 import ConfirmLogoutModal from "../Settings/ConfirmLogoutModal";
 import KeyboardShortcuts from "@/components/KeyboardShortcut";
 import { useLocale } from "next-intl";
+import LanguageDropdown from "./LanguageDropdown";
+import TimezoneDropdown from "./TimezoneDropdown";
 const UserCard = ({ className }: { className?: string }) => {
   const { data, status } = useSession();
   const sidebarDict = useTranslations("sidebar");
@@ -117,54 +119,22 @@ const UserCard = ({ className }: { className?: string }) => {
           </DropdownMenuItem>
           <DropdownMenuSub>
             <DropdownMenuSubTrigger>
-              <Globe className="w-4! h-4!" strokeWidth={1.7} />
+              <Languages className="w-4! h-4!" strokeWidth={1.7} />
               {locale}
             </DropdownMenuSubTrigger>
             <DropdownMenuSubContent sideOffset={-125} alignOffset={50}>
-              <DropdownMenuItem asChild>
-                <div onClick={() => redirect({ href: "/app/todo", locale: "en" })}>English</div>
-              </DropdownMenuItem>
-
-              <DropdownMenuItem asChild>
-                <div onClick={() => redirect({ href: "/app/todo", locale: "ru" })}>Русский</div>
-              </DropdownMenuItem>
-
-              <DropdownMenuItem asChild>
-                <div onClick={() => redirect({ href: "/app/todo", locale: "es" })}>Español</div>
-              </DropdownMenuItem>
-
-              <DropdownMenuItem asChild>
-                <div onClick={() => redirect({ href: "/app/todo", locale: "ja" })}>日本語</div>
-              </DropdownMenuItem>
-
-              <DropdownMenuItem asChild>
-                <div onClick={() => redirect({ href: "/app/todo", locale: "ar" })}>العربية</div>
-              </DropdownMenuItem>
-
-              <DropdownMenuItem asChild>
-                <div onClick={() => redirect({ href: "/app/todo", locale: "zh" })}>中文</div>
-              </DropdownMenuItem>
-
-              <DropdownMenuItem asChild>
-                <div onClick={() => redirect({ href: "/app/todo", locale: "de" })}>Deutsch</div>
-              </DropdownMenuItem>
-
-              <DropdownMenuItem asChild>
-                <div onClick={() => redirect({ href: "/app/todo", locale: "it" })}>Italiano</div>
-              </DropdownMenuItem>
-
-              <DropdownMenuItem asChild>
-                <div onClick={() => redirect({ href: "/app/todo", locale: "ms" })}>Melayu</div>
-              </DropdownMenuItem>
-
-              <DropdownMenuItem asChild>
-                <div onClick={() => redirect({ href: "/app/todo", locale: "pt" })}>Português</div>
-              </DropdownMenuItem>
-
-              <DropdownMenuItem asChild>
-                <div onClick={() => redirect({ href: "/app/todo", locale: "fr" })}>Français</div>
-              </DropdownMenuItem>
-
+              {/* LANGUAGE DROPDOWN */}
+              <LanguageDropdown />
+            </DropdownMenuSubContent>
+          </DropdownMenuSub>
+          <DropdownMenuSub>
+            <DropdownMenuSubTrigger>
+              <Globe className="w-4! h-4!" strokeWidth={1.7} />
+              Timezone
+            </DropdownMenuSubTrigger>
+            <DropdownMenuSubContent sideOffset={-125} alignOffset={50}>
+              {/* TIMEZONE DROPDOWN */}
+              <TimezoneDropdown />
             </DropdownMenuSubContent>
           </DropdownMenuSub>
         </DropdownMenuContent>

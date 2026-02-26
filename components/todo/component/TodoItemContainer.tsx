@@ -16,6 +16,7 @@ import { useProjectMetaData } from "@/components/Sidebar/Project/query/get-proje
 import ProjectTag from "@/components/ProjectTag";
 import TodoItemMenuContainer from "./TodoItem/TodoMenu/TodoItemMenuContainer";
 import { useUserTimezone } from "@/features/user/query/get-timezone";
+import { getDisplayDueDate } from "@/lib/date/displayDueDate";
 
 const TodoFormContainer = dynamic(
   () => import("./TodoForm/TodoFormContainer"),
@@ -110,28 +111,31 @@ export const TodoItemContainer = ({ todoItem, overdue }: TodoItemContainerProps)
               {description}
             </pre>
             <div className="flex flex-wrap items-center justify-start  transition-normal duration-300 gap-2">
-              {(dtstart || due) &&
-                <p className={clsx(overdue ? "text-orange" : "text-lime")}>
-                  {
-                    dtstart ?
-                      getDisplayDate(dtstart, true, locale, userTimeZone?.timeZone)
-                      :
-                      getDisplayDate(due, true, locale, userTimeZone?.timeZone)
-                  }
-                </p>
+              {/* Dates */}
+              <div className="flex justify-center items-center w-fit ">
+                {(dtstart || due) &&
+                  <p className={clsx(overdue ? "text-orange" : "text-lime")}>
+                    {
+                      dtstart ?
+                        getDisplayDate(dtstart, true, locale, userTimeZone?.timeZone)
+                        :
+                        getDisplayDate(due, true, locale, userTimeZone?.timeZone)
+                    }
+                  </p>
+                }
+                {dtstart &&
+                  <p
+                    className={clsx(
+                      "overflow-hidden line-clamp-1 transition-all duration-300 ease-out",
+                      showHandle && dtstart ? "max-w-xs" : "max-w-0"
+                    )}
+                  >
+                    <span className="mx-1">-</span>
+                    <span>{getDisplayDueDate(due, dtstart, true, locale, userTimeZone?.timeZone)}</span>
+                  </p>}
+              </div>
 
-              }
-              {dtstart && <p
-                className={clsx(
-                  "overflow-hidden line-clamp-1 transition-all duration-300 ease-out",
-                  showHandle && dtstart ? "max-w-xs " : "max-w-0"
-                )}
-              >
-                <span className="mr-0.5">-</span>
-                {getDisplayDate(due, true, locale, userTimeZone?.timeZone, true)}
-              </p>}
-
-
+              {/* Project tag */}
               {todoItem.projectID &&
                 <p className='flex items-center py-[0.2rem] px-2 rounded-full border bg-sidebar gap-1'>
                   <ProjectTag id={todoItem.projectID} className="text-sm shrink-0" />
@@ -140,6 +144,7 @@ export const TodoItemContainer = ({ todoItem, overdue }: TodoItemContainerProps)
                   </span>
                 </p>
               }
+              {/* Overdue tag */}
               {overdue && <p className='py-[0.2rem] px-2 rounded-full bg-sidebar border'>overdue</p>}
             </div>
           </div>
