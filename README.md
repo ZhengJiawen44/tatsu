@@ -1,8 +1,9 @@
 ![CI](https://github.com/zhengjiawen44/tatsu/actions/workflows/publish.yml/badge.svg)
 ![Tests](https://github.com/zhengjiawen44/tatsu/actions/workflows/test.yml/badge.svg)
+[![CodeFactor](https://www.codefactor.io/repository/github/zhengjiawen44/tatsu/badge/main)](https://www.codefactor.io/repository/github/zhengjiawen44/tatsu/overview/main)
 ![License](https://img.shields.io/github/license/zhengjiawen44/tatsu)
 ![TypeScript](https://img.shields.io/badge/TypeScript-3178C6?logo=typescript&logoColor=white)
-
+![Last Commit](https://img.shields.io/github/last-commit/zhengjiawen44/tatsu)
 # Tatsu - The Ultimate Todo App
 
 ![hero](public/hero.webp)
