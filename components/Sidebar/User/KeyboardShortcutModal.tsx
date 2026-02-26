@@ -1,9 +1,10 @@
 import { SetStateAction, useMemo, useState } from "react";
-import { Modal, ModalOverlay, ModalContent, ModalHeader, ModalTitle, ModalClose } from "./ui/Modal";
+import { Modal, ModalOverlay, ModalContent, ModalHeader, ModalTitle, ModalClose, ModalBody } from "@/components/ui/Modal";
 import { useTranslations } from "next-intl";
-import { Search, X } from "lucide-react";
+import { X } from "lucide-react";
+import SearchBar from "@/components/SearchBar";
 
-export default function KeyboardShortcuts({
+export default function KeyboardShortcutsModal({
   open,
   onOpenChange,
 }: {
@@ -36,25 +37,21 @@ export default function KeyboardShortcuts({
     <Modal open={open} onOpenChange={onOpenChange}>
       <ModalOverlay>
         <ModalContent
-          className="h-fit h-[90%] w-full max-w-xl overflow-scroll p-0 relative"
+          className="max-w-xl px-0"
         >
-          <ModalHeader className="mt-4 mx-6">
+          <ModalHeader className="relative mx-auto">
             <ModalTitle className="text-lg w-2/3 mx-auto">
-              <div className="flex border items-center gap-2 bg-popover mb-10 px-2 rounded-md active:outline-1 focus:outline-1 ">
-                <Search className="w-4 h-4" />
-                <input
-                  onInput={(e) => setKeyWord(e.currentTarget.value)}
-                  className="w-full rounded-md outline-none py-2 text-base"
-                  placeholder="Search shortcuts" />
-              </div>
+              <SearchBar onInput={(e) => setKeyWord(e.currentTarget.value)} />
             </ModalTitle>
+            <ModalClose className="absolute top-1/2 -translate-y-1/2 right-4 text-muted-foreground hover:text-foreground">
+              <X />
+            </ModalClose>
           </ModalHeader>
           <ModalClose className="absolute top-6 right-2 text-muted-foreground hover:text-foreground">
             <X />
           </ModalClose>
+          <ModalBody>
 
-
-          <div className="max-w-4xl mx-auto p-6 bg-background">
             {
               keyword.length ?
                 searchList.map(({ name, shortcutKey }) => <div key={name} className="shadow-md border border-border/30 w-full rounded-sm bg-popover/60 mx-auto my-1 p-3 flex items-center justify-between">
@@ -69,7 +66,7 @@ export default function KeyboardShortcuts({
                 : <>
                   {/* Form Operations Table */}
                   <div className="mb-8">
-                    <h2 className="text-xl font-semibold text-foreground mb-2 pb-2">
+                    <h2 className="text-lg tracking-tighter font-medium text-foreground mb-2 pb-2">
                       {shortcutsDict("todo.title")}
                     </h2>
                     <div className="overflow-hidden rounded-lg">
@@ -90,7 +87,7 @@ export default function KeyboardShortcuts({
 
                   {/* Calendar Table */}
                   <div className="mb-8">
-                    <h2 className="text-xl font-semibold text-foreground mb-2 pb-2">
+                    <h2 className="text-lg tracking-tighter font-medium text-foreground mb-2 pb-2">
                       {shortcutsDict("calendar.title")}
                     </h2>
                     <div className="overflow-hidden rounded-lg">
@@ -111,7 +108,7 @@ export default function KeyboardShortcuts({
 
                   {/* Navigation Table */}
                   <div className="mb-8">
-                    <h2 className="text-xl font-semibold text-foreground mb-2 pb-2">
+                    <h2 className="text-lg tracking-tighter font-medium text-foreground mb-2 pb-2">
                       {shortcutsDict("navigation.title")}
                     </h2>
                     <div className="overflow-hidden rounded-lg">
@@ -130,7 +127,7 @@ export default function KeyboardShortcuts({
                   </div>
                 </>
             }
-          </div>
+          </ModalBody>
         </ModalContent>
       </ModalOverlay>
     </Modal>

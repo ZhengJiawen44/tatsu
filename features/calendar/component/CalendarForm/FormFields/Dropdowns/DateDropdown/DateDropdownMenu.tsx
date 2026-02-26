@@ -49,14 +49,14 @@ const DateDropdownMenu = ({
   }
 
   const displayedDateRange = useMemo(() => {
-    if (!dateRange.from || !dateRange.to) return getDisplayDate(dateRange.to ?? dateRange.from, false, locale, userTZ?.timeZone);
+    if (!dateRange.from || !dateRange.to) return getDisplayDate(dateRange.to ?? dateRange.from, false, locale, userTZ);
     if (!dateRange.from && !dateRange.to) return "";
     if (isSameDay(dateRange.from, dateRange.to)) {
       let displayedTime = `${new Intl.DateTimeFormat(locale, { hour: "numeric" }).format(dateRange.from)}-${new Intl.DateTimeFormat(locale, { hour: "numeric" }).format(dateRange.to)}`;
       if (displayedTime === "12 AM-11 PM") displayedTime = "All day";
-      return `${getDisplayDate(dateRange.from, false, locale, userTZ?.timeZone)},  ${displayedTime}`;
+      return `${getDisplayDate(dateRange.from, false, locale, userTZ)},  ${displayedTime}`;
     }
-    return `${getDisplayDate(dateRange.from, false, locale, userTZ?.timeZone)} - ${getDisplayDate(dateRange.to, false, locale, userTZ?.timeZone)}`;
+    return `${getDisplayDate(dateRange.from, false, locale, userTZ)} - ${getDisplayDate(dateRange.to, false, locale, userTZ)}`;
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [dateRange.from, dateRange.to, locale]);
 

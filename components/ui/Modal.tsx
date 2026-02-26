@@ -99,7 +99,7 @@ const ModalOverlay = ({ children }: { children: React.ReactElement }) => {
 const ModalContent = ({ children, className }: { children: React.ReactNode, className?: string }) => {
     return (
         <div
-            className={cn("bg-background rounded-lg w-full max-w-lg p-6", className)}
+            className={cn("bg-background rounded-lg w-full max-w-lg max-h-[90%] p-6 overflow-hidden   flex flex-col gap-8", className)}
             onMouseDown={(e) => e.stopPropagation()}
             onPointerDown={(e) => e.stopPropagation()}
             onTouchStart={(e) => e.stopPropagation()}
@@ -111,7 +111,7 @@ const ModalContent = ({ children, className }: { children: React.ReactNode, clas
 
 
 const ModalHeader = ({ children, className = "" }: { children: React.ReactNode, className?: string }) => (
-    <div className={`flex flex-col space-y-1.5 text-center sm:text-left ${className}`}>
+    <div className={`flex flex-col w-full space-y-1.5 text-center sm:text-left ${className}`}>
         {children}
     </div>
 );
@@ -128,12 +128,20 @@ const ModalDescription = ({ children, className = "" }: { children: React.ReactN
     </p>
 );
 
+const ModalBody = ({ children, className = "" }: { children: React.ReactNode, className?: string }) => (
+    <div className={`max-w-4xl w-full mx-auto px-6 pb-28 bg-background h-full overflow-scroll ${className}`}>
+        {children}
+    </div>
+);
+
+
 const ModalFooter = ({ children, className = "" }: { children: React.ReactNode, className?: string }) => (
     <div className={`flex flex-col-reverse sm:flex-row sm:justify-end sm:space-x-2 gap-2 mt-6 ${className}`} >
         {children}
     </div>
 );
 
-export { Modal, ModalContent, ModalDescription, ModalFooter, ModalHeader, ModalOverlay, ModalTitle, ModalClose }
+
+export { Modal, ModalContent, ModalDescription, ModalBody, ModalFooter, ModalHeader, ModalOverlay, ModalTitle, ModalClose }
 
 

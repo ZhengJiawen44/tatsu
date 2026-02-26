@@ -117,9 +117,9 @@ export const TodoItemContainer = ({ todoItem, overdue }: TodoItemContainerProps)
                   <p className={clsx(overdue ? "text-orange" : "text-lime")}>
                     {
                       dtstart ?
-                        getDisplayDate(dtstart, true, locale, userTimeZone?.timeZone)
+                        getDisplayDate(dtstart, true, locale, userTimeZone)
                         :
-                        getDisplayDate(due, true, locale, userTimeZone?.timeZone)
+                        getDisplayDate(due, true, locale, userTimeZone)
                     }
                   </p>
                 }
@@ -131,7 +131,7 @@ export const TodoItemContainer = ({ todoItem, overdue }: TodoItemContainerProps)
                     )}
                   >
                     <span className="mx-1">-</span>
-                    <span>{getDisplayDueDate(due, dtstart, true, locale, userTimeZone?.timeZone)}</span>
+                    <span>{getDisplayDueDate(due, dtstart, true, locale, userTimeZone)}</span>
                   </p>}
               </div>
 
