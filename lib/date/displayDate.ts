@@ -110,7 +110,7 @@ export function getDisplayDate(
     if (!abbreviateToday) {
       return `${translations.today}${timeString}`;
     } else {
-      return `${timeString}`;
+      return `${timeString.trimStart()}`;
     }
   }
 
