@@ -39,9 +39,9 @@ const DateDropdownMenu = () => {
           variant={"outline"}
           className={clsx(
             "cursor-pointer text-xs sm:text-sm font-medium w-fit h-fit p-2! text-muted-foreground bg-inherit",
-            dateRange.from && getDisplayDate(dateRange.from, false, "en", userTZ?.timeZone) == "Today"
+            dateRange.from && getDisplayDate(dateRange.from, false, "en", userTZ) == "Today"
               ? "text-lime"
-              : dateRange.from && getDisplayDate(dateRange.from, false, "en", userTZ?.timeZone) == "Tomorrow"
+              : dateRange.from && getDisplayDate(dateRange.from, false, "en", userTZ) == "Tomorrow"
                 ? "text-orange"
                 : !dateRange.from && !dateRange.to ? "text-muted-foreground"
                   : "text-red",
@@ -49,7 +49,7 @@ const DateDropdownMenu = () => {
         >
           <CalenderIcon className="w-4 h-4" />
           <span className="text-sm font-medium">
-            {dateRange.from ? getDisplayDate(dateRange.from, true, locale, userTZ?.timeZone) : "Date"}
+            {dateRange.from ? getDisplayDate(dateRange.from, true, locale, userTZ) : "Date"}
           </span>
         </Button>
       </PopoverTrigger>

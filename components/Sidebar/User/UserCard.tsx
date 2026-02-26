@@ -18,15 +18,17 @@ import { useTranslations } from "next-intl";
 import { useTheme } from "next-themes";
 import { ArrowUpLeft, LogOut, Moon, Sun, Globe, Languages } from "lucide-react";
 import ConfirmLogoutModal from "../Settings/ConfirmLogoutModal";
-import KeyboardShortcuts from "@/components/KeyboardShortcut";
 import { useLocale } from "next-intl";
 import LanguageDropdown from "./LanguageDropdown";
-import TimezoneDropdown from "./TimezoneDropdown";
+import TimezoneModal from "./TimezoneModal";
+import KeyboardShortcutsModal from "./KeyboardShortcutModal";
 const UserCard = ({ className }: { className?: string }) => {
   const { data, status } = useSession();
   const sidebarDict = useTranslations("sidebar");
   const { setTheme, theme } = useTheme();
   const [showShortcutModal, setShowShortcutModal] = useState(false);
+  const [showTimezoneModal, setShowTimezoneModal] = useState(false);
+
   const [showLogoutModal, setShowLogoutModal] = useState(false);
   const [open, setOpen] = useState(false);
   const locale = useLocale();
@@ -42,9 +44,15 @@ const UserCard = ({ className }: { className?: string }) => {
       />
 
       {showShortcutModal && (
-        <KeyboardShortcuts
+        <KeyboardShortcutsModal
           open={showShortcutModal}
           onOpenChange={setShowShortcutModal}
+        />
+      )}
+      {showTimezoneModal && (
+        <TimezoneModal
+          open={showTimezoneModal}
+          onOpenChange={setShowTimezoneModal}
         />
       )}
       <DropdownMenu open={open} onOpenChange={setOpen} modal={false}>
@@ -117,6 +125,15 @@ const UserCard = ({ className }: { className?: string }) => {
             <ArrowUpLeft className="w-4 h-4" />
             {sidebarDict("settingMenu.shortcuts")}
           </DropdownMenuItem>
+          <DropdownMenuItem
+            onClick={(e) => {
+              e.preventDefault();
+              setShowTimezoneModal(true);
+            }}
+          >
+            <Globe className="w-4 h-4" />
+            Timezone
+          </DropdownMenuItem>
           <DropdownMenuSub>
             <DropdownMenuSubTrigger>
               <Languages className="w-4! h-4!" strokeWidth={1.7} />
@@ -125,16 +142,6 @@ const UserCard = ({ className }: { className?: string }) => {
             <DropdownMenuSubContent sideOffset={-125} alignOffset={50}>
               {/* LANGUAGE DROPDOWN */}
               <LanguageDropdown />
-            </DropdownMenuSubContent>
-          </DropdownMenuSub>
-          <DropdownMenuSub>
-            <DropdownMenuSubTrigger>
-              <Globe className="w-4! h-4!" strokeWidth={1.7} />
-              Timezone
-            </DropdownMenuSubTrigger>
-            <DropdownMenuSubContent sideOffset={-125} alignOffset={50}>
-              {/* TIMEZONE DROPDOWN */}
-              <TimezoneDropdown />
             </DropdownMenuSubContent>
           </DropdownMenuSub>
         </DropdownMenuContent>

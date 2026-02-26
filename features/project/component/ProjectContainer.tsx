@@ -44,11 +44,11 @@ const ProjectContainer = ({ id }: { id: string }) => {
         return Object.groupBy((unpinnedTodos), (todo) => {
             switch (preferences?.groupBy) {
                 case "dtstart":
-                    return getDisplayDate(todo.dtstart, false, locale, userTZ?.timeZone);
+                    return getDisplayDate(todo.dtstart, false, locale, userTZ);
                 case "project":
                     return todo.projectID ? projectMetaData[todo.projectID].name : "None";
                 case "due":
-                    return getDisplayDate(todo.due, false, locale, userTZ?.timeZone);
+                    return getDisplayDate(todo.due, false, locale, userTZ);
                 case "duration":
                     return todo.durationMinutes ? Number((Math.round(todo.durationMinutes / 60 * 10) / 10).toFixed(1)).toString() + " hr" : "No Duration";
                 case "priority":

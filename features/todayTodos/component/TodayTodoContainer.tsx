@@ -46,11 +46,11 @@ const TodayTodoContainer = () => {
     return Object.groupBy((unpinnedTodos), (todo) => {
       switch (preferences?.groupBy) {
         case "dtstart":
-          return getDisplayDate(todo.dtstart, false, locale, userTZ?.timeZone);
+          return getDisplayDate(todo.dtstart, false, locale, userTZ);
         case "project":
           return todo.projectID ? projectMetaData[todo.projectID].name : "None";
         case "due":
-          return getDisplayDate(todo.due, false, locale, userTZ?.timeZone);
+          return getDisplayDate(todo.due, false, locale, userTZ);
         case "duration":
           return todo.durationMinutes ? Number((Math.round(todo.durationMinutes / 60 * 10) / 10).toFixed(1)).toString() + " hr" : "No Duration";
         case "priority":
@@ -136,7 +136,7 @@ const TodayTodoContainer = () => {
             <h3 className="text-2xl font-semibold select-none">
               {appDict("today")}
             </h3>
-            <p className="text-muted-foreground text-lg">{formatDateInTZ(userTZ?.timeZone).slice(0, 6)}</p>
+            <p className="text-muted-foreground text-lg">{formatDateInTZ(userTZ).slice(0, 6)}</p>
           </div>
           <TodoFilterBar
             containerHovered={containerHovered}
