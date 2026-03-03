@@ -28,9 +28,6 @@ export async function POST(req: NextRequest) {
           "apple id or app specific password not provided",
         );
 
-      const authHeader = `Basic ${Buffer.from(`${appleId}:${appSpecificPassword}`, "utf-8").toString("base64")}`;
-      console.log(authHeader);
-
       const client = await createDAVClient({
         serverUrl: "https://caldav.icloud.com",
         credentials: {
@@ -43,6 +40,36 @@ export async function POST(req: NextRequest) {
 
       const calendars = await client.fetchCalendars();
 
+      return NextResponse.json({ calendars }, { status: 200 });
+    }
+
+    if (service == "baikal") {
+      const client = await createDAVClient({
+        serverUrl: "http://localhost:8800/dav.php",
+        credentials: {
+          username: "zhengjiawen",
+          password: "zjwhamzaak",
+        },
+        authMethod: "Basic",
+        defaultAccountType: "caldav",
+      });
+
+      const calendars = await client.fetchCalendars();
+      return NextResponse.json({ calendars }, { status: 200 });
+    }
+
+    if (service == "davical") {
+      const client = await createDAVClient({
+        serverUrl: "http://localhost:8080/caldav.php/zhengjiawen/",
+        credentials: {
+          username: "zhengjiawen",
+          password: "zjwhamzaak",
+        },
+        authMethod: "Basic",
+        defaultAccountType: "caldav",
+      });
+
+      const calendars = await client.fetchCalendars();
       return NextResponse.json({ calendars }, { status: 200 });
     }
 
