@@ -65,7 +65,7 @@ const ModalClose = ({
 
 
 
-const ModalOverlay = ({ children }: { children: React.ReactElement }) => {
+const ModalOverlay = ({ children, className }: { children: React.ReactElement, className?: string }) => {
 
     const context = useContext(ModalContext);
 
@@ -76,7 +76,7 @@ const ModalOverlay = ({ children }: { children: React.ReactElement }) => {
     return createPortal(
 
         <div
-            className="fixed inset-0 z-50 bg-black/65 flex items-center justify-center"
+            className={cn("fixed inset-0 z-50 bg-black/65 flex items-center justify-center", className)}
             onMouseDown={(e) => e.stopPropagation()}
             onPointerDown={(e) => e.stopPropagation()}
             onTouchStart={(e) => e.stopPropagation()}

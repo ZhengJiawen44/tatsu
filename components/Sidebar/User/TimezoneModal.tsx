@@ -56,6 +56,7 @@ function TimeZoneCard({ timezone, selectedTZ, setSelectedTZ }: { timezone: strin
                 updateUserTZmutation.mutate(timezone);
             }}
 
+
             className="shadow-md cursor-pointer hover:bg-popover border border-border/30 w-full rounded-sm bg-popover/60 mx-auto my-1 p-3 flex items-center justify-between">
             <span>{timezone}</span>
             {selectedTZ == timezone && <Check className="w-4 h-4" />}
