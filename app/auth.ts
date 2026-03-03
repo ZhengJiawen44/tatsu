@@ -69,7 +69,30 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
     }),
   ],
   callbacks: {
-    jwt({ token, user, account }) {
+    async jwt({ token, user, account }) {
+      if (account?.provider === "google") {
+        console.log(
+          "Scopes:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::",
+          account.scope,
+        );
+      }
+
+      // not gonna care about the scope field in the account table as it is non essential
+      // if (account?.scope?.includes("calendar")) {
+      //   await prisma.account.updateMany({
+      //     where: {
+      //       userId: token.id as string,
+      //       provider: "google",
+      //     },
+      //     data: {
+      //       access_token: account?.access_token,
+      //       refresh_token: account?.refresh_token,
+      //       expires_at: account?.expires_at,
+      //       scope: account?.scope,
+      //     },
+      //   });
+      // }
+
       if (user) {
         token.id = user.id;
         token.timeZone = user.timeZone;
@@ -81,7 +104,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
     },
     session({ session, token }) {
       session.user.id = token.id as string;
-      session.user.timeZone = token.timeZone
+      session.user.timeZone = token.timeZone;
       return session;
     },
   },

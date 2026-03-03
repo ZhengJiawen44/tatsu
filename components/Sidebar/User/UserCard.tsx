@@ -16,12 +16,14 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { useTranslations } from "next-intl";
 import { useTheme } from "next-themes";
-import { ArrowUpLeft, LogOut, Moon, Sun, Globe, Languages } from "lucide-react";
+import { ArrowUpLeft, LogOut, Moon, Sun, Globe, Languages, RefreshCw } from "lucide-react";
 import ConfirmLogoutModal from "../Settings/ConfirmLogoutModal";
 import { useLocale } from "next-intl";
 import LanguageDropdown from "./LanguageDropdown";
 import TimezoneModal from "./TimezoneModal";
 import KeyboardShortcutsModal from "./KeyboardShortcutModal";
+import { Link } from "@/i18n/navigation";
+
 const UserCard = ({ className }: { className?: string }) => {
   const { data, status } = useSession();
   const sidebarDict = useTranslations("sidebar");
@@ -144,6 +146,13 @@ const UserCard = ({ className }: { className?: string }) => {
               <LanguageDropdown />
             </DropdownMenuSubContent>
           </DropdownMenuSub>
+          <DropdownMenuItem asChild>
+            <Link href={"/app/sync"}>
+              <RefreshCw className="w-4 h-4" />
+              Sync
+            </Link>
+
+          </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu >
 
