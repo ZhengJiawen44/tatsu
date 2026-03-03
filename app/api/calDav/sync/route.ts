@@ -7,7 +7,7 @@ import {
 import { auth } from "@/app/auth";
 import { errorHandler } from "@/lib/errorHandler";
 import { prisma } from "@/lib/prisma/client";
-import { createAccount, fetchCalendars } from "tsdav";
+import { createAccount, createDAVClient, fetchCalendars } from "tsdav";
 
 export async function POST(req: NextRequest) {
   try {
@@ -30,21 +30,18 @@ export async function POST(req: NextRequest) {
 
       const authHeader = `Basic ${Buffer.from(`${appleId}:${appSpecificPassword}`, "utf-8").toString("base64")}`;
       console.log(authHeader);
-      const davAccount = await createAccount({
-        account: {
-          serverUrl: "https://caldav.icloud.com",
-          accountType: "caldav",
-          credentials: {
-            password: appSpecificPassword,
-            username: appleId,
-          },
+
+      const client = await createDAVClient({
+        serverUrl: "https://caldav.icloud.com",
+        credentials: {
+          username: appleId,
+          password: appSpecificPassword,
         },
-        headers: {
-          authorization: authHeader,
-        },
+        authMethod: "Basic",
+        defaultAccountType: "caldav",
       });
 
-      const calendars = await fetchCalendars({ account: davAccount });
+      const calendars = await client.fetchCalendars();
 
       return NextResponse.json({ calendars }, { status: 200 });
     }
