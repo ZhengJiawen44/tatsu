@@ -1,9 +1,15 @@
 import { Button } from '@/components/ui/button'
 import { signIn } from 'next-auth/react';
-import React, { useState } from 'react'
+import React, { SetStateAction, useState } from 'react'
 import { BasicAuthForm } from './BasicAuthForm';
 
-export default function SyncOptionContainer() {
+type SyncOptionContainerProp = {
+    isSyncing: boolean,
+    setIsSyncing: React.Dispatch<SetStateAction<boolean>>
+    setSyncedTo: React.Dispatch<SetStateAction<string>>
+}
+
+export default function SyncOptionContainer({ setSyncedTo, isSyncing, setIsSyncing }: SyncOptionContainerProp) {
     const [showAppleBasicAuthForm, setShowAppleBasicAuthForm] = useState(false);
     const [showBaikalBasicAuthForm, setShowBaikalBasicAuthForm] = useState(false);
     const [showDavicalBasicAuthForm, setShowDavicalBasicAuthForm] = useState(false);
@@ -13,6 +19,8 @@ export default function SyncOptionContainer() {
 
         <>
             <BasicAuthForm
+                isSyncing={isSyncing}
+                setIsSyncing={setIsSyncing}
                 open={showAppleBasicAuthForm}
                 setOpen={setShowAppleBasicAuthForm}
                 title="Sync to Apple Calendar"
@@ -23,13 +31,20 @@ export default function SyncOptionContainer() {
                     </span>
                 }
                 fields={[
-                    { id: "appleId", name: "appleId", label: "Apple ID" },
-                    { id: "appSpecificPassword", name: "appSpecificPassword", label: "App specific password" },
+                    { id: "username", name: "username", label: "Apple ID" },
+                    { id: "password", name: "password", label: "App specific password", type: "password" },
                 ]}
-                onSuccess={(data) => console.log(data)}
+                onSuccess={(data) => {
+                    setSyncedTo("Apple");
+                    console.log(data)
+                }
+                }
+
             />
 
             <BasicAuthForm
+                isSyncing={isSyncing}
+                setIsSyncing={setIsSyncing}
                 open={showBaikalBasicAuthForm}
                 setOpen={setShowBaikalBasicAuthForm}
                 title="Sync to Baikal"
@@ -50,9 +65,15 @@ export default function SyncOptionContainer() {
                     { id: "username", name: "username", label: "Username" },
                     { id: "password", name: "password", label: "Password", type: "password" },
                 ]}
-                onSuccess={(data) => console.log(data)}
+                onSuccess={(data) => {
+                    setSyncedTo("Baikal");
+                    console.log(data)
+                }
+                }
             />
             <BasicAuthForm
+                isSyncing={isSyncing}
+                setIsSyncing={setIsSyncing}
                 open={showDavicalBasicAuthForm}
                 setOpen={setShowDavicalBasicAuthForm}
                 title="Sync to DAViCal"
@@ -76,7 +97,10 @@ export default function SyncOptionContainer() {
                     { id: "username", name: "username", label: "Username" },
                     { id: "password", name: "password", label: "Password", type: "password" },
                 ]}
-                onSuccess={(data) => console.log(data)}
+                onSuccess={(data) => {
+                    setSyncedTo("DAViCal");
+                    console.log(data)
+                }}
             />
             <div className="flex gap-4">
                 <Button

@@ -29,6 +29,7 @@ model User {
   protectedSymmetricKey String?
   enableEncryption      Boolean     @default(true)
   timeZone  String?
+  CalDavAccount CalDavAccount?
 }
 
 enum SortBy{
@@ -82,6 +83,20 @@ model Account {
   @@id([provider, providerAccountId])
 }
  
+model CalDavAccount {
+  id          String   @id @default(cuid())
+  userId      String   @unique
+  service     String  
+  serverUrl   String
+  username    String
+  password    String   
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, service])
+}
  
 model VerificationToken { 
   identifier        String
