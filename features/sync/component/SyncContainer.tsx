@@ -2,7 +2,7 @@
 
 import { useSession } from "next-auth/react";
 import { useSearchParams } from "next/navigation";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 import SyncCard from "./SyncCard";
 import SyncOptionContainer from "./SyncOptionContainer";
 
@@ -11,10 +11,6 @@ const SyncContainer = () => {
     const { data: session } = useSession();
     const searchParams = useSearchParams();
     const hasSynced = useRef(false);
-
-
-    const [syncedTo, setSyncedTo] = useState("Google calendar");
-    const [isSyncing, setIsSyncing] = useState(false);
 
     useEffect(() => {
         const shouldSync = searchParams.get("calendarSync") === "true";
@@ -25,8 +21,8 @@ const SyncContainer = () => {
     }, [session, searchParams]);
     return (
         <>
-            <SyncCard syncedTo={syncedTo} setSyncedTo={setSyncedTo} />
-            <SyncOptionContainer setSyncedTo={setSyncedTo} isSyncing={isSyncing} setIsSyncing={setIsSyncing} />
+            <SyncCard />
+            <SyncOptionContainer />
         </>
 
     );

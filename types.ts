@@ -116,3 +116,11 @@ export interface CompletedTodoItemType {
   projectName: string;
   projectColour: string;
 }
+
+export type calDavAccountType = {
+  id: string;
+  username: string;
+  password: string;
+  serverUrl: string;
+  service: string;
+};

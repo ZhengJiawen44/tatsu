@@ -84,6 +84,14 @@ export const noteSchema = z.object({
     .min(1, { message: "title cannot be left empty" }),
   content: z.string().nullable().optional(),
 });
+
+export const calDavAccountSchema = z.object({
+  username: z.string(),
+  password: z.string(),
+  serverUrl: z.string().optional(),
+  service: z.string(),
+});
+
 export const ProjectColor = [
   "RED",
   "ORANGE",
