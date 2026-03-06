@@ -8,10 +8,10 @@
 
 ![hero](public/hero.webp)
 [demo video](https://www.youtube.com/watch?v=NWD6fUluXuE)
-## Introduction
+## 1. Introduction
 Tatsu is a todo app on steroids, designed to keep you motivated and productive.
 
-## Features
+## 2. Features
 
 1. **Natural Language Processing**  
    Automatically extracts dates, times, and durations from your input. Just type naturally and the system handles the rest.
@@ -27,13 +27,13 @@ Tatsu is a todo app on steroids, designed to keep you motivated and productive.
 
    More exciting features coming soon.
 
-## Documentation
+## 3. Documentation
 https://sanity.my/en/blogs
 
-## RoadMap
+## 4. RoadMap
 https://github.com/ZhengJiawen44/tatsu/wiki/Roadmap
 
-## Deploying with Docker
+## 5. Deploying with Docker
 
 1. Download the `docker-compose.yml` file from this repository.
 
@@ -56,7 +56,7 @@ To stop the containers:
 docker compose down
 ```
 
-## Local Development with Docker
+## 6. Local Development with Docker
 1. Git clone this repository
 2. Copy `.env.example` to `.env` and fill in the required values.
 3. start the dev server `docker compose -f docker-compose.dev.yml up`
@@ -64,7 +64,7 @@ docker compose down
 To stop the dev server `docker compose -f docker-compose.dev.yml down`
 
 
-## Running Locally without Docker
+## 7. Running Locally without Docker
 
 ### Prerequisites
 - Node.js 18+ installed
@@ -173,5 +173,5 @@ Then, open http://localhost:3000 in your browser.
 - **Open Prisma Studio** (database GUI): `npx prisma studio`
 - **Reset database** (drops all data): `npx prisma migrate reset`
 
-## Fonts
+## 8. Fonts
 This project uses next/font for optimized font loading. It features Poppins, a modern and elegant font from Google.
