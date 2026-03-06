@@ -29,7 +29,8 @@ model User {
   protectedSymmetricKey String?
   enableEncryption      Boolean     @default(true)
   timeZone  String?
-  CalDavAccount CalDavAccount?
+  calDavAccount CalDavAccount?
+  caldavCalendar CaldavCalendar[]
 }
 
 enum SortBy{
@@ -92,11 +93,52 @@ model CalDavAccount {
   password    String   
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
+  calendars   CaldavCalendar[]
 
   user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@unique([userId, service])
 }
+
+model CaldavCalendar {
+  id           String   @id @default(cuid())
+  userId       String          
+  timezone     String?              
+  name         String?              
+  source       String              
+  ctag         String               
+  syncToken    String               
+  url          String   @unique     
+  credentialId String               
+  syncMetaData   SyncMetaData[]
+
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  credential   CalDavAccount @relation(fields: [credentialId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, url])
+  @@index([userId])
+}
+
+// Sync metadata for todos/events that have been synced with a CalDAV calendar
+model SyncMetaData {
+  id                String   @id @default(cuid())
+  todoId            String   @unique              
+  caldavCalendarId  String                         
+  remoteUrl         String   @unique               
+  etag              String                          
+  icsData           String?                         
+  lastSyncedAt      DateTime @default(now())
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+
+  todo         Todo     @relation(fields: [todoId], references: [id], onDelete: Cascade)
+  caldavCalendar         CaldavCalendar     @relation(fields: [caldavCalendarId], references: [id], onDelete: Cascade)
+  @@index([caldavCalendarId])
+}
+
  
 model VerificationToken { 
   identifier        String
@@ -141,6 +183,8 @@ model Todo {
   instances         TodoInstance[]
   project           Project?   @relation(fields: [projectID], references: [id], onDelete: SetNull)
   projectID         String?
+
+  syncMetaData      SyncMetaData?
 
   @@index([userID])
   @@index([projectID])
