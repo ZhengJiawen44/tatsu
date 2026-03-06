@@ -23,6 +23,7 @@ const SyncContainer = () => {
         <>
             <SyncCard />
             <SyncOptionContainer />
+            <h1 className="text-muted-foreground mt-40 -rotate-12 m-auto  w-fit">Work in progress</h1>
         </>
 
     );
