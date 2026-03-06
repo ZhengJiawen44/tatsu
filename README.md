@@ -33,7 +33,7 @@ https://sanity.my/en/blogs
 ## RoadMap
 https://github.com/ZhengJiawen44/tatsu/wiki/Roadmap
 
-## Running with prebuilt Docker image (recommended)
+## Deploying with Docker
 
 1. Download the `docker-compose.yml` file from this repository.
 
@@ -56,7 +56,15 @@ To stop the containers:
 docker compose down
 ```
 
-## Running Locally
+## Local Development with Docker
+1. Git clone this repository
+2. Copy `.env.example` to `.env` and fill in the required values.
+3. start the dev server `docker compose -f docker-compose.dev.yml up`
+
+To stop the dev server `docker compose -f docker-compose.dev.yml down`
+
+
+## Running Locally without Docker
 
 ### Prerequisites
 - Node.js 18+ installed
@@ -75,7 +83,9 @@ sudo systemctl enable postgresql
 For other operating systems, refer to the [official PostgreSQL documentation](https://www.postgresql.org/download/).
 
 #### 2. Configure PostgreSQL Authentication
-**Note**: This step may not be necessary depending on your PostgreSQL installation. If you can already connect using `psql -U myuser -d mydb -h localhost -W` with a password, skip this step.
+> [!NOTE]
+> **Note**: This step may not be necessary depending on your PostgreSQL installation. If you can already connect using `psql -U myuser -d mydb -h localhost -W` with a password, skip this step.
+
 Edit the PostgreSQL configuration file to allow password authentication:
 
 ```bash
