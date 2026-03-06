@@ -35,35 +35,18 @@ https://github.com/ZhengJiawen44/tatsu/wiki/Roadmap
 
 ## Running with prebuilt Docker image (recommended)
 
-You can run the prebuilt image directly from GitHub Container Registry:
+1. Download the `docker-compose.yml` file from this repository.
 
+2. Copy `.env.example` to `.env` and fill in the required values.
+
+3. Start the containers:
 ```bash
-docker run -d \
-  --name tatsu \
-  -p 3000:3000 \
-  --env-file .env \
-  --restart unless-stopped \
-  ghcr.io/zhengjiawen44/tatsu:latest
-```
-
-## Building and running a docker image yourself
-alternatively, you can build the image yourself.
-The project includes a **Dockerfile** and **docker-compose.yml** for containerized development.
-
-Make sure **Docker** and **Docker Compose** are installed.
-
-Copy **.env.example** to **.env** and fill in the required values (AWS credentials, database URL, etc.).
-
-**Note**: Ensure DATABASE_URL in your .env matches the values in docker-compose.yml. If you haven't changed anything there, simply use the one provided in .env.example.
-
-Build and start the containers:
-```bash
-docker compose up --build
+docker compose up -d
 ```
 
 This will:
+- Pull the latest prebuilt image from GitHub Container Registry.
 - Start a Postgres database (postgres:15) with persistent storage.
-- Start the Next.js app inside a Node.js container.
 - Run Prisma migrations automatically on startup.
 
 Once running, the app will be available at http://localhost:3000.
