@@ -24,10 +24,6 @@ export async function getCompletedTodos() {
     where: { userID: session.user.id },
     orderBy: { dtstart: "desc" },
   });
-  console.log(
-    "sssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss",
-    completedTodos,
-  );
   const formatted = completedTodos.map((todo) => {
     return { ...todo, daysToComplete: Number(todo.daysToComplete) };
   });

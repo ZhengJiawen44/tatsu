@@ -24,7 +24,8 @@ export async function POST() {
       caldendarCredential.serverUrl,
     );
 
-    const calendarMetaData = calDavClient.fetchCalendars();
+    const calendarMetaData = await calDavClient.fetchCalendars();
+    console.log(calendarMetaData);
     return NextResponse.json(
       { calendars: calendarMetaData, message: "synced events" },
       { status: 200 },
