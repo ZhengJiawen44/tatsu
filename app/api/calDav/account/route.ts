@@ -38,25 +38,26 @@ export async function POST(req: NextRequest) {
     );
     if (!calDavClient) throw new InternalError("invalid calendar credentials");
 
-    // encrypt(havent implemented) and save credentials to data base
-    await prisma.calDavAccount.upsert({
-      create: {
-        username,
-        password,
-        serverUrl:
-          serverUrl || (service == "apple" && "https://caldav.icloud.com"),
-        service,
-        userId: user.id,
+    //delete previous account and related todos
+    await prisma.todo.deleteMany({
+      where: {
+        syncMetaData: { isNot: null },
       },
-      update: {
-        username,
-        password,
-        serverUrl:
-          serverUrl || (service == "apple" && "https://caldav.icloud.com"),
-        service,
-        userId: user.id,
-      },
+    });
+    await prisma.calDavAccount.deleteMany({
       where: { userId: user.id },
+    });
+
+    // encrypt(havent implemented) and save credentials to data base
+    await prisma.calDavAccount.create({
+      data: {
+        username,
+        password,
+        serverUrl:
+          serverUrl || (service == "apple" && "https://caldav.icloud.com"),
+        service,
+        userId: user.id,
+      },
     });
 
     return NextResponse.json(
