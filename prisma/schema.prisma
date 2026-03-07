@@ -106,8 +106,8 @@ model CaldavCalendar {
   timezone     String?              
   name         String?              
   source       String              
-  ctag         String               
-  syncToken    String               
+  ctag         String?               
+  syncToken    String?               
   url          String   @unique     
   credentialId String               
   syncMetaData   SyncMetaData[]
@@ -125,6 +125,7 @@ model CaldavCalendar {
 // Sync metadata for todos/events that have been synced with a CalDAV calendar
 model SyncMetaData {
   id                String   @id @default(cuid())
+  uid               String
   todoId            String   @unique              
   caldavCalendarId  String                         
   remoteUrl         String   @unique               
