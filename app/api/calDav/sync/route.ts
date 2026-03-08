@@ -54,12 +54,20 @@ export async function POST() {
 
     // deleted calendars
     for (const deletedCalendar of deleted) {
-      await prisma.caldavCalendar.delete({
+      const calendar = await prisma.caldavCalendar.delete({
         where: {
           url: deletedCalendar.url,
         },
       });
+      await prisma.todo.deleteMany({
+        where: {
+          syncMetaData: {
+            caldavCalendarId: calendar.id,
+          },
+        },
+      });
     }
+
     // //updated calendars
     for (const updatedCalendar of updated) {
       const localCalendarToBeUpdated = await prisma.caldavCalendar.findUnique({
@@ -101,7 +109,28 @@ export async function POST() {
           detailedResult: true,
         })
       ).objects;
-      createdObjects.filter((co) => co.url.includes(".ics")).map((co) => {});
+
+      //insert new todo to db
+      createTodosFromCalendarObjects(
+        createdObjects,
+        localCalendarToBeUpdated.id,
+        user.id,
+      );
+
+      //delete todo from db
+      deletedObjects.map(async (object) => {
+        await prisma.todo.deleteMany({
+          where: {
+            syncMetaData: {
+              caldavCalendarId: localCalendarToBeUpdated.id,
+              remoteUrl: object.url,
+            },
+          },
+        });
+      });
+
+      //update todo from db
+      console.log(updatedObjects);
     }
 
     return NextResponse.json(
