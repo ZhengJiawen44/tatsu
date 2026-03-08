@@ -124,3 +124,13 @@ export type calDavAccountType = {
   serverUrl: string;
   service: string;
 };
+
+export type syncMetaDataType = {
+  caldavCalendarId: string;
+  etag: string;
+  remoteUrl: string;
+  icsData: string;
+  uid: string;
+};
+
+export type syncedTodo = TodoItemType & { syncMetaData: syncMetaDataType };
