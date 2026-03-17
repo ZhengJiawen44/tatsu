@@ -26,8 +26,6 @@ const CreateTodoBtn = () => {
       return;
     };
 
-
-
     document.addEventListener("keydown", showCreateTodoForm);
     return () => {
       document.removeEventListener("keydown", showCreateTodoForm);

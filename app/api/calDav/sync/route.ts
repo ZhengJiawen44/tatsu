@@ -68,7 +68,7 @@ export async function POST() {
       });
     }
 
-    // //updated calendars
+    //updated calendars
     for (const updatedCalendar of updated) {
       const localCalendarToBeUpdated = await prisma.caldavCalendar.findUnique({
         where: {
@@ -130,6 +130,7 @@ export async function POST() {
       });
 
       //update todo from db
+      // updatedObjects
       console.log(updatedObjects);
     }
 

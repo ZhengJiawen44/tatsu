@@ -1,5 +1,5 @@
 import clsx from "clsx";
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import adjustHeight from "@/components/todo/lib/adjustTextareaHeight";
 import { useToast } from "@/hooks/use-toast";
 import LineSeparator from "@/components/ui/lineSeparator";
@@ -57,7 +57,9 @@ const TodoForm = ({
   const { editTodoInstanceMutateFn } = useEditTodoInstance(setEditInstanceOnly);
   const { createMutateFn } = useCreateTodo();
   const appDict = useTranslations("app");
-  const todayDict = useTranslations("today")
+  const todayDict = useTranslations("today");
+  const scribbleAudio = useRef<HTMLAudioElement>(new Audio("/scribble.mp3"));
+
 
   return (
     <div
@@ -117,6 +119,9 @@ const TodoForm = ({
               {appDict("cancel")}
             </Button>
             <Button
+              onClick={() => {
+                scribbleAudio.current.play();
+              }}
               type="submit"
               variant={"default"}
               disabled={title.length <= 0}
