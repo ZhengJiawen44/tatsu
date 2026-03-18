@@ -23,13 +23,8 @@ export default function TodoCheckbox({
   variant?: "repeat" | "outline-solid";
 }) {
   const [expand, setExpand] = useState(false);
-  const popAudio = useRef<HTMLAudioElement | null>(null);
-  const unpopAudio = useRef<HTMLAudioElement | null>(null);
-
-  useEffect(() => {
-    popAudio.current = new Audio("/pop.mp3");
-    unpopAudio.current = new Audio("/unPop.mp3");
-  }, []);
+  const popAudio = useRef<HTMLAudioElement>(new Audio("/pop.mp3"));
+  const unpopAudio = useRef<HTMLAudioElement>(new Audio("/unPop.mp3"));
 
   useEffect(() => {
     if (expand) {
