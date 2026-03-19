@@ -112,11 +112,11 @@ const LandingPage = () => {
         </p>
       }
     >
-      <div className="flex flex-col gap-10 items-center justify-center text-foreground text-center px-4 sm:px-6 lg:px-8">
+      <div className="z-50! flex flex-col gap-10 items-center justify-center text-foreground text-center px-4 sm:px-6 lg:px-8">
         {/* Hero Section */}
         <div className=" flex flex-col items-center gap-6 sm:gap-8 lg:gap-9 mb-16 sm:mb-24 lg:mb-32 pt-12 sm:pt-16 lg:pt-20 max-w-7xl w-full">
           <div className="flex-1 w-full mb-10">
-            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-semibold mb-4 sm:mb-6">
+            <h1 className="text-4xl sm:text-5xl lg:text-6xl text-white font-semibold mb-4 sm:mb-6 ">
               {dict("hero.title")}
             </h1>
             <p className="text-base sm:text-lg lg:text-xl max-w-4xl mx-auto mb-6 sm:mb-8 px-2">
@@ -140,7 +140,7 @@ const LandingPage = () => {
           </div>
 
 
-          <div className="mb-8 w-full">
+          <div className="mb-8 w-full z-50">
             <Image
               src="/hero.webp"
               width={1750}

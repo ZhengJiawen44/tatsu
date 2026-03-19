@@ -14,9 +14,21 @@ const Page = async () => {
   const dict = await getTranslations("landingPage");
   if (!session?.user)
     return (
-      <div className="bg-muted">
+      <div className="bg-muted relative">
+        {/* Main purple glow — sits behind hero headline, slightly left of center */}
+
+
+        {/* Indigo — bleeds downward into the hero image zone */}
+        <div
+          className="absolute w-[500px] h-[300px] bg-indigo-500/20 blur-[160px] top-[420px] left-1/2 -translate-x-1/2 z-10"
+          style={{
+            borderRadius: "50% 50% 60% 40% / 40% 60% 50% 50%",
+            animation: "morph3 11s ease-in-out infinite",
+          }}
+        />
+
         {/* Responsive Header/Navbar */}
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-10">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-10 z-[100]!">
           <div className="flex items-center justify-between py-3 ">
             {/* Logo */}
             <Link
