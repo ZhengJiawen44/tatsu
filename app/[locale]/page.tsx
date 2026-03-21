@@ -15,20 +15,24 @@ const Page = async () => {
   if (!session?.user)
     return (
       <div className="bg-muted relative">
-        {/* Main purple glow — sits behind hero headline, slightly left of center */}
+        {/* Gradient Blobs */}
+        <div className="absolute inset-0 overflow-hidden pointer-events-none z-0 border blur-3xl opacity-80">
+          {/* Purple blob — top left area */}
+          <div
+            className="absolute w-[600px] h-[900px] bg-violet-500/20 top-0 left-1/2 -translate-x-1/2 rotate-90"
+            style={{ clipPath: "polygon(0% 25%, 40% 10%, 80% 20%, 130% 8%, 170% 22%, 200% 15%, 200% 55%, 160% 68%, 120% 55%, 80% 65%, 40% 52%, 0% 62%)" }}
+          />
+          {/* Indigo blob — center */}
+          <div
+            className="absolute w-[700px] h-[700px] bg-indigo-500/10 blur-[73px] opacity-80 top-[300px] left-1/2 -translate-x-1/2"
+            style={{ clipPath: "polygon(-20% 30%, 25% 12%, 60% 28%, 100% 8%, 140% 18%, 180% 5%, 220% 20%, 220% 55%, 180% 68%, 140% 50%, 100% 62%, 60% 48%, 25% 60%, -20% 50%)" }}
+          />
+        </div>
 
 
-        {/* Indigo — bleeds downward into the hero image zone */}
-        <div
-          className="absolute w-[500px] h-[300px] bg-indigo-500/20 blur-[160px] top-[420px] left-1/2 -translate-x-1/2 z-10"
-          style={{
-            borderRadius: "50% 50% 60% 40% / 40% 60% 50% 50%",
-            animation: "morph3 11s ease-in-out infinite",
-          }}
-        />
 
         {/* Responsive Header/Navbar */}
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-10 z-[100]!">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 z-[100]!">
           <div className="flex items-center justify-between py-3 ">
             {/* Logo */}
             <Link

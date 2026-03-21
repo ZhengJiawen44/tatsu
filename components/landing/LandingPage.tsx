@@ -115,11 +115,14 @@ const LandingPage = () => {
       <div className="z-50! flex flex-col gap-10 items-center justify-center text-foreground text-center px-4 sm:px-6 lg:px-8">
         {/* Hero Section */}
         <div className=" flex flex-col items-center gap-6 sm:gap-8 lg:gap-9 mb-16 sm:mb-24 lg:mb-32 pt-12 sm:pt-16 lg:pt-20 max-w-7xl w-full">
-          <div className="flex-1 w-full mb-10">
-            <h1 className="text-4xl sm:text-5xl lg:text-6xl text-white font-semibold mb-4 sm:mb-6 ">
-              {dict("hero.title")}
+          <div className="flex-1 w-full mb-10 z-50">
+            <h1 className="text-4xl sm:text-5xl lg:text-6xl text-white font-semibold tracking-tighter">
+              Powerful. Private.
             </h1>
-            <p className="text-base sm:text-lg lg:text-xl max-w-4xl mx-auto mb-6 sm:mb-8 px-2">
+            <h1 className="text-4xl sm:text-5xl lg:text-6xl text-red font-semibold mb-4 sm:mb-6 tracking-tighter">
+              Fully Yours
+            </h1>
+            <p className="text-base sm:text-md lg:text-lg max-w-4xl mx-auto mb-6 sm:mb-8 px-2">
               {dict("hero.subtitle")}
             </p>
             <div className="flex flex-col sm:flex-row justify-center gap-3 sm:gap-4 px-4">
@@ -132,7 +135,7 @@ const LandingPage = () => {
                 </Button>
               </Link>
               <Link href="/login" className="z-50 w-full sm:w-auto" aria-label="Start by logging in">
-                <Button className="bg-lime/65 w-full sm:w-auto text-foreground px-6 py-5 sm:p-6 text-base sm:text-lg font-normal rounded-lg shadow-md hover:translate-y-0.5 transition-transform duration-100">
+                <Button className="bg-linear-to-t from-[#465927] border-t border-t-[#adc982] to-lime w-full sm:w-auto text-white px-6 py-5 sm:p-6 text-base sm:text-lg font-normal rounded-lg shadow-md hover:translate-y-0.5 transition-transform duration-100">
                   {dict("hero.start")}
                 </Button>
               </Link>
