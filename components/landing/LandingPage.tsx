@@ -126,13 +126,13 @@ const LandingPage = () => {
               <Link href="/blogs" className="z-50 w-full sm:w-auto">
                 <Button
                   variant={"outline"}
-                  className="w-full sm:w-auto font-normal text-foreground px-6 py-5 sm:p-6 text-base sm:text-lg rounded-lg shadow-md hover:translate-y-[2px] transition-transform duration-100"
+                  className="w-full sm:w-auto font-normal text-foreground px-6 py-5 sm:p-6 text-base sm:text-lg rounded-lg shadow-md hover:translate-y-0.5 transition-transform duration-100"
                 >
                   {dict("hero.readDocs")}
                 </Button>
               </Link>
               <Link href="/login" className="z-50 w-full sm:w-auto" aria-label="Start by logging in">
-                <Button className="bg-lime/65 w-full sm:w-auto text-foreground px-6 py-5 sm:p-6 text-base sm:text-lg font-normal rounded-lg shadow-md hover:translate-y-[2px] transition-transform duration-100">
+                <Button className="bg-lime/65 w-full sm:w-auto text-foreground px-6 py-5 sm:p-6 text-base sm:text-lg font-normal rounded-lg shadow-md hover:translate-y-0.5 transition-transform duration-100">
                   {dict("hero.start")}
                 </Button>
               </Link>
@@ -220,7 +220,7 @@ const LandingPage = () => {
                       return (
                         <div
                           key={feature.id}
-                          className={`bg-background h-[350px] my-auto w-full object-contain transition-opacity duration-500 absolute inset-0  ${activeFeature === index
+                          className={`bg-background h-87.5 my-auto w-full object-contain transition-opacity duration-500 absolute inset-0  ${activeFeature === index
                             ? "opacity-100"
                             : "opacity-0"
                             }`}
