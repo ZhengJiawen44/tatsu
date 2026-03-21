@@ -72,7 +72,7 @@ To stop the dev server `docker compose -f docker-compose.dev.yml down`
 
 ### PostgreSQL Setup
 
-#### 1. Install PostgreSQL (Fedora/RHEL)
+#### 7.1. Install PostgreSQL (Fedora/RHEL)
 ```bash
 sudo dnf install postgresql postgresql-server
 sudo postgresql-setup --initdb
@@ -82,7 +82,7 @@ sudo systemctl enable postgresql
 
 For other operating systems, refer to the [official PostgreSQL documentation](https://www.postgresql.org/download/).
 
-#### 2. Configure PostgreSQL Authentication
+#### 7.2. Configure PostgreSQL Authentication
 > [!NOTE]
 > **Note**: This step may not be necessary depending on your PostgreSQL installation. If you can already connect using `psql -U myuser -d mydb -h localhost -W` with a password, skip this step.
 
@@ -107,7 +107,7 @@ Restart PostgreSQL to apply changes:
 sudo systemctl restart postgresql
 ```
 
-#### 3. Create Database User and Database
+#### 7.3. Create Database User and Database
 
 Connect to PostgreSQL as the postgres superuser:
 
@@ -131,7 +131,7 @@ CREATE DATABASE mydb OWNER myuser;
 \q
 ```
 
-#### 4. Verify Connection
+#### 7.4. Verify Connection
 
 Test that you can connect with the new user:
 
