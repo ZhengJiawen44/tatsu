@@ -143,24 +143,24 @@ Enter your password when prompted. If successful, you'll see the psql prompt. Ty
 
 ### Application Setup
 
-1. Install dependencies:
+Install dependencies:
 ```bash
 npm install
 ```
 
-2. Copy `.env.example` to `.env` and update with your PostgreSQL credentials:
+Copy `.env.example` to `.env` and update with your PostgreSQL credentials:
 ```bash
 DATABASE_URL="postgresql://myuser:mypass@localhost:5432/mydb"
 ```
 
-3. Run Prisma migrations to set up the database schema:
+Run Prisma migrations to set up the database schema:
 ```bash
 npx prisma migrate dev --name init
 ```
 
 This will create all the necessary tables in your database.
 
-4. Start the development server:
+Start the development server:
 ```bash
 npm run dev
 ```
