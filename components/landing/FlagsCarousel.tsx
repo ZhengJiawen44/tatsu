@@ -5,12 +5,12 @@ export default function FlagsCarousel() {
     const landingDict = useTranslations("landingPage")
 
     return (
-        <div className='flex flex-col'>
-            <div className='relative py-5  bg-background mb-7 w-screen overflow-hidden'>
+        <div className='flex flex-col w-full overflow-hidden'>
+            <div className='relative py-5 mb-7  overflow-hidden'>
                 {/* Left fade */}
-                <div className='absolute left-0 top-0 bottom-0 w-32 bg-linear-to-r from-muted to-transparent z-10' />
+                <div className='absolute left-0 top-0 bottom-0 w-32 md:w-52 bg-linear-to-r from-muted to-transparent z-10' />
                 {/* Right fade */}
-                <div className='absolute right-0 top-0 bottom-0 w-32 bg-linear-to-l from-muted to-transparent z-10' />
+                <div className='absolute right-0 top-0 bottom-0 w-32 md:w-52 bg-linear-to-l from-muted to-transparent z-10' />
 
                 {/* Scrolling content */}
                 <div className='flex justify-center items-center animate-scroll-left'>
