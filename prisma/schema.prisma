@@ -185,7 +185,7 @@ model Todo {
   project           Project?   @relation(fields: [projectID], references: [id], onDelete: SetNull)
   projectID         String?
 
-  syncMetaData      SyncMetaData?
+  syncMetaData      SyncMetaData? 
 
   @@index([userID])
   @@index([projectID])

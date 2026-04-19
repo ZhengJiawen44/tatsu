@@ -1,8 +1,4 @@
-interface pageProps {
-
-}
-
-const page: React.FC<pageProps> = () => {
+const page = () => {
     return <>
         <div className="mb-96">
             sda
