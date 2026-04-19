@@ -43,7 +43,7 @@ export const api = {
   }: {
     url: string;
     headers?: fetchOptions["headers"];
-    body: fetchOptions["body"];
+    body?: fetchOptions["body"];
   }) {
     return fetchApi(url, { method: "POST", headers, body });
   },

@@ -1,16 +1,16 @@
 import { NextResponse } from "next/server";
-import { InternalError, UnauthorizedError } from "@/lib/customError";
+import { UnauthorizedError } from "@/lib/customError";
 import { auth } from "@/app/auth";
 import { errorHandler } from "@/lib/errorHandler";
 import { prisma } from "@/lib/prisma/client";
-import { createTodosFromCalendarObjects } from "@/lib/sync/createTodosFromCalendarObjects";
 import createCalendarFromRemote from "@/lib/sync/createCalendarFromRemote";
 import createCaldavClientFromDB from "@/lib/sync/createCaldavClientFromDB";
+import { upsertTodosFromCalendarObjects } from "@/lib/sync/upsertTodosFromCalendarObjects";
 export async function POST() {
   try {
     const session = await auth();
     const user = session?.user;
-    if (!user?.id)
+    if (!user || !user.id)
       throw new UnauthorizedError("you must be logged in to do this");
 
     const { calDavClient, caldendarCredential } =
@@ -43,103 +43,134 @@ export async function POST() {
         const calendarObjects = await calDavClient.fetchCalendarObjects({
           calendar: newCalendar,
         });
+        const serverUrl = new URL(newCalendar.url).origin;
         //insert remote objects to db
-        await createTodosFromCalendarObjects(
+        await upsertTodosFromCalendarObjects(
           calendarObjects,
           caldavCalendar.id,
           user.id!,
+          serverUrl,
         );
       }),
     );
 
     // deleted calendars
-    for (const deletedCalendar of deleted) {
-      const calendar = await prisma.caldavCalendar.delete({
-        where: {
-          url: deletedCalendar.url,
-        },
-      });
-      await prisma.todo.deleteMany({
-        where: {
-          syncMetaData: {
-            caldavCalendarId: calendar.id,
+    await Promise.all(
+      deleted.map(async (deletedCalendar) => {
+        const calendar = await prisma.caldavCalendar.delete({
+          where: {
+            url: deletedCalendar.url,
           },
-        },
-      });
-    }
-
-    //updated calendars
-    for (const updatedCalendar of updated) {
-      const localCalendarToBeUpdated = await prisma.caldavCalendar.findUnique({
-        where: {
-          url: updatedCalendar.url,
-        },
-      });
-      if (!localCalendarToBeUpdated)
-        throw new InternalError(
-          "could not find local calendar to update while syncing remote to local",
-        );
-      //get all synced calendar objects
-      const calendarObjects = (await prisma.syncMetaData.findMany()).map(
-        (syncMetaData) => {
-          return {
-            etag: syncMetaData.etag,
-            id: syncMetaData.todoId,
-            data: syncMetaData.icsData,
-            url: syncMetaData.remoteUrl,
-          };
-        },
-      );
-
-      //smart collection sync on the calendar objects
-      const {
-        created: createdObjects,
-        updated: updatedObjects,
-        deleted: deletedObjects,
-      } = (
-        await calDavClient.smartCollectionSync({
-          collection: {
-            url: localCalendarToBeUpdated.url,
-            ctag: localCalendarToBeUpdated.ctag || undefined,
-            syncToken: localCalendarToBeUpdated.syncToken || undefined,
-            objects: calendarObjects,
-            objectMultiGet: calDavClient.calendarMultiGet,
-          },
-          method: "webdav",
-          detailedResult: true,
-        })
-      ).objects;
-
-      //insert new todo to db
-      createTodosFromCalendarObjects(
-        createdObjects,
-        localCalendarToBeUpdated.id,
-        user.id,
-      );
-
-      //delete todo from db
-      deletedObjects.map(async (object) => {
+        });
         await prisma.todo.deleteMany({
           where: {
             syncMetaData: {
-              caldavCalendarId: localCalendarToBeUpdated.id,
-              remoteUrl: object.url,
+              caldavCalendarId: calendar.id,
             },
           },
         });
-      });
+      }),
+    );
 
-      //update todo from db
-      // updatedObjects
-      console.log(updatedObjects);
-    }
+    //get all the updated local calendars to update
+    const localCalendarsToBeUpdated = await prisma.caldavCalendar.findMany({
+      where: {
+        url: {
+          in: updated.map((calendar) => calendar.url),
+        },
+      },
+    });
+    //updated calendars
+    await Promise.all(
+      localCalendarsToBeUpdated.map(async (localCalendar) => {
+        const serverUrl = new URL(localCalendar.url).origin;
+        const syncMetaData = await prisma.syncMetaData.findMany({
+          where: {
+            caldavCalendarId: localCalendar.id,
+          },
+        });
+
+        const localCalendarObjects = syncMetaData.map((syncMetaData) => {
+          return {
+            url: syncMetaData.remoteUrl,
+            etag: syncMetaData.etag,
+            data: syncMetaData.icsData,
+          };
+        });
+
+        const {
+          created: createdObjects,
+          updated: updatedObjects,
+          deleted: deletedObjects,
+        } = (
+          await calDavClient.smartCollectionSync({
+            collection: {
+              url: localCalendar.url,
+              ctag: localCalendar.ctag || undefined,
+              syncToken: localCalendar.syncToken || undefined,
+              objects: localCalendarObjects,
+              objectMultiGet: calDavClient.calendarMultiGet,
+            },
+            method: "webdav",
+            detailedResult: true,
+          })
+        ).objects;
+
+        await Promise.all([
+          // Handle created objects
+          await upsertTodosFromCalendarObjects(
+            createdObjects,
+            localCalendar.id,
+            user.id!,
+            serverUrl,
+          ),
+
+          //Handle deleted objects. deletes todo, cascade deletes its syncMetaData
+          await prisma.todo.deleteMany({
+            where: {
+              syncMetaData: {
+                caldavCalendarId: localCalendar.id,
+                remoteUrl: {
+                  in: deletedObjects.map((obj) =>
+                    serverUrl && !obj.url.startsWith("http")
+                      ? `${serverUrl}${obj.url}`
+                      : obj.url,
+                  ),
+                },
+              },
+            },
+          }),
+
+          //handle updated objects
+          await upsertTodosFromCalendarObjects(
+            updatedObjects,
+            localCalendar.id,
+            user.id!,
+            serverUrl,
+          ),
+
+          //update local calendar ctag and syncToken
+          await prisma.caldavCalendar.update({
+            where: {
+              id: localCalendar.id,
+            },
+            data: {
+              ctag: updated.find(
+                (calendar) => calendar.url === localCalendar.url,
+              )?.ctag,
+              syncToken: updated.find(
+                (calendar) => calendar.url === localCalendar.url,
+              )?.syncToken,
+            },
+          }),
+        ]);
+      }),
+    );
 
     return NextResponse.json(
       { calendars: "remoteCalendarMetaData", message: "synced events" },
       { status: 200 },
     );
-
-    throw new InternalError("specified service is unsupported");
   } catch (error) {
     return errorHandler(error);
   }
