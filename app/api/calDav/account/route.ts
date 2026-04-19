@@ -75,6 +75,14 @@ export async function DELETE() {
     const user = session?.user;
     if (!user?.id)
       throw new UnauthorizedError("you must be logged in to do this");
+    //delete local todos that came from remote
+    await prisma.todo.deleteMany({
+      where: {
+        syncMetaData: {
+          isNot: null,
+        },
+      },
+    });
     await prisma.calDavAccount.delete({
       where: { userId: user.id },
     });
