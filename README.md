@@ -25,7 +25,7 @@ Tatsu is a todo app on steroids, designed to keep you motivated and productive.
 4. **End-to-End Encrypted File Uploads**  
    Securely upload and manage files with full end-to-end encryption to protect your data.
 
-   More exciting features coming soon.
+   More exciting features coming soon!
 
 ## 3. Documentation
 https://sanity.my/en/blogs
