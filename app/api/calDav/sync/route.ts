@@ -118,7 +118,7 @@ export async function POST() {
 
         await Promise.all([
           // Handle created objects
-          await upsertTodosFromCalendarObjects(
+          upsertTodosFromCalendarObjects(
             createdObjects,
             localCalendar.id,
             user.id!,
@@ -126,7 +126,7 @@ export async function POST() {
           ),
 
           //Handle deleted objects. deletes todo, cascade deletes its syncMetaData
-          await prisma.todo.deleteMany({
+          prisma.todo.deleteMany({
             where: {
               syncMetaData: {
                 caldavCalendarId: localCalendar.id,
@@ -142,15 +142,15 @@ export async function POST() {
           }),
 
           //handle updated objects
-          await upsertTodosFromCalendarObjects(
+          upsertTodosFromCalendarObjects(
             updatedObjects,
             localCalendar.id,
             user.id!,
             serverUrl,
           ),
 
-          //update local calendar ctag and syncToken
-          await prisma.caldavCalendar.update({
+          //update local calendar ctag, syncToken, name, timezone
+          prisma.caldavCalendar.update({
             where: {
               id: localCalendar.id,
             },
@@ -161,6 +161,12 @@ export async function POST() {
               syncToken: updated.find(
                 (calendar) => calendar.url === localCalendar.url,
               )?.syncToken,
+              name: updated.find(
+                (calendar) => calendar.url == localCalendar.url,
+              )?.displayName,
+              timezone: updated.find(
+                (calendar) => calendar.timezone == localCalendar.timezone,
+              )?.timezone,
             },
           }),
         ]);
