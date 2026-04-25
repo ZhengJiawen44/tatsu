@@ -5,6 +5,7 @@ import React, { useEffect, useRef, useState } from "react";
 import { RefreshCcw } from "lucide-react";
 import { cn } from "@/lib/utils";
 
+
 export default function TodoCheckbox({
   className,
   complete,
@@ -23,9 +24,13 @@ export default function TodoCheckbox({
   variant?: "repeat" | "outline-solid";
 }) {
   const [expand, setExpand] = useState(false);
-  const popAudio = useRef<HTMLAudioElement>(new Audio("/pop.mp3"));
-  const unpopAudio = useRef<HTMLAudioElement>(new Audio("/unPop.mp3"));
+  const popAudio = useRef<HTMLAudioElement | null>(null);
+  const unpopAudio = useRef<HTMLAudioElement | null>(null);
 
+  useEffect(() => {
+    popAudio.current = new Audio("/pop.mp3");
+    unpopAudio.current = new Audio("/unpop.mp3");
+  }, [])
   useEffect(() => {
     if (expand) {
       const timeout = setTimeout(() => setExpand(false), 150);
@@ -43,12 +48,13 @@ export default function TodoCheckbox({
           onChange(e);
         }}
         onClick={() => {
+          if (!popAudio.current || !unpopAudio.current) return
           if (!complete) {
-            if (popAudio.current) popAudio.current.currentTime = 0;
-            popAudio.current?.play();
+            popAudio.current.currentTime = 0;
+            popAudio.current.play();
           } else {
-            if (unpopAudio.current) unpopAudio.current.currentTime = 0;
-            unpopAudio.current?.play();
+            unpopAudio.current.currentTime = 0;
+            unpopAudio.current.play();
           }
         }}
         checked={checked}
