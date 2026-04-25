@@ -17,7 +17,7 @@ export default function DocumentationLayout({
 
       <div className="flex flex-1 overflow-hidden">
         {/* Sidebar */}
-        <aside className="hidden md:flex w-64 2xl:w-96 shrink-0 flex-col border-r-1 bg-[#111322]/30 overflow-y-auto px-4">
+        <aside className="hidden md:flex w-64 2xl:w-96 shrink-0 flex-col border-r bg-[#111322]/30 overflow-y-auto px-4">
           <nav className="flex-1 py-5 space-y-1">
             <NavLink href="/documentation">Intro</NavLink>
             <NavLink href="/documentation/recurrence-model">Recurrence model</NavLink>
