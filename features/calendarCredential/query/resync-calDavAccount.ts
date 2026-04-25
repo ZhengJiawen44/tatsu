@@ -17,6 +17,8 @@ export const useResyncCalDavAccount = () => {
     mutationFn: () => resyncCalDavAccount(),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["todo"] });
+      queryClient.invalidateQueries({ queryKey: ["calendarTodo"] });
+
       toast({ description: "Resync successful" });
     },
     onError: (error) => {
