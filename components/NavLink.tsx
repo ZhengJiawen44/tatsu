@@ -12,11 +12,10 @@ export default function NavLink({
     const pathname = usePathname();
     const isActive = pathname.replace(/^\/[^/]+/, "") === href;
 
-
     return (
         <Link
             href={href}
-            className={`flex items-center gap-2 px-8  py-2 text-lg hover:bg-card  ${isActive ? "bg-card brightness-110 font-semibold  border-foreground border-l-3" : ""
+            className={`flex items-center text-sm xl:text-base gap-2 px-2 py-1 rounded-sm hover:bg-card  ${isActive ? "brightness-110 text-lime" : ""
                 }`}
         >
             {children}
