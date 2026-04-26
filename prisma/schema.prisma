@@ -99,7 +99,11 @@ model CalDavAccount {
 
   @@unique([userId, service])
 }
-
+enum CalendarComponent {
+  VEVENT
+  VTODO
+  VJOURNAL
+}
 model CaldavCalendar {
   id           String   @id @default(cuid())
   userId       String          
@@ -111,7 +115,7 @@ model CaldavCalendar {
   url          String   @unique     
   credentialId String               
   syncMetaData   SyncMetaData[]
-
+  components   CalendarComponent[]
   createdAt    DateTime @default(now())
   updatedAt    DateTime @updatedAt
 
