@@ -7,6 +7,7 @@ import { auth } from "@/app/auth";
 import { errorHandler } from "@/lib/errorHandler";
 import createCaldavClientFromDB from "@/lib/sync/createCaldavClientFromDB";
 import ICAL from "ical.js";
+import { parseIcsToVeventComponent } from "@/lib/sync/parseIcsToComponent";
 
 export async function PATCH(
   req: NextRequest,
@@ -122,8 +123,7 @@ export async function DELETE(
 
     //update calendar object's exdate property
     if (syncMetaData && syncMetaData.icsData) {
-      const jcalData = ICAL.parse(syncMetaData.icsData);
-      const comp = new ICAL.Component(jcalData);
+      const comp = parseIcsToVeventComponent(syncMetaData.icsData);
       const vevent = comp.getFirstSubcomponent("vevent");
       if (!vevent)
         throw new Error(

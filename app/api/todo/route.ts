@@ -13,7 +13,7 @@ import { resolveTimezone } from "@/lib/resolveTimeZone";
 import { errorHandler } from "@/lib/errorHandler";
 import { recurringTodoItemType } from "@/types";
 import expandAndMergeTodos from "@/lib/RRule/expandAndMergeTodos";
-import { genICSData } from "@/lib/sync/genIcsData";
+import { genICSData } from "@/lib/sync/genIcsDataFromLocal";
 import createCaldavClientFromDB from "@/lib/sync/createCaldavClientFromDB";
 export async function POST(req: NextRequest) {
   try {

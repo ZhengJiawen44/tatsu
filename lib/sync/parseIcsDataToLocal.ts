@@ -1,6 +1,7 @@
 import { TodoItemType } from "@/types";
 import { Priority } from "@prisma/client";
 import ICAL from "ical.js";
+import { parseIcsToVeventComponent } from "./parseIcsToComponent";
 
 export function parseIcsData(
   icsData: string,
@@ -19,7 +20,7 @@ export function parseIcsData(
     > & { uid: string })
   | null {
   const jcalData = ICAL.parse(icsData);
-  const comp = new ICAL.Component(jcalData);
+  const comp = parseIcsToVeventComponent(jcalData);
   const vevent = comp.getFirstSubcomponent("vevent");
   if (!vevent) return null;
   // --- Core fields ---

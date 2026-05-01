@@ -1,6 +1,6 @@
 import { DAVObject } from "tsdav";
 import { prisma } from "../prisma/client";
-import { parseIcsData } from "./parseIcsData";
+import { parseIcsData } from "./parseIcsDataToLocal";
 
 export async function upsertTodosFromCalendarObjects(
   objects: DAVObject[],
