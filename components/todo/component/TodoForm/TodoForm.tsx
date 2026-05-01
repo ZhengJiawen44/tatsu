@@ -135,7 +135,6 @@ const TodoForm = ({
               </p>
             </Button>
           </div>
-
         </div>
       </form>
     </div>
@@ -146,7 +145,7 @@ const TodoForm = ({
     const dtstart = dateRange.from;
     const due = dateRange.to;
     try {
-      const rrule = rruleOptions ? new RRule(rruleOptions).toString() : null;
+      const rrule = rruleOptions ? new RRule(rruleOptions).toString().replace("RRULE:", "") : null;
       if (todo?.id && todo.id != "-1") {
         setDisplayForm(false);
         if (editInstanceOnly) {
