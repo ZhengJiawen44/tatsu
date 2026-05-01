@@ -93,7 +93,6 @@ export async function POST(req: NextRequest) {
             `CalDAV server rejected the request: ${res.status} ${res.statusText}`,
           );
         }
-        console.log(res.headers);
         const etag = res.headers.get("etag") ?? "";
         const remoteUrl = `${eventCalendar.url}${uid}.ics`;
 
