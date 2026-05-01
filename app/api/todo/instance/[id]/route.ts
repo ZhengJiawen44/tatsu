@@ -5,6 +5,8 @@ import { Priority } from "@prisma/client";
 import { todoSchema } from "@/schema";
 import { auth } from "@/app/auth";
 import { errorHandler } from "@/lib/errorHandler";
+import createCaldavClientFromDB from "@/lib/sync/createCaldavClientFromDB";
+import ICAL from "ical.js";
 
 export async function PATCH(
   req: NextRequest,
@@ -103,12 +105,41 @@ export async function DELETE(
       throw new BadRequestError(
         "Invalid request, ID or instanceDate is required to do instance delete!",
       );
-
-    // Find and exadate the todo instance
-    await prisma.todo.update({
+    // Find and exadate the local todo
+    const { syncMetaData } = await prisma.todo.update({
       where: { id },
       data: { exdates: { push: [instanceDate] } },
+      include: {
+        syncMetaData: {
+          select: {
+            remoteUrl: true,
+            etag: true,
+            icsData: true,
+          },
+        },
+      },
     });
+
+    //update calendar object's exdate property
+    if (syncMetaData && syncMetaData.icsData) {
+      const jcalData = ICAL.parse(syncMetaData.icsData);
+      const comp = new ICAL.Component(jcalData);
+      const vevent = comp.getFirstSubcomponent("vevent");
+      if (!vevent)
+        throw new Error(
+          "could not find vevent subcomponent in parsed ICS data",
+        );
+      vevent.addPropertyWithValue("exdate", ICAL.Time.fromJSDate(instanceDate));
+      const updatedIcsData = ICAL.stringify(comp.toJSON());
+      const { calDavClient } = await createCaldavClientFromDB(user.id);
+      calDavClient.updateCalendarObject({
+        calendarObject: {
+          url: syncMetaData.remoteUrl,
+          etag: syncMetaData.etag,
+          data: updatedIcsData,
+        },
+      });
+    }
 
     return NextResponse.json({ message: "todo deleted" }, { status: 200 });
   } catch (error) {
