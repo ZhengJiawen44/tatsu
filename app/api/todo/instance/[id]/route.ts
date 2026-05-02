@@ -107,7 +107,7 @@ export async function DELETE(
         "Invalid request, ID or instanceDate is required to do instance delete!",
       );
     // Find and exadate the local todo
-    const { syncMetaData } = await prisma.todo.update({
+    const updatedTodo = await prisma.todo.update({
       where: { id },
       data: { exdates: { push: [instanceDate] } },
       include: {
@@ -122,6 +122,7 @@ export async function DELETE(
     });
 
     //update calendar object's exdate property
+    const syncMetaData = updatedTodo.syncMetaData;
     if (syncMetaData && syncMetaData.icsData) {
       const comp = parseIcsToVeventComponent(syncMetaData.icsData);
       const vevent = comp.getFirstSubcomponent("vevent");
@@ -132,12 +133,17 @@ export async function DELETE(
       vevent.addPropertyWithValue("exdate", ICAL.Time.fromJSDate(instanceDate));
       const updatedIcsData = ICAL.stringify(comp.toJSON());
       const { calDavClient } = await createCaldavClientFromDB(user.id);
-      calDavClient.updateCalendarObject({
+      const res = await calDavClient.updateCalendarObject({
         calendarObject: {
           url: syncMetaData.remoteUrl,
           etag: syncMetaData.etag,
           data: updatedIcsData,
         },
+      });
+      const etag = res.headers.get("etag") ?? "";
+      await prisma.syncMetaData.update({
+        where: { todoId: updatedTodo.id },
+        data: { etag },
       });
     }
 
