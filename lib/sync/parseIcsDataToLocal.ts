@@ -19,8 +19,7 @@ export function parseIcsData(
       | "projectID"
     > & { uid: string })
   | null {
-  const jcalData = ICAL.parse(icsData);
-  const comp = parseIcsToVeventComponent(jcalData);
+  const comp = parseIcsToVeventComponent(icsData);
   const vevent = comp.getFirstSubcomponent("vevent");
   if (!vevent) return null;
   // --- Core fields ---
