@@ -8,6 +8,7 @@ import { errorHandler } from "@/lib/errorHandler";
 import createCaldavClientFromDB from "@/lib/sync/createCaldavClientFromDB";
 import ICAL from "ical.js";
 import { parseIcsToVeventComponent } from "@/lib/sync/parseIcsToComponent";
+import { updateIcs } from "@/lib/sync/updateIcs";
 
 export async function PATCH(
   req: NextRequest,
@@ -131,19 +132,25 @@ export async function DELETE(
           "could not find vevent subcomponent in parsed ICS data",
         );
       vevent.addPropertyWithValue("exdate", ICAL.Time.fromJSDate(instanceDate));
-      const updatedIcsData = ICAL.stringify(comp.toJSON());
+      const updatedIcsComp = ICAL.stringify(comp.toJSON());
       const { calDavClient } = await createCaldavClientFromDB(user.id);
       const res = await calDavClient.updateCalendarObject({
         calendarObject: {
           url: syncMetaData.remoteUrl,
           etag: syncMetaData.etag,
-          data: updatedIcsData,
+          data: updatedIcsComp,
         },
+      });
+
+      //sync local sync data
+      const updatedLocalIcs = updateIcs(syncMetaData.icsData, {
+        name: "exdate",
+        value: updatedTodo.exdates.map((d) => ICAL.Time.fromJSDate(d)),
       });
       const etag = res.headers.get("etag") ?? "";
       await prisma.syncMetaData.update({
         where: { todoId: updatedTodo.id },
-        data: { etag },
+        data: { etag, icsData: updatedLocalIcs },
       });
     }
 
