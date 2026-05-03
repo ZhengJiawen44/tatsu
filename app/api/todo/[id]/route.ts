@@ -11,6 +11,9 @@ import { todoSchema } from "@/schema";
 import { errorHandler } from "@/lib/errorHandler";
 import { z } from "zod";
 import createCaldavClientFromDB from "@/lib/sync/createCaldavClientFromDB";
+import { parseIcsToVeventComponent } from "@/lib/sync/parseIcsToComponent";
+import ICAL from "ical.js";
+import { updateIcs } from "@/lib/sync/updateIcs";
 
 export async function DELETE(
   req: NextRequest,
@@ -152,6 +155,23 @@ export async function PATCH(
       projectID,
     } = parsed.data;
 
+    const todoToUpdate = await prisma.todo.findUnique({
+      where: {
+        id,
+        userID: userId,
+      },
+      include: {
+        syncMetaData: true,
+      },
+    });
+    if (!todoToUpdate) throw new InternalError("todo not found");
+    const syncMetaData = todoToUpdate.syncMetaData;
+    //guard against changes that might break events on the remote caldav server
+    if (dateChanged && syncMetaData && (dtstart == null || due == null))
+      throw new BadRequestError(
+        "cannot change date time to null for remote todos",
+      );
+
     await prisma.todo.update({
       where: {
         id,
@@ -173,11 +193,67 @@ export async function PATCH(
         projectID,
       },
     });
+    //if todo exists on the remote calDav, sync the changes
+    if (syncMetaData && syncMetaData.icsData) {
+      const comp = parseIcsToVeventComponent(syncMetaData.icsData);
+      const vevent = comp.getFirstSubcomponent("vevent");
+      if (!vevent)
+        throw new Error(
+          "could not find vevent subcomponent in parsed ICS data",
+        );
+      if (title != undefined) vevent.updatePropertyWithValue("summary", title);
+      if (description != undefined)
+        vevent.updatePropertyWithValue("description", description);
+      if (dtstart != undefined)
+        vevent.updatePropertyWithValue(
+          "dtstart",
+          ICAL.Time.fromJSDate(dtstart),
+        );
+      if (due != undefined)
+        vevent.updatePropertyWithValue("dtend", ICAL.Time.fromJSDate(due));
+      if (rrule != undefined)
+        vevent.updatePropertyWithValue("rrule", ICAL.Recur.fromString(rrule));
 
-    /**
-     * if rrule changed and is null then delete all exdates and instances
-     */
+      const updatedIcsComp = ICAL.stringify(comp.toJSON());
+      const { calDavClient } = await createCaldavClientFromDB(userId);
+      const res = await calDavClient.updateCalendarObject({
+        calendarObject: {
+          url: syncMetaData.remoteUrl,
+          etag: syncMetaData.etag,
+          data: updatedIcsComp,
+        },
+      });
+
+      const etag = res.headers.get("etag") ?? "";
+      console.log(updatedIcsComp);
+      console.log(res.headers);
+
+      //sync local sync data
+      const icsUpdates = [];
+      if (title != undefined)
+        icsUpdates.push({ name: "summary", value: title });
+      if (description != undefined)
+        icsUpdates.push({ name: "description", value: description });
+      if (dtstart != undefined)
+        icsUpdates.push({
+          name: "dtstart",
+          value: ICAL.Time.fromJSDate(dtstart),
+        });
+      if (due != undefined)
+        icsUpdates.push({ name: "due", value: ICAL.Time.fromJSDate(due) });
+      if (rrule != undefined)
+        icsUpdates.push({ name: "rrule", value: ICAL.Recur.fromString(rrule) });
+      const updatedLocalIcs = updateIcs(syncMetaData.icsData, icsUpdates);
+      await prisma.syncMetaData.update({
+        where: { todoId: todoToUpdate.id },
+        data: { etag, icsData: updatedLocalIcs },
+      });
+    }
+
     if (rruleChanged && rrule == null) {
+      /**
+       * if rrule changed and is null then delete all exdates and instances
+       */
       await prisma.todo.update({
         where: {
           id,
