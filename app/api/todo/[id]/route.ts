@@ -265,49 +265,29 @@ export async function PATCH(
       });
     }
 
-    if (rruleChanged && rrule == null) {
-      /**
-       * if rrule changed and is null then delete all exdates and instances
-       */
+    /**
+     * if todo is a repeating todo and its dates or rrules were changed, remove all overriding instance,
+     * this is to avoid drifting todo instance problem.
+     */
+    if (instanceDate && (dateChanged || rruleChanged)) {
       await prisma.todo.update({
-        where: {
-          id,
-          userID: userId,
-        },
+        where: { id, userID: userId },
         data: {
           instances: { deleteMany: {} },
           exdates: [],
         },
       });
     }
-
-    /**
-     * if todo is a repeating todo and its dates or rrules were changed, remove all overriding instance,
-     * this is to avoid drifting todo instance problem.
-     *
-     * otherwise if its dates were not changed, overwrite the instance so the changes are reflected
-     * on the instance too
-     */
-    if (rrule && instanceDate) {
-      // If todo has changed dtstart or rrule, clear overridden instances
-      if (dateChanged || rruleChanged) {
-        await prisma.todoInstance.deleteMany({
-          where: { todoId: id },
-        });
-      }
-      //otherwise overwrite the overriding instance
-      else {
-        await prisma.todoInstance.updateMany({
-          where: {
-            todoId: id,
-          },
-          data: {
-            overriddenTitle: title,
-            overriddenDescription: description,
-            overriddenPriority: priority,
-          },
-        });
-      }
+    //otherwise just make all instances up to date with master
+    else if (rrule && instanceDate) {
+      await prisma.todoInstance.updateMany({
+        where: { todoId: id },
+        data: {
+          overriddenTitle: title,
+          overriddenDescription: description,
+          overriddenPriority: priority,
+        },
+      });
     }
 
     return NextResponse.json({ message: "Todo updated" }, { status: 200 });
