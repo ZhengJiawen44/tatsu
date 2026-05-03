@@ -214,6 +214,7 @@ export async function PATCH(
       if (rrule !== undefined) {
         if (rrule === null) {
           vevent.removeProperty("rrule");
+          vevent.removeAllProperties("exdate");
         } else {
           vevent.updatePropertyWithValue("rrule", ICAL.Recur.fromString(rrule));
         }
@@ -230,7 +231,8 @@ export async function PATCH(
       });
 
       const etag = res.headers.get("etag") ?? "";
-
+      if (!etag)
+        throw new InternalError("error updating remote calendar Objects");
       //sync local sync data
       const icsUpdates = [];
       if (title !== undefined)
@@ -247,7 +249,13 @@ export async function PATCH(
       if (rrule !== undefined) {
         icsUpdates.push({
           name: "rrule",
-          value: rrule ? ICAL.Recur.fromString(rrule) : null, // updateIcs should handle null as removal
+          value: rrule ? ICAL.Recur.fromString(rrule) : null,
+        });
+      }
+      if (rrule === null) {
+        icsUpdates.push({
+          name: "exdate",
+          value: null,
         });
       }
       const updatedLocalIcs = updateIcs(syncMetaData.icsData, icsUpdates);
