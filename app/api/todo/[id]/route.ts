@@ -201,8 +201,8 @@ export async function PATCH(
         throw new Error(
           "could not find vevent subcomponent in parsed ICS data",
         );
-      if (title != undefined) vevent.updatePropertyWithValue("summary", title);
-      if (description != undefined)
+      if (title !== undefined) vevent.updatePropertyWithValue("summary", title);
+      if (description !== undefined)
         vevent.updatePropertyWithValue("description", description);
       if (dtstart != undefined)
         vevent.updatePropertyWithValue(
@@ -211,8 +211,13 @@ export async function PATCH(
         );
       if (due != undefined)
         vevent.updatePropertyWithValue("dtend", ICAL.Time.fromJSDate(due));
-      if (rrule != undefined)
-        vevent.updatePropertyWithValue("rrule", ICAL.Recur.fromString(rrule));
+      if (rrule !== undefined) {
+        if (rrule === null) {
+          vevent.removeProperty("rrule");
+        } else {
+          vevent.updatePropertyWithValue("rrule", ICAL.Recur.fromString(rrule));
+        }
+      }
 
       const updatedIcsComp = ICAL.stringify(comp.toJSON());
       const { calDavClient } = await createCaldavClientFromDB(userId);
@@ -225,24 +230,26 @@ export async function PATCH(
       });
 
       const etag = res.headers.get("etag") ?? "";
-      console.log(updatedIcsComp);
-      console.log(res.headers);
 
       //sync local sync data
       const icsUpdates = [];
-      if (title != undefined)
+      if (title !== undefined)
         icsUpdates.push({ name: "summary", value: title });
-      if (description != undefined)
+      if (description !== undefined)
         icsUpdates.push({ name: "description", value: description });
-      if (dtstart != undefined)
+      if (dtstart !== undefined)
         icsUpdates.push({
           name: "dtstart",
           value: ICAL.Time.fromJSDate(dtstart),
         });
-      if (due != undefined)
+      if (due !== undefined)
         icsUpdates.push({ name: "due", value: ICAL.Time.fromJSDate(due) });
-      if (rrule != undefined)
-        icsUpdates.push({ name: "rrule", value: ICAL.Recur.fromString(rrule) });
+      if (rrule !== undefined) {
+        icsUpdates.push({
+          name: "rrule",
+          value: rrule ? ICAL.Recur.fromString(rrule) : null, // updateIcs should handle null as removal
+        });
+      }
       const updatedLocalIcs = updateIcs(syncMetaData.icsData, icsUpdates);
       await prisma.syncMetaData.update({
         where: { todoId: todoToUpdate.id },
