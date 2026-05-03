@@ -105,7 +105,7 @@ const CalendarForm = ({
           priority,
           dtstart: dateRange.from,
           due: dateRange.to,
-          rrule: rruleOptions ? new RRule(rruleOptions).toString() : null,
+          rrule: rruleOptions ? new RRule(rruleOptions).toString().replace("RRULE:", "") : null,
           projectID
         }}
         rruleChecksum={rruleChecksum!}

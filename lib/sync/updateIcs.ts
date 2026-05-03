@@ -24,6 +24,7 @@ export function updateIcs(
 
   for (const { name, value } of updates) {
     vevent.removeAllProperties(name);
+    if (value === null) continue;
     if (Array.isArray(value)) {
       for (const v of value) vevent.addPropertyWithValue(name, v);
     } else {
