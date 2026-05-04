@@ -13,6 +13,7 @@ export async function upsertTodosFromCalendarObjects(
       objects.map(async (uo) => {
         const parsed = parseIcsData(uo.data);
         if (!parsed) return null;
+        const { master, instances } = parsed;
 
         const fullUrl =
           serverUrl && !uo.url.startsWith("http")
@@ -26,45 +27,79 @@ export async function upsertTodosFromCalendarObjects(
           return tx.todo.create({
             data: {
               userID: userId,
-              title: parsed.title ?? "Untitled",
-              description: parsed.description,
-              dtstart: parsed.dtstart,
-              due: parsed.due,
-              durationMinutes: parsed.durationMinutes,
-              rrule: parsed.rrule,
-              exdates: parsed.exdates,
-              timeZone: parsed.timeZone,
-              priority: parsed.priority,
+              title: master.title ?? "Untitled",
+              description: master.description,
+              dtstart: master.dtstart,
+              due: master.due,
+              durationMinutes: master.durationMinutes,
+              rrule: master.rrule,
+              exdates: master.exdates,
+              timeZone: master.timeZone,
+              priority: master.priority,
+              instances: {
+                create: instances.map((instance) => {
+                  return {
+                    recurId: instance.recurId,
+                    instanceDate: new Date(instance.recurId),
+                    overriddenTitle: instance.overriddenTitle,
+                    overriddenDescription: instance.overriddenDescription,
+                    overriddenDtstart: instance.overriddenDtstart,
+                    overriddenDue: instance.overriddenDue,
+                    overriddenPriority: instance.overriddenPriority,
+                    overriddenDurationMinutes:
+                      instance.overriddenDurationMinutes,
+                  };
+                }),
+              },
               syncMetaData: {
                 create: {
                   caldavCalendarId: calendarId,
                   etag: uo.etag ?? "",
                   remoteUrl: fullUrl,
                   icsData: uo.data,
-                  uid: parsed.uid,
+                  uid: master.uid,
                 },
               },
             },
           });
         }
-
+        //recreate instances for easy reconcilliation
+        await tx.todoInstance.deleteMany({
+          where: {
+            todoId: syncMetaData.todoId,
+          },
+        });
         return tx.todo.update({
           where: { id: syncMetaData.todoId },
           data: {
-            title: parsed.title ?? "Untitled",
-            description: parsed.description,
-            dtstart: parsed.dtstart,
-            due: parsed.due,
-            durationMinutes: parsed.durationMinutes,
-            rrule: parsed.rrule,
-            exdates: parsed.exdates,
-            timeZone: parsed.timeZone,
-            priority: parsed.priority,
+            title: master.title ?? "Untitled",
+            description: master.description,
+            dtstart: master.dtstart,
+            due: master.due,
+            durationMinutes: master.durationMinutes,
+            rrule: master.rrule,
+            exdates: master.exdates,
+            timeZone: master.timeZone,
+            priority: master.priority,
+            instances: {
+              create: instances.map((instance) => {
+                return {
+                  recurId: instance.recurId,
+                  instanceDate: new Date(instance.recurId),
+                  overriddenTitle: instance.overriddenTitle,
+                  overriddenDescription: instance.overriddenDescription,
+                  overriddenDtstart: instance.overriddenDtstart,
+                  overriddenDue: instance.overriddenDue,
+                  overriddenPriority: instance.overriddenPriority,
+                  overriddenDurationMinutes: instance.overriddenDurationMinutes,
+                };
+              }),
+            },
             syncMetaData: {
               update: {
                 etag: uo.etag ?? "",
                 icsData: uo.data,
-                uid: parsed.uid,
+                uid: master.uid,
               },
             },
           },
