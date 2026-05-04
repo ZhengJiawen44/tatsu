@@ -52,7 +52,7 @@ export const todoSchema = z.object({
     .string({ message: "title cannot be left empty" })
     .trim()
     .min(1, { message: "title cannot be left empty" }),
-  description: z.string().optional(),
+  description: z.string().optional().nullable(),
   priority: z.enum(["Low", "Medium", "High"], {
     errorMap: () => ({ message: "priority must be one of: low, medium, high" }),
   }),
@@ -67,7 +67,7 @@ export const todoInstanceSchema = z.object({
     .string({ message: "title cannot be left empty" })
     .trim()
     .min(1, { message: "title cannot be left empty" }),
-  description: z.string().optional(),
+  description: z.string().optional().nullable(),
   priority: z.enum(["Low", "Medium", "High"], {
     errorMap: () => ({ message: "priority must be one of: low, medium, high" }),
   }),
