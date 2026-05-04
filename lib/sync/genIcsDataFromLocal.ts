@@ -1,11 +1,12 @@
 import ICAL from "ical.js";
 
 interface createICSDataProps {
-  summary: string;
-  description?: string;
-  start: Date;
-  end: Date;
-  rrule: string | null;
+  summary: string | undefined;
+  description?: string | undefined;
+  start: Date | undefined;
+  end: Date | undefined;
+  rrule?: string | null | undefined;
+  recurrenceID?: string;
 }
 export function genICSData({
   summary,
@@ -13,6 +14,7 @@ export function genICSData({
   start,
   end,
   rrule,
+  recurrenceID,
 }: createICSDataProps) {
   const cal = new ICAL.Component(["vcalendar", [], []]);
   cal.updatePropertyWithValue("prodid", "-//Tatsu//EN");
@@ -24,7 +26,7 @@ export function genICSData({
     ICAL.Time.fromJSDate(new Date(), true),
   );
   event.updatePropertyWithValue("uid", crypto.randomUUID());
-  event.updatePropertyWithValue("summary", summary);
+  if (summary) event.updatePropertyWithValue("summary", summary);
   if (description) {
     event.updatePropertyWithValue("description", description);
   }
@@ -42,6 +44,7 @@ export function genICSData({
     rruleProp.setValue(ICAL.Recur.fromString(rrule));
     event.addProperty(rruleProp);
   }
+  // if(recurrenceID)event.updatePropertyWithValue("reccurenceID", )
 
   cal.addSubcomponent(event);
   return cal.toString();
