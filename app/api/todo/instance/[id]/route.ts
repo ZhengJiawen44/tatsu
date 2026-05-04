@@ -1,4 +1,8 @@
-import { BadRequestError, UnauthorizedError } from "@/lib/customError";
+import {
+  BadRequestError,
+  InternalError,
+  UnauthorizedError,
+} from "@/lib/customError";
 import { prisma } from "@/lib/prisma/client";
 import { NextRequest, NextResponse } from "next/server";
 import { Priority } from "@prisma/client";
@@ -9,6 +13,7 @@ import createCaldavClientFromDB from "@/lib/sync/createCaldavClientFromDB";
 import ICAL from "ical.js";
 import { parseIcsToVeventComponent } from "@/lib/sync/parseIcsToComponent";
 import { updateIcs } from "@/lib/sync/updateIcs";
+import { genICSData } from "@/lib/sync/genIcsDataFromLocal";
 
 export async function PATCH(
   req: NextRequest,
@@ -46,6 +51,50 @@ export async function PATCH(
 
     if (!dtstart) {
       throw new BadRequestError("dtstart is required to update a TodoInstance");
+    }
+    const todoToUpdate = await prisma.todo.findUnique({
+      where: {
+        userID: user.id,
+        id,
+      },
+      include: {
+        syncMetaData: {
+          include: { caldavCalendar: true },
+        },
+      },
+    });
+
+    const syncMetaData = todoToUpdate?.syncMetaData;
+    const calendar = todoToUpdate?.syncMetaData?.caldavCalendar;
+
+    if (syncMetaData) {
+      if (!calendar)
+        throw new InternalError(
+          "couldnt find remote calendar this todo belongs to",
+        );
+      if (dtstart === null || due === null)
+        throw new BadRequestError(
+          "todos synced to remote cannot have null dtstart or due",
+        );
+
+      const { calDavClient } = await createCaldavClientFromDB(user.id);
+      const iCalString = genICSData({
+        summary: title,
+        description,
+        start: dtstart,
+        end: due,
+      });
+      calDavClient.createCalendarObject({
+        calendar: {
+          ...calendar,
+          timezone: calendar.timezone ?? undefined,
+          ctag: calendar.ctag ?? undefined,
+          syncToken: calendar.syncToken ?? undefined,
+          components: calendar.components as string[],
+        },
+        iCalString,
+        filename: crypto.randomUUID(),
+      });
     }
 
     await prisma.todoInstance.upsert({
