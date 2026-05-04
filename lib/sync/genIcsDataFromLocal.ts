@@ -2,7 +2,7 @@ import ICAL from "ical.js";
 
 interface createICSDataProps {
   summary: string | undefined;
-  description?: string | undefined;
+  description?: string | undefined | null;
   start: Date | undefined;
   end: Date | undefined;
   rrule?: string | null | undefined;
@@ -14,7 +14,6 @@ export function genICSData({
   start,
   end,
   rrule,
-  recurrenceID,
 }: createICSDataProps) {
   const cal = new ICAL.Component(["vcalendar", [], []]);
   cal.updatePropertyWithValue("prodid", "-//Tatsu//EN");

@@ -13,7 +13,6 @@ import ProjectSidebarItemContainer from "./Project/ProjectsSidebarItemContainer"
 import LineSeparator from "../ui/lineSeparator";
 import FeedbackForm from "./Feedback/FeedbackForm";
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const SidebarContainer = () => {
   const sidebarRef = useRef<HTMLDivElement | null>(null);
   const { isResizing, setIsResizing, showMenu } = useMenu();

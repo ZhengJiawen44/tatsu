@@ -30,6 +30,7 @@ export default function KeyboardShortcutsModal({
     { name: shortcutsDict("navigation.completed"), shortcutKey: ["G", "D"] },
     { name: shortcutsDict("navigation.vault"), shortcutKey: ["G", "V"] },
   ]
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   const searchList = useMemo(() => [...todoShortcuts, ...calendarShortcuts, ...navigationShortcuts].filter(({ name }) => { return name.toLocaleLowerCase().includes(keyword.toLocaleLowerCase()) }), [keyword])
 
 
