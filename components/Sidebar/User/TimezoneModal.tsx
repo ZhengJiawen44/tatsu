@@ -19,6 +19,7 @@ export default function KeyboardShortcuts({
     const searchList = useMemo(() => {
         if (!keyword.length) return timezoneList;
         return timezoneList.filter((timezone) => { return timezone.toLocaleLowerCase().includes(keyword.toLocaleLowerCase()) })
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [keyword])
     return (
         <Modal open={open} onOpenChange={onOpenChange}>

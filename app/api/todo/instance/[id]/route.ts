@@ -80,7 +80,7 @@ export async function PATCH(
       const { calDavClient } = await createCaldavClientFromDB(user.id);
       const iCalString = genICSData({
         summary: title,
-        description,
+        description: description,
         start: dtstart,
         end: due,
       });
