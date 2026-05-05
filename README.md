@@ -65,7 +65,6 @@ To stop the dev server `docker compose -f docker-compose.dev.yml down`
 
 
 ## 7. Running Locally without Docker
-
 ### Prerequisites
 - Node.js 18+ installed
 - PostgreSQL 12+ installed
