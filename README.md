@@ -4,6 +4,8 @@
 ![License](https://img.shields.io/github/license/zhengjiawen44/tatsu)
 ![TypeScript](https://img.shields.io/badge/TypeScript-3178C6?logo=typescript&logoColor=white)
 ![Last Commit](https://img.shields.io/github/last-commit/zhengjiawen44/tatsu)
+[![contributions welcome](https://img.shields.io/badge/contributions-welcome-brightgreen.svg?style=flat)](https://github.com/dwyl/esta/issues)
+
 # Tatsu - The Ultimate Todo App
 
 ![hero](public/hero.webp)
