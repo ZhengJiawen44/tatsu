@@ -73,6 +73,14 @@ To stop the dev server `docker compose -f docker-compose.dev.yml down`
 - PostgreSQL 12+ installed
 
 ---
+## 7. Running Locally without Docker
+
+### Prerequisites
+
+- Node.js 18+ installed
+- PostgreSQL 12+ installed
+
+---
 
 ### PostgreSQL Setup
 
@@ -105,47 +113,7 @@ For other operating systems, refer to the [official PostgreSQL documentation](ht
 
 ---
 
-#### 7.2. Configure PostgreSQL Authentication
-
-> [!NOTE]
-> **Note**: This step may not be necessary depending on your PostgreSQL installation. If you can already connect using `psql -U myuser -d tastuDB -h localhost -W` with a password, skip this step.
-
-**Fedora/RHEL**
-
-Edit the PostgreSQL configuration file to allow password authentication:
-
-```bash
-sudo nano /var/lib/pgsql/data/pg_hba.conf
-```
-
-**macOS**
-
-```bash
-nano /opt/homebrew/var/postgresql@15/pg_hba.conf
-```
-
-In both cases, change the following lines from `ident` (or `trust` on macOS) to `md5`:
-
-```
-# IPv4 local connections:
-host    all             all             127.0.0.1/32            md5
-# IPv6 local connections:
-host    all             all             ::1/128                 md5
-```
-
-Restart PostgreSQL to apply changes:
-
-```bash
-# Fedora/RHEL
-sudo systemctl restart postgresql
-
-# macOS
-brew services restart postgresql@15
-```
-
----
-
-#### 7.3. Create Database User and Database
+#### 7.2. Create Database User and Database
 
 Connect to PostgreSQL as the postgres superuser:
 
@@ -175,7 +143,7 @@ CREATE DATABASE tastuDB OWNER myuser;
 
 ---
 
-#### 7.4. Verify Connection
+#### 7.3. Verify Connection
 
 Test that you can connect with the new user:
 
@@ -216,6 +184,33 @@ npm run dev
 ```
 
 Then, open http://localhost:3000 in your browser.
+
+---
+
+### Common Issues
+
+#### Cannot connect using password authentication (Fedora/RHEL)
+
+By default, PostgreSQL on Fedora/RHEL uses `ident` authentication, which may prevent password-based login. If you are unable to connect using `psql -U myuser -d tastuDB -h localhost -W`, edit the PostgreSQL configuration file to allow password authentication:
+
+```bash
+sudo nano /var/lib/pgsql/data/pg_hba.conf
+```
+
+Change the following lines from `ident` to `md5`:
+
+```
+# IPv4 local connections:
+host    all             all             127.0.0.1/32            md5
+# IPv6 local connections:
+host    all             all             ::1/128                 md5
+```
+
+Restart PostgreSQL to apply changes:
+
+```bash
+sudo systemctl restart postgresql
+```
 
 ### Additional Prisma Commands
 
