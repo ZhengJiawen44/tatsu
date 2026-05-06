@@ -4,7 +4,7 @@ services:
     container_name: postgres_db
     restart: always
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U myuser -d mydb"]
+      test: ['CMD-SHELL', 'pg_isready -U myuser -d mydb']
       interval: 3s
       timeout: 5s
       retries: 10
@@ -13,7 +13,7 @@ services:
       POSTGRES_PASSWORD: mypass
       POSTGRES_DB: mydb
     ports:
-      - "5432:5432"
+      - '5432:5432'
     volumes:
       - postgres_data:/var/lib/postgresql/data
   tatsu:
@@ -21,12 +21,12 @@ services:
     container_name: tatsu_app
     restart: always
     ports:
-      - "3000:3000"
+      - '3000:3000'
     environment:
-      DATABASE_URL: postgresql://myuser:mypass@database:5432/mydb
+      DATABASE_URL: ${DATABASE_URL:-postgresql://myuser:mypass@database:5432/mydb}
       NODE_ENV: production
-      NEXTAUTH_URL: http://localhost:3000
-      AUTH_TRUST_HOST: "true"
+      NEXTAUTH_URL: ${NEXTAUTH_URL:-http://localhost:3000}
+      AUTH_TRUST_HOST: ${AUTH_TRUST_HOST:-true}
       AUTH_SECRET: ${AUTH_SECRET}
       CRONJOB_SECRET: ${CRONJOB_SECRET}
       AUTH_GOOGLE_ID: ${AUTH_GOOGLE_ID}
