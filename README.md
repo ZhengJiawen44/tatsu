@@ -65,15 +65,21 @@ docker compose down
 
 To stop the dev server `docker compose -f docker-compose.dev.yml down`
 
-
 ## 7. Running Locally without Docker
+
 ### Prerequisites
+
 - Node.js 18+ installed
 - PostgreSQL 12+ installed
 
+---
+
 ### PostgreSQL Setup
 
-#### 7.1. Install PostgreSQL (Fedora/RHEL)
+#### 7.1. Install PostgreSQL
+
+**Fedora/RHEL**
+
 ```bash
 sudo dnf install postgresql postgresql-server
 sudo postgresql-setup --initdb
@@ -81,11 +87,30 @@ sudo systemctl start postgresql
 sudo systemctl enable postgresql
 ```
 
+**macOS (Homebrew)**
+
+```bash
+brew install postgresql@15
+brew services start postgresql@15
+```
+
+> [!NOTE]
+> Add the PostgreSQL binaries to your PATH if the `psql` command is not found:
+> ```bash
+> echo 'export PATH="/opt/homebrew/opt/postgresql@15/bin:$PATH"' >> ~/.zshrc
+> source ~/.zshrc
+> ```
+
 For other operating systems, refer to the [official PostgreSQL documentation](https://www.postgresql.org/download/).
 
+---
+
 #### 7.2. Configure PostgreSQL Authentication
+
 > [!NOTE]
-> **Note**: This step may not be necessary depending on your PostgreSQL installation. If you can already connect using `psql -U myuser -d mydb -h localhost -W` with a password, skip this step.
+> **Note**: This step may not be necessary depending on your PostgreSQL installation. If you can already connect using `psql -U myuser -d tastuDB -h localhost -W` with a password, skip this step.
+
+**Fedora/RHEL**
 
 Edit the PostgreSQL configuration file to allow password authentication:
 
@@ -93,7 +118,13 @@ Edit the PostgreSQL configuration file to allow password authentication:
 sudo nano /var/lib/pgsql/data/pg_hba.conf
 ```
 
-Change the following lines from `ident` to `md5`:
+**macOS**
+
+```bash
+nano /opt/homebrew/var/postgresql@15/pg_hba.conf
+```
+
+In both cases, change the following lines from `ident` (or `trust` on macOS) to `md5`:
 
 ```
 # IPv4 local connections:
@@ -105,18 +136,28 @@ host    all             all             ::1/128                 md5
 Restart PostgreSQL to apply changes:
 
 ```bash
+# Fedora/RHEL
 sudo systemctl restart postgresql
+
+# macOS
+brew services restart postgresql@15
 ```
+
+---
 
 #### 7.3. Create Database User and Database
 
 Connect to PostgreSQL as the postgres superuser:
 
 ```bash
+# Fedora/RHEL
 sudo -u postgres psql
+
+# macOS
+psql postgres
 ```
 
-Create a user with a password and necessary privileges:
+Create a user with a password and the necessary privileges:
 
 ```sql
 -- Create user with password
@@ -126,35 +167,42 @@ CREATE USER myuser WITH PASSWORD 'mypass';
 ALTER USER myuser CREATEDB;
 
 -- Create the database with myuser as owner
-CREATE DATABASE mydb OWNER myuser;
+CREATE DATABASE tastuDB OWNER myuser;
 
 -- Exit psql
 \q
 ```
+
+---
 
 #### 7.4. Verify Connection
 
 Test that you can connect with the new user:
 
 ```bash
-psql -U myuser -d mydb -h localhost -W
+psql -U myuser -d tastuDB -h localhost -W
 ```
 
 Enter your password when prompted. If successful, you'll see the psql prompt. Type `\q` to exit.
 
+---
+
 ### Application Setup
 
 Install dependencies:
+
 ```bash
 npm install
 ```
 
 Copy `.env.example` to `.env` and update with your PostgreSQL credentials:
+
 ```bash
-DATABASE_URL="postgresql://myuser:mypass@localhost:5432/mydb"
+DATABASE_URL="postgresql://myuser:mypass@localhost:5432/tastuDB"
 ```
 
 Run Prisma migrations to set up the database schema:
+
 ```bash
 npx prisma migrate dev --name init
 ```
@@ -162,6 +210,7 @@ npx prisma migrate dev --name init
 This will create all the necessary tables in your database.
 
 Start the development server:
+
 ```bash
 npm run dev
 ```
