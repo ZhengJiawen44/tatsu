@@ -72,7 +72,7 @@ To stop the dev server `docker compose -f docker-compose.dev.yml down`
 - Node.js 18+ installed
 - PostgreSQL 12+ installed
 
----
+
 ## 7. Running Locally without Docker
 
 ### Prerequisites
@@ -80,7 +80,7 @@ To stop the dev server `docker compose -f docker-compose.dev.yml down`
 - Node.js 18+ installed
 - PostgreSQL 12+ installed
 
----
+
 
 ### PostgreSQL Setup
 
@@ -111,7 +111,7 @@ brew services start postgresql@15
 
 For other operating systems, refer to the [official PostgreSQL documentation](https://www.postgresql.org/download/).
 
----
+
 
 #### 7.2. Create Database User and Database
 
