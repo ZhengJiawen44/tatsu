@@ -141,7 +141,6 @@ CREATE DATABASE tastuDB OWNER myuser;
 \q
 ```
 
----
 
 #### 7.3. Verify Connection
 
@@ -153,7 +152,6 @@ psql -U myuser -d tastuDB -h localhost -W
 
 Enter your password when prompted. If successful, you'll see the psql prompt. Type `\q` to exit.
 
----
 
 ### Application Setup
 
