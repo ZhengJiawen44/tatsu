@@ -68,7 +68,7 @@ contributing to the project is exceedingly easy.
 To stop the dev server `docker compose -f docker-compose.dev.yml down`
 
 ## 7. Running Locally without Docker
-this guide is too long, you can find it [here](https://github.com/ZhengJiawen44/tatsu/wiki)
+this guide is too long, it is moved to [tatsu wiki](https://github.com/ZhengJiawen44/tatsu/wiki)
 
 ## 8. Fonts
 This project uses next/font for optimized font loading. It features Poppins, a modern and elegant font from Google.
