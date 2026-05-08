@@ -68,14 +68,7 @@ contributing to the project is exceedingly easy.
 To stop the dev server `docker compose -f docker-compose.dev.yml down`
 
 ## 7. Running Locally without Docker
-
-### Prerequisites
-
-- Node.js 18+ installed
-- PostgreSQL 12+ installed
-
-
-
+this guide is too long, you can find it [https://github.com/ZhengJiawen44/tatsu/wiki](here)
 
 ## 8. Fonts
 This project uses next/font for optimized font loading. It features Poppins, a modern and elegant font from Google.
