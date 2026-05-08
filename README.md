@@ -22,6 +22,7 @@ Tatsu is a todo app on steroids, designed to keep you motivated and productive.
    View all your tasks at a glance with monthly, weekly, and daily layouts to stay organized.
 
 3. **Two way caldendar Sync**
+   
    all synced objects from external caldav servers are treated as first class citizens in Tatsu, this means that you can do everything you    already can to synced objects like any other todos. Many todo implementations restrict what you can do with synced objects. Tatsu strives to blend the differences to offer a more seamless experience. (this part looks like AI but it is infact written by me)
 
 5. **Notion-like Editor**  
