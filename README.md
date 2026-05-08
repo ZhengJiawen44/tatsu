@@ -58,7 +58,8 @@ To stop the containers:
 docker compose down
 ```
 
-## 6. Local Development with Docker
+## 6. Local Development with Docker (hot module referesh supported)
+contributing to the project is exceedingly easy.
 1. Git clone this repository
 2. Copy `.env.example` to `.env` and fill in the required values.
 3. start the dev server `docker compose -f docker-compose.dev.yml up`
