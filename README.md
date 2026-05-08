@@ -63,6 +63,7 @@ contributing to the project is exceedingly easy.
 1. Git clone this repository
 2. Copy `.env.example` to `.env` and fill in the required values.
 3. start the dev server `docker compose -f docker-compose.dev.yml up`
+4. make edits to the code base and see changes in real time.
 
 To stop the dev server `docker compose -f docker-compose.dev.yml down`
 
