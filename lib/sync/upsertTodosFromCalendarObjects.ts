@@ -23,6 +23,7 @@ export async function upsertTodosFromCalendarObjects(
           where: { remoteUrl: fullUrl },
         });
 
+        // if uo is new
         if (!syncMetaData) {
           return tx.todo.create({
             data: {
@@ -36,6 +37,15 @@ export async function upsertTodosFromCalendarObjects(
               exdates: master.exdates,
               timeZone: master.timeZone,
               priority: master.priority,
+              syncMetaData: {
+                create: {
+                  caldavCalendarId: calendarId,
+                  etag: uo.etag ?? "",
+                  remoteUrl: fullUrl,
+                  icsData: uo.data,
+                  uid: master.uid,
+                },
+              },
               instances: {
                 create: instances.map((instance) => {
                   return {
@@ -51,19 +61,11 @@ export async function upsertTodosFromCalendarObjects(
                   };
                 }),
               },
-              syncMetaData: {
-                create: {
-                  caldavCalendarId: calendarId,
-                  etag: uo.etag ?? "",
-                  remoteUrl: fullUrl,
-                  icsData: uo.data,
-                  uid: master.uid,
-                },
-              },
             },
           });
         }
-        //recreate instances for easy reconcilliation
+        // if this uo was already synced to
+        // recreate instances for easy reconcilliation
         await tx.todoInstance.deleteMany({
           where: {
             todoId: syncMetaData.todoId,
@@ -81,6 +83,13 @@ export async function upsertTodosFromCalendarObjects(
             exdates: master.exdates,
             timeZone: master.timeZone,
             priority: master.priority,
+            syncMetaData: {
+              update: {
+                etag: uo.etag ?? "",
+                icsData: uo.data,
+                uid: master.uid,
+              },
+            },
             instances: {
               create: instances.map((instance) => {
                 return {
@@ -95,18 +104,10 @@ export async function upsertTodosFromCalendarObjects(
                 };
               }),
             },
-            syncMetaData: {
-              update: {
-                etag: uo.etag ?? "",
-                icsData: uo.data,
-                uid: master.uid,
-              },
-            },
           },
         });
       }),
     );
-
     return results.filter((r) => r !== null);
   });
 }
