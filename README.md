@@ -4,6 +4,8 @@
 ![License](https://img.shields.io/github/license/zhengjiawen44/tatsu)
 ![TypeScript](https://img.shields.io/badge/TypeScript-3178C6?logo=typescript&logoColor=white)
 ![Last Commit](https://img.shields.io/github/last-commit/zhengjiawen44/tatsu)
+[![contributions welcome](https://img.shields.io/badge/contributions-welcome-brightgreen.svg?style=flat)](https://github.com/dwyl/esta/issues)
+
 # Tatsu - The Ultimate Todo App
 
 ![hero](public/hero.webp)
@@ -19,10 +21,14 @@ Tatsu is a todo app on steroids, designed to keep you motivated and productive.
 2. **Calendar View**  
    View all your tasks at a glance with monthly, weekly, and daily layouts to stay organized.
 
-3. **Notion-like Editor**  
+3. **Two way caldendar Sync**
+   
+   all synced objects from external caldav servers are treated as first class citizens in Tatsu, this means that you can do everything you    already can to synced objects like any other todos. Many todo implementations restrict what you can do with synced objects. Tatsu strives to blend the differences to offer a more seamless experience. (this part looks like AI but it is infact written by me)
+
+5. **Notion-like Editor**  
    A powerful and intuitive editor for structured note-taking and task management.
 
-4. **End-to-End Encrypted File Uploads**  
+6. **End-to-End Encrypted File Uploads**  
    Securely upload and manage files with full end-to-end encryption to protect your data.
 
    More exciting features coming soon!!
@@ -56,122 +62,16 @@ To stop the containers:
 docker compose down
 ```
 
-## 6. Local Development with Docker
+## 6. Local Development with Docker (hmr included)
 1. Git clone this repository
 2. Copy `.env.example` to `.env` and fill in the required values.
 3. start the dev server `docker compose -f docker-compose.dev.yml up`
+4. make edits to the code base and see changes in real time.
 
 To stop the dev server `docker compose -f docker-compose.dev.yml down`
 
-
 ## 7. Running Locally without Docker
-
-### Prerequisites
-- Node.js 18+ installed
-- PostgreSQL 12+ installed
-
-### PostgreSQL Setup
-
-#### 7.1. Install PostgreSQL (Fedora/RHEL)
-```bash
-sudo dnf install postgresql postgresql-server
-sudo postgresql-setup --initdb
-sudo systemctl start postgresql
-sudo systemctl enable postgresql
-```
-
-For other operating systems, refer to the [official PostgreSQL documentation](https://www.postgresql.org/download/).
-
-#### 7.2. Configure PostgreSQL Authentication
-> [!NOTE]
-> **Note**: This step may not be necessary depending on your PostgreSQL installation. If you can already connect using `psql -U myuser -d mydb -h localhost -W` with a password, skip this step.
-
-Edit the PostgreSQL configuration file to allow password authentication:
-
-```bash
-sudo nano /var/lib/pgsql/data/pg_hba.conf
-```
-
-Change the following lines from `ident` to `md5`:
-
-```
-# IPv4 local connections:
-host    all             all             127.0.0.1/32            md5
-# IPv6 local connections:
-host    all             all             ::1/128                 md5
-```
-
-Restart PostgreSQL to apply changes:
-
-```bash
-sudo systemctl restart postgresql
-```
-
-#### 7.3. Create Database User and Database
-
-Connect to PostgreSQL as the postgres superuser:
-
-```bash
-sudo -u postgres psql
-```
-
-Create a user with a password and necessary privileges:
-
-```sql
--- Create user with password
-CREATE USER myuser WITH PASSWORD 'mypass';
-
--- Grant create database privilege (required for Prisma migrations)
-ALTER USER myuser CREATEDB;
-
--- Create the database with myuser as owner
-CREATE DATABASE mydb OWNER myuser;
-
--- Exit psql
-\q
-```
-
-#### 7.4. Verify Connection
-
-Test that you can connect with the new user:
-
-```bash
-psql -U myuser -d mydb -h localhost -W
-```
-
-Enter your password when prompted. If successful, you'll see the psql prompt. Type `\q` to exit.
-
-### Application Setup
-
-Install dependencies:
-```bash
-npm install
-```
-
-Copy `.env.example` to `.env` and update with your PostgreSQL credentials:
-```bash
-DATABASE_URL="postgresql://myuser:mypass@localhost:5432/mydb"
-```
-
-Run Prisma migrations to set up the database schema:
-```bash
-npx prisma migrate dev --name init
-```
-
-This will create all the necessary tables in your database.
-
-Start the development server:
-```bash
-npm run dev
-```
-
-Then, open http://localhost:3000 in your browser.
-
-### Additional Prisma Commands
-
-- **Generate Prisma Client**: `npx prisma generate`
-- **Open Prisma Studio** (database GUI): `npx prisma studio`
-- **Reset database** (drops all data): `npx prisma migrate reset`
+this guide is too long, it is moved to [tatsu wiki](https://github.com/ZhengJiawen44/tatsu/wiki)
 
 ## 8. Fonts
 This project uses next/font for optimized font loading. It features Poppins, a modern and elegant font from Google.

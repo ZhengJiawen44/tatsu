@@ -1,7 +1,14 @@
 import { DAVObject } from "tsdav";
 import { prisma } from "../prisma/client";
 import { parseIcsData } from "./parseIcsDataToLocal";
-
+/**insert or update todos from calendar objects*/
+/**
+ * @param objects - array of calendar objects
+ * @param calendarId - id of the calendar
+ * @param userId - id of the user
+ * @param serverUrl - url of the server
+ * @returns array of results
+ */
 export async function upsertTodosFromCalendarObjects(
   objects: DAVObject[],
   calendarId: string,
