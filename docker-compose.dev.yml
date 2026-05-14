@@ -4,7 +4,7 @@ services:
     container_name: postgres_db
     restart: always
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U myuser -d mydb"]
+      test: ['CMD-SHELL', 'pg_isready -U myuser -d mydb']
       interval: 3s
       timeout: 5s
       retries: 10
@@ -13,7 +13,7 @@ services:
       POSTGRES_PASSWORD: mypass
       POSTGRES_DB: mydb
     ports:
-      - "5432:5432"
+      - '5432:5432'
     volumes:
       - postgres_data:/var/lib/postgresql/data
 
@@ -25,9 +25,10 @@ services:
     volumes:
       - .:/app # mount the local source code
       - /app/node_modules
-    command: sh -c "npx prisma migrate deploy && npm run dev"
+    command: sh -c "npx prisma migrate deploy && npx prisma studio & npm run dev"
     ports:
-      - "3000:3000"
+      - '3000:3000'
+      - '5555:5555'
     environment:
       DATABASE_URL: ${DATABASE_URL:-postgresql://myuser:mypass@database:5432/mydb}
       NEXTAUTH_URL: ${NEXTAUTH_URL:-http://localhost:3000}
