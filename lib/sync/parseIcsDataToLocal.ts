@@ -132,10 +132,6 @@ function parseRecurrenceOverride(
   const title = veventTitle(core);
   const dtstartJs = core.dtstart?.toJSDate() ?? null;
   const dueJs = core.dtend?.toJSDate() ?? null;
-
-  const masterStart = master.dtstart?.getTime();
-  const masterDue = master.due?.getTime();
-
   return {
     instanceDate,
     recurId,
@@ -144,27 +140,20 @@ function parseRecurrenceOverride(
       core.description !== masterCore.description ? core.description : null,
     overriddenPriority:
       core.priority !== masterCore.priority ? core.priority : null,
-    overriddenDtstart:
-      dtstartJs != null &&
-      (masterStart === undefined || dtstartJs.getTime() !== masterStart)
-        ? dtstartJs
-        : null,
-    overriddenDue:
-      dueJs != null &&
-      (masterDue === undefined || dueJs.getTime() !== masterDue)
-        ? dueJs
-        : null,
-    overriddenDurationMinutes:
-      core.durationMinutes !== master.durationMinutes
-        ? core.durationMinutes
-        : null,
+    overriddenDtstart: dtstartJs,
+    overriddenDue: dueJs,
+    overriddenDurationMinutes: core.durationMinutes,
   };
 }
 
 /**
- * Parses all `VEVENT` components: master = no `RECURRENCE-ID`; overrides = with `RECURRENCE-ID` and same series `UID`.
+ * parses all VEVENT components in the Ics into ParsedIcsDataWithInstances.
+ * where master is the ICAL.component with no `RECURRENCE-ID`;
+ * overrides is the ICAL.component with `RECURRENCE-ID` and same series `UID`.
+ * @param icsData string
+ * @returns \{master, instances}
  */
-export function parseIcsDataWithInstances(
+export function parseIcsData(
   icsData: string,
 ): ParsedIcsDataWithInstances | null {
   const comp = parseIcsToVeventComponent(icsData);
@@ -186,13 +175,5 @@ export function parseIcsDataWithInstances(
     const ov = parseRecurrenceOverride(v, master, masterCore);
     if (ov) instances.push(ov);
   }
-
   return { master, instances };
-}
-
-export function parseIcsData(
-  icsData: string,
-): ParsedIcsDataWithInstances | null {
-  const full = parseIcsDataWithInstances(icsData);
-  return full ?? null;
 }
