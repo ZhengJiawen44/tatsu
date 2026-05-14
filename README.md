@@ -62,7 +62,7 @@ To stop the containers:
 docker compose down
 ```
 
-## 6. Local Development with Docker (hmr included)
+## 6. Local Development with Docker
 you get:
 1. hot module refresh.
 2. prisma server on localhost:5555
