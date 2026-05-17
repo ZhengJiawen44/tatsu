@@ -1,108 +1,93 @@
-import {
-  BadRequestError,
-  InternalError,
-  UnauthorizedError,
-} from "@/lib/customError";
-import { prisma } from "@/lib/prisma/client";
-import { NextRequest, NextResponse } from "next/server";
-import { Priority } from "@prisma/client";
-import { todoSchema } from "@/schema";
-import { auth } from "@/app/auth";
-import { errorHandler } from "@/lib/errorHandler";
-import createCaldavClientFromDB from "@/lib/sync/createCaldavClientFromDB";
-import ICAL from "ical.js";
-import { parseIcsToVeventComponent } from "@/lib/sync/parseIcsToComponent";
-import { updateIcs } from "@/lib/sync/updateIcs";
-import { genICSData } from "@/lib/sync/genIcsDataFromLocal";
+import { BadRequestError, InternalError, UnauthorizedError } from '@/lib/customError'
+import { prisma } from '@/lib/prisma/client'
+import { NextRequest, NextResponse } from 'next/server'
+import { Priority } from '@prisma/client'
+import { todoSchema } from '@/schema'
+import { auth } from '@/app/auth'
+import { errorHandler } from '@/lib/errorHandler'
+import createCaldavClientFromDB from '@/lib/sync/createCaldavClientFromDB'
+import ICAL from 'ical.js'
+import { parseIcsToVeventComponent } from '@/lib/sync/parseIcsToComponent'
+import { updateIcs } from '@/lib/sync/updateIcs'
+import { genICSData } from '@/lib/sync/genIcsDataFromLocal'
 
-export async function PATCH(
-  req: NextRequest,
-  { params }: { params: Promise<{ id: string }> },
-) {
+export async function PATCH(req: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   try {
-    const session = await auth();
-    const user = session?.user;
+    const session = await auth()
+    const user = session?.user
 
-    if (!user?.id)
-      throw new UnauthorizedError("You must be logged in to do this");
+    if (!user?.id) throw new UnauthorizedError('You must be logged in to do this')
 
-    const { id } = await params;
-    if (!id) throw new BadRequestError("Invalid request, ID is required");
+    const { id } = await params
+    if (!id) throw new BadRequestError('Invalid request, ID is required')
 
-    let body = await req.json();
+    let body = await req.json()
 
     if (!body.instanceDate) {
-      throw new BadRequestError(
-        "instanceDate is required to update a TodoInstance",
-      );
+      throw new BadRequestError('instanceDate is required to update a TodoInstance')
     }
 
     body = {
       ...body,
       dtstart: new Date(body.dtstart),
       due: new Date(body.due),
-      instanceDate: new Date(body.instanceDate),
-    };
-    const parsedObj = todoSchema.partial().safeParse(body);
-    if (!parsedObj.success) throw new BadRequestError("Invalid request body");
+      instanceDate: new Date(body.instanceDate)
+    }
+    const parsedObj = todoSchema.partial().safeParse(body)
+    if (!parsedObj.success) throw new BadRequestError('Invalid request body')
 
-    const { title, description, priority, dtstart, due } = parsedObj.data;
-    const { instanceDate } = body;
+    const { title, description, priority, dtstart, due } = parsedObj.data
+    const { instanceDate } = body
 
     if (!dtstart) {
-      throw new BadRequestError("dtstart is required to update a TodoInstance");
+      throw new BadRequestError('dtstart is required to update a TodoInstance')
     }
     const todoToUpdate = await prisma.todo.findUnique({
       where: {
         userID: user.id,
-        id,
+        id
       },
       include: {
         syncMetaData: {
-          include: { caldavCalendar: true },
-        },
-      },
-    });
+          include: { caldavCalendar: true }
+        }
+      }
+    })
 
-    const syncMetaData = todoToUpdate?.syncMetaData;
-    const calendar = todoToUpdate?.syncMetaData?.caldavCalendar;
+    const syncMetaData = todoToUpdate?.syncMetaData
+    const calendar = todoToUpdate?.syncMetaData?.caldavCalendar
 
     if (syncMetaData) {
-      if (!calendar)
-        throw new InternalError(
-          "couldnt find remote calendar this todo belongs to",
-        );
+      if (!calendar) throw new InternalError('couldnt find remote calendar this todo belongs to')
       if (dtstart === null || due === null)
-        throw new BadRequestError(
-          "todos synced to remote cannot have null dtstart or due",
-        );
+        throw new BadRequestError('todos synced to remote cannot have null dtstart or due')
 
-      const { calDavClient } = await createCaldavClientFromDB(user.id);
+      const { calDavClient } = await createCaldavClientFromDB(user.id)
       const iCalString = genICSData({
         summary: title,
         description: description,
         start: dtstart,
-        end: due,
-      });
+        end: due
+      })
       calDavClient.createCalendarObject({
         calendar: {
           ...calendar,
           timezone: calendar.timezone ?? undefined,
           ctag: calendar.ctag ?? undefined,
           syncToken: calendar.syncToken ?? undefined,
-          components: calendar.components as string[],
+          components: calendar.components as string[]
         },
         iCalString,
-        filename: crypto.randomUUID(),
-      });
+        filename: crypto.randomUUID()
+      })
     }
 
     await prisma.todoInstance.upsert({
       where: {
         todoId_instanceDate: {
           todoId: id,
-          instanceDate,
-        },
+          instanceDate
+        }
       },
       update: {
         overriddenTitle: title,
@@ -110,10 +95,7 @@ export async function PATCH(
         overriddenPriority: priority as Priority,
         overriddenDtstart: dtstart,
         overriddenDue: due,
-        overriddenDurationMinutes:
-          dtstart && due
-            ? (due?.getTime() - dtstart?.getTime()) / (1000 * 60)
-            : undefined,
+        overriddenDurationMinutes: dtstart && due ? (due?.getTime() - dtstart?.getTime()) / (1000 * 60) : undefined
       },
       create: {
         todoId: id,
@@ -124,38 +106,30 @@ export async function PATCH(
         overriddenPriority: priority,
         overriddenDtstart: dtstart,
         overriddenDue: due,
-        overriddenDurationMinutes:
-          dtstart && due
-            ? (dtstart?.getTime() - due?.getTime()) / (1000 * 60)
-            : undefined,
-      },
-    });
+        overriddenDurationMinutes: dtstart && due ? (dtstart?.getTime() - due?.getTime()) / (1000 * 60) : undefined
+      }
+    })
 
-    return NextResponse.json({ message: "Todo updated" }, { status: 200 });
+    return NextResponse.json({ message: 'Todo updated' }, { status: 200 })
   } catch (error) {
-    return errorHandler(error);
+    return errorHandler(error)
   }
 }
 
-export async function DELETE(
-  req: NextRequest,
-  { params }: { params: Promise<{ id: string }> },
-) {
+export async function DELETE(req: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   try {
-    const session = await auth();
-    const user = session?.user;
+    const session = await auth()
+    const user = session?.user
 
-    if (!user?.id)
-      throw new UnauthorizedError("you must be logged in to do this");
+    if (!user?.id) throw new UnauthorizedError('you must be logged in to do this')
 
-    const { id } = await params;
-    const instanceDate = new Date(
-      Number(req.nextUrl.searchParams.get("instanceDate")),
-    );
+    const { id } = await params
+    const instanceDate = new Date(Number(req.nextUrl.searchParams.get('instanceDate')))
     if (!id || !instanceDate)
-      throw new BadRequestError(
-        "Invalid request, ID or instanceDate is required to do instance delete!",
-      );
+      throw new BadRequestError('Invalid request, ID or instanceDate is required to do instance delete!')
+
+    //to remove an instance first edit the ics data in the todo, and then exdate the instance date
+
     // Find and exadate the local todo
     const updatedTodo = await prisma.todo.update({
       where: { id },
@@ -165,49 +139,46 @@ export async function DELETE(
           select: {
             remoteUrl: true,
             etag: true,
-            icsData: true,
-          },
-        },
-      },
-    });
+            icsData: true
+          }
+        }
+      }
+    })
 
     //update calendar object's exdate property
-    const syncMetaData = updatedTodo.syncMetaData;
+    const syncMetaData = updatedTodo.syncMetaData
     if (syncMetaData && syncMetaData.icsData) {
-      const comp = parseIcsToVeventComponent(syncMetaData.icsData);
-      const vevent = comp.getFirstSubcomponent("vevent");
-      if (!vevent)
-        throw new Error(
-          "could not find vevent subcomponent in parsed ICS data",
-        );
-      vevent.addPropertyWithValue("exdate", ICAL.Time.fromJSDate(instanceDate));
-      const updatedIcsComp = ICAL.stringify(comp.toJSON());
-      const { calDavClient } = await createCaldavClientFromDB(user.id);
+      const comp = parseIcsToVeventComponent(syncMetaData.icsData)
+      const vevent = comp.getFirstSubcomponent('vevent')
+      if (!vevent) throw new Error('could not find vevent subcomponent in parsed ICS data')
+      vevent.addPropertyWithValue('exdate', ICAL.Time.fromJSDate(instanceDate))
+      const updatedIcsComp = ICAL.stringify(comp.toJSON())
+      const { calDavClient } = await createCaldavClientFromDB(user.id)
       const res = await calDavClient.updateCalendarObject({
         calendarObject: {
           url: syncMetaData.remoteUrl,
           etag: syncMetaData.etag,
-          data: updatedIcsComp,
-        },
-      });
+          data: updatedIcsComp
+        }
+      })
 
       //sync local sync data
       const updatedLocalIcs = updateIcs(syncMetaData.icsData, {
-        name: "exdate",
-        value: updatedTodo.exdates.map((d) => ICAL.Time.fromJSDate(d)),
-      });
-      const etag = res.headers.get("etag") ?? "";
+        name: 'exdate',
+        value: updatedTodo.exdates.map(d => ICAL.Time.fromJSDate(d))
+      })
+      const etag = res.headers.get('etag') ?? ''
       await prisma.syncMetaData.update({
         where: { todoId: updatedTodo.id },
-        data: { etag, icsData: updatedLocalIcs },
-      });
+        data: { etag, icsData: updatedLocalIcs }
+      })
     }
 
-    return NextResponse.json({ message: "todo deleted" }, { status: 200 });
+    return NextResponse.json({ message: 'todo deleted' }, { status: 200 })
   } catch (error) {
-    console.log(error);
+    console.log(error)
 
     // Handle custom error
-    return errorHandler(error);
+    return errorHandler(error)
   }
 }
