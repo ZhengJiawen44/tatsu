@@ -67,7 +67,7 @@ you get:
 1. hot module refresh.
 2. prisma server on localhost:5555
 3. dev server on localhost:3000
-4. postgres server on port 5432
+4. postgres server on postgres port 5432
    
 you do:
 1. Git clone this repository
