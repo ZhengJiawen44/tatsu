@@ -69,18 +69,27 @@ export async function PATCH(req: NextRequest, { params }: { params: Promise<{ id
         start: dtstart,
         end: due
       })
-      calDavClient.createCalendarObject({
-        calendar: {
-          ...calendar,
-          timezone: calendar.timezone ?? undefined,
-          ctag: calendar.ctag ?? undefined,
-          syncToken: calendar.syncToken ?? undefined,
-          components: calendar.components as string[]
-        },
-        iCalString,
-        filename: crypto.randomUUID()
-      })
     }
+    // console.log('123-------------------------------------------------------------')
+    // calDavClient.updateCalendarObject({
+    //    calendarObject: {
+    //     url: syncMetaData.remoteUrl,
+    //     etag: syncMetaData.etag,
+    //     data: updatedIcsComp
+    //   }
+    // })
+    //   calDavClient.createCalendarObject({
+    //     calendar: {
+    //       ...calendar,
+    //       timezone: calendar.timezone ?? undefined,
+    //       ctag: calendar.ctag ?? undefined,
+    //       syncToken: calendar.syncToken ?? undefined,
+    //       components: calendar.components as string[]
+    //     },
+    //     iCalString,
+    //     filename: crypto.randomUUID()
+    //   })
+    // }
 
     await prisma.todoInstance.upsert({
       where: {
