@@ -165,7 +165,7 @@ export async function DELETE(req: NextRequest, { params }: { params: Promise<{ i
       //sync local sync data
       const updatedLocalIcs = updateIcs(syncMetaData.icsData, {
         name: 'exdate',
-        value: updatedTodo.exdates.map(d => ICAL.Time.fromJSDate(d))
+        value: updatedTodo.exdates.map((d: Date) => ICAL.Time.fromJSDate(d))
       })
       const etag = res.headers.get('etag') ?? ''
       await prisma.syncMetaData.update({
