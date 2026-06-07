@@ -63,33 +63,19 @@ export async function PATCH(req: NextRequest, { params }: { params: Promise<{ id
         throw new BadRequestError('todos synced to remote cannot have null dtstart or due')
 
       const { calDavClient } = await createCaldavClientFromDB(user.id)
-      const iCalString = genICSData({
-        summary: title,
-        description: description,
-        start: dtstart,
-        end: due
-      })
+      const occurenceEvent = new ICAL.Component('vevent')
+      occurenceEvent.addPropertyWithValue('dtstart', ICAL.Time.fromJSDate(dtstart))
+      console.log(
+        '-------------------------------------------------------------------------------------------------------',
+        occurenceEvent.toString()
+      )
+      // const iCalString = genICSData({
+      //   summary: title,
+      //   description: description,
+      //   start: dtstart,
+      //   end: due
+      // })
     }
-    // console.log('123-------------------------------------------------------------')
-    // calDavClient.updateCalendarObject({
-    //    calendarObject: {
-    //     url: syncMetaData.remoteUrl,
-    //     etag: syncMetaData.etag,
-    //     data: updatedIcsComp
-    //   }
-    // })
-    //   calDavClient.createCalendarObject({
-    //     calendar: {
-    //       ...calendar,
-    //       timezone: calendar.timezone ?? undefined,
-    //       ctag: calendar.ctag ?? undefined,
-    //       syncToken: calendar.syncToken ?? undefined,
-    //       components: calendar.components as string[]
-    //     },
-    //     iCalString,
-    //     filename: crypto.randomUUID()
-    //   })
-    // }
     //check
     await prisma.todoInstance.upsert({
       where: {
