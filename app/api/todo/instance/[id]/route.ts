@@ -77,16 +77,25 @@ export async function PATCH(
           "todos synced to remote cannot have null dtstart or due",
         );
 
-      // const { calDavClient } = await createCaldavClientFromDB(user.id);
-      const occurenceEvent = new ICAL.Component("vevent");
-      occurenceEvent.addPropertyWithValue(
-        "dtstart",
-        ICAL.Time.fromJSDate(dtstart),
-      );
+      const oldIcs = syncMetaData.icsData;
+      if (!oldIcs)
+        throw new InternalError("ics data does not exist for the given todo");
+      const parsedIcsObj = ICAL.parse(oldIcs);
       console.log(
         "-------------------------------------------------------------------------------------------------------",
-        occurenceEvent.toString(),
+        parsedIcsObj,
       );
+
+      // const { calDavClient } = await createCaldavClientFromDB(user.id);
+      // const occurenceEvent = new ICAL.Component("vevent");
+      // occurenceEvent.addPropertyWithValue(
+      //   "dtstart",
+      //   ICAL.Time.fromJSDate(dtstart),
+      // );
+      // console.log(
+      //   "-------------------------------------------------------------------------------------------------------",
+      //   occurenceEvent.toString(),
+      // );
       // const iCalString = genICSData({
       //   summary: title,
       //   description: description,
