@@ -83,7 +83,7 @@ export async function PATCH(
       const parsedIcsObj = ICAL.parse(oldIcs);
       console.log(
         "-------------------------------------------------------------------------------------------------------",
-        parsedIcsObj,
+        parsedIcsObj[2][0][1],
       );
 
       // const { calDavClient } = await createCaldavClientFromDB(user.id);
