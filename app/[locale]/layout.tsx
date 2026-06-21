@@ -4,6 +4,7 @@ import { NextIntlClientProvider } from 'next-intl';
 import { getMessages } from 'next-intl/server';
 import { SessionProvider } from "next-auth/react";
 import { ThemeProvider } from "@/providers/ThemeProvider";
+import { Toaster } from "@/components/ui/toaster";
 import "@/app/globals.css";
 
 
@@ -46,6 +47,7 @@ export default async function RootLayout({
               </main>
             </NextIntlClientProvider>
           </ThemeProvider>
+          <Toaster />
         </body>
       </SessionProvider>
     </html>
