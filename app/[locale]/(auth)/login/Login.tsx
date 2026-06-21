@@ -41,6 +41,7 @@ export default function LoginPage() {
     try {
       const result = await signIn("discord", { callbackUrl: "/app/todo" });
       if (result?.error) toast({ title: t("toasts.discordError") });
+
     } catch (error) {
       console.error(error);
       toast({ title: t("toasts.discordError") });
