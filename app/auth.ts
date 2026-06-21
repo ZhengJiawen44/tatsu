@@ -34,10 +34,9 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         });
 
         if (!user || !user.password) {
-          throw new Error("Invalid credentials.");
+          return null;
         }
 
-        try {
           // Check if this is a new format password (has a colon separator)
           if (user.password.includes(":")) {
             // Split the stored password to get the salt and hash
@@ -53,7 +52,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
 
             // Compare calculated hash with stored hash
             if (calculatedHex !== storedHashHex) {
-              throw new Error("Invalid credentials.");
+              return null;
             }
           } else {
             // This is an old bcrypt hash - we can't verify it in Edge
@@ -61,10 +60,6 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
           }
 
           return user;
-        } catch (error) {
-          console.log(error);
-          throw new Error("Authentication failed.");
-        }
       },
     }),
   ],
