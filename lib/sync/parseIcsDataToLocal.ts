@@ -135,9 +135,11 @@ function parseRecurrenceOverride(
  * @returns \{master, instances}
  */
 export function parseIcsData(icsData: string): ParsedIcsDataWithInstances | null {
-  console.log(icsData)
   const comp = parseIcsToVeventComponent(icsData)
   const vevents = comp.getAllSubcomponents('vevent')
+  vevents.forEach(vevent => {
+    console.log('---------------------------------------------', vevent.getFirstProperty('recurrence-id'))
+  })
   if (vevents.length === 0) return null
 
   const masterComponent = vevents.find(v => !v.getFirstProperty('recurrence-id')) ?? null
