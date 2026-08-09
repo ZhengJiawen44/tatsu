@@ -9,6 +9,7 @@ import createCaldavClientFromDB from '@/lib/sync/createCaldavClientFromDB'
 import ICAL from 'ical.js'
 import { parseIcsToVeventComponent } from '@/lib/sync/parseIcsToComponent'
 import { updateIcs } from '@/lib/sync/updateIcs'
+import { toMasterShapedTime } from '@/lib/sync/toMasterShapedDate'
 // import { genICSData } from '@/lib/sync/genIcsDataFromLocal'
 
 export async function PATCH(req: NextRequest, { params }: { params: Promise<{ id: string }> }) {
@@ -63,17 +64,33 @@ export async function PATCH(req: NextRequest, { params }: { params: Promise<{ id
         throw new BadRequestError('todos synced to remote cannot have null dtstart or due')
 
       const oldIcs = syncMetaData.icsData
-      console.log("before: ", oldIcs)
+      console.log("before----------------------------- ", oldIcs)
       if (!oldIcs) throw new InternalError('ics data does not exist for the given todo')
       const component = parseIcsToVeventComponent(oldIcs)
       const allVevents = component.getAllSubcomponents('vevent')
-      allVevents.forEach((vevent)=>{
+      console.log("current instance date", instanceDate);
+
+      let isInstanceFound = false;
+      const instance = allVevents.find((vevent)=>{
         const recurenceID = vevent.getFirstProperty("recurrence-id")?.getFirstValue() as ICAL.Time;
-        if(recurenceID && recurenceID.toJSDate().toString() == instanceDate.toString()){
-          vevent.updatePropertyWithValue("summary", title)
-          vevent.updatePropertyWithValue("dtstart", ICAL.Time.fromJSDate(instanceDate, false))
+        if(recurenceID && recurenceID.toJSDate().toString() === instanceDate.toString()){
+          isInstanceFound = true
+          return true
         }
-      })
+        return false ;
+      }) || new ICAL.Component("vevent")
+
+      const master = allVevents.find(v => !v.getFirstProperty('recurrence-id'))
+      if(!master) throw new InternalError("event master not found")
+      const masterDtstart = master.getFirstPropertyValue("dtstart") as unknown as ICAL.Time
+      
+      if(title) instance.updatePropertyWithValue("summary", title)
+      if(dtstart) instance.updatePropertyWithValue("dtstart", toMasterShapedTime(dtstart, masterDtstart))
+const tzid = master.getFirstProperty('dtstart')?.getParameter('tzid')
+if (tzid) instance.getFirstProperty('dtstart')!.setParameter('tzid', tzid)
+      if(!isInstanceFound)
+        component.addSubcomponent(instance)
+
       console.log("after:------------------------ ", component.toString())
 
       // const { calDavClient } = await createCaldavClientFromDB(user.id);
