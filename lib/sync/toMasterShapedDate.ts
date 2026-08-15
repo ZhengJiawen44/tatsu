@@ -16,5 +16,7 @@ export function toMasterShapedTime(jsDate: Date, template: ICAL.Time): ICAL.Time
     })
   }
   const utc = ICAL.Time.fromJSDate(jsDate, true)
-  return utc.convertToZone(template.zone)
+  
+  if(template.zone)return utc.convertToZone(template.zone)
+  return utc;
 }
