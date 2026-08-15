@@ -89,7 +89,7 @@ export async function PATCH(req: NextRequest, { params }: { params: Promise<{ id
       if(description) instance.updatePropertyWithValue("description", description)
       if(dtstart) instance.updatePropertyWithValue("dtstart", toMasterShapedTime(dtstart, masterDtstart))
       if(due) instance.updatePropertyWithValue("dtend", toMasterShapedTime(due, masterDtstart))
-      instance.updatePropertyWithValue("last-modified", ICAL.Time.fromJSDate(new Date()))
+      instance.updatePropertyWithValue("last-modified", ICAL.Time.fromJSDate(new Date(), true))
       if (tzid) {
         instance.getFirstProperty('dtstart')!.setParameter('tzid', tzid)
         instance.getFirstProperty('dtend')!.setParameter('tzid', tzid)
