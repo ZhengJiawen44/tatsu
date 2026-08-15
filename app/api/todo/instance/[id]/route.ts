@@ -80,19 +80,32 @@ export async function PATCH(req: NextRequest, { params }: { params: Promise<{ id
         return false ;
       }) || new ICAL.Component("vevent")
 
+      const tzid = component.getFirstSubcomponent("vtimezone")?.getFirstPropertyValue('tzid') as string | null
       const master = allVevents.find(v => !v.getFirstProperty('recurrence-id'))
       if(!master) throw new InternalError("event master not found")
       const masterDtstart = master.getFirstPropertyValue("dtstart") as unknown as ICAL.Time
       
       if(title) instance.updatePropertyWithValue("summary", title)
+      if(description) instance.updatePropertyWithValue("description", description)
       if(dtstart) instance.updatePropertyWithValue("dtstart", toMasterShapedTime(dtstart, masterDtstart))
-      const tzid = master.getFirstProperty('dtstart')?.getParameter('tzid')
-      if (tzid) instance.getFirstProperty('dtstart')!.setParameter('tzid', tzid)
-      if(!isInstanceFound){
-        populateMetaProperties(instance, master)
-        component.addSubcomponent(instance)
+      if(due) instance.updatePropertyWithValue("dtend", toMasterShapedTime(due, masterDtstart))
+      instance.updatePropertyWithValue("last-modified", ICAL.Time.fromJSDate(new Date()))
+      if (tzid) {
+        instance.getFirstProperty('dtstart')!.setParameter('tzid', tzid)
+        instance.getFirstProperty('dtend')!.setParameter('tzid', tzid)
       }
 
+      if(!isInstanceFound){
+        
+        populateMetaProperties(instance, master)
+        instance.addPropertyWithValue("recurrence-id", toMasterShapedTime(instanceDate, masterDtstart))
+         if (tzid) 
+        instance.getFirstProperty('recurrence-id')!.setParameter('tzid', tzid)
+        
+      
+        component.addSubcomponent(instance)
+      }
+ 
 
       console.log("after:------------------------ ", component.toString())
 
