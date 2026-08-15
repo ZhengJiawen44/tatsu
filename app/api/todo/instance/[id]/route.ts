@@ -10,6 +10,7 @@ import ICAL from 'ical.js'
 import { parseIcsToVeventComponent } from '@/lib/sync/parseIcsToComponent'
 import { updateIcs } from '@/lib/sync/updateIcs'
 import { toMasterShapedTime } from '@/lib/sync/toMasterShapedDate'
+import populateMetaProperties from '@/lib/sync/inheritFromMaster'
 // import { genICSData } from '@/lib/sync/genIcsDataFromLocal'
 
 export async function PATCH(req: NextRequest, { params }: { params: Promise<{ id: string }> }) {
@@ -68,7 +69,6 @@ export async function PATCH(req: NextRequest, { params }: { params: Promise<{ id
       if (!oldIcs) throw new InternalError('ics data does not exist for the given todo')
       const component = parseIcsToVeventComponent(oldIcs)
       const allVevents = component.getAllSubcomponents('vevent')
-      console.log("current instance date", instanceDate);
 
       let isInstanceFound = false;
       const instance = allVevents.find((vevent)=>{
@@ -86,31 +86,17 @@ export async function PATCH(req: NextRequest, { params }: { params: Promise<{ id
       
       if(title) instance.updatePropertyWithValue("summary", title)
       if(dtstart) instance.updatePropertyWithValue("dtstart", toMasterShapedTime(dtstart, masterDtstart))
-const tzid = master.getFirstProperty('dtstart')?.getParameter('tzid')
-if (tzid) instance.getFirstProperty('dtstart')!.setParameter('tzid', tzid)
-      if(!isInstanceFound)
+      const tzid = master.getFirstProperty('dtstart')?.getParameter('tzid')
+      if (tzid) instance.getFirstProperty('dtstart')!.setParameter('tzid', tzid)
+      if(!isInstanceFound){
+        populateMetaProperties(instance, master)
         component.addSubcomponent(instance)
+      }
+
 
       console.log("after:------------------------ ", component.toString())
 
-      // const { calDavClient } = await createCaldavClientFromDB(user.id);
-      // const occurenceEvent = new ICAL.Component("vevent");
-      // occurenceEvent.addPropertyWithValue(
-      //   "dtstart",
-      //   ICAL.Time.fromJSDate(dtstart),
-      // );
-      // console.log(
-      //   "-------------------------------------------------------------------------------------------------------",
-      //   occurenceEvent.toString(),
-      // );
-      // const iCalString = genICSData({
-      //   summary: title,
-      //   description: description,
-      //   start: dtstart,
-      //   end: due
-      // })
     }
-    //check
     await prisma.todoInstance.upsert({
       where: {
         todoId_instanceDate: {
