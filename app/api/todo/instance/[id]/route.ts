@@ -65,7 +65,6 @@ export async function PATCH(req: NextRequest, { params }: { params: Promise<{ id
         throw new BadRequestError('todos synced to remote cannot have null dtstart or due')
 
       const oldIcs = syncMetaData.icsData
-      console.log("before----------------------------- ", oldIcs)
       if (!oldIcs) throw new InternalError('ics data does not exist for the given todo')
       const component = parseIcsToVeventComponent(oldIcs)
       const allVevents = component.getAllSubcomponents('vevent')
@@ -96,19 +95,29 @@ export async function PATCH(req: NextRequest, { params }: { params: Promise<{ id
       }
 
       if(!isInstanceFound){
-        
         populateMetaProperties(instance, master)
         instance.addPropertyWithValue("recurrence-id", toMasterShapedTime(instanceDate, masterDtstart))
          if (tzid) 
         instance.getFirstProperty('recurrence-id')!.setParameter('tzid', tzid)
-        
-      
         component.addSubcomponent(instance)
       }
- 
-
-      console.log("after:------------------------ ", component.toString())
-
+      
+      const updatedIcs = component.toString();
+      const { calDavClient } = await createCaldavClientFromDB(user.id)
+      const res = await calDavClient.updateCalendarObject({
+        calendarObject: {
+          url: syncMetaData.remoteUrl,
+          etag: syncMetaData.etag,
+          data: updatedIcs
+        }
+      })
+       const etag = res.headers.get('etag') ?? ''
+      if (!etag) throw new InternalError('error updating remote calendar Objects')
+      //sync local sync data
+      await prisma.syncMetaData.update({
+        where: { todoId: todoToUpdate.id },
+        data: { etag, icsData: updatedIcs }
+      })
     }
     await prisma.todoInstance.upsert({
       where: {
@@ -179,7 +188,7 @@ export async function DELETE(req: NextRequest, { params }: { params: Promise<{ i
       const comp = parseIcsToVeventComponent(syncMetaData.icsData)
       const vevent = comp.getFirstSubcomponent('vevent')
       if (!vevent) throw new Error('could not find vevent subcomponent in parsed ICS data')
-      vevent.addPropertyWithValue('exdate', ICAL.Time.fromJSDate(instanceDate))
+      vevent.addPropertyWithValue('exdate', ICAL.Time.fromJSDate(instanceDate, true))
       const updatedIcsComp = ICAL.stringify(comp.toJSON())
       const { calDavClient } = await createCaldavClientFromDB(user.id)
       const res = await calDavClient.updateCalendarObject({
