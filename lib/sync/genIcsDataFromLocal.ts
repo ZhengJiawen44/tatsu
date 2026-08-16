@@ -32,11 +32,11 @@ export function genICSData({
   if (start) {
     event.updatePropertyWithValue(
       "dtstart",
-      ICAL.Time.fromJSDate(start, false),
+      ICAL.Time.fromJSDate(start, true),
     );
   }
   if (end) {
-    event.updatePropertyWithValue("dtend", ICAL.Time.fromJSDate(end, false));
+    event.updatePropertyWithValue("dtend", ICAL.Time.fromJSDate(end, true));
   }
   if (rrule) {
     const rruleProp = new ICAL.Property("rrule", event);

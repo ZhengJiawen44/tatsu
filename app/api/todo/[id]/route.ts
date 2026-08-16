@@ -8,7 +8,6 @@ import { z } from 'zod'
 import createCaldavClientFromDB from '@/lib/sync/createCaldavClientFromDB'
 import { parseIcsToVeventComponent } from '@/lib/sync/parseIcsToComponent'
 import ICAL from 'ical.js'
-import { updateIcs } from '@/lib/sync/updateIcs'
 
 export async function DELETE(req: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   try {
@@ -168,8 +167,8 @@ export async function PATCH(req: NextRequest, { params }: { params: Promise<{ id
       if (!vevent) throw new Error('could not find vevent subcomponent in parsed ICS data')
       if (title !== undefined) vevent.updatePropertyWithValue('summary', title)
       if (description !== undefined) vevent.updatePropertyWithValue('description', description)
-      if (dtstart != undefined) vevent.updatePropertyWithValue('dtstart', ICAL.Time.fromJSDate(dtstart))
-      if (due != undefined) vevent.updatePropertyWithValue('dtend', ICAL.Time.fromJSDate(due))
+      if (dtstart != undefined) vevent.updatePropertyWithValue('dtstart', ICAL.Time.fromJSDate(dtstart, true))
+      if (due != undefined) vevent.updatePropertyWithValue('dtend', ICAL.Time.fromJSDate(due, true))
       if (rrule !== undefined) {
         if (rrule === null) {
           vevent.removeProperty('rrule')
@@ -192,31 +191,9 @@ export async function PATCH(req: NextRequest, { params }: { params: Promise<{ id
       const etag = res.headers.get('etag') ?? ''
       if (!etag) throw new InternalError('error updating remote calendar Objects')
       //sync local sync data
-      const icsUpdates = []
-      if (title !== undefined) icsUpdates.push({ name: 'summary', value: title })
-      if (description !== undefined) icsUpdates.push({ name: 'description', value: description })
-      if (dtstart !== undefined)
-        icsUpdates.push({
-          name: 'dtstart',
-          value: ICAL.Time.fromJSDate(dtstart)
-        })
-      if (due !== undefined) icsUpdates.push({ name: 'due', value: ICAL.Time.fromJSDate(due) })
-      if (rrule !== undefined) {
-        icsUpdates.push({
-          name: 'rrule',
-          value: rrule ? ICAL.Recur.fromString(rrule) : null
-        })
-      }
-      if (rrule === null) {
-        icsUpdates.push({
-          name: 'exdate',
-          value: null
-        })
-      }
-      const updatedLocalIcs = updateIcs(syncMetaData.icsData, icsUpdates)
       await prisma.syncMetaData.update({
         where: { todoId: todoToUpdate.id },
-        data: { etag, icsData: updatedLocalIcs }
+        data: { etag, icsData: updatedIcsComp.toString() }
       })
     }
 
