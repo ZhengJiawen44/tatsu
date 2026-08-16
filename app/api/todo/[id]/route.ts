@@ -163,18 +163,39 @@ export async function PATCH(req: NextRequest, { params }: { params: Promise<{ id
     //if todo exists on the remote calDav, sync the changes
     if (syncMetaData && syncMetaData.icsData) {
       const comp = parseIcsToVeventComponent(syncMetaData.icsData)
-      const vevent = comp.getFirstSubcomponent('vevent')
-      if (!vevent) throw new Error('could not find vevent subcomponent in parsed ICS data')
-      if (title !== undefined) vevent.updatePropertyWithValue('summary', title)
-      if (description !== undefined) vevent.updatePropertyWithValue('description', description)
-      if (dtstart != undefined) vevent.updatePropertyWithValue('dtstart', ICAL.Time.fromJSDate(dtstart, true))
-      if (due != undefined) vevent.updatePropertyWithValue('dtend', ICAL.Time.fromJSDate(due, true))
+      const allVevents = comp.getAllSubcomponents("vevent");
+      const masterVevent = allVevents.find(v => !v.getFirstProperty('recurrence-id'))
+      const recurringVevents = allVevents.flatMap((component)=>{
+          if(!component.getFirstProperty("recurrence-id")) return []
+          return component
+      })
+
+      if (!masterVevent) throw new Error('could not find master vevent subcomponent in parsed ICS data')
+      if (title !== undefined) {
+        masterVevent.updatePropertyWithValue('summary', title);
+        // also override the instances
+        recurringVevents.forEach((event)=>event?.updatePropertyWithValue("summary", title))
+      }
+      if (description !== undefined) {
+        masterVevent.updatePropertyWithValue('description', description)
+        // also override the instances
+        recurringVevents.forEach((event)=>event?.updatePropertyWithValue("description", description))
+      }
+      if (dateChanged===true && dtstart != undefined) masterVevent.updatePropertyWithValue('dtstart', ICAL.Time.fromJSDate(dtstart, true))
+      if (dateChanged===true && due != undefined) masterVevent.updatePropertyWithValue('dtend', ICAL.Time.fromJSDate(due, true))
+
+      if(dateChanged && recurringVevents.length){
+        recurringVevents.forEach((event)=>comp.removeSubcomponent(event));
+        masterVevent.removeProperty("exdate")
+      }
+
       if (rrule !== undefined) {
         if (rrule === null) {
-          vevent.removeProperty('rrule')
-          vevent.removeAllProperties('exdate')
+          masterVevent.removeProperty('rrule')
+          masterVevent.removeAllProperties('exdate')
+          recurringVevents.forEach((event)=>comp.removeSubcomponent(event));
         } else {
-          vevent.updatePropertyWithValue('rrule', ICAL.Recur.fromString(rrule))
+          masterVevent.updatePropertyWithValue('rrule', ICAL.Recur.fromString(rrule))
         }
       }
 
@@ -193,7 +214,7 @@ export async function PATCH(req: NextRequest, { params }: { params: Promise<{ id
       //sync local sync data
       await prisma.syncMetaData.update({
         where: { todoId: todoToUpdate.id },
-        data: { etag, icsData: updatedIcsComp.toString() }
+        data: { etag, icsData: updatedIcsComp }
       })
     }
 
