@@ -186,25 +186,23 @@ export async function DELETE(req: NextRequest, { params }: { params: Promise<{ i
     //update calendar object's exdate property
     const syncMetaData = updatedTodo.syncMetaData
     if (syncMetaData && syncMetaData.icsData) {
-      const comp = parseIcsToVeventComponent(syncMetaData.icsData)
-      const vevent = comp.getFirstSubcomponent('vevent')
-      if (!vevent) throw new Error('could not find vevent subcomponent in parsed ICS data')
-      vevent.addPropertyWithValue('exdate', ICAL.Time.fromJSDate(instanceDate, true))
-      const updatedIcsComp = ICAL.stringify(comp.toJSON())
-      const { calDavClient } = await createCaldavClientFromDB(user.id)
-      const res = await calDavClient.updateCalendarObject({
-        calendarObject: {
-          url: syncMetaData.remoteUrl,
-          etag: syncMetaData.etag,
-          data: updatedIcsComp
-        }
-      })
 
       //sync local sync data
       const updatedLocalIcs = updateIcs(syncMetaData.icsData, {
         name: 'exdate',
         value: updatedTodo.exdates.map((d: Date) => ICAL.Time.fromJSDate(d))
       })
+
+      const { calDavClient } = await createCaldavClientFromDB(user.id)
+      const res = await calDavClient.updateCalendarObject({
+        calendarObject: {
+          url: syncMetaData.remoteUrl,
+          etag: syncMetaData.etag,
+          data: updatedLocalIcs
+        }
+      })
+
+
       const etag = res.headers.get('etag') ?? ''
       await prisma.syncMetaData.update({
         where: { todoId: updatedTodo.id },
