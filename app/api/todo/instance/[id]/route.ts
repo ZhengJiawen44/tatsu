@@ -69,11 +69,11 @@ export async function PATCH(req: NextRequest, { params }: { params: Promise<{ id
       const component = parseIcsToVeventComponent(oldIcs)
       const allVevents = component.getAllSubcomponents('vevent')
 
-      let isInstanceFound = false;
+      let instanceExists = false;
       const instance = allVevents.find((vevent)=>{
         const recurenceID = vevent.getFirstProperty("recurrence-id")?.getFirstValue() as ICAL.Time;
         if(recurenceID && recurenceID.toJSDate().toString() === instanceDate.toString()){
-          isInstanceFound = true
+          instanceExists = true
           return true
         }
         return false ;
@@ -84,6 +84,14 @@ export async function PATCH(req: NextRequest, { params }: { params: Promise<{ id
       if(!master) throw new InternalError("event master not found")
       const masterDtstart = master.getFirstPropertyValue("dtstart") as unknown as ICAL.Time
       
+      if(!instanceExists){
+        populateMetaProperties(instance, master)
+        instance.addPropertyWithValue("recurrence-id", toMasterShapedTime(instanceDate, masterDtstart))
+        if (tzid) 
+          instance.getFirstProperty('recurrence-id')!.setParameter('tzid', tzid)
+        component.addSubcomponent(instance)
+      }
+
       if(title) instance.updatePropertyWithValue("summary", title)
       if(description) instance.updatePropertyWithValue("description", description)
       if(dtstart) instance.updatePropertyWithValue("dtstart", toMasterShapedTime(dtstart, masterDtstart))
@@ -94,14 +102,6 @@ export async function PATCH(req: NextRequest, { params }: { params: Promise<{ id
         instance.getFirstProperty('dtend')!.setParameter('tzid', tzid)
       }
 
-      if(!isInstanceFound){
-        populateMetaProperties(instance, master)
-        instance.addPropertyWithValue("recurrence-id", toMasterShapedTime(instanceDate, masterDtstart))
-         if (tzid) 
-        instance.getFirstProperty('recurrence-id')!.setParameter('tzid', tzid)
-        component.addSubcomponent(instance)
-      }
-      
       const updatedIcs = component.toString();
       const { calDavClient } = await createCaldavClientFromDB(user.id)
       const res = await calDavClient.updateCalendarObject({
@@ -111,7 +111,7 @@ export async function PATCH(req: NextRequest, { params }: { params: Promise<{ id
           data: updatedIcs
         }
       })
-       const etag = res.headers.get('etag') ?? ''
+      const etag = res.headers.get('etag') ?? ''
       if (!etag) throw new InternalError('error updating remote calendar Objects')
       //sync local sync data
       await prisma.syncMetaData.update({
@@ -119,6 +119,7 @@ export async function PATCH(req: NextRequest, { params }: { params: Promise<{ id
         data: { etag, icsData: updatedIcs }
       })
     }
+    
     await prisma.todoInstance.upsert({
       where: {
         todoId_instanceDate: {
@@ -185,25 +186,23 @@ export async function DELETE(req: NextRequest, { params }: { params: Promise<{ i
     //update calendar object's exdate property
     const syncMetaData = updatedTodo.syncMetaData
     if (syncMetaData && syncMetaData.icsData) {
-      const comp = parseIcsToVeventComponent(syncMetaData.icsData)
-      const vevent = comp.getFirstSubcomponent('vevent')
-      if (!vevent) throw new Error('could not find vevent subcomponent in parsed ICS data')
-      vevent.addPropertyWithValue('exdate', ICAL.Time.fromJSDate(instanceDate, true))
-      const updatedIcsComp = ICAL.stringify(comp.toJSON())
-      const { calDavClient } = await createCaldavClientFromDB(user.id)
-      const res = await calDavClient.updateCalendarObject({
-        calendarObject: {
-          url: syncMetaData.remoteUrl,
-          etag: syncMetaData.etag,
-          data: updatedIcsComp
-        }
-      })
 
       //sync local sync data
       const updatedLocalIcs = updateIcs(syncMetaData.icsData, {
         name: 'exdate',
         value: updatedTodo.exdates.map((d: Date) => ICAL.Time.fromJSDate(d))
       })
+
+      const { calDavClient } = await createCaldavClientFromDB(user.id)
+      const res = await calDavClient.updateCalendarObject({
+        calendarObject: {
+          url: syncMetaData.remoteUrl,
+          etag: syncMetaData.etag,
+          data: updatedLocalIcs
+        }
+      })
+
+
       const etag = res.headers.get('etag') ?? ''
       await prisma.syncMetaData.update({
         where: { todoId: updatedTodo.id },
