@@ -9,9 +9,9 @@ import createCaldavClientFromDB from '@/lib/sync/createCaldavClientFromDB'
 import ICAL from 'ical.js'
 import { parseIcsToVeventComponent } from '@/lib/sync/parseIcsToComponent'
 import { updateIcs } from '@/lib/sync/updateIcs'
-import { toMasterShapedTime } from '@/lib/sync/toMasterShapedDate'
 import populateMetaProperties from '@/lib/sync/inheritFromMaster'
-// import { genICSData } from '@/lib/sync/genIcsDataFromLocal'
+import { updateVeventPropertyWithValue } from '@/lib/sync/updateVeventPropertyWithValue'
+
 
 export async function PATCH(req: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   try {
@@ -79,28 +79,21 @@ export async function PATCH(req: NextRequest, { params }: { params: Promise<{ id
         return false ;
       }) || new ICAL.Component("vevent")
 
-      const tzid = component.getFirstSubcomponent("vtimezone")?.getFirstPropertyValue('tzid') as string | null
       const master = allVevents.find(v => !v.getFirstProperty('recurrence-id'))
       if(!master) throw new InternalError("event master not found")
-      const masterDtstart = master.getFirstPropertyValue("dtstart") as unknown as ICAL.Time
-      
+    
       if(!instanceExists){
-        populateMetaProperties(instance, master)
-        instance.addPropertyWithValue("recurrence-id", toMasterShapedTime(instanceDate, masterDtstart))
-        if (tzid) 
-          instance.getFirstProperty('recurrence-id')!.setParameter('tzid', tzid)
         component.addSubcomponent(instance)
+        populateMetaProperties(instance, master)
+        updateVeventPropertyWithValue("recurrence-id", instance, instanceDate, user.timeZone ?? undefined)
+        
       }
 
       if(title) instance.updatePropertyWithValue("summary", title)
       if(description) instance.updatePropertyWithValue("description", description)
-      if(dtstart) instance.updatePropertyWithValue("dtstart", toMasterShapedTime(dtstart, masterDtstart))
-      if(due) instance.updatePropertyWithValue("dtend", toMasterShapedTime(due, masterDtstart))
+      if(dtstart) updateVeventPropertyWithValue("dtstart", instance, dtstart, user.timeZone ?? undefined)
+      if(due) updateVeventPropertyWithValue("dtend", instance, due, user.timeZone ?? undefined)
       instance.updatePropertyWithValue("last-modified", ICAL.Time.fromJSDate(new Date(), true))
-      if (tzid) {
-        instance.getFirstProperty('dtstart')!.setParameter('tzid', tzid)
-        instance.getFirstProperty('dtend')!.setParameter('tzid', tzid)
-      }
 
       const updatedIcs = component.toString();
       const { calDavClient } = await createCaldavClientFromDB(user.id)
