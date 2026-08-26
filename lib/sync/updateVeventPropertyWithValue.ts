@@ -25,11 +25,8 @@ export function updateVeventPropertyWithValue(property:string, vevent: ICAL.Comp
 
   vevent.updatePropertyWithValue(property, toMasterShapedTime(value, masterDtstart, tzid))
 
-  //all day events
-  if (masterDtstart.type=="date") {
-    vevent.getFirstProperty(property)!.setParameter('value', "date")
-  }else{
   //timed events
+  if (masterDtstart.type!="date") {
     vevent.getFirstProperty(property)!.setParameter('tzid', tzid)
   }
 }
