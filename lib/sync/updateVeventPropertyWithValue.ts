@@ -3,11 +3,11 @@ import { toZonedTime } from "date-fns-tz"
 
 
 /**
- * @description modifies a vevent component in-place based on the given property-value pair
+ * @description modifies a vevent component in-place based on the given property-value pair. if tzid is not given then defaults to utc
  * @param property property to update, e.g dtstart
  * @param vevent vevent component to update
  * @param value propert value to update
- * @param timeZone IANA timezone string
+ * @param timeZone IANA timezone string. If tzid is not given then attempts to extract it from vevent. Defaults to utc
  * @returns void, component is updated in-place
  */
 export function updateVeventPropertyWithValue(property:string, vevent: ICAL.Component, value: Date, timeZone?:string){
