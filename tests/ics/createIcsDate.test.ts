@@ -161,10 +161,10 @@ test("all day events recieve correct dtstarts ", () => {
     updateVeventPropertyWithValue("dtstart", master!, newDtstart, "Asia/Shanghai")
     const dtstartProp = master?.getFirstProperty("dtstart")
     const updatedDtstart = dtstartProp?.getFirstValue() as ICAL.Time;
-    const value = dtstartProp?.getParameter("value");
+    const type = dtstartProp?.type
     //expect the new dtstart to be a floating time with value = date, just like master
     expect(updatedDtstart.toString()).toEqual("2026-10-12");
-    expect(value).toEqual("date")
+    expect(type).toEqual("date")
 });
 
 // master dtstart is DTSTART;TZID=Asia/Shanghai:20260802T200000
