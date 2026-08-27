@@ -61,6 +61,7 @@ export async function PATCH(req: NextRequest, { params }: { params: Promise<{ id
 
     if (syncMetaData) {
       if (!calendar) throw new InternalError('couldnt find remote calendar this todo belongs to')
+      const timeZone = calendar.timezone ?? user.timeZone ?? undefined
       if (dtstart === null || due === null)
         throw new BadRequestError('todos synced to remote cannot have null dtstart or due')
 
@@ -85,14 +86,14 @@ export async function PATCH(req: NextRequest, { params }: { params: Promise<{ id
       if(!instanceExists){
         component.addSubcomponent(instance)
         populateMetaProperties(instance, master)
-        updateVeventPropertyWithValue("recurrence-id", instance, instanceDate, user.timeZone ?? undefined)
+        updateVeventPropertyWithValue("recurrence-id", instance, instanceDate, timeZone)
         
       }
 
       if(title) instance.updatePropertyWithValue("summary", title)
       if(description) instance.updatePropertyWithValue("description", description)
-      if(dtstart) updateVeventPropertyWithValue("dtstart", instance, dtstart, user.timeZone ?? undefined)
-      if(due) updateVeventPropertyWithValue("dtend", instance, due, user.timeZone ?? undefined)
+      if(dtstart) updateVeventPropertyWithValue("dtstart", instance, dtstart, timeZone)
+      if(due) updateVeventPropertyWithValue("dtend", instance, due, timeZone)
       instance.updatePropertyWithValue("last-modified", ICAL.Time.fromJSDate(new Date(), true))
 
       const updatedIcs = component.toString();
