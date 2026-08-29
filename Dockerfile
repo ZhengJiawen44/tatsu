@@ -1,4 +1,4 @@
-FROM node:20-alpine AS deps
+FROM node:21-alpine AS deps
 WORKDIR /app
 
 COPY package*.json ./
@@ -6,7 +6,7 @@ COPY prisma ./prisma
 
 RUN npm ci
 
-FROM node:20-alpine AS builder
+FROM node:21-alpine AS builder
 WORKDIR /app
 
 COPY --from=deps /app/node_modules ./node_modules
@@ -23,7 +23,7 @@ RUN npm run build && \
     echo ".next/BUILD_ID contents:" && \
     cat .next/BUILD_ID
 
-FROM node:20-alpine AS runner
+FROM node:21-alpine AS runner
 WORKDIR /app
 
 ENV NODE_ENV=production
