@@ -109,7 +109,10 @@ const NoteSidebarItem = ({ note }: { note: NoteItemType }) => {
                 <Meatball className="w-5 h-5" />
               </MenuTrigger>
               <MenuContent>
-                <MenuItem onClick={() => setIsRenaming(true)}> {sidebarDict("noteMenu.rename")}</MenuItem>
+                <MenuItem onClick={() => setIsRenaming(true)}>
+                  {" "}
+                  {sidebarDict("noteMenu.rename")}
+                </MenuItem>
                 <MenuItem onClick={() => deleteMutate({ id: note.id })}>
                   {sidebarDict("noteMenu.delete")}
                 </MenuItem>

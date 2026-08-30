@@ -11,7 +11,7 @@ import clsx from "clsx";
 import { Button } from "@/components/ui/button";
 import { useTranslations } from "next-intl";
 
-const PriorityDropdownMenu = ({ }) => {
+const PriorityDropdownMenu = ({}) => {
   const appDict = useTranslations("app");
   const { priority, setPriority } = useTodoForm();
   const itemClass =
@@ -38,25 +38,31 @@ const PriorityDropdownMenu = ({ }) => {
         </Button>
       </PopoverTrigger>
       <PopoverContent className="min-w-38 text-foreground flex flex-col p-1 items-start justify-center">
-        <button
-          className={itemClass}
-          onClick={() => setPriority("Low")}
-        >
-          <Flag className={clsx("w-4 h-4 text-lime", priority == "Low" && "fill-lime")} />
+        <button className={itemClass} onClick={() => setPriority("Low")}>
+          <Flag
+            className={clsx(
+              "w-4 h-4 text-lime",
+              priority == "Low" && "fill-lime",
+            )}
+          />
           {appDict("normal")}
         </button>
-        <button
-          className={itemClass}
-          onClick={() => setPriority("Medium")}
-        >
-          <Flag className={clsx("w-4 h-4 text-orange", priority == "Medium" && "fill-orange")} />
+        <button className={itemClass} onClick={() => setPriority("Medium")}>
+          <Flag
+            className={clsx(
+              "w-4 h-4 text-orange",
+              priority == "Medium" && "fill-orange",
+            )}
+          />
           {appDict("important")}
         </button>
-        <button
-          className={itemClass}
-          onClick={() => setPriority("High")}
-        >
-          <Flag className={clsx("w-4 h-4 text-red", priority == "High" && "fill-red")} />
+        <button className={itemClass} onClick={() => setPriority("High")}>
+          <Flag
+            className={clsx(
+              "w-4 h-4 text-red",
+              priority == "High" && "fill-red",
+            )}
+          />
 
           {appDict("urgent")}
         </button>

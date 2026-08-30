@@ -1,5 +1,5 @@
 const page = () => {
-    return "reccurrebce";
-}
+  return "reccurrebce";
+};
 
 export default page;

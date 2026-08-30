@@ -1,12 +1,11 @@
 import type { Metadata } from "next";
 import { Poppins } from "next/font/google";
-import { NextIntlClientProvider } from 'next-intl';
-import { getMessages } from 'next-intl/server';
+import { NextIntlClientProvider } from "next-intl";
+import { getMessages } from "next-intl/server";
 import { SessionProvider } from "next-auth/react";
 import { ThemeProvider } from "@/providers/ThemeProvider";
 import { Toaster } from "@/components/ui/toaster";
 import "@/app/globals.css";
-
 
 type Props = {
   children: React.ReactNode;
@@ -15,7 +14,8 @@ type Props = {
 
 export const metadata: Metadata = {
   title: "Sanity",
-  description: "Organize your tasks, schedule your day, and plan projects with Sanity, a secure and easy-to-use task planner."
+  description:
+    "Organize your tasks, schedule your day, and plan projects with Sanity, a secure and easy-to-use task planner.",
 };
 
 const poppins = Poppins({
@@ -25,10 +25,7 @@ const poppins = Poppins({
   display: "swap",
 });
 
-export default async function RootLayout({
-  children,
-  params,
-}: Props) {
+export default async function RootLayout({ children, params }: Props) {
   const { locale } = await params;
   const messages = await getMessages();
   return (
@@ -42,9 +39,7 @@ export default async function RootLayout({
             disableTransitionOnChange
           >
             <NextIntlClientProvider messages={messages}>
-              <main>
-                {children}
-              </main>
+              <main>{children}</main>
             </NextIntlClientProvider>
           </ThemeProvider>
           <Toaster />

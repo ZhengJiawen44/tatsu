@@ -1,9 +1,11 @@
 import React from "react";
 import CompletedTodoContainer from "@/features/completed/component/CompletedTodoContainer";
 const page = () => {
-  return <>
-    <CompletedTodoContainer />
-  </>;
+  return (
+    <>
+      <CompletedTodoContainer />
+    </>
+  );
 };
 
 export default page;

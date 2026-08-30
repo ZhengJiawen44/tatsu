@@ -42,7 +42,7 @@ const TodoForm = ({
     rruleOptions,
     dateRangeChecksum,
     rruleChecksum,
-    durationMinutes
+    durationMinutes,
   } = useTodoForm();
 
   //adjust height of the todo description based on content size
@@ -59,7 +59,6 @@ const TodoForm = ({
   const appDict = useTranslations("app");
   const todayDict = useTranslations("today");
   const scribbleAudio = useRef<HTMLAudioElement>(new Audio("/scribble.mp3"));
-
 
   return (
     <div
@@ -105,7 +104,10 @@ const TodoForm = ({
         <LineSeparator className="m-0! p-0!" />
         {/* form footer */}
         <div className="flex text-sm w-full justify-between items-center py-1.5 px-2">
-          <ProjectDropdownMenu projectID={projectID} setProjectID={setProjectID} />
+          <ProjectDropdownMenu
+            projectID={projectID}
+            setProjectID={setProjectID}
+          />
           <div className="flex gap-3 w-fit">
             <Button
               variant={"outline"}
@@ -145,7 +147,9 @@ const TodoForm = ({
     const dtstart = dateRange.from;
     const due = dateRange.to;
     try {
-      const rrule = rruleOptions ? new RRule(rruleOptions).toString().replace("RRULE:", "") : null;
+      const rrule = rruleOptions
+        ? new RRule(rruleOptions).toString().replace("RRULE:", "")
+        : null;
       if (todo?.id && todo.id != "-1") {
         setDisplayForm(false);
         if (editInstanceOnly) {
@@ -171,7 +175,7 @@ const TodoForm = ({
             due,
             durationMinutes,
             rrule,
-            projectID
+            projectID,
           });
         }
       } else {
@@ -194,7 +198,7 @@ const TodoForm = ({
           exdates: [],
           instanceDate: rrule && dtstart ? dtstart : null,
           instances: [],
-          projectID
+          projectID,
         });
       }
     } catch (error) {

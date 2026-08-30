@@ -14,7 +14,9 @@ export default function PrivacyPage() {
         <p>{t("intro")}</p>
 
         <section>
-          <h2 className="text-xl font-medium mb-2">1. {t("sections.1.title")}</h2>
+          <h2 className="text-xl font-medium mb-2">
+            1. {t("sections.1.title")}
+          </h2>
           <ul className="list-disc pl-5 space-y-1">
             {(t.raw("sections.1.content") as string[]).map((item, index) => (
               <li key={index}>{item}</li>
@@ -23,7 +25,9 @@ export default function PrivacyPage() {
         </section>
 
         <section>
-          <h2 className="text-xl font-medium mb-2">2. {t("sections.2.title")}</h2>
+          <h2 className="text-xl font-medium mb-2">
+            2. {t("sections.2.title")}
+          </h2>
           <ul className="list-disc pl-5 space-y-1">
             {(t.raw("sections.2.content") as string[]).map((item, index) => (
               <li key={index}>{item}</li>
@@ -32,37 +36,51 @@ export default function PrivacyPage() {
         </section>
 
         <section>
-          <h2 className="text-xl font-medium mb-2">3. {t("sections.3.title")}</h2>
+          <h2 className="text-xl font-medium mb-2">
+            3. {t("sections.3.title")}
+          </h2>
           <p>{t("sections.3.content")}</p>
         </section>
 
         <section>
-          <h2 className="text-xl font-medium mb-2">4. {t("sections.4.title")}</h2>
+          <h2 className="text-xl font-medium mb-2">
+            4. {t("sections.4.title")}
+          </h2>
           <p>{t("sections.4.content")}</p>
         </section>
 
         <section>
-          <h2 className="text-xl font-medium mb-2">5. {t("sections.5.title")}</h2>
+          <h2 className="text-xl font-medium mb-2">
+            5. {t("sections.5.title")}
+          </h2>
           <p>{t("sections.5.content")}</p>
         </section>
 
         <section>
-          <h2 className="text-xl font-medium mb-2">6. {t("sections.6.title")}</h2>
+          <h2 className="text-xl font-medium mb-2">
+            6. {t("sections.6.title")}
+          </h2>
           <p>{t("sections.6.content")}</p>
         </section>
 
         <section>
-          <h2 className="text-xl font-medium mb-2">7. {t("sections.7.title")}</h2>
+          <h2 className="text-xl font-medium mb-2">
+            7. {t("sections.7.title")}
+          </h2>
           <p>{t("sections.7.content")}</p>
         </section>
 
         <section>
-          <h2 className="text-xl font-medium mb-2">8. {t("sections.8.title")}</h2>
+          <h2 className="text-xl font-medium mb-2">
+            8. {t("sections.8.title")}
+          </h2>
           <p>{t("sections.8.content")}</p>
         </section>
 
         <section>
-          <h2 className="text-xl font-medium mb-2">9. {t("sections.9.title")}</h2>
+          <h2 className="text-xl font-medium mb-2">
+            9. {t("sections.9.title")}
+          </h2>
           <p>
             {t("sections.9.content")}{" "}
             <a href="mailto:zhengjiawen44@gmail.com" className="underline">

@@ -1,124 +1,168 @@
-import { BadRequestError, InternalError, UnauthorizedError } from '@/lib/customError'
-import { prisma } from '@/lib/prisma/client'
-import { NextRequest, NextResponse } from 'next/server'
-import { Priority } from '@prisma/client'
-import { todoSchema } from '@/schema'
-import { auth } from '@/app/auth'
-import { errorHandler } from '@/lib/errorHandler'
-import createCaldavClientFromDB from '@/lib/sync/createCaldavClientFromDB'
-import ICAL from 'ical.js'
-import { parseIcsToVeventComponent } from '@/lib/sync/parseIcsToComponent'
-import { updateIcs } from '@/lib/sync/updateIcs'
-import populateMetaProperties from '@/lib/sync/inheritFromMaster'
-import { updateVeventPropertyWithValue } from '@/lib/sync/updateVeventPropertyWithValue'
+import {
+  BadRequestError,
+  InternalError,
+  UnauthorizedError,
+} from "@/lib/customError";
+import { prisma } from "@/lib/prisma/client";
+import { NextRequest, NextResponse } from "next/server";
+import { Priority } from "@prisma/client";
+import { todoSchema } from "@/schema";
+import { auth } from "@/app/auth";
+import { errorHandler } from "@/lib/errorHandler";
+import createCaldavClientFromDB from "@/lib/sync/createCaldavClientFromDB";
+import ICAL from "ical.js";
+import { parseIcsToVeventComponent } from "@/lib/sync/parseIcsToComponent";
+import { updateIcs } from "@/lib/sync/updateIcs";
+import populateMetaProperties from "@/lib/sync/inheritFromMaster";
+import { updateVeventPropertyWithValue } from "@/lib/sync/updateVeventPropertyWithValue";
 
-
-export async function PATCH(req: NextRequest, { params }: { params: Promise<{ id: string }> }) {
+export async function PATCH(
+  req: NextRequest,
+  { params }: { params: Promise<{ id: string }> },
+) {
   try {
-    const session = await auth()
-    const user = session?.user
+    const session = await auth();
+    const user = session?.user;
 
-    if (!user?.id) throw new UnauthorizedError('You must be logged in to do this')
+    if (!user?.id)
+      throw new UnauthorizedError("You must be logged in to do this");
 
-    const { id } = await params
-    if (!id) throw new BadRequestError('Invalid request, ID is required')
+    const { id } = await params;
+    if (!id) throw new BadRequestError("Invalid request, ID is required");
 
-    let body = await req.json()
+    let body = await req.json();
 
     if (!body.instanceDate) {
-      throw new BadRequestError('instanceDate is required to update a TodoInstance')
+      throw new BadRequestError(
+        "instanceDate is required to update a TodoInstance",
+      );
     }
 
     body = {
       ...body,
       dtstart: new Date(body.dtstart),
       due: new Date(body.due),
-      instanceDate: new Date(body.instanceDate)
-    }
-    const parsedObj = todoSchema.partial().safeParse(body)
-    if (!parsedObj.success) throw new BadRequestError('Invalid request body')
+      instanceDate: new Date(body.instanceDate),
+    };
+    const parsedObj = todoSchema.partial().safeParse(body);
+    if (!parsedObj.success) throw new BadRequestError("Invalid request body");
 
-    const { title, description, priority, dtstart, due } = parsedObj.data
-    const { instanceDate } = body
+    const { title, description, priority, dtstart, due } = parsedObj.data;
+    const { instanceDate } = body;
 
     if (!dtstart) {
-      throw new BadRequestError('dtstart is required to update a TodoInstance')
+      throw new BadRequestError("dtstart is required to update a TodoInstance");
     }
     const todoToUpdate = await prisma.todo.findUnique({
       where: {
         userID: user.id,
-        id
+        id,
       },
       include: {
         syncMetaData: {
-          include: { caldavCalendar: true }
-        }
-      }
-    })
+          include: { caldavCalendar: true },
+        },
+      },
+    });
 
-    const syncMetaData = todoToUpdate?.syncMetaData
-    const calendar = todoToUpdate?.syncMetaData?.caldavCalendar
+    const syncMetaData = todoToUpdate?.syncMetaData;
+    const calendar = todoToUpdate?.syncMetaData?.caldavCalendar;
 
     if (syncMetaData) {
-      if (!calendar) throw new InternalError('couldnt find remote calendar this todo belongs to')
+      if (!calendar)
+        throw new InternalError(
+          "couldnt find remote calendar this todo belongs to",
+        );
       if (dtstart === null || due === null)
-        throw new BadRequestError('todos synced to remote cannot have null dtstart or due')
+        throw new BadRequestError(
+          "todos synced to remote cannot have null dtstart or due",
+        );
 
-      const oldIcs = syncMetaData.icsData
-      if (!oldIcs) throw new InternalError('ics data does not exist for the given todo')
-      const component = parseIcsToVeventComponent(oldIcs)
-      const allVevents = component.getAllSubcomponents('vevent')
+      const oldIcs = syncMetaData.icsData;
+      if (!oldIcs)
+        throw new InternalError("ics data does not exist for the given todo");
+      const component = parseIcsToVeventComponent(oldIcs);
+      const allVevents = component.getAllSubcomponents("vevent");
 
       let instanceExists = false;
-      const instance = allVevents.find((vevent)=>{
-        const recurenceID = vevent.getFirstProperty("recurrence-id")?.getFirstValue() as ICAL.Time;
-        if(recurenceID && recurenceID.toJSDate().toString() === instanceDate.toString()){
-          instanceExists = true
-          return true
-        }
-        return false ;
-      }) || new ICAL.Component("vevent")
+      const instance =
+        allVevents.find((vevent) => {
+          const recurenceID = vevent
+            .getFirstProperty("recurrence-id")
+            ?.getFirstValue() as ICAL.Time;
+          if (
+            recurenceID &&
+            recurenceID.toJSDate().toString() === instanceDate.toString()
+          ) {
+            instanceExists = true;
+            return true;
+          }
+          return false;
+        }) || new ICAL.Component("vevent");
 
-      const master = allVevents.find(v => !v.getFirstProperty('recurrence-id'))
-      if(!master) throw new InternalError("event master not found")
-    
-      if(!instanceExists){
-        component.addSubcomponent(instance)
-        populateMetaProperties(instance, master)
-        updateVeventPropertyWithValue("recurrence-id", instance, instanceDate, user.timeZone ?? undefined)
-        
+      const master = allVevents.find(
+        (v) => !v.getFirstProperty("recurrence-id"),
+      );
+      if (!master) throw new InternalError("event master not found");
+
+      if (!instanceExists) {
+        component.addSubcomponent(instance);
+        populateMetaProperties(instance, master);
+        updateVeventPropertyWithValue(
+          "recurrence-id",
+          instance,
+          instanceDate,
+          user.timeZone ?? undefined,
+        );
       }
 
-      if(title) instance.updatePropertyWithValue("summary", title)
-      if(description) instance.updatePropertyWithValue("description", description)
-      if(dtstart) updateVeventPropertyWithValue("dtstart", instance, dtstart, user.timeZone ?? undefined)
-      if(due) updateVeventPropertyWithValue("dtend", instance, due, user.timeZone ?? undefined)
-      instance.updatePropertyWithValue("last-modified", ICAL.Time.fromJSDate(new Date(), true))
+      if (title) instance.updatePropertyWithValue("summary", title);
+      if (description)
+        instance.updatePropertyWithValue("description", description);
+      if (dtstart)
+        updateVeventPropertyWithValue(
+          "dtstart",
+          instance,
+          dtstart,
+          user.timeZone ?? undefined,
+        );
+      if (due)
+        updateVeventPropertyWithValue(
+          "dtend",
+          instance,
+          due,
+          user.timeZone ?? undefined,
+        );
+      instance.updatePropertyWithValue(
+        "last-modified",
+        ICAL.Time.fromJSDate(new Date(), true),
+      );
 
       const updatedIcs = component.toString();
-      const { calDavClient } = await createCaldavClientFromDB(user.id)
+      const { calDavClient } = await createCaldavClientFromDB(user.id);
       const res = await calDavClient.updateCalendarObject({
         calendarObject: {
           url: syncMetaData.remoteUrl,
           etag: syncMetaData.etag,
-          data: updatedIcs
-        }
-      })
-      const etag = res.headers.get('etag') ?? ''
-      if (!etag) throw new InternalError('error updating remote calendar Objects')
+          data: updatedIcs,
+        },
+      });
+      const etag = res.headers.get("etag") ?? "";
+      if (!etag)
+        throw new InternalError("error updating remote calendar Objects");
       //sync local sync data
       await prisma.syncMetaData.update({
         where: { todoId: todoToUpdate.id },
-        data: { etag, icsData: updatedIcs }
-      })
+        data: { etag, icsData: updatedIcs },
+      });
     }
-    
+
     await prisma.todoInstance.upsert({
       where: {
         todoId_instanceDate: {
           todoId: id,
-          instanceDate
-        }
+          instanceDate,
+        },
       },
       update: {
         overriddenTitle: title,
@@ -126,7 +170,10 @@ export async function PATCH(req: NextRequest, { params }: { params: Promise<{ id
         overriddenPriority: priority as Priority,
         overriddenDtstart: dtstart,
         overriddenDue: due,
-        overriddenDurationMinutes: dtstart && due ? (due?.getTime() - dtstart?.getTime()) / (1000 * 60) : undefined
+        overriddenDurationMinutes:
+          dtstart && due
+            ? (due?.getTime() - dtstart?.getTime()) / (1000 * 60)
+            : undefined,
       },
       create: {
         todoId: id,
@@ -137,27 +184,38 @@ export async function PATCH(req: NextRequest, { params }: { params: Promise<{ id
         overriddenPriority: priority,
         overriddenDtstart: dtstart,
         overriddenDue: due,
-        overriddenDurationMinutes: dtstart && due ? (dtstart?.getTime() - due?.getTime()) / (1000 * 60) : undefined
-      }
-    })
+        overriddenDurationMinutes:
+          dtstart && due
+            ? (dtstart?.getTime() - due?.getTime()) / (1000 * 60)
+            : undefined,
+      },
+    });
 
-    return NextResponse.json({ message: 'Todo updated' }, { status: 200 })
+    return NextResponse.json({ message: "Todo updated" }, { status: 200 });
   } catch (error) {
-    return errorHandler(error)
+    return errorHandler(error);
   }
 }
 
-export async function DELETE(req: NextRequest, { params }: { params: Promise<{ id: string }> }) {
+export async function DELETE(
+  req: NextRequest,
+  { params }: { params: Promise<{ id: string }> },
+) {
   try {
-    const session = await auth()
-    const user = session?.user
+    const session = await auth();
+    const user = session?.user;
 
-    if (!user?.id) throw new UnauthorizedError('you must be logged in to do this')
+    if (!user?.id)
+      throw new UnauthorizedError("you must be logged in to do this");
 
-    const { id } = await params
-    const instanceDate = new Date(Number(req.nextUrl.searchParams.get('instanceDate')))
+    const { id } = await params;
+    const instanceDate = new Date(
+      Number(req.nextUrl.searchParams.get("instanceDate")),
+    );
     if (!id || !instanceDate)
-      throw new BadRequestError('Invalid request, ID or instanceDate is required to do instance delete!')
+      throw new BadRequestError(
+        "Invalid request, ID or instanceDate is required to do instance delete!",
+      );
 
     //to remove an instance first edit the ics data in the todo, and then exdate the instance date
 
@@ -170,44 +228,42 @@ export async function DELETE(req: NextRequest, { params }: { params: Promise<{ i
           select: {
             remoteUrl: true,
             etag: true,
-            icsData: true
-          }
-        }
-      }
-    })
+            icsData: true,
+          },
+        },
+      },
+    });
 
     //update calendar object's exdate property
-    const syncMetaData = updatedTodo.syncMetaData
+    const syncMetaData = updatedTodo.syncMetaData;
     if (syncMetaData && syncMetaData.icsData) {
-
       //sync local sync data
       const updatedLocalIcs = updateIcs(syncMetaData.icsData, {
-        name: 'exdate',
-        value: updatedTodo.exdates.map((d: Date) => ICAL.Time.fromJSDate(d))
-      })
+        name: "exdate",
+        value: updatedTodo.exdates.map((d: Date) => ICAL.Time.fromJSDate(d)),
+      });
 
-      const { calDavClient } = await createCaldavClientFromDB(user.id)
+      const { calDavClient } = await createCaldavClientFromDB(user.id);
       const res = await calDavClient.updateCalendarObject({
         calendarObject: {
           url: syncMetaData.remoteUrl,
           etag: syncMetaData.etag,
-          data: updatedLocalIcs
-        }
-      })
+          data: updatedLocalIcs,
+        },
+      });
 
-
-      const etag = res.headers.get('etag') ?? ''
+      const etag = res.headers.get("etag") ?? "";
       await prisma.syncMetaData.update({
         where: { todoId: updatedTodo.id },
-        data: { etag, icsData: updatedLocalIcs }
-      })
+        data: { etag, icsData: updatedLocalIcs },
+      });
     }
 
-    return NextResponse.json({ message: 'todo deleted' }, { status: 200 })
+    return NextResponse.json({ message: "todo deleted" }, { status: 200 });
   } catch (error) {
-    console.log(error)
+    console.log(error);
 
     // Handle custom error
-    return errorHandler(error)
+    return errorHandler(error);
   }
 }

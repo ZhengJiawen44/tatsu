@@ -21,7 +21,7 @@ export async function derive256BitKey({
       info: encoder.encode("512 bits stretched master key"),
     },
     stretchedPassKey,
-    256
+    256,
   );
 
   return derivedKey;

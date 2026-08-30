@@ -9,13 +9,25 @@ import React, { useEffect, useRef, useState } from "react";
 import Spinner from "@/components/ui/spinner";
 import Meatball from "@/components/ui/icon/meatball";
 import useWindowSize from "@/hooks/useWindowSize";
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger, DropdownMenuSub, DropdownMenuSubTrigger, DropdownMenuSubContent } from "@/components/ui/dropdown-menu";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+  DropdownMenuSub,
+  DropdownMenuSubTrigger,
+  DropdownMenuSubContent,
+} from "@/components/ui/dropdown-menu";
 import { useRecolorProject } from "./query/update-project-color";
 import { projectColorMap } from "@/lib/projectColorMap";
 import ProjectTag from "@/components/ProjectTag";
 import { useTranslations } from "next-intl";
 
-const ProjectSidebarItem = ({ meta }: { meta: Pick<ProjectItemType, "id" | "color" | "name"> }) => {
+const ProjectSidebarItem = ({
+  meta,
+}: {
+  meta: Pick<ProjectItemType, "id" | "color" | "name">;
+}) => {
   const projectDict = useTranslations("projectMenu");
   const noteMenu = useTranslations("sidebar.noteMenu");
   const { renameMutateFn } = useRenameProject();
@@ -34,10 +46,9 @@ const ProjectSidebarItem = ({ meta }: { meta: Pick<ProjectItemType, "id" | "colo
     const nameInput = inputRef.current;
 
     if (isRenaming && nameInput) {
-      setTimeout(() => nameInput.select(), 300)
+      setTimeout(() => nameInput.select(), 300);
     }
   }, [isRenaming]);
-
 
   //rename on click outside or enter key
   useEffect(() => {
@@ -102,7 +113,6 @@ const ProjectSidebarItem = ({ meta }: { meta: Pick<ProjectItemType, "id" | "colo
           </Link>
         )}
 
-
         <div className="absolute right-2 top-1/2 -translate-y-1/2 flex px-2">
           {deleteLoading ? (
             <Spinner className="w-5 h-5" />
@@ -112,8 +122,13 @@ const ProjectSidebarItem = ({ meta }: { meta: Pick<ProjectItemType, "id" | "colo
                 <Meatball className="w-5 h-5 hover:text-foreground cursor-pointer" />
               </DropdownMenuTrigger>
               <DropdownMenuContent>
-                <DropdownMenuItem onClick={() => setIsRenaming(true)}> {noteMenu("rename")}</DropdownMenuItem>
-                <DropdownMenuItem onClick={() => deleteMutateFn({ id: meta.id })}>
+                <DropdownMenuItem onClick={() => setIsRenaming(true)}>
+                  {" "}
+                  {noteMenu("rename")}
+                </DropdownMenuItem>
+                <DropdownMenuItem
+                  onClick={() => deleteMutateFn({ id: meta.id })}
+                >
                   {noteMenu("delete")}
                 </DropdownMenuItem>
                 <DropdownMenuSub>
@@ -146,17 +161,22 @@ const ProjectSidebarItem = ({ meta }: { meta: Pick<ProjectItemType, "id" | "colo
                       return (
                         <DropdownMenuItem
                           key={color.value}
-                          onClick={() => recolorMutateFn({ id: meta.id, color: color.value })}
+                          onClick={() =>
+                            recolorMutateFn({ id: meta.id, color: color.value })
+                          }
                         >
                           <span
                             className={`w-5 h-5 ${bgClass} border border-popover-border rounded-sm`}
                           ></span>
-                          {color.name == "Deep Blue" ? projectDict("deepBlue") : color.name == "Light Red" ? projectDict("lightRed") : projectDict(color.name.toLowerCase())}
+                          {color.name == "Deep Blue"
+                            ? projectDict("deepBlue")
+                            : color.name == "Light Red"
+                              ? projectDict("lightRed")
+                              : projectDict(color.name.toLowerCase())}
                         </DropdownMenuItem>
                       );
                     })}
                   </DropdownMenuSubContent>
-
                 </DropdownMenuSub>
               </DropdownMenuContent>
             </DropdownMenu>
@@ -168,5 +188,3 @@ const ProjectSidebarItem = ({ meta }: { meta: Pick<ProjectItemType, "id" | "colo
 };
 
 export default ProjectSidebarItem;
-
-

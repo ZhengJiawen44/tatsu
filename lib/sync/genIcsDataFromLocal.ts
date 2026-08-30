@@ -30,10 +30,7 @@ export function genICSData({
     event.updatePropertyWithValue("description", description);
   }
   if (start) {
-    event.updatePropertyWithValue(
-      "dtstart",
-      ICAL.Time.fromJSDate(start, true),
-    );
+    event.updatePropertyWithValue("dtstart", ICAL.Time.fromJSDate(start, true));
   }
   if (end) {
     event.updatePropertyWithValue("dtend", ICAL.Time.fromJSDate(end, true));

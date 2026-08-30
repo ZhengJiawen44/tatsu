@@ -1,12 +1,9 @@
 import { test, expect } from "@jest/globals";
 import { updateVeventPropertyWithValue } from "@/lib/sync/updateVeventPropertyWithValue";
 import { parseIcsToVeventComponent } from "@/lib/sync/parseIcsToComponent";
-import ICAL from "ical.js"
+import ICAL from "ical.js";
 
-
-
-const ICS_WITH_ALLDAY_VEVENT = 
-`BEGIN:VCALENDAR
+const ICS_WITH_ALLDAY_VEVENT = `BEGIN:VCALENDAR
 CALSCALE:GREGORIAN
 PRODID:-//Apple Inc.//iPhone OS 26.5.2//EN
 VERSION:2.0
@@ -44,10 +41,9 @@ ACTION:NONE
 TRIGGER;VALUE=DATE-TIME:19760401T005545Z
 END:VALARM
 END:VEVENT
-END:VCALENDAR`
+END:VCALENDAR`;
 
-const ICS_WITH_TIMED_VEVENT = 
-`BEGIN:VCALENDAR
+const ICS_WITH_TIMED_VEVENT = `BEGIN:VCALENDAR
 CALSCALE:GREGORIAN
 PRODID:-//Apple Inc.//iPhone OS 26.5.2//EN
 VERSION:2.0
@@ -144,69 +140,77 @@ TZOFFSETFROM:+0800
 TZOFFSETTO:+0900
 END:DAYLIGHT
 END:VTIMEZONE
-END:VCALENDAR`
-
-
+END:VCALENDAR`;
 
 // master dtstart is DTSTART;VALUE=DATE:20260802
 test("all day events recieve correct dtstarts ", () => {
-    const component = parseIcsToVeventComponent(ICS_WITH_ALLDAY_VEVENT)
-    const allVevents = component.getAllSubcomponents('vevent');
-    const master = allVevents.find(v => !v.getFirstProperty('recurrence-id'))
+  const component = parseIcsToVeventComponent(ICS_WITH_ALLDAY_VEVENT);
+  const allVevents = component.getAllSubcomponents("vevent");
+  const master = allVevents.find((v) => !v.getFirstProperty("recurrence-id"));
 
-    expect(master).toBeDefined();
+  expect(master).toBeDefined();
 
-    const newDtstart = new Date("2026-10-11T16:00:00.000Z")
+  const newDtstart = new Date("2026-10-11T16:00:00.000Z");
 
-    updateVeventPropertyWithValue("dtstart", master!, newDtstart, "Asia/Shanghai")
-    const dtstartProp = master?.getFirstProperty("dtstart")
-    const updatedDtstart = dtstartProp?.getFirstValue() as ICAL.Time;
-    const type = dtstartProp?.type
-    //expect the new dtstart to be a floating time with value = date, just like master
-    expect(updatedDtstart.toString()).toEqual("2026-10-12");
-    expect(type).toEqual("date")
+  updateVeventPropertyWithValue(
+    "dtstart",
+    master!,
+    newDtstart,
+    "Asia/Shanghai",
+  );
+  const dtstartProp = master?.getFirstProperty("dtstart");
+  const updatedDtstart = dtstartProp?.getFirstValue() as ICAL.Time;
+  const type = dtstartProp?.type;
+  //expect the new dtstart to be a floating time with value = date, just like master
+  expect(updatedDtstart.toString()).toEqual("2026-10-12");
+  expect(type).toEqual("date");
 });
 
 // master dtstart is DTSTART;TZID=Asia/Shanghai:20260802T200000
 test("Timed events recieve correct dtstarts when tzid is provided", () => {
-    const component = parseIcsToVeventComponent(ICS_WITH_TIMED_VEVENT)
-    const allVevents = component.getAllSubcomponents('vevent');
-    const master = allVevents.find(v => !v.getFirstProperty('recurrence-id'))
+  const component = parseIcsToVeventComponent(ICS_WITH_TIMED_VEVENT);
+  const allVevents = component.getAllSubcomponents("vevent");
+  const master = allVevents.find((v) => !v.getFirstProperty("recurrence-id"));
 
-    expect(master).toBeDefined();
+  expect(master).toBeDefined();
 
-    const newDtstart = new Date("2026-08-24T12:00:00.000Z")
+  const newDtstart = new Date("2026-08-24T12:00:00.000Z");
 
-    // dont pass tzid to test if it can correctly find tzid from the event
-    updateVeventPropertyWithValue("dtstart", master!, newDtstart, "Asia/Shanghai")
+  // dont pass tzid to test if it can correctly find tzid from the event
+  updateVeventPropertyWithValue(
+    "dtstart",
+    master!,
+    newDtstart,
+    "Asia/Shanghai",
+  );
 
-    const dtstartProp = master?.getFirstProperty("dtstart")
-    const updatedDtstart = dtstartProp?.getFirstValue() as ICAL.Time;
-    const tzid = dtstartProp?.getParameter("tzid");
+  const dtstartProp = master?.getFirstProperty("dtstart");
+  const updatedDtstart = dtstartProp?.getFirstValue() as ICAL.Time;
+  const tzid = dtstartProp?.getParameter("tzid");
 
-    //expect the new dtstart to be a local time with parameter = tzid, just like master
-    expect(updatedDtstart.toString()).toEqual("2026-08-24T20:00:00");
-    expect(tzid).toEqual("Asia/Shanghai")
+  //expect the new dtstart to be a local time with parameter = tzid, just like master
+  expect(updatedDtstart.toString()).toEqual("2026-08-24T20:00:00");
+  expect(tzid).toEqual("Asia/Shanghai");
 });
 
 // master dtstart is DTSTART;TZID=Asia/Shanghai:20260802T200000
 test("Timed events recieve correct dtstarts when no tzid is provided", () => {
-    const component = parseIcsToVeventComponent(ICS_WITH_TIMED_VEVENT)
-    const allVevents = component.getAllSubcomponents('vevent');
-    const master = allVevents.find(v => !v.getFirstProperty('recurrence-id'))
+  const component = parseIcsToVeventComponent(ICS_WITH_TIMED_VEVENT);
+  const allVevents = component.getAllSubcomponents("vevent");
+  const master = allVevents.find((v) => !v.getFirstProperty("recurrence-id"));
 
-    expect(master).toBeDefined();
+  expect(master).toBeDefined();
 
-    const newDtstart = new Date("2026-08-24T12:00:00.000Z")
+  const newDtstart = new Date("2026-08-24T12:00:00.000Z");
 
-    // dont pass tzid to test if it can correctly find tzid from the event
-    updateVeventPropertyWithValue("dtstart", master!, newDtstart)
+  // dont pass tzid to test if it can correctly find tzid from the event
+  updateVeventPropertyWithValue("dtstart", master!, newDtstart);
 
-    const dtstartProp = master?.getFirstProperty("dtstart")
-    const updatedDtstart = dtstartProp?.getFirstValue() as ICAL.Time;
-    const tzid = dtstartProp?.getParameter("tzid");
+  const dtstartProp = master?.getFirstProperty("dtstart");
+  const updatedDtstart = dtstartProp?.getFirstValue() as ICAL.Time;
+  const tzid = dtstartProp?.getParameter("tzid");
 
-    //expect the new dtstart to be a local time with parameter = tzid, just like master
-    expect(updatedDtstart.toString()).toEqual("2026-08-24T20:00:00");
-    expect(tzid).toEqual("Asia/Shanghai")
+  //expect the new dtstart to be a local time with parameter = tzid, just like master
+  expect(updatedDtstart.toString()).toEqual("2026-08-24T20:00:00");
+  expect(tzid).toEqual("Asia/Shanghai");
 });

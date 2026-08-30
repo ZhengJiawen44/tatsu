@@ -22,48 +22,57 @@ const TodoFormContainer = dynamic(
   { loading: () => <TodoFormLoading /> },
 );
 
-
 type TodoItemContainerProps = {
-  todoItem: TodoItemType,
-  overdue?: boolean
-}
+  todoItem: TodoItemType;
+  overdue?: boolean;
+};
 
-export const TodoItemContainer = ({ todoItem, overdue }: TodoItemContainerProps) => {
+export const TodoItemContainer = ({
+  todoItem,
+  overdue,
+}: TodoItemContainerProps) => {
   const { projectMetaData } = useProjectMetaData();
   const { useCompleteTodo } = useTodoMutation();
   const { completeMutateFn } = useCompleteTodo();
   const userTimeZone = useUserTimezone();
 
-  // only reason using this is because of SSR error that would happen from 
+  // only reason using this is because of SSR error that would happen from
   // server's utc time and client's local time mismatch
   // note: only use these for displaying date, use dtstart and due for manipulation
-  const displayDtstart = todoItem.dtstart&&userTimeZone ? 
-    getDisplayDate(toZonedTime(todoItem.dtstart, userTimeZone), true) : 
-    null
+  const displayDtstart =
+    todoItem.dtstart && userTimeZone
+      ? getDisplayDate(toZonedTime(todoItem.dtstart, userTimeZone), true)
+      : null;
 
-    const displayDue = todoItem.due&&userTimeZone ? 
-    getDisplayDate(toZonedTime(todoItem.due, userTimeZone), true) : 
-    null
+  const displayDue =
+    todoItem.due && userTimeZone
+      ? getDisplayDate(toZonedTime(todoItem.due, userTimeZone), true)
+      : null;
 
   //dnd kit setups
-  const { attributes, listeners, setNodeRef, transform, transition, isDragging } =
-    useSortable({ id: todoItem.id });
+  const {
+    attributes,
+    listeners,
+    setNodeRef,
+    transform,
+    transition,
+    isDragging,
+  } = useSortable({ id: todoItem.id });
   const style = {
     transform: CSS.Translate.toString(transform),
     transition,
   };
-  const { title, description, completed, priority, rrule, dtstart, due } = todoItem;
+  const { title, description, completed, priority, rrule, dtstart, due } =
+    todoItem;
   const [displayForm, setDisplayForm] = useState(false);
   const [editInstanceOnly, setEditInstanceOnly] = useState(false);
   const [showHandle, setShowHandle] = useState(false);
-
 
   useEffect(() => {
     if (!displayForm) {
       setShowHandle(false);
     }
   }, [displayForm]);
-
 
   if (displayForm)
     return (
@@ -123,40 +132,42 @@ export const TodoItemContainer = ({ todoItem, overdue }: TodoItemContainerProps)
             <div className="flex flex-wrap items-center justify-start  transition-normal duration-300 gap-2">
               {/* Dates */}
               <div className="flex justify-center items-center w-fit ">
-                {(dtstart || due) &&
+                {(dtstart || due) && (
                   <p className={clsx(overdue ? "text-orange" : "text-lime")}>
-                    {
-                        displayDtstart
-                    }
+                    {displayDtstart}
                   </p>
-                }
-                {due &&
+                )}
+                {due && (
                   <p
                     className={clsx(
                       "overflow-hidden line-clamp-1 transition-all duration-300 ease-out",
-                      showHandle && dtstart ? "max-w-xs" : "max-w-0"
+                      showHandle && dtstart ? "max-w-xs" : "max-w-0",
                     )}
                   >
                     <span className="mx-1">-</span>
-                    <span>
-                      {
-                        displayDue
-                      }
-                    </span>
-                  </p>}
+                    <span>{displayDue}</span>
+                  </p>
+                )}
               </div>
 
               {/* Project tag */}
-              {todoItem.projectID &&
-                <p className='flex items-center py-[0.2rem] px-2 rounded-full border bg-sidebar gap-1'>
-                  <ProjectTag id={todoItem.projectID} className="text-sm shrink-0" />
+              {todoItem.projectID && (
+                <p className="flex items-center py-[0.2rem] px-2 rounded-full border bg-sidebar gap-1">
+                  <ProjectTag
+                    id={todoItem.projectID}
+                    className="text-sm shrink-0"
+                  />
                   <span className="truncate max-w-14 sm:max-w-24 md:max-w-52 lg:max-w-none">
                     {projectMetaData[todoItem.projectID]?.name}
                   </span>
                 </p>
-              }
+              )}
               {/* Overdue tag */}
-              {overdue && <p className='py-[0.2rem] px-2 rounded-full bg-sidebar border'>overdue</p>}
+              {overdue && (
+                <p className="py-[0.2rem] px-2 rounded-full bg-sidebar border">
+                  overdue
+                </p>
+              )}
             </div>
           </div>
         </div>
@@ -164,7 +175,10 @@ export const TodoItemContainer = ({ todoItem, overdue }: TodoItemContainerProps)
         <div>
           <TodoItemMenuContainer
             displayMenu={showHandle}
-            className={clsx("flex items-center gap-2", !showHandle && "opacity-0")}
+            className={clsx(
+              "flex items-center gap-2",
+              !showHandle && "opacity-0",
+            )}
             todo={todoItem}
             setDisplayForm={setDisplayForm}
             setEditInstanceOnly={setEditInstanceOnly}
@@ -174,6 +188,4 @@ export const TodoItemContainer = ({ todoItem, overdue }: TodoItemContainerProps)
       <LineSeparator />
     </>
   );
-
 };
-

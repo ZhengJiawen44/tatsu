@@ -12,11 +12,19 @@ import {
   DropdownMenuTrigger,
   DropdownMenuSub,
   DropdownMenuSubContent,
-  DropdownMenuSubTrigger
+  DropdownMenuSubTrigger,
 } from "@/components/ui/dropdown-menu";
 import { useTranslations } from "next-intl";
 import { useTheme } from "next-themes";
-import { ArrowUpLeft, LogOut, Moon, Sun, Globe, Languages, RefreshCw } from "lucide-react";
+import {
+  ArrowUpLeft,
+  LogOut,
+  Moon,
+  Sun,
+  Globe,
+  Languages,
+  RefreshCw,
+} from "lucide-react";
 import ConfirmLogoutModal from "../Settings/ConfirmLogoutModal";
 import { useLocale } from "next-intl";
 import LanguageDropdown from "./LanguageDropdown";
@@ -61,8 +69,8 @@ const UserCard = ({ className }: { className?: string }) => {
         <DropdownMenuTrigger asChild>
           <div
             onContextMenu={(e) => {
-              e.preventDefault()
-              setOpen(true)
+              e.preventDefault();
+              setOpen(true);
             }}
             className={cn(
               "my-3 flex gap-2 items-center rounded-lg py-2 px-2 transition-all duration-200",
@@ -115,7 +123,11 @@ const UserCard = ({ className }: { className?: string }) => {
               }
             }}
           >
-            {theme == "light" ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
+            {theme == "light" ? (
+              <Sun className="w-4 h-4" />
+            ) : (
+              <Moon className="w-4 h-4" />
+            )}
             {sidebarDict("settingMenu.theme")}
           </DropdownMenuItem>
           <DropdownMenuItem
@@ -151,11 +163,9 @@ const UserCard = ({ className }: { className?: string }) => {
               <RefreshCw className="w-4 h-4" />
               Sync
             </Link>
-
           </DropdownMenuItem>
         </DropdownMenuContent>
-      </DropdownMenu >
-
+      </DropdownMenu>
     </>
   );
 };

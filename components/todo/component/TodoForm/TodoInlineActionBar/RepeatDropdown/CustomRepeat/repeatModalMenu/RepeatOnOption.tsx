@@ -36,17 +36,20 @@ const RepeatOnOption = ({
         <p className="font-medium "> {appDict("customMenu.on")}</p>
         <div className="flex flex-wrap gap-4">
           {["Mo", "Tu", "We", "Th", "Fr", "Sa", "Su"].map((day, index) => {
-            return (<div className="flex items-center gap-1" key={day}>
-              <Checkbox
-                id={day}
-                value={index}
-                checked={byweekday?.includes(index) || false}
-                onCheckedChange={() => toggleByDay(index)}
-              />
-              <label htmlFor={day} className="cursor-pointer hover:underline">{day}</label>
-            </div>)
+            return (
+              <div className="flex items-center gap-1" key={day}>
+                <Checkbox
+                  id={day}
+                  value={index}
+                  checked={byweekday?.includes(index) || false}
+                  onCheckedChange={() => toggleByDay(index)}
+                />
+                <label htmlFor={day} className="cursor-pointer hover:underline">
+                  {day}
+                </label>
+              </div>
+            );
           })}
-
         </div>
       </div>
     )

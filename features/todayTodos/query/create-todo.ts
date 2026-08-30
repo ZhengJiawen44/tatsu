@@ -36,9 +36,13 @@ export const useCreateTodo = () => {
   const { toast } = useToast();
   const queryClient = useQueryClient();
   const { mutate: createMutateFn, status: createStatus } = useMutation({
-    mutationFn: async(todo: TodoItemType) => {const res = await postTodo({ todo }); console.log("1",res); return res},
+    mutationFn: async (todo: TodoItemType) => {
+      const res = await postTodo({ todo });
+      console.log("1", res);
+      return res;
+    },
     onMutate: async (newTodo) => {
-      console.log("im new",newTodo);
+      console.log("im new", newTodo);
 
       await queryClient.cancelQueries({ queryKey: ["todo"] });
       await queryClient.cancelQueries({ queryKey: ["project"] });

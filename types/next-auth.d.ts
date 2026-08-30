@@ -18,4 +18,3 @@ declare module "next-auth/jwt" {
     timeZone: string | null;
   }
 }
-

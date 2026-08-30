@@ -33,7 +33,7 @@ const DecryptForm = ({ email }: { email: string }) => {
       const decryptedSymKey = await crypto.subtle.decrypt(
         { name: "AES-GCM", iv },
         masterKey,
-        protectedSymKey
+        protectedSymKey,
       );
       setSymKey(base64Encode(decryptedSymKey));
       setPassKey(inputPassKey);

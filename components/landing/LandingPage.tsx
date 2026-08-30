@@ -11,7 +11,6 @@ import FlagsCarousel from "./FlagsCarousel";
 import MoreFeatures from "./MoreFeatures";
 import CodeBlock from "./CodeBlock";
 
-
 const LandingPage = () => {
   const dict = useTranslations("landingPage");
   const [activeFeature, setActiveFeature] = useState(0);
@@ -124,11 +123,9 @@ const LandingPage = () => {
       `}</style>
 
       <div className="z-50! flex flex-col gap-10 items-center justify-center text-foreground text-center px-4 sm:px-6 lg:px-8">
-
         {/* Hero Section */}
         <div className="flex flex-col items-center gap-6 sm:gap-8 lg:gap-9 mb-16 sm:mb-24 lg:mb-32 pt-12 sm:pt-16 lg:pt-20 max-w-7xl w-full">
           <div className="flex-1 w-full mb-10 z-50">
-
             {/* Single h1 — fixes double-h1 SEO issue */}
             <h1 className="text-4xl sm:text-5xl lg:text-6xl font-semibold tracking-tighter fade-up fade-up-1">
               <span className="text-white">Powerful. Private.</span>
@@ -149,7 +146,11 @@ const LandingPage = () => {
                   {dict("hero.readDocs")}
                 </Button>
               </Link>
-              <Link href="/login" className="z-50 w-full sm:w-auto" aria-label="Start by logging in">
+              <Link
+                href="/login"
+                className="z-50 w-full sm:w-auto"
+                aria-label="Start by logging in"
+              >
                 <Button className="bg-linear-to-t from-[#465927] to-lime hover:from-[#546b2f] hover:shadow-none transition-all duration-200 border-t border-t-[#adc982] w-full sm:w-auto text-white px-6 py-5 sm:p-6 text-base sm:text-lg tracking-tight font-normal rounded-lg shadow-md hover:translate-y-0.5">
                   {dict("hero.start")}
                 </Button>
@@ -178,15 +179,15 @@ const LandingPage = () => {
         <FlagsCarousel />
         {/* Features Section */}
         <div className="w-full max-w-7xl mb-16 sm:mb-24 lg:mb-32">
-
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 sm:gap-12 relative">
-
             {/* Left Column: Text */}
             <div className="pb-12 sm:pb-16 lg:pb-24">
               {FEATURES.map((feature, index) => (
                 <div
                   key={feature.id}
-                  ref={(el) => { observerRefs.current[index] = el; }}
+                  ref={(el) => {
+                    observerRefs.current[index] = el;
+                  }}
                   data-index={index}
                   className="relative text-start flex flex-col justify-center min-h-0 lg:min-h-[80vh] mb-20 sm:mb-0"
                 >
@@ -207,13 +208,14 @@ const LandingPage = () => {
                     {feature.tag}
                   </div>
 
-                  <h2 className={`
+                  <h2
+                    className={`
                     text-2xl sm:text-3xl lg:text-4xl font-bold mb-4 transition-colors duration-300
                     ${activeFeature === index ? "text-foreground" : "text-foreground/60"}
-                  `}>
+                  `}
+                  >
                     {feature.title}
                   </h2>
-
 
                   <p className="text-muted-foreground text-base sm:text-lg leading-relaxed mb-6">
                     {feature.description}
@@ -222,12 +224,12 @@ const LandingPage = () => {
                   <ul className="space-y-2 sm:space-y-3 text-muted-foreground text-sm sm:text-base">
                     {feature.bullets.map((bullet, idx) => (
                       <li key={idx} className="flex items-start gap-2 sm:gap-3">
-                        <div className={`
+                        <div
+                          className={`
                           rounded-full h-1 w-1 my-auto bg-lime shrink-0 transition-colors duration-300
                           ${activeFeature === index ? "text-lime brightness-150" : "text-muted-foreground/40"}
-                        `}>
-
-                        </div>
+                        `}
+                        ></div>
                         <span>{bullet}</span>
                       </li>
                     ))}
@@ -239,13 +241,10 @@ const LandingPage = () => {
             {/* Right Column: Sticky Feature Image — desktop only */}
             <div className="hidden lg:block relative">
               <div className="sticky top-0 h-screen flex items-center justify-center py-8">
-
                 {/* Browser frame + vertical dots side by side */}
                 <div className="flex items-center gap-3 w-full">
-
                   {/* Browser frame */}
                   <div className="relative flex-1 rounded-lg border border-border/60 overflow-hidden shadow-2xl bg-secondary/50 transition-all duration-500 ease-in-out">
-
                     {/* Browser chrome bar */}
                     <div className="flex items-center gap-2 px-4 py-1 bg-card border-b border-border/60 backdrop-blur-sm">
                       <div className="flex gap-1.5 shrink-0">
@@ -268,7 +267,11 @@ const LandingPage = () => {
                       {FEATURES.map((feature, index) => {
                         if (feature.title === dict("features.3.title")) {
                           return (
-                            <SecurityDemo key={feature.id} activeFeature={activeFeature} index={index} />
+                            <SecurityDemo
+                              key={feature.id}
+                              activeFeature={activeFeature}
+                              index={index}
+                            />
                           );
                         }
                         return (
@@ -279,8 +282,11 @@ const LandingPage = () => {
                             width={1280}
                             height={720}
                             unoptimized
-                            className={`rounded-lg object-contain transition-opacity duration-500 absolute inset-0 z-10 ${activeFeature === index ? "opacity-100" : "opacity-0"
-                              }`}
+                            className={`rounded-lg object-contain transition-opacity duration-500 absolute inset-0 z-10 ${
+                              activeFeature === index
+                                ? "opacity-100"
+                                : "opacity-0"
+                            }`}
                             priority={index === 0}
                           />
                         );
@@ -294,24 +300,26 @@ const LandingPage = () => {
                       <button
                         key={index}
                         onClick={() => {
-                          observerRefs.current[index]?.scrollIntoView({ behavior: "smooth", block: "center" });
+                          observerRefs.current[index]?.scrollIntoView({
+                            behavior: "smooth",
+                            block: "center",
+                          });
                         }}
                         className={`
                           w-1.5 rounded-full transition-all duration-300 cursor-pointer
-                          ${activeFeature === index
-                            ? "h-5 bg-lime brightness-150"
-                            : "h-1.5 bg-border hover:bg-border/80"
+                          ${
+                            activeFeature === index
+                              ? "h-5 bg-lime brightness-150"
+                              : "h-1.5 bg-border hover:bg-border/80"
                           }
                         `}
                         aria-label={`Go to feature ${index + 1}`}
                       />
                     ))}
                   </div>
-
                 </div>
               </div>
             </div>
-
           </div>
 
           <div className="mt-24 sm:mt-32 mb-16 text-center">
@@ -325,7 +333,6 @@ const LandingPage = () => {
             <h2 className="text-4xl font-semibold mb-10">Host it yourself</h2>
             <CodeBlock />
           </div>
-
         </div>
 
         {/* Footer */}
@@ -337,23 +344,27 @@ const LandingPage = () => {
 
 export default LandingPage;
 
-
-const SecurityDemo = ({ activeFeature, index }: { activeFeature: number; index: number }) => {
+const SecurityDemo = ({
+  activeFeature,
+  index,
+}: {
+  activeFeature: number;
+  index: number;
+}) => {
   const [showPassword, setShowPassword] = useState(false);
   const dict = useTranslations("landingPage");
 
   return (
     <div
-      className={`bg-background h-87.5 my-auto w-full object-contain transition-opacity duration-500 absolute inset-0 z-10 ${activeFeature === index ? "opacity-100" : "opacity-0"
-        }`}
+      className={`bg-background h-87.5 my-auto w-full object-contain transition-opacity duration-500 absolute inset-0 z-10 ${
+        activeFeature === index ? "opacity-100" : "opacity-0"
+      }`}
     >
       <div className="flex justify-center items-center h-full w-full">
         <div className="flex flex-col p-9 w-full gap-4 rounded-xl">
           <div className="text-start">
             <h2>{dict("securityDemo.title")}</h2>
-            <div className="mt-4">
-              {dict("securityDemo.subtitle")}
-            </div>
+            <div className="mt-4">{dict("securityDemo.subtitle")}</div>
           </div>
 
           <div className="relative h-8">

@@ -30,7 +30,7 @@ export async function stretchMasterKey({
     masterKey128Bit,
     { name: "HKDF" },
     false,
-    ["deriveKey", "deriveBits"]
+    ["deriveKey", "deriveBits"],
   );
   // this is the second derivation using HKDF, result is 256 bit or 32 byte key in array buffer
   const masterKey256Bit = await derive256BitKey({
@@ -44,7 +44,7 @@ export async function stretchMasterKey({
     masterKey256Bit,
     { name: "AES-GCM" },
     false,
-    ["encrypt", "decrypt"]
+    ["encrypt", "decrypt"],
   );
 
   return masterCryptoKey256;

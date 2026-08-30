@@ -6,7 +6,13 @@ import { setCaretOffset } from "@/components/todo/lib/setCaretOffset";
 import { cn } from "@/lib/utils";
 import * as chrono from "chrono-node";
 import { addHours } from "date-fns";
-import React, { SetStateAction, useEffect, useRef, useState, useMemo } from "react";
+import React, {
+  SetStateAction,
+  useEffect,
+  useRef,
+  useState,
+  useMemo,
+} from "react";
 import { useTranslations } from "next-intl";
 import { useLocale } from "next-intl";
 import { useProjectMetaData } from "@/components/Sidebar/Project/query/get-project-meta";
@@ -48,7 +54,10 @@ export default function NLPTitleInput({
   // --- Dropdown state ---
   const [projectDropdownVisible, setProjectDropdownVisible] = useState(false);
   const [projectQuery, setProjectQuery] = useState("");
-  const [dropdownCoords, setDropdownCoords] = useState<{ x: number; y: number }>({ x: 0, y: 0 });
+  const [dropdownCoords, setDropdownCoords] = useState<{
+    x: number;
+    y: number;
+  }>({ x: 0, y: 0 });
   const [selectedIndex, setSelectedIndex] = useState(0);
 
   const { projectMetaData } = useProjectMetaData();
@@ -58,7 +67,9 @@ export default function NLPTitleInput({
     const entries = Object.entries(projectMetaData || {});
     if (!projectQuery.trim()) return entries;
     const lowerQuery = projectQuery.toLowerCase();
-    return entries.filter(([, value]) => value.name.toLowerCase().includes(lowerQuery));
+    return entries.filter(([, value]) =>
+      value.name.toLowerCase().includes(lowerQuery),
+    );
   }, [projectMetaData, projectQuery]);
 
   // Initialize contentEditable
@@ -105,7 +116,10 @@ export default function NLPTitleInput({
     const names = Object.values(projectMetaData).map((p) => p.name);
     if (!names.length) return { html: baseText, cleanText: baseText };
 
-    const regex = new RegExp(`(#(${names.map((n) => escapeRegExp(n)).join("|")}))(?=\\s|$)`, "g");
+    const regex = new RegExp(
+      `(#(${names.map((n) => escapeRegExp(n)).join("|")}))(?=\\s|$)`,
+      "g",
+    );
 
     const container = document.createElement("div");
     container.textContent = baseText;
@@ -123,7 +137,9 @@ export default function NLPTitleInput({
           while ((match = regex.exec(text)) !== null) {
             const mIndex = match.index;
             if (mIndex > lastIndex) {
-              frag.appendChild(document.createTextNode(text.slice(lastIndex, mIndex)));
+              frag.appendChild(
+                document.createTextNode(text.slice(lastIndex, mIndex)),
+              );
             }
             const span = document.createElement("span");
             span.className = "bg-nlp inline rounded-[2px]";
@@ -139,7 +155,8 @@ export default function NLPTitleInput({
 
           if (
             frag.childNodes.length &&
-            (frag.childNodes.length !== 1 || frag.firstChild?.textContent !== text)
+            (frag.childNodes.length !== 1 ||
+              frag.firstChild?.textContent !== text)
           ) {
             child.parentNode?.replaceChild(frag, child);
           }
@@ -158,7 +175,10 @@ export default function NLPTitleInput({
     return { html: container.innerHTML, cleanText: baseText };
   };
 
-  const highlightDatesInHtml = (baseHtml: string, parsed: chrono.ParsedResult) => {
+  const highlightDatesInHtml = (
+    baseHtml: string,
+    parsed: chrono.ParsedResult,
+  ) => {
     const index = parsed.index as number;
     const matchedText = parsed.text as string;
 
@@ -192,14 +212,16 @@ export default function NLPTitleInput({
           const localEnd = Math.min(txt.length, matchEnd - nodeStart);
 
           const frag = document.createDocumentFragment();
-          if (localStart > 0) frag.appendChild(document.createTextNode(txt.slice(0, localStart)));
+          if (localStart > 0)
+            frag.appendChild(document.createTextNode(txt.slice(0, localStart)));
 
           const span = document.createElement("span");
           span.className = "bg-nlp inline rounded-[2px]";
           span.textContent = txt.slice(localStart, localEnd);
           frag.appendChild(span);
 
-          if (localEnd < txt.length) frag.appendChild(document.createTextNode(txt.slice(localEnd)));
+          if (localEnd < txt.length)
+            frag.appendChild(document.createTextNode(txt.slice(localEnd)));
 
           child.parentNode?.replaceChild(frag, child);
           offset += txt.length;
@@ -226,10 +248,15 @@ export default function NLPTitleInput({
     const names = Object.values(projectMetaData).map((p) => p.name);
     if (!names.length) return text;
 
-    const regex = new RegExp(`\\s*#(${names.map((n) => escapeRegExp(n)).join("|")})(?=\\s|$)`, "g");
-    return text.replace(regex, "").replace(/\s{2,}/g, " ").trim();
+    const regex = new RegExp(
+      `\\s*#(${names.map((n) => escapeRegExp(n)).join("|")})(?=\\s|$)`,
+      "g",
+    );
+    return text
+      .replace(regex, "")
+      .replace(/\s{2,}/g, " ")
+      .trim();
   };
-
 
   const applyNLPHighlighting = (text: string) => {
     // project first (html only)
@@ -260,7 +287,6 @@ export default function NLPTitleInput({
 
     return { html, cleanTitle };
   };
-
 
   // ---------------- INPUT HANDLERS ----------------
 
@@ -315,7 +341,10 @@ export default function NLPTitleInput({
     const beforeCaret = text.slice(0, caret);
     const hashIndex = beforeCaret.lastIndexOf("#");
 
-    if (hashIndex >= 0 && (hashIndex === 0 || /\s/.test(beforeCaret[hashIndex - 1]))) {
+    if (
+      hashIndex >= 0 &&
+      (hashIndex === 0 || /\s/.test(beforeCaret[hashIndex - 1]))
+    ) {
       const query = beforeCaret.slice(hashIndex + 1);
 
       //  If user already finished token (space typed), don't reopen
@@ -339,7 +368,6 @@ export default function NLPTitleInput({
       setProjectDropdownVisible(false);
     }
   };
-
 
   // ---------------- INSERT PROJECT ----------------
 
@@ -379,7 +407,6 @@ export default function NLPTitleInput({
       setCaretOffset(node, caretAfterInsert);
     });
   };
-
 
   // ---------------- KEYBOARD ----------------
 

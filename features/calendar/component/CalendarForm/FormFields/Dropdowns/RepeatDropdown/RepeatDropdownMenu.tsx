@@ -14,14 +14,14 @@ type RepeatDropdownMenuProps = {
     React.SetStateAction<Partial<Options> | null>
   >;
   derivedRepeatType:
-  | "Weekday"
-  | "Weekly"
-  | "Custom"
-  | "Daily"
-  | "Monthly"
-  | "Daily"
-  | "Yearly"
-  | null;
+    | "Weekday"
+    | "Weekly"
+    | "Custom"
+    | "Daily"
+    | "Monthly"
+    | "Daily"
+    | "Yearly"
+    | null;
 };
 
 const RepeatDropdownMenu = ({
@@ -46,7 +46,7 @@ const RepeatDropdownMenu = ({
   const formatMonthDay = (date: Date): string => {
     return new Intl.DateTimeFormat(locale, {
       month: "short",
-      day: "numeric"
+      day: "numeric",
     }).format(date);
   };
 
@@ -59,7 +59,11 @@ const RepeatDropdownMenu = ({
         <p className="hidden sm:block text-sm">{appDict("repeat")}</p>
         <ChevronDown className="w-4 h-4 text-muted-foreground!" />
       </PopoverTrigger>
-      <PopoverContent align="start" alignOffset={-7} className="min-w-62.5 p-0 py-1 border-popover-border flex flex-col gap-1 text-foreground border rounded-md shadow-lg z-50">
+      <PopoverContent
+        align="start"
+        alignOffset={-7}
+        className="min-w-62.5 p-0 py-1 border-popover-border flex flex-col gap-1 text-foreground border rounded-md shadow-lg z-50"
+      >
         {/* Every Day */}
         <div
           className={menuItemClass}
@@ -67,15 +71,11 @@ const RepeatDropdownMenu = ({
             setOpen(false);
             setRruleOptions(() => {
               return { freq: RRule.DAILY };
-            })
-          }
-          }
+            });
+          }}
         >
           <span className="text-sm">{appDict("everyDay")}</span>
-          <Indicator
-            name="Daily"
-            derivedRepeatType={derivedRepeatType}
-          />
+          <Indicator name="Daily" derivedRepeatType={derivedRepeatType} />
         </div>
 
         {/* Every Week */}
@@ -85,9 +85,8 @@ const RepeatDropdownMenu = ({
             setOpen(false);
             setRruleOptions(() => {
               return { freq: RRule.WEEKLY };
-            })
-          }
-          }
+            });
+          }}
         >
           <p className="text-sm">
             {appDict("everyWeek")}
@@ -95,10 +94,7 @@ const RepeatDropdownMenu = ({
               {appDict("customMenu.on")} {formatDayAbbr(new Date())}
             </span>
           </p>
-          <Indicator
-            name="Weekly"
-            derivedRepeatType={derivedRepeatType}
-          />
+          <Indicator name="Weekly" derivedRepeatType={derivedRepeatType} />
         </div>
 
         {/* Every Month */}
@@ -108,9 +104,8 @@ const RepeatDropdownMenu = ({
             setOpen(false);
             setRruleOptions(() => {
               return { freq: RRule.MONTHLY };
-            })
-          }
-          }
+            });
+          }}
         >
           <p className="text-sm">
             {appDict("everyMonth")}
@@ -118,10 +113,7 @@ const RepeatDropdownMenu = ({
               {appDict("customMenu.on")} {formatMonthDay(new Date())}
             </span>
           </p>
-          <Indicator
-            name="Monthly"
-            derivedRepeatType={derivedRepeatType}
-          />
+          <Indicator name="Monthly" derivedRepeatType={derivedRepeatType} />
         </div>
 
         {/* Every Year */}
@@ -131,9 +123,8 @@ const RepeatDropdownMenu = ({
             setOpen(false);
             setRruleOptions(() => {
               return { freq: RRule.YEARLY };
-            })
-          }
-          }
+            });
+          }}
         >
           <p className="text-sm">
             {appDict("everyYear")}
@@ -141,10 +132,7 @@ const RepeatDropdownMenu = ({
               {appDict("customMenu.on")} {formatMonthDay(new Date())}
             </span>
           </p>
-          <Indicator
-            name="Yearly"
-            derivedRepeatType={derivedRepeatType}
-          />
+          <Indicator name="Yearly" derivedRepeatType={derivedRepeatType} />
         </div>
 
         <LineSeparator className="my-2 border-popover-border" />
@@ -159,20 +147,14 @@ const RepeatDropdownMenu = ({
                 freq: RRule.WEEKLY,
                 byweekday: [RRule.MO, RRule.TU, RRule.WE, RRule.TH, RRule.FR],
               };
-            })
-          }
-          }
+            });
+          }}
         >
           <p className="text-sm">
             {appDict("weekdaysOnly")}
-            <span className="text-xs ml-4 text-muted-foreground">
-              Mon-Fri
-            </span>
+            <span className="text-xs ml-4 text-muted-foreground">Mon-Fri</span>
           </p>
-          <Indicator
-            name="Weekday"
-            derivedRepeatType={derivedRepeatType}
-          />
+          <Indicator name="Weekday" derivedRepeatType={derivedRepeatType} />
         </div>
 
         {/* Custom Repeat */}
@@ -193,9 +175,8 @@ const RepeatDropdownMenu = ({
               className="text-red w-[97%] mx-auto flex items-center justify-center hover:bg-red/90 rounded-sm px-2 py-1.5 hover:text-white cursor-pointer transition-colors"
               onClick={() => {
                 setOpen(false);
-                setRruleOptions(null)
-              }
-              }
+                setRruleOptions(null);
+              }}
             >
               <span className="text-sm">Clear</span>
             </div>

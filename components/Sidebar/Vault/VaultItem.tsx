@@ -8,7 +8,7 @@ import { LockIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useTranslations } from "next-intl";
 const VaultItem = () => {
-  const sidebarDict = useTranslations("sidebar")
+  const sidebarDict = useTranslations("sidebar");
 
   const { width } = useWindowSize();
   const { activeMenu, setActiveMenu, setShowMenu } = useMenu();
@@ -18,8 +18,7 @@ const VaultItem = () => {
       variant={"ghost"}
       className={clsx(
         "flex items-center border border-transparent font-normal px-2!",
-        activeMenu.name === "Vault" &&
-        "bg-sidebar-primary",
+        activeMenu.name === "Vault" && "bg-sidebar-primary",
       )}
     >
       <Link

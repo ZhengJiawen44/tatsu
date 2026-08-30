@@ -13,7 +13,7 @@ import { getS3Client } from "@/lib/s3";
 
 export async function DELETE(
   req: NextRequest,
-  { params }: { params: Promise<{ id: string }> }
+  { params }: { params: Promise<{ id: string }> },
 ) {
   try {
     const s3 = getS3Client();
@@ -34,7 +34,7 @@ export async function DELETE(
 
     if (!file) {
       throw new NotFoundError(
-        "key not found for deletetion. This file may not belong to you or has already been deleted"
+        "key not found for deletetion. This file may not belong to you or has already been deleted",
       );
     }
     const command = new DeleteObjectCommand({
@@ -68,7 +68,7 @@ export async function DELETE(
     if (error instanceof BaseServerError) {
       return NextResponse.json(
         { message: error.message },
-        { status: error.status }
+        { status: error.status },
       );
     }
 
@@ -80,7 +80,7 @@ export async function DELETE(
             ? error.message.slice(0, 50)
             : "An unexpected error occurred",
       },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }

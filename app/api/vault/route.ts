@@ -87,7 +87,7 @@ export async function POST(req: NextRequest) {
 
     return NextResponse.json(
       { message: "upload success", url: fileUrl },
-      { status: 200 }
+      { status: 200 },
     );
   } catch (error) {
     console.log(error);
@@ -95,7 +95,7 @@ export async function POST(req: NextRequest) {
     if (error instanceof BaseServerError) {
       return NextResponse.json(
         { message: error.message },
-        { status: error.status }
+        { status: error.status },
       );
     }
 
@@ -107,7 +107,7 @@ export async function POST(req: NextRequest) {
             ? error.message.slice(0, 50)
             : "an unexpected error occured",
       },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }
@@ -133,12 +133,12 @@ export async function GET(req: NextRequest) {
       if (!matchingVault) {
         return NextResponse.json(
           { message: "nothing found", vault: [] },
-          { status: 200 }
+          { status: 200 },
         );
       }
       return NextResponse.json(
         { message: "sucessfully found", vault: matchingVault },
-        { status: 200 }
+        { status: 200 },
       );
     }
 
@@ -151,7 +151,7 @@ export async function GET(req: NextRequest) {
 
     return NextResponse.json(
       { message: "sucessfully found", vault },
-      { status: 200 }
+      { status: 200 },
     );
   } catch (error) {
     console.log(error);
@@ -160,7 +160,7 @@ export async function GET(req: NextRequest) {
     if (error instanceof BaseServerError) {
       return NextResponse.json(
         { message: error.message },
-        { status: error.status }
+        { status: error.status },
       );
     }
 
@@ -172,7 +172,7 @@ export async function GET(req: NextRequest) {
             ? error.message.slice(0, 50)
             : "an unexpected error occured",
       },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }

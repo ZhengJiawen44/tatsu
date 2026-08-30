@@ -20,9 +20,9 @@ const EyeToggle = ({
         className={cn(
           clsx(
             "absolute right-[16px] top-1/2 -translate-y-1/2  stroke-form-label hover:stroke-form-label-accent hover:cursor-pointer",
-            !show && "hidden"
+            !show && "hidden",
           ),
-          className
+          className,
         )}
         onClick={() => {
           setShow(!show);
@@ -37,9 +37,9 @@ const EyeToggle = ({
         className={cn(
           clsx(
             "absolute right-[16px] top-1/2 -translate-y-1/2  stroke-form-label hover:stroke-form-label-accent hover:cursor-pointer",
-            show && "hidden"
+            show && "hidden",
           ),
-          className
+          className,
         )}
         onClick={() => {
           setShow(!show);

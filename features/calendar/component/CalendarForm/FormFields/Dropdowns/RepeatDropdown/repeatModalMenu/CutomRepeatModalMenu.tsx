@@ -23,14 +23,14 @@ type CustomRepeatModalMenuProps = {
     React.SetStateAction<Partial<Options> | null>
   >;
   derivedRepeatType:
-  | "Weekday"
-  | "Weekly"
-  | "Custom"
-  | "Daily"
-  | "Monthly"
-  | "Daily"
-  | "Yearly"
-  | null;
+    | "Weekday"
+    | "Weekly"
+    | "Custom"
+    | "Daily"
+    | "Monthly"
+    | "Daily"
+    | "Yearly"
+    | null;
   className: string | undefined;
 };
 
@@ -51,19 +51,14 @@ const CustomRepeatModalMenu = ({
     <Dialog>
       <DialogTrigger className={className}>
         {appDict("custom")}
-        <Indicator
-          name={"Custom"}
-          derivedRepeatType={derivedRepeatType}
-        />
+        <Indicator name={"Custom"} derivedRepeatType={derivedRepeatType} />
       </DialogTrigger>
       <DialogContent>
         <DialogHeader>
           <DialogTitle className="font-medium">
             {appDict("customMenu.title")}
           </DialogTitle>
-          <DialogDescription>
-            {appDict("customMenu.title")}
-          </DialogDescription>
+          <DialogDescription>{appDict("customMenu.title")}</DialogDescription>
         </DialogHeader>
         <div className="flex flex-col gap-6 mb-2">
           {/* rrule interval option */}

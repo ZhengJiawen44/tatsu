@@ -71,8 +71,7 @@ const RepeatEndOption = ({
                 day: "w-11 h-11 text-sm text-foreground/80",
                 nav_button:
                   "z-50 w-10 h-10 rounded-full flex items-center justify-center bg-popover/60 hover:bg-popover-accent backdrop-blur-sm",
-                nav: "w-10 h-10"
-
+                nav: "w-10 h-10",
               }}
               mode="single"
               selected={customRepeatOptions?.until || undefined}

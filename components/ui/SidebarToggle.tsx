@@ -2,11 +2,7 @@ import { cn } from "@/lib/utils";
 import { useMenu } from "@/providers/MenuProvider";
 import { SidebarIcon } from "lucide-react";
 import React from "react";
-const SidebarToggle = ({
-  className,
-}: {
-  className?: string;
-}) => {
+const SidebarToggle = ({ className }: { className?: string }) => {
   const { setShowMenu } = useMenu();
 
   return (

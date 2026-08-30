@@ -36,8 +36,8 @@ const CalendarForm = ({
   const titleRef = useRef(null);
 
   const dateRangeChecksum = useMemo(
-    () => `${todo.dtstart?.toISOString() ?? "null"}-${todo.due?.toISOString() ?? "null"}`
-    ,
+    () =>
+      `${todo.dtstart?.toISOString() ?? "null"}-${todo.due?.toISOString() ?? "null"}`,
     [todo.dtstart, todo.due],
   );
   const rruleChecksum = useMemo(() => todo.rrule, [todo.rrule]);
@@ -105,8 +105,10 @@ const CalendarForm = ({
           priority,
           dtstart: dateRange.from,
           due: dateRange.to,
-          rrule: rruleOptions ? new RRule(rruleOptions).toString().replace("RRULE:", "") : null,
-          projectID
+          rrule: rruleOptions
+            ? new RRule(rruleOptions).toString().replace("RRULE:", "")
+            : null,
+          projectID,
         }}
         rruleChecksum={rruleChecksum!}
         dateRangeChecksum={dateRangeChecksum}
@@ -115,9 +117,12 @@ const CalendarForm = ({
         setEditAllDialogOpen={setEditAllDialogOpen}
       />
 
-      <Modal open={displayForm} onOpenChange={(open) => {
-        if (!open) handleClose();
-      }}>
+      <Modal
+        open={displayForm}
+        onOpenChange={(open) => {
+          if (!open) handleClose();
+        }}
+      >
         <ModalOverlay>
           <ModalContent>
             <form
@@ -129,13 +134,15 @@ const CalendarForm = ({
                 } else {
                   editCalendarTodo({
                     ...todo,
-                    rrule: rruleOptions ? new RRule(rruleOptions).toString().replace("RRULE:", "") : null,
+                    rrule: rruleOptions
+                      ? new RRule(rruleOptions).toString().replace("RRULE:", "")
+                      : null,
                     title,
                     description,
                     priority,
                     dtstart: dateRange.from,
                     due: dateRange.to,
-                    projectID
+                    projectID,
                   });
                 }
               }}
@@ -188,7 +195,6 @@ const CalendarForm = ({
                     />
                   </div>
                 </div>
-
 
                 {/* Priority */}
                 <div className="flex items-center gap-4">

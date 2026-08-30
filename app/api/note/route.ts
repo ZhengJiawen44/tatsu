@@ -29,7 +29,7 @@ export async function POST(req: NextRequest) {
 
     return NextResponse.json(
       { message: "note created", note },
-      { status: 200 }
+      { status: 200 },
     );
   } catch (error) {
     console.log(error);
@@ -38,7 +38,7 @@ export async function POST(req: NextRequest) {
     if (error instanceof BaseServerError) {
       return NextResponse.json(
         { message: error.message },
-        { status: error.status }
+        { status: error.status },
       );
     }
 
@@ -50,7 +50,7 @@ export async function POST(req: NextRequest) {
             ? error.message.slice(0, 50)
             : "an unexpected error occured",
       },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }
@@ -77,7 +77,7 @@ export async function GET() {
     if (error instanceof BaseServerError) {
       return NextResponse.json(
         { message: error.message },
-        { status: error.status }
+        { status: error.status },
       );
     }
 
@@ -89,7 +89,7 @@ export async function GET() {
             ? error.message.slice(0, 50)
             : "an unexpected error occured",
       },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }

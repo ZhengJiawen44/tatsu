@@ -1,9 +1,9 @@
 on:
   workflow_dispatch:
   schedule:
-    - cron: '40 16 * * *'
-    - cron: '40 5  * * *' 
-    - cron: '40 4  * * *'
+    - cron: "40 16 * * *"
+    - cron: "40 5  * * *"
+    - cron: "40 4  * * *"
 
 jobs:
   call-cron:
@@ -11,8 +11,7 @@ jobs:
     steps:
       - name: Call cron endpoint
         shell: bash
-        env: 
+        env:
           CRONJOB_SECRET: ${{ secrets.CRONJOB_SECRET }}
         run: |
           curl --header "X-CronSecret: $CRONJOB_SECRET" -X GET https://tatsu-gg.vercel.app/api/cron/rescheduleTodo
-  

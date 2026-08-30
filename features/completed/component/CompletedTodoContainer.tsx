@@ -6,10 +6,9 @@ import { useGroupedHistory } from "../hooks/useGroupedHistory";
 import GroupedCompletedTodoContainer from "./GroupedContainer";
 import { useTranslations } from "next-intl";
 const CompletedTodoContainer = () => {
-  const completedDict = useTranslations("completed")
+  const completedDict = useTranslations("completed");
   const { completedTodos, todoLoading } = useCompletedTodo();
   const groupedHistory = useGroupedHistory(completedTodos);
-
 
   if (todoLoading)
     return (

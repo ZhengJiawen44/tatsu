@@ -20,7 +20,7 @@ const Pointer = ({
       transform={variant === "left" ? "" : "scale(-1,1)"}
       className={cn(
         "hover:stroke-white stroke-card-foreground-muted hover:cursor-pointer",
-        className
+        className,
       )}
     >
       <path

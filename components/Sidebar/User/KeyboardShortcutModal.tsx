@@ -1,5 +1,13 @@
 import { SetStateAction, useMemo, useState } from "react";
-import { Modal, ModalOverlay, ModalContent, ModalHeader, ModalTitle, ModalClose, ModalBody } from "@/components/ui/Modal";
+import {
+  Modal,
+  ModalOverlay,
+  ModalContent,
+  ModalHeader,
+  ModalTitle,
+  ModalClose,
+  ModalBody,
+} from "@/components/ui/Modal";
 import { useTranslations } from "next-intl";
 import { X } from "lucide-react";
 import SearchBar from "@/components/SearchBar";
@@ -14,7 +22,10 @@ export default function KeyboardShortcutsModal({
   const [keyword, setKeyWord] = useState("");
   const shortcutsDict = useTranslations("shortcuts");
   const todoShortcuts = [
-    { name: shortcutsDict("todo.submitAndOpen"), shortcutKey: ["Ctrl", "Enter"] },
+    {
+      name: shortcutsDict("todo.submitAndOpen"),
+      shortcutKey: ["Ctrl", "Enter"],
+    },
     { name: shortcutsDict("todo.openForm"), shortcutKey: ["Q"] },
     { name: shortcutsDict("todo.editForm"), shortcutKey: ["Double Click"] },
   ];
@@ -29,17 +40,22 @@ export default function KeyboardShortcutsModal({
     { name: shortcutsDict("navigation.calendar"), shortcutKey: ["G", "C"] },
     { name: shortcutsDict("navigation.completed"), shortcutKey: ["G", "D"] },
     { name: shortcutsDict("navigation.vault"), shortcutKey: ["G", "V"] },
-  ]
+  ];
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  const searchList = useMemo(() => [...todoShortcuts, ...calendarShortcuts, ...navigationShortcuts].filter(({ name }) => { return name.toLocaleLowerCase().includes(keyword.toLocaleLowerCase()) }), [keyword])
-
+  const searchList = useMemo(
+    () =>
+      [...todoShortcuts, ...calendarShortcuts, ...navigationShortcuts].filter(
+        ({ name }) => {
+          return name.toLocaleLowerCase().includes(keyword.toLocaleLowerCase());
+        },
+      ),
+    [keyword],
+  );
 
   return (
     <Modal open={open} onOpenChange={onOpenChange}>
       <ModalOverlay>
-        <ModalContent
-          className="max-w-xl px-0"
-        >
+        <ModalContent className="max-w-xl px-0">
           <ModalHeader className="relative mx-auto">
             <ModalTitle className="text-lg w-2/3 mx-auto">
               <SearchBar onInput={(e) => setKeyWord(e.currentTarget.value)} />
@@ -52,82 +68,115 @@ export default function KeyboardShortcutsModal({
             <X />
           </ModalClose>
           <ModalBody>
-
-            {
-              keyword.length ?
-                searchList.map(({ name, shortcutKey }) => <div key={name} className="shadow-md border border-border/30 w-full rounded-sm bg-popover/60 mx-auto my-1 p-3 flex items-center justify-between">
+            {keyword.length ? (
+              searchList.map(({ name, shortcutKey }) => (
+                <div
+                  key={name}
+                  className="shadow-md border border-border/30 w-full rounded-sm bg-popover/60 mx-auto my-1 p-3 flex items-center justify-between"
+                >
                   <span>{name}</span>
                   <div className="flex gap-2">
-                    {shortcutKey.map((key) =>
-                      <span key={key} className="px-2 py-0.5 rounded-md bg-popover-accent/80">
+                    {shortcutKey.map((key) => (
+                      <span
+                        key={key}
+                        className="px-2 py-0.5 rounded-md bg-popover-accent/80"
+                      >
                         {key}
-                      </span>)}
+                      </span>
+                    ))}
                   </div>
-                </div>)
-                : <>
-                  {/* Form Operations Table */}
-                  <div className="mb-8">
-                    <h2 className="text-lg tracking-tighter font-medium text-foreground mb-2 pb-2">
-                      {shortcutsDict("todo.title")}
-                    </h2>
-                    <div className="overflow-hidden rounded-lg">
-                      {todoShortcuts.map(({ name, shortcutKey }) => {
-                        return <div key={name} className="shadow-md border border-border/30 w-full rounded-sm bg-popover/60 mx-auto my-1 p-3 flex items-center justify-between">
+                </div>
+              ))
+            ) : (
+              <>
+                {/* Form Operations Table */}
+                <div className="mb-8">
+                  <h2 className="text-lg tracking-tighter font-medium text-foreground mb-2 pb-2">
+                    {shortcutsDict("todo.title")}
+                  </h2>
+                  <div className="overflow-hidden rounded-lg">
+                    {todoShortcuts.map(({ name, shortcutKey }) => {
+                      return (
+                        <div
+                          key={name}
+                          className="shadow-md border border-border/30 w-full rounded-sm bg-popover/60 mx-auto my-1 p-3 flex items-center justify-between"
+                        >
                           <span>{name}</span>
                           <div className="flex gap-2">
-                            {shortcutKey.map((key) =>
-                              <span key={key} className="px-2 py-0.5 rounded-md bg-popover-accent/80">
+                            {shortcutKey.map((key) => (
+                              <span
+                                key={key}
+                                className="px-2 py-0.5 rounded-md bg-popover-accent/80"
+                              >
                                 {key}
-                              </span>)}
+                              </span>
+                            ))}
                           </div>
                         </div>
-                      })}
-                    </div>
+                      );
+                    })}
                   </div>
+                </div>
 
-
-                  {/* Calendar Table */}
-                  <div className="mb-8">
-                    <h2 className="text-lg tracking-tighter font-medium text-foreground mb-2 pb-2">
-                      {shortcutsDict("calendar.title")}
-                    </h2>
-                    <div className="overflow-hidden rounded-lg">
-                      {calendarShortcuts.map(({ name, shortcutKey }) => {
-                        return <div key={name} className="shadow-md border border-border/30 w-full rounded-sm bg-popover/60 mx-auto my-1 p-3 flex items-center justify-between">
+                {/* Calendar Table */}
+                <div className="mb-8">
+                  <h2 className="text-lg tracking-tighter font-medium text-foreground mb-2 pb-2">
+                    {shortcutsDict("calendar.title")}
+                  </h2>
+                  <div className="overflow-hidden rounded-lg">
+                    {calendarShortcuts.map(({ name, shortcutKey }) => {
+                      return (
+                        <div
+                          key={name}
+                          className="shadow-md border border-border/30 w-full rounded-sm bg-popover/60 mx-auto my-1 p-3 flex items-center justify-between"
+                        >
                           <span>{name}</span>
                           <div className="flex gap-2">
-                            {shortcutKey.map((key) =>
-                              <span key={key} className="px-2 py-0.5 rounded-md bg-popover-accent/80">
+                            {shortcutKey.map((key) => (
+                              <span
+                                key={key}
+                                className="px-2 py-0.5 rounded-md bg-popover-accent/80"
+                              >
                                 {key}
-                              </span>)}
+                              </span>
+                            ))}
                           </div>
                         </div>
-                      })}
-                    </div>
+                      );
+                    })}
                   </div>
+                </div>
 
-
-                  {/* Navigation Table */}
-                  <div className="mb-8">
-                    <h2 className="text-lg tracking-tighter font-medium text-foreground mb-2 pb-2">
-                      {shortcutsDict("navigation.title")}
-                    </h2>
-                    <div className="overflow-hidden rounded-lg">
-                      {navigationShortcuts.map(({ name, shortcutKey }) => {
-                        return <div key={name} className="shadow-md border border-border/30 w-full rounded-sm bg-popover/60 mx-auto my-1 p-3 flex items-center justify-between">
+                {/* Navigation Table */}
+                <div className="mb-8">
+                  <h2 className="text-lg tracking-tighter font-medium text-foreground mb-2 pb-2">
+                    {shortcutsDict("navigation.title")}
+                  </h2>
+                  <div className="overflow-hidden rounded-lg">
+                    {navigationShortcuts.map(({ name, shortcutKey }) => {
+                      return (
+                        <div
+                          key={name}
+                          className="shadow-md border border-border/30 w-full rounded-sm bg-popover/60 mx-auto my-1 p-3 flex items-center justify-between"
+                        >
                           <span>{name}</span>
                           <div className="flex gap-2">
-                            {shortcutKey.map((key) =>
-                              <span key={key} className="px-2 py-0.5 rounded-md bg-popover-accent/80">
+                            {shortcutKey.map((key) => (
+                              <span
+                                key={key}
+                                className="px-2 py-0.5 rounded-md bg-popover-accent/80"
+                              >
                                 {key}
-                              </span>)}
+                              </span>
+                            ))}
                           </div>
                         </div>
-                      })}
-                    </div>
+                      );
+                    })}
                   </div>
-                </>
-            }
+                </div>
+              </>
+            )}
           </ModalBody>
         </ModalContent>
       </ModalOverlay>

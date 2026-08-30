@@ -63,7 +63,7 @@ export async function POST(req: NextRequest) {
     if (error instanceof BaseServerError) {
       return NextResponse.json(
         { message: error.message },
-        { status: error.status }
+        { status: error.status },
       );
     }
 
@@ -75,7 +75,7 @@ export async function POST(req: NextRequest) {
             ? error.message.slice(0, 50)
             : "an unexpected error occured",
       },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }

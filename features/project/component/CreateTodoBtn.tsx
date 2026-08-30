@@ -26,7 +26,6 @@ const CreateTodoBtn = ({ projectID }: { projectID?: string }) => {
       return;
     };
 
-
     document.addEventListener("keydown", showCreateTodoForm);
     return () => {
       document.removeEventListener("keydown", showCreateTodoForm);
@@ -47,7 +46,11 @@ const CreateTodoBtn = ({ projectID }: { projectID?: string }) => {
 
       {/* form */}
       {displayForm && (
-        <TodoForm displayForm={displayForm} setDisplayForm={setDisplayForm} overrideFields={{ projectID }} />
+        <TodoForm
+          displayForm={displayForm}
+          setDisplayForm={setDisplayForm}
+          overrideFields={{ projectID }}
+        />
       )}
     </div>
   );

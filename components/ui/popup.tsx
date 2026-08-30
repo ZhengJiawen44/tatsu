@@ -5,18 +5,23 @@ import {
   Carousel,
   CarouselContent,
   type CarouselApi,
-  type CarouselItem
+  type CarouselItem,
 } from "@/components/ui/carousel";
 
 type PopupProps = {
-  popupName: string,
-  title: string,
-  resetPopupToggle: boolean // simply change this boolean to the opposite if you want the banner to be displayed once again
+  popupName: string;
+  title: string;
+  resetPopupToggle: boolean; // simply change this boolean to the opposite if you want the banner to be displayed once again
 
-  children: ReactElement<typeof CarouselItem>[]
-}
+  children: ReactElement<typeof CarouselItem>[];
+};
 
-export default function Popup({ popupName, title, resetPopupToggle, children }: PopupProps) {
+export default function Popup({
+  popupName,
+  title,
+  resetPopupToggle,
+  children,
+}: PopupProps) {
   const localStorageName = `show${popupName[0].toUpperCase() + popupName.slice(1)}`;
   const [api, setApi] = useState<CarouselApi>();
   const [current, setCurrent] = useState(0);
@@ -25,7 +30,10 @@ export default function Popup({ popupName, title, resetPopupToggle, children }: 
   useEffect(() => {
     const showModal = localStorage.getItem(localStorageName);
     if (!showModal) {
-      localStorage.setItem(localStorageName, resetPopupToggle ? "true" : "false");
+      localStorage.setItem(
+        localStorageName,
+        resetPopupToggle ? "true" : "false",
+      );
       setShowModal(true);
     } else {
       setShowModal(
@@ -45,7 +53,6 @@ export default function Popup({ popupName, title, resetPopupToggle, children }: 
       setCurrent(api.selectedScrollSnap());
     });
   }, [api]);
-
 
   const scrollTo = (index: number) => {
     api?.scrollTo(index);
@@ -74,23 +81,21 @@ export default function Popup({ popupName, title, resetPopupToggle, children }: 
                 <button
                   key={index}
                   onClick={() => scrollTo(index)}
-                  className={`w-2 h-2 rounded-full transition-opacity ${current === index
-                    ? "bg-muted-foreground"
-                    : "bg-muted-foreground opacity-20"
-                    }`}
+                  className={`w-2 h-2 rounded-full transition-opacity ${
+                    current === index
+                      ? "bg-muted-foreground"
+                      : "bg-muted-foreground opacity-20"
+                  }`}
                   aria-label={`Go to slide ${index + 1}`}
                 />
               ))}
             </div>
           </div>
           <Carousel setApi={setApi} className="w-full min-w-0 overflow-hidden">
-            <CarouselContent>
-              {children}
-            </CarouselContent>
+            <CarouselContent>{children}</CarouselContent>
           </Carousel>
         </DialogContent>
       </Dialog>
     </>
   );
 }
-

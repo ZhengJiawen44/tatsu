@@ -14,21 +14,25 @@ import LineSeparator from "@/components/ui/lineSeparator";
 import CompleteButton from "./CompleteButton";
 import { Button } from "@/components/ui/button";
 import dynamic from "next/dynamic";
-const ConfirmDelete = dynamic(() => import("./ConfirmationModals/ConfirmDelete"));
-const ConfirmDeleteAll = dynamic(() => import("./ConfirmationModals/ConfirmDeleteAll"))
+const ConfirmDelete = dynamic(
+  () => import("./ConfirmationModals/ConfirmDelete"),
+);
+const ConfirmDeleteAll = dynamic(
+  () => import("./ConfirmationModals/ConfirmDeleteAll"),
+);
 import EditCalendarFormContainer from "./CalendarForm/EditFormContainer";
 import TodoCheckbox from "@/components/ui/TodoCheckbox";
 import { Check } from "lucide-react";
 import { useCompleteCalendarTodo } from "../query/complete-calendar-todo";
 import { useCompleteCalendarTodoInstance } from "../query/complete-calendar-todo-instance";
 
-
 const formatDateRange = (start: Date, end: Date) =>
   `${format(start, "MMM dd hh:mm")} - ${format(end, "MMM dd hh:mm")}`;
 
 const CalendarEvent = ({ event: todo }: EventProps<TodoItemType>) => {
   const { mutateComplete } = useCompleteCalendarTodo();
-  const { mutateComplete: mutateCompleteInstance } = useCompleteCalendarTodoInstance();
+  const { mutateComplete: mutateCompleteInstance } =
+    useCompleteCalendarTodoInstance();
   const [open, setOpen] = useState(false);
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
   const [deleteAllDialogOpen, setDeleteAllDialogOpen] = useState(false);
@@ -63,16 +67,14 @@ const CalendarEvent = ({ event: todo }: EventProps<TodoItemType>) => {
                 complete={todo.completed}
                 onChange={() => {
                   if (!todo.rrule) {
-                    mutateComplete({ todoItem: todo })
+                    mutateComplete({ todoItem: todo });
                   } else {
-                    mutateCompleteInstance({ todoItem: todo })
+                    mutateCompleteInstance({ todoItem: todo });
                   }
-                }
-                }
+                }}
                 checked={todo.completed}
               />
             </div>
-
 
             <p className="text-sm truncate max-w-full sm:max-w-xs md:max-w-sm lg:max-w-md xl:max-w-lg 2xl:max-w-xl">
               {todo.title}
@@ -80,7 +82,10 @@ const CalendarEvent = ({ event: todo }: EventProps<TodoItemType>) => {
           </div>
         </PopoverTrigger>
 
-        <PopoverContent className="p-0 w-screen sm:w-120 md:w-100 lg:w-120 bg-popover" onMouseDown={(e) => e.stopPropagation()}>
+        <PopoverContent
+          className="p-0 w-screen sm:w-120 md:w-100 lg:w-120 bg-popover"
+          onMouseDown={(e) => e.stopPropagation()}
+        >
           {/* Header */}
           <div className="flex gap-0 md:gap-2 p-2 justify-end ">
             {/* EDIT */}
@@ -142,7 +147,9 @@ const CalendarEvent = ({ event: todo }: EventProps<TodoItemType>) => {
                   {todo.title}
                 </p>
                 <p className="text-[0.6rem] sm:text-xs md:text-sm text-foreground">
-                  {(todo.dtstart && todo.due) && formatDateRange(todo.dtstart, todo.due)}
+                  {todo.dtstart &&
+                    todo.due &&
+                    formatDateRange(todo.dtstart, todo.due)}
                 </p>
               </div>
             </div>

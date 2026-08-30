@@ -28,14 +28,14 @@ async function postVault({
       cipherKeyBit,
       { name: "AES-GCM" },
       false,
-      ["encrypt", "decrypt"]
+      ["encrypt", "decrypt"],
     );
 
     //encrypt the file with the cipher key
     const encryptedByteFile = await crypto.subtle.encrypt(
       { name: "AES-GCM", iv },
       cipherKey,
-      byteFile
+      byteFile,
     );
 
     //encrypt cipher key with the symmetric key
@@ -47,19 +47,19 @@ async function postVault({
       decodedSymKey,
       { name: "AES-GCM" },
       false,
-      ["encrypt", "decrypt"]
+      ["encrypt", "decrypt"],
     );
     const encryptedCipherKey = await crypto.subtle.encrypt(
       { name: "AES-GCM", iv: cipherKeyIv },
       symCryptoKey,
-      cipherKeyBit
+      cipherKeyBit,
     );
 
     const cipherObj = concatUint8Array(
       cipherKeyIv,
       new Uint8Array(encryptedCipherKey),
       iv,
-      new Uint8Array(encryptedByteFile)
+      new Uint8Array(encryptedByteFile),
     );
 
     //send the encrypted file with the unencrypted name

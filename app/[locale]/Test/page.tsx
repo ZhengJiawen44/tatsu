@@ -1,7 +1,5 @@
-import React from 'react'
-import ModalTest from '@/components/ModalTest'
+import React from "react";
+import ModalTest from "@/components/ModalTest";
 export default function page() {
-    return (
-        <ModalTest />
-    )
+  return <ModalTest />;
 }

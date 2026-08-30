@@ -16,12 +16,9 @@ export function CalendarToolbar({
   onView,
   view,
 }: ToolbarProps<TodoItemType, object>) {
-
-
   const appDict = useTranslations("app");
 
   const viewOptions = ["month", "week", "day", "agenda"] as const;
-
 
   return (
     <div className="flex items-center justify-between gap-0 sm:gap-4 p-2 mb-4 text-xs">
@@ -71,13 +68,10 @@ export function CalendarToolbar({
               {viewOptions.map((v) => (
                 <SelectItem value={v} key={v}>
                   {appDict(v.toLowerCase())}
-                </SelectItem>))
-              }
+                </SelectItem>
+              ))}
             </SelectContent>
           </Select>
-
-
-
         </div>
       </div>
     </div>

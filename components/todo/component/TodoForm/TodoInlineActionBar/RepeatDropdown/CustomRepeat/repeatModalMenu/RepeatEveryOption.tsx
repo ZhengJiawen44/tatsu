@@ -5,8 +5,7 @@ import {
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/components/ui/select"
-
+} from "@/components/ui/select";
 
 import React, { SetStateAction } from "react";
 import { Options, RRule } from "rrule";
