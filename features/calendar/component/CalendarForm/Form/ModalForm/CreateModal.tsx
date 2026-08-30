@@ -20,7 +20,7 @@ import NLPTitleInput from "@/components/todo/component/TodoForm/NLPTitleInput";
 import deriveRepeatType from "@/lib/deriveRepeatType";
 import { DateRange } from "react-day-picker";
 type CreateCalendarFormProps = {
-  selectDateRange: { start: Date, end: Date } | null;
+  selectDateRange: { start: Date; end: Date } | null;
   displayForm: boolean;
   setDisplayForm: React.Dispatch<React.SetStateAction<boolean>>;
 };
@@ -40,7 +40,9 @@ const CreateCalendarForm = ({
     from: selectDateRange?.start || undefined,
     to: selectDateRange?.end || undefined,
   });
-  const [rruleOptions, setRruleOptions] = useState<Partial<Options> | null>(null);
+  const [rruleOptions, setRruleOptions] = useState<Partial<Options> | null>(
+    null,
+  );
   const [projectID, setProjectID] = useState<string | null>(null);
   const derivedRepeatType = deriveRepeatType({ rruleOptions });
 
@@ -49,7 +51,9 @@ const CreateCalendarForm = ({
   const { createCalendarTodo, createTodoStatus } = useCreateCalendarTodo();
 
   const hasUnsavedChanges = useMemo(() => {
-    const rruleString = rruleOptions ? RRule.optionsToString(rruleOptions) : null;
+    const rruleString = rruleOptions
+      ? RRule.optionsToString(rruleOptions)
+      : null;
     return (
       title !== "" ||
       description !== "" ||
@@ -67,6 +71,7 @@ const CreateCalendarForm = ({
   }, [createTodoStatus, setDisplayForm]);
 
   const handleClose = () => {
+    console.log(hasUnsavedChanges);
     if (hasUnsavedChanges) {
       setCancelEditDialogOpen(true);
       return;
@@ -82,9 +87,12 @@ const CreateCalendarForm = ({
         setDisplayForm={setDisplayForm}
       />
 
-      <Modal open={displayForm} onOpenChange={(open) => {
-        if (!open) handleClose();
-      }}>
+      <Modal
+        open={displayForm}
+        onOpenChange={(open) => {
+          if (!open) handleClose();
+        }}
+      >
         <ModalOverlay>
           <ModalContent>
             <form
@@ -97,8 +105,10 @@ const CreateCalendarForm = ({
                   priority,
                   dtstart: dateRange.from,
                   due: dateRange.to,
-                  rrule: rruleOptions ? new RRule(rruleOptions).toString().replace("RRULE:", "") : null,
-                  projectID: projectID
+                  rrule: rruleOptions
+                    ? new RRule(rruleOptions).toString().replace("RRULE:", "")
+                    : null,
+                  projectID: projectID,
                 });
               }}
             >
@@ -201,10 +211,3 @@ const CreateCalendarForm = ({
 };
 
 export default CreateCalendarForm;
-
-
-
-
-
-
-
