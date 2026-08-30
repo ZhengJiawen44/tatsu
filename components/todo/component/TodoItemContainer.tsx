@@ -10,13 +10,12 @@ import TodoFormLoading from "./TodoForm/TodoFormLoading";
 import { Check } from "lucide-react";
 import LineSeparator from "@/components/ui/lineSeparator";
 import { getDisplayDate } from "@/lib/date/displayDate";
-import { useLocale } from "next-intl";
 import { useTodoMutation } from "@/providers/TodoMutationProvider";
 import { useProjectMetaData } from "@/components/Sidebar/Project/query/get-project-meta";
 import ProjectTag from "@/components/ProjectTag";
 import TodoItemMenuContainer from "./TodoItem/TodoMenu/TodoItemMenuContainer";
 import { useUserTimezone } from "@/features/user/query/get-timezone";
-import { getDisplayDueDate } from "@/lib/date/displayDueDate";
+import { toZonedTime } from "date-fns-tz";
 
 const TodoFormContainer = dynamic(
   () => import("./TodoForm/TodoFormContainer"),
@@ -33,8 +32,19 @@ export const TodoItemContainer = ({ todoItem, overdue }: TodoItemContainerProps)
   const { projectMetaData } = useProjectMetaData();
   const { useCompleteTodo } = useTodoMutation();
   const { completeMutateFn } = useCompleteTodo();
-  const locale = useLocale();
   const userTimeZone = useUserTimezone();
+
+  // only reason using this is because of SSR error that would happen from 
+  // server's utc time and client's local time mismatch
+  // note: only use these for displaying date, use dtstart and due for manipulation
+  const displayDtstart = todoItem.dtstart&&userTimeZone ? 
+    getDisplayDate(toZonedTime(todoItem.dtstart, userTimeZone), true) : 
+    null
+
+    const displayDue = todoItem.due&&userTimeZone ? 
+    getDisplayDate(toZonedTime(todoItem.due, userTimeZone), true) : 
+    null
+
   //dnd kit setups
   const { attributes, listeners, setNodeRef, transform, transition, isDragging } =
     useSortable({ id: todoItem.id });
@@ -116,14 +126,11 @@ export const TodoItemContainer = ({ todoItem, overdue }: TodoItemContainerProps)
                 {(dtstart || due) &&
                   <p className={clsx(overdue ? "text-orange" : "text-lime")}>
                     {
-                      dtstart ?
-                        getDisplayDate(dtstart, true, locale, userTimeZone)
-                        :
-                        getDisplayDate(due, true, locale, userTimeZone)
+                        displayDtstart
                     }
                   </p>
                 }
-                {dtstart &&
+                {due &&
                   <p
                     className={clsx(
                       "overflow-hidden line-clamp-1 transition-all duration-300 ease-out",
@@ -131,7 +138,11 @@ export const TodoItemContainer = ({ todoItem, overdue }: TodoItemContainerProps)
                     )}
                   >
                     <span className="mx-1">-</span>
-                    <span>{getDisplayDueDate(due, dtstart, true, locale, userTimeZone)}</span>
+                    <span>
+                      {
+                        displayDue
+                      }
+                    </span>
                   </p>}
               </div>
 
