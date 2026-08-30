@@ -38,8 +38,9 @@ export async function PATCH(
     //insert a new completed todo record
     const currentTime = new Date();
     const completedOnTime = todo.due ? todo.due > currentTime : true;
-    const daysToComplete =
-      (Number(currentTime) - Number(todo.dtstart)) / (1000 * 60 * 60 * 24);
+    const daysToComplete = todo.dtstart
+      ? (Number(currentTime) - Number(todo.dtstart)) / (1000 * 60 * 60 * 24)
+      : undefined;
 
     await prisma.completedTodo.create({
       data: {
@@ -51,7 +52,9 @@ export async function PATCH(
         due: todo.due || undefined,
         completedAt: new Date(),
         completedOnTime,
-        daysToComplete: new Prisma.Decimal(daysToComplete),
+        daysToComplete: daysToComplete
+          ? new Prisma.Decimal(daysToComplete)
+          : undefined,
         rrule: todo.rrule,
         userID: todo.userID,
       },
