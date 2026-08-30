@@ -12,7 +12,7 @@ export default function CompleteButton({
   const { mutateComplete } = useCompleteCalendarTodo();
   const { mutateComplete: mutateInstanceComplete } =
     useCompleteCalendarTodoInstance();
-  const calendarDict = useTranslations("shortcuts.calendar")
+  const calendarDict = useTranslations("shortcuts.calendar");
 
   return (
     <div className="flex justify-end p-3 ">

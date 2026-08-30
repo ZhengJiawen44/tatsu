@@ -22,7 +22,7 @@ const TodoGroup = ({
   className?: string;
   overdue?: boolean;
 }) => {
-  const { toast } = useToast()
+  const { toast } = useToast();
   const { preferences } = useUserPreferences();
   const { useReorderTodo } = useTodoMutation();
   const { reorderMutateFn } = useReorderTodo();
@@ -65,7 +65,9 @@ const TodoGroup = ({
   const sensors = useSensors(
     useSensor(KeyboardSensor),
     useSensor(MouseSensor),
-    useSensor(TouchSensor, { activationConstraint: { delay: 250, tolerance: 5 } })
+    useSensor(TouchSensor, {
+      activationConstraint: { delay: 250, tolerance: 5 },
+    }),
   );
 
   function handleDragEnd(event: DragEndEvent) {
@@ -93,7 +95,7 @@ const TodoGroup = ({
             draggable={true}
             onDragStart={(e) => {
               e.preventDefault();
-              toast({ title: "Drag disabled; a global filter is active" })
+              toast({ title: "Drag disabled; a global filter is active" });
             }}
           >
             <TodoItemContainer todoItem={item} overdue={overdue} />
@@ -103,7 +105,6 @@ const TodoGroup = ({
     );
   }
 
-
   return (
     <div className={className}>
       <DndContext
@@ -111,11 +112,13 @@ const TodoGroup = ({
         collisionDetection={closestCenter}
         onDragEnd={handleDragEnd}
       >
-        <SortableContext
-          items={items}
-          strategy={verticalListSortingStrategy}>
+        <SortableContext items={items} strategy={verticalListSortingStrategy}>
           {items.map((item) => (
-            <TodoItemContainer todoItem={item} key={item.id} overdue={overdue} />
+            <TodoItemContainer
+              todoItem={item}
+              key={item.id}
+              overdue={overdue}
+            />
           ))}
         </SortableContext>
       </DndContext>

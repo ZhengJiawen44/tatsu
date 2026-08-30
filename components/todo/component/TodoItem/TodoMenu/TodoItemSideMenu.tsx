@@ -14,7 +14,7 @@ const TodoItemSideMenu = ({
   todo: TodoItemType;
   setDisplayForm: React.Dispatch<React.SetStateAction<boolean>>;
 }) => {
-  const { useDeleteTodo, usePinTodo } = useTodoMutation()
+  const { useDeleteTodo, usePinTodo } = useTodoMutation();
   const { deleteMutateFn, deletePending } = useDeleteTodo();
   const { pinMutateFn } = usePinTodo();
   return (

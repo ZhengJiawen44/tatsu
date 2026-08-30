@@ -37,29 +37,29 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
           return null;
         }
 
-          // Check if this is a new format password (has a colon separator)
-          if (user.password.includes(":")) {
-            // Split the stored password to get the salt and hash
-            const [saltHex, storedHashHex] = user.password.split(":");
-            const salt = hexToBytes(saltHex);
+        // Check if this is a new format password (has a colon separator)
+        if (user.password.includes(":")) {
+          // Split the stored password to get the salt and hash
+          const [saltHex, storedHashHex] = user.password.split(":");
+          const salt = hexToBytes(saltHex);
 
-            // Recreate the hash with the provided password and stored salt
-            const calculatedHash = pbkdf2(sha256, password, salt, {
-              c: 10000,
-              dkLen: 32,
-            });
-            const calculatedHex = bytesToHex(calculatedHash);
+          // Recreate the hash with the provided password and stored salt
+          const calculatedHash = pbkdf2(sha256, password, salt, {
+            c: 10000,
+            dkLen: 32,
+          });
+          const calculatedHex = bytesToHex(calculatedHash);
 
-            // Compare calculated hash with stored hash
-            if (calculatedHex !== storedHashHex) {
-              return null;
-            }
-          } else {
-            // This is an old bcrypt hash - we can't verify it in Edge
-            throw new Error("Please reset your password to continue.");
+          // Compare calculated hash with stored hash
+          if (calculatedHex !== storedHashHex) {
+            return null;
           }
+        } else {
+          // This is an old bcrypt hash - we can't verify it in Edge
+          throw new Error("Please reset your password to continue.");
+        }
 
-          return user;
+        return user;
       },
     }),
   ],

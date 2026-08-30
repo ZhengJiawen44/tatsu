@@ -37,9 +37,8 @@ const PasskeyForm = ({ email }: { email: string }) => {
           passKey: inputPassKey,
         });
         //generate protected symmetric key
-        const [symmetricKey, protectedSymmetricKey] = await genSymmetricKey(
-          masterKey
-        );
+        const [symmetricKey, protectedSymmetricKey] =
+          await genSymmetricKey(masterKey);
         const symmetricKeyString = btoa(String.fromCharCode(...symmetricKey));
         setSymKey(symmetricKeyString);
         //base64 encode the string for transport

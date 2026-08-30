@@ -1,8 +1,6 @@
-import SyncContainer from '@/features/sync/component/SyncContainer'
-import React from 'react'
+import SyncContainer from "@/features/sync/component/SyncContainer";
+import React from "react";
 
 export default function page() {
-    return (
-        <SyncContainer />
-    )
+  return <SyncContainer />;
 }

@@ -12,8 +12,7 @@ import ICAL from "ical.js";
 export function updateIcs(
   icsData: string,
   properties:
-    | { name: string; value: unknown }
-    | { name: string; value: unknown }[],
+    { name: string; value: unknown } | { name: string; value: unknown }[],
 ): string {
   const comp = parseIcsToVeventComponent(icsData);
   const vevent = comp.getFirstSubcomponent("vevent");

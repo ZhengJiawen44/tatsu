@@ -1,4 +1,4 @@
-"use client"
+"use client";
 import clsx from "clsx";
 import React, { useRef, useState } from "react";
 import { useMenu } from "@/providers/MenuProvider";
@@ -30,7 +30,7 @@ const SidebarContainer = () => {
       if (isResizing) {
         setSidebarWidth(
           mouseMoveEvent.clientX -
-          sidebarRef.current!.getBoundingClientRect().left,
+            sidebarRef.current!.getBoundingClientRect().left,
         );
       }
     },
@@ -77,7 +77,6 @@ const SidebarContainer = () => {
             <ProjectSidebarItemContainer />
             <FeedbackForm />
           </div>
-
         </div>
       </nav>
       <ResizeHandle isResizing={isResizing} startResizing={startResizing} />

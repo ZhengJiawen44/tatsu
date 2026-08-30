@@ -7,7 +7,7 @@ import useWindowSize from "@/hooks/useWindowSize";
 import { Button } from "@/components/ui/button";
 import { useTranslations } from "next-intl";
 const CalendarItem = () => {
-  const sidebarDict = useTranslations("sidebar")
+  const sidebarDict = useTranslations("sidebar");
   const { width } = useWindowSize();
 
   const { activeMenu, setActiveMenu, setShowMenu } = useMenu();
@@ -17,8 +17,7 @@ const CalendarItem = () => {
       variant={"ghost"}
       className={clsx(
         "flex items-center justify-center border border-transparent font-normal px-2!",
-        activeMenu.name === "Calendar" &&
-        "bg-sidebar-primary",
+        activeMenu.name === "Calendar" && "bg-sidebar-primary",
       )}
     >
       <Link

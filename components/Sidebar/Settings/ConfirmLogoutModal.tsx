@@ -1,4 +1,12 @@
-import { Modal, ModalContent, ModalFooter, ModalHeader, ModalOverlay, ModalTitle, ModalDescription } from "@/components/ui/Modal";
+import {
+  Modal,
+  ModalContent,
+  ModalFooter,
+  ModalHeader,
+  ModalOverlay,
+  ModalTitle,
+  ModalDescription,
+} from "@/components/ui/Modal";
 import React from "react";
 import { Button } from "@/components/ui/button";
 import { signOut } from "next-auth/react";
@@ -15,10 +23,7 @@ export default function ConfirmLogoutModal({
     await signOut({ redirectTo: "/login" });
   };
   return (
-    <Modal
-      open={logoutModalOpen}
-      onOpenChange={setLogoutModalOpen}
-    >
+    <Modal open={logoutModalOpen} onOpenChange={setLogoutModalOpen}>
       <ModalOverlay>
         <ModalContent className="w-fit min-w-0 top-1/2 -translate-y-1/2 ">
           <ModalHeader>
@@ -27,7 +32,6 @@ export default function ConfirmLogoutModal({
               Are you sure you would like to Log out of your account?
             </ModalDescription>
           </ModalHeader>
-
 
           <ModalFooter className="mt-4">
             <Button
@@ -51,7 +55,6 @@ export default function ConfirmLogoutModal({
           </ModalFooter>
         </ModalContent>
       </ModalOverlay>
-
     </Modal>
   );
 }

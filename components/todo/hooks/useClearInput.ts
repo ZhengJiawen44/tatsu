@@ -3,8 +3,7 @@ import { useTodoForm } from "@/providers/TodoFormProvider";
 
 export function useClearInput(
   setEditInstanceOnly:
-    | React.Dispatch<React.SetStateAction<boolean>>
-    | undefined,
+    React.Dispatch<React.SetStateAction<boolean>> | undefined,
   titleRef: React.RefObject<HTMLDivElement | null>,
 ) {
   const {

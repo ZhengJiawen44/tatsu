@@ -9,7 +9,11 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import Spinner from "@/components/ui/spinner";
 import { useToast } from "@/hooks/use-toast";
 import { useRouter } from "next/navigation";
-import { Separator, SeparatorLine, SeparatorWord } from "@/components/ui/separator";
+import {
+  Separator,
+  SeparatorLine,
+  SeparatorWord,
+} from "@/components/ui/separator";
 import { useForm } from "react-hook-form";
 import { RegisterFormProp } from "@/types";
 import { useState } from "react";
@@ -73,7 +77,6 @@ export default function RegisterPage() {
 
   return (
     <div className="flex min-w-screen min-h-screen justify-center items-center bg-muted">
-
       <form
         onSubmit={handleSubmit(onSubmit)}
         className="z-50 w-screen h-screen bg-form-background md:w-[70%] md:h-fit lg:w-[60%] xl:w-[50%] 2xl:w-[38%] md:rounded-xl p-[55px] md:p-[85px] shadow-[0_1px_2px_rgba(0,0,0,0.1),0_2px_4px_rgba(0,0,0,0.1),0_4px_8px_rgba(0,0,0,0.15),0_8px_16px_rgba(0,0,0,0.15),0_16px_32px_rgba(0,0,0,0.2)]"
@@ -93,7 +96,10 @@ export default function RegisterPage() {
         </p>
 
         {/* Form Fields */}
-        <div id="formFieldContainer" className="flex flex-col gap-[43px] mb-[50px]">
+        <div
+          id="formFieldContainer"
+          className="flex flex-col gap-[43px] mb-[50px]"
+        >
           <div id="nameFieldContainer" className="flex gap-5">
             <div className="w-[50%]">
               <input
@@ -103,7 +109,9 @@ export default function RegisterPage() {
                 placeholder={t("fields.fname.placeholder")}
               />
               {errors.fname && (
-                <p className="text-sm text-white mt-3">{errors.fname.message}</p>
+                <p className="text-sm text-white mt-3">
+                  {errors.fname.message}
+                </p>
               )}
             </div>
             <div className="w-[50%]">
@@ -114,7 +122,9 @@ export default function RegisterPage() {
                 placeholder={t("fields.lname.placeholder")}
               />
               {errors.lname && (
-                <p className="text-sm text-white mt-3">{errors.lname.message}</p>
+                <p className="text-sm text-white mt-3">
+                  {errors.lname.message}
+                </p>
               )}
             </div>
           </div>
@@ -142,7 +152,9 @@ export default function RegisterPage() {
               <EyeToggle show={show} setShow={setShow} />
             </div>
             {errors.password && (
-              <p className="text-sm text-white mt-3">{errors.password.message}</p>
+              <p className="text-sm text-white mt-3">
+                {errors.password.message}
+              </p>
             )}
           </div>
         </div>
@@ -168,7 +180,12 @@ export default function RegisterPage() {
               type="button"
               className="flex gap-3 justify-center items-center w-1/2 h-12 border border-form-border rounded-md hover:border-form-border-accent transition-all duration-300"
             >
-              <Image src="/google.svg" alt="google-logo" width={28} height={28} />
+              <Image
+                src="/google.svg"
+                alt="google-logo"
+                width={28}
+                height={28}
+              />
               <p className="text-white">{t("oauth.google")}</p>
             </button>
             <button
@@ -176,7 +193,12 @@ export default function RegisterPage() {
               type="button"
               className="flex gap-3 justify-center items-center w-1/2 h-12 border border-form-border rounded-md hover:border-form-border-accent transition-all duration-300"
             >
-              <Image src="/discord.svg" alt="discord-logo" width={28} height={28} />
+              <Image
+                src="/discord.svg"
+                alt="discord-logo"
+                width={28}
+                height={28}
+              />
               <p className="text-white">{t("oauth.discord")}</p>
             </button>
           </div>

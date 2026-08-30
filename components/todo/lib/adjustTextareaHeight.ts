@@ -1,7 +1,7 @@
 import React from "react";
 
 const adjustTextareaHeight = (
-  textareaRef: React.RefObject<null | HTMLTextAreaElement>
+  textareaRef: React.RefObject<null | HTMLTextAreaElement>,
 ) => {
   const textarea = textareaRef.current;
   if (textarea) {

@@ -10,7 +10,7 @@ import {
   ModalTitle,
   ModalDescription,
   ModalContent,
-  ModalFooter
+  ModalFooter,
 } from "@/components/ui/Modal";
 
 type confirmDeleteProp = {
@@ -38,7 +38,9 @@ export default function ConfirmDelete({
             <ModalTitle>{modalDict("delete.title")}</ModalTitle>
             <ModalDescription>
               {modalDict("delete.subtitle")}{" "}
-              <span className="font-semibold text-foreground">{todo.title}</span>
+              <span className="font-semibold text-foreground">
+                {todo.title}
+              </span>
             </ModalDescription>
           </ModalHeader>
 

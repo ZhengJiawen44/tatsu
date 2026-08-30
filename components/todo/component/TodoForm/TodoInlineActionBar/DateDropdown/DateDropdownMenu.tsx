@@ -21,8 +21,8 @@ import { useLocale } from "next-intl";
 import { useUserTimezone } from "@/features/user/query/get-timezone";
 
 const DateDropdownMenu = () => {
-  const locale = useLocale()
-  const userTZ = useUserTimezone()
+  const locale = useLocale();
+  const userTZ = useUserTimezone();
   const appDict = useTranslations("app");
   const { dateRange, setDateRange } = useTodoForm();
 
@@ -39,17 +39,23 @@ const DateDropdownMenu = () => {
           variant={"outline"}
           className={clsx(
             "cursor-pointer text-xs sm:text-sm font-medium w-fit h-fit p-2! text-muted-foreground bg-inherit",
-            dateRange.from && getDisplayDate(dateRange.from, false, "en", userTZ) == "Today"
+            dateRange.from &&
+              getDisplayDate(dateRange.from, false, "en", userTZ) == "Today"
               ? "text-lime"
-              : dateRange.from && getDisplayDate(dateRange.from, false, "en", userTZ) == "Tomorrow"
+              : dateRange.from &&
+                  getDisplayDate(dateRange.from, false, "en", userTZ) ==
+                    "Tomorrow"
                 ? "text-orange"
-                : !dateRange.from && !dateRange.to ? "text-muted-foreground"
+                : !dateRange.from && !dateRange.to
+                  ? "text-muted-foreground"
                   : "text-red",
           )}
         >
           <CalenderIcon className="w-4 h-4" />
           <span className="text-sm font-medium">
-            {dateRange.from ? getDisplayDate(dateRange.from, true, locale, userTZ) : "Date"}
+            {dateRange.from
+              ? getDisplayDate(dateRange.from, true, locale, userTZ)
+              : "Date"}
           </span>
         </Button>
       </PopoverTrigger>
@@ -67,13 +73,13 @@ const DateDropdownMenu = () => {
               to:
                 prev.to && prev.from
                   ? new Date(
-                    endOfDay(
-                      addDays(
-                        new Date(),
-                        differenceInDays(prev.to, prev.from),
+                      endOfDay(
+                        addDays(
+                          new Date(),
+                          differenceInDays(prev.to, prev.from),
+                        ),
                       ),
-                    ),
-                  )
+                    )
                   : endOfDay(new Date()),
             }));
             setIsOpen(false);
@@ -97,8 +103,8 @@ const DateDropdownMenu = () => {
               to:
                 prev.to && prev.from
                   ? endOfDay(
-                    addDays(tomorrow, differenceInDays(prev.to, prev.from)),
-                  )
+                      addDays(tomorrow, differenceInDays(prev.to, prev.from)),
+                    )
                   : endOfDay(tomorrow),
             }));
             setIsOpen(false);
@@ -122,10 +128,10 @@ const DateDropdownMenu = () => {
               to:
                 prev.to && prev.from
                   ? endOfDay(
-                    new Date(
-                      addDays(nextWeek, differenceInDays(prev.to, prev.from)),
-                    ),
-                  )
+                      new Date(
+                        addDays(nextWeek, differenceInDays(prev.to, prev.from)),
+                      ),
+                    )
                   : endOfDay(nextWeek),
             }));
             setIsOpen(false);
@@ -149,7 +155,9 @@ const DateDropdownMenu = () => {
             mode="range"
             defaultMonth={new Date()}
             selected={dateRange}
-            onSelect={(dateRange) => { setDateRange({ from: dateRange?.from, to: dateRange?.to }) }}
+            onSelect={(dateRange) => {
+              setDateRange({ from: dateRange?.from, to: dateRange?.to });
+            }}
             numberOfMonths={1}
           />
         </div>
@@ -160,17 +168,15 @@ const DateDropdownMenu = () => {
           onClick={() => {
             setDateRange(() => ({
               from: undefined,
-              to: undefined
+              to: undefined,
             }));
             setIsOpen(false);
           }}
         >
-
           <div className="flex gap-2 items-center">
             <X strokeWidth={1.7} className="w-4 h-4" />
             No Date
           </div>
-
         </button>
       </PopoverContent>
     </Popover>

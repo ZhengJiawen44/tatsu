@@ -13,21 +13,24 @@ import DropdownMenuLoading from "../../Loading/DropdownMenuLoading";
 
 const MenuContent = dynamic(() => import("./TodoItemMeatballMenuContent"), {
   ssr: false,
-  loading: () => <DropdownMenuLoading />
+  loading: () => <DropdownMenuLoading />,
 });
 
 type TodoItemMeatballMenuProps = {
-  todo: TodoItemType,
-  setDisplayForm: React.Dispatch<React.SetStateAction<boolean>>,
-  setEditInstanceOnly: React.Dispatch<React.SetStateAction<boolean>>,
-}
-export default function TodoItemMeatballMenu({ ...props }: TodoItemMeatballMenuProps) {
+  todo: TodoItemType;
+  setDisplayForm: React.Dispatch<React.SetStateAction<boolean>>;
+  setEditInstanceOnly: React.Dispatch<React.SetStateAction<boolean>>;
+};
+export default function TodoItemMeatballMenu({
+  ...props
+}: TodoItemMeatballMenuProps) {
   const [open, setOpen] = useState(false);
 
   return (
     <DropdownMenu open={open} onOpenChange={setOpen}>
       <DropdownMenuTrigger asChild>
-        <Button variant={"outline"}
+        <Button
+          variant={"outline"}
           size={"icon"}
           className="border-none text-muted-foreground"
         >
@@ -37,6 +40,6 @@ export default function TodoItemMeatballMenu({ ...props }: TodoItemMeatballMenuP
       <DropdownMenuContent className="py-1.5 px-0 [&_svg:not([class*='size-'])]:size-5 lg:min-w-60 border border-popover-border shadow-2xl">
         {open && <MenuContent {...props} />}
       </DropdownMenuContent>
-    </DropdownMenu >
+    </DropdownMenu>
   );
 }

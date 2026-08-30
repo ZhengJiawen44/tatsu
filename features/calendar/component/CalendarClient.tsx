@@ -52,10 +52,11 @@ export default function CalendarClient() {
     end: Date;
   } | null>(null);
   const [isTouch, setIsTouch] = useState(false);
-  const { todos: calendarTodos, todoLoading: calendarTodosLoading } = useCalendarTodo(calendarRange);
+  const { todos: calendarTodos, todoLoading: calendarTodosLoading } =
+    useCalendarTodo(calendarRange);
   const { editCalendarTodo } = useEditCalendarTodo();
   const { editCalendarTodoInstance } = useEditCalendarTodoInstance();
-  const { projectMetaData } = useProjectMetaData()
+  const { projectMetaData } = useProjectMetaData();
 
   // --- keyboard navigation state ---
   const [selectedDate, setSelectedDate] = useState<Date | null>(null);
@@ -75,24 +76,27 @@ export default function CalendarClient() {
   }, []);
 
   // Helper function to update calendar range based on date and view
-  const updateRangeForDate = useCallback((date: Date, currentView: View) => {
-    if (currentView === "month") {
-      setCalendarRange({
-        start: startOfWeek(startOfMonth(date)),
-        end: endOfWeek(endOfMonth(date)),
-      });
-    } else if (currentView === "week") {
-      setCalendarRange({
-        start: startOfWeek(date),
-        end: endOfWeek(date),
-      });
-    } else if (currentView === "day") {
-      setCalendarRange({
-        start: startOfDay(date),
-        end: endOfDay(date),
-      });
-    }
-  }, [setCalendarRange]);
+  const updateRangeForDate = useCallback(
+    (date: Date, currentView: View) => {
+      if (currentView === "month") {
+        setCalendarRange({
+          start: startOfWeek(startOfMonth(date)),
+          end: endOfWeek(endOfMonth(date)),
+        });
+      } else if (currentView === "week") {
+        setCalendarRange({
+          start: startOfWeek(date),
+          end: endOfWeek(date),
+        });
+      } else if (currentView === "day") {
+        setCalendarRange({
+          start: startOfDay(date),
+          end: endOfDay(date),
+        });
+      }
+    },
+    [setCalendarRange],
+  );
 
   useEffect(() => {
     if (!selectedDate) return;
@@ -172,15 +176,15 @@ export default function CalendarClient() {
 
   return (
     <>
-      {calendarTodosLoading && <>
-        <div className="w-full h-full bg-black/20 fixed z-100">
-          <div className="fixed top-1/2 left-1/2 -translate-y-1/2 ">
-            <Spinner className="h-20 w-20" />
-
+      {calendarTodosLoading && (
+        <>
+          <div className="w-full h-full bg-black/20 fixed z-100">
+            <div className="fixed top-1/2 left-1/2 -translate-y-1/2 ">
+              <Spinner className="h-20 w-20" />
+            </div>
           </div>
-        </div>
-      </>
-      }
+        </>
+      )}
 
       <div className="h-screen flex flex-col overflow-hidden sm:py-8">
         {showCreateForm && (
@@ -209,7 +213,7 @@ export default function CalendarClient() {
           }}
           selectable
           onSelectSlot={({ start, end, action }) => {
-            if (action == "click") return
+            if (action == "click") return;
             const adjustedEnd = subMilliseconds(end, 1);
             setSelectDateRange({ start, end: adjustedEnd });
             setShowCreateForm(true);
@@ -225,13 +229,19 @@ export default function CalendarClient() {
           messages={{ event: "Todo" }}
           formats={{
             timeGutterFormat: (date) => {
-              if (width < 600) return format(date, 'HH:mm')
-              return format(date, 'hh:mm a')
-            }
-            ,
+              if (width < 600) return format(date, "HH:mm");
+              return format(date, "hh:mm a");
+            },
             eventTimeRangeFormat: () => "",
           }}
-          eventPropGetter={(event) => calendarEventPropStyles(event.priority, event.projectID ? projectMetaData[event.projectID]?.color : undefined)}
+          eventPropGetter={(event) =>
+            calendarEventPropStyles(
+              event.priority,
+              event.projectID
+                ? projectMetaData[event.projectID]?.color
+                : undefined,
+            )
+          }
 
           onRangeChange={setCalendarRange}
           onEventResize={({ event: todo, ...resizeEvent }) => {

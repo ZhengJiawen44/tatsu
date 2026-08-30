@@ -5,7 +5,6 @@ import React, { useEffect, useRef, useState } from "react";
 import { RefreshCcw } from "lucide-react";
 import { cn } from "@/lib/utils";
 
-
 export default function TodoCheckbox({
   className,
   complete,
@@ -13,7 +12,7 @@ export default function TodoCheckbox({
   checked,
   priority,
   icon: Icon,
-  variant = "outline-solid"
+  variant = "outline-solid",
 }: {
   className?: string;
   complete: boolean;
@@ -30,7 +29,7 @@ export default function TodoCheckbox({
   useEffect(() => {
     popAudio.current = new Audio("/pop.mp3");
     unpopAudio.current = new Audio("/unpop.mp3");
-  }, [])
+  }, []);
   useEffect(() => {
     if (expand) {
       const timeout = setTimeout(() => setExpand(false), 150);
@@ -48,7 +47,7 @@ export default function TodoCheckbox({
           onChange(e);
         }}
         onClick={() => {
-          if (!popAudio.current || !unpopAudio.current) return
+          if (!popAudio.current || !unpopAudio.current) return;
           if (!complete) {
             popAudio.current.currentTime = 0;
             popAudio.current.play();
@@ -66,19 +65,22 @@ export default function TodoCheckbox({
             e.stopPropagation();
             setExpand(true);
           }}
-          className={cn(clsx(
-            "relative group w-5 h-5 rounded-full flex items-center justify-center border-[2.23px]",
-            "hover:cursor-pointer transition-transform duration-200 ease-out hover:border-transparent",
-            expand && "scale-125",
-            priority === "Low" && "border-lime stroke-lime",
-            priority === "Medium" && "border-orange stroke-orange",
-            priority === "High" && "border-red stroke-red",
-          ), className)}
+          className={cn(
+            clsx(
+              "relative group w-5 h-5 rounded-full flex items-center justify-center border-[2.23px]",
+              "hover:cursor-pointer transition-transform duration-200 ease-out hover:border-transparent",
+              expand && "scale-125",
+              priority === "Low" && "border-lime stroke-lime",
+              priority === "Medium" && "border-orange stroke-orange",
+              priority === "High" && "border-red stroke-red",
+            ),
+            className,
+          )}
         >
           <Icon
             className={clsx(
               "pointer-events-none absolute bottom-1/2 translate-y-1/2 right-1/2 translate-x-1/2",
-              "hidden group-hover:block stroke-3 w-5 h-5 stroke-inherit"
+              "hidden group-hover:block stroke-3 w-5 h-5 stroke-inherit",
             )}
           />
         </div>

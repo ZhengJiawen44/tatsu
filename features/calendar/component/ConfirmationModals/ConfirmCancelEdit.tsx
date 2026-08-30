@@ -42,14 +42,20 @@ export default function ConfirmCancelEdit({
               variant="outline"
               className="w-full sm:w-auto bg-popover"
               onClick={() => setCancelEditDialogOpen(false)}
-              onMouseDown={(e) => { e.stopPropagation(); e.preventDefault() }}
+              onMouseDown={(e) => {
+                e.stopPropagation();
+                e.preventDefault();
+              }}
             >
               {modalDict("cancel")}
             </Button>
             <Button
               variant="destructive"
               className="w-full sm:w-auto"
-              onMouseDown={(e) => { e.stopPropagation(); e.preventDefault() }}
+              onMouseDown={(e) => {
+                e.stopPropagation();
+                e.preventDefault();
+              }}
               onClick={() => {
                 setCancelEditDialogOpen(false);
                 setDisplayForm(false);

@@ -14,15 +14,20 @@ import clsx from "clsx";
 import { useTranslations } from "next-intl";
 import CustomRepeatMenuContainer from "./CustomRepeat/CustomRepeatContainer";
 
-const RepeatDropdownMenu = ({ }) => {
+const RepeatDropdownMenu = ({}) => {
   const appDict = useTranslations("app");
-  const { rruleOptions, setRruleOptions, derivedRepeatType, dateRange } = useTodoForm();
+  const { rruleOptions, setRruleOptions, derivedRepeatType, dateRange } =
+    useTodoForm();
   return (
     <DropdownMenu modal={false}>
       <DropdownMenuTrigger
         disabled={!dateRange.from}
         title={"need to set a start date"}
-        className={clsx("flex items-center gap-2 rounded-md border border-input w-fit h-fit p-2! text-muted-foreground bg-inherit", dateRange.from && "cursor-pointer hover:bg-accent hover:text-accent-foreground")}
+        className={clsx(
+          "flex items-center gap-2 rounded-md border border-input w-fit h-fit p-2! text-muted-foreground bg-inherit",
+          dateRange.from &&
+            "cursor-pointer hover:bg-accent hover:text-accent-foreground",
+        )}
       >
         <Repeat className="w-4 h-4" />
         <p className="text-sm">{appDict("repeat")}</p>
@@ -37,10 +42,7 @@ const RepeatDropdownMenu = ({ }) => {
           }
         >
           {appDict("everyDay")}
-          <Indicator
-            name="Daily"
-            derivedRepeatType={derivedRepeatType}
-          />
+          <Indicator name="Daily" derivedRepeatType={derivedRepeatType} />
         </DropdownMenuItem>
         <DropdownMenuItem
           className="flex justify-between"
@@ -56,13 +58,7 @@ const RepeatDropdownMenu = ({ }) => {
               on{format(new Date(), " EEE")}
             </span>
           </p>
-          <Indicator
-            name="Weekly"
-            derivedRepeatType={derivedRepeatType}
-
-          />
-
-
+          <Indicator name="Weekly" derivedRepeatType={derivedRepeatType} />
         </DropdownMenuItem>
         <DropdownMenuItem
           className="flex justify-between"
@@ -72,17 +68,13 @@ const RepeatDropdownMenu = ({ }) => {
             })
           }
         >
-
           <p>
             {appDict("everyMonth")}
             <span className="text-xs ml-4 text-muted-foreground">
               on the {format(new Date(), " do")}
             </span>
           </p>
-          <Indicator
-            name="Monthly"
-            derivedRepeatType={derivedRepeatType}
-          />
+          <Indicator name="Monthly" derivedRepeatType={derivedRepeatType} />
         </DropdownMenuItem>
         <DropdownMenuItem
           className="flex justify-between"
@@ -98,10 +90,7 @@ const RepeatDropdownMenu = ({ }) => {
               on{format(new Date(), " MMM do")}
             </span>
           </p>
-          <Indicator
-            name="Yearly"
-            derivedRepeatType={derivedRepeatType}
-          />
+          <Indicator name="Yearly" derivedRepeatType={derivedRepeatType} />
         </DropdownMenuItem>
         <DropdownMenuSeparator className="my-3" />
         <DropdownMenuItem
@@ -115,15 +104,11 @@ const RepeatDropdownMenu = ({ }) => {
             })
           }
         >
-
           <p>
             {appDict("weekdaysOnly")}
             <span className="text-xs text-muted-foreground ml-4">Mon-Fri</span>
           </p>
-          <Indicator
-            name="Weekday"
-            derivedRepeatType={derivedRepeatType}
-          />
+          <Indicator name="Weekday" derivedRepeatType={derivedRepeatType} />
         </DropdownMenuItem>
         <DropdownMenuItem asChild>
           {/* custom repeat */}
@@ -148,11 +133,20 @@ const RepeatDropdownMenu = ({ }) => {
 
 export default RepeatDropdownMenu;
 
-export function Indicator({ derivedRepeatType, name }: { derivedRepeatType: "Monthly" | "Daily" | "Weekly" | "Yearly" | "Weekday" | "Custom" | null, name: "Monthly" | "Daily" | "Weekly" | "Yearly" | "Weekday" | "Custom" | null }) {
-  return <div
-    className={clsx(
-      "w-1.5 h-1.5 bg-muted-foreground rounded-full opacity-0",
-      derivedRepeatType == name && "opacity-100",
-    )}
-  />
+export function Indicator({
+  derivedRepeatType,
+  name,
+}: {
+  derivedRepeatType:
+    "Monthly" | "Daily" | "Weekly" | "Yearly" | "Weekday" | "Custom" | null;
+  name: "Monthly" | "Daily" | "Weekly" | "Yearly" | "Weekday" | "Custom" | null;
+}) {
+  return (
+    <div
+      className={clsx(
+        "w-1.5 h-1.5 bg-muted-foreground rounded-full opacity-0",
+        derivedRepeatType == name && "opacity-100",
+      )}
+    />
+  );
 }

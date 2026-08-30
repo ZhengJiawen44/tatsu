@@ -25,7 +25,7 @@ export async function derive128BitKey({
     encoder.encode(passkey),
     { name: "PBKDF2" },
     false,
-    ["deriveBits"]
+    ["deriveBits"],
   );
 
   // Derive 256-bit Master Key
@@ -37,7 +37,7 @@ export async function derive128BitKey({
       salt: encoder.encode(email),
     },
     baseKey,
-    128
+    128,
   );
 
   return masterKey;

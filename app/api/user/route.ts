@@ -31,7 +31,7 @@ export async function GET() {
 
     return NextResponse.json(
       { message: "user found", queriedUser },
-      { status: 200 }
+      { status: 200 },
     );
   } catch (error) {
     console.log(error);
@@ -39,7 +39,7 @@ export async function GET() {
     if (error instanceof BaseServerError) {
       return NextResponse.json(
         { message: error.message },
-        { status: error.status }
+        { status: error.status },
       );
     }
 
@@ -50,7 +50,7 @@ export async function GET() {
             ? error.message.slice(0, 50)
             : "An unexpected error occurred",
       },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }
@@ -75,7 +75,7 @@ export async function PATCH(req: NextRequest) {
         throw new InternalError("user not found or not authorized to access");
       return NextResponse.json(
         { message: "enable encryption updated" },
-        { status: 200 }
+        { status: 200 },
       );
     }
 
@@ -84,14 +84,14 @@ export async function PATCH(req: NextRequest) {
 
     if (!protectedSymmetricKey) {
       throw new BadRequestError(
-        "Missing required fields: protectedSymmetricKey "
+        "Missing required fields: protectedSymmetricKey ",
       );
     }
 
     // Ensure data is in the correct format
     if (typeof protectedSymmetricKey !== "string") {
       throw new BadRequestError(
-        "protectedSymmetricKey must be base64-encoded strings"
+        "protectedSymmetricKey must be base64-encoded strings",
       );
     }
 
@@ -109,7 +109,7 @@ export async function PATCH(req: NextRequest) {
 
     return NextResponse.json(
       { message: "your files are now End to End encrypted!" },
-      { status: 200 }
+      { status: 200 },
     );
   } catch (error) {
     console.log(error);
@@ -117,7 +117,7 @@ export async function PATCH(req: NextRequest) {
     if (error instanceof BaseServerError) {
       return NextResponse.json(
         { message: error.message },
-        { status: error.status }
+        { status: error.status },
       );
     }
 
@@ -128,7 +128,7 @@ export async function PATCH(req: NextRequest) {
             ? error.message.slice(0, 50)
             : "An unexpected error occurred",
       },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }

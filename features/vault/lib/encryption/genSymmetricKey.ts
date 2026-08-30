@@ -17,7 +17,7 @@ export async function genSymmetricKey(masterCryptoKey256: CryptoKey) {
   const protectedSymmetricKey = await crypto.subtle.encrypt(
     { name: "AES-GCM", iv },
     masterCryptoKey256,
-    symmetricKey
+    symmetricKey,
   );
 
   const ivLength = iv.byteLength;

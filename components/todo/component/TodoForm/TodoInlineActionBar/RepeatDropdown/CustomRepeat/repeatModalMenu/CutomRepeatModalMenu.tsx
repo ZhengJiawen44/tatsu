@@ -33,8 +33,12 @@ const CustomRepeatModalMenu = ({ className }: { className?: string }) => {
       </DialogTrigger>
       <DialogContent className="text-sm sm:text-base min-w-0">
         <DialogHeader>
-          <DialogTitle className="font-medium">{appDict("customMenu.title")}</DialogTitle>
-          <DialogDescription>{appDict("customMenu.subTitle")}</DialogDescription>
+          <DialogTitle className="font-medium">
+            {appDict("customMenu.title")}
+          </DialogTitle>
+          <DialogDescription>
+            {appDict("customMenu.subTitle")}
+          </DialogDescription>
         </DialogHeader>
         <div className="flex flex-col gap-6 mb-2">
           {/* rrule interval option */}

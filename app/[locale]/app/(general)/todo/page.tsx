@@ -1,5 +1,9 @@
 import React from "react";
-import { HydrationBoundary, QueryClient, dehydrate } from "@tanstack/react-query";
+import {
+  HydrationBoundary,
+  QueryClient,
+  dehydrate,
+} from "@tanstack/react-query";
 import OverDueTodoContainer from "@/features/overdueTodos/component/OverDueTodoContainer";
 import TodayTodoContainer from "@/features/todayTodos/component/TodayTodoContainer";
 import { getOverdueTodos } from "./actions";
@@ -7,7 +11,7 @@ const Page = async () => {
   const queryClient = new QueryClient();
   await queryClient.prefetchQuery({
     queryKey: ["overdueTodo"],
-    queryFn: getOverdueTodos
+    queryFn: getOverdueTodos,
   });
 
   return (

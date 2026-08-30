@@ -7,7 +7,11 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import Spinner from "@/components/ui/spinner";
 import { useToast } from "@/hooks/use-toast";
 import EyeToggle from "@/components/ui/eyeToggle";
-import { Separator, SeparatorLine, SeparatorWord } from "@/components/ui/separator";
+import {
+  Separator,
+  SeparatorLine,
+  SeparatorWord,
+} from "@/components/ui/separator";
 import { useForm } from "react-hook-form";
 import { LoginFormProp } from "@/types";
 import { useState } from "react";
@@ -41,7 +45,6 @@ export default function LoginPage() {
     try {
       const result = await signIn("discord", { callbackUrl: "/app/todo" });
       if (result?.error) toast({ title: t("toasts.discordError") });
-
     } catch (error) {
       console.error(error);
       toast({ title: t("toasts.discordError") });
@@ -50,7 +53,11 @@ export default function LoginPage() {
 
   async function onSubmit(data: LoginFormProp) {
     try {
-      const result = await signIn("credentials", { ...data, redirect: false, callbackUrl: "/app/todo" });
+      const result = await signIn("credentials", {
+        ...data,
+        redirect: false,
+        callbackUrl: "/app/todo",
+      });
       if (result?.error) toast({ title: t("toasts.invalidCredentials") });
     } catch (error) {
       console.error(error);
@@ -60,7 +67,6 @@ export default function LoginPage() {
 
   return (
     <div className="flex min-w-screen min-h-screen justify-center items-center bg-muted">
-
       <form
         onSubmit={handleSubmit(onSubmit)}
         className="z-50 w-screen h-screen bg-form-background md:w-[70%] md:h-fit lg:w-[60%] xl:w-[50%] 2xl:w-[38%] md:rounded-xl p-[55px] md:p-[85px] shadow-[0_1px_2px_rgba(0,0,0,0.1),0_2px_4px_rgba(0,0,0,0.1),0_4px_8px_rgba(0,0,0,0.15),0_8px_16px_rgba(0,0,0,0.15),0_16px_32px_rgba(0,0,0,0.2)]"
@@ -78,7 +84,13 @@ export default function LoginPage() {
               onClick={onGoogle}
               className="flex gap-3 justify-center items-center w-1/2 h-12 border border-form-border rounded-md hover:border-form-border-accent transition-all duration-300"
             >
-              <Image src="/google.svg" alt="google-logo" width={28} height={28} priority={false} />
+              <Image
+                src="/google.svg"
+                alt="google-logo"
+                width={28}
+                height={28}
+                priority={false}
+              />
               <p className="text-white">{t("oauth.google")}</p>
             </button>
             <button
@@ -86,7 +98,13 @@ export default function LoginPage() {
               onClick={onDiscord}
               className="flex gap-3 justify-center items-center w-1/2 h-12 border border-form-border rounded-md hover:border-form-border-accent transition-all duration-300"
             >
-              <Image src="/discord.svg" alt="discord-logo" width={28} height={28} priority={false} />
+              <Image
+                src="/discord.svg"
+                alt="discord-logo"
+                width={28}
+                height={28}
+                priority={false}
+              />
               <p className="text-white">{t("oauth.discord")}</p>
             </button>
           </div>
@@ -98,7 +116,10 @@ export default function LoginPage() {
         </div>
 
         {/* form fields */}
-        <div id="formFieldContainer" className="flex flex-col gap-[43px] mb-[15px]">
+        <div
+          id="formFieldContainer"
+          className="flex flex-col gap-[43px] mb-[15px]"
+        >
           {/* Email */}
           <div>
             <input
@@ -107,7 +128,11 @@ export default function LoginPage() {
               placeholder={t("fields.email.placeholder")}
               className="text-white bg-form-input rounded-md h-[45px] w-full px-[18px] focus:outline-hidden focus:outline-form-border"
             />
-            {errors.email && <p className="text-sm text-white mt-3">{errors.email.message || t("fields.email.error")}</p>}
+            {errors.email && (
+              <p className="text-sm text-white mt-3">
+                {errors.email.message || t("fields.email.error")}
+              </p>
+            )}
           </div>
 
           {/* Password */}
@@ -121,14 +146,21 @@ export default function LoginPage() {
               />
               <EyeToggle show={show} setShow={setShow} />
             </div>
-            {errors.password && <p className="text-sm text-white mt-3">{errors.password.message || t("fields.password.error")}</p>}
+            {errors.password && (
+              <p className="text-sm text-white mt-3">
+                {errors.password.message || t("fields.password.error")}
+              </p>
+            )}
           </div>
         </div>
 
         {/* Register prompt */}
         <p className="text-[14px] text-form-muted mb-[40px]">
           {t("registerPrompt")}
-          <Link href="/register" className="underline text-form-link hover:text-form-link-accent ml-1">
+          <Link
+            href="/register"
+            className="underline text-form-link hover:text-form-link-accent ml-1"
+          >
             {t("registerLink")}
           </Link>
         </p>

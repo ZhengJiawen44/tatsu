@@ -20,9 +20,9 @@ export const MenuItem = ({
       className={cn(
         clsx(
           "px-[0.6rem] rounded-md hover:bg-border aspect-square",
-          active && "text-white bg-border"
+          active && "text-white bg-border",
         ),
-        className
+        className,
       )}
       onClick={onClick}
     >

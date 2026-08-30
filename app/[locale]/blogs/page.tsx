@@ -56,10 +56,11 @@ const BlogMainPage = () => {
             <button
               key={category}
               onClick={() => setSelectedCategory(category)}
-              className={`px-4 py-2 text-sm font-medium rounded-full transition-all duration-300 ${selectedCategory === category
+              className={`px-4 py-2 text-sm font-medium rounded-full transition-all duration-300 ${
+                selectedCategory === category
                   ? "bg-lime text-white shadow-xs"
                   : "opacity-60 hover:opacity-100"
-                }`}
+              }`}
             >
               {category}
             </button>

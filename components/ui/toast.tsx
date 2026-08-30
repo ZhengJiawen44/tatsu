@@ -13,16 +13,15 @@ const ToastViewport = React.forwardRef<
   React.ElementRef<typeof ToastPrimitives.Viewport>,
   React.ComponentPropsWithoutRef<typeof ToastPrimitives.Viewport>
 >(({ className, ...props }, ref) => {
-
   return (
     <ToastPrimitives.Viewport
       ref={ref}
       className={clsx(
         cn(
           "top-5 right-1/2 translate-x-1/2 z-100 flex max-h-screen w-full flex-col-reverse sm:bottom-5 sm:top-auto sm:flex-col md:max-w-[420px]",
-            "fixed sm:left-1/2 sm:-translate-x-1/2",
-          className
-        )
+          "fixed sm:left-1/2 sm:-translate-x-1/2",
+          className,
+        ),
       )}
       {...props}
     />
@@ -44,7 +43,7 @@ const toastVariants = cva(
     defaultVariants: {
       variant: "default",
     },
-  }
+  },
 );
 
 const Toast = React.forwardRef<
@@ -70,7 +69,7 @@ const ToastAction = React.forwardRef<
     ref={ref}
     className={cn(
       "inline-flex h-8 shrink-0 items-center justify-center rounded-md border bg-transparent px-3 text-sm font-medium ring-offset-background transition-colors hover:bg-secondary focus:outline-hidden focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 group-[.destructive]:border-muted/40 hover:group-[.destructive]:border-destructive/30 hover:group-[.destructive]:bg-destructive hover:group-[.destructive]:text-destructive-foreground focus:group-[.destructive]:ring-destructive",
-      className
+      className,
     )}
     {...props}
   />
@@ -85,7 +84,7 @@ const ToastClose = React.forwardRef<
     ref={ref}
     className={cn(
       "absolute right-2 top-1/2 -translate-y-1/2 rounded-md p-1 text-foreground/50 opacity-0 transition-opacity hover:text-foreground focus:opacity-100 focus:outline-hidden focus:ring-2 group-hover:opacity-100 group-[.destructive]:text-red-300 hover:group-[.destructive]:text-red-50 focus:group-[.destructive]:ring-red-400 focus:group-[.destructive]:ring-offset-red-600",
-      className
+      className,
     )}
     toast-close=""
     {...props}

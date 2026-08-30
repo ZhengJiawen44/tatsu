@@ -13,7 +13,7 @@ import {
   DropdownMenuSubTrigger,
   DropdownMenuSubContent,
   DropdownMenuPortal,
-  DropdownMenuSeparator
+  DropdownMenuSeparator,
 } from "@/components/ui/dropdown-menu";
 import { useLocale, useTranslations } from "next-intl";
 import { getDisplayDate } from "@/lib/date/displayDate";
@@ -49,7 +49,13 @@ const DateDropdownMenu = ({
   }
 
   const displayedDateRange = useMemo(() => {
-    if (!dateRange.from || !dateRange.to) return getDisplayDate(dateRange.to ?? dateRange.from, false, locale, userTZ);
+    if (!dateRange.from || !dateRange.to)
+      return getDisplayDate(
+        dateRange.to ?? dateRange.from,
+        false,
+        locale,
+        userTZ,
+      );
     if (!dateRange.from && !dateRange.to) return "";
     if (isSameDay(dateRange.from, dateRange.to)) {
       let displayedTime = `${new Intl.DateTimeFormat(locale, { hour: "numeric" }).format(dateRange.from)}-${new Intl.DateTimeFormat(locale, { hour: "numeric" }).format(dateRange.to)}`;
@@ -74,7 +80,9 @@ const DateDropdownMenu = ({
       >
         {/* --- OPTION: TODAY --- */}
         <DropdownMenuItem
-          onSelect={(e) => { e.preventDefault(); }}
+          onSelect={(e) => {
+            e.preventDefault();
+          }}
           className="flex w-full cursor-pointer items-center justify-between"
           onClick={() => {
             setDateRange((prev) => ({
@@ -82,13 +90,13 @@ const DateDropdownMenu = ({
               to:
                 prev.to && prev.from
                   ? new Date(
-                    endOfDay(
-                      addDays(
-                        new Date(),
-                        differenceInDays(prev.to, prev.from)
-                      )
+                      endOfDay(
+                        addDays(
+                          new Date(),
+                          differenceInDays(prev.to, prev.from),
+                        ),
+                      ),
                     )
-                  )
                   : endOfDay(new Date()),
             }));
             setIsOpen(false);
@@ -105,7 +113,9 @@ const DateDropdownMenu = ({
 
         {/* --- OPTION: TOMORROW --- */}
         <DropdownMenuItem
-          onSelect={(e) => { e.preventDefault(); }}
+          onSelect={(e) => {
+            e.preventDefault();
+          }}
           className="flex w-full cursor-pointer items-center justify-between"
           onClick={() => {
             setDateRange((prev) => ({
@@ -113,8 +123,8 @@ const DateDropdownMenu = ({
               to:
                 prev.to && prev.from
                   ? endOfDay(
-                    addDays(tomorrow, differenceInDays(prev.to, prev.from))
-                  )
+                      addDays(tomorrow, differenceInDays(prev.to, prev.from)),
+                    )
                   : endOfDay(tomorrow),
             }));
             setIsOpen(false);
@@ -131,7 +141,9 @@ const DateDropdownMenu = ({
 
         {/* --- OPTION: NEXT WEEK --- */}
         <DropdownMenuItem
-          onSelect={(e) => { e.preventDefault(); }}
+          onSelect={(e) => {
+            e.preventDefault();
+          }}
           className="flex w-full cursor-pointer items-center justify-between"
           onClick={() => {
             setDateRange((prev) => ({
@@ -139,10 +151,10 @@ const DateDropdownMenu = ({
               to:
                 prev.to && prev.from
                   ? endOfDay(
-                    new Date(
-                      addDays(nextWeek, differenceInDays(prev.to, prev.from))
+                      new Date(
+                        addDays(nextWeek, differenceInDays(prev.to, prev.from)),
+                      ),
                     )
-                  )
                   : endOfDay(nextWeek),
             }));
             setIsOpen(false);
@@ -160,17 +172,26 @@ const DateDropdownMenu = ({
         {/* --- DURATION (sub-menu) --- */}
         <DropdownMenuSub>
           <DropdownMenuSubTrigger
-            title={(!dateRange.from || !dateRange.to) ? "need to set start and end date" : ""}
+            title={
+              !dateRange.from || !dateRange.to
+                ? "need to set start and end date"
+                : ""
+            }
             disabled={!dateRange.from || !dateRange.to}
-            className={clsx("text-muted-foreground hover:bg-transparent! cursor-default! flex w-full items-center justify-between rounded-sm px-2 py-1.5 text-sm outline-hidden transition-colors group",
-              (dateRange.from && dateRange.to) && "text-foreground hover:bg-popover-accent! hover:text-accent-foreground! cursor-pointer!")}>
+            className={clsx(
+              "text-muted-foreground hover:bg-transparent! cursor-default! flex w-full items-center justify-between rounded-sm px-2 py-1.5 text-sm outline-hidden transition-colors group",
+              dateRange.from &&
+                dateRange.to &&
+                "text-foreground hover:bg-popover-accent! hover:text-accent-foreground! cursor-pointer!",
+            )}
+          >
             <div className="flex gap-2 items-center">
               <Clock strokeWidth={1.7} className="w-4! h-4!" />
               Time
             </div>
           </DropdownMenuSubTrigger>
           <DropdownMenuPortal>
-            {(dateRange.from && dateRange.to) && (
+            {dateRange.from && dateRange.to && (
               <DropdownMenuSubContent
                 className="w-[320px] p-4 rounded-lg z-60"
                 onPointerDown={(e) => e.stopPropagation()}
@@ -178,14 +199,14 @@ const DateDropdownMenu = ({
               >
                 <DurationPickerSub
                   dateRange={dateRange as NonNullableDateRange}
-                  setDateRange={setDateRange as React.Dispatch<
-                    React.SetStateAction<NonNullableDateRange>
-                  >}
+                  setDateRange={
+                    setDateRange as React.Dispatch<
+                      React.SetStateAction<NonNullableDateRange>
+                    >
+                  }
                 />
-
               </DropdownMenuSubContent>
             )}
-
           </DropdownMenuPortal>
         </DropdownMenuSub>
         <DropdownMenuSeparator />
@@ -195,21 +216,24 @@ const DateDropdownMenu = ({
             mode="range"
             defaultMonth={new Date()}
             selected={dateRange}
-            onSelect={(dateRange) => { setDateRange({ from: dateRange?.from, to: dateRange?.to }) }}
+            onSelect={(dateRange) => {
+              setDateRange({ from: dateRange?.from, to: dateRange?.to });
+            }}
             numberOfMonths={1}
-
           />
         </div>
         <DropdownMenuSeparator className="h-[1.1px] my-0 -mb-0.5" />
 
         {/* --- OPTION: No Date --- */}
         <DropdownMenuItem
-          onSelect={(e) => { e.preventDefault(); }}
+          onSelect={(e) => {
+            e.preventDefault();
+          }}
           className="flex w-full cursor-pointer items-center justify-between"
           onClick={() => {
             setDateRange(() => ({
               from: undefined,
-              to: undefined
+              to: undefined,
             }));
             setIsOpen(false);
           }}
@@ -235,7 +259,10 @@ type DurationPickerSubProps = {
   setDateRange: React.Dispatch<React.SetStateAction<NonNullableDateRange>>;
 };
 
-function DurationPickerSub({ dateRange, setDateRange }: DurationPickerSubProps) {
+function DurationPickerSub({
+  dateRange,
+  setDateRange,
+}: DurationPickerSubProps) {
   const locale = useLocale();
   const appDict = useTranslations("app");
 
@@ -266,10 +293,7 @@ function DurationPickerSub({ dateRange, setDateRange }: DurationPickerSubProps) 
 
     setDateRange((old) => {
       const newFrom = parsed;
-      if (
-        isSameDay(old.from, old.to) &&
-        newFrom.getTime() > old.to.getTime()
-      ) {
+      if (isSameDay(old.from, old.to) && newFrom.getTime() > old.to.getTime()) {
         setTimeToStr(format(newFrom, "HH:mm"));
         setError(null);
         return { from: newFrom, to: newFrom };
@@ -313,7 +337,6 @@ function DurationPickerSub({ dateRange, setDateRange }: DurationPickerSubProps) 
   };
 
   const inputErrorClass = error ? "ring-1 ring-red" : "";
-
 
   return (
     <div className=" flex flex-col gap-4">

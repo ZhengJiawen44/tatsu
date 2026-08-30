@@ -10,7 +10,9 @@
 
 ![hero](public/hero.webp)
 [demo video](https://www.youtube.com/watch?v=NWD6fUluXuE)
+
 ## 1. Introduction
+
 Tatsu is a todo app on steroids, designed to keep you motivated and productive.
 
 ## 2. Features
@@ -22,21 +24,23 @@ Tatsu is a todo app on steroids, designed to keep you motivated and productive.
    View all your tasks at a glance with monthly, weekly, and daily layouts to stay organized.
 
 3. **Two way caldendar Sync**
-   
-   all synced objects from external caldav servers are treated as first class citizens in Tatsu, this means that you can do everything you    already can to synced objects like any other todos. Many todo implementations restrict what you can do with synced objects. Tatsu strives to blend the differences to offer a more seamless experience. (this part looks like AI but it is infact written by me)
 
-5. **Notion-like Editor**  
+   all synced objects from external caldav servers are treated as first class citizens in Tatsu, this means that you can do everything you already can to synced objects like any other todos. Many todo implementations restrict what you can do with synced objects. Tatsu strives to blend the differences to offer a more seamless experience. (this part looks like AI but it is infact written by me)
+
+4. **Notion-like Editor**  
    A powerful and intuitive editor for structured note-taking and task management.
 
-6. **End-to-End Encrypted File Uploads**  
+5. **End-to-End Encrypted File Uploads**  
    Securely upload and manage files with full end-to-end encryption to protect your data.
 
    More exciting features coming soon!!
 
 ## 3. Documentation
+
 https://sanity.my/en/blogs
 
 ## 4. RoadMap
+
 https://github.com/ZhengJiawen44/tatsu/wiki/Roadmap
 
 ## 5. Deploying with Docker
@@ -46,11 +50,13 @@ https://github.com/ZhengJiawen44/tatsu/wiki/Roadmap
 2. Copy `.env.example` to `.env` and fill in the required values.
 
 3. Start the containers:
+
 ```bash
 docker compose up -d
 ```
 
 This will:
+
 - Pull the latest prebuilt image from GitHub Container Registry.
 - Start a Postgres database (postgres:15) with persistent storage.
 - Run Prisma migrations automatically on startup.
@@ -58,18 +64,22 @@ This will:
 Once running, the app will be available at http://localhost:3000.
 
 To stop the containers:
+
 ```bash
 docker compose down
 ```
 
 ## 6. Local Development with Docker
+
 you get:
+
 1. hot module refresh.
 2. prisma server on localhost:5555
 3. dev server on localhost:3000
 4. postgres server on postgres port 5432
-   
+
 you do:
+
 1. Git clone this repository
 2. Copy `.env.example` to `.env` and fill in the required values.
 3. start the dev server `docker compose -f docker-compose.dev.yml up`
@@ -78,7 +88,9 @@ you do:
 To stop the dev server `docker compose -f docker-compose.dev.yml down`
 
 ## 7. Running Locally without Docker
+
 this guide is too long, it is moved to [tatsu wiki](https://github.com/ZhengJiawen44/tatsu/wiki)
 
 ## 8. Fonts
+
 This project uses next/font for optimized font loading. It features Poppins, a modern and elegant font from Google.

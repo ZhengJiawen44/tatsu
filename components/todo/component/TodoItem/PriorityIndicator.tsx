@@ -5,7 +5,7 @@ export function PriorityIndicator({
   className,
   level,
   onClick,
-  isSelected
+  isSelected,
 }: {
   className?: string;
   level: number;
@@ -18,18 +18,23 @@ export function PriorityIndicator({
         className={clsx(
           cn(
             "w-5 h-5 border-2 rounded-sm flex justify-center items-center p-0 m-0 gap-0",
-            className
+            className,
           ),
           level === 1
             ? "border-lime"
             : level === 2
               ? "border-orange"
-              : "border-red "
+              : "border-red ",
         )}
       >
-        {isSelected &&
-          <div className={clsx("rounded-full w-[40%] h-[40%] m-0 p-0", level == 1 ? "bg-lime" : level == 2 ? "bg-orange" : "bg-red")}></div>
-        }
+        {isSelected && (
+          <div
+            className={clsx(
+              "rounded-full w-[40%] h-[40%] m-0 p-0",
+              level == 1 ? "bg-lime" : level == 2 ? "bg-orange" : "bg-red",
+            )}
+          ></div>
+        )}
       </div>
     </div>
   );
