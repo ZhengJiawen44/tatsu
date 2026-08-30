@@ -227,8 +227,8 @@ model CompletedTodo{
   completedAt   DateTime        @default(now())
   dtstart     DateTime?
   due     DateTime?
-  completedOnTime Boolean
-  daysToComplete  Decimal @db.Decimal(10, 2)
+  completedOnTime Boolean?
+  daysToComplete  Decimal? @db.Decimal(10, 2)
   rrule  String?
   user          User            @relation(fields: [userID], references: [id])
   userID        String
