@@ -17,7 +17,6 @@ async function postTodo({ todo }: { todo: TodoItemType }) {
   });
 
   if (!parsedObj.success) {
-    console.log(todo);
     throw new Error(parsedObj.error.errors[0].message);
   }
 
@@ -30,7 +29,6 @@ async function postTodo({ todo }: { todo: TodoItemType }) {
   //convert todo due from string to time
   res.todo.due = new Date(res.todo.due);
   res.todo.dtstart = new Date(res.todo.dtstart);
-
   return res.todo;
 }
 
@@ -38,9 +36,9 @@ export const useCreateTodo = () => {
   const { toast } = useToast();
   const queryClient = useQueryClient();
   const { mutate: createMutateFn, status: createStatus } = useMutation({
-    mutationFn: (todo: TodoItemType) => postTodo({ todo }),
+    mutationFn: async(todo: TodoItemType) => {const res = await postTodo({ todo }); console.log("1",res); return res},
     onMutate: async (newTodo) => {
-      console.log(newTodo);
+      console.log("im new",newTodo);
 
       await queryClient.cancelQueries({ queryKey: ["todo"] });
       await queryClient.cancelQueries({ queryKey: ["project"] });

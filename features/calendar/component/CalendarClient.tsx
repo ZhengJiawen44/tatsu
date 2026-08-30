@@ -182,7 +182,7 @@ export default function CalendarClient() {
       </>
       }
 
-      <div className="h-screen flex flex-col overflow-hidden sm:py-10">
+      <div className="h-screen flex flex-col overflow-hidden sm:py-8">
         {showCreateForm && (
           <CreateCalendarFormContainer
             selectDateRange={selectDateRange}
