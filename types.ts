@@ -79,6 +79,12 @@ export interface TodoItemType {
   projectID: string | null;
 }
 
+export interface TodoFormItemType extends TodoItemType {
+  dtstartChecksum: string;
+  dueChecksum: string;
+  rruleChecksum: string | null;
+}
+
 export interface overridingInstance {
   id: string;
   completedAt: Date | null;
