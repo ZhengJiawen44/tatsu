@@ -40,7 +40,8 @@ const TodoForm = ({
     projectID,
     setProjectID,
     rruleOptions,
-    dateRangeChecksum,
+    dtstartChecksum,
+    dueChecksum,
     rruleChecksum,
     durationMinutes,
   } = useTodoForm();
@@ -166,7 +167,8 @@ const TodoForm = ({
         } else {
           editTodoMutateFn({
             ...todo,
-            dateRangeChecksum,
+            dtstartChecksum,
+            dueChecksum,
             rruleChecksum,
             title,
             description: desc,
