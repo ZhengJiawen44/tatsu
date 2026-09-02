@@ -29,8 +29,8 @@ interface TodoFormContextType {
   derivedRepeatType:
     "Daily" | "Weekly" | "Monthly" | "Yearly" | "Weekday" | "Custom" | null;
   instanceDate?: Date;
-  dtstartChecksum: string | null;
-  dueChecksum: string | null;
+  dtstartChecksum: string;
+  dueChecksum: string;
   rruleChecksum: string | null; //send what was changed to the backend, to either delete override instances or overwrite them
 }
 
