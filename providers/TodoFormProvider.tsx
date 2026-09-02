@@ -29,7 +29,8 @@ interface TodoFormContextType {
   derivedRepeatType:
     "Daily" | "Weekly" | "Monthly" | "Yearly" | "Weekday" | "Custom" | null;
   instanceDate?: Date;
-  dateRangeChecksum: string;
+  dtstartChecksum: string | null;
+  dueChecksum: string | null;
   rruleChecksum: string | null; //send what was changed to the backend, to either delete override instances or overwrite them
 }
 
@@ -73,13 +74,15 @@ const TodoFormProvider = ({
   const [rruleOptions, setRruleOptions] = useState(
     todoItem?.rrule ? RRule.parseString(todoItem.rrule) : null,
   );
-  const dateRangeChecksum = todoItem
-    ? `${todoItem.dtstart?.toISOString() ?? "null"}-${
-        todoItem.due?.toISOString() ?? "null"
-      }`
-    : `${dateRange.from?.toISOString() ?? "null"}-${
-        dateRange.to?.toISOString() ?? "null"
-      }`;
+
+  const dtstartChecksum = todoItem
+  ?`${todoItem.dtstart?.toISOString() ?? "null"}`
+  :`${dateRange.from?.toISOString() ?? "null"}`
+
+    const dueChecksum = todoItem
+  ?`${todoItem.due?.toISOString() ?? "null"}`
+  :`${dateRange.to?.toISOString() ?? "null"}`
+
   const rruleChecksum = todoItem?.rrule || null;
 
   const timeZone =
@@ -116,7 +119,8 @@ const TodoFormProvider = ({
     timeZone,
     durationMinutes,
     derivedRepeatType,
-    dateRangeChecksum,
+    dtstartChecksum,
+    dueChecksum,
     rruleChecksum,
   };
 

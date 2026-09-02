@@ -1,6 +1,5 @@
 import { changeMapType } from "@/features/todayTodos/query/reorder-todo";
-import { TodoItemTypeWithDateChecksum } from "@/features/todayTodos/query/update-todo";
-import { TodoItemType } from "@/types";
+import { TodoFormItemType, TodoItemType } from "@/types";
 import { QueryStatus, UseMutateFunction } from "@tanstack/react-query";
 import React, { createContext, useContext } from "react";
 
@@ -46,7 +45,7 @@ export type useEditTodoType = () => {
   editTodoMutateFn: UseMutateFunction<
     void,
     Error,
-    TodoItemTypeWithDateChecksum,
+    TodoFormItemType,
     { oldTodos: TodoItemType[] | undefined }
   >;
   editTodoStatus: QueryStatus | "idle";
