@@ -14,7 +14,8 @@ async function patchTodo({ ghostTodo }: { ghostTodo: TodoItemType }) {
     priority: ghostTodo.priority,
     dtstart: ghostTodo.dtstart,
     due: ghostTodo.due,
-    rrule: ghostTodo.rrule,
+    // instances cannot have a different rrule from there parents
+    rrule: null,
     instanceDate: ghostTodo.instanceDate,
   });
   if (!parsedObj.success) {
@@ -32,7 +33,8 @@ async function patchTodo({ ghostTodo }: { ghostTodo: TodoItemType }) {
 
 export const useEditOverdueTodoInstance = (
   setEditInstanceOnly:
-    React.Dispatch<React.SetStateAction<boolean>> | undefined,
+    | React.Dispatch<React.SetStateAction<boolean>>
+    | undefined,
 ) => {
   const { toast } = useToast();
   const queryClient = useQueryClient();
