@@ -14,7 +14,8 @@ async function patchTodo({ ghostTodo }: { ghostTodo: TodoItemType }) {
     priority: ghostTodo.priority,
     dtstart: ghostTodo.dtstart,
     due: ghostTodo.due,
-    rrule: ghostTodo.rrule,
+    // rrule is null cuz todo instance cannot change rrule
+    rrule: null,
     instanceDate: ghostTodo.instanceDate,
   });
   if (!parsedObj.success) {
@@ -32,7 +33,8 @@ async function patchTodo({ ghostTodo }: { ghostTodo: TodoItemType }) {
 
 export const useEditTodoInstance = (
   setEditInstanceOnly:
-    React.Dispatch<React.SetStateAction<boolean>> | undefined,
+    | React.Dispatch<React.SetStateAction<boolean>>
+    | undefined,
 ) => {
   const { toast } = useToast();
   const queryClient = useQueryClient();
