@@ -35,10 +35,13 @@ const CalendarForm = ({
   const appDict = useTranslations("app");
   const titleRef = useRef(null);
 
-  const dateRangeChecksum = useMemo(
-    () =>
-      `${todo.dtstart?.toISOString() ?? "null"}-${todo.due?.toISOString() ?? "null"}`,
-    [todo.dtstart, todo.due],
+  const dtstartChecksum = useMemo(
+    () => `${todo.dtstart?.toISOString() ?? "null"}`,
+    [todo.dtstart],
+  );
+  const dueChecksum = useMemo(
+    () => `${todo.due?.toISOString() ?? "null"}`,
+    [todo.due],
   );
   const rruleChecksum = useMemo(() => todo.rrule, [todo.rrule]);
 
@@ -111,7 +114,8 @@ const CalendarForm = ({
           projectID,
         }}
         rruleChecksum={rruleChecksum!}
-        dateRangeChecksum={dateRangeChecksum}
+        dtstartChecksum={dtstartChecksum}
+        dueChecksum={dueChecksum}
         setDisplayForm={setDisplayForm}
         editAllDialogOpen={editAllDialogOpen}
         setEditAllDialogOpen={setEditAllDialogOpen}
@@ -143,6 +147,9 @@ const CalendarForm = ({
                     dtstart: dateRange.from,
                     due: dateRange.to,
                     projectID,
+                    dtstartChecksum,
+                    dueChecksum,
+                    rruleChecksum,
                   });
                 }
               }}

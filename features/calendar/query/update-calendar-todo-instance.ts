@@ -16,7 +16,8 @@ async function patchTodo({ ghostTodo }: { ghostTodo: TodoItemType }) {
     priority: ghostTodo.priority,
     dtstart: ghostTodo.dtstart,
     due: ghostTodo.due,
-    rrule: ghostTodo.rrule,
+    // instances cannot change rrule
+    rrule: null,
     instanceDate: ghostTodo.instanceDate,
   });
   if (!parsedObj.success) {
