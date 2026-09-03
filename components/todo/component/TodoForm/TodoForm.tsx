@@ -162,7 +162,6 @@ const TodoForm = ({
             dtstart,
             due,
             durationMinutes,
-            rrule,
           });
         } else {
           editTodoMutateFn({
