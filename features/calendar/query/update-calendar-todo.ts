@@ -2,18 +2,14 @@ import { useToast } from "@/hooks/use-toast";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { api } from "@/lib/api-client";
 import { todoSchema } from "@/schema";
-import { TodoItemType } from "@/types";
-
-interface TodoItemTypeWithChecksum extends TodoItemType {
-  dateRangeChecksum?: string;
-  rruleChecksum?: string;
-}
+import { TodoFormItemType, TodoItemType } from "@/types";
 
 async function patchCalendarTodo({
-  dateRangeChecksum,
+  dtstartChecksum,
+  dueChecksum,
   rruleChecksum,
   ...todo
-}: TodoItemTypeWithChecksum) {
+}: TodoFormItemType) {
   if (!todo.id) {
     throw new Error("this todo is missing");
   }
@@ -34,18 +30,25 @@ async function patchCalendarTodo({
   }
 
   const rruleChanged = rruleChecksum !== todo.rrule;
-  const dateChanged =
-    dateRangeChecksum !==
-    `${todo.dtstart?.toISOString() ?? "null"}-${todo.due?.toISOString() ?? "null"}`;
+  const dtstartChanged =
+    dtstartChecksum !== `${todo.dtstart?.toISOString() ?? "null"}`;
+  const dueChanged = dueChecksum !== `${todo.due?.toISOString() ?? "null"}`;
 
+  const bo = {
+    rrule: rruleChanged ? todo.rrule : undefined,
+    dtstart: dtstartChanged ? todo.dtstart : undefined,
+    due: dueChanged ? todo.due : undefined,
+  };
+  console.log(dtstartChanged, dueChanged, bo);
   await api.PATCH({
     url: `/api/todo/${todo.id.split(":")[0]}`,
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({
       ...parsedObj.data,
       instanceDate: todo.instanceDate?.getTime(),
-      rruleChanged,
-      dateChanged,
+      rrule: rruleChanged ? todo.rrule : undefined,
+      dtstart: dtstartChanged ? todo.dtstart : undefined,
+      due: dueChanged ? todo.due : undefined,
     }),
   });
 }
@@ -55,7 +58,7 @@ export const useEditCalendarTodo = () => {
   const queryClient = useQueryClient();
 
   const { mutate: editCalendarTodo, status: editTodoStatus } = useMutation({
-    mutationFn: (params: TodoItemTypeWithChecksum) => patchCalendarTodo(params),
+    mutationFn: (params: TodoFormItemType) => patchCalendarTodo(params),
     onMutate: async (newTodo) => {
       await queryClient.cancelQueries({
         queryKey: ["calendarTodo"],

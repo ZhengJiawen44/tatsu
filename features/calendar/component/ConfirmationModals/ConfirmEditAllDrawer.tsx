@@ -16,7 +16,8 @@ import {
 type ConfirmEditAllProp = {
   todo: TodoItemType;
   rruleChecksum: string;
-  dateRangeChecksum: string;
+  dtstartChecksum: string;
+  dueChecksum: string;
   setDisplayForm: React.Dispatch<React.SetStateAction<boolean>>;
   editAllDialogOpen: boolean;
   setEditAllDialogOpen: React.Dispatch<React.SetStateAction<boolean>>;
@@ -25,7 +26,8 @@ type ConfirmEditAllProp = {
 export default function ConfirmEditAllDrawer({
   todo,
   rruleChecksum,
-  dateRangeChecksum,
+  dtstartChecksum,
+  dueChecksum,
   setDisplayForm,
   editAllDialogOpen,
   setEditAllDialogOpen,
@@ -63,8 +65,9 @@ export default function ConfirmEditAllDrawer({
             onClick={() => {
               editCalendarTodo({
                 ...todo,
-                dateRangeChecksum: dateRangeChecksum,
-                rruleChecksum: rruleChecksum,
+                dtstartChecksum,
+                dueChecksum,
+                rruleChecksum,
               });
               setEditAllDialogOpen(false);
               setDisplayForm(false);
