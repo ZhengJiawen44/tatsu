@@ -56,9 +56,9 @@ export const todoSchema = z.object({
   priority: z.enum(["Low", "Medium", "High"], {
     errorMap: () => ({ message: "priority must be one of: low, medium, high" }),
   }),
-  dtstart: z.date().optional(),
-  due: z.date().optional(),
-  rrule: z.string().nullable(),
+  dtstart: z.date().optional().nullable(),
+  due: z.date().optional().nullable(),
+  rrule: z.string().nullable().optional(),
   projectID: z.string().nullable().optional(),
 });
 
