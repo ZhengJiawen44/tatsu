@@ -107,30 +107,23 @@ export async function PATCH(
     }
 
     const rawBody = await req.json();
+    // const validDtstart = rawBody.dtstart===null?null:rawBody.dtstart===undefined?undefined:new Date(rawBody.dtstart)
+    const validDtstart = rawBody.dtstart?new Date(rawBody.dtstart):rawBody.dtstart
+    const validDue = rawBody.due?new Date(rawBody.due):rawBody.due
+
+    // const validDue = rawBody.due===null?null:rawBody.due===undefined?undefined:new Date(rawBody.due)
 
     const parsed = todoSchema
       .partial()
       .extend({
-        dtstart: z.date().optional().nullable(),
-        due: z.date().optional().nullable(),
-        dateChanged: z.boolean().optional(),
-        rruleChanged: z.boolean().optional(),
         pinned: z.boolean().optional(),
         completed: z.boolean().optional(),
         instanceDate: z.date().optional(),
       })
       .safeParse({
         ...rawBody,
-        dtstart: rawBody.dtstart
-          ? new Date(rawBody.dtstart)
-          : rawBody.dateChanged
-            ? null
-            : undefined,
-        due: rawBody.due
-          ? new Date(rawBody.due)
-          : rawBody.dateChanged
-            ? null
-            : undefined,
+        dtstart: validDtstart,
+        due: validDue,
         instanceDate: rawBody.instanceDate
           ? new Date(rawBody.instanceDate)
           : undefined,
@@ -149,8 +142,6 @@ export async function PATCH(
       due,
       instanceDate,
       rrule,
-      dateChanged,
-      rruleChanged,
       projectID,
     } = parsed.data;
 
