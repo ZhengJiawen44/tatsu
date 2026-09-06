@@ -54,10 +54,13 @@ export default function CreateCalendarDrawer({
   const userTZ = useUserTimezone();
   const { projectMetaData } = useProjectMetaData();
 
-  const dateRangeChecksum = useMemo(
-    () =>
-      `${todo.dtstart?.toISOString() ?? "null"}-${todo.due?.toISOString() ?? "null"}`,
-    [todo.dtstart, todo.due],
+  const dtstartChecksum = useMemo(
+    () => `${todo.dtstart?.toISOString() ?? "null"}`,
+    [todo.dtstart],
+  );
+  const dueChecksum = useMemo(
+    () => `${todo.due?.toISOString() ?? "null"}`,
+    [todo.due],
   );
   const rruleChecksum = useMemo(() => todo.rrule, [todo.rrule]);
 
@@ -129,7 +132,8 @@ export default function CreateCalendarDrawer({
           projectID,
         }}
         rruleChecksum={rruleChecksum!}
-        dateRangeChecksum={dateRangeChecksum}
+        dtstartChecksum={dtstartChecksum}
+        dueChecksum={dueChecksum}
         setDisplayForm={setDisplayForm}
         editAllDialogOpen={editAllDialogOpen}
         setEditAllDialogOpen={setEditAllDialogOpen}
@@ -169,6 +173,9 @@ export default function CreateCalendarDrawer({
                     dtstart: dateRange.from,
                     due: dateRange.to,
                     projectID,
+                    dtstartChecksum,
+                    dueChecksum,
+                    rruleChecksum,
                   });
                 }
               }}
@@ -318,6 +325,9 @@ export default function CreateCalendarDrawer({
                         dtstart: dateRange.from,
                         due: dateRange.to,
                         projectID,
+                        dtstartChecksum,
+                        dueChecksum,
+                        rruleChecksum,
                       });
                     }
                   }}

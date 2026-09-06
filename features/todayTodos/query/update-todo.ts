@@ -4,12 +4,10 @@ import { api } from "@/lib/api-client";
 import { todoSchema } from "@/schema";
 import { TodoItemType } from "@/types";
 import { endOfDay } from "date-fns";
+import { TodoFormItemType } from "@/types";
+import { toValidDateRangeUpdateObject } from "@/lib/date/toValidDateRangeUpdateObject";
 
-export interface TodoItemTypeWithDateChecksum extends TodoItemType {
-  dateRangeChecksum: string;
-  rruleChecksum: string | null;
-}
-async function patchTodo({ todo }: { todo: TodoItemTypeWithDateChecksum }) {
+async function patchTodo({ todo }: { todo: TodoFormItemType }) {
   if (!todo.id) {
     throw new Error("this todo is missing");
   }
@@ -28,9 +26,17 @@ async function patchTodo({ todo }: { todo: TodoItemTypeWithDateChecksum }) {
     return;
   }
 
-  const dateChanged =
-    todo.dateRangeChecksum !==
-    `${todo.dtstart?.toISOString() ?? "null"}-${todo.due?.toISOString() ?? "null"}`;
+  const dtstartChanged =
+    todo.dtstartChecksum !== `${todo.dtstart?.toISOString() ?? "null"}`;
+  const dueChanged =
+    todo.dueChecksum !== `${todo.due?.toISOString() ?? "null"}`;
+
+  const [dtstart, due] = toValidDateRangeUpdateObject({
+    dtstart: todo.dtstart,
+    due: todo.due,
+    dtstartChanged,
+    dueChanged,
+  });
 
   const rruleChanged = todo.rruleChecksum !== todo.rrule;
 
@@ -40,10 +46,11 @@ async function patchTodo({ todo }: { todo: TodoItemTypeWithDateChecksum }) {
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({
       ...parsedObj.data,
+      dtstart,
+      due,
+      rrule: rruleChanged ? todo.rrule : undefined,
       id: todoId,
       instanceDate: todo.instanceDate,
-      dateChanged,
-      rruleChanged,
       projectID: todo.projectID,
     }),
   });
@@ -54,8 +61,7 @@ export const useEditTodo = () => {
   const queryClient = useQueryClient();
 
   const { mutate: editTodoMutateFn, status: editTodoStatus } = useMutation({
-    mutationFn: (params: TodoItemTypeWithDateChecksum) =>
-      patchTodo({ todo: params }),
+    mutationFn: (params: TodoFormItemType) => patchTodo({ todo: params }),
     onMutate: async (newTodo) => {
       await queryClient.cancelQueries({ queryKey: ["todo"] });
       const oldTodos = queryClient.getQueryData<TodoItemType[]>(["todo"]);

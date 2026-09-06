@@ -2,18 +2,15 @@ import { useToast } from "@/hooks/use-toast";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { api } from "@/lib/api-client";
 import { todoSchema } from "@/schema";
-import { TodoItemType } from "@/types";
-
-interface TodoItemTypeWithChecksum extends TodoItemType {
-  dateRangeChecksum?: string;
-  rruleChecksum?: string;
-}
+import { TodoFormItemType, TodoItemType } from "@/types";
+import { toValidDateRangeUpdateObject } from "@/lib/date/toValidDateRangeUpdateObject";
 
 async function patchCalendarTodo({
-  dateRangeChecksum,
+  dtstartChecksum,
+  dueChecksum,
   rruleChecksum,
   ...todo
-}: TodoItemTypeWithChecksum) {
+}: TodoFormItemType) {
   if (!todo.id) {
     throw new Error("this todo is missing");
   }
@@ -34,9 +31,16 @@ async function patchCalendarTodo({
   }
 
   const rruleChanged = rruleChecksum !== todo.rrule;
-  const dateChanged =
-    dateRangeChecksum !==
-    `${todo.dtstart?.toISOString() ?? "null"}-${todo.due?.toISOString() ?? "null"}`;
+  const dtstartChanged =
+    dtstartChecksum !== `${todo.dtstart?.toISOString() ?? "null"}`;
+  const dueChanged = dueChecksum !== `${todo.due?.toISOString() ?? "null"}`;
+
+  const [dtstart, due] = toValidDateRangeUpdateObject({
+    dtstart: todo.dtstart,
+    due: todo.due,
+    dtstartChanged,
+    dueChanged,
+  });
 
   await api.PATCH({
     url: `/api/todo/${todo.id.split(":")[0]}`,
@@ -44,8 +48,9 @@ async function patchCalendarTodo({
     body: JSON.stringify({
       ...parsedObj.data,
       instanceDate: todo.instanceDate?.getTime(),
-      rruleChanged,
-      dateChanged,
+      rrule: rruleChanged ? todo.rrule : undefined,
+      dtstart,
+      due,
     }),
   });
 }
@@ -55,7 +60,7 @@ export const useEditCalendarTodo = () => {
   const queryClient = useQueryClient();
 
   const { mutate: editCalendarTodo, status: editTodoStatus } = useMutation({
-    mutationFn: (params: TodoItemTypeWithChecksum) => patchCalendarTodo(params),
+    mutationFn: (params: TodoFormItemType) => patchCalendarTodo(params),
     onMutate: async (newTodo) => {
       await queryClient.cancelQueries({
         queryKey: ["calendarTodo"],

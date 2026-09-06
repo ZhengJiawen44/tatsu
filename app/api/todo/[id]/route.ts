@@ -108,29 +108,28 @@ export async function PATCH(
 
     const rawBody = await req.json();
 
+    //validDtstart/due can be of the either value: Date, null, undefined
+    // Date: set to this date
+    // null: set the date to null, i.e explicitly make the todo a only dtstart/no date task
+    // undefined: do not change this date
+
+    const validDtstart = rawBody.dtstart
+      ? new Date(rawBody.dtstart)
+      : rawBody.dtstart;
+
+    const validDue = rawBody.due ? new Date(rawBody.due) : rawBody.due;
+
     const parsed = todoSchema
       .partial()
       .extend({
-        dtstart: z.date().optional().nullable(),
-        due: z.date().optional().nullable(),
-        dateChanged: z.boolean().optional(),
-        rruleChanged: z.boolean().optional(),
         pinned: z.boolean().optional(),
         completed: z.boolean().optional(),
         instanceDate: z.date().optional(),
       })
       .safeParse({
         ...rawBody,
-        dtstart: rawBody.dtstart
-          ? new Date(rawBody.dtstart)
-          : rawBody.dateChanged
-            ? null
-            : undefined,
-        due: rawBody.due
-          ? new Date(rawBody.due)
-          : rawBody.dateChanged
-            ? null
-            : undefined,
+        dtstart: validDtstart,
+        due: validDue,
         instanceDate: rawBody.instanceDate
           ? new Date(rawBody.instanceDate)
           : undefined,
@@ -149,10 +148,11 @@ export async function PATCH(
       due,
       instanceDate,
       rrule,
-      dateChanged,
-      rruleChanged,
       projectID,
     } = parsed.data;
+
+    const dateChanged = dtstart !== undefined && due !== undefined;
+    const rruleChanged = rrule !== undefined;
 
     const todoToUpdate = await prisma.todo.findUnique({
       where: {
@@ -164,9 +164,11 @@ export async function PATCH(
       },
     });
     if (!todoToUpdate) throw new InternalError("todo not found");
+
     const syncMetaData = todoToUpdate.syncMetaData;
+
     //guard against changes that might break events on the remote caldav server
-    if (dateChanged && syncMetaData && (dtstart == null || due == null))
+    if (dateChanged && syncMetaData && (dtstart === null || due === null))
       throw new BadRequestError(
         "cannot change date time to null for remote todos",
       );
@@ -182,16 +184,42 @@ export async function PATCH(
         priority,
         pinned,
         completed,
-        dtstart: dateChanged || rruleChanged ? dtstart : undefined,
-        due: dateChanged || rruleChanged ? due : undefined,
+        dtstart: dtstart,
+        due: due,
         durationMinutes:
-          dateChanged && dtstart && due
+          dtstart && due
             ? (due?.getTime() - dtstart?.getTime()) / (1000 * 60)
-            : undefined,
+            : dtstart === null || due === null
+              ? null
+              : undefined,
         rrule,
         projectID,
       },
     });
+    /**
+     * if todo is a repeating todo and its dates or rrules were changed, remove all overriding instance,
+     * this is to avoid drifting todo instance problem.
+     */
+    if (instanceDate && (dateChanged || rruleChanged)) {
+      await prisma.todo.update({
+        where: { id, userID: userId },
+        data: {
+          instances: { deleteMany: {} },
+          exdates: [],
+        },
+      });
+    }
+    //otherwise just make all instances up to date with master
+    else if (rrule && instanceDate) {
+      await prisma.todoInstance.updateMany({
+        where: { todoId: id },
+        data: {
+          overriddenTitle: title,
+          overriddenDescription: description,
+          overriddenPriority: priority,
+        },
+      });
+    }
     //if todo exists on the remote calDav, sync the changes
     if (syncMetaData && syncMetaData.icsData) {
       const comp = parseIcsToVeventComponent(syncMetaData.icsData);
@@ -199,40 +227,41 @@ export async function PATCH(
       const masterVevent = allVevents.find(
         (v) => !v.getFirstProperty("recurrence-id"),
       );
+      if (!masterVevent)
+        throw new Error(
+          "could not find master vevent subcomponent in parsed ICS data",
+        );
       const recurringVevents = allVevents.flatMap((component) => {
         if (!component.getFirstProperty("recurrence-id")) return [];
         return component;
       });
 
-      if (!masterVevent)
-        throw new Error(
-          "could not find master vevent subcomponent in parsed ICS data",
-        );
-      if (title !== undefined) {
+      if (title) {
         masterVevent.updatePropertyWithValue("summary", title);
         // also override the instances
         recurringVevents.forEach((event) =>
           event?.updatePropertyWithValue("summary", title),
         );
       }
-      if (description !== undefined) {
+      if (description) {
         masterVevent.updatePropertyWithValue("description", description);
         // also override the instances
         recurringVevents.forEach((event) =>
           event?.updatePropertyWithValue("description", description),
         );
       }
-      if (dateChanged === true && dtstart != undefined)
+      if (dtstart !== undefined)
         masterVevent.updatePropertyWithValue(
           "dtstart",
           ICAL.Time.fromJSDate(dtstart, true),
         );
-      if (dateChanged === true && due != undefined)
+      if (due !== undefined)
         masterVevent.updatePropertyWithValue(
           "dtend",
           ICAL.Time.fromJSDate(due, true),
         );
 
+      //avoid drifting todo instance problem.
       if (dateChanged && recurringVevents.length) {
         recurringVevents.forEach((event) => comp.removeSubcomponent(event));
         masterVevent.removeProperty("exdate");
@@ -268,31 +297,6 @@ export async function PATCH(
       await prisma.syncMetaData.update({
         where: { todoId: todoToUpdate.id },
         data: { etag, icsData: updatedIcsComp },
-      });
-    }
-
-    /**
-     * if todo is a repeating todo and its dates or rrules were changed, remove all overriding instance,
-     * this is to avoid drifting todo instance problem.
-     */
-    if (instanceDate && (dateChanged || rruleChanged)) {
-      await prisma.todo.update({
-        where: { id, userID: userId },
-        data: {
-          instances: { deleteMany: {} },
-          exdates: [],
-        },
-      });
-    }
-    //otherwise just make all instances up to date with master
-    else if (rrule && instanceDate) {
-      await prisma.todoInstance.updateMany({
-        where: { todoId: id },
-        data: {
-          overriddenTitle: title,
-          overriddenDescription: description,
-          overriddenPriority: priority,
-        },
       });
     }
 

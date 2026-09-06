@@ -74,7 +74,8 @@ function TodoItemMeatballMenuContent({
         </DropdownMenuSubTrigger>
         <DropdownMenuSubContent className="max-h-56 overflow-scroll">
           {Object.entries(projectMetaData).map(([key, value]) => {
-            const dateRangeChecksum = `${todo.dtstart?.toISOString() ?? "null"}-${todo.due?.toISOString() ?? "null"}`;
+            const dtstartChecksum = `${todo.dtstart?.toISOString() ?? "null"}`;
+            const dueChecksum = `${todo.due?.toISOString() ?? "null"}`;
             const rruleChecksum = todo.rrule;
             return (
               <DropdownMenuItem
@@ -83,7 +84,8 @@ function TodoItemMeatballMenuContent({
                   editTodoMutateFn({
                     ...todo,
                     projectID: key,
-                    dateRangeChecksum,
+                    dtstartChecksum,
+                    dueChecksum,
                     rruleChecksum,
                   });
                 }}

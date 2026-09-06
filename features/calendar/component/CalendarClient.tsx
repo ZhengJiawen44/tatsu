@@ -242,12 +242,14 @@ export default function CalendarClient() {
                 : undefined,
             )
           }
-
           onRangeChange={setCalendarRange}
           onEventResize={({ event: todo, ...resizeEvent }) => {
             if (!todo.rrule) {
               editCalendarTodo({
                 ...todo,
+                dtstartChecksum: `${todo.dtstart?.toISOString() ?? "null"}`,
+                dueChecksum: `${todo.due?.toISOString() ?? "null"}`,
+                rruleChecksum: todo.rrule,
                 dtstart: new Date(resizeEvent.start),
                 due: new Date(resizeEvent.end),
               });
@@ -264,6 +266,9 @@ export default function CalendarClient() {
             if (!todo.rrule) {
               editCalendarTodo({
                 ...todo,
+                dtstartChecksum: `${todo.dtstart?.toISOString() ?? "null"}`,
+                dueChecksum: `${todo.due?.toISOString() ?? "null"}`,
+                rruleChecksum: todo.rrule,
                 dtstart: new Date(dropEvent.start),
                 due: new Date(dropEvent.end),
               });

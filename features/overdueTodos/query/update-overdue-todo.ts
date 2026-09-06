@@ -2,14 +2,11 @@ import { useToast } from "@/hooks/use-toast";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { api } from "@/lib/api-client";
 import { todoSchema } from "@/schema";
-import { TodoItemType } from "@/types";
+import { TodoFormItemType, TodoItemType } from "@/types";
 import { endOfDay } from "date-fns";
+import { toValidDateRangeUpdateObject } from "@/lib/date/toValidDateRangeUpdateObject";
 
-export interface TodoItemTypeWithDateChecksum extends TodoItemType {
-  dateRangeChecksum: string;
-  rruleChecksum: string | null;
-}
-async function patchTodo({ todo }: { todo: TodoItemTypeWithDateChecksum }) {
+async function patchTodo({ todo }: { todo: TodoFormItemType }) {
   if (!todo.id) {
     throw new Error("this todo is missing");
   }
@@ -27,11 +24,18 @@ async function patchTodo({ todo }: { todo: TodoItemTypeWithDateChecksum }) {
     console.log(parsedObj.error.errors[0]);
     return;
   }
-  const dateChanged =
-    todo.dateRangeChecksum !==
-    `${todo.dtstart?.toISOString() ?? "null"}-${todo.due?.toISOString() ?? "null"}`;
-
+  const dtstartChanged =
+    todo.dtstartChecksum !== `${todo.dtstart?.toISOString() ?? "null"}`;
+  const dueChanged =
+    todo.dueChecksum !== `${todo.due?.toISOString() ?? "null"}`;
   const rruleChanged = todo.rruleChecksum !== todo.rrule;
+
+  const [dtstart, due] = toValidDateRangeUpdateObject({
+    dtstart: todo.dtstart,
+    due: todo.due,
+    dtstartChanged,
+    dueChanged,
+  });
 
   const todoId = todo.id.split(":")[0];
   await api.PATCH({
@@ -41,8 +45,9 @@ async function patchTodo({ todo }: { todo: TodoItemTypeWithDateChecksum }) {
       ...parsedObj.data,
       id: todoId,
       instanceDate: todo.instanceDate,
-      dateChanged,
-      rruleChanged,
+      dtstart,
+      due,
+      rrule: rruleChanged ? todo.rrule : undefined,
       projectID: todo.projectID,
     }),
   });
@@ -53,8 +58,7 @@ export const useEditOverdueTodo = () => {
   const queryClient = useQueryClient();
 
   const { mutate: editTodoMutateFn, status: editTodoStatus } = useMutation({
-    mutationFn: (params: TodoItemTypeWithDateChecksum) =>
-      patchTodo({ todo: params }),
+    mutationFn: (params: TodoFormItemType) => patchTodo({ todo: params }),
     onMutate: async (newTodo) => {
       await queryClient.cancelQueries({ queryKey: ["overdueTodo"] });
       const oldTodos = queryClient.getQueryData<TodoItemType[]>([
