@@ -3,6 +3,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { api } from "@/lib/api-client";
 import { todoSchema } from "@/schema";
 import { TodoFormItemType, TodoItemType } from "@/types";
+import { toValidDateRangeUpdateObject } from "@/lib/date/toValidDateRangeUpdateObject";
 
 async function patchCalendarTodo({
   dtstartChecksum,
@@ -34,12 +35,13 @@ async function patchCalendarTodo({
     dtstartChecksum !== `${todo.dtstart?.toISOString() ?? "null"}`;
   const dueChanged = dueChecksum !== `${todo.due?.toISOString() ?? "null"}`;
 
-  const bo = {
-    rrule: rruleChanged ? todo.rrule : undefined,
-    dtstart: dtstartChanged ? todo.dtstart : undefined,
-    due: dueChanged ? todo.due : undefined,
-  };
-  console.log(dtstartChanged, dueChanged, bo);
+  const [dtstart, due] = toValidDateRangeUpdateObject({
+    dtstart: todo.dtstart,
+    due: todo.due,
+    dtstartChanged,
+    dueChanged,
+  });
+
   await api.PATCH({
     url: `/api/todo/${todo.id.split(":")[0]}`,
     headers: { "Content-Type": "application/json" },
@@ -47,8 +49,8 @@ async function patchCalendarTodo({
       ...parsedObj.data,
       instanceDate: todo.instanceDate?.getTime(),
       rrule: rruleChanged ? todo.rrule : undefined,
-      dtstart: dtstartChanged ? todo.dtstart : undefined,
-      due: dueChanged ? todo.due : undefined,
+      dtstart,
+      due,
     }),
   });
 }

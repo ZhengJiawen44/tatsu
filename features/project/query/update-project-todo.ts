@@ -4,6 +4,7 @@ import { api } from "@/lib/api-client";
 import { todoSchema } from "@/schema";
 import { TodoFormItemType, TodoItemType } from "@/types";
 import { endOfDay } from "date-fns";
+import { toValidDateRangeUpdateObject } from "@/lib/date/toValidDateRangeUpdateObject";
 
 async function patchTodo({ todo }: { todo: TodoFormItemType }) {
   if (!todo.id) {
@@ -31,6 +32,12 @@ async function patchTodo({ todo }: { todo: TodoFormItemType }) {
     todo.dueChecksum !== `${todo.due?.toISOString() ?? "null"}`;
   const rruleChanged = todo.rruleChecksum !== todo.rrule;
 
+  const [dtstart, due] = toValidDateRangeUpdateObject({
+    dtstart: todo.dtstart,
+    due: todo.due,
+    dtstartChanged,
+    dueChanged,
+  });
   const todoId = todo.id.split(":")[0];
 
   await api.PATCH({
@@ -40,8 +47,8 @@ async function patchTodo({ todo }: { todo: TodoFormItemType }) {
       ...parsedObj.data,
       id: todoId,
       instanceDate: todo.instanceDate,
-      dtstart: dtstartChanged ? todo.dtstart : undefined,
-      due: dueChanged ? todo.due : undefined,
+      dtstart,
+      due,
       rrule: rruleChanged ? todo.rrule : undefined,
       projectID: todo.projectID,
     }),
