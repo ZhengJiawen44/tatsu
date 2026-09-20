@@ -54,15 +54,13 @@ export const usePrioritizeTodo = () => {
 
         return { oldTodos };
       },
-      onSuccess: () => {
-        // queryClient.invalidateQueries({ queryKey: ["todo"] });
+      onSettled: () => {
+        //optimistically update calendar todos
+        queryClient.invalidateQueries({ queryKey: ["calendarTodo"] });
+        queryClient.invalidateQueries({ queryKey: ["completedTodo"] });
       },
       onError: (error) => {
         toast({ description: error.message, variant: "destructive" });
-      },
-      onSettled() {
-        //optimistically update calendar todos
-        queryClient.invalidateQueries({ queryKey: ["completedTodo"] });
       },
     });
 
