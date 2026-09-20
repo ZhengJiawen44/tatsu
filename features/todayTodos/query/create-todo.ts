@@ -102,6 +102,7 @@ export const useCreateTodo = () => {
         queryKey: ["project", newTodo.projectID],
       });
       queryClient.invalidateQueries({ queryKey: ["calendarTodo"] });
+      queryClient.invalidateQueries({ queryKey: ["overdueTodo"] });
     },
   });
   return { createMutateFn, createStatus };

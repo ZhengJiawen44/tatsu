@@ -43,7 +43,6 @@ export const useCompleteTodo = () => {
       toast({ description: error.message, variant: "destructive" });
       queryClient.setQueryData(["todo"], context?.oldTodos);
     },
-    onSuccess: () => {},
     onSettled: () => {
       //optimistically update calendar todos
       queryClient.invalidateQueries({ queryKey: ["calendarTodo"] });
