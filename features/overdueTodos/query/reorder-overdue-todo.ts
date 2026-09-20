@@ -23,7 +23,7 @@ export const useReorderOverdueTodo = () => {
         body: JSON.stringify(changeMap),
       });
     },
-    onSuccess: () => {
+    onSettled: () => {
       queryClient.invalidateQueries({ queryKey: ["overdueTodo"] });
     },
     onError: (error) => {

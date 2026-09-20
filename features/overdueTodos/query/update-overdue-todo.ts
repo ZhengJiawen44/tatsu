@@ -3,7 +3,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { api } from "@/lib/api-client";
 import { todoSchema } from "@/schema";
 import { TodoFormItemType, TodoItemType } from "@/types";
-import { endOfDay } from "date-fns";
+import { endOfDay, startOfDay } from "date-fns";
 import { toValidDateRangeUpdateObject } from "@/lib/date/toValidDateRangeUpdateObject";
 
 async function patchTodo({ todo }: { todo: TodoFormItemType }) {
@@ -59,7 +59,7 @@ export const useEditOverdueTodo = () => {
 
   const { mutate: editTodoMutateFn, status: editTodoStatus } = useMutation({
     mutationFn: (params: TodoFormItemType) => patchTodo({ todo: params }),
-    onMutate: async (newTodo) => {
+    onMutate: async (updatedOverdueTodo) => {
       await queryClient.cancelQueries({ queryKey: ["overdueTodo"] });
       const oldTodos = queryClient.getQueryData<TodoItemType[]>([
         "overdueTodo",
@@ -67,30 +67,43 @@ export const useEditOverdueTodo = () => {
 
       queryClient.setQueryData(["overdueTodo"], (oldTodos: TodoItemType[]) =>
         oldTodos.flatMap((oldTodo) => {
-          if (oldTodo.id === newTodo.id) {
-            if (newTodo.dtstart && newTodo.dtstart > endOfDay(new Date())) {
+          if (oldTodo.id === updatedOverdueTodo.id) {
+            // if todo is in the future, remove todo from overdue todos
+            if (updatedOverdueTodo.dtstart && updatedOverdueTodo.dtstart > endOfDay(new Date())) {
+              return [];
+            }
+            // if todo is today, remove todo from overdue todos
+            if (updatedOverdueTodo.dtstart && updatedOverdueTodo.dtstart >= startOfDay(new Date())) {
               return [];
             }
             return {
-              completed: newTodo.completed,
-              order: newTodo.order,
-              pinned: newTodo.pinned,
-              userID: newTodo.userID,
-              id: newTodo.id,
-              title: newTodo.title,
-              description: newTodo.description,
-              priority: newTodo.priority,
-              due: newTodo.due,
-              dtstart: newTodo.dtstart,
-              rrule: newTodo.rrule,
+              completed: updatedOverdueTodo.completed,
+              order: updatedOverdueTodo.order,
+              pinned: updatedOverdueTodo.pinned,
+              userID: updatedOverdueTodo.userID,
+              id: updatedOverdueTodo.id,
+              title: updatedOverdueTodo.title,
+              description: updatedOverdueTodo.description,
+              priority: updatedOverdueTodo.priority,
+              due: updatedOverdueTodo.due,
+              dtstart: updatedOverdueTodo.dtstart,
+              rrule: updatedOverdueTodo.rrule,
               createdAt: new Date(),
-              projectID: newTodo.projectID,
+              projectID: updatedOverdueTodo.projectID,
             };
           }
           return oldTodo;
         }),
       );
+
+      // if todo is today, remove todo from overdue todos
+      if (updatedOverdueTodo.dtstart && updatedOverdueTodo.dtstart >= startOfDay(new Date()) &&
+         updatedOverdueTodo.dtstart <= endOfDay(new Date())
+        ) 
+      queryClient.setQueryData(["todo"], (oldTodos: TodoItemType[]) => [...oldTodos, updatedOverdueTodo])
+        
       return { oldTodos };
+
     },
     onSettled: () => {
       queryClient.invalidateQueries({ queryKey: ["calendarTodo"] });
