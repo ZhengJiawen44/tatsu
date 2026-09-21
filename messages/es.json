@@ -285,6 +285,7 @@
     "descPlaceholder": "descripción"
   },
   "today": {
+    "unpin": "Desanclar",
     "saveInstance": "Guardar instancia",
     "nextRepeatText": "Esta tarea está programada a continuación para el",
     "addATask": "Añadir una tarea",

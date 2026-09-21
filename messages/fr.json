@@ -285,6 +285,7 @@
     "descPlaceholder": "description"
   },
   "today": {
+    "unpine": "Désépingler",
     "saveInstance": "Enregistrer l'instance",
     "nextRepeatText": "Cette tâche est ensuite prévue pour le",
     "addATask": "Ajouter une tâche",

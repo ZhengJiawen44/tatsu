@@ -285,6 +285,7 @@
     "descPlaceholder": "説明"
   },
   "today": {
+    "unpin": "ピン留めを外す",
     "saveInstance": "インスタンスを保存",
     "nextRepeatText": "このTODOの次回の予定は",
     "addATask": "タスクを追加",

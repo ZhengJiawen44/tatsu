@@ -285,6 +285,7 @@
     "descPlaceholder": "descrizione"
   },
   "today": {
+    "unpin": "Sblocca",
     "saveInstance": "Salva istanza",
     "nextRepeatText": "Questa attività è programmata per il",
     "addATask": "Aggiungi un'attività",

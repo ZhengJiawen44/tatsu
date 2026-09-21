@@ -285,6 +285,7 @@
     "descPlaceholder": "Beschreibung"
   },
   "today": {
+    "unpin":"Loslösen",
     "saveInstance": "Instanz speichern",
     "nextRepeatText": "Diese Aufgabe ist als Nächstes geplant für am",
     "addATask": "Aufgabe hinzufügen",

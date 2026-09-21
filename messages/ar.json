@@ -285,6 +285,7 @@
     "descPlaceholder": "الوصف"
   },
   "today": {
+    "unpin": "إلغاء التثبيت",
     "saveInstance": "حفظ النسخة",
     "nextRepeatText": "هذه المهمة مجدولة تالياً في",
     "addATask": "إضافة مهمة",

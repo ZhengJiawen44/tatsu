@@ -285,6 +285,7 @@
     "descPlaceholder": "описание"
   },
   "today": {
+    "unpin": "Открепить",
     "saveInstance": "Сохранить экземпляр",
     "nextRepeatText": "Эта задача запланирована на",
     "addATask": "Добавить задачу",
