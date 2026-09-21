@@ -98,19 +98,20 @@ export const useEditProjectTodo = () => {
           return oldTodo;
         }),
       );
-
       // update project cache
       queryClient.setQueriesData<TodoItemType[]>(
         { queryKey: ["project"] },
         (oldTodos) =>
-          oldTodos?.map((oldTodo) => {
-            if (oldTodo.id === newTodo.id) {
-              return {
+          oldTodos?.flatMap((oldTodo) => {
+            if (oldTodo.id !== newTodo.id)
+              return [oldTodo];
+
+            if(newTodo.projectID)
+              return [{
                 ...oldTodo,
                 ...newTodo,
-              };
-            }
-            return oldTodo;
+              }];
+            return []; 
           }),
       );
 
@@ -132,6 +133,8 @@ export const useEditProjectTodo = () => {
 
     onSettled: () => {
       queryClient.invalidateQueries({ queryKey: ["calendarTodo"] });
+      queryClient.invalidateQueries({ queryKey: ["todo"] });
+      queryClient.invalidateQueries({ queryKey: ["overdueTodo"] });
     },
   });
 

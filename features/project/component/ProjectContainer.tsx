@@ -23,12 +23,12 @@ import TodoMutationProvider from "@/providers/TodoMutationProvider";
 import { useProject } from "../query/get-project-todos";
 import { useProjectMetaData } from "@/components/Sidebar/Project/query/get-project-meta";
 
-const ProjectContainer = ({ id }: { id: string }) => {
+const ProjectContainer = ({ projectId }: { projectId: string }) => {
   const locale = useLocale();
   const userTZ = useUserTimezone();
   const { projectMetaData } = useProjectMetaData();
   const { preferences } = useUserPreferences();
-  const { projectTodos, projectTodosLoading } = useProject({ id });
+  const { projectTodos, projectTodosLoading } = useProject({ projectId });
   const [containerHovered, setContainerHovered] = useState(false);
   const pinnedTodos = useMemo(
     () => projectTodos.filter(({ pinned }) => pinned),
@@ -138,7 +138,7 @@ const ProjectContainer = ({ id }: { id: string }) => {
         )}
         <div className="mb-3">
           <h3 className="text-2xl font-semibold select-none mb-4">
-            {projectMetaData[id]?.name}
+            {projectMetaData[projectId]?.name}
           </h3>
           <TodoFilterBar containerHovered={containerHovered} />
           <LineSeparator className="flex-1" />
@@ -164,7 +164,7 @@ const ProjectContainer = ({ id }: { id: string }) => {
             </div>
           </div>
         ))}
-        <CreateTodoBtn projectID={id} />
+        <CreateTodoBtn projectID={projectId} />
       </div>
     </TodoMutationProvider>
   );

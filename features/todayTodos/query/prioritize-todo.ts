@@ -58,6 +58,7 @@ export const usePrioritizeTodo = () => {
         //optimistically update calendar todos
         queryClient.invalidateQueries({ queryKey: ["calendarTodo"] });
         queryClient.invalidateQueries({ queryKey: ["completedTodo"] });
+        queryClient.invalidateQueries({ queryKey: ["project"] });
       },
       onError: (error) => {
         toast({ description: error.message, variant: "destructive" });

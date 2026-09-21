@@ -23,8 +23,10 @@ export const useReorderTodo = () => {
         body: JSON.stringify(changeMap),
       });
     },
-    onSuccess: () => {
+    onSettled: () => {
       queryClient.invalidateQueries({ queryKey: ["todo"] });
+      queryClient.invalidateQueries({ queryKey: ["projectTodo"] });
+      queryClient.invalidateQueries({ queryKey: ["overdueTodo"] });
     },
     onError: (error) => {
       toast({ description: error.message, variant: "destructive" });
