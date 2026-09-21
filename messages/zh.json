@@ -285,6 +285,7 @@
     "addATask": "添加任务",
     "titlePlaceholder": "下午 5 点浇花",
     "menu": {
+      "unpin": "取消置顶",
       "pinToTop": "置顶",
       "edit": "编辑",
       "editAsInstance": "编辑此实例",
