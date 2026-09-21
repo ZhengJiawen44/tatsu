@@ -77,6 +77,7 @@ export const useEditCalendarTodoInstance = () => {
         queryClient.invalidateQueries({
           queryKey: ["overdueTodo"],
         });
+        queryClient.invalidateQueries({ queryKey: ["project"] });
       },
 
       onError: (error, newTodo, context) => {
