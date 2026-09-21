@@ -5,7 +5,7 @@ import { api } from "@/lib/api-client";
 import { TodoItemType } from "@/types";
 import { endOfToday, startOfToday } from "date-fns";
 
-export const useProject = ({ id }: { id: string }) => {
+export const useProject = ({ projectId }: { projectId: string }) => {
   const { toast } = useToast();
   //get Notes
   const {
@@ -16,7 +16,7 @@ export const useProject = ({ id }: { id: string }) => {
     isFetching,
     isPending,
   } = useQuery<TodoItemType[]>({
-    queryKey: ["project", id],
+    queryKey: ["project", projectId],
     retry: 2,
     staleTime: 5 * 60 * 1000,
     queryFn: async ({ queryKey }) => {
@@ -24,6 +24,7 @@ export const useProject = ({ id }: { id: string }) => {
       const { todos } = await api.GET({
         url: `/api/project/${id}?start=${startOfToday().getTime()}&end=${endOfToday().getTime()}`,
       });
+      console.log(todos)
 
       const todoWithFormattedDates = todos.map((todo: TodoItemType) => {
         // id needs to be todo id + instance date, so that ghost todos of the same parent can have unique ids

@@ -96,6 +96,8 @@ export const useEditProjectTodoInstance = (
       onSettled: () => {
         if (setEditInstanceOnly) setEditInstanceOnly(false);
         queryClient.invalidateQueries({ queryKey: ["calendarTodo"] });
+        queryClient.invalidateQueries({ queryKey: ["todo"] });
+        queryClient.invalidateQueries({ queryKey: ["overdueTodo"] });
       },
 
       onError: (error, _, context) => {
