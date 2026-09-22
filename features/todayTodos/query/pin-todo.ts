@@ -29,10 +29,16 @@ export function usePinTodo() {
           return oldTodo;
         }),
       );
+      //optimistically update pinned todo
+      queryClient.setQueryData<TodoItemType[]>(["pinnedTodo"], (old) => {
+        if(!old) return [todoItem]
+        return [...old, todoItem]
+      });
       return { oldTodos };
     },
-    onSuccess: () => {
-      // queryClient.invalidateQueries({ queryKey: ["todo"] });
+    onSettled: () => {
+      queryClient.invalidateQueries({ queryKey: ["pinnedTodo"] });
+      
     },
     onError: (error) => {
       toast({ description: error.message, variant: "destructive" });

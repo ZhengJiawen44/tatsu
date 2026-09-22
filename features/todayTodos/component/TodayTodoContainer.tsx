@@ -24,7 +24,7 @@ import { useProjectMetaData } from "@/components/Sidebar/Project/query/get-proje
 import { useUserPreferences } from "@/providers/UserPreferencesProvider";
 import TodoFilterBar from "./TodoFilterBar";
 import { formatDateInTZ } from "@/lib/date/formatDateinTZ";
-import { usePinnedTodo } from "@/features/pinnedTodos/query/get-pinned-todo";
+import PinnedTodoContainer from "@/features/pinnedTodos/component/PinnedTodoContainer";
 
 const TodayTodoContainer = () => {
   const locale = useLocale();
@@ -34,9 +34,6 @@ const TodayTodoContainer = () => {
   const { todos, todoLoading } = useTodo();
   const [containerHovered, setContainerHovered] = useState(false);
 
-  // pinned todos are "timeless" as in you can pin a todo last year and 
-  // it should still appear as pinned regardless.
-  const {pinnedTodos} = usePinnedTodo();
   const unpinnedTodos = useMemo(
     () => todos.filter(({ pinned }) => !pinned),
     [todos],
@@ -119,73 +116,69 @@ const TodayTodoContainer = () => {
   }, [groupedTodos, preferences?.sortBy, preferences?.direction]);
 
   return (
-    <TodoMutationProvider
-      useCompleteTodo={useCompleteTodo}
-      useDeleteTodo={useDeleteTodo}
-      useEditTodo={useEditTodo}
-      useEditTodoInstance={useEditTodoInstance}
-      usePinTodo={usePinTodo}
-      usePrioritizeTodo={usePrioritizeTodo}
-      useReorderTodo={useReorderTodo}
-    >
-      <div
-        className="mb-20"
-        onMouseOver={() => setContainerHovered(true)}
-        onMouseOut={() => setContainerHovered(false)}
+    <>
+      <PinnedTodoContainer/>
+      <TodoMutationProvider
+        useCompleteTodo={useCompleteTodo}
+        useDeleteTodo={useDeleteTodo}
+        useEditTodo={useEditTodo}
+        useEditTodoInstance={useEditTodoInstance}
+        usePinTodo={usePinTodo}
+        usePrioritizeTodo={usePrioritizeTodo}
+        useReorderTodo={useReorderTodo}
       >
-        {/* Render Pinned Todos */}
-        {pinnedTodos.length > 0 && (
-          <TodoGroup
-            className="relative my-10 rounded-md p-2 border border-border-muted bg-card shadow-md"
-            todos={pinnedTodos}
-          />
-        )}
         <div
-          className={clsx(
-            "mb-3",
-            !preferences?.groupBy && !preferences?.sortBy && "flex items-end",
-          )}
+          className="mb-20"
+          onMouseOver={() => setContainerHovered(true)}
+          onMouseOut={() => setContainerHovered(false)}
         >
           <div
             className={clsx(
-              "flex items-end justify-start gap-2 w-full",
-              (preferences?.groupBy || preferences?.sortBy) && "mb-4",
+              "mb-3",
+              !preferences?.groupBy && !preferences?.sortBy && "flex items-end",
             )}
           >
-            <h3 className="text-2xl font-semibold select-none">
-              {appDict("today")}
-            </h3>
-            <p className="text-muted-foreground text-lg">
-              {formatDateInTZ(userTZ).slice(0, 6)}
-            </p>
-          </div>
-          <TodoFilterBar containerHovered={containerHovered} />
-        </div>
-        <LineSeparator className="flex-1" />
-        {todoLoading && <TodoListLoading />}
-
-        {Object.entries(sortedGroupedTodos).map(([key, todo]) => (
-          <div key={key}>
-            <div className={clsx(key !== "-1" && "my-8")}>
-              {key !== "-1" && (
-                <p className="text-muted-foreground text-sm">
-                  {preferences?.groupBy?.slice(0, 1).toUpperCase() +
-                    "" +
-                    preferences?.groupBy?.slice(1)}
-                  <span className="text-lg">{" " + key} </span>
-                </p>
+            <div
+              className={clsx(
+                "flex items-end justify-start gap-2 w-full",
+                (preferences?.groupBy || preferences?.sortBy) && "mb-4",
               )}
-              {key !== "-1" && <LineSeparator />}
-              <TodoGroup
-                todos={todo}
-                className="flex flex-col bg-transparent gap-1"
-              />
+            >
+              <h3 className="text-2xl font-semibold select-none">
+                {appDict("today")}
+              </h3>
+              <p className="text-muted-foreground text-lg">
+                {formatDateInTZ(userTZ).slice(0, 6)}
+              </p>
             </div>
+            <TodoFilterBar containerHovered={containerHovered} />
           </div>
-        ))}
-        <CreateTodoBtn />
-      </div>
-    </TodoMutationProvider>
+          <LineSeparator className="flex-1" />
+          {todoLoading && <TodoListLoading />}
+
+          {Object.entries(sortedGroupedTodos).map(([key, todo]) => (
+            <div key={key}>
+              <div className={clsx(key !== "-1" && "my-8")}>
+                {key !== "-1" && (
+                  <p className="text-muted-foreground text-sm">
+                    {preferences?.groupBy?.slice(0, 1).toUpperCase() +
+                      "" +
+                      preferences?.groupBy?.slice(1)}
+                    <span className="text-lg">{" " + key} </span>
+                  </p>
+                )}
+                {key !== "-1" && <LineSeparator />}
+                <TodoGroup
+                  todos={todo}
+                  className="flex flex-col bg-transparent gap-1"
+                />
+              </div>
+            </div>
+          ))}
+          <CreateTodoBtn />
+        </div>
+      </TodoMutationProvider>
+    </>
   );
 };
 

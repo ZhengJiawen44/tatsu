@@ -3,7 +3,7 @@ import { api } from "@/lib/api-client";
 import { todoInstanceSchema } from "@/schema";
 import { TodoItemType } from "@/types";
 import { useQueryClient, useMutation } from "@tanstack/react-query";
-import { endOfDay } from "date-fns";
+
 
 async function patchTodo({ ghostTodo }: { ghostTodo: TodoItemType }) {
   //validate input for the ghost todo
@@ -53,11 +53,8 @@ export const useEditPinnedTodoInstance = (
 
         // update todo cache
         queryClient.setQueryData<TodoItemType[]>(["todo"], (oldTodos) =>
-          oldTodos?.flatMap((oldTodo) => {
+          oldTodos?.map((oldTodo) => {
             if (oldTodo.id === newTodo.id) {
-              if (newTodo.dtstart && newTodo.dtstart > endOfDay(new Date())) {
-                return [];
-              }
               return {
                 ...oldTodo,
                 title: newTodo.title,
