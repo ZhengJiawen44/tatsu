@@ -24,7 +24,6 @@ export const useProject = ({ projectId }: { projectId: string }) => {
       const { todos } = await api.GET({
         url: `/api/project/${id}?start=${startOfToday().getTime()}&end=${endOfToday().getTime()}`,
       });
-      console.log(todos)
 
       const todoWithFormattedDates = todos.map((todo: TodoItemType) => {
         // id needs to be todo id + instance date, so that ghost todos of the same parent can have unique ids

@@ -24,6 +24,7 @@ import { useProjectMetaData } from "@/components/Sidebar/Project/query/get-proje
 import { useUserPreferences } from "@/providers/UserPreferencesProvider";
 import TodoFilterBar from "./TodoFilterBar";
 import { formatDateInTZ } from "@/lib/date/formatDateinTZ";
+import { usePinnedTodo } from "@/features/pinnedTodos/query/get-pinned-todo";
 
 const TodayTodoContainer = () => {
   const locale = useLocale();
@@ -32,10 +33,10 @@ const TodayTodoContainer = () => {
   const { preferences } = useUserPreferences();
   const { todos, todoLoading } = useTodo();
   const [containerHovered, setContainerHovered] = useState(false);
-  const pinnedTodos = useMemo(
-    () => todos.filter(({ pinned }) => pinned),
-    [todos],
-  );
+
+  // pinned todos are "timeless" as in you can pin a todo last year and 
+  // it should still appear as pinned regardless.
+  const {pinnedTodos} = usePinnedTodo();
   const unpinnedTodos = useMemo(
     () => todos.filter(({ pinned }) => !pinned),
     [todos],
