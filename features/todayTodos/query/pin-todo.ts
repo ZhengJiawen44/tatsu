@@ -29,6 +29,7 @@ export function usePinTodo() {
           return oldTodo;
         }),
       );
+
       //optimistically update pinned todo
       queryClient.setQueryData<TodoItemType[]>(["pinnedTodo"], (old) => {
         if(!old) return [todoItem]
