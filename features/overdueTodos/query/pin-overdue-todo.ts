@@ -29,6 +29,11 @@ export function usePinOverdueTodo() {
           return oldTodo;
         }),
       );
+      //optimistically update pinned todo
+      queryClient.setQueryData<TodoItemType[]>(["pinnedTodo"], (old) => {
+        if(!old) return [todoItem]
+        return [...old, todoItem]
+      });
       return { oldTodos };
     },
     onSuccess: () => {

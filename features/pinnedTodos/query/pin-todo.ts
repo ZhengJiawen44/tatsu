@@ -30,7 +30,6 @@ export function usePinTodo() {
           return oldPinnedTodos?.flatMap((oldPinnedTodo) => {
             if (oldPinnedTodo.id === todoItem.id && todoItem.pinned === true){
               return []
-
             }
             return [oldPinnedTodo];
           });
@@ -38,9 +37,8 @@ export function usePinTodo() {
       );
 
       queryClient.setQueryData<TodoItemType[]>(["todo"], (old) => {
-        return old?.map((oldTodo) => { 
+        return old?.map((oldTodo) => {
           if (oldTodo.id === todoItem.id) {
-            console.log(2)
             return {
               ...oldTodo,
               pinned: !todoItem.pinned,
