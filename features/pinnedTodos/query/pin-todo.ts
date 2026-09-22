@@ -61,6 +61,18 @@ export function usePinTodo() {
         });
       });
 
+      queryClient.setQueryData<TodoItemType[]>(["overdueTodo"], (old) => {
+        return old?.map((oldTodo) => {
+            console.log(oldTodo.id, todoItem.id)
+          if (oldTodo.id === todoItem.id) {
+            return {
+              ...oldTodo,
+              pinned: !todoItem.pinned,
+            };
+          }
+          return oldTodo;
+        });
+      });
 
       return { oldPinnedTodos, oldTodos };
     },
@@ -82,6 +94,7 @@ export function usePinTodo() {
 
     onSettled: () => {
       queryClient.invalidateQueries({ queryKey: ["overdueTodo"] });
+      queryClient.invalidateQueries({ queryKey: ["todo"] });
       queryClient.invalidateQueries({ queryKey: ["project"] });
       queryClient.invalidateQueries({ queryKey: ["pinnedTodo"] });
 

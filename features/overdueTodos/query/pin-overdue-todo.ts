@@ -36,8 +36,8 @@ export function usePinOverdueTodo() {
       });
       return { oldTodos };
     },
-    onSuccess: () => {
-      // queryClient.invalidateQueries({ queryKey: ["overdueTodo"] });
+    onSettled: () => {
+      queryClient.invalidateQueries({ queryKey: ["pinnedTodo"] });
     },
     onError: (error) => {
       toast({ description: error.message, variant: "destructive" });
