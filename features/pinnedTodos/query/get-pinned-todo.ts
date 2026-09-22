@@ -3,26 +3,26 @@ import { useEffect } from "react";
 import { useToast } from "@/hooks/use-toast";
 import { api } from "@/lib/api-client";
 import { TodoItemType } from "@/types";
-import { endOfToday, startOfToday } from "date-fns";
+import { startOfToday, endOfToday } from "date-fns";
 
-export const useProject = ({ projectId }: { projectId: string }) => {
+
+export const usePinnedTodo = () => {
   const { toast } = useToast();
   //get Notes
   const {
-    data: projectTodos = [],
-    isLoading: projectTodosLoading,
+    data: pinnedTodos = [],
+    isLoading: pinnedTodosLoading,
     isError,
     error,
     isFetching,
     isPending,
   } = useQuery<TodoItemType[]>({
-    queryKey: ["project", projectId],
+    queryKey: ["pinnedTodo"],
     retry: 2,
     staleTime: 5 * 60 * 1000,
-    queryFn: async ({ queryKey }) => {
-      const [, id] = queryKey;
+    queryFn: async () => {
       const { todos } = await api.GET({
-        url: `/api/project/${id}?start=${startOfToday().getTime()}&end=${endOfToday().getTime()}`,
+        url: `/api/todo/pinned?start=${startOfToday().getTime()}&end=${endOfToday().getTime()}`,
       });
 
       const todoWithFormattedDates = todos.map((todo: TodoItemType) => {
@@ -50,5 +50,5 @@ export const useProject = ({ projectId }: { projectId: string }) => {
       toast({ description: error.message, variant: "destructive" });
     }
   }, [isError]);
-  return { projectTodos, projectTodosLoading, isFetching, isPending };
+  return { pinnedTodos, pinnedTodosLoading, isFetching, isPending };
 };

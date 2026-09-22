@@ -3,7 +3,6 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { api } from "@/lib/api-client";
 import { todoSchema } from "@/schema";
 import { TodoFormItemType, TodoItemType } from "@/types";
-import { endOfDay } from "date-fns";
 import { toValidDateRangeUpdateObject } from "@/lib/date/toValidDateRangeUpdateObject";
 
 async function patchTodo({ todo }: { todo: TodoFormItemType }) {
@@ -55,7 +54,7 @@ async function patchTodo({ todo }: { todo: TodoFormItemType }) {
   });
 }
 
-export const useEditProjectTodo = () => {
+export const useEditPinnedTodo = () => {
   const { toast } = useToast();
   const queryClient = useQueryClient();
 
@@ -64,20 +63,17 @@ export const useEditProjectTodo = () => {
 
     onMutate: async (newTodo) => {
       await queryClient.cancelQueries({ queryKey: ["todo"] });
-      await queryClient.cancelQueries({ queryKey: ["project"] });
+      await queryClient.cancelQueries({ queryKey: ["pinnedTodo"] });
 
       const oldTodos = queryClient.getQueryData<TodoItemType[]>(["todo"]);
-      const oldProjectTodos = queryClient.getQueryData<TodoItemType[]>([
-        "project",
+      const oldPinnedTodos = queryClient.getQueryData<TodoItemType[]>([
+        "pinnedTodo",
       ]);
 
       // update today/todo cache
       queryClient.setQueryData<TodoItemType[]>(["todo"], (oldTodos) =>
-        oldTodos?.flatMap((oldTodo) => {
+        oldTodos?.map((oldTodo) => {
           if (oldTodo.id === newTodo.id) {
-            if (newTodo.dtstart && newTodo.dtstart > endOfDay(new Date())) {
-              return [];
-            }
             return {
               ...oldTodo,
               completed: newTodo.completed,
@@ -98,29 +94,30 @@ export const useEditProjectTodo = () => {
           return oldTodo;
         }),
       );
-      // update project cache
+
       queryClient.setQueriesData<TodoItemType[]>(
-        { queryKey: ["project"] },
+        { queryKey: ["pinnedTodo"] },
         (oldTodos) =>
-          oldTodos?.flatMap((oldTodo) => {
-            if (oldTodo.id !== newTodo.id)
-              return [oldTodo];
-
-            if(newTodo.projectID)
-              return [{
+          oldTodos?.map((oldTodo) => {
+            if (oldTodo.id === newTodo.id) {
+              return {
                 ...oldTodo,
-                ...newTodo,
-              }];
-            return []; 
+                title: newTodo.title,
+                description: newTodo.description,
+                priority: newTodo.priority,
+                due: newTodo.due,
+                dtstart: newTodo.dtstart,
+              };
+            }
+            return oldTodo;
           }),
-      );
-
-      return { oldTodos, oldProjectTodos };
+        );
+      return { oldTodos, oldPinnedTodos };
     },
 
     onError: (error, _, context) => {
       queryClient.setQueryData(["todo"], context?.oldTodos);
-      queryClient.setQueryData(["project"], context?.oldProjectTodos);
+      queryClient.setQueryData(["pinnedTodo"], context?.oldPinnedTodos);
 
       toast({
         description:
@@ -135,6 +132,8 @@ export const useEditProjectTodo = () => {
       queryClient.invalidateQueries({ queryKey: ["calendarTodo"] });
       queryClient.invalidateQueries({ queryKey: ["todo"] });
       queryClient.invalidateQueries({ queryKey: ["overdueTodo"] });
+      queryClient.invalidateQueries({ queryKey: ["project"] });
+
     },
   });
 

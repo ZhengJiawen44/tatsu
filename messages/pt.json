@@ -285,6 +285,7 @@
     "descPlaceholder": "descrição"
   },
   "today": {
+    "unpin": "Desafixar",
     "saveInstance": "Guardar instância",
     "nextRepeatText": "Esta tarefa está agendada a seguir para",
     "addATask": "Adicionar uma tarefa",

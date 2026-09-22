@@ -3,7 +3,7 @@ import { api } from "@/lib/api-client";
 import { useToast } from "@/hooks/use-toast";
 import { TodoItemType } from "@/types";
 
-export function usePinProjectTodo() {
+export function usePinTodo() {
   const { toast } = useToast();
   const queryClient = useQueryClient();
 
@@ -16,25 +16,22 @@ export function usePinProjectTodo() {
     },
 
     onMutate: async (todoItem: TodoItemType) => {
-      await queryClient.cancelQueries({ queryKey: ["project"] });
+      await queryClient.cancelQueries({ queryKey: ["pinnedTodo"] });
       await queryClient.cancelQueries({ queryKey: ["todo"] });
 
-      const oldProjectTodos = queryClient.getQueryData<TodoItemType[]>([
-        "project",
+      const oldPinnedTodos = queryClient.getQueryData<TodoItemType[]>([
+        "pinnedTodo",
       ]);
       const oldTodos = queryClient.getQueryData<TodoItemType[]>(["todo"]);
 
       queryClient.setQueriesData<TodoItemType[]>(
-        { queryKey: ["project"] },
-        (old) => {
-          return old?.map((oldTodo) => {
-            if (oldTodo.id === todoItem.id) {
-              return {
-                ...oldTodo,
-                pinned: !todoItem.pinned,
-              };
+        { queryKey: ["pinnedTodo"] },
+        (oldPinnedTodos) => {
+          return oldPinnedTodos?.flatMap((oldPinnedTodo) => {
+            if (oldPinnedTodo.id === todoItem.id && todoItem.pinned === true){
+              return []
             }
-            return oldTodo;
+            return [oldPinnedTodo];
           });
         },
       );
@@ -51,19 +48,39 @@ export function usePinProjectTodo() {
         });
       });
 
-      //optimistically update pinned todo
-      queryClient.setQueryData<TodoItemType[]>(["pinnedTodo"], (old) => {
-        if(!old) return [todoItem]
-        return [...old, todoItem]
+      if(todoItem.projectID)
+      queryClient.setQueryData<TodoItemType[]>(["project",todoItem.projectID], (old) => {
+        return old?.map((oldTodo) => {
+          if (oldTodo.id === todoItem.id) {
+            return {
+              ...oldTodo,
+              pinned: !todoItem.pinned,
+            };
+          }
+          return oldTodo;
+        });
       });
 
-      return { oldProjectTodos, oldTodos };
+      queryClient.setQueryData<TodoItemType[]>(["overdueTodo"], (old) => {
+        return old?.map((oldTodo) => {
+            console.log(oldTodo.id, todoItem.id)
+          if (oldTodo.id === todoItem.id) {
+            return {
+              ...oldTodo,
+              pinned: !todoItem.pinned,
+            };
+          }
+          return oldTodo;
+        });
+      });
+
+      return { oldPinnedTodos, oldTodos };
     },
 
-    mutationKey: ["project"],
+    mutationKey: ["pinnedTodo"],
 
     onError: (error, _, context) => {
-      queryClient.setQueryData(["project"], context?.oldProjectTodos);
+      queryClient.setQueryData(["pinnedTodo"], context?.oldPinnedTodos);
       queryClient.setQueryData(["todo"], context?.oldTodos);
 
       toast({
@@ -77,6 +94,8 @@ export function usePinProjectTodo() {
 
     onSettled: () => {
       queryClient.invalidateQueries({ queryKey: ["overdueTodo"] });
+      queryClient.invalidateQueries({ queryKey: ["todo"] });
+      queryClient.invalidateQueries({ queryKey: ["project"] });
       queryClient.invalidateQueries({ queryKey: ["pinnedTodo"] });
 
     },

@@ -2,7 +2,7 @@ import { useQueryClient, useMutation } from "@tanstack/react-query";
 import { api } from "@/lib/api-client";
 import { useToast } from "@/hooks/use-toast";
 import { TodoItemType } from "@/types";
-export const useCompleteTodo = () => {
+export const useCompletePinnedTodo = () => {
   const { toast } = useToast();
   const queryClient = useQueryClient();
   const { mutate: completeMutateFn, isPending: completePending } = useMutation({
@@ -29,24 +29,33 @@ export const useCompleteTodo = () => {
       }
     },
     onMutate: async (todoItem: TodoItemType) => {
-      await queryClient.cancelQueries({ queryKey: ["todo"] });
-      const oldTodos = queryClient.getQueryData(["todo"]) as TodoItemType[];
-      queryClient.setQueryData(["todo"], (oldTodos: TodoItemType[]) =>
-        oldTodos.flatMap((oldTodo) => {
-          if (oldTodo.id === todoItem.id) return [];
-          return [oldTodo];
-        }),
+      await queryClient.cancelQueries({ queryKey: ["pinnedTodo"] });
+      const oldTodos = queryClient.getQueryData(["pinnedTodo"]) as TodoItemType[];
+      queryClient.setQueryData(
+        ["pinnedTodo"],
+        (oldTodos: TodoItemType[]) => {
+          return oldTodos.flatMap((oldTodo) => {
+            if (oldTodo.id === todoItem.id) return [];
+            return [oldTodo];
+          });
+        },
       );
       return { oldTodos };
     },
     onError: (error, newTodo, context) => {
       toast({ description: error.message, variant: "destructive" });
-      queryClient.setQueryData(["todo"], context?.oldTodos);
+      queryClient.setQueryData(["pinnedTodo"], context?.oldTodos);
     },
+    onSuccess: () => {},
     onSettled: () => {
       //optimistically update calendar todos
       queryClient.invalidateQueries({ queryKey: ["calendarTodo"] });
       queryClient.invalidateQueries({ queryKey: ["completedTodo"] });
+      queryClient.invalidateQueries({ queryKey: ["todo"] });
+      queryClient.invalidateQueries({ queryKey: ["pinnedTodo"] });
+      queryClient.invalidateQueries({ queryKey: ["project"] });
+
+
     },
   });
 

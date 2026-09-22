@@ -69,11 +69,15 @@ export const useEditCalendarTodoInstance = () => {
         );
         return { oldTodosBackup };
       },
-      onSuccess: () => {
+      onSettled: () => {
         queryClient.invalidateQueries({ queryKey: ["calendarTodo"] });
         queryClient.invalidateQueries({
           queryKey: ["todo"],
         });
+        queryClient.invalidateQueries({
+          queryKey: ["overdueTodo"],
+        });
+        queryClient.invalidateQueries({ queryKey: ["project"] });
       },
 
       onError: (error, newTodo, context) => {

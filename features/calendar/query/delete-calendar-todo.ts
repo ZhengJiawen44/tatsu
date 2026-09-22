@@ -42,6 +42,12 @@ export const useDeleteCalendarTodo = () => {
       queryClient.invalidateQueries({
         queryKey: ["calendarTodo"],
       });
+      queryClient.invalidateQueries({
+        queryKey: ["overdueTodo"],
+      });
+      queryClient.invalidateQueries({
+        queryKey: ["project"],
+      });
     },
   });
   return { deleteMutate, deletePending };

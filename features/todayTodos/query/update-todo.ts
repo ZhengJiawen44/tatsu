@@ -3,7 +3,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { api } from "@/lib/api-client";
 import { todoSchema } from "@/schema";
 import { TodoItemType } from "@/types";
-import { endOfDay } from "date-fns";
+import { endOfDay, startOfDay } from "date-fns";
 import { TodoFormItemType } from "@/types";
 import { toValidDateRangeUpdateObject } from "@/lib/date/toValidDateRangeUpdateObject";
 
@@ -69,7 +69,12 @@ export const useEditTodo = () => {
       queryClient.setQueryData(["todo"], (oldTodos: TodoItemType[]) =>
         oldTodos.flatMap((oldTodo) => {
           if (oldTodo.id === newTodo.id) {
+            //if todo is in the future, remove from todayTodo
             if (newTodo.dtstart && newTodo.dtstart > endOfDay(new Date())) {
+              return [];
+            }
+            //if todo is overdue, remove from todayTodo
+            if (newTodo.due && newTodo.due < startOfDay(new Date())) {
               return [];
             }
             return {
@@ -89,10 +94,21 @@ export const useEditTodo = () => {
           return oldTodo;
         }),
       );
+
+      //if todo is overdue, insert into overdue todo
+      if (newTodo.due && newTodo.due < startOfDay(new Date())) 
+        queryClient.setQueryData(["overdueTodo"], (oldOverdueTodos: TodoFormItemType[]) => 
+          [...oldOverdueTodos, newTodo].sort((a,b)=>a.createdAt.getTime()-b.createdAt.getTime())
+        )
+
       return { oldTodos };
     },
     onSettled: () => {
       queryClient.invalidateQueries({ queryKey: ["calendarTodo"] });
+      queryClient.invalidateQueries({ queryKey: ["overdueTodo"] });
+      queryClient.invalidateQueries({ queryKey: ["todo"] });
+      queryClient.invalidateQueries({ queryKey: ["project"] });
+
     },
     onError: (error, newTodo, context) => {
       queryClient.setQueryData(["todo"], context?.oldTodos);

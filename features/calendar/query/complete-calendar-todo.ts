@@ -35,6 +35,12 @@ export const useCompleteCalendarTodo = () => {
       queryClient.invalidateQueries({
         queryKey: ["completedTodo"],
       });
+      queryClient.invalidateQueries({
+        queryKey: ["overdueTodo"],
+      });
+      queryClient.invalidateQueries({
+        queryKey: ["project"],
+      });
     },
   });
 

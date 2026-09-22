@@ -8,7 +8,7 @@ export type changeMapType = {
   order: number;
 };
 
-export const useReorderProjectTodo = () => {
+export const useReorderPinnedTodo = () => {
   const { toast } = useToast();
   const queryClient = useQueryClient();
 
@@ -28,11 +28,11 @@ export const useReorderProjectTodo = () => {
 
     onMutate: async (changeMap) => {
       await queryClient.cancelQueries({ queryKey: ["todo"] });
-      await queryClient.cancelQueries({ queryKey: ["project"] });
+      await queryClient.cancelQueries({ queryKey: ["pinnedTodo"] });
 
       const oldTodos = queryClient.getQueryData<TodoItemType[]>(["todo"]);
-      const oldProjectTodos = queryClient.getQueryData<TodoItemType[]>([
-        "project",
+      const oldPinnedTodos = queryClient.getQueryData<TodoItemType[]>([
+        "pinnedTodo",
       ]);
 
       const orderMap = new Map(changeMap.map(({ id, order }) => [id, order]));
@@ -48,16 +48,16 @@ export const useReorderProjectTodo = () => {
 
       queryClient.setQueryData<TodoItemType[]>(["todo"], applyOrder);
       queryClient.setQueriesData<TodoItemType[]>(
-        { queryKey: ["project"] },
+        { queryKey: ["pinnedTodo"] },
         applyOrder,
       );
 
-      return { oldTodos, oldProjectTodos };
+      return { oldTodos, oldPinnedTodos };
     },
 
     onError: (error, _, context) => {
       queryClient.setQueryData(["todo"], context?.oldTodos);
-      queryClient.setQueryData(["project"], context?.oldProjectTodos);
+      queryClient.setQueryData(["pinnedTodo"], context?.oldPinnedTodos);
 
       toast({
         description:
@@ -72,6 +72,8 @@ export const useReorderProjectTodo = () => {
       queryClient.invalidateQueries({ queryKey: ["todo"] });
       queryClient.invalidateQueries({ queryKey: ["overdueTodo"] });
       queryClient.invalidateQueries({ queryKey: ["project"] });
+      queryClient.invalidateQueries({ queryKey: ["pinnedTodo"] });
+
     },
   });
 

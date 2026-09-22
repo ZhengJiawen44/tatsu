@@ -65,6 +65,8 @@ export const usePrioritizeOverdueTodo = () => {
       onSettled() {
         //optimistically update calendar todos
         queryClient.invalidateQueries({ queryKey: ["completedTodo"] });
+        queryClient.invalidateQueries({ queryKey: ["calendarTodo"] });
+
       },
     });
 

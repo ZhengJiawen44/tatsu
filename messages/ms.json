@@ -285,6 +285,7 @@
     "descPlaceholder": "keterangan"
   },
   "today": {
+    "unpin": "Nyahsemat",
     "saveInstance": "Simpan kejadian",
     "nextRepeatText": "Tugasan ini dijadualkan seterusnya untuk",
     "addATask": "Tambah tugasan",

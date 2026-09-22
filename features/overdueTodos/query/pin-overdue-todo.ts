@@ -29,10 +29,15 @@ export function usePinOverdueTodo() {
           return oldTodo;
         }),
       );
+      //optimistically update pinned todo
+      queryClient.setQueryData<TodoItemType[]>(["pinnedTodo"], (old) => {
+        if(!old) return [todoItem]
+        return [...old, todoItem]
+      });
       return { oldTodos };
     },
-    onSuccess: () => {
-      // queryClient.invalidateQueries({ queryKey: ["overdueTodo"] });
+    onSettled: () => {
+      queryClient.invalidateQueries({ queryKey: ["pinnedTodo"] });
     },
     onError: (error) => {
       toast({ description: error.message, variant: "destructive" });

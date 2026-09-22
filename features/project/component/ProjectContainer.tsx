@@ -22,18 +22,15 @@ import { useReorderProjectTodo } from "../query/reorder-project-todo";
 import TodoMutationProvider from "@/providers/TodoMutationProvider";
 import { useProject } from "../query/get-project-todos";
 import { useProjectMetaData } from "@/components/Sidebar/Project/query/get-project-meta";
+import PinnedTodoContainer from "@/features/pinnedTodos/component/PinnedTodoContainer";
 
-const ProjectContainer = ({ id }: { id: string }) => {
+const ProjectContainer = ({ projectId }: { projectId: string }) => {
   const locale = useLocale();
   const userTZ = useUserTimezone();
   const { projectMetaData } = useProjectMetaData();
   const { preferences } = useUserPreferences();
-  const { projectTodos, projectTodosLoading } = useProject({ id });
+  const { projectTodos, projectTodosLoading } = useProject({ projectId });
   const [containerHovered, setContainerHovered] = useState(false);
-  const pinnedTodos = useMemo(
-    () => projectTodos.filter(({ pinned }) => pinned),
-    [projectTodos],
-  );
 
   const unpinnedTodos = useMemo(
     () => projectTodos.filter(({ pinned }) => !pinned),
@@ -115,6 +112,8 @@ const ProjectContainer = ({ id }: { id: string }) => {
   }, [groupedTodos, preferences?.sortBy, preferences?.direction]);
 
   return (
+    <>
+    <PinnedTodoContainer/>
     <TodoMutationProvider
       useCompleteTodo={useCompleteProjectTodo}
       useDeleteTodo={useDeleteProjectTodo}
@@ -129,16 +128,9 @@ const ProjectContainer = ({ id }: { id: string }) => {
         onMouseOver={() => setContainerHovered(true)}
         onMouseOut={() => setContainerHovered(false)}
       >
-        {/* Render Pinned Todos */}
-        {pinnedTodos.length > 0 && (
-          <TodoGroup
-            className="relative my-10 rounded-md p-2 border border-border-muted bg-card shadow-md"
-            todos={pinnedTodos}
-          />
-        )}
         <div className="mb-3">
           <h3 className="text-2xl font-semibold select-none mb-4">
-            {projectMetaData[id]?.name}
+            {projectMetaData[projectId]?.name}
           </h3>
           <TodoFilterBar containerHovered={containerHovered} />
           <LineSeparator className="flex-1" />
@@ -164,9 +156,10 @@ const ProjectContainer = ({ id }: { id: string }) => {
             </div>
           </div>
         ))}
-        <CreateTodoBtn projectID={id} />
+        <CreateTodoBtn projectID={projectId} />
       </div>
     </TodoMutationProvider>
+    </>
   );
 };
 
