@@ -7,6 +7,7 @@ import { TodoItemType, recurringTodoItemType } from "@/types";
 import { startOfDay, endOfDay } from "date-fns";
 import { toZonedTime, fromZonedTime } from "date-fns-tz";
 import expandAndMergeTodos from "@/lib/RRule/expandAndMergeTodos";
+import { getClosestOccuringInstance } from "@/lib/RRule/getClosestOccuringInstance";
 
 export async function getUserPreferences() {
   const session = await auth();
@@ -116,6 +117,76 @@ export async function getTodayTodos(): Promise<TodoItemType[]> {
   }));
 
   const allTodos = [...normalizedOneOffTodos, ...filteredGhosts].sort(
+    (a, b) => a.order - b.order,
+  );
+
+  const todoWithFormattedID = allTodos.map((todo) => {
+    const todoId = `${todo.id}:${todo.instanceDate?.getTime() || null}`;
+    return {
+      ...todo,
+      id: todoId,
+    };
+  });
+  return todoWithFormattedID;
+}
+
+
+export async function getPinnedTodo(): Promise<TodoItemType[]> {
+  const session = await auth();
+  const user = session?.user;
+  if (!user?.id) {
+    throw new UnauthorizedError("You must be logged in to do this");
+  }
+  const timeZone = await resolveTimezone(user);
+  const now = new Date();
+  const userNow = toZonedTime(now, timeZone);
+  const dateRangeStart = fromZonedTime(startOfDay(userNow), timeZone);
+  const dateRangeEnd = fromZonedTime(endOfDay(userNow), timeZone);
+  // Fetch pinned Todos
+  const oneOffTodos = await prisma.todo.findMany({
+    where: {
+      rrule: null,
+      userID: user.id,
+      completed: false,
+      pinned: true,
+    },
+    orderBy: { createdAt: "desc" },
+  });
+
+
+
+
+ // Fetch all Recurring todos
+    const recurringTodos = (await prisma.todo.findMany({
+      where: {
+        userID: user.id,
+        rrule: { not: null },
+        completed: false,
+        pinned: true
+      },
+      include: { instances: true },
+    })) as recurringTodoItemType[];
+    
+    const ghostTodos = expandAndMergeTodos(
+      recurringTodos,
+      timeZone,
+      dateRangeStart,
+      dateRangeEnd,
+    );
+
+  // get the instances that due after or equal the date range start, or the nearest one to the left of the date range start
+  // this is so pinned recurring todos always shows in the pinned todo response, even if their occurence doesnt precisely fall in 
+  // the date range
+  const closestOccuringInstances =  getClosestOccuringInstance(ghostTodos, dateRangeStart)
+
+  // Normalize one-off todos to match TodoItemType (add instanceDate: null)
+  const normalizedOneOffTodos: TodoItemType[] = oneOffTodos.map((todo) => ({
+    ...todo,
+    instanceDate: null,
+    instances: null,
+  }));
+
+  const allTodos = [...normalizedOneOffTodos, ...closestOccuringInstances].sort(
     (a, b) => a.order - b.order,
   );
 

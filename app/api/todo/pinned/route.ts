@@ -4,6 +4,8 @@
 // when a repeating todo is pinned, its closest occuring instance to the date range is returned.
 // if there was no date range query, all the recurring todo's repeating instances(infinite) would have been returned,
 
+//in short, the date range is used to just get the closest instance of a pinned repeating todo 
+
 // reminder: a recuring rule with no UNTIL rule specified will repeat forever.
 
 import { auth } from "@/app/auth";
