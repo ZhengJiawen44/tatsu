@@ -12,6 +12,7 @@ import {
   getProjectMetaData,
   getUserPreferences,
   getTodayTodos,
+  getPinnedTodo,
   getUserTimezone,
 } from "./actions";
 
@@ -38,6 +39,12 @@ export default async function Layout({
   await queryClient.prefetchQuery({
     queryKey: ["todo"],
     queryFn: getTodayTodos,
+  });
+
+  //Prefetch pinned todos
+  await queryClient.prefetchQuery({
+    queryKey: ["pinnedTodo"],
+    queryFn: getPinnedTodo,
   });
 
   //Prefetch completedTodos
