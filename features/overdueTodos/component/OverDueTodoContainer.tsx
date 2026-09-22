@@ -35,7 +35,7 @@ export default function OverDueTodoContainer() {
           usePrioritizeTodo={usePrioritizeOverdueTodo}
           useReorderTodo={useReorderOverdueTodo}
         >
-          <TodoGroup todos={overdueTodos} overdue={true} />
+          <TodoGroup todos={overdueTodos.filter((todo)=>todo.pinned===false)} overdue={true} />
         </TodoMutationProvider>
       </div>
     </div>
