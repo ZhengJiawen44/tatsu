@@ -51,6 +51,12 @@ export function usePinProjectTodo() {
         });
       });
 
+      //optimistically update pinned todo
+      queryClient.setQueryData<TodoItemType[]>(["pinnedTodo"], (old) => {
+        if(!old) return [todoItem]
+        return [...old, todoItem]
+      });
+
       return { oldProjectTodos, oldTodos };
     },
 
@@ -71,6 +77,8 @@ export function usePinProjectTodo() {
 
     onSettled: () => {
       queryClient.invalidateQueries({ queryKey: ["overdueTodo"] });
+      queryClient.invalidateQueries({ queryKey: ["pinnedTodo"] });
+
     },
   });
 
