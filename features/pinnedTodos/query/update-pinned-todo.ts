@@ -3,7 +3,6 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { api } from "@/lib/api-client";
 import { todoSchema } from "@/schema";
 import { TodoFormItemType, TodoItemType } from "@/types";
-import { endOfDay } from "date-fns";
 import { toValidDateRangeUpdateObject } from "@/lib/date/toValidDateRangeUpdateObject";
 
 async function patchTodo({ todo }: { todo: TodoFormItemType }) {
@@ -73,11 +72,8 @@ export const useEditPinnedTodo = () => {
 
       // update today/todo cache
       queryClient.setQueryData<TodoItemType[]>(["todo"], (oldTodos) =>
-        oldTodos?.flatMap((oldTodo) => {
+        oldTodos?.map((oldTodo) => {
           if (oldTodo.id === newTodo.id) {
-            if (newTodo.dtstart && newTodo.dtstart > endOfDay(new Date())) {
-              return [];
-            }
             return {
               ...oldTodo,
               completed: newTodo.completed,
@@ -102,19 +98,20 @@ export const useEditPinnedTodo = () => {
       queryClient.setQueriesData<TodoItemType[]>(
         { queryKey: ["pinnedTodo"] },
         (oldTodos) =>
-          oldTodos?.flatMap((oldTodo) => {
-            if (oldTodo.id !== newTodo.id)
-              return [oldTodo];
-
-            if(newTodo.projectID)
-              return [{
+          oldTodos?.map((oldTodo) => {
+            if (oldTodo.id === newTodo.id) {
+              return {
                 ...oldTodo,
-                ...newTodo,
-              }];
-            return []; 
+                title: newTodo.title,
+                description: newTodo.description,
+                priority: newTodo.priority,
+                due: newTodo.due,
+                dtstart: newTodo.dtstart,
+              };
+            }
+            return oldTodo;
           }),
-      );
-
+        );
       return { oldTodos, oldPinnedTodos };
     },
 

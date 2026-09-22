@@ -30,7 +30,7 @@ export const useProject = ({ projectId }: { projectId: string }) => {
         const todoInstanceDate = todo.instanceDate
           ? new Date(todo.instanceDate)
           : null;
-        const todoInstanceDateTime = todoInstanceDate?.getTime();
+        const todoInstanceDateTime = todoInstanceDate?.getTime()??null;
         const todoId = `${todo.id}:${todoInstanceDateTime}`;
         return {
           ...todo,

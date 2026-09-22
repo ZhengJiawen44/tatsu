@@ -36,7 +36,7 @@ export const useOverdueTodo = () => {
             : null;
           return {
             ...todo,
-            id: `${todo.id}:${todoInstanceDate?.getTime()}`,
+            id: `${todo.id}:${todoInstanceDate?.getTime()??null}`,
             createdAt: new Date(todo.createdAt),
             dtstart: todo.dtstart ? new Date(todo.dtstart) : undefined,
             due: new Date(todo.due!),
