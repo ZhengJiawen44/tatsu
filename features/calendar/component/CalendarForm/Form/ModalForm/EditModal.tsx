@@ -79,7 +79,7 @@ const CalendarForm = ({
   const { editCalendarTodo, editTodoStatus } = useEditCalendarTodo();
 
   useEffect(() => {
-    if (editTodoStatus === "success") {
+    if (editTodoStatus === "success" || editTodoStatus === "pending") {
       setDisplayForm(false);
     }
   }, [editTodoStatus, setDisplayForm]);

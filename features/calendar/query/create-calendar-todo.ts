@@ -2,6 +2,7 @@ import { useQueryClient, useMutation } from "@tanstack/react-query";
 import { todoSchema } from "@/schema";
 import { api } from "@/lib/api-client";
 import { TodoItemType } from "@/types";
+import { useToast } from "@/hooks/use-toast";
 
 type CreateTodoInput = Pick<
   TodoItemType,
@@ -44,10 +45,37 @@ async function postTodo({ todo }: { todo: CreateTodoInput }) {
 }
 
 export const useCreateCalendarTodo = () => {
+  const { toast } = useToast();
   const queryClient = useQueryClient();
 
   const { mutate: createCalendarTodo, status: createTodoStatus } = useMutation({
     mutationFn: (todo: CreateTodoInput) => postTodo({ todo }),
+    onMutate: (newTodo)=>{
+      const oldCalendarTodos = queryClient.getQueriesData({ queryKey: ["calendarTodo"] });
+      queryClient.cancelQueries({queryKey:["calendarTodo"]});
+      queryClient.setQueriesData({queryKey:["calendarTodo"]}, (oldCalendarTodo:TodoItemType[])=>{
+        return [...oldCalendarTodo, {
+          id:-1, 
+          title: newTodo.title, 
+          description: newTodo.description,
+          dtstart: newTodo.dtstart,
+          due: newTodo.due,
+          rrule: newTodo.rrule,
+          priority: newTodo.priority,
+          projectID: newTodo.projectID,
+          pinned: false,
+          createdAt: new Date(),
+          order: 9999,
+          completed: false,
+        }]
+      });
+      return {oldCalendarTodos};
+    },
+    //if fetch error then revert optimistic updates
+    onError: (error, newTodo, context) => {
+      queryClient.setQueriesData({queryKey:["calendarTodo"]}, context?.oldCalendarTodos);
+      toast({ description: error.message, variant: "destructive" });
+    },
     //if fetch error then revert optimistic updates including form states
     onSettled: () => {
       queryClient.invalidateQueries({ queryKey: ["todo"] });
