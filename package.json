@@ -6,6 +6,7 @@
     "postinstall": "prisma generate",
     "dev": "NODE_OPTIONS=--no-network-family-autoselection TZ=UTC next dev --turbopack",
     "build": "prisma generate && next build",
+    "vercel-build": "prisma generate && npx prisma migrate deploy && next build",
     "start": "next start",
     "lint": "next lint",
     "test": "TZ=UTC jest"
