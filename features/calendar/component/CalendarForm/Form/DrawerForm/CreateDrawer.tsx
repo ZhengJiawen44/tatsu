@@ -70,13 +70,13 @@ export default function CreateCalendarDrawer({
 
   const [cancelEditDialogOpen, setCancelEditDialogOpen] = useState(false);
   const { createCalendarTodo, createTodoStatus } = useCreateCalendarTodo();
-
+  
   const hasUnsavedChanges = useMemo(() => {
     return title !== "" || description !== "" || priority !== "Low";
   }, [title, description, priority]);
 
   useEffect(() => {
-    if (createTodoStatus === "success") setDisplayForm(false);
+    if (createTodoStatus === "success" || createTodoStatus === "pending") setDisplayForm(false);
   }, [createTodoStatus, setDisplayForm]);
 
   const handleSubmit = (e?: React.FormEvent) => {
