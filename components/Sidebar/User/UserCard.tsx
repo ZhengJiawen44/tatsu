@@ -31,6 +31,7 @@ import LanguageDropdown from "./LanguageDropdown";
 import TimezoneModal from "./TimezoneModal";
 import KeyboardShortcutsModal from "./KeyboardShortcutModal";
 import { Link } from "@/i18n/navigation";
+import FeedbackForm from "../Feedback/FeedbackForm";
 
 const UserCard = ({ className }: { className?: string }) => {
   const { data, status } = useSession();
@@ -147,6 +148,9 @@ const UserCard = ({ className }: { className?: string }) => {
           >
             <Globe className="w-4 h-4" />
             Timezone
+          </DropdownMenuItem>
+          <DropdownMenuItem asChild>
+            <FeedbackForm/>
           </DropdownMenuItem>
           <DropdownMenuSub>
             <DropdownMenuSubTrigger>

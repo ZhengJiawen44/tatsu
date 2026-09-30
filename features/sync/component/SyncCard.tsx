@@ -1,5 +1,5 @@
 import { Button } from "@/components/ui/button";
-import { RefreshCcw, Unlink } from "lucide-react";
+import { RefreshCw, Unlink } from "lucide-react";
 import React from "react";
 import { useCalDavAccount } from "../../calendarCredential/query/get-calDavAccount";
 import { useDeleteCalDavAccount } from "../../calendarCredential/query/delete-calDavAccount";
@@ -22,7 +22,7 @@ export default function SyncCard() {
             className=""
             onClick={() => resyncMutateFn()}
           >
-            <RefreshCcw
+            <RefreshCw
               className={
                 "w-4 h-4 " + (resyncStatus === "pending" ? "animate-spin" : "")
               }
