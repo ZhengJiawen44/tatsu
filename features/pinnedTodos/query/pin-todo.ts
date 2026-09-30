@@ -63,7 +63,6 @@ export function usePinTodo() {
 
       queryClient.setQueryData<TodoItemType[]>(["overdueTodo"], (old) => {
         return old?.map((oldTodo) => {
-            console.log(oldTodo.id, todoItem.id)
           if (oldTodo.id === todoItem.id) {
             return {
               ...oldTodo,

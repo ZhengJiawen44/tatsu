@@ -40,13 +40,6 @@ const PassKeyProvider = ({ children }: { children: React.ReactNode }) => {
     },
     queryKey: ["encryption"],
   });
-
-  //debugging
-  // console.log("pass key: ", passKey);
-  // console.log("protSymKey: ", protectedSymmetricKey);
-  // console.log("symKey: ", symKey);
-  // console.log("enable Enc: ", enableEncryption);
-
   return (
     <passKeyContext.Provider
       value={{

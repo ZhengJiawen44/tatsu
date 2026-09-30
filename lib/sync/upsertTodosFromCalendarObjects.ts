@@ -21,7 +21,6 @@ export async function upsertTodosFromCalendarObjects(
         const parsed = parseIcsData(uo.data);
         if (!parsed) return null;
         const { master, instances } = parsed;
-        console.log(instances);
 
         const fullUrl =
           serverUrl && !uo.url.startsWith("http")
