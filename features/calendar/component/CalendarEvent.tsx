@@ -25,6 +25,7 @@ import TodoCheckbox from "@/components/ui/TodoCheckbox";
 import { Check } from "lucide-react";
 import { useCompleteCalendarTodo } from "../query/complete-calendar-todo";
 import { useCompleteCalendarTodoInstance } from "../query/complete-calendar-todo-instance";
+import { useCalendarRange } from "@/providers/CalenderRangeProvider";
 
 const formatDateRange = (start: Date, end: Date) =>
   `${format(start, "MMM dd hh:mm")} - ${format(end, "MMM dd hh:mm")}`;
@@ -37,7 +38,8 @@ const CalendarEvent = ({ event: todo }: EventProps<TodoItemType>) => {
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
   const [deleteAllDialogOpen, setDeleteAllDialogOpen] = useState(false);
   const [displayForm, setDisplayForm] = useState(false);
-
+  const {calendarRange} = useCalendarRange()
+  const eventStyle = `relative group w-full h-full cursor-pointer z-50! text-foreground flex pl-2  gap-2 items-top ${calendarRange.end.getTime()-calendarRange.start.getTime()<=604799999&&"mt-2"}`
   return (
     <>
       {/* ----------------- Event Form popover ----------- */}
@@ -52,7 +54,7 @@ const CalendarEvent = ({ event: todo }: EventProps<TodoItemType>) => {
       <Popover open={open} onOpenChange={setOpen}>
         <PopoverTrigger asChild>
           <div
-            className="relative group w-full h-full cursor-pointer z-50! text-foreground flex pl-2  gap-2 items-center"
+            className={eventStyle}
             title={todo.title}
             onContextMenu={(e) => {
               e.preventDefault();
@@ -90,9 +92,9 @@ const CalendarEvent = ({ event: todo }: EventProps<TodoItemType>) => {
           <div className="flex gap-0 md:gap-2 p-2 justify-end ">
             {/* EDIT */}
             <Button
-              variant={"ghost"}
+              variant={"secondary"}
               size={"icon"}
-              className="hover:text-foreground text-muted-foreground p-2 rounded-md hover:bg-popover-accent"
+              className="hover:text-foreground text-muted-foreground p-2 rounded-md hover:bg-popover-accent border border-input hover:border-transparent"
               onClick={() => {
                 setOpen(false);
                 setDisplayForm(true);

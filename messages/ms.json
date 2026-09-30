@@ -307,12 +307,16 @@
     "settingMenu": {
       "logout": "Log keluar",
       "theme": "Tema",
-      "shortcuts": "Pintasan"
+      "shortcuts": "Pintasan",
+      "timezone": "Zon waktu",
+      "feedback": "Maklum balas",
+      "sync": "Segerak"
     },
     "noteMenu": {
       "rename": "tukar nama",
       "delete": "padam"
-    }
+    },
+    "resync": "Segerak semula"
   },
   "completed": {
     "title": "Sejarah penyelesaian"
@@ -402,5 +406,34 @@
     "lightRed": "Merah Muda",
     "brick": "Bata",
     "slate": "Slat"
+  },
+  "sync": {
+    "workInProgress": "Sedang dibangunkan",
+    "syncedTo": "Disegerakkan ke",
+    "nothing": "Tiada",
+    "resync": "Segerak semula",
+    "unsync": "Nyahsegerak",
+    "appleCalendar": "Kalendar Apple",
+    "baikalCalendar": "Kalendar Baikal",
+    "davicalCalendar": "Kalendar DAViCal",
+    "googleCalendar": "Kalendar Google",
+    "syncToApple": "Segerak ke Kalendar Apple",
+    "syncToBaikal": "Segerak ke Baikal",
+    "syncToDavical": "Segerak ke DAViCal",
+    "appleDescription": "Ikuti <guide>panduan ini</guide> untuk mendapatkan Apple ID dan kata laluan khusus aplikasi anda.",
+    "baikalDescription": "<link>Baikal</link> ialah pelayan CalDAV sumber terbuka yang dihos sendiri. Gunakan nama pengguna dan kata laluan yang anda cipta dalam panel pentadbir Baikal. URL pelayan ialah alamat pemasangan Baikal anda diikuti dengan <code>/dav.php</code> (contohnya <code>http://localhost:8800/dav.php</code>).",
+    "davicalDescription": "<link>DAViCal</link> ialah pelayan CalDAV sumber terbuka yang dihos sendiri. Gunakan nama pengguna dan kata laluan yang anda cipta dalam panel pentadbir DAViCal. URL pelayan ialah pemasangan DAViCal anda diikuti dengan <code>/caldav.php/username/</code> (contohnya <code>http://localhost:8080/caldav.php/username/</code>).",
+    "appleId": "Apple ID",
+    "appSpecificPassword": "Kata laluan khusus aplikasi",
+    "serverUrl": "URL pelayan",
+    "username": "Nama pengguna",
+    "password": "Kata laluan",
+    "linking": "Memautkan akaun kalendar...",
+    "syncing": "Menyegerakkan objek setempat...",
+    "syncedSuccessfully": "Berjaya disegerakkan",
+    "cancel": "Batal",
+    "sync": "Segerak",
+    "syncFailed": "penyegerakan gagal: {error}",
+    "unexplainableError": "ralat yang tidak dapat dijelaskan telah berlaku"
   }
 }

@@ -307,12 +307,16 @@
     "settingMenu": {
       "logout": "تسجيل الخروج",
       "theme": "المظهر",
-      "shortcuts": "الاختصارات"
+      "shortcuts": "الاختصارات",
+      "timezone": "المنطقة الزمنية",
+      "feedback": "ملاحظات",
+      "sync": "مزامنة"
     },
     "noteMenu": {
       "rename": "إعادة تسمية",
       "delete": "حذف"
-    }
+    },
+    "resync": "إعادة المزامنة"
   },
   "completed": {
     "title": "سجل الإنجاز"
@@ -402,5 +406,34 @@
     "lightRed": "أحمر فاتح",
     "brick": "قرميدي",
     "slate": "صخري"
+  },
+  "sync": {
+    "workInProgress": "قيد التطوير",
+    "syncedTo": "متزامن مع",
+    "nothing": "لا شيء",
+    "resync": "إعادة المزامنة",
+    "unsync": "إلغاء المزامنة",
+    "appleCalendar": "تقويم Apple",
+    "baikalCalendar": "تقويم Baikal",
+    "davicalCalendar": "تقويم DAViCal",
+    "googleCalendar": "تقويم Google",
+    "syncToApple": "المزامنة مع تقويم Apple",
+    "syncToBaikal": "المزامنة مع Baikal",
+    "syncToDavical": "المزامنة مع DAViCal",
+    "appleDescription": "اتبع <guide>هذا الدليل</guide> للحصول على Apple ID وكلمة مرور خاصة بالتطبيق.",
+    "baikalDescription": "<link>Baikal</link> خادم CalDAV مفتوح المصدر ومستضاف ذاتيًا. استخدم اسم المستخدم وكلمة المرور اللذين أنشأتهما في لوحة إدارة Baikal. عنوان الخادم هو عنوان نسخة Baikal متبوعًا بـ <code>/dav.php</code> (مثل <code>http://localhost:8800/dav.php</code>).",
+    "davicalDescription": "<link>DAViCal</link> خادم CalDAV مفتوح المصدر ومستضاف ذاتيًا. استخدم اسم المستخدم وكلمة المرور اللذين أنشأتهما في لوحة إدارة DAViCal. عنوان الخادم هو نسخة DAViCal متبوعة بـ <code>/caldav.php/username/</code> (مثل <code>http://localhost:8080/caldav.php/username/</code>).",
+    "appleId": "Apple ID",
+    "appSpecificPassword": "كلمة مرور خاصة بالتطبيق",
+    "serverUrl": "عنوان الخادم",
+    "username": "اسم المستخدم",
+    "password": "كلمة المرور",
+    "linking": "جارٍ ربط حساب التقويم...",
+    "syncing": "جارٍ مزامنة العناصر المحلية...",
+    "syncedSuccessfully": "تمت المزامنة بنجاح",
+    "cancel": "إلغاء",
+    "sync": "مزامنة",
+    "syncFailed": "فشلت المزامنة: {error}",
+    "unexplainableError": "حدث خطأ لا يمكن تفسيره"
   }
 }

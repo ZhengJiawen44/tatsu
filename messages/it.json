@@ -307,12 +307,16 @@
     "settingMenu": {
       "logout": "Esci",
       "theme": "Tema",
-      "shortcuts": "Scorciatoie"
+      "shortcuts": "Scorciatoie",
+      "timezone": "Fuso orario",
+      "feedback": "Feedback",
+      "sync": "Sincronizza"
     },
     "noteMenu": {
       "rename": "rinomina",
       "delete": "elimina"
-    }
+    },
+    "resync": "Risincronizza"
   },
   "completed": {
     "title": "Cronologia completamento"
@@ -402,5 +406,34 @@
     "lightRed": "Rosso chiaro",
     "brick": "Mattone",
     "slate": "Ardesia"
+  },
+  "sync": {
+    "workInProgress": "Lavori in corso",
+    "syncedTo": "Sincronizzato con",
+    "nothing": "Niente",
+    "resync": "Risincronizza",
+    "unsync": "Annulla sincronizzazione",
+    "appleCalendar": "Calendario Apple",
+    "baikalCalendar": "Calendario Baikal",
+    "davicalCalendar": "Calendario DAViCal",
+    "googleCalendar": "Calendario Google",
+    "syncToApple": "Sincronizza con Calendario Apple",
+    "syncToBaikal": "Sincronizza con Baikal",
+    "syncToDavical": "Sincronizza con DAViCal",
+    "appleDescription": "Segui <guide>questa guida</guide> per ottenere il tuo ID Apple e una password specifica per l''app.",
+    "baikalDescription": "<link>Baikal</link> è un server CalDAV open source self-hosted. Usa il nome utente e la password creati nel pannello di amministrazione di Baikal. L''URL del server è l''indirizzo della tua istanza Baikal seguito da <code>/dav.php</code> (ad esempio <code>http://localhost:8800/dav.php</code>).",
+    "davicalDescription": "<link>DAViCal</link> è un server CalDAV open source self-hosted. Usa il nome utente e la password creati nel pannello di amministrazione di DAViCal. L''URL del server è la tua istanza DAViCal seguita da <code>/caldav.php/username/</code> (ad esempio <code>http://localhost:8080/caldav.php/username/</code>).",
+    "appleId": "ID Apple",
+    "appSpecificPassword": "Password specifica per l''app",
+    "serverUrl": "URL del server",
+    "username": "Nome utente",
+    "password": "Password",
+    "linking": "Collegamento dell''account calendario...",
+    "syncing": "Sincronizzazione degli oggetti locali...",
+    "syncedSuccessfully": "Sincronizzato",
+    "cancel": "Annulla",
+    "sync": "Sincronizza",
+    "syncFailed": "sincronizzazione non riuscita: {error}",
+    "unexplainableError": "si è verificato un errore inspiegabile"
   }
 }

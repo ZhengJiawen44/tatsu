@@ -1,10 +1,12 @@
 import { Button } from "@/components/ui/button";
-import { RefreshCcw, Unlink } from "lucide-react";
+import { RefreshCw, Unlink } from "lucide-react";
 import React from "react";
 import { useCalDavAccount } from "../../calendarCredential/query/get-calDavAccount";
 import { useDeleteCalDavAccount } from "../../calendarCredential/query/delete-calDavAccount";
 import { useResyncCalDavAccount } from "../../calendarCredential/query/resync-calDavAccount";
+import { useTranslations } from "next-intl";
 export default function SyncCard() {
+  const t = useTranslations("sync");
   const { calDavAccount } = useCalDavAccount();
   const { deleteMutateFn } = useDeleteCalDavAccount();
   const { resyncMutateFn, resyncStatus } = useResyncCalDavAccount();
@@ -12,9 +14,9 @@ export default function SyncCard() {
     <div className="border rounded-md bg-card p-4 pt-8 w-full mb-8">
       <div className="flex gap-4 justify-between items-center">
         <p className="text-2xl">
-          <span className="text-muted-foreground text-xs">Synced to</span>{" "}
+          <span className="text-muted-foreground text-xs">{t("syncedTo")}</span>{" "}
           {"  "}
-          <span>{calDavAccount?.service || "Nothing"}</span>
+          <span>{calDavAccount?.service || t("nothing")}</span>
         </p>
         <div className="flex gap-2">
           <Button
@@ -22,12 +24,12 @@ export default function SyncCard() {
             className=""
             onClick={() => resyncMutateFn()}
           >
-            <RefreshCcw
+            <RefreshCw
               className={
                 "w-4 h-4 " + (resyncStatus === "pending" ? "animate-spin" : "")
               }
             />
-            Resync
+            {t("resync")}
           </Button>
           <Button
             variant="destructive"
@@ -36,7 +38,7 @@ export default function SyncCard() {
             }}
           >
             <Unlink className="w-4 h-4" />
-            Unsync
+            {t("unsync")}
           </Button>
         </div>
       </div>

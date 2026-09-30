@@ -16,6 +16,7 @@ import ProjectTag from "@/components/ProjectTag";
 import TodoItemMenuContainer from "./TodoItem/TodoMenu/TodoItemMenuContainer";
 import { useUserTimezone } from "@/features/user/query/get-timezone";
 import { toZonedTime } from "date-fns-tz";
+import { useTranslations } from "next-intl";
 
 const TodoFormContainer = dynamic(
   () => import("./TodoForm/TodoFormContainer"),
@@ -35,6 +36,7 @@ export const TodoItemContainer = ({
   const { useCompleteTodo } = useTodoMutation();
   const { completeMutateFn } = useCompleteTodo();
   const userTimeZone = useUserTimezone();
+  const appDict = useTranslations("app");
 
   // only reason using this is because of SSR error that would happen from
   // server's utc time and client's local time mismatch
@@ -165,7 +167,7 @@ export const TodoItemContainer = ({
               {/* Overdue tag */}
               {overdue && (
                 <p className="py-[0.2rem] px-2 rounded-full bg-sidebar border">
-                  overdue
+                  {appDict("overdue")}
                 </p>
               )}
             </div>

@@ -307,12 +307,16 @@
     "settingMenu": {
       "logout": "Déconnexion",
       "theme": "Thème",
-      "shortcuts": "Raccourcis"
+      "shortcuts": "Raccourcis",
+      "timezone": "Fuseau horaire",
+      "feedback": "Commentaires",
+      "sync": "Synchronisation"
     },
     "noteMenu": {
       "rename": "renommer",
       "delete": "supprimer"
-    }
+    },
+    "resync": "Resynchroniser"
   },
   "completed": {
     "title": "Historique des achèvements"
@@ -402,5 +406,34 @@
     "lightRed": "Rouge clair",
     "brick": "Brique",
     "slate": "Ardoise"
+  },
+  "sync": {
+    "workInProgress": "Travail en cours",
+    "syncedTo": "Synchronisé avec",
+    "nothing": "Rien",
+    "resync": "Resynchroniser",
+    "unsync": "Désynchroniser",
+    "appleCalendar": "Calendrier Apple",
+    "baikalCalendar": "Calendrier Baikal",
+    "davicalCalendar": "Calendrier DAViCal",
+    "googleCalendar": "Calendrier Google",
+    "syncToApple": "Synchroniser avec Calendrier Apple",
+    "syncToBaikal": "Synchroniser avec Baikal",
+    "syncToDavical": "Synchroniser avec DAViCal",
+    "appleDescription": "Suivez <guide>ce guide</guide> pour obtenir votre identifiant Apple et un mot de passe spécifique à l''application.",
+    "baikalDescription": "<link>Baikal</link> est un serveur CalDAV open source auto-hébergé. Utilisez le nom d''utilisateur et le mot de passe créés dans le panneau d''administration Baikal. L''URL du serveur est l''adresse de votre instance Baikal suivie de <code>/dav.php</code> (par exemple <code>http://localhost:8800/dav.php</code>).",
+    "davicalDescription": "<link>DAViCal</link> est un serveur CalDAV open source auto-hébergé. Utilisez le nom d''utilisateur et le mot de passe créés dans le panneau d''administration DAViCal. L''URL du serveur est votre instance DAViCal suivie de <code>/caldav.php/username/</code> (par exemple <code>http://localhost:8080/caldav.php/username/</code>).",
+    "appleId": "Identifiant Apple",
+    "appSpecificPassword": "Mot de passe spécifique à l''application",
+    "serverUrl": "URL du serveur",
+    "username": "Nom d''utilisateur",
+    "password": "Mot de passe",
+    "linking": "Liaison du compte de calendrier...",
+    "syncing": "Synchronisation des objets locaux...",
+    "syncedSuccessfully": "Synchronisé",
+    "cancel": "Annuler",
+    "sync": "Synchroniser",
+    "syncFailed": "échec de la synchronisation : {error}",
+    "unexplainableError": "une erreur inexplicable s''est produite"
   }
 }

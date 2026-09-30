@@ -1,40 +1,48 @@
 import { Button } from "@/components/ui/button";
 import { signIn } from "next-auth/react";
 import React, { useState } from "react";
+import { useTranslations } from "next-intl";
 import { BasicAuthForm } from "./BasicAuthForm";
 
 export default function SyncOptionContainer() {
+  const t = useTranslations("sync");
   const [showAppleBasicAuthForm, setShowAppleBasicAuthForm] = useState(false);
   const [showBaikalBasicAuthForm, setShowBaikalBasicAuthForm] = useState(false);
   const [showDavicalBasicAuthForm, setShowDavicalBasicAuthForm] =
     useState(false);
+
+  const code = (chunks: React.ReactNode) => (
+    <code className="text-foreground">{chunks}</code>
+  );
 
   return (
     <>
       <BasicAuthForm
         open={showAppleBasicAuthForm}
         setOpen={setShowAppleBasicAuthForm}
-        title="Sync to Apple Calendar"
+        title={t("syncToApple")}
         service="apple"
         description={
           <span>
-            Follow{" "}
-            <a
-              className="underline text-foreground"
-              target="_blank"
-              href="https://support.apple.com/en-us/102654"
-            >
-              this guide
-            </a>{" "}
-            to get your Apple ID and app-specific password.
+            {t.rich("appleDescription", {
+              guide: (chunks) => (
+                <a
+                  className="underline text-foreground"
+                  target="_blank"
+                  href="https://support.apple.com/en-us/102654"
+                >
+                  {chunks}
+                </a>
+              ),
+            })}
           </span>
         }
         fields={[
-          { id: "username", name: "username", label: "Apple ID" },
+          { id: "username", name: "username", label: t("appleId") },
           {
             id: "password",
             name: "password",
-            label: "App specific password",
+            label: t("appSpecificPassword"),
             type: "password",
           },
         ]}
@@ -46,34 +54,31 @@ export default function SyncOptionContainer() {
       <BasicAuthForm
         open={showBaikalBasicAuthForm}
         setOpen={setShowBaikalBasicAuthForm}
-        title="Sync to Baikal"
+        title={t("syncToBaikal")}
         service="baikal"
         description={
           <span>
-            <a
-              className="underline text-foreground"
-              href="https://sabre.io/baikal/"
-              target="_blank"
-            >
-              Baikal
-            </a>{" "}
-            is an open-source self-hosted CalDAV server. Use the username and
-            password you created in your Baikal admin panel. The server URL is
-            the address of your Baikal instance followed by{" "}
-            <code className="text-foreground">/dav.php</code> (e.g.{" "}
-            <code className="text-foreground">
-              http://localhost:8800/dav.php
-            </code>
-            ).
+            {t.rich("baikalDescription", {
+              link: (chunks) => (
+                <a
+                  className="underline text-foreground"
+                  href="https://sabre.io/baikal/"
+                  target="_blank"
+                >
+                  {chunks}
+                </a>
+              ),
+              code,
+            })}
           </span>
         }
         fields={[
-          { id: "serverUrl", name: "serverUrl", label: "Server URL" },
-          { id: "username", name: "username", label: "Username" },
+          { id: "serverUrl", name: "serverUrl", label: t("serverUrl") },
+          { id: "username", name: "username", label: t("username") },
           {
             id: "password",
             name: "password",
-            label: "Password",
+            label: t("password"),
             type: "password",
           },
         ]}
@@ -84,34 +89,31 @@ export default function SyncOptionContainer() {
       <BasicAuthForm
         open={showDavicalBasicAuthForm}
         setOpen={setShowDavicalBasicAuthForm}
-        title="Sync to DAViCal"
+        title={t("syncToDavical")}
         service="davical"
         description={
           <span>
-            <a
-              className="underline text-foreground"
-              href="https://www.davical.org"
-              target="_blank"
-            >
-              DAViCal
-            </a>{" "}
-            is an open-source self-hosted CalDAV server. Use the username and
-            password you created in your DAViCal admin panel. The server URL is
-            your DAViCal instance followed by{" "}
-            <code className="text-foreground">/caldav.php/username/</code> (e.g.{" "}
-            <code className="text-foreground">
-              http://localhost:8080/caldav.php/username/
-            </code>
-            ).
+            {t.rich("davicalDescription", {
+              link: (chunks) => (
+                <a
+                  className="underline text-foreground"
+                  href="https://www.davical.org"
+                  target="_blank"
+                >
+                  {chunks}
+                </a>
+              ),
+              code,
+            })}
           </span>
         }
         fields={[
-          { id: "serverUrl", name: "serverUrl", label: "Server URL" },
-          { id: "username", name: "username", label: "Username" },
+          { id: "serverUrl", name: "serverUrl", label: t("serverUrl") },
+          { id: "username", name: "username", label: t("username") },
           {
             id: "password",
             name: "password",
-            label: "Password",
+            label: t("password"),
             type: "password",
           },
         ]}
@@ -125,21 +127,21 @@ export default function SyncOptionContainer() {
           className=""
           onClick={() => setShowAppleBasicAuthForm(true)}
         >
-          Apple Calendar
+          {t("appleCalendar")}
         </Button>
         <Button
           variant="outline"
           className=""
           onClick={() => setShowBaikalBasicAuthForm(true)}
         >
-          Baikal Calendar
+          {t("baikalCalendar")}
         </Button>
         <Button
           variant="outline"
           className=""
           onClick={() => setShowDavicalBasicAuthForm(true)}
         >
-          DAViCal Calendar
+          {t("davicalCalendar")}
         </Button>
         <Button
           variant="outline"
@@ -157,7 +159,7 @@ export default function SyncOptionContainer() {
             )
           }
         >
-          Google Calendar
+          {t("googleCalendar")}
         </Button>
       </div>
     </>

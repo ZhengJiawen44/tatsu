@@ -52,8 +52,8 @@
 .rbc-timeslot-group {
   border: transparent !important;
 }
-.rbc-events-container {
-  border: transparent !important;
+.rbc-event{
+  box-shadow: 1px 0px 20px 2px rgba(0, 0, 0, 0.2);
 }
 .rbc-time-header-content {
   border: transparent !important;
