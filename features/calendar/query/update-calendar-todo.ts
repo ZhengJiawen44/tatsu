@@ -62,6 +62,8 @@ export const useEditCalendarTodo = () => {
   const { mutate: editCalendarTodo, status: editTodoStatus } = useMutation({
     mutationFn: (params: TodoFormItemType) => patchCalendarTodo(params),
     onMutate: async (newTodo) => {
+            console.log("newtodo: ",newTodo)
+
       await queryClient.cancelQueries({
         queryKey: ["calendarTodo"],
       });
@@ -76,7 +78,7 @@ export const useEditCalendarTodo = () => {
           oldTodos?.map((oldTodo) => {
             // if todo is repeating, all its instance need
             //  to be updated in this optimistic update
-            if (oldTodo.id.split(":")[0] === newTodo.id) {
+            if (oldTodo.id.split(":")[0] === newTodo.id.split(":")[0]) {
               return {
                 ...oldTodo,
                 completed: newTodo.completed,
