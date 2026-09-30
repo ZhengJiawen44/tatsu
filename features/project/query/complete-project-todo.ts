@@ -34,7 +34,6 @@ export const useCompleteProjectTodo = () => {
       queryClient.setQueryData(
         ["project", todoItem.projectID],
         (oldTodos: TodoItemType[]) => {
-          console.log(oldTodos);
           return oldTodos.flatMap((oldTodo) => {
             if (oldTodo.id === todoItem.id) return [];
             return [oldTodo];

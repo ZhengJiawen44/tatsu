@@ -47,7 +47,7 @@ export default function SyncOptionContainer() {
           },
         ]}
         onSuccess={(data) => {
-          console.log(data);
+
         }}
       />
 
@@ -83,7 +83,7 @@ export default function SyncOptionContainer() {
           },
         ]}
         onSuccess={(data) => {
-          console.log(data);
+
         }}
       />
       <BasicAuthForm
@@ -118,7 +118,7 @@ export default function SyncOptionContainer() {
           },
         ]}
         onSuccess={(data) => {
-          console.log(data);
+
         }}
       />
       <div className="flex gap-4">

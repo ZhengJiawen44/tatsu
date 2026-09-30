@@ -23,11 +23,15 @@ const SidebarContainer = () => {
 
   const stopResizing = React.useCallback(() => {
     setIsResizing(false);
+    const htmlBody = document.getElementsByTagName("body")[0]
+    htmlBody.style.setProperty('user-select','text');
   }, [setIsResizing]);
 
   const resize = React.useCallback(
     (mouseMoveEvent: MouseEvent) => {
       if (isResizing) {
+      const htmlBody = document.getElementsByTagName("body")[0]
+        htmlBody.style.setProperty('user-select','none');
         setSidebarWidth(
           mouseMoveEvent.clientX -
             sidebarRef.current!.getBoundingClientRect().left,

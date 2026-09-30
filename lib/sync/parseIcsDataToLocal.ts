@@ -157,12 +157,6 @@ export function parseIcsData(
 ): ParsedIcsDataWithInstances | null {
   const comp = parseIcsToVeventComponent(icsData);
   const vevents = comp.getAllSubcomponents("vevent");
-  vevents.forEach((vevent) => {
-    console.log(
-      "---------------------------------------------",
-      vevent.getFirstProperty("recurrence-id"),
-    );
-  });
   if (vevents.length === 0) return null;
 
   const masterComponent =

@@ -71,7 +71,6 @@ export default function FeedbackForm() {
                     maxLength={500}
                     onInput={(e) => {
                       setWordCount(e.currentTarget.value.length);
-                      console.log(e.currentTarget.value);
                     }}
                     id="description"
                     name="description"
