@@ -10,10 +10,6 @@ type DateRange = {
   end: Date;
 };
 export function expandRepeatingTodo(todo: recurringTodoItemType, calendarRange: DateRange){
-    console.log(generateTodosFromRRule([todo], {
-        dateRangeStart: calendarRange.start,
-        dateRangeEnd: calendarRange.end,
-      }))
       // Expand RRULEs to generate occurrences
       return generateTodosFromRRule([todo], {
         dateRangeStart: calendarRange.start,
