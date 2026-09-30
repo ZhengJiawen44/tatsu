@@ -11,7 +11,7 @@ export const SyncButtonContainer = () => {
         <TooltipTrigger asChild>
             <Button 
                 onClick={()=>resyncMutateFn()}
-                variant={"ghost"} className=" flex items-center justify-center"
+                variant={"ghost"} className="h-12 w-12 flex items-center justify-center"
             >
                 <RefreshCw className={"w-4 h-4 " + (resyncStatus === "pending" ? "animate-spin" : "")}/>
             </Button>
@@ -20,5 +20,4 @@ export const SyncButtonContainer = () => {
             {sidebarDict("resync")}
         </TooltipContent>
     </Tooltip>
-       
 }

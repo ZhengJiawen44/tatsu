@@ -12,15 +12,17 @@ import { useEditOverdueTodoInstance } from "../query/update-overdue-todo-instanc
 import { useReorderOverdueTodo } from "../query/reorder-overdue-todo";
 import { useCompleteOverdueTodo } from "../query/complete-overdue-todo";
 import TodoMutationProvider from "@/providers/TodoMutationProvider";
+import { useTranslations } from "next-intl";
 
 export default function OverDueTodoContainer() {
+  const appDict = useTranslations("app");
   const { todos: overdueTodos, isLoading } = useOverdueTodo();
 
   if (!overdueTodos.length) return null;
   return (
     <div className="mb-20">
       <div className="flex items-center gap-2 mt-10 mb-4">
-        <h3 className="text-lg font-semibold select-none">Overdue</h3>
+        <h3 className="text-lg font-semibold select-none">{appDict("overdue")}</h3>
         <LineSeparator className="flex-1" />
       </div>
       <div>
