@@ -19,7 +19,7 @@ export const useDeleteCalendarTodo = () => {
 
       queryClient.setQueriesData<TodoItemType[]>(
         { queryKey: ["calendarTodo"] },
-        (old) => old?.filter((todo) => todo.id !== id),
+        (old) => old?.filter((todo) => todo.id.split(":")[0] !== id.split(":")[0]),
       );
       return { oldTodos };
     },

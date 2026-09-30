@@ -48,9 +48,9 @@ export const useEditCalendarTodoInstance = () => {
         const oldTodosBackup = queryClient.getQueriesData({
           queryKey: ["calendarTodo"],
         });
-        queryClient.setQueryData<TodoItemType[]>(
-          ["calendarTodo"],
-          (oldTodos) => {
+        queryClient.setQueriesData(
+          {queryKey: ["calendarTodo"]},
+          (oldTodos: TodoItemType[]) => {
             return oldTodos?.map((oldTodo) => {
               if (oldTodo.id === newTodo.id) {
                 //only overwrite the overwritable fields from overriden instance

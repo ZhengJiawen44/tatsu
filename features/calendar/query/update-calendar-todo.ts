@@ -74,7 +74,9 @@ export const useEditCalendarTodo = () => {
         },
         (oldTodos) =>
           oldTodos?.map((oldTodo) => {
-            if (oldTodo.id === newTodo.id) {
+            // if todo is repeating, all its instance need
+            //  to be updated in this optimistic update
+            if (oldTodo.id.split(":")[0] === newTodo.id) {
               return {
                 ...oldTodo,
                 completed: newTodo.completed,

@@ -1,8 +1,10 @@
 import { useQueryClient, useMutation } from "@tanstack/react-query";
 import { todoSchema } from "@/schema";
 import { api } from "@/lib/api-client";
-import { TodoItemType } from "@/types";
+import { recurringTodoItemType, TodoItemType } from "@/types";
 import { useToast } from "@/hooks/use-toast";
+import { expandRepeatingTodo } from "../lib/expandRepeatingTodo";
+import { useCalendarRange } from "@/providers/CalenderRangeProvider";
 
 type CreateTodoInput = Pick<
   TodoItemType,
@@ -47,27 +49,49 @@ async function postTodo({ todo }: { todo: CreateTodoInput }) {
 export const useCreateCalendarTodo = () => {
   const { toast } = useToast();
   const queryClient = useQueryClient();
+  const {calendarRange} = useCalendarRange()
 
   const { mutate: createCalendarTodo, status: createTodoStatus } = useMutation({
     mutationFn: (todo: CreateTodoInput) => postTodo({ todo }),
     onMutate: (newTodo)=>{
       const oldCalendarTodos = queryClient.getQueriesData({ queryKey: ["calendarTodo"] });
+      const hydratedNewTodo = {
+              id:"-1", 
+              title: newTodo.title, 
+              description: newTodo.description,
+              dtstart: newTodo.dtstart,
+              due: newTodo.due,
+              rrule: newTodo.rrule,
+              priority: newTodo.priority,
+              projectID: newTodo.projectID,
+              pinned: false,
+              createdAt: new Date(),
+              order: 9999,
+              completed: false,
+              instances:[],
+              instanceDate: newTodo.dtstart!,
+              timeZone:"",
+              exdates:[],
+              userID:"-1",
+              durationMinutes: 1
+            } as recurringTodoItemType
+      const expandedHydratedNewTodo = (hydratedNewTodo.rrule && hydratedNewTodo.dtstart)? expandRepeatingTodo(
+            hydratedNewTodo, 
+            calendarRange
+      ):null;
+
       queryClient.cancelQueries({queryKey:["calendarTodo"]});
       queryClient.setQueriesData({queryKey:["calendarTodo"]}, (oldCalendarTodo:TodoItemType[])=>{
-        return [...oldCalendarTodo, {
-          id:-1, 
-          title: newTodo.title, 
-          description: newTodo.description,
-          dtstart: newTodo.dtstart,
-          due: newTodo.due,
-          rrule: newTodo.rrule,
-          priority: newTodo.priority,
-          projectID: newTodo.projectID,
-          pinned: false,
-          createdAt: new Date(),
-          order: 9999,
-          completed: false,
-        }]
+        if(expandedHydratedNewTodo)
+          return [
+            ...oldCalendarTodo, 
+          ...expandedHydratedNewTodo
+          ]
+          
+        return [
+            ...oldCalendarTodo, 
+            hydratedNewTodo
+          ]
       });
       return {oldCalendarTodos};
     },
