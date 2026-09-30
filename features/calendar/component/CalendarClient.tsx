@@ -23,7 +23,6 @@ import CalendarHeader from "./CalendarHeader";
 import { agendaComponents } from "./CalendarAgenda";
 import CalendarEvent from "./CalendarEvent";
 import { calendarEventPropStyles } from "../lib/calendarEventPropStyles";
-import { useDateRange } from "../hooks/useDateRange";
 import { useCalendarTodo } from "../query/get-calendar-todo";
 import { useEditCalendarTodo } from "../query/update-calendar-todo";
 import { useEditCalendarTodoInstance } from "../query/update-calendar-todo-instance";
@@ -32,6 +31,7 @@ import Spinner from "@/components/ui/spinner";
 import { subMilliseconds } from "date-fns";
 import { useProjectMetaData } from "@/components/Sidebar/Project/query/get-project-meta";
 import CreateCalendarFormContainer from "./CalendarForm/CreateFormContainer";
+import { useCalendarRange } from "@/providers/CalenderRangeProvider";
 
 const locales = { "en-US": enUS };
 const localizer = dateFnsLocalizer({
@@ -45,7 +45,8 @@ const DnDCalendar = withDragAndDrop<TodoItemType>(Calendar);
 
 export default function CalendarClient() {
   const [mounted, setMounted] = useState(false);
-  const [calendarRange, setCalendarRange] = useDateRange();
+  const {calendarRange, setCalendarRange} = useCalendarRange();
+
   const [showCreateForm, setShowCreateForm] = useState(false);
   const [selectDateRange, setSelectDateRange] = useState<{
     start: Date;

@@ -3,6 +3,7 @@ import { todoSchema } from "@/schema";
 import { api } from "@/lib/api-client";
 import { TodoItemType } from "@/types";
 import { useToast } from "@/hooks/use-toast";
+import { expandRepeatingTodo } from "../lib/expandRepeatingTodo";
 
 type CreateTodoInput = Pick<
   TodoItemType,
@@ -54,8 +55,8 @@ export const useCreateCalendarTodo = () => {
       const oldCalendarTodos = queryClient.getQueriesData({ queryKey: ["calendarTodo"] });
       queryClient.cancelQueries({queryKey:["calendarTodo"]});
       queryClient.setQueriesData({queryKey:["calendarTodo"]}, (oldCalendarTodo:TodoItemType[])=>{
-        return [...oldCalendarTodo, {
-          id:-1, 
+        return [...oldCalendarTodo, expandRepeatingTodo({
+          id:"-1", 
           title: newTodo.title, 
           description: newTodo.description,
           dtstart: newTodo.dtstart,
@@ -67,7 +68,7 @@ export const useCreateCalendarTodo = () => {
           createdAt: new Date(),
           order: 9999,
           completed: false,
-        }]
+        })]
       });
       return {oldCalendarTodos};
     },
