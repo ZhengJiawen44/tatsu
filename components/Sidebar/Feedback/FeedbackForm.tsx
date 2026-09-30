@@ -9,7 +9,9 @@ import {
   ModalFooter,
 } from "@/components/ui/Modal";
 import { useCreateFeedback } from "./query/create-feedback";
+import { useTranslations } from "next-intl";
 export default function FeedbackForm() {
+  const sidebarDict = useTranslations("sidebar");
   const [open, setOpen] = useState(false);
   const [wordCount, setWordCount] = useState(0);
   const { createMutateFn } = useCreateFeedback();
@@ -103,7 +105,7 @@ export default function FeedbackForm() {
         className="relative hover:bg-popover-accent! cursor-pointer flex select-none items-center gap-2 rounded-sm px-2 py-1.5 text-sm outline-hidden transition-colors focus:bg-accent focus:text-accent-foreground data-disabled:pointer-events-none data-disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0"
       >
         <Mail className="w-4! h-4!" />
-        <p>Feedback</p>
+        <p>{sidebarDict("settingMenu.feedback")}</p>
       </div>
     </>
   );

@@ -307,12 +307,16 @@
     "settingMenu": {
       "logout": "Sair",
       "theme": "Tema",
-      "shortcuts": "Atalhos"
+      "shortcuts": "Atalhos",
+      "timezone": "Fuso horário",
+      "feedback": "Comentários",
+      "sync": "Sincronizar"
     },
     "noteMenu": {
       "rename": "renomear",
       "delete": "eliminar"
-    }
+    },
+    "resync": "Ressincronizar"
   },
   "completed": {
     "title": "Histórico de conclusão"
@@ -402,5 +406,34 @@
     "lightRed": "Vermelho Claro",
     "brick": "Tijolo",
     "slate": "Ardosia"
+  },
+  "sync": {
+    "workInProgress": "Trabalho em curso",
+    "syncedTo": "Sincronizado com",
+    "nothing": "Nada",
+    "resync": "Ressincronizar",
+    "unsync": "Dessincronizar",
+    "appleCalendar": "Calendário Apple",
+    "baikalCalendar": "Calendário Baikal",
+    "davicalCalendar": "Calendário DAViCal",
+    "googleCalendar": "Calendário Google",
+    "syncToApple": "Sincronizar com o Calendário Apple",
+    "syncToBaikal": "Sincronizar com o Baikal",
+    "syncToDavical": "Sincronizar com o DAViCal",
+    "appleDescription": "Siga <guide>este guia</guide> para obter o seu ID Apple e uma palavra-passe específica da aplicação.",
+    "baikalDescription": "O <link>Baikal</link> é um servidor CalDAV de código aberto e autoalojado. Utilize o nome de utilizador e a palavra-passe que criou no painel de administração do Baikal. O URL do servidor é o endereço da sua instalação Baikal seguido de <code>/dav.php</code> (por exemplo, <code>http://localhost:8800/dav.php</code>).",
+    "davicalDescription": "O <link>DAViCal</link> é um servidor CalDAV de código aberto e autoalojado. Utilize o nome de utilizador e a palavra-passe que criou no painel de administração do DAViCal. O URL do servidor é a sua instalação DAViCal seguida de <code>/caldav.php/username/</code> (por exemplo, <code>http://localhost:8080/caldav.php/username/</code>).",
+    "appleId": "ID Apple",
+    "appSpecificPassword": "Palavra-passe específica da aplicação",
+    "serverUrl": "URL do servidor",
+    "username": "Nome de utilizador",
+    "password": "Palavra-passe",
+    "linking": "A associar a conta do calendário...",
+    "syncing": "A sincronizar objetos locais...",
+    "syncedSuccessfully": "Sincronizado com sucesso",
+    "cancel": "Cancelar",
+    "sync": "Sincronizar",
+    "syncFailed": "falha na sincronização: {error}",
+    "unexplainableError": "ocorreu um erro inexplicável"
   }
 }

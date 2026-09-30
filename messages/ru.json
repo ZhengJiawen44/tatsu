@@ -307,12 +307,16 @@
     "settingMenu": {
       "logout": "Выйти",
       "theme": "Тема",
-      "shortcuts": "Горячие клавиши"
+      "shortcuts": "Горячие клавиши",
+      "timezone": "Часовой пояс",
+      "feedback": "Отзыв",
+      "sync": "Синхронизация"
     },
     "noteMenu": {
       "rename": "переименовать",
       "delete": "удалить"
-    }
+    },
+    "resync": "Синхронизировать снова"
   },
   "completed": {
     "title": "История завершений"
@@ -402,5 +406,34 @@
     "lightRed": "Светло-красный",
     "brick": "Кирпичный",
     "slate": "Грифельный"
+  },
+  "sync": {
+    "workInProgress": "В разработке",
+    "syncedTo": "Синхронизировано с",
+    "nothing": "Ничем",
+    "resync": "Синхронизировать снова",
+    "unsync": "Отменить синхронизацию",
+    "appleCalendar": "Календарь Apple",
+    "baikalCalendar": "Календарь Baikal",
+    "davicalCalendar": "Календарь DAViCal",
+    "googleCalendar": "Календарь Google",
+    "syncToApple": "Синхронизация с Календарём Apple",
+    "syncToBaikal": "Синхронизация с Baikal",
+    "syncToDavical": "Синхронизация с DAViCal",
+    "appleDescription": "Следуйте <guide>этому руководству</guide>, чтобы получить Apple ID и пароль приложения.",
+    "baikalDescription": "<link>Baikal</link> — это CalDAV-сервер с открытым исходным кодом для самостоятельного размещения. Используйте имя пользователя и пароль, созданные в панели администратора Baikal. URL сервера — это адрес вашего экземпляра Baikal с <code>/dav.php</code> в конце (например, <code>http://localhost:8800/dav.php</code>).",
+    "davicalDescription": "<link>DAViCal</link> — это CalDAV-сервер с открытым исходным кодом для самостоятельного размещения. Используйте имя пользователя и пароль, созданные в панели администратора DAViCal. URL сервера — это ваш экземпляр DAViCal с <code>/caldav.php/username/</code> в конце (например, <code>http://localhost:8080/caldav.php/username/</code>).",
+    "appleId": "Apple ID",
+    "appSpecificPassword": "Пароль приложения",
+    "serverUrl": "URL сервера",
+    "username": "Имя пользователя",
+    "password": "Пароль",
+    "linking": "Привязка учётной записи календаря...",
+    "syncing": "Синхронизация локальных объектов...",
+    "syncedSuccessfully": "Синхронизировано",
+    "cancel": "Отмена",
+    "sync": "Синхронизировать",
+    "syncFailed": "синхронизация не удалась: {error}",
+    "unexplainableError": "произошла необъяснимая ошибка"
   }
 }

@@ -147,7 +147,7 @@ const UserCard = ({ className }: { className?: string }) => {
             }}
           >
             <Globe className="w-4 h-4" />
-            Timezone
+            {sidebarDict("settingMenu.timezone")}
           </DropdownMenuItem>
           <DropdownMenuItem asChild>
             <FeedbackForm/>
@@ -165,7 +165,7 @@ const UserCard = ({ className }: { className?: string }) => {
           <DropdownMenuItem asChild>
             <Link href={"/app/sync"}>
               <RefreshCw className="w-4 h-4" />
-              Sync
+              {sidebarDict("settingMenu.sync")}
             </Link>
           </DropdownMenuItem>
         </DropdownMenuContent>
