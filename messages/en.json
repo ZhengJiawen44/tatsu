@@ -309,12 +309,16 @@
     "settingMenu": {
       "logout": "Log out",
       "theme": "Theme",
-      "shortcuts": "Shortcuts"
+      "shortcuts": "Shortcuts",
+      "timezone": "Timezone",
+      "feedback": "Feedback",
+      "sync": "Sync"
     },
     "noteMenu": {
       "rename": "rename",
       "delete": "delete"
-    }
+    },
+    "resync": "resync"
   },
   "completed": {
     "title": "Completion history"
@@ -405,5 +409,34 @@
     "lightRed": "Light Red",
     "brick": "Brick",
     "slate": "Slate"
+  },
+  "sync": {
+    "workInProgress": "Work in progress",
+    "syncedTo": "Synced to",
+    "nothing": "Nothing",
+    "resync": "Resync",
+    "unsync": "Unsync",
+    "appleCalendar": "Apple Calendar",
+    "baikalCalendar": "Baikal Calendar",
+    "davicalCalendar": "DAViCal Calendar",
+    "googleCalendar": "Google Calendar",
+    "syncToApple": "Sync to Apple Calendar",
+    "syncToBaikal": "Sync to Baikal",
+    "syncToDavical": "Sync to DAViCal",
+    "appleDescription": "Follow <guide>this guide</guide> to get your Apple ID and app-specific password.",
+    "baikalDescription": "<link>Baikal</link> is an open-source self-hosted CalDAV server. Use the username and password you created in your Baikal admin panel. The server URL is the address of your Baikal instance followed by <code>/dav.php</code> (e.g. <code>http://localhost:8800/dav.php</code>).",
+    "davicalDescription": "<link>DAViCal</link> is an open-source self-hosted CalDAV server. Use the username and password you created in your DAViCal admin panel. The server URL is your DAViCal instance followed by <code>/caldav.php/username/</code> (e.g. <code>http://localhost:8080/caldav.php/username/</code>).",
+    "appleId": "Apple ID",
+    "appSpecificPassword": "App specific password",
+    "serverUrl": "Server URL",
+    "username": "Username",
+    "password": "Password",
+    "linking": "Linking Calendar Account...",
+    "syncing": "Syncing Local objects...",
+    "syncedSuccessfully": "Synced succesfully",
+    "cancel": "Cancel",
+    "sync": "Sync",
+    "syncFailed": "sync failed: {error}",
+    "unexplainableError": "an unexplainable error occured"
   }
 }

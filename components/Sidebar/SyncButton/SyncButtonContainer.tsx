@@ -2,9 +2,11 @@ import { Button } from "@/components/ui/button"
 import { RefreshCw } from "lucide-react"
 import { Tooltip, TooltipTrigger, TooltipContent } from "@/components/ui/tooltip"
 import { useResyncCalDavAccount } from "@/features/calendarCredential/query/resync-calDavAccount";
+import { useTranslations } from "next-intl"
 
 export const SyncButtonContainer = () => {
     const { resyncMutateFn, resyncStatus } = useResyncCalDavAccount();
+    const sidebarDict = useTranslations("sidebar");
     return <Tooltip>
         <TooltipTrigger asChild>
             <Button 
@@ -15,7 +17,7 @@ export const SyncButtonContainer = () => {
             </Button>
         </TooltipTrigger>
         <TooltipContent className="mb-1">
-            resync
+            {sidebarDict("resync")}
         </TooltipContent>
     </Tooltip>
        

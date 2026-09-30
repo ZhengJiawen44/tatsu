@@ -307,12 +307,16 @@
     "settingMenu": {
       "logout": "Abmelden",
       "theme": "Design",
-      "shortcuts": "Shortcuts"
+      "shortcuts": "Shortcuts",
+      "timezone": "Zeitzone",
+      "feedback": "Feedback",
+      "sync": "Synchronisieren"
     },
     "noteMenu": {
       "rename": "umbenennen",
       "delete": "löschen"
-    }
+    },
+    "resync": "Erneut synchronisieren"
   },
   "completed": {
     "title": "Verlauf der Erledigungen"
@@ -402,5 +406,34 @@
     "lightRed": "Hellrot",
     "brick": "Ziegelrot",
     "slate": "Schiefer"
+  },
+  "sync": {
+    "workInProgress": "In Arbeit",
+    "syncedTo": "Synchronisiert mit",
+    "nothing": "Nichts",
+    "resync": "Erneut synchronisieren",
+    "unsync": "Synchronisierung aufheben",
+    "appleCalendar": "Apple Kalender",
+    "baikalCalendar": "Baikal-Kalender",
+    "davicalCalendar": "DAViCal-Kalender",
+    "googleCalendar": "Google Kalender",
+    "syncToApple": "Mit Apple Kalender synchronisieren",
+    "syncToBaikal": "Mit Baikal synchronisieren",
+    "syncToDavical": "Mit DAViCal synchronisieren",
+    "appleDescription": "Folgen Sie <guide>dieser Anleitung</guide>, um Ihre Apple-ID und ein app-spezifisches Passwort zu erhalten.",
+    "baikalDescription": "<link>Baikal</link> ist ein quelloffener, selbst gehosteter CalDAV-Server. Verwenden Sie den Benutzernamen und das Passwort, die Sie im Baikal-Adminbereich erstellt haben. Die Server-URL ist die Adresse Ihrer Baikal-Instanz gefolgt von <code>/dav.php</code> (z. B. <code>http://localhost:8800/dav.php</code>).",
+    "davicalDescription": "<link>DAViCal</link> ist ein quelloffener, selbst gehosteter CalDAV-Server. Verwenden Sie den Benutzernamen und das Passwort, die Sie im DAViCal-Adminbereich erstellt haben. Die Server-URL ist Ihre DAViCal-Instanz gefolgt von <code>/caldav.php/username/</code> (z. B. <code>http://localhost:8080/caldav.php/username/</code>).",
+    "appleId": "Apple-ID",
+    "appSpecificPassword": "App-spezifisches Passwort",
+    "serverUrl": "Server-URL",
+    "username": "Benutzername",
+    "password": "Passwort",
+    "linking": "Kalenderkonto wird verknüpft...",
+    "syncing": "Lokale Objekte werden synchronisiert...",
+    "syncedSuccessfully": "Erfolgreich synchronisiert",
+    "cancel": "Abbrechen",
+    "sync": "Synchronisieren",
+    "syncFailed": "Synchronisierung fehlgeschlagen: {error}",
+    "unexplainableError": "Ein unerklärlicher Fehler ist aufgetreten"
   }
 }

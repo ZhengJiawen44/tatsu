@@ -68,7 +68,7 @@ export default function TodoCheckbox({
           className={cn(
             clsx(
               "relative group w-5 h-5 rounded-full flex items-center justify-center border-[2.23px]",
-              "hover:cursor-pointer transition-transform duration-200 ease-out hover:border-transparent",
+              "hover:cursor-pointer ease-out hover:border-transparent opacity-80",
               expand && "scale-125",
               priority === "Low" && "border-lime stroke-lime",
               priority === "Medium" && "border-orange stroke-orange",

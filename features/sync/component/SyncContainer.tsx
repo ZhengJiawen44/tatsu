@@ -3,6 +3,7 @@
 import { useSession } from "next-auth/react";
 import { useSearchParams } from "next/navigation";
 import { useEffect, useRef } from "react";
+import { useTranslations } from "next-intl";
 import SyncCard from "./SyncCard";
 import SyncOptionContainer from "./SyncOptionContainer";
 
@@ -10,6 +11,7 @@ const SyncContainer = () => {
   const { data: session } = useSession();
   const searchParams = useSearchParams();
   const hasSynced = useRef(false);
+  const t = useTranslations("sync");
 
   useEffect(() => {
     const shouldSync = searchParams.get("calendarSync") === "true";
@@ -23,7 +25,7 @@ const SyncContainer = () => {
       <SyncCard />
       <SyncOptionContainer />
       <h1 className="text-muted-foreground mt-40 -rotate-12 m-auto  w-fit">
-        Work in progress
+        {t("workInProgress")}
       </h1>
     </>
   );

@@ -307,12 +307,16 @@
     "settingMenu": {
       "logout": "ログアウト",
       "theme": "テーマ",
-      "shortcuts": "ショートカット"
+      "shortcuts": "ショートカット",
+      "timezone": "タイムゾーン",
+      "feedback": "フィードバック",
+      "sync": "同期"
     },
     "noteMenu": {
       "rename": "名前を変更",
       "delete": "削除"
-    }
+    },
+    "resync": "再同期"
   },
   "completed": {
     "title": "完了履歴"
@@ -402,5 +406,34 @@
     "lightRed": "ライトレッド",
     "brick": "ブリック",
     "slate": "スレート"
+  },
+  "sync": {
+    "workInProgress": "開発中",
+    "syncedTo": "同期先",
+    "nothing": "なし",
+    "resync": "再同期",
+    "unsync": "同期解除",
+    "appleCalendar": "Apple カレンダー",
+    "baikalCalendar": "Baikal カレンダー",
+    "davicalCalendar": "DAViCal カレンダー",
+    "googleCalendar": "Google カレンダー",
+    "syncToApple": "Apple カレンダーに同期",
+    "syncToBaikal": "Baikal に同期",
+    "syncToDavical": "DAViCal に同期",
+    "appleDescription": "<guide>このガイド</guide>に従って、Apple ID とアプリ用パスワードを取得してください。",
+    "baikalDescription": "<link>Baikal</link> はオープンソースのセルフホスト型 CalDAV サーバーです。Baikal の管理画面で作成したユーザー名とパスワードを使用してください。サーバー URL は、Baikal のアドレスの末尾に <code>/dav.php</code> を付けたものです（例: <code>http://localhost:8800/dav.php</code>）。",
+    "davicalDescription": "<link>DAViCal</link> はオープンソースのセルフホスト型 CalDAV サーバーです。DAViCal の管理画面で作成したユーザー名とパスワードを使用してください。サーバー URL は、DAViCal のアドレスの末尾に <code>/caldav.php/username/</code> を付けたものです（例: <code>http://localhost:8080/caldav.php/username/</code>）。",
+    "appleId": "Apple ID",
+    "appSpecificPassword": "アプリ用パスワード",
+    "serverUrl": "サーバー URL",
+    "username": "ユーザー名",
+    "password": "パスワード",
+    "linking": "カレンダーアカウントをリンクしています...",
+    "syncing": "ローカルのデータを同期しています...",
+    "syncedSuccessfully": "同期しました",
+    "cancel": "キャンセル",
+    "sync": "同期",
+    "syncFailed": "同期に失敗しました: {error}",
+    "unexplainableError": "原因を特定できないエラーが発生しました"
   }
 }

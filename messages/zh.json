@@ -302,12 +302,16 @@
     "settingMenu": {
       "logout": "退出登录",
       "theme": "主题",
-      "shortcuts": "快捷键"
+      "shortcuts": "快捷键",
+      "timezone": "时区",
+      "feedback": "反馈",
+      "sync": "同步"
     },
     "noteMenu": {
       "rename": "重命名",
       "delete": "删除"
-    }
+    },
+    "resync": "重新同步"
   },
   "completed": {
     "title": "完成历史"
@@ -397,5 +401,34 @@
     "lightRed": "浅红",
     "brick": "砖红",
     "slate": "石板色"
+  },
+  "sync": {
+    "workInProgress": "开发中",
+    "syncedTo": "已同步到",
+    "nothing": "无",
+    "resync": "重新同步",
+    "unsync": "取消同步",
+    "appleCalendar": "Apple 日历",
+    "baikalCalendar": "Baikal 日历",
+    "davicalCalendar": "DAViCal 日历",
+    "googleCalendar": "Google 日历",
+    "syncToApple": "同步到 Apple 日历",
+    "syncToBaikal": "同步到 Baikal",
+    "syncToDavical": "同步到 DAViCal",
+    "appleDescription": "请按照<guide>此指南</guide>获取您的 Apple ID 和应用专用密码。",
+    "baikalDescription": "<link>Baikal</link> 是开源的自托管 CalDAV 服务器。请使用您在 Baikal 管理面板中创建的用户名和密码。服务器地址是您的 Baikal 实例地址，后面加上 <code>/dav.php</code>（例如 <code>http://localhost:8800/dav.php</code>）。",
+    "davicalDescription": "<link>DAViCal</link> 是开源的自托管 CalDAV 服务器。请使用您在 DAViCal 管理面板中创建的用户名和密码。服务器地址是您的 DAViCal 实例地址，后面加上 <code>/caldav.php/username/</code>（例如 <code>http://localhost:8080/caldav.php/username/</code>）。",
+    "appleId": "Apple ID",
+    "appSpecificPassword": "应用专用密码",
+    "serverUrl": "服务器地址",
+    "username": "用户名",
+    "password": "密码",
+    "linking": "正在关联日历账户...",
+    "syncing": "正在同步本地数据...",
+    "syncedSuccessfully": "同步成功",
+    "cancel": "取消",
+    "sync": "同步",
+    "syncFailed": "同步失败：{error}",
+    "unexplainableError": "出现了无法解释的错误"
   }
 }

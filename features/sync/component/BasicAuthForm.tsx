@@ -16,6 +16,7 @@ import Spinner from "@/components/ui/spinner";
 import { Copy } from "lucide-react";
 import { useUpsertCalDavAccount } from "../../calendarCredential/query/upsert-calDavAccount";
 import { useSyncCalDavAccount } from "../query/useSync";
+import { useTranslations } from "next-intl";
 
 type FieldConfig = {
   id: string;
@@ -60,6 +61,7 @@ export const BasicAuthForm = ({
     syncStatus,
     error: syncError,
   } = useSyncCalDavAccount();
+  const t = useTranslations("sync");
   console.log(createCalendarCredentialStatus);
   return (
     <Modal open={open} onOpenChange={setOpen}>
@@ -105,12 +107,12 @@ export const BasicAuthForm = ({
                 if (error instanceof Error) {
                   toast({
                     variant: "destructive",
-                    description: `sync failed: ${error.message}`,
+                    description: t("syncFailed", { error: error.message }),
                   });
                 }
                 toast({
                   variant: "destructive",
-                  description: `sync failed: ${String(error)}`,
+                  description: t("syncFailed", { error: String(error) }),
                 });
                 console.error(error);
                 if (onError) onError(error);
@@ -137,16 +139,16 @@ export const BasicAuthForm = ({
                 {createCalendarCredentialStatus == "pending" ? (
                   <div className="flex items-center gap-2">
                     <Spinner className="w-4 h-4" />{" "}
-                    <p>Linking Calendar Account...</p>
+                    <p>{t("linking")}</p>
                   </div>
                 ) : syncStatus == "pending" ? (
                   <div className="flex items-center gap-2">
                     <Spinner className="w-4 h-4" />{" "}
-                    <p>Syncing Local objects...</p>
+                    <p>{t("syncing")}</p>
                   </div>
                 ) : createCalendarCredentialStatus == "success" &&
                   syncStatus == "success" ? (
-                  <p>Synced succesfully</p>
+                  <p>{t("syncedSuccessfully")}</p>
                 ) : (
                   <></>
                 )}
@@ -154,7 +156,7 @@ export const BasicAuthForm = ({
               <div className="flex gap-4 items-center justify-center ">
                 <ModalClose>
                   <Button type="button" variant="destructive">
-                    Cancel
+                    {t("cancel")}
                   </Button>
                 </ModalClose>
                 <Button
@@ -165,7 +167,7 @@ export const BasicAuthForm = ({
                     syncStatus == "pending"
                   }
                 >
-                  Sync
+                  {t("sync")}
                 </Button>
               </div>
             </div>
@@ -180,7 +182,7 @@ export const BasicAuthForm = ({
                     await navigator.clipboard.writeText(
                       syncError?.message ||
                         createCalendarCredentialError?.message ||
-                        "an unexplainable error occured",
+                        t("unexplainableError"),
                     )
                   }
                   type="button"
