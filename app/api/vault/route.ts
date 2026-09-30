@@ -26,7 +26,6 @@ export async function POST(req: NextRequest) {
 
     //get file
     const formData = await req.formData();
-    console.log("formdata: ", formData);
 
     const file = formData.get("file") as File;
     const fileSize = file.size;

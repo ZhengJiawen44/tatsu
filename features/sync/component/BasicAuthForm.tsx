@@ -62,7 +62,6 @@ export const BasicAuthForm = ({
     error: syncError,
   } = useSyncCalDavAccount();
   const t = useTranslations("sync");
-  console.log(createCalendarCredentialStatus);
   return (
     <Modal open={open} onOpenChange={setOpen}>
       <ModalOverlay>

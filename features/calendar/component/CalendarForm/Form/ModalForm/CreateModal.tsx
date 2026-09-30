@@ -71,7 +71,6 @@ const CreateCalendarForm = ({
   }, [createTodoStatus, setDisplayForm]);
 
   const handleClose = () => {
-    console.log(hasUnsavedChanges);
     if (hasUnsavedChanges) {
       setCancelEditDialogOpen(true);
       return;
