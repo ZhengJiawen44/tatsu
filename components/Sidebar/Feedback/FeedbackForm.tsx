@@ -100,7 +100,7 @@ export default function FeedbackForm() {
       )}
       <div
         onClick={() => setOpen(true)}
-        className="mt-auto flex justify-start items-center gap-2.5 p-2 hover:bg-popover rounded-md cursor-pointer hover:text-foreground"
+        className="relative hover:bg-popover-accent! cursor-pointer flex select-none items-center gap-2 rounded-sm px-2 py-1.5 text-sm outline-hidden transition-colors focus:bg-accent focus:text-accent-foreground data-disabled:pointer-events-none data-disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0"
       >
         <Mail className="w-4! h-4!" />
         <p>Feedback</p>

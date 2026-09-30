@@ -10,7 +10,7 @@ import UserCard from "./User/UserCard";
 import VaultItem from "./Vault/VaultItem";
 import ProjectSidebarItemContainer from "./Project/ProjectsSidebarItemContainer";
 import LineSeparator from "../ui/lineSeparator";
-import FeedbackForm from "./Feedback/FeedbackForm";
+import { FooterContainer } from "./Footer/FooterContainer";
 
 const SidebarContainer = () => {
   const sidebarRef = useRef<HTMLDivElement | null>(null);
@@ -75,7 +75,7 @@ const SidebarContainer = () => {
             <VaultItem />
             <LineSeparator className="m-0 mt-8 mb-4" />
             <ProjectSidebarItemContainer />
-            <FeedbackForm />
+            <FooterContainer/>
           </div>
         </div>
       </nav>
