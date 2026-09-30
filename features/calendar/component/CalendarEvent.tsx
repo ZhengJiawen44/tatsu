@@ -92,9 +92,9 @@ const CalendarEvent = ({ event: todo }: EventProps<TodoItemType>) => {
           <div className="flex gap-0 md:gap-2 p-2 justify-end ">
             {/* EDIT */}
             <Button
-              variant={"ghost"}
+              variant={"secondary"}
               size={"icon"}
-              className="hover:text-foreground text-muted-foreground p-2 rounded-md hover:bg-popover-accent"
+              className="hover:text-foreground text-muted-foreground p-2 rounded-md hover:bg-popover-accent border border-input hover:border-transparent"
               onClick={() => {
                 setOpen(false);
                 setDisplayForm(true);
