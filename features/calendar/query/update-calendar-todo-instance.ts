@@ -81,7 +81,9 @@ export const useEditCalendarTodoInstance = () => {
       },
 
       onError: (error, newTodo, context) => {
-        queryClient.setQueryData(["calendarTodo"], context?.oldTodosBackup);
+        context?.oldTodosBackup?.forEach(([key, data]) => {
+          queryClient.setQueryData(key, data);
+        });
         toast({
           description: error.message,
           variant: "destructive",
