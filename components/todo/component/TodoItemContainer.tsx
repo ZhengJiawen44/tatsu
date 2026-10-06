@@ -15,8 +15,8 @@ import { useProjectMetaData } from "@/components/Sidebar/Project/query/get-proje
 import ProjectTag from "@/components/ProjectTag";
 import TodoItemMenuContainer from "./TodoItem/TodoMenu/TodoItemMenuContainer";
 import { useUserTimezone } from "@/features/user/query/get-timezone";
-import { toZonedTime } from "date-fns-tz";
 import { useTranslations } from "next-intl";
+import { useLocale } from "next-intl";
 
 const TodoFormContainer = dynamic(
   () => import("./TodoForm/TodoFormContainer"),
@@ -32,23 +32,21 @@ export const TodoItemContainer = ({
   todoItem,
   overdue,
 }: TodoItemContainerProps) => {
+  const locale = useLocale();
   const { projectMetaData } = useProjectMetaData();
   const { useCompleteTodo } = useTodoMutation();
   const { completeMutateFn } = useCompleteTodo();
-  const userTimeZone = useUserTimezone();
+  const {userTimezone} = useUserTimezone();
   const appDict = useTranslations("app");
 
-  // only reason using this is because of SSR error that would happen from
-  // server's utc time and client's local time mismatch
-  // note: only use these for displaying date, use dtstart and due for manipulation
   const displayDtstart =
-    todoItem.dtstart && userTimeZone
-      ? getDisplayDate(toZonedTime(todoItem.dtstart, userTimeZone), true)
+    todoItem.dtstart && userTimezone
+      ? getDisplayDate(todoItem.dtstart, true, locale, userTimezone)
       : null;
 
   const displayDue =
-    todoItem.due && userTimeZone
-      ? getDisplayDate(toZonedTime(todoItem.due, userTimeZone), true)
+    todoItem.due && userTimezone
+      ? getDisplayDate(todoItem.due, true, locale, userTimezone)
       : null;
 
   //dnd kit setups

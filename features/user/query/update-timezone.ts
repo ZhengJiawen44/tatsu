@@ -1,6 +1,7 @@
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 export function useUpdateTimezone() {
+  const queryClient = useQueryClient();
   return useMutation({
     mutationFn: async (timeZone: string) => {
       const res = await fetch("/api/timezone", {
@@ -18,5 +19,8 @@ export function useUpdateTimezone() {
 
       return res.json();
     },
+    onSettled:()=>{
+      queryClient.invalidateQueries({queryKey:["userTimezone"]})
+    }
   });
 }

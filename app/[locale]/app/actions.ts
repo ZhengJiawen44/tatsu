@@ -52,7 +52,7 @@ export async function getUserTimezone() {
     where: { id: session.user.id },
     select: { timeZone: true },
   });
-  return timezone;
+  return timezone?.timeZone;
 }
 
 export async function getTodayTodos(): Promise<TodoItemType[]> {

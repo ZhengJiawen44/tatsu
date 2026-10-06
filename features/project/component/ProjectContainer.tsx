@@ -26,7 +26,7 @@ import PinnedTodoContainer from "@/features/pinnedTodos/component/PinnedTodoCont
 
 const ProjectContainer = ({ projectId }: { projectId: string }) => {
   const locale = useLocale();
-  const userTZ = useUserTimezone();
+  const {userTimezone} = useUserTimezone();
   const { projectMetaData } = useProjectMetaData();
   const { preferences } = useUserPreferences();
   const { projectTodos, projectTodosLoading } = useProject({ projectId });
@@ -41,11 +41,11 @@ const ProjectContainer = ({ projectId }: { projectId: string }) => {
     return Object.groupBy(unpinnedTodos, (todo) => {
       switch (preferences?.groupBy) {
         case "dtstart":
-          return getDisplayDate(todo.dtstart, false, locale, userTZ);
+          return getDisplayDate(todo.dtstart, false, locale, userTimezone);
         case "project":
           return todo.projectID ? projectMetaData[todo.projectID].name : "None";
         case "due":
-          return getDisplayDate(todo.due, false, locale, userTZ);
+          return getDisplayDate(todo.due, false, locale, userTimezone);
         case "duration":
           return todo.durationMinutes
             ? Number(

@@ -1,5 +1,6 @@
 import { Prisma } from "@prisma/client";
 import { ProjectColor } from "@prisma/client";
+import { SortBy, GroupBy, Direction } from "@prisma/client";
 
 export interface RegisterFormProp {
   fname: string;
@@ -137,6 +138,17 @@ export type syncMetaDataType = {
   remoteUrl: string;
   icsData: string;
   uid: string;
+};
+
+export type UserPreferences = {
+  sortBy: SortBy | null;
+  groupBy: GroupBy | null;
+  direction: Direction | null;
+};
+export type userDetail = {
+  userID: string,
+  userPreferences:UserPreferences,
+  userTimezone?: string
 };
 
 export type syncedTodo = TodoItemType & { syncMetaData: syncMetaDataType };

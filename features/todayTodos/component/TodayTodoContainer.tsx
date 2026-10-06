@@ -28,7 +28,7 @@ import PinnedTodoContainer from "@/features/pinnedTodos/component/PinnedTodoCont
 
 const TodayTodoContainer = () => {
   const locale = useLocale();
-  const userTZ = useUserTimezone();
+  const {userTimezone} = useUserTimezone();
   const appDict = useTranslations("app");
   const { preferences } = useUserPreferences();
   const { todos, todoLoading } = useTodo();
@@ -44,11 +44,11 @@ const TodayTodoContainer = () => {
     return Object.groupBy(unpinnedTodos, (todo) => {
       switch (preferences?.groupBy) {
         case "dtstart":
-          return getDisplayDate(todo.dtstart, false, locale, userTZ);
+          return getDisplayDate(todo.dtstart, false, locale, userTimezone);
         case "project":
           return todo.projectID ? projectMetaData[todo.projectID].name : "None";
         case "due":
-          return getDisplayDate(todo.due, false, locale, userTZ);
+          return getDisplayDate(todo.due, false, locale, userTimezone);
         case "duration":
           return todo.durationMinutes
             ? Number(
@@ -148,7 +148,7 @@ const TodayTodoContainer = () => {
                 {appDict("today")}
               </h3>
               <p className="text-muted-foreground text-lg">
-                {formatDateInTZ(userTZ).slice(0, 6)}
+                {formatDateInTZ(userTimezone).slice(0, 6)}
               </p>
             </div>
             <TodoFilterBar containerHovered={containerHovered} />
