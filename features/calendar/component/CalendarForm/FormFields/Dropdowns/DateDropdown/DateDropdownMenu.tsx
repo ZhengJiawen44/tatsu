@@ -37,7 +37,7 @@ const DateDropdownMenu = ({
   setDateRange,
 }: DateDropdownMenuProps) => {
   const locale = useLocale();
-  const userTZ = useUserTimezone();
+  const {userTimezone} = useUserTimezone();
   const appDict = useTranslations("app");
   const nextWeek = startOfDay(nextMonday(dateRange?.from || new Date()));
   const tomorrow = startOfDay(addDays(dateRange?.from || new Date(), 1));
@@ -54,15 +54,15 @@ const DateDropdownMenu = ({
         dateRange.to ?? dateRange.from,
         false,
         locale,
-        userTZ,
+        userTimezone,
       );
     if (!dateRange.from && !dateRange.to) return "";
     if (isSameDay(dateRange.from, dateRange.to)) {
       let displayedTime = `${new Intl.DateTimeFormat(locale, { hour: "numeric" }).format(dateRange.from)}-${new Intl.DateTimeFormat(locale, { hour: "numeric" }).format(dateRange.to)}`;
       if (displayedTime === "12 AM-11 PM") displayedTime = "All day";
-      return `${getDisplayDate(dateRange.from, false, locale, userTZ)},  ${displayedTime}`;
+      return `${getDisplayDate(dateRange.from, false, locale, userTimezone)},  ${displayedTime}`;
     }
-    return `${getDisplayDate(dateRange.from, false, locale, userTZ)} - ${getDisplayDate(dateRange.to, false, locale, userTZ)}`;
+    return `${getDisplayDate(dateRange.from, false, locale, userTimezone)} - ${getDisplayDate(dateRange.to, false, locale, userTimezone)}`;
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [dateRange.from, dateRange.to, locale]);
 

@@ -22,7 +22,7 @@ import { useUserTimezone } from "@/features/user/query/get-timezone";
 
 const DateDropdownMenu = () => {
   const locale = useLocale();
-  const userTZ = useUserTimezone();
+  const {userTimezone} = useUserTimezone();
   const appDict = useTranslations("app");
   const { dateRange, setDateRange } = useTodoForm();
 
@@ -40,10 +40,10 @@ const DateDropdownMenu = () => {
           className={clsx(
             "cursor-pointer text-xs sm:text-sm font-medium w-fit h-fit p-2! text-muted-foreground bg-inherit",
             dateRange.from &&
-              getDisplayDate(dateRange.from, false, "en", userTZ) == "Today"
+              getDisplayDate(dateRange.from, false, "en", userTimezone) == "Today"
               ? "text-lime"
               : dateRange.from &&
-                  getDisplayDate(dateRange.from, false, "en", userTZ) ==
+                  getDisplayDate(dateRange.from, false, "en", userTimezone) ==
                     "Tomorrow"
                 ? "text-orange"
                 : !dateRange.from && !dateRange.to
@@ -54,7 +54,7 @@ const DateDropdownMenu = () => {
           <CalenderIcon className="w-4 h-4" />
           <span className="text-sm font-medium">
             {dateRange.from
-              ? getDisplayDate(dateRange.from, true, locale, userTZ)
+              ? getDisplayDate(dateRange.from, true, locale, userTimezone)
               : "Date"}
           </span>
         </Button>
