@@ -1,5 +1,5 @@
 import { auth } from "@/app/auth";
-import { BadRequestError, UnauthorizedError } from "@/lib/customError";
+import { BadRequestError, NotFoundError, UnauthorizedError } from "@/lib/customError";
 import { errorHandler } from "@/lib/errorHandler";
 import { prisma } from "@/lib/prisma/client";
 import { userPreferencesSchema } from "@/schema";
@@ -16,8 +16,15 @@ export async function GET() {
     const userPreferences = await prisma.userPreferences.findUnique({
       where: { userID: user.id },
     });
+    const userTimezone = await prisma.user.findUnique({
+      where: { id: user.id },
+      select:{timeZone: true}
+    });
 
-    return NextResponse.json({ userPreferences }, { status: 200 });
+    if(!userPreferences || !userTimezone)throw new NotFoundError("no user for the user id found");
+
+
+    return NextResponse.json({ userPreferences, userTimezone: userTimezone?.timeZone }, { status: 200 });
   } catch (error) {
     console.log(error);
     return errorHandler(error);
