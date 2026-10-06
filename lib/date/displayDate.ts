@@ -50,7 +50,62 @@ const relativeTranslations: Record<string, Record<string, string>> = {
     tomorrow: "Завтра",
     yesterday: "Вчера",
   },
+  fr: {
+    today: "Aujourd'hui",
+    tomorrow: "Demain",
+    yesterday: "Hier",
+  },
+  it: {
+    today: "Oggi",
+    tomorrow: "Domani",
+    yesterday: "Ieri",
+  },
+  ms: {
+    today: "Hari ini",
+    tomorrow: "Esok",
+    yesterday: "Semalam",
+  },
+  pt: {
+    today: "Hoje",
+    tomorrow: "Amanhã",
+    yesterday: "Ontem",
+  },
 };
+
+// hour12 Intl disagrees across engines: Node prints "0:00 a. m." and "上午0:00",
+// browsers print "12:00 a. m." and "凌晨12:00". Build the clock here instead.
+const timePatterns: Record<
+  string,
+  { am: string; pm: string; periodFirst: boolean }
+> = {
+  en: { am: "AM", pm: "PM", periodFirst: false },
+  es: { am: "a. m.", pm: "p. m.", periodFirst: false },
+  zh: { am: "上午", pm: "下午", periodFirst: true },
+  ja: { am: "午前", pm: "午後", periodFirst: true },
+  de: { am: "AM", pm: "PM", periodFirst: false },
+  ar: { am: "ص", pm: "م", periodFirst: false },
+  ru: { am: "AM", pm: "PM", periodFirst: false },
+  fr: { am: "AM", pm: "PM", periodFirst: false },
+  it: { am: "AM", pm: "PM", periodFirst: false },
+  ms: { am: "PG", pm: "PT", periodFirst: false },
+  pt: { am: "AM", pm: "PM", periodFirst: false },
+};
+
+function formatDisplayTime(date: Date, locale: string, timeZone: string) {
+  const parts = getFormatter("en", {
+    hour: "2-digit",
+    minute: "2-digit",
+    hourCycle: "h23",
+    timeZone,
+  }).formatToParts(date);
+  const hour24 = Number(parts.find((part) => part.type === "hour")?.value);
+  const minute = parts.find((part) => part.type === "minute")?.value ?? "00";
+  const hour12 = hour24 % 12 === 0 ? 12 : hour24 % 12;
+  const pattern = timePatterns[locale] ?? timePatterns.en;
+  const period = hour24 < 12 ? pattern.am : pattern.pm;
+  const clock = `${hour12}:${minute}`;
+  return pattern.periodFirst ? `${period}${clock}` : `${clock} ${period}`;
+}
 
 export function getDisplayDate(
   date: Date | undefined | null,
@@ -61,6 +116,7 @@ export function getDisplayDate(
 ) {
   if (!date) return "No Date";
   timezone = resolveTimezone(timezone);
+
 
   const translations = relativeTranslations[locale] || relativeTranslations.en;
 
@@ -77,13 +133,7 @@ export function getDisplayDate(
   // Time string formatting with timezone
   let timeString = "";
   if (displayTime) {
-    const timeFormatter = getFormatter(locale, {
-      hour: "numeric",
-      minute: "2-digit",
-      hour12: true,
-      timeZone: timezone, //  Use consistent timezone
-    });
-    timeString = ` ${timeFormatter.format(date)}`;
+    timeString = ` ${formatDisplayTime(date, locale, timezone)}`;
   }
 
   //  Normalize both to midnight in the specified timezone
