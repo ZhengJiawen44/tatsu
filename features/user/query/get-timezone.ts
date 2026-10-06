@@ -11,7 +11,7 @@ export const useUserTimezone = () => {
     queryKey: ["userTimezone"],
     queryFn: fetchUserTimezone,
     retry: 2,
-    staleTime: 5 * 60 * 1000,
+
   });
   return {userTimezone, userTimezoneLoading}
 };

@@ -20,9 +20,9 @@ export default function KeyboardShortcuts({
   open: boolean;
   onOpenChange: React.Dispatch<SetStateAction<boolean>>;
 }) {
-  const userTZ = useUserTimezone();
+  const {userTimezone} = useUserTimezone();
   const [keyword, setKeyWord] = useState("");
-  const [selectedTZ, setSelectedTZ] = useState(userTZ);
+  const [selectedTZ, setSelectedTZ] = useState(userTimezone);
   const timezoneList = Intl.supportedValuesOf("timeZone");
   const searchList = useMemo(() => {
     if (!keyword.length) return timezoneList;
