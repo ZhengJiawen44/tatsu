@@ -14,7 +14,8 @@ export async function GET() {
       throw new UnauthorizedError("you must be logged in to do this");
 
     const userPreferences = await prisma.userPreferences.findUnique({
-      where: { userID: user.id },
+      where: { userID: user.id},
+      select:{sortBy:true, groupBy:true, direction:true}
     });
     const userTimezone = await prisma.user.findUnique({
       where: { id: user.id },
@@ -24,7 +25,7 @@ export async function GET() {
     if(!userPreferences || !userTimezone)throw new NotFoundError("no user for the user id found");
 
 
-    return NextResponse.json({ userPreferences, userTimezone: userTimezone?.timeZone }, { status: 200 });
+    return NextResponse.json({ userID:user.id, userPreferences, userTimezone: userTimezone?.timeZone }, { status: 200 });
   } catch (error) {
     console.log(error);
     return errorHandler(error);
