@@ -25,7 +25,9 @@ export const useDeleteCalendarTodo = () => {
     },
     mutationKey: ["calendarTodo"],
     onError: (error, _, context) => {
-      queryClient.setQueryData(["todo"], context?.oldTodos);
+      context?.oldTodos?.forEach(([key, data]) => {
+        queryClient.setQueryData(key, data);
+      });
       toast({
         description:
           error.message === "Failed to fetch"

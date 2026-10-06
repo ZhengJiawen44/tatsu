@@ -62,8 +62,6 @@ export const useEditCalendarTodo = () => {
   const { mutate: editCalendarTodo, status: editTodoStatus } = useMutation({
     mutationFn: (params: TodoFormItemType) => patchCalendarTodo(params),
     onMutate: async (newTodo) => {
-            console.log("newtodo: ",newTodo)
-
       await queryClient.cancelQueries({
         queryKey: ["calendarTodo"],
       });
@@ -115,7 +113,9 @@ export const useEditCalendarTodo = () => {
       });
     },
     onError: (error, newTodo, context) => {
-      queryClient.setQueryData(["calendarTodo"], context?.oldTodos);
+     context?.oldTodos?.forEach(([key, data]) => {
+      queryClient.setQueryData(key, data);
+    });
       toast({ description: error.message, variant: "destructive" });
     },
   });
