@@ -3,14 +3,7 @@
 import React, { createContext, useContext } from "react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { SortBy, GroupBy, Direction } from "@prisma/client";
-
-type UserPreferences = {
-  id: string;
-  userID: string;
-  sortBy: SortBy | null;
-  groupBy: GroupBy | null;
-  direction: Direction | null;
-};
+import { userDetail, UserPreferences } from "@/types";
 
 type UserPreferencesContextType = {
   preferences: UserPreferences | null;
@@ -28,7 +21,7 @@ const UserPreferencesContext = createContext<
 async function fetchPreferences(): Promise<UserPreferences> {
   const res = await fetch("/api/preferences");
   if (!res.ok) throw new Error("Failed to fetch preferences");
-  const data = await res.json();
+  const data = await res.json() as userDetail;;
   return data.userPreferences;
 }
 
@@ -49,7 +42,7 @@ async function updatePreferencesAPI(
   });
 
   if (!res.ok) throw new Error("Failed to update preferences");
-  const data = await res.json();
+  const data = await res.json() as userDetail;
   return data.userPreferences;
 }
 

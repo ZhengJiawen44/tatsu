@@ -1,8 +1,9 @@
 import { api } from "@/lib/api-client";
+import { userDetail } from "@/types";
 import { useQuery } from "@tanstack/react-query";
 
 async function fetchUserTimezone() {
-  const res = await api.GET({url: "/api/preferences"});
+  const res = await api.GET({url: "/api/preferences"}) as userDetail;
   return res.userTimezone;
 }
 

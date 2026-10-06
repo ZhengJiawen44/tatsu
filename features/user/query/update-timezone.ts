@@ -20,7 +20,6 @@ export function useUpdateTimezone() {
       return res.json();
     },
     onSettled:()=>{
-      console.log("232")
       queryClient.invalidateQueries({queryKey:["userTimezone"]})
     }
   });
