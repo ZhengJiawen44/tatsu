@@ -65,9 +65,7 @@ const CreateCalendarForm = ({
   }, [rruleOptions, title, description, priority, dateRange, selectDateRange]);
 
   useEffect(() => {
-    if (createTodoStatus === "success") {
-      setDisplayForm(false);
-    }
+    if (createTodoStatus === "success" || createTodoStatus === "pending") setDisplayForm(false);
   }, [createTodoStatus, setDisplayForm]);
 
   const handleClose = () => {
