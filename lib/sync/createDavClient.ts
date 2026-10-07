@@ -2,12 +2,14 @@ import { createBasicAuthContext } from "./basicAuthContext";
 import { appleBasicAuthStrategy } from "./ConcreteBasicAuthStrategy/appleBasicAuthStrategy";
 import { baikalBasicAuthStrategy } from "./ConcreteBasicAuthStrategy/baikalBasicAuthStrategy";
 import { davicalBasicAuthStrategy } from "./ConcreteBasicAuthStrategy/davicalBasicAuthStrategy";
+import { nextcloudBasicAuthStrategy } from "./ConcreteBasicAuthStrategy/nextcloudBasicAuthStrategy";
 import { ConcreteBasicAuthStrategy } from "./ConcreteBasicAuthStrategy/types";
 
 const strategyMap: Record<string, ConcreteBasicAuthStrategy> = {
   apple: appleBasicAuthStrategy,
   baikal: baikalBasicAuthStrategy,
   davical: davicalBasicAuthStrategy,
+  nextcloud: nextcloudBasicAuthStrategy,
 };
 
 export async function createCalDAVClient(

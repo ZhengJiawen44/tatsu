@@ -24,7 +24,7 @@ export async function POST(req: NextRequest) {
 
     if (!service)
       throw new BadRequestError("did not specify service to sync to");
-    if (!["apple", "baikal", "davical"].includes(service))
+    if (!["apple", "baikal", "davical", "nextcloud"].includes(service))
       throw new BadRequestError("specified service is unsupported");
     if (!password || !username)
       throw new BadRequestError("username or password not provided");
