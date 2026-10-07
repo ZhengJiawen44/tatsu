@@ -6,6 +6,7 @@ export const useDeleteCalendarTodo = () => {
   const { toast } = useToast();
   const queryClient = useQueryClient();
   const { mutate: deleteMutate, isPending: deletePending } = useMutation({
+    mutationKey: ["deleteCalendarTodo"],
     mutationFn: async ({ id }: { id: string }) => {
       await api.DELETE({ url: `/api/todo/${id.split(":")[0]}` });
     },
@@ -23,7 +24,6 @@ export const useDeleteCalendarTodo = () => {
       );
       return { oldTodos };
     },
-    mutationKey: ["calendarTodo"],
     onError: (error, _, context) => {
       context?.oldTodos?.forEach(([key, data]) => {
         queryClient.setQueryData(key, data);
@@ -37,6 +37,9 @@ export const useDeleteCalendarTodo = () => {
       });
     },
     onSettled: () => {
+      // This mutation is still pending inside onSettled, so 1 means it is the last create in flight.
+      if (queryClient.isMutating({ mutationKey: ["deleteCalendarTodo"] }) !== 1) 
+        return;
       toast({ description: "todo deleted" });
       queryClient.invalidateQueries({
         queryKey: ["todo"],

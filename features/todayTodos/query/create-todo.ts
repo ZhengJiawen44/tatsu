@@ -36,6 +36,7 @@ export const useCreateTodo = () => {
   const { toast } = useToast();
   const queryClient = useQueryClient();
   const { mutate: createMutateFn, status: createStatus } = useMutation({
+    mutationKey: ["createTodo"],
     mutationFn: async (todo: TodoItemType) => {
       const res = await postTodo({ todo });
       return res;
@@ -97,6 +98,9 @@ export const useCreateTodo = () => {
       }
     },
     onSettled: (_, error, newTodo) => {
+      if (queryClient.isMutating({ mutationKey: ["createTodo"] }) !== 1) {
+        return;
+      }
       queryClient.invalidateQueries({ queryKey: ["todo"] });
       queryClient.invalidateQueries({
         queryKey: ["project", newTodo.projectID],

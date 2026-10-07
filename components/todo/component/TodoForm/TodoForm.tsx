@@ -182,7 +182,7 @@ const TodoForm = ({
       } else {
         clearInput();
         createMutateFn({
-          id: "-1",
+          id: crypto.randomUUID(),
           title,
           description: desc,
           priority,

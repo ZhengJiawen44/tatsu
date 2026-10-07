@@ -8,7 +8,7 @@ export function useKeyboardSubmitForm(
 
   useEffect(() => {
     const onCtrlEnter = (e: KeyboardEvent) => {
-      if (e.ctrlKey && e.key === "Enter") {
+      if (!e.shiftKey && e.key === "Enter") {
         scribbleAudio.current.play();
         if (displayForm) {
           handleForm();
