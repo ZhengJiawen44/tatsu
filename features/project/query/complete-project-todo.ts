@@ -6,6 +6,7 @@ export const useCompleteProjectTodo = () => {
   const { toast } = useToast();
   const queryClient = useQueryClient();
   const { mutate: completeMutateFn, isPending: completePending } = useMutation({
+    mutationKey: ["completeProjectTodo"],
     mutationFn: async (todoItem: TodoItemType) => {
       const todoId = todoItem.id.split(":")[0];
       if (todoItem.rrule) {
@@ -48,10 +49,14 @@ export const useCompleteProjectTodo = () => {
     },
     onSuccess: () => {},
     onSettled: () => {
+      if (queryClient.isMutating({ mutationKey: ["completeProjectTodo"] }) !== 1) 
+        return;
       //optimistically update calendar todos
       queryClient.invalidateQueries({ queryKey: ["calendarTodo"] });
       queryClient.invalidateQueries({ queryKey: ["completedTodo"] });
       queryClient.invalidateQueries({ queryKey: ["todo"] });
+      queryClient.invalidateQueries({ queryKey: ["project"] });
+
     },
   });
 

@@ -6,6 +6,7 @@ export const useCompleteCalendarTodo = () => {
   const { toast } = useToast();
   const queryClient = useQueryClient();
   const { mutate: mutateComplete, isPending } = useMutation({
+    mutationKey: ["completeCalendarTodo"],
     mutationFn: async ({ todoItem }: { todoItem: TodoItemType }) => {
       const todoId = todoItem.id.split(":")[0];
       const url = `/api/todo/${todoItem.id.split(":")[0]}/complete`;
@@ -30,6 +31,8 @@ export const useCompleteCalendarTodo = () => {
       });
     },
     onSettled: () => {
+      if (queryClient.isMutating({ mutationKey: ["completeCalendarTodo"] }) !== 1) 
+        return;
       queryClient.invalidateQueries({ queryKey: ["calendarTodo"] });
       queryClient.invalidateQueries({
         queryKey: ["todo"],

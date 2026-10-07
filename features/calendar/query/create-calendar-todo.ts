@@ -52,11 +52,12 @@ export const useCreateCalendarTodo = () => {
   const {calendarRange} = useCalendarRange()
 
   const { mutate: createCalendarTodo, status: createTodoStatus } = useMutation({
+    mutationKey: ["createCalendarTodo"],
     mutationFn: (todo: CreateTodoInput) => postTodo({ todo }),
     onMutate: (newTodo)=>{
       const oldCalendarTodos = queryClient.getQueriesData({ queryKey: ["calendarTodo"] });
       const hydratedNewTodo = {
-              id:"-1", 
+              id:crypto.randomUUID(), 
               title: newTodo.title, 
               description: newTodo.description,
               dtstart: newTodo.dtstart,
@@ -102,6 +103,10 @@ export const useCreateCalendarTodo = () => {
     },
     //if fetch error then revert optimistic updates including form states
     onSettled: () => {
+      // This mutation is still pending inside onSettled, so 1 means it is the last create in flight.
+      if (queryClient.isMutating({ mutationKey: ["createCalendarTodo"] }) !== 1) {
+        return;
+      }
       queryClient.invalidateQueries({ queryKey: ["todo"] });
       //calendarTodo is invalidated
       queryClient.invalidateQueries({ queryKey: ["calendarTodo"] });
