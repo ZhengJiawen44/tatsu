@@ -6,6 +6,7 @@ export const useDeleteProjectTodo = () => {
   const { toast } = useToast();
   const queryClient = useQueryClient();
   const { mutate: deleteMutateFn, isPending: deletePending } = useMutation({
+    mutationKey: ["deleteProjectTodo"],
     mutationFn: async ({ id }: { id: string }) => {
       await api.DELETE({ url: `/api/todo/${id.split(":")[0]}` });
     },
@@ -21,7 +22,6 @@ export const useDeleteProjectTodo = () => {
       );
       return { oldTodos };
     },
-    mutationKey: ["project"],
     onError: (error, _, context) => {
       queryClient.setQueryData(["project"], context?.oldTodos);
       toast({
@@ -33,11 +33,15 @@ export const useDeleteProjectTodo = () => {
       });
     },
     onSettled: () => {
+      if(queryClient.isMutating({mutationKey:["deleteProjectTodo"]}) !== 1) 
+        return
       //optimistically update calendar todos
       queryClient.invalidateQueries({ queryKey: ["completedTodo"] });
       queryClient.invalidateQueries({ queryKey: ["calendarTodo"] });
       queryClient.invalidateQueries({ queryKey: ["overdueTodo"] });
       queryClient.invalidateQueries({ queryKey: ["todo"] });
+      queryClient.invalidateQueries({ queryKey: ["project"] });
+
       toast({ description: "todo deleted" });
     },
   });

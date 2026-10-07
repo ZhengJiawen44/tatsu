@@ -6,6 +6,7 @@ export const useDeleteTodo = () => {
   const { toast } = useToast();
   const queryClient = useQueryClient();
   const { mutate: deleteMutateFn, isPending: deletePending } = useMutation({
+    mutationKey: ["deleteTodo"],
     mutationFn: async ({ id }: { id: string }) => {
       await api.DELETE({ url: `/api/todo/${id.split(":")[0]}` });
     },
@@ -20,7 +21,6 @@ export const useDeleteTodo = () => {
 
       return { oldTodos };
     },
-    mutationKey: ["todo"],
     onError: (error, _, context) => {
       queryClient.setQueryData(["todo"], context?.oldTodos);
       toast({
@@ -32,6 +32,8 @@ export const useDeleteTodo = () => {
       });
     },
     onSettled: () => {
+      if(queryClient.isMutating({mutationKey:["deleteTodo"]}) !== 1) 
+        return
       //optimistically update calendar todos
       queryClient.invalidateQueries({ queryKey: ["todo"] });
       queryClient.invalidateQueries({ queryKey: ["completedTodo"] });
