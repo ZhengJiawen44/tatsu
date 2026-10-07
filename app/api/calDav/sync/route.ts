@@ -53,6 +53,7 @@ export async function POST() {
             url: deletedCalendar.url,
           },
         });
+        // this isnt doing anything since calendar cascade deletes syncMetaData anyways.
         await prisma.todo.deleteMany({
           where: {
             syncMetaData: {
