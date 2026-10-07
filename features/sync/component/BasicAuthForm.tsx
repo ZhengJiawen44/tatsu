@@ -92,7 +92,7 @@ export const BasicAuthForm = ({
                 await createCalendarCredentials({
                   username: data["username"],
                   password: data["password"],
-                  service: "apple",
+                  service: service,
                   serverUrl: data["serverUrl"],
                 });
                 await syncMutateAsync({ service });
