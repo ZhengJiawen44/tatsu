@@ -6,6 +6,7 @@ import { prisma } from "@/lib/prisma/client";
 import createCalendarFromRemote from "@/lib/sync/createCalendarFromRemote";
 import createCaldavClientFromDB from "@/lib/sync/createCaldavClientFromDB";
 import { upsertTodosFromCalendarObjects } from "@/lib/sync/upsertTodosFromCalendarObjects";
+import { syncCalendars } from "@/lib/sync/syncCalendars";
 export async function POST() {
   try {
     const session = await auth();
@@ -18,17 +19,7 @@ export async function POST() {
 
     //remote to local sync
     const localCalendars = await prisma.caldavCalendar.findMany();
-    const { created, updated, deleted } = await calDavClient.syncCalendars({
-      oldCalendars: localCalendars.map((localCalendar) => {
-        return {
-          displayName: localCalendar.name || undefined,
-          syncToken: localCalendar.syncToken || undefined,
-          ctag: localCalendar.ctag || undefined,
-          url: localCalendar.url,
-        };
-      }),
-      detailedResult: true,
-    });
+    const { created, updated, deleted } = await syncCalendars(localCalendars, user.id)
 
     // created calendars
     await Promise.all(
