@@ -10,6 +10,8 @@ export default function SyncOptionContainer() {
   const [showBaikalBasicAuthForm, setShowBaikalBasicAuthForm] = useState(false);
   const [showDavicalBasicAuthForm, setShowDavicalBasicAuthForm] =
     useState(false);
+  const [showNextcloudBasicAuthForm, setShowNextcloudBasicAuthForm] =
+    useState(false);
 
   const code = (chunks: React.ReactNode) => (
     <code className="text-foreground">{chunks}</code>
@@ -121,6 +123,41 @@ export default function SyncOptionContainer() {
 
         }}
       />
+      <BasicAuthForm
+        open={showNextcloudBasicAuthForm}
+        setOpen={setShowNextcloudBasicAuthForm}
+        title={t("syncToNextcloud")}
+        service="nextcloud"
+        description={
+          <span>
+            {t.rich("nextcloudDescription", {
+              link: (chunks) => (
+                <a
+                  className="underline text-foreground"
+                  href="https://nextcloud.com"
+                  target="_blank"
+                >
+                  {chunks}
+                </a>
+              ),
+              code,
+            })}
+          </span>
+        }
+        fields={[
+          { id: "serverUrl", name: "serverUrl", label: t("serverUrl") },
+          { id: "username", name: "username", label: t("username") },
+          {
+            id: "password",
+            name: "password",
+            label: t("password"),
+            type: "password",
+          },
+        ]}
+        onSuccess={(data) => {
+
+        }}
+      />
       <div className="flex gap-4">
         <Button
           variant="outline"
@@ -142,6 +179,13 @@ export default function SyncOptionContainer() {
           onClick={() => setShowDavicalBasicAuthForm(true)}
         >
           {t("davicalCalendar")}
+        </Button>
+        <Button
+          variant="outline"
+          className=""
+          onClick={() => setShowNextcloudBasicAuthForm(true)}
+        >
+          {t("nextcloudCalendar")}
         </Button>
         <Button
           variant="outline"
