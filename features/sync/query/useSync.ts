@@ -1,4 +1,4 @@
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useToast } from "@/hooks/use-toast";
 
 async function syncCalDavAccount(service: string) {
@@ -18,6 +18,7 @@ async function syncCalDavAccount(service: string) {
 
 export const useSyncCalDavAccount = () => {
   const { toast } = useToast();
+  const queryClient = useQueryClient();
 
   const {
     mutateAsync: syncMutateAsync,
@@ -29,6 +30,12 @@ export const useSyncCalDavAccount = () => {
 
     onSuccess: () => {
       toast({ description: "Synced successfully" });
+    },
+    onSettled:()=>{
+      queryClient.invalidateQueries({queryKey: ["todo"]})
+      queryClient.invalidateQueries({queryKey: ["overdueTodo"]})
+      queryClient.invalidateQueries({queryKey: ["calendarTodo"]})
+      queryClient.invalidateQueries({queryKey: ["project"]})
     },
 
     onError: (error: Error) => {
