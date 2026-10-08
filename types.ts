@@ -151,4 +151,20 @@ export type userDetail = {
   userTimezone?: string
 };
 
+export type CaldavCalendar = {
+ id: string;
+ name: string | null;
+ createdAt: Date;
+ updatedAt: Date;
+ userId: string;
+ url: string;
+ timezone: string | null;
+ source: string;
+ ctag: string | null;
+ syncToken: string | null;
+ credentialId: string;
+ selected: boolean;
+ components: string[];
+}
+
 export type syncedTodo = TodoItemType & { syncMetaData: syncMetaDataType };
