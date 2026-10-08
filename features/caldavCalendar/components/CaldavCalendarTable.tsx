@@ -22,7 +22,7 @@ export default function CaldavCalendarTable(){
                 }}
                 className="flex justify-start items-center gap-2 hover:bg-accent p-2 rounded-sm cursor-pointer"
               >
-                {caldavCalendar.selected==true && <Check className="w-5 h-5 text-lime"/>} <p>{caldavCalendar.name}</p>               
+                 <Check className={clsx("w-5 h-5 text-lime opacity-0", caldavCalendar.selected==true && "opacity-100")}/><p>{caldavCalendar.name}</p>               
               </span>
               <LineSeparator className="mb-1"/>
             </div>
