@@ -1,26 +1,19 @@
 import LineSeparator from "@/components/ui/lineSeparator";
 import Spinner from "@/components/ui/spinner";
-import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
 import { useCaldavCalendar } from "@/features/caldavCalendar/query/get-caldav-calendar";
 import { useEditCaldavCalendar } from "@/features/caldavCalendar/query/update-caldav-calendar";
-import { Info, Check } from "lucide-react";
+import clsx from "clsx";
+import { Check } from "lucide-react";
 
 export default function CaldavCalendarTable(){
     const {caldavCalendars} = useCaldavCalendar();
     const {editCaldavCalendarMutateFn, editCaldavCalendarStatus} = useEditCaldavCalendar();
     return (
-         <div className="p-6 flex flex-col">
-        <span className="flex items-center gap-1 text-muted-foreground mt-3">
-          Calendars
-          <Tooltip>
-            <TooltipTrigger>
-              <Info className="w-4 h-4"/>
-            </TooltipTrigger>
-            <TooltipContent className="mb-2 w-90 sm:w-100 md:w-200 lg:w-fit whitespace-normal text-left">
-              {"Select a calendar where tatsu will store its todos. if none are selected, sync will be one way only (todos created here will not be syned to your provider)"}
-            </TooltipContent>
-          </Tooltip>
-          {editCaldavCalendarStatus === "pending" && <Spinner className="w-5 h-5 ml-auto"/>}
+        <div className="p-6 pt-2 flex flex-col">
+        <span className="flex items-center gap-1 text-muted-foreground ">
+
+        <br/>
+        {"Select a calendar where tatsu will store its todos. if none are selected, sync will be one way only (todos created here will not be syned to your provider)"}
         </span>
         <br/>
         {caldavCalendars.filter((caldavCalendar)=>caldavCalendar.components.includes("VEVENT")).map((caldavCalendar)=>{
@@ -38,6 +31,8 @@ export default function CaldavCalendarTable(){
             </div>
             )
           })}
+              <Spinner className={clsx("w-5 h-5 ml-auto mt-4 opacity-0", editCaldavCalendarStatus === "pending" && "opacity-100")}/>
+
       </div>
     )
 }
