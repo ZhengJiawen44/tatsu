@@ -32,8 +32,11 @@ import TimezoneModal from "./TimezoneModal";
 import KeyboardShortcutsModal from "./KeyboardShortcutModal";
 import { Link } from "@/i18n/navigation";
 import FeedbackForm from "../Feedback/FeedbackForm";
+import { useCalDavAccount } from "@/features/calendarCredential/query/get-calDavAccount";
 
 const UserCard = ({ className }: { className?: string }) => {
+  const { calDavAccount } = useCalDavAccount();
+  
   const { data, status } = useSession();
   const sidebarDict = useTranslations("sidebar");
   const { setTheme, theme } = useTheme();
@@ -166,6 +169,7 @@ const UserCard = ({ className }: { className?: string }) => {
             <Link href={"/app/sync"}>
               <RefreshCw className="w-4 h-4" />
               {sidebarDict("settingMenu.sync")}
+              <p className="text-xs text-muted-foreground">{calDavAccount?.service?calDavAccount?.service:""}</p>
             </Link>
           </DropdownMenuItem>
         </DropdownMenuContent>
