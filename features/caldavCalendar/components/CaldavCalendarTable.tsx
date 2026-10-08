@@ -23,7 +23,7 @@ export default function CaldavCalendarTable(){
           {editCaldavCalendarStatus === "pending" && <Spinner className="w-5 h-5 ml-auto"/>}
         </span>
         <br/>
-        {caldavCalendars.map((caldavCalendar)=>{
+        {caldavCalendars.filter((caldavCalendar)=>caldavCalendar.components.includes("VEVENT")).map((caldavCalendar)=>{
           return (
             <div key={caldavCalendar.id}>
               <span 
