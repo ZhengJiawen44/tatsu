@@ -16,8 +16,8 @@ export default function CaldavCalendarTable(){
             <TooltipTrigger>
               <Info className="w-4 h-4"/>
             </TooltipTrigger>
-            <TooltipContent className="mb-2">
-              Select a calendar where tatsu will store its todos. On initial sync, tatsu picks a random calendar to store its todo.
+            <TooltipContent className="mb-2 w-90 sm:w-100 md:w-200 lg:w-fit whitespace-normal text-left">
+              {"Select a calendar where tatsu will store its todos. if none are selected, sync will be one way only (todos created here will not be syned to your provider)"}
             </TooltipContent>
           </Tooltip>
           {editCaldavCalendarStatus === "pending" && <Spinner className="w-5 h-5 ml-auto"/>}

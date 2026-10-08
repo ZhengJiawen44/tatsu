@@ -60,6 +60,7 @@ export async function POST(req: NextRequest) {
     const eventCalendar = await prisma.caldavCalendar.findFirst({
       where: {
         userId: user.id,
+        selected: true,
         components: {
           has: "VEVENT",
         },
