@@ -113,7 +113,8 @@ model CaldavCalendar {
   ctag         String?               
   syncToken    String?               
   url          String   @unique     
-  credentialId String               
+  credentialId String
+  selected     Boolean @default(false)          
   syncMetaData   SyncMetaData[]
   components   CalendarComponent[]
   createdAt    DateTime @default(now())
