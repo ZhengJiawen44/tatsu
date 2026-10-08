@@ -25,7 +25,7 @@ try {
             data: { selected: false },
         });
         const selected = await tx.caldavCalendar.updateMany({
-            where: { userId: user.id, id: caldavCalendarId },
+            where: { userId: user.id, id: caldavCalendarId, components:{has:"VEVENT"} },
             data: { selected: true },
         });
         if (selected.count === 0)
