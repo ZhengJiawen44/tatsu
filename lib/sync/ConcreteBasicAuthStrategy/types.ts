@@ -1,9 +1,12 @@
 import { createDAVClient } from "tsdav";
 
-export type ConcreteBasicAuthStrategy = {
-  execute: (
-    username: string,
-    password: string,
-    serverUrl?: string,
-  ) => ReturnType<typeof createDAVClient>;
+export type CalDavCredentials = {
+  username?: string | null;
+  password?: string | null;
+  serverUrl?: string | null;
+  refreshToken?: string | null;
+};
+
+export type CalDavAuthStrategy = {
+  execute: (credentials: CalDavCredentials) => ReturnType<typeof createDAVClient>;
 };
