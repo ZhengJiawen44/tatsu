@@ -23,9 +23,12 @@ export default async function createCaldavClientFromDB(userId: string) {
 
   const calDavClient = await createCalDAVClient(
     caldendarCredential.service,
-    caldendarCredential.username,
-    caldendarCredential.password,
-    caldendarCredential.serverUrl,
+    {
+      username: caldendarCredential.username,
+      password: caldendarCredential.password,
+      serverUrl: caldendarCredential.serverUrl,
+      refreshToken: caldendarCredential.refresh_token,
+    },
   );
   globalClients.clients.set(userId, {
     updatedAt: caldendarCredential.updatedAt.getTime(),

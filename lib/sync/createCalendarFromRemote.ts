@@ -35,7 +35,7 @@ export default async function createCalendarFromRemote(
           : undefined,
       source: calendarCredential.service,
       url: calendar.url,
-      ctag: calendar.ctag,
+      ctag: String(calendar.ctag),
       syncToken: calendar.syncToken,
       components,
     },

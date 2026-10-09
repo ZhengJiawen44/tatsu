@@ -1,14 +1,14 @@
-import { ConcreteBasicAuthStrategy } from "./ConcreteBasicAuthStrategy/types";
+import { CalDavAuthStrategy, CalDavCredentials } from "./ConcreteBasicAuthStrategy/types";
 
 export function createBasicAuthContext() {
-  let strategy: ConcreteBasicAuthStrategy | null = null;
+  let strategy: CalDavAuthStrategy | null = null;
   return {
-    setStrategy(newStrategy: ConcreteBasicAuthStrategy) {
+    setStrategy(newStrategy: CalDavAuthStrategy) {
       strategy = newStrategy;
     },
-    executeStrategy(username: string, password: string, serverUrl?: string) {
+    executeStrategy(credentials: CalDavCredentials) {
       if (!strategy) throw new Error("no strategy set");
-      return strategy.execute(username, password, serverUrl);
+      return strategy.execute(credentials);
     },
   };
 }
