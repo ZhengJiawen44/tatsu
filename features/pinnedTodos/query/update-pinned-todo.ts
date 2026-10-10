@@ -111,7 +111,7 @@ export const useEditPinnedTodo = () => {
             }
             return oldTodo;
           }),
-        );
+      );
       return { oldTodos, oldPinnedTodos };
     },
 
@@ -133,7 +133,6 @@ export const useEditPinnedTodo = () => {
       queryClient.invalidateQueries({ queryKey: ["todo"] });
       queryClient.invalidateQueries({ queryKey: ["overdueTodo"] });
       queryClient.invalidateQueries({ queryKey: ["project"] });
-
     },
   });
 

@@ -38,8 +38,8 @@ const CalendarEvent = ({ event: todo }: EventProps<TodoItemType>) => {
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
   const [deleteAllDialogOpen, setDeleteAllDialogOpen] = useState(false);
   const [displayForm, setDisplayForm] = useState(false);
-  const {calendarRange} = useCalendarRange()
-  const eventStyle = `relative group w-full h-full cursor-pointer z-50! text-foreground flex pl-2  gap-2 items-top ${calendarRange.end.getTime()-calendarRange.start.getTime()<=604799999&&"mt-2"}`
+  const { calendarRange } = useCalendarRange();
+  const eventStyle = `relative group w-full h-full cursor-pointer z-50! text-foreground flex pl-2  gap-2 items-top ${calendarRange.end.getTime() - calendarRange.start.getTime() <= 604799999 && "mt-2"}`;
   return (
     <>
       {/* ----------------- Event Form popover ----------- */}

@@ -11,7 +11,7 @@ export default async function Layout({
     <div className="px-[clamp(5px,2%,5%)]">
       <SidebarToggleContainer />
       <NewFeaturesAnnouncement />
-      <TimezoneAlert/>
+      <TimezoneAlert />
       {children}
     </div>
   );

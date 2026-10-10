@@ -32,8 +32,7 @@ export const useDeleteTodo = () => {
       });
     },
     onSettled: () => {
-      if(queryClient.isMutating({mutationKey:["deleteTodo"]}) !== 1) 
-        return
+      if (queryClient.isMutating({ mutationKey: ["deleteTodo"] }) !== 1) return;
       //optimistically update calendar todos
       queryClient.invalidateQueries({ queryKey: ["todo"] });
       queryClient.invalidateQueries({ queryKey: ["completedTodo"] });

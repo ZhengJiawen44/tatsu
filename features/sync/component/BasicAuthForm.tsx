@@ -57,8 +57,8 @@ export const BasicAuthForm = ({
     error: createCalendarCredentialError,
   } = useUpsertCalDavAccount();
   const {
-    syncMutateAsync:syncCalendarEvents,
-    syncStatus:syncCalendarEventsStatus,
+    syncMutateAsync: syncCalendarEvents,
+    syncStatus: syncCalendarEventsStatus,
     error: syncError,
   } = useSyncCalDavAccount();
   const t = useTranslations("sync");
@@ -140,13 +140,11 @@ export const BasicAuthForm = ({
               <div>
                 {createCalendarAccountStatus == "pending" ? (
                   <div className="flex items-center gap-2">
-                    <Spinner className="w-4 h-4" />{" "}
-                    <p>{t("linking")}</p>
+                    <Spinner className="w-4 h-4" /> <p>{t("linking")}</p>
                   </div>
                 ) : syncCalendarEventsStatus == "pending" ? (
                   <div className="flex items-center gap-2">
-                    <Spinner className="w-4 h-4" />{" "}
-                    <p>{t("syncing")}</p>
+                    <Spinner className="w-4 h-4" /> <p>{t("syncing")}</p>
                   </div>
                 ) : createCalendarAccountStatus == "success" &&
                   syncCalendarEventsStatus == "success" ? (

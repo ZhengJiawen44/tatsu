@@ -45,7 +45,7 @@ const DnDCalendar = withDragAndDrop<TodoItemType>(Calendar);
 
 export default function CalendarClient() {
   const [mounted, setMounted] = useState(false);
-  const {calendarRange, setCalendarRange} = useCalendarRange();
+  const { calendarRange, setCalendarRange } = useCalendarRange();
 
   const [showCreateForm, setShowCreateForm] = useState(false);
   const [selectDateRange, setSelectDateRange] = useState<{

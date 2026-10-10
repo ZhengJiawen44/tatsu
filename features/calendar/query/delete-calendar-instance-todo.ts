@@ -24,7 +24,9 @@ export const useDeleteCalendarInstanceTodo = () => {
           { queryKey: ["calendarTodo"] },
           (old) =>
             old?.filter(
-              (oldTodo) => todo.instanceDate?.getTime() !== oldTodo.instanceDate?.getTime(),
+              (oldTodo) =>
+                todo.instanceDate?.getTime() !==
+                oldTodo.instanceDate?.getTime(),
             ),
         );
         return { oldTodos };

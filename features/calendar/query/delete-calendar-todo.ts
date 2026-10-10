@@ -20,7 +20,8 @@ export const useDeleteCalendarTodo = () => {
 
       queryClient.setQueriesData<TodoItemType[]>(
         { queryKey: ["calendarTodo"] },
-        (old) => old?.filter((todo) => todo.id.split(":")[0] !== id.split(":")[0]),
+        (old) =>
+          old?.filter((todo) => todo.id.split(":")[0] !== id.split(":")[0]),
       );
       return { oldTodos };
     },
@@ -38,7 +39,7 @@ export const useDeleteCalendarTodo = () => {
     },
     onSettled: () => {
       // This mutation is still pending inside onSettled, so 1 means it is the last create in flight.
-      if (queryClient.isMutating({ mutationKey: ["deleteCalendarTodo"] }) !== 1) 
+      if (queryClient.isMutating({ mutationKey: ["deleteCalendarTodo"] }) !== 1)
         return;
       toast({ description: "todo deleted" });
       queryClient.invalidateQueries({

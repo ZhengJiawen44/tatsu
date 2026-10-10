@@ -49,7 +49,7 @@ export const useEditCalendarTodoInstance = () => {
           queryKey: ["calendarTodo"],
         });
         queryClient.setQueriesData(
-          {queryKey: ["calendarTodo"]},
+          { queryKey: ["calendarTodo"] },
           (oldTodos: TodoItemType[]) => {
             return oldTodos?.map((oldTodo) => {
               if (oldTodo.id === newTodo.id) {

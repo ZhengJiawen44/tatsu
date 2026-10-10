@@ -49,14 +49,15 @@ export const useCompleteProjectTodo = () => {
     },
     onSuccess: () => {},
     onSettled: () => {
-      if (queryClient.isMutating({ mutationKey: ["completeProjectTodo"] }) !== 1) 
+      if (
+        queryClient.isMutating({ mutationKey: ["completeProjectTodo"] }) !== 1
+      )
         return;
       //optimistically update calendar todos
       queryClient.invalidateQueries({ queryKey: ["calendarTodo"] });
       queryClient.invalidateQueries({ queryKey: ["completedTodo"] });
       queryClient.invalidateQueries({ queryKey: ["todo"] });
       queryClient.invalidateQueries({ queryKey: ["project"] });
-
     },
   });
 

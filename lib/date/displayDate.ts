@@ -117,7 +117,6 @@ export function getDisplayDate(
   if (!date) return "No Date";
   timezone = resolveTimezone(timezone);
 
-
   const translations = relativeTranslations[locale] || relativeTranslations.en;
 
   //  Get current date in the specified timezone

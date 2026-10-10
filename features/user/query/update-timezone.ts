@@ -19,8 +19,8 @@ export function useUpdateTimezone() {
 
       return res.json();
     },
-    onSettled:()=>{
-      queryClient.invalidateQueries({queryKey:["userTimezone"]})
-    }
+    onSettled: () => {
+      queryClient.invalidateQueries({ queryKey: ["userTimezone"] });
+    },
   });
 }

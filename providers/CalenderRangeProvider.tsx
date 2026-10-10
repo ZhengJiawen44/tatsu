@@ -1,5 +1,12 @@
-"use client"
-import { endOfDay, endOfMonth, endOfWeek, startOfDay, startOfMonth, startOfWeek } from "date-fns";
+"use client";
+import {
+  endOfDay,
+  endOfMonth,
+  endOfWeek,
+  startOfDay,
+  startOfMonth,
+  startOfWeek,
+} from "date-fns";
 import React, { useReducer } from "react";
 import { useContext, createContext } from "react";
 
@@ -12,7 +19,7 @@ type CalendarDateRange = DateRange | Date[];
 
 interface CalendarRangeProviderContextProps {
   calendarRange: DateRange;
-  setCalendarRange:  React.ActionDispatch<[action: CalendarDateRange]>;
+  setCalendarRange: React.ActionDispatch<[action: CalendarDateRange]>;
 }
 
 const CalendarRangeProviderContext = createContext<
@@ -37,12 +44,10 @@ function calendarRangeReducer(
 }
 
 const CalendarRangeProvider = ({ children }: { children: React.ReactNode }) => {
-
-    const [calendarRange, setCalendarRange] = useReducer(calendarRangeReducer, {
-      start: startOfWeek(startOfMonth(new Date())),
-      end: endOfWeek(endOfMonth(new Date())),
-    });
-
+  const [calendarRange, setCalendarRange] = useReducer(calendarRangeReducer, {
+    start: startOfWeek(startOfMonth(new Date())),
+    end: endOfWeek(endOfMonth(new Date())),
+  });
 
   return (
     <CalendarRangeProviderContext.Provider

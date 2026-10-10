@@ -33,8 +33,7 @@ async function patchTodo({ ghostTodo }: { ghostTodo: TodoItemType }) {
 
 export const useEditOverdueTodoInstance = (
   setEditInstanceOnly:
-    | React.Dispatch<React.SetStateAction<boolean>>
-    | undefined,
+    React.Dispatch<React.SetStateAction<boolean>> | undefined,
 ) => {
   const { toast } = useToast();
   const queryClient = useQueryClient();

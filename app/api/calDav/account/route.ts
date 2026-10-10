@@ -30,14 +30,11 @@ export async function POST(req: NextRequest) {
       throw new BadRequestError("username or password not provided");
 
     //connect to the remote server to confirm credential is valid
-    const calDavClient = await createCalDAVClient(
-      service,
-      {
-        username,
-        password,
-        serverUrl
-      }
-    );
+    const calDavClient = await createCalDAVClient(service, {
+      username,
+      password,
+      serverUrl,
+    });
     if (!calDavClient) throw new InternalError("invalid calendar credentials");
 
     //delete previous account and related todos

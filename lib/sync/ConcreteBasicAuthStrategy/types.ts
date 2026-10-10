@@ -8,5 +8,7 @@ export type CalDavCredentials = {
 };
 
 export type CalDavAuthStrategy = {
-  execute: (credentials: CalDavCredentials) => ReturnType<typeof createDAVClient>;
+  execute: (
+    credentials: CalDavCredentials,
+  ) => ReturnType<typeof createDAVClient>;
 };

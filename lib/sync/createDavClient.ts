@@ -4,7 +4,10 @@ import { baikalBasicAuthStrategy } from "./ConcreteBasicAuthStrategy/baikalBasic
 import { davicalBasicAuthStrategy } from "./ConcreteBasicAuthStrategy/davicalBasicAuthStrategy";
 import { nextcloudBasicAuthStrategy } from "./ConcreteBasicAuthStrategy/nextcloudBasicAuthStrategy";
 import { googleBasicAuthStrategy } from "./ConcreteBasicAuthStrategy/googleBasicAuthStrategy";
-import { CalDavAuthStrategy, CalDavCredentials } from "./ConcreteBasicAuthStrategy/types";
+import {
+  CalDavAuthStrategy,
+  CalDavCredentials,
+} from "./ConcreteBasicAuthStrategy/types";
 
 const strategyMap: Record<string, CalDavAuthStrategy> = {
   apple: appleBasicAuthStrategy,

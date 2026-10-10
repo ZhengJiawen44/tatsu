@@ -28,8 +28,8 @@ export function usePinTodo() {
         { queryKey: ["pinnedTodo"] },
         (oldPinnedTodos) => {
           return oldPinnedTodos?.flatMap((oldPinnedTodo) => {
-            if (oldPinnedTodo.id === todoItem.id && todoItem.pinned === true){
-              return []
+            if (oldPinnedTodo.id === todoItem.id && todoItem.pinned === true) {
+              return [];
             }
             return [oldPinnedTodo];
           });
@@ -48,18 +48,21 @@ export function usePinTodo() {
         });
       });
 
-      if(todoItem.projectID)
-      queryClient.setQueryData<TodoItemType[]>(["project",todoItem.projectID], (old) => {
-        return old?.map((oldTodo) => {
-          if (oldTodo.id === todoItem.id) {
-            return {
-              ...oldTodo,
-              pinned: !todoItem.pinned,
-            };
-          }
-          return oldTodo;
-        });
-      });
+      if (todoItem.projectID)
+        queryClient.setQueryData<TodoItemType[]>(
+          ["project", todoItem.projectID],
+          (old) => {
+            return old?.map((oldTodo) => {
+              if (oldTodo.id === todoItem.id) {
+                return {
+                  ...oldTodo,
+                  pinned: !todoItem.pinned,
+                };
+              }
+              return oldTodo;
+            });
+          },
+        );
 
       queryClient.setQueryData<TodoItemType[]>(["overdueTodo"], (old) => {
         return old?.map((oldTodo) => {
@@ -96,7 +99,6 @@ export function usePinTodo() {
       queryClient.invalidateQueries({ queryKey: ["todo"] });
       queryClient.invalidateQueries({ queryKey: ["project"] });
       queryClient.invalidateQueries({ queryKey: ["pinnedTodo"] });
-
     },
   });
 

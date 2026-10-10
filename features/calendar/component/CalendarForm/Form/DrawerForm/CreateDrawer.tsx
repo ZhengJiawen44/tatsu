@@ -50,7 +50,7 @@ export default function CreateCalendarDrawer({
     Custom: "custom",
   };
   const locale = useLocale();
-  const {userTimezone} = useUserTimezone();
+  const { userTimezone } = useUserTimezone();
   const titleRef = useRef(null);
 
   const { projectMetaData } = useProjectMetaData();
@@ -70,13 +70,14 @@ export default function CreateCalendarDrawer({
 
   const [cancelEditDialogOpen, setCancelEditDialogOpen] = useState(false);
   const { createCalendarTodo, createTodoStatus } = useCreateCalendarTodo();
-  
+
   const hasUnsavedChanges = useMemo(() => {
     return title !== "" || description !== "" || priority !== "Low";
   }, [title, description, priority]);
 
   useEffect(() => {
-    if (createTodoStatus === "success" || createTodoStatus === "pending") setDisplayForm(false);
+    if (createTodoStatus === "success" || createTodoStatus === "pending")
+      setDisplayForm(false);
   }, [createTodoStatus, setDisplayForm]);
 
   const handleSubmit = (e?: React.FormEvent) => {
@@ -143,7 +144,12 @@ export default function CreateCalendarDrawer({
                 <NestedDrawerItem
                   title={appDict("date")}
                   icon={<Clock className="w-4 h-4" />}
-                  label={getDisplayDate(dateRange.from, false, locale, userTimezone)}
+                  label={getDisplayDate(
+                    dateRange.from,
+                    false,
+                    locale,
+                    userTimezone,
+                  )}
                 >
                   <div className="space-y-4 w-full max-w-lg m-auto">
                     <DateDrawerMenu

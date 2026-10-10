@@ -3,7 +3,7 @@ import { userDetail } from "@/types";
 import { useQuery } from "@tanstack/react-query";
 
 async function fetchUserTimezone() {
-  const res = await api.GET({url: "/api/preferences"}) as userDetail;
+  const res = (await api.GET({ url: "/api/preferences" })) as userDetail;
   return res.userTimezone;
 }
 
@@ -12,7 +12,6 @@ export const useUserTimezone = () => {
     queryKey: ["userTimezone"],
     queryFn: fetchUserTimezone,
     retry: 2,
-
   });
-  return {userTimezone, userTimezoneLoading}
+  return { userTimezone, userTimezoneLoading };
 };

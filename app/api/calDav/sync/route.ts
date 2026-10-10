@@ -19,7 +19,10 @@ export async function POST() {
 
     //remote to local sync
     const localCalendars = await prisma.caldavCalendar.findMany();
-    const { created, updated, deleted } = await syncCalendars(localCalendars, user.id)
+    const { created, updated, deleted } = await syncCalendars(
+      localCalendars,
+      user.id,
+    );
 
     // created calendars
     await Promise.all(

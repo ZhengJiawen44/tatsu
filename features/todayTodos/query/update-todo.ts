@@ -96,10 +96,14 @@ export const useEditTodo = () => {
       );
 
       //if todo is overdue, insert into overdue todo
-      if (newTodo.due && newTodo.due < startOfDay(new Date())) 
-        queryClient.setQueryData(["overdueTodo"], (oldOverdueTodos: TodoFormItemType[]) => 
-          [...oldOverdueTodos, newTodo].sort((a,b)=>a.createdAt.getTime()-b.createdAt.getTime())
-        )
+      if (newTodo.due && newTodo.due < startOfDay(new Date()))
+        queryClient.setQueryData(
+          ["overdueTodo"],
+          (oldOverdueTodos: TodoFormItemType[]) =>
+            [...oldOverdueTodos, newTodo].sort(
+              (a, b) => a.createdAt.getTime() - b.createdAt.getTime(),
+            ),
+        );
 
       return { oldTodos };
     },
@@ -108,7 +112,6 @@ export const useEditTodo = () => {
       queryClient.invalidateQueries({ queryKey: ["overdueTodo"] });
       queryClient.invalidateQueries({ queryKey: ["todo"] });
       queryClient.invalidateQueries({ queryKey: ["project"] });
-
     },
     onError: (error, newTodo, context) => {
       queryClient.setQueryData(["todo"], context?.oldTodos);

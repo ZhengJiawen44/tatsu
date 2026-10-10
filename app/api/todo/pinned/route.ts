@@ -4,7 +4,7 @@
 // when a repeating todo is pinned, its closest occuring instance to the date range is returned.
 // if there was no date range query, all the recurring todo's repeating instances(infinite) would have been returned,
 
-//in short, the date range is used to just get the closest instance of a pinned repeating todo 
+//in short, the date range is used to just get the closest instance of a pinned repeating todo
 
 // reminder: a recuring rule with no UNTIL rule specified will repeat forever.
 
@@ -45,14 +45,13 @@ export async function GET(req: NextRequest) {
       orderBy: { createdAt: "desc" },
     });
 
-
-   // Fetch all Recurring todos
+    // Fetch all Recurring todos
     const recurringTodos = (await prisma.todo.findMany({
       where: {
         userID: user.id,
         rrule: { not: null },
         completed: false,
-        pinned: true
+        pinned: true,
       },
       include: { instances: true },
     })) as recurringTodoItemType[];
@@ -66,9 +65,12 @@ export async function GET(req: NextRequest) {
     );
 
     // get the instances that due after or equal the date range start, or the nearest one to the left of the date range start
-    // this is so pinned recurring todos always shows in the pinned todo response, even if their occurence doesnt precisely fall in 
+    // this is so pinned recurring todos always shows in the pinned todo response, even if their occurence doesnt precisely fall in
     // the date range
-   const closestOccuringInstances =  getClosestOccuringInstance(ghostTodos, dateRangeStart)
+    const closestOccuringInstances = getClosestOccuringInstance(
+      ghostTodos,
+      dateRangeStart,
+    );
 
     const allTodos = [...oneOffTodos, ...closestOccuringInstances].sort(
       (a, b) => a.order - b.order,

@@ -9,12 +9,15 @@ type DateRange = {
   start: Date;
   end: Date;
 };
-export function expandRepeatingTodo(todo: recurringTodoItemType, calendarRange: DateRange){
-      // Expand RRULEs to generate occurrences
-      return generateTodosFromRRule([todo], {
-        dateRangeStart: calendarRange.start,
-        dateRangeEnd: calendarRange.end,
-      });
+export function expandRepeatingTodo(
+  todo: recurringTodoItemType,
+  calendarRange: DateRange,
+) {
+  // Expand RRULEs to generate occurrences
+  return generateTodosFromRRule([todo], {
+    dateRangeStart: calendarRange.start,
+    dateRangeEnd: calendarRange.end,
+  });
 }
 
 /**
@@ -37,10 +40,7 @@ function generateTodosFromRRule(
           ? (parent.due.getTime() - parent.dtstart.getTime()) / 1000
           : null;
 
-      const ruleSet = genRuleSet(
-        parent.rrule,
-        parent.dtstart,
-      );
+      const ruleSet = genRuleSet(parent.rrule, parent.dtstart);
 
       //enlarge the start of the search window
       const searchStart = calculatedDuration
@@ -56,7 +56,7 @@ function generateTodosFromRRule(
       return occurrences.map((occ) => {
         return {
           ...parent,
-          id: parent.id+":"+occ.toISOString(),
+          id: parent.id + ":" + occ.toISOString(),
           dtstart: occ,
           ...(calculatedDuration && {
             due: addMinutes(occ, calculatedDuration),
@@ -78,22 +78,19 @@ function generateTodosFromRRule(
  * @returns RRule object
  */
 
-export function genRuleSet(
-  rrule: string,
-  dtStart: Date,
-) {
+export function genRuleSet(rrule: string, dtStart: Date) {
   const options = RRule.parseString(rrule);
-  options.dtstart = dtStart
+  options.dtstart = dtStart;
 
   const rule = new RRule(options);
   const set = new RRuleSet();
 
   set.rrule(rule);
 
-// no exdates on a freshly created repeat todo
-//   for (const ex of exdates ?? []) {
-//     set.exdate(toZonedTime(ex, timeZone));
-//   }
+  // no exdates on a freshly created repeat todo
+  //   for (const ex of exdates ?? []) {
+  //     set.exdate(toZonedTime(ex, timeZone));
+  //   }
 
   return set;
 }

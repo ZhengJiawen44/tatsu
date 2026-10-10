@@ -45,7 +45,7 @@ export const useCompleteTodo = () => {
       queryClient.setQueryData(["todo"], context?.oldTodos);
     },
     onSettled: () => {
-      if (queryClient.isMutating({ mutationKey: ["completeTodo"] }) !== 1) 
+      if (queryClient.isMutating({ mutationKey: ["completeTodo"] }) !== 1)
         return;
       //optimistically update calendar todos
       queryClient.invalidateQueries({ queryKey: ["todo"] });

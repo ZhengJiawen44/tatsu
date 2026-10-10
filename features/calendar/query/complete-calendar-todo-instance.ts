@@ -19,9 +19,9 @@ export const useCompleteCalendarTodoInstance = () => {
     onMutate: async ({ todoItem }: { todoItem: TodoItemType }) => {
       await queryClient.cancelQueries({ queryKey: ["calendarTodo"] });
 
-      const oldTodos = queryClient.getQueriesData({queryKey:[
-        "calendarTodo",
-      ]});
+      const oldTodos = queryClient.getQueriesData({
+        queryKey: ["calendarTodo"],
+      });
 
       if (todoItem.instanceDate) {
         queryClient.setQueriesData<TodoItemType[]>(

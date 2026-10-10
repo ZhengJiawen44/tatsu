@@ -36,7 +36,7 @@ export const TodoItemContainer = ({
   const { projectMetaData } = useProjectMetaData();
   const { useCompleteTodo } = useTodoMutation();
   const { completeMutateFn } = useCompleteTodo();
-  const {userTimezone} = useUserTimezone();
+  const { userTimezone } = useUserTimezone();
   const appDict = useTranslations("app");
 
   const displayDtstart =

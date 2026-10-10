@@ -1,5 +1,5 @@
 import { Button } from "@/components/ui/button";
-import {RefreshCw, Unlink } from "lucide-react";
+import { RefreshCw, Unlink } from "lucide-react";
 import React from "react";
 import { useCalDavAccount } from "../../calendarCredential/query/get-calDavAccount";
 import { useDeleteCalDavAccount } from "../../calendarCredential/query/delete-calDavAccount";
@@ -18,8 +18,14 @@ export default function SyncCard() {
         <p className="text-2xl flex items-end gap-2">
           <span className="text-muted-foreground text-sm">{t("syncedTo")}</span>{" "}
           {"  "}
-          {calDavAccountLoading===true && <span className="h-9 w-30 bg-accent rounded-sm animate-pulse block"/>}
-          <span>{(!calDavAccount?.service && calDavAccountLoading===false)? t("nothing"):calDavAccount?.service}</span>
+          {calDavAccountLoading === true && (
+            <span className="h-9 w-30 bg-accent rounded-sm animate-pulse block" />
+          )}
+          <span>
+            {!calDavAccount?.service && calDavAccountLoading === false
+              ? t("nothing")
+              : calDavAccount?.service}
+          </span>
         </p>
         <div className="flex gap-2">
           <Button
@@ -45,7 +51,7 @@ export default function SyncCard() {
           </Button>
         </div>
       </div>
-      <CaldavCalendarTable/>
+      <CaldavCalendarTable />
     </div>
   );
 }

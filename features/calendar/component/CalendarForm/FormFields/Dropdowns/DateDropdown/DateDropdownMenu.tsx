@@ -37,7 +37,7 @@ const DateDropdownMenu = ({
   setDateRange,
 }: DateDropdownMenuProps) => {
   const locale = useLocale();
-  const {userTimezone} = useUserTimezone();
+  const { userTimezone } = useUserTimezone();
   const appDict = useTranslations("app");
   const nextWeek = startOfDay(nextMonday(dateRange?.from || new Date()));
   const tomorrow = startOfDay(addDays(dateRange?.from || new Date(), 1));

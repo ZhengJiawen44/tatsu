@@ -21,7 +21,7 @@ const UserPreferencesContext = createContext<
 async function fetchPreferences(): Promise<UserPreferences> {
   const res = await fetch("/api/preferences");
   if (!res.ok) throw new Error("Failed to fetch preferences");
-  const data = await res.json() as userDetail;;
+  const data = (await res.json()) as userDetail;
   return data.userPreferences;
 }
 
@@ -42,7 +42,7 @@ async function updatePreferencesAPI(
   });
 
   if (!res.ok) throw new Error("Failed to update preferences");
-  const data = await res.json() as userDetail;
+  const data = (await res.json()) as userDetail;
   return data.userPreferences;
 }
 
