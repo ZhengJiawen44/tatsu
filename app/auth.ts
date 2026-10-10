@@ -9,7 +9,6 @@ import { pbkdf2 } from "@noble/hashes/pbkdf2";
 import { hexToBytes, bytesToHex } from "@noble/hashes/utils";
 import type { Adapter } from "next-auth/adapters";
 import { cookies } from "next/headers";
-import { PrismaClient } from "@prisma/client";
 
 export const { handlers, signIn, signOut, auth } = NextAuth({
   adapter: PrismaAdapter(prisma) as Adapter,
@@ -29,12 +28,12 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       await prisma.$transaction( async(tx) => {
         await tx.calDavAccount.delete({
           where: {
-            userId: user.id,
+            userId: user.id!,
           },
         });
         await tx.calDavAccount.create({
           data: {
-            userId: user.id,
+            userId: user.id!,
             refresh_token: account.refresh_token,
             username: user.email!,
             service:"google",
