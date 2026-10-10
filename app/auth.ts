@@ -26,7 +26,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
 
       //sync logic: store the refresh token in the database to be used for future syncs.
       await prisma.$transaction( async(tx) => {
-        await tx.calDavAccount.delete({
+        await tx.calDavAccount.deleteMany({
           where: {
             userId: user.id!,
           },
