@@ -89,8 +89,9 @@ model CalDavAccount {
   userId      String   @unique
   service     String  
   serverUrl   String
-  username    String
-  password    String   
+  username    String?
+  password    String?  
+  refresh_token String? 
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
   calendars   CaldavCalendar[]

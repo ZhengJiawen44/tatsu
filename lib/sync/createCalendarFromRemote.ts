@@ -4,13 +4,13 @@ import { prisma } from "../prisma/client";
 
 type CalendarCredential = {
   id: string;
-  password: string;
+  password: string | null;
   createdAt: Date;
   updatedAt: Date;
   userId: string;
   service: string;
   serverUrl: string;
-  username: string;
+  username: string | null;
 };
 
 const validComponents = new Set(Object.values(CalendarComponent));
@@ -35,7 +35,7 @@ export default async function createCalendarFromRemote(
           : undefined,
       source: calendarCredential.service,
       url: calendar.url,
-      ctag: calendar.ctag,
+      ctag: String(calendar.ctag),
       syncToken: calendar.syncToken,
       components,
     },

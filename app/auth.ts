@@ -8,10 +8,41 @@ import { sha256 } from "@noble/hashes/sha256";
 import { pbkdf2 } from "@noble/hashes/pbkdf2";
 import { hexToBytes, bytesToHex } from "@noble/hashes/utils";
 import type { Adapter } from "next-auth/adapters";
+import { cookies } from "next/headers";
 
 export const { handlers, signIn, signOut, auth } = NextAuth({
   adapter: PrismaAdapter(prisma) as Adapter,
   session: { strategy: "jwt" },
+  events:{
+    async signIn({user, account}){
+      // entry for google caldav sync.
+      // if provider is google, refresh token exists, and authjs callback url has calendarSync=true, then run this function.
+      if(account?.provider !== "google" || !account?.refresh_token || !user.id || !user.email) return;
+      const jar = await cookies();
+      const callbackUrl = jar.get("authjs.callback-url")?.value;
+      if(!callbackUrl) return;
+      const calendarSync = new URL(callbackUrl).searchParams.get("calendarSync") === "true";
+      if(calendarSync!==true) return;
+
+      //sync logic: store the refresh token in the database to be used for future syncs.
+      await prisma.$transaction( async(tx) => {
+        await tx.calDavAccount.deleteMany({
+          where: {
+            userId: user.id!,
+          },
+        });
+        await tx.calDavAccount.create({
+          data: {
+            userId: user.id!,
+            refresh_token: account.refresh_token,
+            username: user.email!,
+            service:"google",
+            serverUrl:"https://apidata.googleusercontent.com/caldav/v2/"
+          },
+        });
+      });      
+    }
+  },
   providers: [
     Google,
     Discord,
