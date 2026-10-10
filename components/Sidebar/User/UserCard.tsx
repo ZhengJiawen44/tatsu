@@ -33,10 +33,13 @@ import KeyboardShortcutsModal from "./KeyboardShortcutModal";
 import { Link } from "@/i18n/navigation";
 import FeedbackForm from "../Feedback/FeedbackForm";
 import { useCalDavAccount } from "@/features/calendarCredential/query/get-calDavAccount";
+import { useMenu } from "@/providers/MenuProvider";
+import useWindowSize from "@/hooks/useWindowSize";
 
 const UserCard = ({ className }: { className?: string }) => {
   const { calDavAccount } = useCalDavAccount();
-
+  const { setShowMenu } = useMenu();
+  const { width } = useWindowSize();
   const { data, status } = useSession();
   const sidebarDict = useTranslations("sidebar");
   const { setTheme, theme } = useTheme();
@@ -166,7 +169,12 @@ const UserCard = ({ className }: { className?: string }) => {
             </DropdownMenuSubContent>
           </DropdownMenuSub>
           <DropdownMenuItem asChild>
-            <Link href={"/app/sync"}>
+            <Link
+              href={"/app/sync"}
+              onClick={() => {
+                if (width <= 1266) setShowMenu(false);
+              }}
+            >
               <RefreshCw className="w-4 h-4" />
               {sidebarDict("settingMenu.sync")}
               <p className="text-xs text-muted-foreground">
