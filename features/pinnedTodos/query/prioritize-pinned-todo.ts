@@ -86,8 +86,6 @@ export const usePrioritizePinnedTodo = () => {
         queryClient.invalidateQueries({ queryKey: ["overdueTodo"] });
         queryClient.invalidateQueries({ queryKey: ["todo"] });
         queryClient.invalidateQueries({ queryKey: ["project"] });
-
-
       },
     });
 

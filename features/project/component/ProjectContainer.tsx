@@ -26,7 +26,7 @@ import PinnedTodoContainer from "@/features/pinnedTodos/component/PinnedTodoCont
 
 const ProjectContainer = ({ projectId }: { projectId: string }) => {
   const locale = useLocale();
-  const {userTimezone} = useUserTimezone();
+  const { userTimezone } = useUserTimezone();
   const { projectMetaData } = useProjectMetaData();
   const { preferences } = useUserPreferences();
   const { projectTodos, projectTodosLoading } = useProject({ projectId });
@@ -113,52 +113,52 @@ const ProjectContainer = ({ projectId }: { projectId: string }) => {
 
   return (
     <>
-    <PinnedTodoContainer/>
-    <TodoMutationProvider
-      useCompleteTodo={useCompleteProjectTodo}
-      useDeleteTodo={useDeleteProjectTodo}
-      useEditTodo={useEditProjectTodo}
-      useEditTodoInstance={useEditProjectTodoInstance}
-      usePinTodo={usePinProjectTodo}
-      usePrioritizeTodo={usePrioritizeProjectTodo}
-      useReorderTodo={useReorderProjectTodo}
-    >
-      <div
-        className="mb-20"
-        onMouseOver={() => setContainerHovered(true)}
-        onMouseOut={() => setContainerHovered(false)}
+      <PinnedTodoContainer />
+      <TodoMutationProvider
+        useCompleteTodo={useCompleteProjectTodo}
+        useDeleteTodo={useDeleteProjectTodo}
+        useEditTodo={useEditProjectTodo}
+        useEditTodoInstance={useEditProjectTodoInstance}
+        usePinTodo={usePinProjectTodo}
+        usePrioritizeTodo={usePrioritizeProjectTodo}
+        useReorderTodo={useReorderProjectTodo}
       >
-        <div className="mb-3">
-          <h3 className="text-2xl font-semibold select-none mb-4">
-            {projectMetaData[projectId]?.name}
-          </h3>
-          <TodoFilterBar containerHovered={containerHovered} />
-          <LineSeparator className="flex-1" />
-        </div>
-        {projectTodosLoading && <TodoListLoading />}
-
-        {Object.entries(sortedGroupedTodos).map(([key, todo]) => (
-          <div key={key}>
-            <div className={clsx(key !== "-1" && "my-16")}>
-              {key !== "-1" && (
-                <p className="font-light text-muted-foreground text-sm">
-                  {preferences?.groupBy?.slice(0, 1).toUpperCase() +
-                    "" +
-                    preferences?.groupBy?.slice(1)}
-                  <span className="text-lg">{" " + key} </span>
-                </p>
-              )}
-              {key !== "-1" && <LineSeparator />}
-              <TodoGroup
-                todos={todo}
-                className="flex flex-col bg-background gap-1"
-              />
-            </div>
+        <div
+          className="mb-20"
+          onMouseOver={() => setContainerHovered(true)}
+          onMouseOut={() => setContainerHovered(false)}
+        >
+          <div className="mb-3">
+            <h3 className="text-2xl font-semibold select-none mb-4">
+              {projectMetaData[projectId]?.name}
+            </h3>
+            <TodoFilterBar containerHovered={containerHovered} />
+            <LineSeparator className="flex-1" />
           </div>
-        ))}
-        <CreateTodoBtn projectID={projectId} />
-      </div>
-    </TodoMutationProvider>
+          {projectTodosLoading && <TodoListLoading />}
+
+          {Object.entries(sortedGroupedTodos).map(([key, todo]) => (
+            <div key={key}>
+              <div className={clsx(key !== "-1" && "my-16")}>
+                {key !== "-1" && (
+                  <p className="font-light text-muted-foreground text-sm">
+                    {preferences?.groupBy?.slice(0, 1).toUpperCase() +
+                      "" +
+                      preferences?.groupBy?.slice(1)}
+                    <span className="text-lg">{" " + key} </span>
+                  </p>
+                )}
+                {key !== "-1" && <LineSeparator />}
+                <TodoGroup
+                  todos={todo}
+                  className="flex flex-col bg-background gap-1"
+                />
+              </div>
+            </div>
+          ))}
+          <CreateTodoBtn projectID={projectId} />
+        </div>
+      </TodoMutationProvider>
     </>
   );
 };

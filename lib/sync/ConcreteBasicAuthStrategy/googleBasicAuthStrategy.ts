@@ -2,11 +2,15 @@ import { createDAVClient } from "tsdav";
 import { CalDavCredentials } from "./types";
 export const googleBasicAuthStrategy = {
   async execute(credentials: CalDavCredentials) {
-    if(!credentials.refreshToken || !credentials.username) {
-      throw new Error("Username and password are required for google basic auth");
+    if (!credentials.refreshToken || !credentials.username) {
+      throw new Error(
+        "Username and password are required for google basic auth",
+      );
     }
     const client = await createDAVClient({
-      serverUrl: credentials.serverUrl || "https://apidata.googleusercontent.com/caldav/v2/",
+      serverUrl:
+        credentials.serverUrl ||
+        "https://apidata.googleusercontent.com/caldav/v2/",
       credentials: {
         username: credentials.username,
         refreshToken: credentials.refreshToken,

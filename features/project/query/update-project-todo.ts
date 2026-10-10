@@ -103,15 +103,16 @@ export const useEditProjectTodo = () => {
         { queryKey: ["project"] },
         (oldTodos) =>
           oldTodos?.flatMap((oldTodo) => {
-            if (oldTodo.id !== newTodo.id)
-              return [oldTodo];
+            if (oldTodo.id !== newTodo.id) return [oldTodo];
 
-            if(newTodo.projectID)
-              return [{
-                ...oldTodo,
-                ...newTodo,
-              }];
-            return []; 
+            if (newTodo.projectID)
+              return [
+                {
+                  ...oldTodo,
+                  ...newTodo,
+                },
+              ];
+            return [];
           }),
       );
 

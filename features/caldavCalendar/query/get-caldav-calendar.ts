@@ -14,7 +14,7 @@ export const getCaldavCalendar = async () => {
     throw new Error(
       data.message || `bad server response: Did not recieve caldavCalendars`,
     );
-  
+
   return caldavCalendars;
 };
 

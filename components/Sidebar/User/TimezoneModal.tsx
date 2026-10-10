@@ -21,7 +21,7 @@ export default function KeyboardShortcuts({
   open: boolean;
   onOpenChange: React.Dispatch<SetStateAction<boolean>>;
 }) {
-  const {userTimezone} = useUserTimezone();
+  const { userTimezone } = useUserTimezone();
   const [keyword, setKeyWord] = useState("");
   const [selectedTZ, setSelectedTZ] = useState(userTimezone);
   const timezoneList = Intl.supportedValuesOf("timeZone");
@@ -45,20 +45,21 @@ export default function KeyboardShortcuts({
             </ModalClose>
           </ModalHeader>
           <ModalBody>
-
             {/* current timezone */}
             <div className="sticky top-0 bg-inherit">
-              <p className="text-muted-foreground sticky top-0">Current timezone</p>
-              {userTimezone ?
+              <p className="text-muted-foreground sticky top-0">
+                Current timezone
+              </p>
+              {userTimezone ? (
                 <div className="shadow-md border border-border/30 w-full rounded-sm bg-popover/60 mx-auto my-1 p-3 flex items-center justify-between">
                   <span>{userTimezone}</span>
                 </div>
-                :
+              ) : (
                 "null"
-              }
-              <LineSeparator className="my-4"/>
+              )}
+              <LineSeparator className="my-4" />
             </div>
-          
+
             {/* timezone selection */}
             {searchList.map((timezone) => (
               <TimeZoneCard

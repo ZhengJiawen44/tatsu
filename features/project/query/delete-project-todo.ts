@@ -33,8 +33,8 @@ export const useDeleteProjectTodo = () => {
       });
     },
     onSettled: () => {
-      if(queryClient.isMutating({mutationKey:["deleteProjectTodo"]}) !== 1) 
-        return
+      if (queryClient.isMutating({ mutationKey: ["deleteProjectTodo"] }) !== 1)
+        return;
       //optimistically update calendar todos
       queryClient.invalidateQueries({ queryKey: ["completedTodo"] });
       queryClient.invalidateQueries({ queryKey: ["calendarTodo"] });

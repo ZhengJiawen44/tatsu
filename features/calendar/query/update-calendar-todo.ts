@@ -113,9 +113,9 @@ export const useEditCalendarTodo = () => {
       });
     },
     onError: (error, newTodo, context) => {
-     context?.oldTodos?.forEach(([key, data]) => {
-      queryClient.setQueryData(key, data);
-    });
+      context?.oldTodos?.forEach(([key, data]) => {
+        queryClient.setQueryData(key, data);
+      });
       toast({ description: error.message, variant: "destructive" });
     },
   });

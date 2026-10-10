@@ -22,7 +22,7 @@ import { useUserTimezone } from "@/features/user/query/get-timezone";
 
 const DateDropdownMenu = () => {
   const locale = useLocale();
-  const {userTimezone} = useUserTimezone();
+  const { userTimezone } = useUserTimezone();
   const appDict = useTranslations("app");
   const { dateRange, setDateRange } = useTodoForm();
 
@@ -40,7 +40,8 @@ const DateDropdownMenu = () => {
           className={clsx(
             "cursor-pointer text-xs sm:text-sm font-medium w-fit h-fit p-2! text-muted-foreground bg-inherit",
             dateRange.from &&
-              getDisplayDate(dateRange.from, false, "en", userTimezone) == "Today"
+              getDisplayDate(dateRange.from, false, "en", userTimezone) ==
+                "Today"
               ? "text-lime"
               : dateRange.from &&
                   getDisplayDate(dateRange.from, false, "en", userTimezone) ==

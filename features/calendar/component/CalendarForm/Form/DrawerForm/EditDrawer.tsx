@@ -51,7 +51,7 @@ export default function CreateCalendarDrawer({
   };
   const titleRef = useRef(null);
   const locale = useLocale();
-  const {userTimezone} = useUserTimezone();
+  const { userTimezone } = useUserTimezone();
   const { projectMetaData } = useProjectMetaData();
 
   const dtstartChecksum = useMemo(
@@ -196,7 +196,12 @@ export default function CreateCalendarDrawer({
                 <NestedDrawerItem
                   title={appDict("date")}
                   icon={<Clock className="w-4 h-4" />}
-                  label={getDisplayDate(dateRange.from, false, locale, userTimezone)}
+                  label={getDisplayDate(
+                    dateRange.from,
+                    false,
+                    locale,
+                    userTimezone,
+                  )}
                 >
                   <div className="space-y-4 w-full max-w-lg m-auto">
                     <DateDrawerMenu

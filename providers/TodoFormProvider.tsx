@@ -76,12 +76,12 @@ const TodoFormProvider = ({
   );
 
   const dtstartChecksum = todoItem
-  ?`${todoItem.dtstart?.toISOString() ?? "null"}`
-  :`${dateRange.from?.toISOString() ?? "null"}`
+    ? `${todoItem.dtstart?.toISOString() ?? "null"}`
+    : `${dateRange.from?.toISOString() ?? "null"}`;
 
-    const dueChecksum = todoItem
-  ?`${todoItem.due?.toISOString() ?? "null"}`
-  :`${dateRange.to?.toISOString() ?? "null"}`
+  const dueChecksum = todoItem
+    ? `${todoItem.due?.toISOString() ?? "null"}`
+    : `${dateRange.to?.toISOString() ?? "null"}`;
 
   const rruleChecksum = todoItem?.rrule || null;
 

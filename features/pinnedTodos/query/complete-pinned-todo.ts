@@ -30,16 +30,15 @@ export const useCompletePinnedTodo = () => {
     },
     onMutate: async (todoItem: TodoItemType) => {
       await queryClient.cancelQueries({ queryKey: ["pinnedTodo"] });
-      const oldTodos = queryClient.getQueryData(["pinnedTodo"]) as TodoItemType[];
-      queryClient.setQueryData(
-        ["pinnedTodo"],
-        (oldTodos: TodoItemType[]) => {
-          return oldTodos.flatMap((oldTodo) => {
-            if (oldTodo.id === todoItem.id) return [];
-            return [oldTodo];
-          });
-        },
-      );
+      const oldTodos = queryClient.getQueryData([
+        "pinnedTodo",
+      ]) as TodoItemType[];
+      queryClient.setQueryData(["pinnedTodo"], (oldTodos: TodoItemType[]) => {
+        return oldTodos.flatMap((oldTodo) => {
+          if (oldTodo.id === todoItem.id) return [];
+          return [oldTodo];
+        });
+      });
       return { oldTodos };
     },
     onError: (error, newTodo, context) => {
@@ -54,8 +53,6 @@ export const useCompletePinnedTodo = () => {
       queryClient.invalidateQueries({ queryKey: ["todo"] });
       queryClient.invalidateQueries({ queryKey: ["pinnedTodo"] });
       queryClient.invalidateQueries({ queryKey: ["project"] });
-
-
     },
   });
 

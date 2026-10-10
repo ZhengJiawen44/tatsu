@@ -17,7 +17,9 @@ export const useCompleteCalendarTodo = () => {
     },
     onMutate: async ({ todoItem }: { todoItem: TodoItemType }) => {
       await queryClient.cancelQueries({ queryKey: ["calendarTodo"] });
-      const oldTodos = queryClient.getQueriesData({queryKey:["calendarTodo"]});
+      const oldTodos = queryClient.getQueriesData({
+        queryKey: ["calendarTodo"],
+      });
       queryClient.setQueriesData<TodoItemType[]>(
         { queryKey: ["calendarTodo"] },
         (old) => old?.filter((todo) => todo.id !== todoItem.id),
@@ -31,7 +33,9 @@ export const useCompleteCalendarTodo = () => {
       });
     },
     onSettled: () => {
-      if (queryClient.isMutating({ mutationKey: ["completeCalendarTodo"] }) !== 1) 
+      if (
+        queryClient.isMutating({ mutationKey: ["completeCalendarTodo"] }) !== 1
+      )
         return;
       queryClient.invalidateQueries({ queryKey: ["calendarTodo"] });
       queryClient.invalidateQueries({

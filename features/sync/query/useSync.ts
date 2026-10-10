@@ -31,12 +31,12 @@ export const useSyncCalDavAccount = () => {
     onSuccess: () => {
       toast({ description: "Synced successfully" });
     },
-    onSettled:()=>{
-      queryClient.invalidateQueries({queryKey: ["todo"]})
-      queryClient.invalidateQueries({queryKey: ["overdueTodo"]})
-      queryClient.invalidateQueries({queryKey: ["calendarTodo"]})
-      queryClient.invalidateQueries({queryKey: ["project"]})
-      queryClient.invalidateQueries({queryKey: ["caldavCalendar"]})
+    onSettled: () => {
+      queryClient.invalidateQueries({ queryKey: ["todo"] });
+      queryClient.invalidateQueries({ queryKey: ["overdueTodo"] });
+      queryClient.invalidateQueries({ queryKey: ["calendarTodo"] });
+      queryClient.invalidateQueries({ queryKey: ["project"] });
+      queryClient.invalidateQueries({ queryKey: ["caldavCalendar"] });
     },
 
     onError: (error: Error) => {

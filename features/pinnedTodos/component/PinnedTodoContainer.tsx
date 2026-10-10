@@ -11,8 +11,7 @@ import TodoMutationProvider from "@/providers/TodoMutationProvider";
 import { usePinnedTodo } from "@/features/pinnedTodos/query/get-pinned-todo";
 
 const PinnedTodoContainer = () => {
-
- const {pinnedTodos} = usePinnedTodo();
+  const { pinnedTodos } = usePinnedTodo();
 
   return (
     <TodoMutationProvider

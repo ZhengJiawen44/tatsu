@@ -22,7 +22,9 @@ export default function OverDueTodoContainer() {
   return (
     <div className="mb-20">
       <div className="flex items-center gap-2 mt-10 mb-4">
-        <h3 className="text-lg font-semibold select-none">{appDict("overdue")}</h3>
+        <h3 className="text-lg font-semibold select-none">
+          {appDict("overdue")}
+        </h3>
         <LineSeparator className="flex-1" />
       </div>
       <div>
@@ -37,7 +39,10 @@ export default function OverDueTodoContainer() {
           usePrioritizeTodo={usePrioritizeOverdueTodo}
           useReorderTodo={useReorderOverdueTodo}
         >
-          <TodoGroup todos={overdueTodos.filter((todo)=>todo.pinned===false)} overdue={true} />
+          <TodoGroup
+            todos={overdueTodos.filter((todo) => todo.pinned === false)}
+            overdue={true}
+          />
         </TodoMutationProvider>
       </div>
     </div>

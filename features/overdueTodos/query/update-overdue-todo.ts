@@ -69,11 +69,17 @@ export const useEditOverdueTodo = () => {
         oldTodos.flatMap((oldTodo) => {
           if (oldTodo.id === updatedOverdueTodo.id) {
             // if todo is in the future, remove todo from overdue todos
-            if (updatedOverdueTodo.dtstart && updatedOverdueTodo.dtstart > endOfDay(new Date())) {
+            if (
+              updatedOverdueTodo.dtstart &&
+              updatedOverdueTodo.dtstart > endOfDay(new Date())
+            ) {
               return [];
             }
             // if todo is today, remove todo from overdue todos
-            if (updatedOverdueTodo.dtstart && updatedOverdueTodo.dtstart >= startOfDay(new Date())) {
+            if (
+              updatedOverdueTodo.dtstart &&
+              updatedOverdueTodo.dtstart >= startOfDay(new Date())
+            ) {
               return [];
             }
             return {
@@ -97,13 +103,17 @@ export const useEditOverdueTodo = () => {
       );
 
       // if todo is today, remove todo from overdue todos
-      if (updatedOverdueTodo.dtstart && updatedOverdueTodo.dtstart >= startOfDay(new Date()) &&
-         updatedOverdueTodo.dtstart <= endOfDay(new Date())
-        ) 
-      queryClient.setQueryData(["todo"], (oldTodos: TodoItemType[]) => [...oldTodos, updatedOverdueTodo])
-        
-      return { oldTodos };
+      if (
+        updatedOverdueTodo.dtstart &&
+        updatedOverdueTodo.dtstart >= startOfDay(new Date()) &&
+        updatedOverdueTodo.dtstart <= endOfDay(new Date())
+      )
+        queryClient.setQueryData(["todo"], (oldTodos: TodoItemType[]) => [
+          ...oldTodos,
+          updatedOverdueTodo,
+        ]);
 
+      return { oldTodos };
     },
     onSettled: () => {
       queryClient.invalidateQueries({ queryKey: ["calendarTodo"] });

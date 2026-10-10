@@ -28,7 +28,7 @@ import PinnedTodoContainer from "@/features/pinnedTodos/component/PinnedTodoCont
 
 const TodayTodoContainer = () => {
   const locale = useLocale();
-  const {userTimezone} = useUserTimezone();
+  const { userTimezone } = useUserTimezone();
   const appDict = useTranslations("app");
   const { preferences } = useUserPreferences();
   const { todos, todoLoading } = useTodo();
@@ -117,7 +117,7 @@ const TodayTodoContainer = () => {
 
   return (
     <>
-      <PinnedTodoContainer/>
+      <PinnedTodoContainer />
       <TodoMutationProvider
         useCompleteTodo={useCompleteTodo}
         useDeleteTodo={useDeleteTodo}

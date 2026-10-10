@@ -73,7 +73,6 @@ export const useReorderPinnedTodo = () => {
       queryClient.invalidateQueries({ queryKey: ["overdueTodo"] });
       queryClient.invalidateQueries({ queryKey: ["project"] });
       queryClient.invalidateQueries({ queryKey: ["pinnedTodo"] });
-
     },
   });
 

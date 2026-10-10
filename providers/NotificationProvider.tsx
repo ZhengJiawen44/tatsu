@@ -24,7 +24,6 @@ const NotificationProvider = ({ children }: { children: React.ReactNode }) => {
 
   useEffect(() => {
     if (notification.description || notification.title) {
-
       toast({
         title: notification.title,
         description: notification.description,

@@ -1,4 +1,7 @@
-import { CalDavAuthStrategy, CalDavCredentials } from "./ConcreteBasicAuthStrategy/types";
+import {
+  CalDavAuthStrategy,
+  CalDavCredentials,
+} from "./ConcreteBasicAuthStrategy/types";
 
 export function createBasicAuthContext() {
   let strategy: CalDavAuthStrategy | null = null;

@@ -36,7 +36,7 @@ import { useCalDavAccount } from "@/features/calendarCredential/query/get-calDav
 
 const UserCard = ({ className }: { className?: string }) => {
   const { calDavAccount } = useCalDavAccount();
-  
+
   const { data, status } = useSession();
   const sidebarDict = useTranslations("sidebar");
   const { setTheme, theme } = useTheme();
@@ -153,7 +153,7 @@ const UserCard = ({ className }: { className?: string }) => {
             {sidebarDict("settingMenu.timezone")}
           </DropdownMenuItem>
           <DropdownMenuItem asChild>
-            <FeedbackForm/>
+            <FeedbackForm />
           </DropdownMenuItem>
           <DropdownMenuSub>
             <DropdownMenuSubTrigger>
@@ -169,7 +169,9 @@ const UserCard = ({ className }: { className?: string }) => {
             <Link href={"/app/sync"}>
               <RefreshCw className="w-4 h-4" />
               {sidebarDict("settingMenu.sync")}
-              <p className="text-xs text-muted-foreground">{calDavAccount?.service?calDavAccount?.service:""}</p>
+              <p className="text-xs text-muted-foreground">
+                {calDavAccount?.service ? calDavAccount?.service : ""}
+              </p>
             </Link>
           </DropdownMenuItem>
         </DropdownMenuContent>

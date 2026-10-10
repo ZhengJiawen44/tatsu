@@ -21,9 +21,9 @@ export const useDeleteCalDavAccount = () => {
     onError: (error) => {
       toast({ description: error.message, variant: "destructive" });
     },
-    onSettled:()=>{
+    onSettled: () => {
       queryClient.invalidateQueries({ queryKey: ["caldavCalendar"] });
-    }
+    },
   });
 
   return { deleteMutateFn, deleteStatus };

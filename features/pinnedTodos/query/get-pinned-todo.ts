@@ -5,7 +5,6 @@ import { api } from "@/lib/api-client";
 import { TodoItemType } from "@/types";
 import { startOfToday, endOfToday } from "date-fns";
 
-
 export const usePinnedTodo = () => {
   const { toast } = useToast();
   //get Notes
@@ -30,7 +29,7 @@ export const usePinnedTodo = () => {
         const todoInstanceDate = todo.instanceDate
           ? new Date(todo.instanceDate)
           : null;
-        const todoInstanceDateTime = todoInstanceDate?.getTime()??null;
+        const todoInstanceDateTime = todoInstanceDate?.getTime() ?? null;
         const todoId = `${todo.id}:${todoInstanceDateTime}`;
         return {
           ...todo,
