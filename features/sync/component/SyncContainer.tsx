@@ -1,18 +1,19 @@
 "use client";
 import { useTranslations } from "next-intl";
 import SyncCard from "./SyncCard";
-import SyncOptionContainer from "./SyncOptionContainer";
-import { useOauthSync } from "../hook/useOauthSync";
-import { OauthSyncPlaceholder } from "./OauthSyncPlaceholder";
+import BasicAuthSyncButtonGroup from "./BasicAuthSyncButtonGroup";
+import { OauthSyncButtonGroup } from "./OauthSyncButtonGroup";
 
 const SyncContainer = () => {
   const t = useTranslations("sync");
-  const { status: googleSyncStatus } = useOauthSync({ service: "google" });
   return (
     <>
-      {googleSyncStatus == "pending" && <OauthSyncPlaceholder />}
       <SyncCard />
-      <SyncOptionContainer />
+      <div className="flex gap-4 flex-wrap">
+        <BasicAuthSyncButtonGroup />
+        <OauthSyncButtonGroup />
+      </div>
+
       <h1 className="text-muted-foreground mt-40 -rotate-12 m-auto  w-fit">
         {t("workInProgress")}
       </h1>

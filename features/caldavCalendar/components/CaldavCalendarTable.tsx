@@ -3,8 +3,12 @@ import Spinner from "@/components/ui/spinner";
 import { useCaldavCalendar } from "@/features/caldavCalendar/query/get-caldav-calendar";
 import { useEditCaldavCalendar } from "@/features/caldavCalendar/query/update-caldav-calendar";
 import clsx from "clsx";
-import { Check } from "lucide-react";
 import { CaldavCalendarTablePlaceholder } from "./CaldavCalendarTablePlaceholder";
+import {
+  Tooltip,
+  TooltipTrigger,
+  TooltipContent,
+} from "@/components/ui/tooltip";
 
 export default function CaldavCalendarTable() {
   const { caldavCalendars, caldavCalendarsLoading } = useCaldavCalendar();
@@ -27,23 +31,31 @@ export default function CaldavCalendarTable() {
                 }}
                 className="flex justify-start items-center gap-2 hover:bg-accent p-2 rounded-sm cursor-pointer"
               >
-                <Check
-                  className={clsx(
-                    "w-5 h-5 text-lime opacity-0",
-                    caldavCalendar.selected == true && "opacity-100",
+                <div className="w-4.5 h-4.5 border-lime opacity-80 rounded-full border-[1.5px] flex items-center justify-center">
+                  {caldavCalendar.selected == true && (
+                    <div className="w-1/3 h-1/3 bg-lime rounded-full" />
                   )}
-                />
+                </div>
                 <p>{caldavCalendar.name}</p>
               </span>
               <LineSeparator className="mb-1" />
             </div>
           );
         })}
-      <span className="flex items-center gap-1 text-muted-foreground ">
+      <span className="block text-muted-foreground pl-4">
         <br />
-        {
-          "Select a calendar where tatsu will store its todos. if none are selected, sync will be one way only (todos created here will not be syned to your provider)"
-        }
+        Select a calendar to store your todos henceforth. If none are selected,
+        sync will be{" "}
+        <Tooltip>
+          <TooltipTrigger asChild>
+            <span className="underline">one way</span>
+          </TooltipTrigger>
+          <TooltipContent className="mb-1 w-75 sm:w-fit">
+            todos created on this application will not be synced to your
+            provider.
+          </TooltipContent>
+        </Tooltip>{" "}
+        only
       </span>
       <Spinner
         className={clsx(

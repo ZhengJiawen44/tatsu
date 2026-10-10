@@ -9,6 +9,7 @@ import { auth } from "@/app/auth";
 import { errorHandler } from "@/lib/errorHandler";
 import { createCalDAVClient } from "@/lib/sync/createDavClient";
 
+// this api only supports basic auth, Oauth is handled by nextAuth's signIn event handler
 export async function POST(req: NextRequest) {
   try {
     const session = await auth();
