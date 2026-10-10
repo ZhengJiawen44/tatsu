@@ -48,9 +48,6 @@ export default function SyncOptionContainer() {
             type: "password",
           },
         ]}
-        onSuccess={(data) => {
-
-        }}
       />
 
       <BasicAuthForm
@@ -84,9 +81,6 @@ export default function SyncOptionContainer() {
             type: "password",
           },
         ]}
-        onSuccess={(data) => {
-
-        }}
       />
       <BasicAuthForm
         open={showDavicalBasicAuthForm}
@@ -119,9 +113,6 @@ export default function SyncOptionContainer() {
             type: "password",
           },
         ]}
-        onSuccess={(data) => {
-
-        }}
       />
       <BasicAuthForm
         open={showNextcloudBasicAuthForm}
@@ -154,9 +145,6 @@ export default function SyncOptionContainer() {
             type: "password",
           },
         ]}
-        onSuccess={(data) => {
-
-        }}
       />
       <div className="flex gap-4">
         <Button
