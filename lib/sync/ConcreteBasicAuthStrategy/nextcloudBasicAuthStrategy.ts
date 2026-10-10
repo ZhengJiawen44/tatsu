@@ -1,13 +1,15 @@
 import { createDAVClient } from "tsdav";
-import { ConcreteBasicAuthStrategy } from "./types";
+import { CalDavAuthStrategy, CalDavCredentials } from "./types";
 
-export const nextcloudBasicAuthStrategy: ConcreteBasicAuthStrategy = {
-  async execute(username: string, password: string, serverUrl?: string) {
+export const nextcloudBasicAuthStrategy: CalDavAuthStrategy = {
+  async execute(credentials: CalDavCredentials) {
+     if(!credentials.username || !credentials.password) 
+      throw new Error("Username and password are required for next cloud basic auth");
     const client = await createDAVClient({
-      serverUrl: serverUrl || "http://localhost:8082/remote.php/dav/",
+      serverUrl: credentials.serverUrl || "http://localhost:8082/remote.php/dav/",
       credentials: {
-        username,
-        password,
+        username: credentials.username,
+        password: credentials.password,
       },
       authMethod: "Basic",
       defaultAccountType: "caldav",
