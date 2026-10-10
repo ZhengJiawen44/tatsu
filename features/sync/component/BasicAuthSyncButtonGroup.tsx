@@ -1,10 +1,9 @@
 import { Button } from "@/components/ui/button";
-import { signIn } from "next-auth/react";
 import React, { useState } from "react";
 import { useTranslations } from "next-intl";
 import { BasicAuthForm } from "./BasicAuthForm";
 
-export default function SyncOptionContainer() {
+export default function BasicAuthSyncButtonGroup() {
   const t = useTranslations("sync");
   const [showAppleBasicAuthForm, setShowAppleBasicAuthForm] = useState(false);
   const [showBaikalBasicAuthForm, setShowBaikalBasicAuthForm] = useState(false);
@@ -146,7 +145,7 @@ export default function SyncOptionContainer() {
           },
         ]}
       />
-      <div className="flex gap-4">
+      <>
         <Button
           variant="outline"
           className=""
@@ -175,25 +174,7 @@ export default function SyncOptionContainer() {
         >
           {t("nextcloudCalendar")}
         </Button>
-        <Button
-          variant="outline"
-          className=""
-          onClick={() =>
-            signIn(
-              "google",
-              { callbackUrl: "/app/sync?calendarSync=true" },
-              {
-                prompt: "consent",
-                access_type: "offline",
-                scope:
-                  "openid email profile https://www.googleapis.com/auth/calendar",
-              },
-            )
-          }
-        >
-          {t("googleCalendar")}
-        </Button>
-      </div>
+      </>
     </>
   );
 }

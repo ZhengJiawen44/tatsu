@@ -14,7 +14,7 @@ export default function SyncCard() {
   const { resyncMutateFn, resyncStatus } = useResyncCalDavAccount();
   return (
     <div className="border rounded-md bg-background w-full mb-9 pb-2">
-      <div className="flex gap-4 justify-between bg-card p-4 py-8 items-center border-b">
+      <div className="flex flex-wrap gap-4 justify-between bg-card p-4 py-8 items-center border-b">
         <p className="text-2xl flex items-end gap-2">
           <span className="text-muted-foreground text-sm">{t("syncedTo")}</span>{" "}
           {"  "}
