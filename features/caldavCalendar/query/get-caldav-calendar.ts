@@ -10,7 +10,7 @@ export const getCaldavCalendar = async () => {
   });
   const { caldavCalendars }: { caldavCalendars: CaldavCalendar[] } = data;
 
-  if (!caldavCalendars) 
+  if (!caldavCalendars)
     throw new Error(
       data.message || `bad server response: Did not recieve caldavCalendars`,
     );

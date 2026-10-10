@@ -52,13 +52,13 @@ export const BasicAuthForm = ({
 }: BasicAuthFormProps) => {
   const { toast } = useToast();
   const {
-    upsertMutateAsyncFn: createCalendarCredentials,
-    upsertStatus: createCalendarCredentialStatus,
+    upsertMutateAsyncFn: createCalendarAccount,
+    upsertStatus: createCalendarAccountStatus,
     error: createCalendarCredentialError,
   } = useUpsertCalDavAccount();
   const {
-    syncMutateAsync,
-    syncStatus,
+    syncMutateAsync:syncCalendarEvents,
+    syncStatus:syncCalendarEventsStatus,
     error: syncError,
   } = useSyncCalDavAccount();
   const t = useTranslations("sync");
@@ -89,17 +89,20 @@ export const BasicAuthForm = ({
                   string,
                   string
                 >;
-                await createCalendarCredentials({
+                const credentials = {
                   username: data["username"],
                   password: data["password"],
                   service: service,
                   serverUrl: data["serverUrl"],
-                });
-                await syncMutateAsync({ service });
+                };
+                // store the credentials in database
+                await createCalendarAccount(credentials);
+                // use the credentials from database to connect to caldav server and sync events
+                await syncCalendarEvents({ service });
                 if (
                   onSuccess &&
-                  syncStatus == "success" &&
-                  createCalendarCredentialStatus == "success"
+                  syncCalendarEventsStatus == "success" &&
+                  createCalendarAccountStatus == "success"
                 )
                   onSuccess(e);
               } catch (error) {
@@ -135,18 +138,18 @@ export const BasicAuthForm = ({
             ))}
             <div className="flex gap-4 mt-4 items-center justify-between ">
               <div>
-                {createCalendarCredentialStatus == "pending" ? (
+                {createCalendarAccountStatus == "pending" ? (
                   <div className="flex items-center gap-2">
                     <Spinner className="w-4 h-4" />{" "}
                     <p>{t("linking")}</p>
                   </div>
-                ) : syncStatus == "pending" ? (
+                ) : syncCalendarEventsStatus == "pending" ? (
                   <div className="flex items-center gap-2">
                     <Spinner className="w-4 h-4" />{" "}
                     <p>{t("syncing")}</p>
                   </div>
-                ) : createCalendarCredentialStatus == "success" &&
-                  syncStatus == "success" ? (
+                ) : createCalendarAccountStatus == "success" &&
+                  syncCalendarEventsStatus == "success" ? (
                   <p>{t("syncedSuccessfully")}</p>
                 ) : (
                   <></>
@@ -162,16 +165,16 @@ export const BasicAuthForm = ({
                   type="submit"
                   variant="outline"
                   disabled={
-                    createCalendarCredentialStatus == "pending" ||
-                    syncStatus == "pending"
+                    createCalendarAccountStatus == "pending" ||
+                    syncCalendarEventsStatus == "pending"
                   }
                 >
                   {t("sync")}
                 </Button>
               </div>
             </div>
-            {(createCalendarCredentialStatus == "error" ||
-              syncStatus == "error") && (
+            {(createCalendarAccountStatus == "error" ||
+              syncCalendarEventsStatus == "error") && (
               <div className="relative p-1 border rounded-md w-full ">
                 <p className="text-red py-4 whitespace-nowrap overflow-scroll">
                   {syncError?.message || createCalendarCredentialError?.message}
