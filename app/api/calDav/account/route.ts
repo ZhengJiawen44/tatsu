@@ -32,9 +32,11 @@ export async function POST(req: NextRequest) {
     //connect to the remote server to confirm credential is valid
     const calDavClient = await createCalDAVClient(
       service,
-      username,
-      password,
-      serverUrl,
+      {
+        username,
+        password,
+        serverUrl
+      }
     );
     if (!calDavClient) throw new InternalError("invalid calendar credentials");
 

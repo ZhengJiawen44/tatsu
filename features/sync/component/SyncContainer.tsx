@@ -1,27 +1,18 @@
 "use client";
-
-import { useSession } from "next-auth/react";
-import { useSearchParams } from "next/navigation";
-import { useEffect, useRef } from "react";
 import { useTranslations } from "next-intl";
 import SyncCard from "./SyncCard";
 import SyncOptionContainer from "./SyncOptionContainer";
+import { useOauthSync } from "../hook/useOauthSync";
+import { OauthSyncPlaceholder } from "./OauthSyncPlaceholder";
+
+
 
 const SyncContainer = () => {
-  const { data: session } = useSession();
-  const searchParams = useSearchParams();
-  const hasSynced = useRef(false);
   const t = useTranslations("sync");
-
-  useEffect(() => {
-    const shouldSync = searchParams.get("calendarSync") === "true";
-    if (session && shouldSync && !hasSynced.current) {
-      hasSynced.current = true;
-      fetch("/api/calDav/sync?service=google", { method: "POST" });
-    }
-  }, [session, searchParams]);
+  const {status:googleSyncStatus} = useOauthSync({service:"google"});
   return (
     <>
+      {googleSyncStatus == "pending" && <OauthSyncPlaceholder/>}
       <SyncCard />
       <SyncOptionContainer />
       <h1 className="text-muted-foreground mt-40 -rotate-12 m-auto  w-fit">

@@ -40,8 +40,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
             serverUrl:"https://apidata.googleusercontent.com/caldav/v2/"
           },
         });
-      });
-      
+      });      
     }
   },
   providers: [
