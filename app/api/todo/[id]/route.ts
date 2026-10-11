@@ -289,6 +289,7 @@ export async function PATCH(
           data: updatedIcsComp,
         },
       });
+        console.log("--------------------------------------",res)
 
       const etag = res.headers.get("etag") ?? "";
       if (!etag)

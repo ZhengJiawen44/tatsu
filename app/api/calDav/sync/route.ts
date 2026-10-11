@@ -150,9 +150,9 @@ export async function POST() {
               id: localCalendar.id,
             },
             data: {
-              ctag: updated.find(
+              ctag: String(updated.find(
                 (calendar) => calendar.url === localCalendar.url,
-              )?.ctag,
+              )?.ctag),
               syncToken: updated.find(
                 (calendar) => calendar.url === localCalendar.url,
               )?.syncToken,
