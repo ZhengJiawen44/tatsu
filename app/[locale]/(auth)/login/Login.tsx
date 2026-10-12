@@ -62,6 +62,15 @@ export default function LoginPage() {
       if (result?.error) {
         toast({ title: t("toasts.invalidCredentials") });
       } else {
+        const tz = Intl.DateTimeFormat().resolvedOptions().timeZone;
+        await fetch("/api/timezone", {
+          method: "GET",
+          headers: {
+            "X-User-Timezone": tz,
+          },
+          credentials: "same-origin",
+        });
+
         router.push("/app/todo");
       }
     } catch (error) {
