@@ -16,10 +16,11 @@ import { useForm } from "react-hook-form";
 import { LoginFormProp } from "@/types";
 import { useState } from "react";
 import { useTranslations } from "next-intl";
+import { useRouter } from "next/navigation";
 
 export default function LoginPage() {
   const t = useTranslations("login");
-
+  const router = useRouter();
   // react-hook-form setup
   const {
     register,
@@ -58,7 +59,11 @@ export default function LoginPage() {
         redirect: false,
         callbackUrl: "/app/todo",
       });
-      if (result?.error) toast({ title: t("toasts.invalidCredentials") });
+      if (result?.error) {
+        toast({ title: t("toasts.invalidCredentials") });
+      } else {
+        router.push("/app/todo");
+      }
     } catch (error) {
       console.error(error);
       toast({ title: t("toasts.genericError") });
