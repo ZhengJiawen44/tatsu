@@ -26,9 +26,6 @@ export async function GET() {
       select: { timeZone: true },
     });
 
-    if (!userPreferences || !userTimezone)
-      throw new NotFoundError("no user for the user id found");
-
     return NextResponse.json(
       {
         userID: user.id,
