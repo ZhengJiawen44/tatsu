@@ -2,8 +2,8 @@ import React from "react";
 import Spinner from "@/components/ui/spinner";
 const Loading = () => {
   return (
-    <div className="flex items-center justify-center h-full">
-      <Spinner className="w-16 h-16" />
+    <div className="fixed inset-0 z-[60] flex items-center justify-center bg-background/60">
+      <Spinner className="h-16 w-16 text-foreground" />
     </div>
   );
 };
