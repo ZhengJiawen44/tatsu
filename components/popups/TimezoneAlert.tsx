@@ -10,11 +10,11 @@ import { useState } from "react";
 
 export const TimezoneAlert = () => {
   const { userTimezone } = useUserTimezone();
-  const [showDialog, setShowDialog] = useState(!Boolean(userTimezone));
+  const [showDialog, setShowDialog] = useState(Boolean(userTimezone));
 
   return (
     <Dialog open={showDialog} onOpenChange={setShowDialog}>
-      <DialogContent>
+      <DialogContent className="border-0 outline-0 pb-10">
         <DialogHeader>
           <DialogTitle className="text-2xl">Alert</DialogTitle>
         </DialogHeader>
@@ -24,7 +24,7 @@ export const TimezoneAlert = () => {
           </p>
           <br />
           <p>
-            To ensure proper functioning of the system, please manually set your
+            For best user experience, please manually set your
             timezone in the user menu
           </p>
         </div>
