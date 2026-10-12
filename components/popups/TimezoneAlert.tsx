@@ -24,8 +24,8 @@ export const TimezoneAlert = () => {
           </p>
           <br />
           <p>
-            For best user experience, please manually set your
-            timezone in the user menu
+            For best user experience, please manually set your timezone in the
+            user menu
           </p>
         </div>
       </DialogContent>
