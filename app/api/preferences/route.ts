@@ -1,7 +1,6 @@
 import { auth } from "@/app/auth";
 import {
   BadRequestError,
-  NotFoundError,
   UnauthorizedError,
 } from "@/lib/customError";
 import { errorHandler } from "@/lib/errorHandler";
