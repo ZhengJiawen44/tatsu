@@ -1,7 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { Priority } from "@prisma/client";
 import {
-  BaseServerError,
   UnauthorizedError,
   BadRequestError,
   InternalError,
@@ -67,50 +66,46 @@ export async function POST(req: NextRequest) {
       },
     });
     if (eventCalendar && todo.dtstart && todo.due) {
-      try {
-        const { calDavClient } = await createCaldavClientFromDB(user.id);
-        const uid = crypto.randomUUID();
-        const iCalString = genICSData({
-          summary: title,
-          description,
-          start: todo.dtstart,
-          end: todo.due,
-          rrule,
-        });
-        const res = await calDavClient.createCalendarObject({
-          calendar: {
-            ...eventCalendar,
-            timezone: eventCalendar.timezone ?? undefined,
-            ctag: eventCalendar.ctag ?? undefined,
-            syncToken: eventCalendar.syncToken ?? undefined,
-            components: eventCalendar.components as string[],
-          },
-          iCalString,
-          filename: `${uid}.ics`,
-        });
+      const { calDavClient } = await createCaldavClientFromDB(user.id);
+      const uid = crypto.randomUUID();
+      const iCalString = genICSData({
+        summary: title,
+        description,
+        start: todo.dtstart,
+        end: todo.due,
+        rrule,
+      });
+      const res = await calDavClient.createCalendarObject({
+        calendar: {
+          ...eventCalendar,
+          timezone: eventCalendar.timezone ?? undefined,
+          ctag: eventCalendar.ctag ?? undefined,
+          syncToken: eventCalendar.syncToken ?? undefined,
+          components: eventCalendar.components as string[],
+        },
+        iCalString,
+        filename: `${uid}.ics`,
+      });
 
-        if (!res.ok) {
-          throw new Error(
-            `CalDAV server rejected the request: ${res.status} ${res.statusText}`,
-          );
-        }
-        const etag = res.headers.get("etag") ?? "";
-        const remoteUrl = `${eventCalendar.url}${uid}.ics`;
-
-        await prisma.syncMetaData.create({
-          data: {
-            uid,
-            todoId: todo.id,
-            caldavCalendarId: eventCalendar.id,
-            remoteUrl,
-            etag,
-            lastSyncedAt: new Date(),
-            icsData: iCalString,
-          },
-        });
-      } catch (error) {
-        console.error("CalDAV sync failed, todo saved locally only:", error);
+      if (!res.ok) {
+        throw new Error(
+          `todo created but not synced; CalDAV server rejected the request: ${res.status} ${res.statusText}`,
+        );
       }
+      const etag = res.headers.get("etag") ?? "";
+      const remoteUrl = `${eventCalendar.url}${uid}.ics`;
+
+      await prisma.syncMetaData.create({
+        data: {
+          uid,
+          todoId: todo.id,
+          caldavCalendarId: eventCalendar.id,
+          remoteUrl,
+          etag,
+          lastSyncedAt: new Date(),
+          icsData: iCalString,
+        },
+      });
     }
 
     if (!todo) throw new InternalError("todo cannot be created at this time");
@@ -120,26 +115,7 @@ export async function POST(req: NextRequest) {
       { status: 200 },
     );
   } catch (error) {
-    console.log(error);
-
-    //handle custom error
-    if (error instanceof BaseServerError) {
-      return NextResponse.json(
-        { message: error.message },
-        { status: error.status },
-      );
-    }
-
-    //handle generic error
-    return NextResponse.json(
-      {
-        message:
-          error instanceof Error
-            ? error.message.slice(0, 50)
-            : "an unexpected error occured",
-      },
-      { status: 500 },
-    );
+    return errorHandler(error);
   }
 }
 

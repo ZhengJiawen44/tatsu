@@ -1,6 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
 import {
-  BaseServerError,
   UnauthorizedError,
   BadRequestError,
   InternalError,
@@ -8,6 +7,7 @@ import {
 import { prisma } from "@/lib/prisma/client";
 import { noteSchema } from "@/schema";
 import { auth } from "@/app/auth";
+import { errorHandler } from "@/lib/errorHandler";
 
 export async function POST(req: NextRequest) {
   try {
@@ -32,26 +32,7 @@ export async function POST(req: NextRequest) {
       { status: 200 },
     );
   } catch (error) {
-    console.log(error);
-
-    //handle custom error
-    if (error instanceof BaseServerError) {
-      return NextResponse.json(
-        { message: error.message },
-        { status: error.status },
-      );
-    }
-
-    //handle generic error
-    return NextResponse.json(
-      {
-        message:
-          error instanceof Error
-            ? error.message.slice(0, 50)
-            : "an unexpected error occured",
-      },
-      { status: 500 },
-    );
+    return errorHandler(error);
   }
 }
 
@@ -71,25 +52,6 @@ export async function GET() {
 
     return NextResponse.json({ notes }, { status: 200 });
   } catch (error) {
-    console.log(error);
-
-    //handle custom error
-    if (error instanceof BaseServerError) {
-      return NextResponse.json(
-        { message: error.message },
-        { status: error.status },
-      );
-    }
-
-    //handle generic error
-    return NextResponse.json(
-      {
-        message:
-          error instanceof Error
-            ? error.message.slice(0, 50)
-            : "an unexpected error occured",
-      },
-      { status: 500 },
-    );
+    return errorHandler(error);
   }
 }

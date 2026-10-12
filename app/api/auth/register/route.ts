@@ -1,15 +1,12 @@
 import { NextRequest, NextResponse } from "next/server";
 import { registrationSchema } from "@/schema";
 import { prisma } from "@/lib/prisma/client";
-import {
-  BaseServerError,
-  BadRequestError,
-  InternalError,
-} from "@/lib/customError";
+import { BadRequestError, InternalError } from "@/lib/customError";
 import { sha256 } from "@noble/hashes/sha256";
 import { pbkdf2 } from "@noble/hashes/pbkdf2";
 import { randomBytes } from "@noble/hashes/utils";
 import { bytesToHex } from "@noble/hashes/utils";
+import { errorHandler } from "@/lib/errorHandler";
 
 export async function POST(req: NextRequest) {
   try {
@@ -57,25 +54,6 @@ export async function POST(req: NextRequest) {
 
     return NextResponse.json({ message: "account created" }, { status: 200 });
   } catch (error) {
-    console.log(error);
-
-    // handle custom error
-    if (error instanceof BaseServerError) {
-      return NextResponse.json(
-        { message: error.message },
-        { status: error.status },
-      );
-    }
-
-    // handle generic error
-    return NextResponse.json(
-      {
-        message:
-          error instanceof Error
-            ? error.message.slice(0, 50)
-            : "an unexpected error occured",
-      },
-      { status: 500 },
-    );
+    return errorHandler(error);
   }
 }

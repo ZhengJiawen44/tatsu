@@ -1,11 +1,8 @@
 import { NextResponse } from "next/server";
-import {
-  BaseServerError,
-  UnauthorizedError,
-  InternalError,
-} from "@/lib/customError";
+import { UnauthorizedError, InternalError } from "@/lib/customError";
 import { prisma } from "@/lib/prisma/client";
 import { auth } from "@/app/auth";
+import { errorHandler } from "@/lib/errorHandler";
 
 export async function GET() {
   try {
@@ -32,25 +29,6 @@ export async function GET() {
       },
     );
   } catch (error) {
-    console.log(error);
-
-    //handle custom error
-    if (error instanceof BaseServerError) {
-      return NextResponse.json(
-        { message: error.message },
-        { status: error.status },
-      );
-    }
-
-    //handle generic error
-    return NextResponse.json(
-      {
-        message:
-          error instanceof Error
-            ? error.message.slice(0, 50)
-            : "an unexpected error occured",
-      },
-      { status: 500 },
-    );
+    return errorHandler(error);
   }
 }

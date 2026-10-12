@@ -1,6 +1,6 @@
-import { DAVObject } from 'tsdav'
-import { prisma } from '../prisma/client'
-import { parseIcsData } from './parseIcsDataToLocal'
+import { DAVObject } from "tsdav";
+import { prisma } from "../prisma/client";
+import { parseIcsData } from "./parseIcsDataToLocal";
 /**insert or update todos from calendar objects*/
 /**
  * @param objects - array of calendar objects
@@ -13,26 +13,29 @@ export async function upsertTodosFromCalendarObjects(
   objects: DAVObject[],
   calendarId: string,
   userId: string,
-  serverUrl: string
+  serverUrl: string,
 ) {
-  return prisma.$transaction(async tx => {
+  return prisma.$transaction(async (tx) => {
     const results = await Promise.all(
-      objects.map(async uo => {
-        const parsed = parseIcsData(uo.data)
-        if (!parsed) return null
-        const { master, instances } = parsed
+      objects.map(async (uo) => {
+        const parsed = parseIcsData(uo.data);
+        if (!parsed) return null;
+        const { master, instances } = parsed;
 
-        const fullUrl = serverUrl && !uo.url.startsWith('http') ? `${serverUrl}${uo.url}` : uo.url
+        const fullUrl =
+          serverUrl && !uo.url.startsWith("http")
+            ? `${serverUrl}${uo.url}`
+            : uo.url;
         const syncMetaData = await tx.syncMetaData.findUnique({
-          where: { remoteUrl: fullUrl }
-        })
+          where: { remoteUrl: fullUrl },
+        });
 
         // if uo is new
         if (!syncMetaData) {
           return tx.todo.create({
             data: {
               userID: userId,
-              title: master.title ?? 'Untitled',
+              title: master.title ?? "Untitled",
               description: master.description,
               dtstart: master.dtstart,
               due: master.due,
@@ -44,14 +47,14 @@ export async function upsertTodosFromCalendarObjects(
               syncMetaData: {
                 create: {
                   caldavCalendarId: calendarId,
-                  etag: uo.etag ?? '',
+                  etag: uo.etag ?? "",
                   remoteUrl: fullUrl,
                   icsData: uo.data,
-                  uid: master.uid
-                }
+                  uid: master.uid,
+                },
               },
               instances: {
-                create: instances.map(instance => {
+                create: instances.map((instance) => {
                   return {
                     recurId: instance.recurId,
                     instanceDate: new Date(instance.recurId),
@@ -60,24 +63,25 @@ export async function upsertTodosFromCalendarObjects(
                     overriddenDtstart: instance.overriddenDtstart,
                     overriddenDue: instance.overriddenDue,
                     overriddenPriority: instance.overriddenPriority,
-                    overriddenDurationMinutes: instance.overriddenDurationMinutes
-                  }
-                })
-              }
-            }
-          })
+                    overriddenDurationMinutes:
+                      instance.overriddenDurationMinutes,
+                  };
+                }),
+              },
+            },
+          });
         }
         // if this uo was already synced to
         // recreate instances for easy reconcilliation
         await tx.todoInstance.deleteMany({
           where: {
-            todoId: syncMetaData.todoId
-          }
-        })
+            todoId: syncMetaData.todoId,
+          },
+        });
         return tx.todo.update({
           where: { id: syncMetaData.todoId },
           data: {
-            title: master.title ?? 'Untitled',
+            title: master.title ?? "Untitled",
             description: master.description,
             dtstart: master.dtstart,
             due: master.due,
@@ -88,13 +92,13 @@ export async function upsertTodosFromCalendarObjects(
             priority: master.priority,
             syncMetaData: {
               update: {
-                etag: uo.etag ?? '',
+                etag: uo.etag ?? "",
                 icsData: uo.data,
-                uid: master.uid
-              }
+                uid: master.uid,
+              },
             },
             instances: {
-              create: instances.map(instance => {
+              create: instances.map((instance) => {
                 return {
                   recurId: instance.recurId,
                   instanceDate: new Date(instance.recurId),
@@ -103,15 +107,15 @@ export async function upsertTodosFromCalendarObjects(
                   overriddenDtstart: instance.overriddenDtstart,
                   overriddenDue: instance.overriddenDue,
                   overriddenPriority: instance.overriddenPriority,
-                  overriddenDurationMinutes: instance.overriddenDurationMinutes
-                }
-              })
-            }
-          }
-        })
-      })
-    )
+                  overriddenDurationMinutes: instance.overriddenDurationMinutes,
+                };
+              }),
+            },
+          },
+        });
+      }),
+    );
 
-    return results.filter(r => r !== null)
-  })
+    return results.filter((r) => r !== null);
+  });
 }

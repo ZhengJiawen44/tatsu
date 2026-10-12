@@ -91,8 +91,7 @@ export async function DELETE() {
       { status: 200 },
     );
   } catch (error) {
-    console.log(error);
-    errorHandler(error);
+    return errorHandler(error);
   }
 }
 
@@ -107,7 +106,6 @@ export async function GET() {
     });
     return NextResponse.json({ calDavAccount }, { status: 200 });
   } catch (error) {
-    console.log(error);
-    errorHandler(error);
+    return errorHandler(error);
   }
 }

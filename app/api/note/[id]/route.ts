@@ -1,6 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
 import {
-  BaseServerError,
   UnauthorizedError,
   InternalError,
   BadRequestError,
@@ -8,6 +7,7 @@ import {
 import { prisma } from "@/lib/prisma/client";
 import { auth } from "@/app/auth";
 import { noteSchema } from "@/schema";
+import { errorHandler } from "@/lib/errorHandler";
 
 export async function DELETE(
   req: NextRequest,
@@ -37,26 +37,7 @@ export async function DELETE(
 
     return NextResponse.json({ message: "note deleted" }, { status: 200 });
   } catch (error) {
-    console.log(error);
-
-    // Handle custom error
-    if (error instanceof BaseServerError) {
-      return NextResponse.json(
-        { message: error.message },
-        { status: error.status },
-      );
-    }
-
-    // Handle generic error
-    return NextResponse.json(
-      {
-        message:
-          error instanceof Error
-            ? error.message.slice(0, 50)
-            : "An unexpected error occurred",
-      },
-      { status: 500 },
-    );
+    return errorHandler(error);
   }
 }
 
@@ -102,23 +83,6 @@ export async function PATCH(
 
     return NextResponse.json({ message: "note updated" }, { status: 200 });
   } catch (error) {
-    console.log(error);
-
-    if (error instanceof BaseServerError) {
-      return NextResponse.json(
-        { message: error.message },
-        { status: error.status },
-      );
-    }
-
-    return NextResponse.json(
-      {
-        message:
-          error instanceof Error
-            ? error.message.slice(0, 50)
-            : "An unexpected error occurred",
-      },
-      { status: 500 },
-    );
+    return errorHandler(error);
   }
 }

@@ -1,6 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
 import {
-  BaseServerError,
   UnauthorizedError,
   BadRequestError,
   InternalError,
@@ -68,24 +67,7 @@ export async function DELETE(
 
     return NextResponse.json({ message: "todo deleted" }, { status: 200 });
   } catch (error) {
-    // Handle custom error
-    if (error instanceof BaseServerError) {
-      return NextResponse.json(
-        { message: error.message },
-        { status: error.status },
-      );
-    }
-
-    // Handle generic error
-    return NextResponse.json(
-      {
-        message:
-          error instanceof Error
-            ? error.message.slice(0, 50)
-            : "An unexpected error occurred",
-      },
-      { status: 500 },
-    );
+    return errorHandler(error);
   }
 }
 
@@ -289,7 +271,7 @@ export async function PATCH(
           data: updatedIcsComp,
         },
       });
-        console.log("--------------------------------------",res)
+      console.log("--------------------------------------", res);
 
       const etag = res.headers.get("etag") ?? "";
       if (!etag)

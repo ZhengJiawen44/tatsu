@@ -3,8 +3,8 @@ import {
   UnauthorizedError,
   BadRequestError,
   InternalError,
-  BaseServerError,
 } from "@/lib/customError";
+import { errorHandler } from "@/lib/errorHandler";
 import { prisma } from "@/lib/prisma/client";
 import { Prisma } from "@prisma/client";
 import { NextRequest, NextResponse } from "next/server";
@@ -38,23 +38,6 @@ export async function PATCH(req: NextRequest) {
 
     return NextResponse.json({ message: "Todo updated" }, { status: 200 });
   } catch (error) {
-    console.log(error);
-
-    if (error instanceof BaseServerError) {
-      return NextResponse.json(
-        { message: error.message },
-        { status: error.status },
-      );
-    }
-
-    return NextResponse.json(
-      {
-        message:
-          error instanceof Error
-            ? error.message.slice(0, 50)
-            : "An unexpected error occurred",
-      },
-      { status: 500 },
-    );
+    return errorHandler(error);
   }
 }

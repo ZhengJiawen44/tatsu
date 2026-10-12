@@ -3,13 +3,13 @@ import {
   UnauthorizedError,
   BadRequestError,
   InternalError,
-  BaseServerError,
   NotFoundError,
 } from "@/lib/customError";
 import { prisma } from "@/lib/prisma/client";
 import { NextRequest, NextResponse } from "next/server";
 import { DeleteObjectCommand } from "@aws-sdk/client-s3";
 import { getS3Client } from "@/lib/s3";
+import { errorHandler } from "@/lib/errorHandler";
 
 export async function DELETE(
   req: NextRequest,
@@ -62,25 +62,6 @@ export async function DELETE(
     }
     return NextResponse.json({ message: "file deleted" }, { status: 200 });
   } catch (error) {
-    console.log(error);
-
-    // Handle custom error
-    if (error instanceof BaseServerError) {
-      return NextResponse.json(
-        { message: error.message },
-        { status: error.status },
-      );
-    }
-
-    // Handle generic error
-    return NextResponse.json(
-      {
-        message:
-          error instanceof Error
-            ? error.message.slice(0, 50)
-            : "An unexpected error occurred",
-      },
-      { status: 500 },
-    );
+    return errorHandler(error);
   }
 }

@@ -2,9 +2,9 @@ import { auth } from "@/app/auth";
 import {
   UnauthorizedError,
   InternalError,
-  BaseServerError,
   BadRequestError,
 } from "@/lib/customError";
+import { errorHandler } from "@/lib/errorHandler";
 import { prisma } from "@/lib/prisma/client";
 import { NextRequest, NextResponse } from "next/server";
 
@@ -34,24 +34,7 @@ export async function GET() {
       { status: 200 },
     );
   } catch (error) {
-    console.log(error);
-
-    if (error instanceof BaseServerError) {
-      return NextResponse.json(
-        { message: error.message },
-        { status: error.status },
-      );
-    }
-
-    return NextResponse.json(
-      {
-        message:
-          error instanceof Error
-            ? error.message.slice(0, 50)
-            : "An unexpected error occurred",
-      },
-      { status: 500 },
-    );
+    return errorHandler(error);
   }
 }
 
@@ -112,23 +95,6 @@ export async function PATCH(req: NextRequest) {
       { status: 200 },
     );
   } catch (error) {
-    console.log(error);
-
-    if (error instanceof BaseServerError) {
-      return NextResponse.json(
-        { message: error.message },
-        { status: error.status },
-      );
-    }
-
-    return NextResponse.json(
-      {
-        message:
-          error instanceof Error
-            ? error.message.slice(0, 50)
-            : "An unexpected error occurred",
-      },
-      { status: 500 },
-    );
+    return errorHandler(error);
   }
 }

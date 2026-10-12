@@ -51,7 +51,6 @@ export async function PATCH(
       { status: 200 },
     );
   } catch (error) {
-    console.log(error);
     return errorHandler(error);
   }
 }
@@ -77,7 +76,6 @@ export async function DELETE(
 
     return NextResponse.json({ message: "project deleted" }, { status: 200 });
   } catch (error) {
-    console.log(error);
     return errorHandler(error);
   }
 }
