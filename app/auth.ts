@@ -15,6 +15,8 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
   session: { strategy: "jwt" },
   events: {
     async signIn({ user, account }) {
+      console.log("signin event started")
+
       // entry for google caldav sync.
       // if provider is google, refresh token exists, and authjs callback url has calendarSync=true, then run this function.
       if (
@@ -30,6 +32,8 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       const calendarSync =
         new URL(callbackUrl).searchParams.get("calendarSync") === "true";
       if (calendarSync !== true) return;
+
+      console.log("creating calendar account")
 
       //sync logic: store the refresh token in the database to be used for future syncs.
       await prisma.$transaction(async (tx) => {
@@ -48,6 +52,8 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
           },
         });
       });
+      console.log("created calendar account")
+
     },
   },
   providers: [
