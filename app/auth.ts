@@ -103,21 +103,6 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
           },
         });
       });
-      await prisma.calDavAccount.deleteMany({
-        where: {
-          userId: user.id!,
-        },
-      });
-      await prisma.calDavAccount.create({
-        data: {
-          userId: user.id!,
-          refresh_token: account.refresh_token,
-          username: user.email!,
-          service: "google",
-          serverUrl: "https://apidata.googleusercontent.com/caldav/v2/",
-        },
-      });
-
       return true;
     },
     async jwt({ token, user, account }) {
