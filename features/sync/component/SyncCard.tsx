@@ -13,7 +13,7 @@ export default function SyncCard() {
   const { deleteMutateFn } = useDeleteCalDavAccount();
   const { resyncMutateFn, resyncStatus } = useResyncCalDavAccount();
   return (
-    <div className="border rounded-md bg-background w-full mb-9 pb-2">
+    <div className="border rounded-md bg-background w-full mb-9">
       <div className="flex flex-wrap gap-4 justify-between bg-card p-4 py-8 items-center border-b">
         <p className="text-2xl flex items-end gap-2">
           <span className="text-muted-foreground text-sm">{t("syncedTo")}</span>{" "}
@@ -29,6 +29,7 @@ export default function SyncCard() {
         </p>
         <div className="flex gap-2">
           <Button
+            disabled={!calDavAccount}
             variant="outline"
             className=""
             onClick={() => resyncMutateFn()}
@@ -41,6 +42,7 @@ export default function SyncCard() {
             {t("resync")}
           </Button>
           <Button
+            disabled={!calDavAccount}
             variant="destructive"
             onClick={() => {
               deleteMutateFn();
@@ -51,7 +53,7 @@ export default function SyncCard() {
           </Button>
         </div>
       </div>
-      <CaldavCalendarTable />
+      {calDavAccount && <CaldavCalendarTable />}
     </div>
   );
 }
