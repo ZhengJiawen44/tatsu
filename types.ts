@@ -165,6 +165,7 @@ export type CaldavCalendar = {
   credentialId: string;
   selected: boolean;
   components: string[];
+  currentUserPrivilegeSet: string[];
 };
 
 export type syncedTodo = TodoItemType & { syncMetaData: syncMetaDataType };
