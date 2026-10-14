@@ -19,6 +19,7 @@ export default async function createCalendarFromRemote(
   userId: string,
   calendarCredential: CalendarCredential,
   calendar: DAVCalendar,
+  userPrivilegeSet?: string[],
 ) {
   const components = (calendar.components ?? []).filter(
     (c): c is CalendarComponent => validComponents.has(c as CalendarComponent),
@@ -38,6 +39,7 @@ export default async function createCalendarFromRemote(
       ctag: String(calendar.ctag),
       syncToken: calendar.syncToken,
       components,
+      currentUserPrivilegeSet: userPrivilegeSet,
     },
   });
 }

@@ -1,4 +1,4 @@
-import { DAVCalendar, DAVNamespaceShort } from "tsdav";
+import { DAVNamespaceShort } from "tsdav";
 import createCaldavClientFromDB from "./createCaldavClientFromDB";
 import { InternalError } from "../customError";
 
@@ -27,17 +27,6 @@ export async function syncCalendars(
   userId: string,
 ) {
   const { calDavClient } = await createCaldavClientFromDB(userId);
-  await calDavClient.fetchCalendars({
-    props: {
-      [`${DAVNamespaceShort.DAV}:displayname`]: {},
-      [`${DAVNamespaceShort.DAV}:resourcetype`]: {},
-      [`${DAVNamespaceShort.CALDAV}:supported-calendar-component-set`]: {},
-      [`${DAVNamespaceShort.DAV}:current-user-privilege-set`]: {},
-    },
-    projectedProps: {
-      currentUserPrivilegeSet: true,
-    },
-  }) as Pick<DAVCalendar, "url"|"projectedProps">[]
 
   const { created, updated, deleted } = await calDavClient.syncCalendars({
     oldCalendars: localCalendars.map((localCalendar) => {

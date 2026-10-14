@@ -7,6 +7,7 @@ import createCalendarFromRemote from "@/lib/sync/createCalendarFromRemote";
 import createCaldavClientFromDB from "@/lib/sync/createCaldavClientFromDB";
 import { upsertTodosFromCalendarObjects } from "@/lib/sync/upsertTodosFromCalendarObjects";
 import { syncCalendars } from "@/lib/sync/syncCalendars";
+import { getCalendarPrivilegeMap } from "@/lib/sync/getCalendarPrivilegeMap";
 export async function POST() {
   try {
     const session = await auth();
@@ -23,6 +24,7 @@ export async function POST() {
       localCalendars,
       user.id,
     );
+    const calendarPriviliegeMap = await getCalendarPrivilegeMap(calDavClient);
 
     // created calendars
     await Promise.all(
@@ -32,6 +34,8 @@ export async function POST() {
           user.id!,
           caldendarCredential,
           newCalendar,
+          calendarPriviliegeMap.find((map) => map.url === newCalendar.url)
+            ?.privileges,
         );
         //get all remote objects from calendar
         const calendarObjects = await calDavClient.fetchCalendarObjects({
