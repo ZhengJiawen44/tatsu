@@ -65,9 +65,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
     }),
   ],
   callbacks: {
-    async signIn({user, account}){
-       console.log("signin event started")
-
+    async signIn({ user, account }) {
       // entry for google caldav sync.
       // if provider is google, refresh token exists, and authjs callback url has calendarSync=true, then run this function.
       if (
@@ -78,13 +76,15 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       )
         return true;
       const jar = await cookies();
-      const callbackUrl = jar.get("authjs.callback-url")?.value;
+      const callbackUrlCookieName =
+        process.env.NODE_ENV == "production"
+          ? "__Secure-authjs.callback-url"
+          : "authjs.callback-url";
+      const callbackUrl = jar.get(callbackUrlCookieName)?.value;
       if (!callbackUrl) return true;
       const calendarSync =
         new URL(callbackUrl).searchParams.get("calendarSync") === "true";
       if (calendarSync !== true) return true;
-
-      console.log("creating calendar account")
 
       //sync logic: store the refresh token in the database to be used for future syncs.
       await prisma.$transaction(async (tx) => {
@@ -103,23 +103,22 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
           },
         });
       });
-         await prisma.calDavAccount.deleteMany({
-          where: {
-            userId: user.id!,
-          },
-        });
-          await prisma.calDavAccount.create({
-          data: {
-            userId: user.id!,
-            refresh_token: account.refresh_token,
-            username: user.email!,
-            service: "google",
-            serverUrl: "https://apidata.googleusercontent.com/caldav/v2/",
-          },
-        });
-      console.log("created calendar account")
+      await prisma.calDavAccount.deleteMany({
+        where: {
+          userId: user.id!,
+        },
+      });
+      await prisma.calDavAccount.create({
+        data: {
+          userId: user.id!,
+          refresh_token: account.refresh_token,
+          username: user.email!,
+          service: "google",
+          serverUrl: "https://apidata.googleusercontent.com/caldav/v2/",
+        },
+      });
 
-      return true
+      return true;
     },
     async jwt({ token, user, account }) {
       if (user) {

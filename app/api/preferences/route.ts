@@ -1,8 +1,5 @@
 import { auth } from "@/app/auth";
-import {
-  BadRequestError,
-  UnauthorizedError,
-} from "@/lib/customError";
+import { BadRequestError, UnauthorizedError } from "@/lib/customError";
 import { errorHandler } from "@/lib/errorHandler";
 import { prisma } from "@/lib/prisma/client";
 import { userPreferencesSchema } from "@/schema";
