@@ -68,12 +68,14 @@ export async function POST(req: NextRequest) {
     if (eventCalendar && todo.dtstart && todo.due) {
       const { calDavClient } = await createCaldavClientFromDB(user.id);
       const uid = crypto.randomUUID();
+      const filename = `${uid}.ics`;
       const iCalString = genICSData({
         summary: title,
         description,
         start: todo.dtstart,
         end: todo.due,
         rrule,
+        uid,
       });
       const res = await calDavClient.createCalendarObject({
         calendar: {
@@ -84,7 +86,7 @@ export async function POST(req: NextRequest) {
           components: eventCalendar.components as string[],
         },
         iCalString,
-        filename: `${uid}.ics`,
+        filename,
       });
 
       if (!res.ok) {
@@ -92,8 +94,24 @@ export async function POST(req: NextRequest) {
           `todo created but not synced; CalDAV server rejected the request: ${res.status} ${res.statusText}`,
         );
       }
-      const etag = res.headers.get("etag") ?? "";
-      const remoteUrl = `${eventCalendar.url}${uid}.ics`;
+
+      const location = res.headers.get("location");
+      const remoteUrl = location
+        ? new URL(location, eventCalendar.url).href
+        : new URL(filename, eventCalendar.url).href;
+
+      let etag = null;
+      if (!res.headers.get("etag")) {
+        const [object] = await calDavClient.fetchCalendarObjects({
+          calendar: { url: eventCalendar.url },
+          objectUrls: [remoteUrl],
+        });
+        etag = object?.etag;
+      }else{
+        etag = res.headers.get("etag")
+      }
+      if (!etag)
+        throw new InternalError("error creating remote calendar object: no etag");
 
       await prisma.syncMetaData.create({
         data: {

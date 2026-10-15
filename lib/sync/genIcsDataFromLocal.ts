@@ -7,6 +7,7 @@ interface createICSDataProps {
   end: Date | undefined;
   rrule?: string | null | undefined;
   recurrenceID?: string;
+  uid: string;
 }
 export function genICSData({
   summary,
@@ -14,6 +15,7 @@ export function genICSData({
   start,
   end,
   rrule,
+  uid,
 }: createICSDataProps) {
   const cal = new ICAL.Component(["vcalendar", [], []]);
   cal.updatePropertyWithValue("prodid", "-//Tatsu//EN");
@@ -24,7 +26,7 @@ export function genICSData({
     "dtstamp",
     ICAL.Time.fromJSDate(new Date(), true),
   );
-  event.updatePropertyWithValue("uid", crypto.randomUUID());
+  event.updatePropertyWithValue("uid", uid);
   if (summary) event.updatePropertyWithValue("summary", summary);
   if (description) {
     event.updatePropertyWithValue("description", description);

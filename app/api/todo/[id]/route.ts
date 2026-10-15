@@ -13,6 +13,7 @@ import createCaldavClientFromDB from "@/lib/sync/createCaldavClientFromDB";
 import { parseIcsToVeventComponent } from "@/lib/sync/parseIcsToComponent";
 import ICAL from "ical.js";
 
+
 export async function DELETE(
   req: NextRequest,
   { params }: { params: Promise<{ id: string }> },
@@ -204,6 +205,12 @@ export async function PATCH(
     }
     //if todo exists on the remote calDav, sync the changes
     if (syncMetaData && syncMetaData.icsData) {
+      const calendar = await prisma.caldavCalendar.findUnique({where:{
+        id: syncMetaData.caldavCalendarId
+      }})
+      if(!calendar) throw new Error(
+          "could not find calendar for the synced todo",
+        );
       const comp = parseIcsToVeventComponent(syncMetaData.icsData);
       const allVevents = comp.getAllSubcomponents("vevent");
       const masterVevent = allVevents.find(
@@ -271,11 +278,20 @@ export async function PATCH(
           data: updatedIcsComp,
         },
       });
-      console.log("--------------------------------------", res);
 
-      const etag = res.headers.get("etag") ?? "";
+      let etag = null;
+      if (!res.headers.get("etag")) {
+        const [object] = await calDavClient.fetchCalendarObjects({
+          calendar: { url: calendar.url },
+          objectUrls: [syncMetaData.remoteUrl],
+        });
+        etag = object?.etag;
+      }else{
+        etag = res.headers.get("etag")
+      }
       if (!etag)
-        throw new InternalError("error updating remote calendar Objects");
+        throw new InternalError("error creating remote calendar object: no etag");
+
       //sync local sync data
       await prisma.syncMetaData.update({
         where: { todoId: todoToUpdate.id },
