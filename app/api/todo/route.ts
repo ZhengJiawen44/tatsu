@@ -107,11 +107,13 @@ export async function POST(req: NextRequest) {
           objectUrls: [remoteUrl],
         });
         etag = object?.etag;
-      }else{
-        etag = res.headers.get("etag")
+      } else {
+        etag = res.headers.get("etag");
       }
       if (!etag)
-        throw new InternalError("error creating remote calendar object: no etag");
+        throw new InternalError(
+          "error creating remote calendar object: no etag",
+        );
 
       await prisma.syncMetaData.create({
         data: {
