@@ -147,7 +147,18 @@ export async function PATCH(
           data: updatedIcs,
         },
       });
-      const etag = res.headers.get("etag") ?? "";
+
+      let etag = null;
+      if (!res.headers.get("etag")) {
+        const [object] = await calDavClient.fetchCalendarObjects({
+          calendar: { url: calendar.url },
+          objectUrls: [syncMetaData.remoteUrl],
+        });
+        etag = object.etag;
+      } else {
+        etag = res.headers.get("etag");
+      }
+
       if (!etag)
         throw new InternalError("error updating remote calendar Objects");
       //sync local sync data
