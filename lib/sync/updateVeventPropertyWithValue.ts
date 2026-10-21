@@ -34,19 +34,29 @@ export function updateVeventPropertyWithValue(
     toMasterShapedTime(value, masterDtstart, tzid),
   );
 
-  //timed events
-  if (masterDtstart.type != "date") {
+  // TZID belongs only on date with local time and time zone reference.
+  if (masterDtstart.getParameter("tzid")) {
     vevent.getFirstProperty(property)!.setParameter("tzid", tzid);
   }
 }
 
 /**
- * @description Shape a JS Date into the the master's date format (all-day vs timed).
+ * @description Shape a JS Date into the the master's date format (all-day vs timed). For more detail read 3.8.4.4 of rfc 5545
  * @param jsDate a javascript date
  * @param masterDtstart reference for the update, typically dtstart from the master
  * @param tzid IANA timezone string
  * @returns ICAL.Time object
  */
+
+// there are 4 types of dates:
+//
+// DTSTART;VALUE=DATE:20261020                       all day event
+// DTSTART:20261020T16000000Z                        utc date
+// DTSTART;TZID=Asia/Shanghai:20261012T13000000      date with tzid
+// DTSTART:20261020T16000000                         floating time
+//
+// according to rfc 5545, the recurrence-id should be of the same type as the dtstart in that recurrence (master dtstart)
+
 export function toMasterShapedTime(
   jsDate: Date,
   masterDtstart: ICAL.Property,
@@ -64,6 +74,15 @@ export function toMasterShapedTime(
     });
   }
 
-  //events with duration
-  return ICAL.Time.fromJSDate(localDate, false);
+  const masterTime = masterDtstart.getFirstValue() as ICAL.Time;
+  //date with tzid
+  if (masterDtstart.getParameter("tzid")) {
+    return ICAL.Time.fromJSDate(localDate, false);
+  }
+  //floating time
+  if (masterTime.zone.tzid === "floating") {
+    return ICAL.Time.fromJSDate(localDate, false);
+  }
+  //utc date
+  return ICAL.Time.fromJSDate(jsDate, true);
 }
