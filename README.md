@@ -11,7 +11,7 @@
 ![hero](public/hero.webp)
 [demo video](https://www.youtube.com/watch?v=NWD6fUluXuE)
 
-## 1. Introduction
+## 1. Introductione
 
 Tatsu is a todo app on steroids, designed to keep you motivated and productive.
 
