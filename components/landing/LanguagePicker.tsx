@@ -12,7 +12,7 @@ export default function LanguagePicker() {
   const locale = useLocale();
   return (
     <DropdownMenu>
-      <DropdownMenuTrigger className="border cursor-pointer bg-background hover:bg-popover text-muted-foreground hover:text-foreground flex items-center gap-2 px-3 py-1 rounded-full">
+      <DropdownMenuTrigger className="text-sm border cursor-pointer bg-background hover:bg-popover text-muted-foreground hover:text-foreground flex items-center gap-2 px-3 py-1 rounded-full">
         {locale}
         <ChevronDown className="w-3 h-3" />
       </DropdownMenuTrigger>

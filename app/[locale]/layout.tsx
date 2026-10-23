@@ -13,7 +13,7 @@ type Props = {
 };
 
 export const metadata: Metadata = {
-  title: "Sanity",
+  title: "Tatsu",
   description:
     "Organize your tasks, schedule your day, and plan projects with Sanity, a secure and easy-to-use task planner.",
 };

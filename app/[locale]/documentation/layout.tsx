@@ -10,7 +10,7 @@ export default function DocumentationLayout({
     <div className="flex flex-col h-screen overflow-hidden">
       {/* Header bar */}
       <header className="bg-[#111322]/80 border-b shrink-0 py-3 px-8 flex items-center gap-8">
-        <Image src="/Logo.png" alt="Logo" width={50} height={20} />
+        <Image src="/favicon.ico" alt="Logo" width={50} height={20} />
         <Link
           href="/documentation"
           className="tracking-tight text-lime font-thin"

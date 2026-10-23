@@ -7,6 +7,7 @@ import Image from "next/image";
 import { getTranslations } from "next-intl/server";
 import LanguagePicker from "@/components/landing/LanguagePicker";
 import { Github } from "lucide-react";
+import { MobileNavigation } from "@/components/landing/MobileMenu";
 
 const Page = async () => {
   const session = await auth();
@@ -14,26 +15,6 @@ const Page = async () => {
   if (!session?.user)
     return (
       <div className="bg-muted relative">
-        {/* Gradient Blobs */}
-        <div className="absolute inset-0 overflow-hidden pointer-events-none z-0 border blur-3xl opacity-80">
-          {/* Purple blob — top left area */}
-          <div
-            className="absolute w-[600px] h-[900px] bg-violet-500/20 top-0 left-1/2 -translate-x-1/2 rotate-90"
-            style={{
-              clipPath:
-                "polygon(0% 25%, 40% 10%, 80% 20%, 130% 8%, 170% 22%, 200% 15%, 200% 55%, 160% 68%, 120% 55%, 80% 65%, 40% 52%, 0% 62%)",
-            }}
-          />
-          {/* Indigo blob — center */}
-          <div
-            className="absolute w-[700px] h-[700px] bg-indigo-500/10 blur-[73px] opacity-80 top-[300px] left-1/2 -translate-x-1/2"
-            style={{
-              clipPath:
-                "polygon(-20% 30%, 25% 12%, 60% 28%, 100% 8%, 140% 18%, 180% 5%, 220% 20%, 220% 55%, 180% 68%, 140% 50%, 100% 62%, 60% 48%, 25% 60%, -20% 50%)",
-            }}
-          />
-        </div>
-
         {/* Responsive Header/Navbar */}
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 z-[100]!">
           <div className="flex items-center justify-between py-3 ">
@@ -44,36 +25,47 @@ const Page = async () => {
             >
               <Image
                 className="rounded-lg shadow-2xl"
-                src={"/Logo.png"}
-                width={60}
-                height={15}
+                src={"/favicon.ico"}
+                width={23}
+                height={23}
                 alt="logo"
                 loading="lazy"
               />
+              <span className="tracking-wide ml-1 font-semibold text-lime brightness-120">
+                Tatsu
+              </span>
             </Link>
 
-            {/* Navigation */}
-            <div className="flex items-center gap-2 sm:gap-4">
+            {/* pc Navigation */}
+            <div className="hidden sm:flex items-center gap-2 sm:gap-4">
               <Button
                 asChild
                 variant={"ghost"}
-                className="text-sm sm:text-base px-2 sm:px-4"
+                className="text-sm sm:text-base px-1! hover:bg-transparent"
               >
-                <Link href="/blogs">
-                  <span className="hidden sm:inline">{dict("nav.docs")}</span>
-                  <span className="sm:hidden">{dict("nav.docsShort")}</span>
+                <Link
+                  href="/blogs"
+                  className="text-muted-foreground hover:text-foreground"
+                >
+                  <span className="hidden sm:inline text-sm">
+                    {dict("nav.docs")}
+                  </span>
                 </Link>
               </Button>
-              <div className="text-muted-foreground">|</div>
               <Button
                 asChild
                 variant={"ghost"}
-                className="text-sm sm:text-base px-2 sm:px-4"
+                className="text-sm sm:text-base px-1! hover:bg-transparent text-muted-foreground hover:text-foreground"
               >
-                <Link href="/login" aria-label="Start by logging in">
+                <Link
+                  href="/login"
+                  className="text-sm!"
+                  aria-label="Start by logging in"
+                >
                   {dict("nav.login")}
                 </Link>
               </Button>
+              <div className="text-muted-foreground">|</div>
 
               {/* Github link */}
               <Link
@@ -86,6 +78,8 @@ const Page = async () => {
 
               <LanguagePicker />
             </div>
+            {/* mobile Navigation */}
+            <MobileNavigation />
           </div>
         </div>
 
