@@ -58,6 +58,32 @@
         ]
       }
     ],
+    "moreFeatures": [
+      {
+        "title": "Página personalizável",
+        "description": "Ordene, filtre e agrupe por prioridade, prazo, projetos e muito mais para criar a sua vista personalizada"
+      },
+      {
+        "title": "Atalhos",
+        "description": "Capture tarefas à velocidade do pensamento com atalhos, sem nunca precisar do rato"
+      },
+      {
+        "title": "Captura de tarefas com NLP",
+        "description": "Criação sem atrito de tarefas com intervalos de datas, projetos e prioridades numa só linha"
+      },
+      {
+        "title": "Projetos",
+        "description": "Agrupe as suas tarefas em projetos ricos em cor e nunca mais se perca num mar de tarefas"
+      },
+      {
+        "title": "Lógica de repetição",
+        "description": "Defina as suas tarefas para se repetirem em intervalos altamente personalizáveis e receba-as quando ocorrerem"
+      },
+      {
+        "title": "Privacidade",
+        "description": "O código é open source (licença MIT) e totalmente auto-alojável"
+      }
+    ],
     "securityDemo": {
       "title": "Passkey",
       "subtitle": "Precisamos da sua passkey para desencriptar os seus ficheiros",

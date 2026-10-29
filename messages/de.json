@@ -58,6 +58,32 @@
         ]
       }
     ],
+    "moreFeatures": [
+      {
+        "title": "Anpassbare Seite",
+        "description": "Sortieren, filtern und gruppieren nach Priorität, Frist, Projekten und vielem mehr — für deine persönliche Ansicht"
+      },
+      {
+        "title": "Tastenkürzel",
+        "description": "Erfasse Aufgaben in Gedanken­geschwindigkeit mit Shortcuts, ohne je zur Maus zu greifen"
+      },
+      {
+        "title": "NLP-gestützte Aufgabenerfassung",
+        "description": "Reibungslose Erstellung von Aufgaben mit Zeiträumen, Projekten und Prioritäten in einer Zeile"
+      },
+      {
+        "title": "Projekte",
+        "description": "Gruppiere deine Aufgaben in farbenreiche Projekte und verliere dich nie wieder in einer Flut von Tasks"
+      },
+      {
+        "title": "Wiederholungslogik",
+        "description": "Lass Aufgaben in hochgradig anpassbaren Intervallen wiederkehren und erhalte sie, sobald sie anfallen"
+      },
+      {
+        "title": "Privatsphäre",
+        "description": "Der Code ist Open Source (MIT-Lizenz) und vollständig selbst hostbar"
+      }
+    ],
     "securityDemo": {
       "title": "Passkey",
       "subtitle": "Wir benötigen Ihren Passkey, um Ihre Dateien zu entschlüsseln",

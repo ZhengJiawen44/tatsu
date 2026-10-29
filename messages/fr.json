@@ -58,6 +58,32 @@
         ]
       }
     ],
+    "moreFeatures": [
+      {
+        "title": "Page personnalisable",
+        "description": "Triez, filtrez et regroupez par priorité, échéance, projets et bien plus pour créer votre vue personnalisée"
+      },
+      {
+        "title": "Raccourcis",
+        "description": "Capturez vos tâches à la vitesse de la pensée grâce aux raccourcis, sans jamais toucher à la souris"
+      },
+      {
+        "title": "Saisie assistée par NLP",
+        "description": "Créez sans friction des tâches avec plages de dates, projets et priorités en une seule ligne"
+      },
+      {
+        "title": "Projets",
+        "description": "Regroupez vos tâches dans des projets riches en couleurs et ne vous perdez plus dans un océan de tâches"
+      },
+      {
+        "title": "Logique de répétition",
+        "description": "Faites se répéter vos tâches à des intervalles hautement personnalisables et recevez-les au moment voulu"
+      },
+      {
+        "title": "Confidentialité",
+        "description": "Le code est open source (licence MIT) et entièrement auto-hébergeable"
+      }
+    ],
     "securityDemo": {
       "title": "Passkey",
       "subtitle": "Nous avons besoin de votre passkey pour décrypter vos fichiers",

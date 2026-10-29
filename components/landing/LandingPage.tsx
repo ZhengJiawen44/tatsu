@@ -130,36 +130,36 @@ const LandingPage = () => {
             <h1 className="text-4xl sm:text-5xl lg:text-6xl font-semibold tracking-tighter fade-up fade-up-1">
               <span className="text-white">Powerful. Private.</span>
               <br />
-              <span className="text-red">Fully Yours</span>
+              <span className="text-lime">Fully Yours</span>
             </h1>
 
-            <p className="text-base sm:text-md lg:text-lg max-w-4xl mx-auto mt-4 mb-6 sm:mb-8 px-2 fade-up fade-up-2">
+            <p className="text-sm sm:text-md lg:text-[16px] max-w-4xl mx-auto mt-4 mb-6 sm:mb-8 px-2 fade-up fade-up-2">
               {dict("hero.subtitle")}
             </p>
 
             <div className="flex flex-col sm:flex-row justify-center gap-3 sm:gap-4 px-4 fade-up fade-up-3">
-              <Link href="/blogs" className="z-50 w-full sm:w-auto">
+              {/* <Link href="/blogs" className="z-50 w-full sm:w-auto">
                 <Button
                   variant={"outline"}
-                  className="w-full sm:w-auto font-normal tracking-tight text-foreground px-6 py-5 sm:p-6 text-base sm:text-lg rounded-lg shadow-md hover:translate-y-0.5 transition-transform duration-100"
+                  className="w-full sm:w-auto font-normal tracking-tight text-foreground px-6 py-5 sm:p-3 text-base sm:text-md rounded-lg shadow-md hover:translate-y-0.5 transition-transform duration-100"
                 >
                   {dict("hero.readDocs")}
                 </Button>
-              </Link>
+              </Link> */}
               <Link
                 href="/login"
                 className="z-50 w-full sm:w-auto"
                 aria-label="Start by logging in"
               >
-                <Button className="bg-linear-to-t from-[#465927] to-lime hover:from-[#546b2f] hover:shadow-none transition-all duration-200 border-t border-t-[#adc982] w-full sm:w-auto text-white px-6 py-5 sm:p-6 text-base sm:text-lg tracking-tight font-normal rounded-lg shadow-md hover:translate-y-0.5">
+                <Button className="bg-linear-to-t from-[#465927] to-lime hover:from-[#546b2f] hover:shadow-none transition-all duration-200 border-t border-t-[#adc982] w-full sm:w-auto text-white px-6 py-5 sm:p-6 text-base sm:text-md font-semibold tracking-wide rounded-full shadow-md hover:scale-110">
                   {dict("hero.start")}
                 </Button>
               </Link>
             </div>
           </div>
 
-          {/* Hero image — now framed to match feature panel style */}
-          <div className="mb-8 w-full z-50 rounded-xl   overflow-hidden shadow-2xl fade-up fade-up-4">
+          {/* Hero image */}
+          <div className="mb-8 w-[70vw] z-50 rounded-xl overflow-hidden shadow-2xl fade-up fade-up-4">
             <Image
               src="/hero.webp"
               width={1750}
@@ -245,22 +245,11 @@ const LandingPage = () => {
                 <div className="flex items-center gap-3 w-full">
                   {/* Browser frame */}
                   <div className="relative flex-1 rounded-lg border border-border/60 overflow-hidden shadow-2xl bg-secondary/50 transition-all duration-500 ease-in-out">
-                    {/* Browser chrome bar */}
-                    <div className="flex items-center gap-2 px-4 py-1 bg-card border-b border-border/60 backdrop-blur-sm">
-                      <div className="flex gap-1.5 shrink-0">
-                        <span className="w-3 h-3 rounded-full bg-red-500/70" />
-                        <span className="w-3 h-3 rounded-full bg-yellow-500/70" />
-                        <span className="w-3 h-3 rounded-full bg-green-500/70" />
-                      </div>
-                      <div className="w-full mx-3 bg-muted/50 rounded-md px-3 py-1 text-xs text-muted-foreground font-mono text-left truncate border border-border/40">
-                        {"Sanity.my"}
-                      </div>
-                    </div>
 
                     {/* Image / demo area */}
                     <div className="relative w-full aspect-video">
                       {/* Watermark number */}
-                      <span className="absolute inset-0 flex items-center justify-center text-[10rem] font-bold text-foreground/[0.03] select-none pointer-events-none z-0 leading-none">
+                      <span className="absolute inset-0 flex items-center justify-center text-[10rem] font-bold text-foreground/3 select-none pointer-events-none z-0 leading-none">
                         {String(activeFeature + 1).padStart(2, "0")}
                       </span>
 
@@ -292,30 +281,6 @@ const LandingPage = () => {
                         );
                       })}
                     </div>
-                  </div>
-
-                  {/* Vertical progress dots */}
-                  <div className="flex flex-col items-center gap-2 shrink-0">
-                    {FEATURES.map((_, index) => (
-                      <button
-                        key={index}
-                        onClick={() => {
-                          observerRefs.current[index]?.scrollIntoView({
-                            behavior: "smooth",
-                            block: "center",
-                          });
-                        }}
-                        className={`
-                          w-1.5 rounded-full transition-all duration-300 cursor-pointer
-                          ${
-                            activeFeature === index
-                              ? "h-5 bg-lime brightness-150"
-                              : "h-1.5 bg-border hover:bg-border/80"
-                          }
-                        `}
-                        aria-label={`Go to feature ${index + 1}`}
-                      />
-                    ))}
                   </div>
                 </div>
               </div>

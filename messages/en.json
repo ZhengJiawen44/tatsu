@@ -58,6 +58,32 @@
         ]
       }
     ],
+    "moreFeatures": [
+      {
+        "title": "Customizable page",
+        "description": "Sort, filter and Group by priority, deadline, projects and many more to create your own personalized view"
+      },
+      {
+        "title": "Shortcuts",
+        "description": "Capture tasks at the speed of thought using shortcuts without ever reaching for the mouse"
+      },
+      {
+        "title": "NLP assisted task capture",
+        "description": "Frictionless creation of tasks with date ranges, projects, and priorities in a single line"
+      },
+      {
+        "title": "Projects",
+        "description": "Group your tasks into color rich projects and never get lost in a sea of tasks again"
+      },
+      {
+        "title": "Repeat logic",
+        "description": "Set your tasks to repeat at highly customziable intervals and recieve them as they occur"
+      },
+      {
+        "title": "Privacy",
+        "description": "Code is open source(MIT license) and fully self hostable"
+      }
+    ],
     "securityDemo": {
       "title": "Passkey",
       "subtitle": "We need your passkey to decrypt your files",

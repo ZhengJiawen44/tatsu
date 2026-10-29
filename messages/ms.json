@@ -58,6 +58,32 @@
         ]
       }
     ],
+    "moreFeatures": [
+      {
+        "title": "Halaman boleh disesuaikan",
+        "description": "Isih, tapis dan kumpulkan mengikut keutamaan, tarikh akhir, projek dan banyak lagi untuk cipta paparan peribadi anda"
+      },
+      {
+        "title": "Pintasan",
+        "description": "Tangkap tugasan secepat fikiran menggunakan pintasan tanpa perlu memegang tetikus"
+      },
+      {
+        "title": "Tangkap tugasan dibantu NLP",
+        "description": "Cipta tugasan tanpa geseran dengan julat tarikh, projek dan keutamaan dalam satu baris"
+      },
+      {
+        "title": "Projek",
+        "description": "Kumpulkan tugasan anda ke dalam projek penuh warna dan jangan sesat lagi dalam lautan tugasan"
+      },
+      {
+        "title": "Logik ulangan",
+        "description": "Tetapkan tugasan anda berulang pada selang yang sangat boleh disesuaikan dan terima apabila ia berlaku"
+      },
+      {
+        "title": "Privasi",
+        "description": "Kod adalah sumber terbuka (lesen MIT) dan boleh dihos sendiri sepenuhnya"
+      }
+    ],
     "securityDemo": {
       "title": "Passkey",
       "subtitle": "Kami memerlukan passkey anda untuk menyahsulit fail anda",

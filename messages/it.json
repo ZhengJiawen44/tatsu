@@ -58,6 +58,32 @@
         ]
       }
     ],
+    "moreFeatures": [
+      {
+        "title": "Pagina personalizzabile",
+        "description": "Ordina, filtra e raggruppa per priorità, scadenza, progetti e molto altro per creare la tua vista personalizzata"
+      },
+      {
+        "title": "Scorciatoie",
+        "description": "Cattura le attività alla velocità del pensiero con le scorciatoie, senza mai prendere il mouse"
+      },
+      {
+        "title": "Cattura attività assistita da NLP",
+        "description": "Creazione senza attriti di attività con intervalli di date, progetti e priorità in una sola riga"
+      },
+      {
+        "title": "Progetti",
+        "description": "Raggruppa le tue attività in progetti ricchi di colore e non perderti più in un mare di task"
+      },
+      {
+        "title": "Logica di ripetizione",
+        "description": "Imposta le attività in modo che si ripetano a intervalli altamente personalizzabili e ricepile quando si verificano"
+      },
+      {
+        "title": "Privacy",
+        "description": "Il codice è open source (licenza MIT) e completamente self-hostabile"
+      }
+    ],
     "securityDemo": {
       "title": "Passkey",
       "subtitle": "Abbiamo bisogno della tua passkey per decriptare i tuoi file",
