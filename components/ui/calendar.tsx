@@ -11,6 +11,7 @@ function Calendar({
   className,
   classNames,
   showOutsideDays = true,
+  components,
   ...props
 }: CalendarProps) {
   const selected = props.selected as DateRange | undefined;
@@ -72,6 +73,7 @@ function Calendar({
             {...props}
           />
         ),
+        ...components,
       }}
       {...props}
     />
