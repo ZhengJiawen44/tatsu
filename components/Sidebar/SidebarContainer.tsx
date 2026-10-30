@@ -11,6 +11,7 @@ import VaultItem from "./Vault/VaultItem";
 import ProjectSidebarItemContainer from "./Project/ProjectsSidebarItemContainer";
 import LineSeparator from "../ui/lineSeparator";
 import { FooterContainer } from "./Footer/FooterContainer";
+import CustomPageItem from "./CustomPage/CustomPageItem";
 
 const SidebarContainer = () => {
   const sidebarRef = useRef<HTMLDivElement | null>(null);
@@ -77,7 +78,8 @@ const SidebarContainer = () => {
             <CalendarItem />
             <NoteCollapsible />
             <VaultItem />
-            <LineSeparator className="m-0 mt-8 mb-4" />
+            <CustomPageItem />
+            <LineSeparator className="m-0 my-2" />
             <ProjectSidebarItemContainer />
             <FooterContainer />
           </div>

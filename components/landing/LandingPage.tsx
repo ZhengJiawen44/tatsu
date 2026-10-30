@@ -245,7 +245,6 @@ const LandingPage = () => {
                 <div className="flex items-center gap-3 w-full">
                   {/* Browser frame */}
                   <div className="relative flex-1 rounded-lg border border-border/60 overflow-hidden shadow-2xl bg-secondary/50 transition-all duration-500 ease-in-out">
-
                     {/* Image / demo area */}
                     <div className="relative w-full aspect-video">
                       {/* Watermark number */}
