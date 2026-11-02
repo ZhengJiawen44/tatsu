@@ -20,7 +20,6 @@ const CalendarItem = () => {
           if (width <= 1266) setShowMenu(false);
         }}
       >
-        <div className="flex gap-2 items-center w-full  select-none">
           <Calendar1Icon
             className={clsx(
               "w-4.5 h-4.5 stroke-muted-foreground",
@@ -28,7 +27,6 @@ const CalendarItem = () => {
             )}
           />
           <p className="text-foreground">{sidebarDict("calendar")}</p>
-        </div>
       </Link>
       </SidebarItem>
 
