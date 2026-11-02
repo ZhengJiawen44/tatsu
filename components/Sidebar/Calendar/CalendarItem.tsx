@@ -4,22 +4,15 @@ import clsx from "clsx";
 import { Calendar1Icon } from "lucide-react";
 import { Link } from "@/i18n/navigation";
 import useWindowSize from "@/hooks/useWindowSize";
-import { Button } from "@/components/ui/button";
 import { useTranslations } from "next-intl";
+import SidebarItem from "../SidebarItem";
 const CalendarItem = () => {
   const sidebarDict = useTranslations("sidebar");
   const { width } = useWindowSize();
 
   const { activeMenu, setActiveMenu, setShowMenu } = useMenu();
   return (
-    <Button
-      asChild
-      variant={"ghost"}
-      className={clsx(
-        "flex items-center justify-center border border-transparent font-normal px-2!",
-        activeMenu.name === "Calendar" && "bg-sidebar-primary",
-      )}
-    >
+      <SidebarItem asChild className={activeMenu.name === "Calendar" ? "bg-sidebar-primary":""}>
       <Link
         href="/app/calendar"
         onClick={() => {
@@ -37,7 +30,8 @@ const CalendarItem = () => {
           <p className="text-foreground">{sidebarDict("calendar")}</p>
         </div>
       </Link>
-    </Button>
+      </SidebarItem>
+
   );
 };
 

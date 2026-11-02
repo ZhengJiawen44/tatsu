@@ -11,7 +11,7 @@ import VaultItem from "./Vault/VaultItem";
 import ProjectSidebarItemContainer from "./Project/ProjectsSidebarItemContainer";
 import LineSeparator from "../ui/lineSeparator";
 import { FooterContainer } from "./Footer/FooterContainer";
-import CustomPageItem from "./CustomPage/CustomPageItem";
+import CustomPageItem from "./CustomPage/component/index";
 
 const SidebarContainer = () => {
   const sidebarRef = useRef<HTMLDivElement | null>(null);

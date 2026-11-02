@@ -169,3 +169,10 @@ export type CaldavCalendar = {
 };
 
 export type syncedTodo = TodoItemType & { syncMetaData: syncMetaDataType };
+
+export type Page = {
+  id: string,
+  title: string,
+  from: Date,
+  to: Date
+}

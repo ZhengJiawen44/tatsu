@@ -14,8 +14,11 @@ import DateRangeDropdown from "./DateRangeDropdown";
 import { startOfToday, startOfTomorrow } from "date-fns";
 import { DateRange } from "react-day-picker";
 import { useToast } from "@/hooks/use-toast";
+import { useCreatePage } from "../query/create-page";
+import SidebarItem from "../../SidebarItem";
 
-const CustomPageItem = () => {
+const CreatePageButton = () => {
+  const {createMutateFn} = useCreatePage();
   const { toast } = useToast();
   const [title, setTitle] = useState("");
   const [dateRange, setDateRange] = useState<DateRange>({
@@ -25,16 +28,10 @@ const CustomPageItem = () => {
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <Button
-          type="button"
-          variant={"ghost"}
-          className={clsx("flex items-center font-normal px-2!")}
-        >
-          <div className="flex gap-3 justify-start items-center w-full  select-none">
-            <PlusIcon className={clsx("w-4.5 h-4.5 stroke-muted-foreground")} />
+        <SidebarItem>
+          <PlusIcon className={clsx("w-4.5 h-4.5 stroke-muted-foreground")} />
             <p> New View</p>
-          </div>
-        </Button>
+        </SidebarItem>
       </DialogTrigger>
       <DialogContent>
         <DialogHeader>
@@ -57,6 +54,7 @@ const CustomPageItem = () => {
               toast({ description: "Title must not be empty" });
               return;
             }
+            createMutateFn({title, from:dateRange.from, to: dateRange.to})
           }}
         >
           <div className="mb-2 text-muted-foreground">
@@ -90,4 +88,4 @@ const CustomPageItem = () => {
   );
 };
 
-export default CustomPageItem;
+export default CreatePageButton;

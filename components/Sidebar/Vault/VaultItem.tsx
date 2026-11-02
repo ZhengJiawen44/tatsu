@@ -5,22 +5,16 @@ import { Link } from "@/i18n/navigation";
 
 import useWindowSize from "@/hooks/useWindowSize";
 import { LockIcon } from "lucide-react";
-import { Button } from "@/components/ui/button";
 import { useTranslations } from "next-intl";
+import SidebarItem from "../SidebarItem";
 const VaultItem = () => {
   const sidebarDict = useTranslations("sidebar");
 
   const { width } = useWindowSize();
   const { activeMenu, setActiveMenu, setShowMenu } = useMenu();
   return (
-    <Button
-      asChild
-      variant={"ghost"}
-      className={clsx(
-        "flex items-center border border-transparent font-normal px-2!",
-        activeMenu.name === "Vault" && "bg-sidebar-primary",
-      )}
-    >
+
+      <SidebarItem asChild className={activeMenu.name === "Vault" ? "bg-sidebar-primary":""}>      
       <Link
         href="/app/vault"
         onClick={() => {
@@ -39,7 +33,7 @@ const VaultItem = () => {
           <p className="text-foreground">{sidebarDict("vault")}</p>
         </div>
       </Link>
-    </Button>
+</SidebarItem>
   );
 };
 

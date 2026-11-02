@@ -2,12 +2,11 @@ import clsx from "clsx";
 import React from "react";
 import { useMenu } from "@/providers/MenuProvider";
 import { Link } from "@/i18n/navigation";
-
 import { useCompletedTodo } from "@/features/completed/query/get-completedTodo";
 import useWindowSize from "@/hooks/useWindowSize";
 import { CheckCircleIcon } from "lucide-react";
-import { Button } from "@/components/ui/button";
 import { useTranslations } from "next-intl";
+import SidebarItem from "../SidebarItem";
 const CompletedItem = () => {
   const sidebarDict = useTranslations("sidebar");
 
@@ -19,14 +18,10 @@ const CompletedItem = () => {
   const completedTodoCount = completedTodos.length;
 
   return (
-    <Button
-      asChild
-      variant={"ghost"}
-      className={clsx(
-        "flex items-center border border-transparent font-normal px-2!",
-        activeMenu.name === "Completed" && "bg-sidebar-primary",
-      )}
-    >
+
+      <SidebarItem asChild className={
+activeMenu.name === "Completed" ? "bg-sidebar-primary":""}>
+
       <Link
         prefetch={true}
         href="/app/completed"
@@ -54,7 +49,7 @@ const CompletedItem = () => {
           {completedTodoCount}
         </span>
       </Link>
-    </Button>
+  </SidebarItem>
   );
 };
 
