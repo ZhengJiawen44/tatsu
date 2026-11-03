@@ -153,3 +153,9 @@ export const pageSchema = z.object({
   from: z.date(),
   to: z.date(),
 });
+
+export const pagePatchSchema = z.object({
+  title: z.string().optional(),
+  from: z.date().optional(),
+  to: z.date().optional(),
+});

@@ -21,7 +21,10 @@ export const usePage = () => {
       const { pages }: { pages: Page[] } = await api.GET({
         url: `/api/page`,
       });
-      return pages;
+
+      return pages.map((page) => {
+        return { ...page, from: new Date(page.from), to: new Date(page.to) };
+      });
     },
   });
 

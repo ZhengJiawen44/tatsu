@@ -25,8 +25,9 @@ const CreatePageButton = () => {
     from: startOfToday(),
     to: startOfTomorrow(),
   });
+  const [openCreateModal, setOpenCreateModal] = useState(false);
   return (
-    <Dialog>
+    <Dialog open={openCreateModal} onOpenChange={setOpenCreateModal}>
       <DialogTrigger asChild>
         <SidebarItem>
           <PlusIcon className={clsx("w-4.5 h-4.5 stroke-muted-foreground")} />
@@ -55,6 +56,7 @@ const CreatePageButton = () => {
               return;
             }
             createMutateFn({ title, from: dateRange.from, to: dateRange.to });
+            setOpenCreateModal(false);
           }}
         >
           <div className="mb-2 text-muted-foreground">
@@ -77,7 +79,15 @@ const CreatePageButton = () => {
             />
           </div>
           <DialogFooter>
-            <Button variant={"destructive"}>Cancel</Button>
+            <Button
+              type="button"
+              variant={"destructive"}
+              onClick={() => {
+                setOpenCreateModal(!openCreateModal);
+              }}
+            >
+              Cancel
+            </Button>
             <Button variant={"outline"} type="submit">
               Create
             </Button>
