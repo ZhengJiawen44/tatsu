@@ -25,8 +25,10 @@ import { useToast } from "@/hooks/use-toast";
 import { SetStateAction, useState } from "react";
 import { Page } from "@/types";
 import { useUpdatePage } from "../query/update-page";
+import { useDeletePage } from "../query/delete-page";
 
 export const PageList = () => {
+  const {deleteMutateFn} = useDeletePage();
   const { pages } = usePage();
   const { width } = useWindowSize();
   const [openEditModal, setOpenEditModal] = useState(false);
@@ -82,7 +84,7 @@ export const PageList = () => {
                     >
                       Edit
                     </DropdownMenuItem>
-                    <DropdownMenuItem onClick={() => {}}>
+                    <DropdownMenuItem onClick={() => {deleteMutateFn({id: page.id})}}>
                       Delete
                     </DropdownMenuItem>
                   </DropdownMenuContent>
@@ -111,7 +113,6 @@ const EditPageModal = ({
     from: editingPage?.from,
     to: editingPage?.to,
   });
-  console.log(title, dateRange);
 
   const { toast } = useToast();
   if (!editingPage) return <></>;
