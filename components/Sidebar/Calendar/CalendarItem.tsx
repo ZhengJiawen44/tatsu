@@ -12,7 +12,10 @@ const CalendarItem = () => {
 
   const { activeMenu, setActiveMenu, setShowMenu } = useMenu();
   return (
-      <SidebarItem asChild className={activeMenu.name === "Calendar" ? "bg-sidebar-primary":""}>
+    <SidebarItem
+      asChild
+      className={activeMenu.name === "Calendar" ? "bg-sidebar-primary" : ""}
+    >
       <Link
         href="/app/calendar"
         onClick={() => {
@@ -20,16 +23,15 @@ const CalendarItem = () => {
           if (width <= 1266) setShowMenu(false);
         }}
       >
-          <Calendar1Icon
-            className={clsx(
-              "w-4.5 h-4.5 stroke-muted-foreground",
-              activeMenu.name === "Calendar" && "stroke-form-foreground-accent",
-            )}
-          />
-          <p className="text-foreground">{sidebarDict("calendar")}</p>
+        <Calendar1Icon
+          className={clsx(
+            "w-4.5 h-4.5 stroke-muted-foreground",
+            activeMenu.name === "Calendar" && "stroke-form-foreground-accent",
+          )}
+        />
+        <p className="text-foreground">{sidebarDict("calendar")}</p>
       </Link>
-      </SidebarItem>
-
+    </SidebarItem>
   );
 };
 

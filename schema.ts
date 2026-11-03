@@ -151,5 +151,5 @@ export const pageSchema = z.object({
     .trim()
     .min(1, { message: "title cannot be left empty" }),
   from: z.date(),
-  to: z.date()
+  to: z.date(),
 });

@@ -18,10 +18,10 @@ const CompletedItem = () => {
   const completedTodoCount = completedTodos.length;
 
   return (
-
-      <SidebarItem asChild className={
-activeMenu.name === "Completed" ? "bg-sidebar-primary":""}>
-
+    <SidebarItem
+      asChild
+      className={activeMenu.name === "Completed" ? "bg-sidebar-primary" : ""}
+    >
       <Link
         prefetch={true}
         href="/app/completed"
@@ -49,7 +49,7 @@ activeMenu.name === "Completed" ? "bg-sidebar-primary":""}>
           {completedTodoCount}
         </span>
       </Link>
-  </SidebarItem>
+    </SidebarItem>
   );
 };
 

@@ -17,9 +17,10 @@ const TodoItem = () => {
   const todayTodoCount = todos.length;
 
   return (
-
-      <SidebarItem asChild className={activeMenu.name === "Todo" ? "bg-sidebar-primary":""}>
-
+    <SidebarItem
+      asChild
+      className={activeMenu.name === "Todo" ? "bg-sidebar-primary" : ""}
+    >
       <Link
         prefetch={true}
         href="/app/todo"
@@ -47,8 +48,7 @@ const TodoItem = () => {
           {todayTodoCount}
         </span>
       </Link>
-      </SidebarItem>
-
+    </SidebarItem>
   );
 };
 

@@ -18,15 +18,18 @@ export async function POST(req: NextRequest) {
 
     //validate req body
     const body = await req.json();
-    const parsedObj = pageSchema.safeParse({...body, from: new Date(body.from), to: new Date(body.to)});
+    const parsedObj = pageSchema.safeParse({
+      ...body,
+      from: new Date(body.from),
+      to: new Date(body.to),
+    });
     if (!parsedObj.success) throw new BadRequestError(parsedObj.error.message);
 
     const { title, from, to } = parsedObj.data;
     const page = await prisma.page.create({
       data: { title, userID: user.id, from, to },
     });
-    if (!page)
-      throw new InternalError("page cannot be created at this time");
+    if (!page) throw new InternalError("page cannot be created at this time");
 
     return NextResponse.json(
       { message: "page created", page },
@@ -49,8 +52,7 @@ export async function GET() {
       orderBy: { id: "desc" },
       select: { id: true, title: true, from: true, to: true },
     });
-    if (!pages)
-      throw new InternalError("page cannot be found at this time");
+    if (!pages) throw new InternalError("page cannot be found at this time");
 
     return NextResponse.json({ pages }, { status: 200 });
   } catch (error) {

@@ -33,7 +33,7 @@ function YearCaption({ id, displayMonth, displayIndex }: CaptionProps) {
         )}
         onClick={() => goToMonth(addYears(displayMonth, -1))}
       >
-        <ChevronsRight className="rotate-180 h-4.5 w-4.5"/>
+        <ChevronsRight className="rotate-180 h-4.5 w-4.5" />
       </button>
       <CaptionLabel
         id={id}
@@ -54,7 +54,7 @@ function YearCaption({ id, displayMonth, displayIndex }: CaptionProps) {
         )}
         onClick={() => goToMonth(addYears(displayMonth, 1))}
       >
-        <ChevronsRight/>
+        <ChevronsRight />
       </button>
     </div>
   );

@@ -13,8 +13,10 @@ const VaultItem = () => {
   const { width } = useWindowSize();
   const { activeMenu, setActiveMenu, setShowMenu } = useMenu();
   return (
-
-      <SidebarItem asChild className={activeMenu.name === "Vault" ? "bg-sidebar-primary":""}>      
+    <SidebarItem
+      asChild
+      className={activeMenu.name === "Vault" ? "bg-sidebar-primary" : ""}
+    >
       <Link
         href="/app/vault"
         onClick={() => {
@@ -33,7 +35,7 @@ const VaultItem = () => {
           <p className="text-foreground">{sidebarDict("vault")}</p>
         </div>
       </Link>
-</SidebarItem>
+    </SidebarItem>
   );
 };
 

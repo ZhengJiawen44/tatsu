@@ -3,7 +3,15 @@ import { useQueryClient, useMutation } from "@tanstack/react-query";
 import { api } from "@/lib/api-client";
 import { Page } from "@/types";
 
-async function postPage({ title, from, to }: { title: string, from: Date, to: Date }) {
+async function postPage({
+  title,
+  from,
+  to,
+}: {
+  title: string;
+  from: Date;
+  to: Date;
+}) {
   const { page } = await api.POST({
     url: "/api/page",
     headers: { "content-type": "application/json" },
@@ -20,22 +28,16 @@ export const useCreatePage = () => {
     isPending: createLoading,
     isSuccess,
   } = useMutation({
-    mutationFn: (params: { title: string; from: Date, to:Date }) =>
+    mutationFn: (params: { title: string; from: Date; to: Date }) =>
       postPage({ ...params }),
-    onMutate: (newPage: Omit<Page,"id">) => {
+    onMutate: (newPage: Omit<Page, "id">) => {
       queryClient.cancelQueries({ queryKey: "page" });
-      const backupPage = queryClient.getQueryData([
-        "page",
-      ]);
+      const backupPage = queryClient.getQueryData(["page"]);
 
-      queryClient.setQueryData<Page[]>(
-        ["page"],
-        (page) => {
-          if(!page)
-            return page
-          return [...page, {...newPage, id:crypto.randomUUID()}]
-        },
-      );
+      queryClient.setQueryData<Page[]>(["page"], (page) => {
+        if (!page) return page;
+        return [...page, { ...newPage, id: crypto.randomUUID() }];
+      });
 
       return backupPage;
     },

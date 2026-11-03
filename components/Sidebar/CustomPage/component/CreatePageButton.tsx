@@ -18,7 +18,7 @@ import { useCreatePage } from "../query/create-page";
 import SidebarItem from "../../SidebarItem";
 
 const CreatePageButton = () => {
-  const {createMutateFn} = useCreatePage();
+  const { createMutateFn } = useCreatePage();
   const { toast } = useToast();
   const [title, setTitle] = useState("");
   const [dateRange, setDateRange] = useState<DateRange>({
@@ -30,7 +30,7 @@ const CreatePageButton = () => {
       <DialogTrigger asChild>
         <SidebarItem>
           <PlusIcon className={clsx("w-4.5 h-4.5 stroke-muted-foreground")} />
-            <p> New View</p>
+          <p> New View</p>
         </SidebarItem>
       </DialogTrigger>
       <DialogContent>
@@ -54,7 +54,7 @@ const CreatePageButton = () => {
               toast({ description: "Title must not be empty" });
               return;
             }
-            createMutateFn({title, from:dateRange.from, to: dateRange.to})
+            createMutateFn({ title, from: dateRange.from, to: dateRange.to });
           }}
         >
           <div className="mb-2 text-muted-foreground">
