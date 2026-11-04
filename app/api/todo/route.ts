@@ -14,6 +14,8 @@ import { recurringTodoItemType } from "@/types";
 import expandAndMergeTodos from "@/lib/RRule/expandAndMergeTodos";
 import { genICSData } from "@/lib/sync/genIcsDataFromLocal";
 import createCaldavClientFromDB from "@/lib/sync/createCaldavClientFromDB";
+import { fromZonedTime, toZonedTime } from "date-fns-tz";
+import { endOfDay, startOfDay } from "date-fns";
 export async function POST(req: NextRequest) {
   try {
     const session = await auth();
@@ -141,19 +143,33 @@ export async function POST(req: NextRequest) {
 
 export async function GET(req: NextRequest) {
   try {
+    console.log("------------------------------------t");
+
     const session = await auth();
     const user = session?.user;
 
     if (!user?.id) {
       throw new UnauthorizedError("You must be logged in to do this");
     }
+    const timeZone = await resolveTimezone(user, req);
+
     const start = req.nextUrl.searchParams.get("start");
     const end = req.nextUrl.searchParams.get("end");
+    const hasDateRange = start && end;
 
-    if (!start || !end)
-      throw new BadRequestError("date range start or from not specified");
-    const dateRangeStart = new Date(Number(start));
-    const dateRangeEnd = new Date(Number(end));
+   
+
+    let dateRangeStart = new Date(Number(start));
+    let dateRangeEnd = new Date(Number(end));
+    //start of user's day in their time, represented in utc
+
+    // if no start and end is supplied, it means we want all the todos for this user
+    // we still want to have a start and end range tho, since we do not want to return recurring todos that recur infinitely, 
+    // so we will only expand reccuring todos and pick the instances closest to user's today
+    if (!start && !end){
+      dateRangeStart = fromZonedTime(startOfDay(toZonedTime(new Date(), timeZone)),timeZone);
+      dateRangeEnd = fromZonedTime(endOfDay(toZonedTime(new Date(), timeZone)),timeZone);
+    }
 
     // Fetch One-Off Todos
     const oneOffTodos = await prisma.todo.findMany({
@@ -184,7 +200,6 @@ export async function GET(req: NextRequest) {
       include: { instances: true },
     })) as recurringTodoItemType[];
 
-    const timeZone = await resolveTimezone(user, req);
     const ghostTodos = expandAndMergeTodos(
       recurringTodos,
       timeZone,

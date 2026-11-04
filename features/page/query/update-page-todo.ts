@@ -55,7 +55,7 @@ async function patchTodo({ todo }: { todo: TodoFormItemType }) {
   });
 }
 
-export const useEditProjectTodo = () => {
+export const useEditPageTodo = () => {
   const { toast } = useToast();
   const queryClient = useQueryClient();
 
@@ -65,10 +65,13 @@ export const useEditProjectTodo = () => {
     onMutate: async (newTodo) => {
       await queryClient.cancelQueries({ queryKey: ["todo"] });
       await queryClient.cancelQueries({ queryKey: ["projectTodo"] });
+      await queryClient.cancelQueries({ queryKey: ["pageTodo"] });
+
 
       const oldTodos = queryClient.getQueryData<TodoItemType[]>(["todo"]);
+      const oldPageTodo = queryClient.getQueryData<TodoItemType[]>(["pageTodo"]);
       const oldProjectTodos = queryClient.getQueryData<TodoItemType[]>([
-        "project",
+        "projectTodo",
       ]);
 
       // update today/todo cache
@@ -115,12 +118,28 @@ export const useEditProjectTodo = () => {
             return [];
           }),
       );
+      // update page cache
+      queryClient.setQueriesData<TodoItemType[]>(
+        { queryKey: ["pageTodo"] },
+        (oldTodos) =>
+          oldTodos?.flatMap((oldTodo) => {
+            if (oldTodo.id == newTodo.id)
+              return [
+                {
+                  ...oldTodo,
+                  ...newTodo,
+                },
+              ];
+            return [oldTodo];
+          }),
+      );
 
-      return { oldTodos, oldProjectTodos };
+      return { oldTodos, oldProjectTodos, oldPageTodo };
     },
 
     onError: (error, _, context) => {
       queryClient.setQueryData(["todo"], context?.oldTodos);
+      queryClient.setQueryData(["pageTodo"], context?.oldPageTodo);
       queryClient.setQueryData(["projectTodo"], context?.oldProjectTodos);
 
       toast({
@@ -136,6 +155,8 @@ export const useEditProjectTodo = () => {
       queryClient.invalidateQueries({ queryKey: ["calendarTodo"] });
       queryClient.invalidateQueries({ queryKey: ["todo"] });
       queryClient.invalidateQueries({ queryKey: ["overdueTodo"] });
+      queryClient.invalidateQueries({ queryKey: ["pageTodo"] });
+
     },
   });
 

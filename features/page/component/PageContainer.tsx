@@ -1,14 +1,14 @@
 "use client";
 import React, { useMemo, useRef } from "react";
 import { TodoItemType } from "@/types";
-import { usePage } from "../query/get-project-todos";
+import { usePage } from "../query/get-page-todos";
 import TodoMutationProvider from "@/providers/TodoMutationProvider";
 import { useCompleteProjectTodo } from "../query/complete-project-todo";
 import { useDeleteProjectTodo } from "../query/delete-project-todo";
 import { usePinProjectTodo } from "../query/pin-project-todo";
 import { usePrioritizeProjectTodo } from "../query/prioritize-project-todo";
 import { useReorderProjectTodo } from "../query/reorder-project-todo";
-import { useEditProjectTodo } from "../query/update-project-todo";
+import { useEditPageTodo } from "../query/update-page-todo";
 import { useEditProjectTodoInstance } from "../query/update-project-todo-instance";
 import { usePage as usePages } from "@/components/Sidebar/CustomPage/query/get-page";
 import TodoFilterBar from "./TodoFilterBar";
@@ -117,7 +117,7 @@ const PageContainer = ({ pageId }: { pageId: string }) => {
       <TodoMutationProvider
         useCompleteTodo={useCompleteProjectTodo}
         useDeleteTodo={useDeleteProjectTodo}
-        useEditTodo={useEditProjectTodo}
+        useEditTodo={useEditPageTodo}
         useEditTodoInstance={useEditProjectTodoInstance}
         usePinTodo={usePinProjectTodo}
         usePrioritizeTodo={usePrioritizeProjectTodo}

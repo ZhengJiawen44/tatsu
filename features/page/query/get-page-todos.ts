@@ -18,7 +18,7 @@ export const usePage = ({ pageId }: { pageId: string }) => {
     isFetching,
     isPending,
   } = useQuery<TodoItemType[]>({
-    queryKey: ["pageTodos", pageId],
+    queryKey: ["pageTodo", pageId],
     retry: 2,
     staleTime: 5 * 60 * 1000,
     queryFn: async () => {

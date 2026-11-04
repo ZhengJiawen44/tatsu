@@ -7,8 +7,9 @@ import { errorHandler } from "@/lib/errorHandler";
 import { Prisma } from "@prisma/client";
 import { resolveTimezone } from "@/lib/resolveTimeZone";
 import { recurringTodoItemType, TodoItemType } from "@/types";
-import { mergeWithOverrideInstances } from "@/lib/RRule/mergeWithOverrideInstances";
+// import { mergeWithOverrideInstances } from "@/lib/RRule/mergeWithOverrideInstances";
 import expandAndMergeTodos from "@/lib/RRule/expandAndMergeTodos";
+import { getClosestOccuringInstance } from "@/lib/RRule/getClosestOccuringInstance";
 
 export async function PATCH(
   req: NextRequest,
@@ -126,22 +127,6 @@ export async function GET(
       include: { instances: true },
     })) as recurringTodoItemType[];
 
-    //Collect future reccuring todos
-    const futureRecurringTodos = recurringParents.filter(({ dtstart }) => {
-      return dtstart > dateRangeEnd;
-    });
-    //generate ghost todos from first instance occurence of future todo
-    const ghostFutureTodos = futureRecurringTodos.map((todo) => {
-      return { ...todo, instanceDate: todo.dtstart };
-    });
-
-    //Apply overrides
-    const mergedFutureGhostTodos = mergeWithOverrideInstances(
-      ghostFutureTodos,
-    ).sort((a, b) => {
-      return a.dtstart.getTime() - b.dtstart.getTime();
-    });
-
     //now get recurring todos in date range
     const ghostTodos = expandAndMergeTodos(
       recurringParents,
@@ -150,12 +135,10 @@ export async function GET(
       dateRangeEnd,
     );
 
-    //remove ghosts that are either overdue or completed
-    const filteredGhosts = ghostTodos.filter((todo) => {
-      return (
-        (!todo.due || todo.due >= dateRangeStart) && todo.completed === false
-      );
-    });
+    // get the instances that due after or equal the date range start, or the nearest one to the left of the date range start
+    // this is so pinned recurring todos always shows in the pinned todo response, even if their occurence doesnt precisely fall in
+    // the date range
+    const closestOccuringInstances = getClosestOccuringInstance(ghostTodos, dateRangeStart)
 
     // Normalize one-off todos to match TodoItemType (add instanceDate: null)
     const normalizedOneOffTodos: TodoItemType[] = oneOffTodos.map((todo) => ({
@@ -166,8 +149,7 @@ export async function GET(
 
     const allTodos = [
       ...normalizedOneOffTodos,
-      ...mergedFutureGhostTodos,
-      ...filteredGhosts,
+      ...closestOccuringInstances
     ].sort((a, b) => a.order - b.order);
 
     return NextResponse.json(

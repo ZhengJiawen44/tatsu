@@ -46,7 +46,7 @@ export const useCreateTodo = () => {
       await queryClient.cancelQueries({ queryKey: ["projectTodo"] });
 
       const oldTodos = queryClient.getQueryData(["todo"]);
-      const oldPageTodos = queryClient.getQueryData(["pageTodos"]);
+      const oldPageTodos = queryClient.getQueryData(["pageTodo"]);
       const oldProjectTodos = queryClient.getQueryData<TodoItemType[]>([
         "project",
         newTodo.projectID,
@@ -57,7 +57,7 @@ export const useCreateTodo = () => {
         newTodo,
       ]);
       queryClient.setQueriesData(
-        { queryKey: ["pageTodos"] },
+        { queryKey: ["pageTodo"] },
         (old: TodoItemType[]) => [...old, newTodo],
       );
 
