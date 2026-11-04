@@ -12,12 +12,13 @@ import {
   DropdownMenuItem,
 } from "@/components/ui/dropdown-menu";
 import {
-  Dialog,
-  DialogContent,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-} from "@/components/ui/dialog";
+  Modal,
+  ModalOverlay,
+  ModalContent,
+  ModalFooter,
+  ModalHeader,
+  ModalTitle,
+} from "@/components/ui/Modal";
 import { Button } from "@/components/ui/button";
 import { DateRange } from "react-day-picker";
 import DateRangeDropdown from "./DateRangeDropdown";
@@ -79,8 +80,7 @@ export const PageList = () => {
                     <DropdownMenuItem
                       onSelect={() => {
                         setEditingPage(page);
-                        // waits for dropdown to release body pointer-events, otherwise improper ending of dropdown renders whole body with pointer-events-none (leftover)
-                        requestAnimationFrame(() => setOpenEditModal(true));
+                        setOpenEditModal(true);
                       }}
                     >
                       Edit
@@ -122,86 +122,89 @@ const EditPageModal = ({
   const { toast } = useToast();
   if (!editingPage) return <></>;
   return (
-    <Dialog open={openEditModal} onOpenChange={setOpenEditModal}>
-      <DialogContent>
-        <DialogHeader>
-          <DialogTitle>Create new view</DialogTitle>
-          <span className="text-muted-foreground text-sm">
-            Create new views where you can look at your todos from specific time
-            intervals
-          </span>
-        </DialogHeader>
-        <form
-          className="pb-4 flex flex-col gap-4"
-          onSubmit={(e) => {
-            e.preventDefault();
-            if (!dateRange.from || !dateRange.to) {
-              toast({ description: "Date range must not be empty" });
-              return;
-            }
+    <Modal open={openEditModal} onOpenChange={setOpenEditModal}>
+      <ModalOverlay>
+        <ModalContent>
+          <ModalHeader>
+            <ModalTitle>Edit view</ModalTitle>
+            <span className="text-muted-foreground text-sm">
+              Create new views where you can look at your todos from specific
+              time intervals
+            </span>
+          </ModalHeader>
+          <form
+            className="pb-4 flex flex-col gap-4"
+            onSubmit={(e) => {
+              e.preventDefault();
+              if (!dateRange.from || !dateRange.to) {
+                toast({ description: "Date range must not be empty" });
+                return;
+              }
 
-            if (!title) {
-              toast({ description: "Title must not be empty" });
-              return;
-            }
-            updateMutateFn({
-              id: editingPage.id,
-              title: editingPage.title === title ? undefined : title,
-              from:
-                dateRange.from.getTime() === editingPage.from.getTime()
-                  ? undefined
-                  : dateRange.from,
-              to:
-                dateRange.to.getTime() === editingPage.to.getTime()
-                  ? undefined
-                  : dateRange.to,
-            });
-            setOpenEditModal(false);
-          }}
-        >
-          <div className="mb-2 text-muted-foreground">
-            <span>Title*</span>
-            <div className="flex bg-transparent text-foreground border w-full rounded-md">
+              if (!title) {
+                toast({ description: "Title must not be empty" });
+                return;
+              }
+              updateMutateFn({
+                id: editingPage.id,
+                title: editingPage.title === title ? undefined : title,
+                from:
+                  dateRange.from.getTime() === editingPage.from.getTime()
+                    ? undefined
+                    : dateRange.from,
+                to:
+                  dateRange.to.getTime() === editingPage.to.getTime()
+                    ? undefined
+                    : dateRange.to,
+              });
+              setOpenEditModal(false);
+            }}
+          >
+            <div className="mb-2 text-muted-foreground">
+              <span>Title*</span>
+              <div className="flex bg-transparent text-foreground border w-full rounded-md">
                 <EmojiPicker
-                className="border-r"
-                  onSelect={(emoji)=>{setTitle(emoji+title)}}
+                  className="border-r"
+                  onSelect={(emoji) => {
+                    setTitle(emoji + title);
+                  }}
                 />
-              <input
-                onChange={(e) => {
-                  setTitle(e.currentTarget.value);
-                }}
-                value = {title}
-                name="viewTitle"
-                required
-                className="border-none w-full"
-              />
-            
+                <input
+                  onChange={(e) => {
+                    setTitle(e.currentTarget.value);
+                  }}
+                  value={title}
+                  name="viewTitle"
+                  required
+                  className="border-none w-full"
+                />
+              </div>
             </div>
-          </div>
 
-          <div className="mb-2 text-muted-foreground">
-            <span>Range*</span>
-            <DateRangeDropdown
-              dateRange={dateRange}
-              setDateRange={setDateRange}
-            />
-          </div>
-          <DialogFooter>
-            <Button
-              type="button"
-              variant={"destructive"}
-              onClick={() => {
-                setOpenEditModal(!openEditModal);
-              }}
-            >
-              Cancel
-            </Button>
-            <Button variant={"outline"} type="submit">
-              Update
-            </Button>
-          </DialogFooter>
-        </form>
-      </DialogContent>
-    </Dialog>
+            <div className="mb-2 text-muted-foreground">
+              <span>Range*</span>
+              <DateRangeDropdown
+                dateRange={dateRange}
+                setDateRange={setDateRange}
+              />
+            </div>
+            <ModalFooter>
+              <Button
+                type="button"
+                variant={"destructive"}
+                onClick={() => {
+                  setOpenEditModal(false);
+                }}
+              >
+                Cancel
+              </Button>
+              <Button variant={"outline"} type="submit">
+                Update
+              </Button>
+            </ModalFooter>
+          </form>
+        </ModalContent>
+      </ModalOverlay>
+    </Modal>
   );
 };
