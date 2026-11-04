@@ -26,9 +26,10 @@ import { SetStateAction, useState } from "react";
 import { Page } from "@/types";
 import { useUpdatePage } from "../query/update-page";
 import { useDeletePage } from "../query/delete-page";
+import EmojiPicker from "./EmojiPicker";
 
 export const PageList = () => {
-  const {deleteMutateFn} = useDeletePage();
+  const { deleteMutateFn } = useDeletePage();
   const { pages } = usePage();
   const { width } = useWindowSize();
   const [openEditModal, setOpenEditModal] = useState(false);
@@ -84,7 +85,11 @@ export const PageList = () => {
                     >
                       Edit
                     </DropdownMenuItem>
-                    <DropdownMenuItem onClick={() => {deleteMutateFn({id: page.id})}}>
+                    <DropdownMenuItem
+                      onClick={() => {
+                        deleteMutateFn({ id: page.id });
+                      }}
+                    >
                       Delete
                     </DropdownMenuItem>
                   </DropdownMenuContent>
@@ -156,16 +161,22 @@ const EditPageModal = ({
         >
           <div className="mb-2 text-muted-foreground">
             <span>Title*</span>
-            <input
-              onChange={(e) => {
-                setTitle(e.currentTarget.value);
-              }}
-              defaultValue={title}
-              name="viewTitle"
-              required
-              className="bg-transparent text-foreground outline-hidden border px-2 pr-9 w-full rounded-md"
-            />
-            <p>{title}</p>
+            <div className="flex bg-transparent text-foreground border w-full rounded-md">
+                <EmojiPicker
+                className="border-r"
+                  onSelect={(emoji)=>{setTitle(emoji+title)}}
+                />
+              <input
+                onChange={(e) => {
+                  setTitle(e.currentTarget.value);
+                }}
+                value = {title}
+                name="viewTitle"
+                required
+                className="border-none w-full"
+              />
+            
+            </div>
           </div>
 
           <div className="mb-2 text-muted-foreground">

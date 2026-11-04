@@ -16,6 +16,7 @@ import { DateRange } from "react-day-picker";
 import { useToast } from "@/hooks/use-toast";
 import { useCreatePage } from "../query/create-page";
 import SidebarItem from "../../SidebarItem";
+import EmojiPicker from "./EmojiPicker";
 
 const CreatePageButton = () => {
   const { createMutateFn } = useCreatePage();
@@ -57,18 +58,31 @@ const CreatePageButton = () => {
             }
             createMutateFn({ title, from: dateRange.from, to: dateRange.to });
             setOpenCreateModal(false);
+            setTitle("");
+            setDateRange({
+    from: startOfToday(),
+    to: startOfTomorrow(),
+  })
           }}
         >
           <div className="mb-2 text-muted-foreground">
             <span>Title*</span>
-            <input
-              onChange={(e) => {
-                setTitle(e.currentTarget.value);
-              }}
-              name="viewTitle"
-              required
-              className="bg-transparent text-foreground outline-hidden border px-2 pr-9 w-full rounded-md"
-            />
+             <div className="flex bg-transparent text-foreground border w-full rounded-md">
+                <EmojiPicker
+                className="border-r"
+                  onSelect={(emoji)=>{setTitle(emoji+title)}}
+                />
+              <input
+                onChange={(e) => {
+                  setTitle(e.currentTarget.value);
+                }}
+                value = {title}
+                name="viewTitle"
+                required
+                className="border-none w-full"
+              />
+            
+            </div>
           </div>
 
           <div className="mb-2 text-muted-foreground">

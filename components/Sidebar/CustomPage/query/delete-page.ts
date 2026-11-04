@@ -3,13 +3,9 @@ import { useQueryClient, useMutation } from "@tanstack/react-query";
 import { api } from "@/lib/api-client";
 import { Page } from "@/types";
 
-async function deletePage({
-  id,
-}: {
-  id: string;
-}) {
+async function deletePage({ id }: { id: string }) {
   const { page } = await api.DELETE({
-    url: `/api/page/${id}`
+    url: `/api/page/${id}`,
   });
   return page;
 }
@@ -22,9 +18,7 @@ export const useDeletePage = () => {
     isPending: deleteLoading,
     isSuccess,
   } = useMutation({
-    mutationFn: (params: {
-      id: string;
-    }) => deletePage({ ...params }),
+    mutationFn: (params: { id: string }) => deletePage({ ...params }),
     onMutate: (newPage: Partial<Page>) => {
       queryClient.cancelQueries({ queryKey: "page" });
       const backupPage = queryClient.getQueryData(["page"]);
@@ -33,7 +27,7 @@ export const useDeletePage = () => {
         if (!pages) return pages;
         return pages.flatMap((page: Page) => {
           if (page.id !== newPage.id) return [page];
-          return []
+          return [];
         });
       });
 
