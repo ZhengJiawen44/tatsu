@@ -38,7 +38,7 @@ export const useDeleteTodo = () => {
       queryClient.invalidateQueries({ queryKey: ["completedTodo"] });
       queryClient.invalidateQueries({ queryKey: ["calendarTodo"] });
       queryClient.invalidateQueries({ queryKey: ["overdueTodo"] });
-      queryClient.invalidateQueries({ queryKey: ["project"] });
+      queryClient.invalidateQueries({ queryKey: ["projectTodo"] });
 
       toast({ description: "todo deleted" });
     },

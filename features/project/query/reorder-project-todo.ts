@@ -28,7 +28,7 @@ export const useReorderProjectTodo = () => {
 
     onMutate: async (changeMap) => {
       await queryClient.cancelQueries({ queryKey: ["todo"] });
-      await queryClient.cancelQueries({ queryKey: ["project"] });
+      await queryClient.cancelQueries({ queryKey: ["projectTodo"] });
 
       const oldTodos = queryClient.getQueryData<TodoItemType[]>(["todo"]);
       const oldProjectTodos = queryClient.getQueryData<TodoItemType[]>([
@@ -48,7 +48,7 @@ export const useReorderProjectTodo = () => {
 
       queryClient.setQueryData<TodoItemType[]>(["todo"], applyOrder);
       queryClient.setQueriesData<TodoItemType[]>(
-        { queryKey: ["project"] },
+        { queryKey: ["projectTodo"] },
         applyOrder,
       );
 
@@ -57,7 +57,7 @@ export const useReorderProjectTodo = () => {
 
     onError: (error, _, context) => {
       queryClient.setQueryData(["todo"], context?.oldTodos);
-      queryClient.setQueryData(["project"], context?.oldProjectTodos);
+      queryClient.setQueryData(["projectTodo"], context?.oldProjectTodos);
 
       toast({
         description:
@@ -71,7 +71,7 @@ export const useReorderProjectTodo = () => {
     onSettled: () => {
       queryClient.invalidateQueries({ queryKey: ["todo"] });
       queryClient.invalidateQueries({ queryKey: ["overdueTodo"] });
-      queryClient.invalidateQueries({ queryKey: ["project"] });
+      queryClient.invalidateQueries({ queryKey: ["projectTodo"] });
     },
   });
 

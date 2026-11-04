@@ -55,6 +55,7 @@ export const useUpdatePage = () => {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["page"] });
+      queryClient.invalidateQueries({ queryKey: ["pageTodos"] });
     },
     onError: (error) => {
       toast({ description: error.message, variant: "destructive" });

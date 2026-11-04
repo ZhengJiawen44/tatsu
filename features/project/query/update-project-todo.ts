@@ -64,7 +64,7 @@ export const useEditProjectTodo = () => {
 
     onMutate: async (newTodo) => {
       await queryClient.cancelQueries({ queryKey: ["todo"] });
-      await queryClient.cancelQueries({ queryKey: ["project"] });
+      await queryClient.cancelQueries({ queryKey: ["projectTodo"] });
 
       const oldTodos = queryClient.getQueryData<TodoItemType[]>(["todo"]);
       const oldProjectTodos = queryClient.getQueryData<TodoItemType[]>([
@@ -100,7 +100,7 @@ export const useEditProjectTodo = () => {
       );
       // update project cache
       queryClient.setQueriesData<TodoItemType[]>(
-        { queryKey: ["project"] },
+        { queryKey: ["projectTodo"] },
         (oldTodos) =>
           oldTodos?.flatMap((oldTodo) => {
             if (oldTodo.id !== newTodo.id) return [oldTodo];
@@ -121,7 +121,7 @@ export const useEditProjectTodo = () => {
 
     onError: (error, _, context) => {
       queryClient.setQueryData(["todo"], context?.oldTodos);
-      queryClient.setQueryData(["project"], context?.oldProjectTodos);
+      queryClient.setQueryData(["projectTodo"], context?.oldProjectTodos);
 
       toast({
         description:

@@ -64,7 +64,7 @@ export const PageList = () => {
           >
             <Link
               className="group text-foreground relative cursor-pointer"
-              href="/app/todo"
+              href={`/app/page/${page.id}`}
               onClick={() => {
                 setActiveMenu({ name: page.title + ":" + page.id });
                 if (width <= 766) setShowMenu(false);

@@ -35,7 +35,7 @@ export const useSyncCalDavAccount = () => {
       queryClient.invalidateQueries({ queryKey: ["todo"] });
       queryClient.invalidateQueries({ queryKey: ["overdueTodo"] });
       queryClient.invalidateQueries({ queryKey: ["calendarTodo"] });
-      queryClient.invalidateQueries({ queryKey: ["project"] });
+      queryClient.invalidateQueries({ queryKey: ["projectTodo"] });
       queryClient.invalidateQueries({ queryKey: ["caldavCalendar"] });
     },
 

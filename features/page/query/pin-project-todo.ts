@@ -1,0 +1,85 @@
+import { useQueryClient, useMutation } from "@tanstack/react-query";
+import { api } from "@/lib/api-client";
+import { useToast } from "@/hooks/use-toast";
+import { TodoItemType } from "@/types";
+
+export function usePinProjectTodo() {
+  const { toast } = useToast();
+  const queryClient = useQueryClient();
+
+  const { mutate: pinMutateFn, isPending: pinPending } = useMutation({
+    mutationFn: async (todoItem: TodoItemType) => {
+      await api.PATCH({
+        url: `/api/todo/${todoItem.id.split(":")[0]}`,
+        body: JSON.stringify({ pinned: !todoItem.pinned }),
+      });
+    },
+
+    onMutate: async (todoItem: TodoItemType) => {
+      await queryClient.cancelQueries({ queryKey: ["projectTodo"] });
+      await queryClient.cancelQueries({ queryKey: ["todo"] });
+
+      const oldProjectTodos = queryClient.getQueryData<TodoItemType[]>([
+        "project",
+      ]);
+      const oldTodos = queryClient.getQueryData<TodoItemType[]>(["todo"]);
+
+      queryClient.setQueriesData<TodoItemType[]>(
+        { queryKey: ["projectTodo"] },
+        (old) => {
+          return old?.map((oldTodo) => {
+            if (oldTodo.id === todoItem.id) {
+              return {
+                ...oldTodo,
+                pinned: !todoItem.pinned,
+              };
+            }
+            return oldTodo;
+          });
+        },
+      );
+
+      queryClient.setQueryData<TodoItemType[]>(["todo"], (old) => {
+        return old?.map((oldTodo) => {
+          if (oldTodo.id === todoItem.id) {
+            return {
+              ...oldTodo,
+              pinned: !todoItem.pinned,
+            };
+          }
+          return oldTodo;
+        });
+      });
+
+      //optimistically update pinned todo
+      queryClient.setQueryData<TodoItemType[]>(["pinnedTodo"], (old) => {
+        if (!old) return [todoItem];
+        return [...old, todoItem];
+      });
+
+      return { oldProjectTodos, oldTodos };
+    },
+
+    mutationKey: ["projectTodo"],
+
+    onError: (error, _, context) => {
+      queryClient.setQueryData(["projectTodo"], context?.oldProjectTodos);
+      queryClient.setQueryData(["todo"], context?.oldTodos);
+
+      toast({
+        description:
+          error.message === "Failed to fetch"
+            ? "failed to connect to server"
+            : error.message,
+        variant: "destructive",
+      });
+    },
+
+    onSettled: () => {
+      queryClient.invalidateQueries({ queryKey: ["overdueTodo"] });
+      queryClient.invalidateQueries({ queryKey: ["pinnedTodo"] });
+    },
+  });
+
+  return { pinMutateFn, pinPending };
+}
