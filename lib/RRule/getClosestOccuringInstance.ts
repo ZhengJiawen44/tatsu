@@ -10,8 +10,6 @@ export function getClosestOccuringInstance(
   includePast?: boolean,
 ) {
   const calculatedDuration = getTodoDurationMinutes(todo);
-  if (!calculatedDuration)
-    throw new Error("todo duration could not be calculated");
 
   const ruleSet = genRuleSet(todo.rrule, todo.dtstart, timeZone, todo.exdates);
   const occurrences = ruleSet

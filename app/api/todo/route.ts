@@ -15,8 +15,10 @@ import expandAndMergeTodos from "@/lib/RRule/expandAndMergeTodos";
 import { genICSData } from "@/lib/sync/genIcsDataFromLocal";
 import createCaldavClientFromDB from "@/lib/sync/createCaldavClientFromDB";
 import { fromZonedTime, toZonedTime } from "date-fns-tz";
-import { endOfDay, startOfDay } from "date-fns";
+import { addMinutes, endOfDay, startOfDay } from "date-fns";
 import { getClosestOccuringInstance } from "@/lib/RRule/getClosestOccuringInstance";
+import { mergeWithOverrideInstances } from "@/lib/RRule/mergeWithOverrideInstances";
+import { getTodoDurationMinutes } from "@/lib/RRule/getTodoDurationMinutes";
 export async function POST(req: NextRequest) {
   try {
     const session = await auth();
@@ -154,6 +156,8 @@ export async function GET(req: NextRequest) {
 
     const start = req.nextUrl.searchParams.get("start");
     const end = req.nextUrl.searchParams.get("end");
+    const pinned = req.nextUrl.searchParams.get("pinned") === "true";
+
     const hasDateRange = start && end;
 
     let dateRangeStart = new Date(Number(start));
@@ -180,6 +184,7 @@ export async function GET(req: NextRequest) {
         userID: user.id,
         rrule: null,
         completed: false,
+        ...(pinned && { pinned: true }),
         ...(hasDateRange
           ? {
               AND: [
@@ -201,20 +206,20 @@ export async function GET(req: NextRequest) {
       where: {
         userID: user.id,
         rrule: { not: null },
+        ...(pinned && { pinned: true }),
         ...(hasDateRange ? { dtstart: { not: null, lte: dateRangeEnd } } : {}),
         completed: false,
       },
       include: { instances: true },
     })) as recurringTodoItemType[];
 
-    const ghostTodos = expandAndMergeTodos(
-      recurringTodos,
-      timeZone,
-      dateRangeStart,
-      dateRangeEnd,
-    );
-
     if (hasDateRange) {
+      const ghostTodos = expandAndMergeTodos(
+        recurringTodos,
+        timeZone,
+        dateRangeStart,
+        dateRangeEnd,
+      );
       //remove ghosts that are either overdue or completed
       const filteredGhosts = ghostTodos.filter((todo) => {
         return (
@@ -235,10 +240,25 @@ export async function GET(req: NextRequest) {
       // get the instances that due after or equal the date range start, or the nearest one to the left of the date range start
       // this is so pinned recurring todos always shows in the pinned todo response, even if their occurence doesnt precisely fall in
       // the date range
-      const closestOccuringTodos = getClosestOccuringInstance(
-        ghostTodos,
-        dateRangeStart,
-      );
+      const closestOccuringTodos = recurringTodos.flatMap((todo) => {
+        const closestOccurenceDate = getClosestOccuringInstance(
+          todo,
+          todo.instances,
+          timeZone,
+          dateRangeEnd,
+          true,
+        );
+        if (!closestOccurenceDate) return [];
+        const instance = {
+          ...todo,
+          dtstart: closestOccurenceDate,
+          due: addMinutes(closestOccurenceDate, getTodoDurationMinutes(todo)),
+          instanceDate: closestOccurenceDate,
+        };
+        const overridenInstance = mergeWithOverrideInstances([instance]);
+        return overridenInstance;
+      });
+
       return NextResponse.json(
         {
           todos: [...oneOffTodos, ...closestOccuringTodos].sort(

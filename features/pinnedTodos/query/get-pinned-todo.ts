@@ -3,7 +3,6 @@ import { useEffect } from "react";
 import { useToast } from "@/hooks/use-toast";
 import { api } from "@/lib/api-client";
 import { TodoItemType } from "@/types";
-import { startOfToday, endOfToday } from "date-fns";
 
 export const usePinnedTodo = () => {
   const { toast } = useToast();
@@ -21,7 +20,7 @@ export const usePinnedTodo = () => {
     staleTime: 5 * 60 * 1000,
     queryFn: async () => {
       const { todos } = await api.GET({
-        url: `/api/todo/pinned?start=${startOfToday().getTime()}&end=${endOfToday().getTime()}`,
+        url: `/api/todo?pinned=true`,
       });
 
       const todoWithFormattedDates = todos.map((todo: TodoItemType) => {

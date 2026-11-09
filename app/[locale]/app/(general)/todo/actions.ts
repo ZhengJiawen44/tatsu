@@ -3,10 +3,12 @@ import { auth } from "@/app/auth";
 import { UnauthorizedError } from "@/lib/customError";
 import { prisma } from "@/lib/prisma/client";
 import { resolveTimezone } from "@/lib/resolveTimeZone";
+import { getClosestOverdueOccuringInstance } from "@/lib/RRule/getClosestOverdueOccuringInstance";
+import { getTodoDurationMinutes } from "@/lib/RRule/getTodoDurationMinutes";
+import { mergeWithOverrideInstances } from "@/lib/RRule/mergeWithOverrideInstances";
 import { TodoItemType, recurringTodoItemType } from "@/types";
-import { endOfDay, startOfDay, sub } from "date-fns";
+import { addMinutes, endOfDay, startOfDay, sub } from "date-fns";
 import { toZonedTime, fromZonedTime } from "date-fns-tz";
-import expandAndMergeTodos from "@/lib/RRule/expandAndMergeTodos";
 
 export async function getOverdueTodos(): Promise<TodoItemType[]> {
   const session = await auth();
@@ -53,12 +55,23 @@ export async function getOverdueTodos(): Promise<TodoItemType[]> {
     include: { instances: true },
   })) as recurringTodoItemType[];
 
-  const ghostTodos = expandAndMergeTodos(
-    recurringParents,
-    timeZone,
-    dateRangeStart,
-    dateRangeEnd,
-  );
+  const closestOverdueOccuringTodos = recurringParents.flatMap((todo) => {
+    const closestOccurenceDate = getClosestOverdueOccuringInstance(
+      todo,
+      todo.instances,
+      timeZone,
+      dateRangeEnd,
+    );
+    if (!closestOccurenceDate) return [];
+    const instance = {
+      ...todo,
+      dtstart: closestOccurenceDate,
+      due: addMinutes(closestOccurenceDate, getTodoDurationMinutes(todo)),
+      instanceDate: closestOccurenceDate,
+    };
+    const overridenInstance = mergeWithOverrideInstances([instance]);
+    return overridenInstance;
+  });
 
   // Normalize one-off todos to match TodoItemType (add instanceDate: null)
   const normalizedOneOffTodos: TodoItemType[] = oneOffTodos.map((todo) => ({
@@ -66,9 +79,11 @@ export async function getOverdueTodos(): Promise<TodoItemType[]> {
     instanceDate: null,
     instances: null,
   }));
-  const allTodos = [...normalizedOneOffTodos, ...ghostTodos].sort(
-    (a, b) => a.order - b.order,
-  );
+  const allTodos = [
+    ...normalizedOneOffTodos,
+    ...closestOverdueOccuringTodos,
+  ].sort((a, b) => a.order - b.order);
+
   const overdueTodos = allTodos.filter((todo) => {
     return todo.due!.getTime() <= dateRangeEnd.getTime();
   });
