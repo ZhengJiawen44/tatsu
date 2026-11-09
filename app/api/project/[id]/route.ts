@@ -7,9 +7,7 @@ import { errorHandler } from "@/lib/errorHandler";
 import { Prisma } from "@prisma/client";
 import { resolveTimezone } from "@/lib/resolveTimeZone";
 import { recurringTodoItemType, TodoItemType } from "@/types";
-// import { mergeWithOverrideInstances } from "@/lib/RRule/mergeWithOverrideInstances";
 import expandAndMergeTodos from "@/lib/RRule/expandAndMergeTodos";
-import { getClosestOccuringInstance } from "@/lib/RRule/getClosestOccuringInstance";
 
 export async function PATCH(
   req: NextRequest,
@@ -127,20 +125,15 @@ export async function GET(
       include: { instances: true },
     })) as recurringTodoItemType[];
 
-    //now get recurring todos in date range
     const ghostTodos = expandAndMergeTodos(
       recurringParents,
       timeZone,
       dateRangeStart,
       dateRangeEnd,
     );
-
-    // get the instances that due after or equal the date range start, or the nearest one to the left of the date range start
-    // this is so pinned recurring todos always shows in the pinned todo response, even if their occurence doesnt precisely fall in
-    // the date range
-    const closestOccuringInstances = getClosestOccuringInstance(
-      ghostTodos,
-      dateRangeStart,
+    const filteredGhosts = ghostTodos.filter(
+      (todo) =>
+        (!todo.due || todo.due >= dateRangeStart) && todo.completed === false,
     );
 
     // Normalize one-off todos to match TodoItemType (add instanceDate: null)
@@ -150,10 +143,9 @@ export async function GET(
       instances: null,
     }));
 
-    const allTodos = [
-      ...normalizedOneOffTodos,
-      ...closestOccuringInstances,
-    ].sort((a, b) => a.order - b.order);
+    const allTodos = [...normalizedOneOffTodos, ...filteredGhosts].sort(
+      (a, b) => a.order - b.order,
+    );
 
     return NextResponse.json(
       { todos: allTodos },

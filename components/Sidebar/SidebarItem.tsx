@@ -6,12 +6,7 @@ const SidebarItem = ({
   className,
   asChild,
   ...props
-}: {
-  children: React.ReactNode;
-  className?: string;
-  asChild?: boolean;
-  props?: ButtonProps;
-}) => {
+}: ButtonProps) => {
   return (
     <Button
       asChild={asChild ?? false}
