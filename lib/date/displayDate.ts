@@ -169,14 +169,18 @@ export function getDisplayDate(
   // Tomorrow
   if (diffInDays === -1) return `${translations.tomorrow}${timeString}`;
 
-  // Within this week
-  if (Math.abs(diffInDays) <= 6) {
+  // Same calendar week (Sun–Sat) as today — not a rolling ±6 day window
+  const startOfWeek = (d: Date) =>
+    new Date(d.getFullYear(), d.getMonth(), d.getDate() - d.getDay());
+  if (
+    startOfWeek(todayMidnight).getTime() ===
+    startOfWeek(currentDateMidnight).getTime()
+  ) {
     const weekdayFormatter = getFormatter(locale, {
       weekday: "long",
-      timeZone: timezone, //  Use consistent timezone
+      timeZone: timezone,
     });
-    const weekday = weekdayFormatter.format(date);
-    return `${weekday}${timeString}`;
+    return `${weekdayFormatter.format(date)}${timeString}`;
   }
 
   // Same year
