@@ -33,6 +33,7 @@ export async function GET(req: NextRequest) {
       throw new BadRequestError("date range start or from not specified");
     const dateRangeStart = new Date(Number(start));
     const dateRangeEnd = new Date(Number(end));
+    console.log(dateRangeStart, dateRangeEnd);
 
     // Fetch pinned Todos
     const oneOffTodos = await prisma.todo.findMany({
@@ -63,6 +64,7 @@ export async function GET(req: NextRequest) {
       dateRangeStart,
       dateRangeEnd,
     );
+    console.log("------------------------------t12", ghostTodos);
 
     // get the instances that due after or equal the date range start, or the nearest one to the left of the date range start
     // this is so pinned recurring todos always shows in the pinned todo response, even if their occurence doesnt precisely fall in

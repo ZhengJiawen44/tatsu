@@ -67,9 +67,10 @@ export const useEditPageTodo = () => {
       await queryClient.cancelQueries({ queryKey: ["projectTodo"] });
       await queryClient.cancelQueries({ queryKey: ["pageTodo"] });
 
-
       const oldTodos = queryClient.getQueryData<TodoItemType[]>(["todo"]);
-      const oldPageTodo = queryClient.getQueryData<TodoItemType[]>(["pageTodo"]);
+      const oldPageTodo = queryClient.getQueryData<TodoItemType[]>([
+        "pageTodo",
+      ]);
       const oldProjectTodos = queryClient.getQueryData<TodoItemType[]>([
         "projectTodo",
       ]);
@@ -156,7 +157,6 @@ export const useEditPageTodo = () => {
       queryClient.invalidateQueries({ queryKey: ["todo"] });
       queryClient.invalidateQueries({ queryKey: ["overdueTodo"] });
       queryClient.invalidateQueries({ queryKey: ["pageTodo"] });
-
     },
   });
 

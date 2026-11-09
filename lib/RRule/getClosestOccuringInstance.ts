@@ -1,40 +1,58 @@
-import { recurringTodoItemType } from "@/types";
+import { overridingInstance, recurringTodoItemType } from "@/types";
+import { genRuleSet } from "./generateTodosFromRRule";
+import { getTodoDurationMinutes } from "./getTodoDurationMinutes";
+
+export function getClosestOccuringInstance(
+  todo: recurringTodoItemType,
+  todoInstances: overridingInstance[],
+  timeZone: string,
+  dateRangeEnd: Date,
+  includePast?: boolean,
+) {
+  const calculatedDuration = getTodoDurationMinutes(todo);
+  if (!calculatedDuration)
+    throw new Error("todo duration could not be calculated");
+
+  const ruleSet = genRuleSet(todo.rrule, todo.dtstart, timeZone, todo.exdates);
+  const occurrences = ruleSet
+    .between(
+      todo.dtstart,
+      new Date(dateRangeEnd.getTime() + 60 * 24 * 60 * 60 * 1000), //expand the window to one year, since rrule could be yearly at max, and we want to capture atleast one upcoming instance if exists
+      true,
+    )
+    .sort((a, b) => a.getTime() - b.getTime());
+
+  // we remove the completed instances whose dates are in the occurrence sequence
+  removeCompletedInstanceDates(todoInstances, occurrences);
+
+  // if there is an upcoming
+  if (occurrences[occurrences.length - 1].getTime() >= dateRangeEnd.getTime()) {
+    //since occurrences is sorted, we just need to find the first date that is upcoming (closest upcoming relative to dateRangeEnd)
+    return occurrences.find(
+      (occurringDate) =>
+        occurringDate.getTime() + calculatedDuration * 60 * 1000 >=
+        dateRangeEnd.getTime(),
+    );
+  }
+  // if no upcoming and includePast is set, we simply return the most recent occurence at the end of the occurrence sequence
+  else if (includePast) {
+    return occurrences[occurrences.length - 1];
+  }
+}
 
 /**
- *
- * @param ghostTodos a list of todo instances, a result of expanding recurring todos
- * @param dateRangeStart a date object, used to locate the closestOccurringInstance
- * @returns a list of todo instances whose occurence due on or after dateRangeStart, and if not, then the closest instance to the left of the dateRangeStart
+ * @description removes inplace the dates where a todo instance has already been completed
  */
-export function getClosestOccuringInstance(
-  ghostTodos: recurringTodoItemType[],
-  dateRangeStart: Date,
-): recurringTodoItemType[] {
-  // group the instances by their master id, so that each recurring todo can have atleast one closestOccuringInstance
-  const recurrenceGroup = Object.groupBy(
-    ghostTodos,
-    (todo) => todo.id,
-  ) as Record<string, recurringTodoItemType[]>;
-
-  // for each master group, find the instances that due on or after dateRangeStart or the instance closest to the left of the dateRangeStart
-  return Object.entries(recurrenceGroup).flatMap((instanceGroup) => {
-    // const masterTodoId = instanceGroup[0];  just so you know
-    const instances = instanceGroup[1];
-
-    const incompleteInstances = instances.filter(
-      (instance) => instance.completed === false,
+function removeCompletedInstanceDates(
+  todoInstances: overridingInstance[],
+  occurrences: Date[],
+) {
+  todoInstances.forEach((instance) => {
+    if (!instance.completedAt) return;
+    const index = occurrences.findIndex(
+      (occurringDate) =>
+        occurringDate.getTime() === instance.instanceDate.getTime(),
     );
-
-    const withinRangeInstances = incompleteInstances.filter(
-      (instance) => !instance.due || instance.due >= dateRangeStart,
-    );
-
-    if (withinRangeInstances.length !== 0) return withinRangeInstances;
-
-    const closestOccuringInstance = incompleteInstances
-      .filter((instance) => !instance.due || instance.due <= dateRangeStart)
-      .at(-1);
-
-    return closestOccuringInstance ? [closestOccuringInstance] : [];
+    if (index !== -1) occurrences.splice(index, 1);
   });
 }
