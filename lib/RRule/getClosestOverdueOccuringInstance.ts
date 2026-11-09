@@ -1,9 +1,12 @@
 import { overridingInstance, recurringTodoItemType } from "@/types";
 import { genRuleSet } from "./generateTodosFromRRule";
-import { getTodoDurationMinutes } from "./getTodoDurationMinutes";
+import {
+  getOccurrenceEndMs,
+  getTodoDurationMinutes,
+} from "./getTodoDurationMinutes";
 
 /**
- * Closest incomplete occurrence whose end (dtstart + duration) is already before dateRangeEnd.
+ * Closest incomplete occurrence whose inclusive end is already before dateRangeEnd.
  */
 export function getClosestOverdueOccuringInstance(
   todo: recurringTodoItemType,
@@ -22,10 +25,10 @@ export function getClosestOverdueOccuringInstance(
 
   if (occurrences.length === 0) return;
 
-  // reverse-sorted incomplete dates: first whose duration has fully elapsed
+  // reverse-sorted incomplete dates: first whose inclusive duration has fully elapsed
   return occurrences.find(
     (occurringDate) =>
-      occurringDate.getTime() + calculatedDuration * 60 * 1000 <
+      getOccurrenceEndMs(occurringDate, calculatedDuration) <
       dateRangeEnd.getTime(),
   );
 }

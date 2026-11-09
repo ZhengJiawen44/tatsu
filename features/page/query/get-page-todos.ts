@@ -7,8 +7,7 @@ import { usePage as usePages } from "@/components/Sidebar/CustomPage/query/get-p
 
 export const usePage = ({ pageId }: { pageId: string }) => {
   const { toast } = useToast();
-  const { pages, pagesLoading } = usePages();
-  const page = pages.find((p) => p.id === pageId);
+  const { pagesLoading } = usePages();
 
   const {
     data: pageTodos = [],
@@ -23,7 +22,7 @@ export const usePage = ({ pageId }: { pageId: string }) => {
     staleTime: 5 * 60 * 1000,
     queryFn: async () => {
       const { todos } = await api.GET({
-        url: `/api/todo?start=${page!.from.getTime()}&end=${page!.to.getTime()}`,
+        url: `/api/todo`,
       });
 
       const todoWithFormattedDates = todos.map((todo: TodoItemType) => {

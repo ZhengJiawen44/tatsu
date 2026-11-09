@@ -1,6 +1,9 @@
 import { overridingInstance, recurringTodoItemType } from "@/types";
 import { genRuleSet } from "./generateTodosFromRRule";
-import { getTodoDurationMinutes } from "./getTodoDurationMinutes";
+import {
+  getOccurrenceEndMs,
+  getTodoDurationMinutes,
+} from "./getTodoDurationMinutes";
 
 export function getClosestOccuringInstance(
   todo: recurringTodoItemType,
@@ -28,7 +31,7 @@ export function getClosestOccuringInstance(
     //since occurrences is sorted, we just need to find the first date that is upcoming (closest upcoming relative to dateRangeEnd)
     return occurrences.find(
       (occurringDate) =>
-        occurringDate.getTime() + calculatedDuration * 60 * 1000 >=
+        getOccurrenceEndMs(occurringDate, calculatedDuration) >=
         dateRangeEnd.getTime(),
     );
   }
