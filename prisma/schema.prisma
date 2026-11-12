@@ -62,6 +62,8 @@ model UserPreferences {
   sortBy            SortBy?
   groupBy           GroupBy?
   direction         Direction?
+  showOverdue       Boolean?
+  showUpcoming      Boolean?
 }
  
 model Account {

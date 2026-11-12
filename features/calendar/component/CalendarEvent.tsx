@@ -145,7 +145,7 @@ const CalendarEvent = ({ event: todo }: EventProps<TodoItemType>) => {
                 )}
               />
               <div className="min-w-0">
-                <p className="text-md md:text-lg font-semibold leading-none truncate w-full">
+                <p className="text-base md:text-lg font-semibold leading-none truncate w-full">
                   {todo.title}
                 </p>
                 <p className="text-[0.6rem] sm:text-xs md:text-sm text-foreground">

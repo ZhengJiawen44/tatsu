@@ -133,7 +133,7 @@ const LandingPage = () => {
               <span className="text-lime">Fully Yours</span>
             </h1>
 
-            <p className="text-sm sm:text-md lg:text-[16px] max-w-4xl mx-auto mt-4 mb-6 sm:mb-8 px-2 fade-up fade-up-2">
+            <p className="text-sm sm:text-base lg:text-[16px] max-w-4xl mx-auto mt-4 mb-6 sm:mb-8 px-2 fade-up fade-up-2">
               {dict("hero.subtitle")}
             </p>
 
@@ -141,7 +141,7 @@ const LandingPage = () => {
               {/* <Link href="/blogs" className="z-50 w-full sm:w-auto">
                 <Button
                   variant={"outline"}
-                  className="w-full sm:w-auto font-normal tracking-tight text-foreground px-6 py-5 sm:p-3 text-base sm:text-md rounded-lg shadow-md hover:translate-y-0.5 transition-transform duration-100"
+                  className="w-full sm:w-auto font-normal tracking-tight text-foreground px-6 py-5 sm:p-3 text-base sm:text-base rounded-lg shadow-md hover:translate-y-0.5 transition-transform duration-100"
                 >
                   {dict("hero.readDocs")}
                 </Button>
@@ -151,7 +151,7 @@ const LandingPage = () => {
                 className="z-50 w-full sm:w-auto"
                 aria-label="Start by logging in"
               >
-                <Button className="bg-linear-to-t from-[#465927] to-lime hover:from-[#546b2f] hover:shadow-none transition-all duration-200 border-t border-t-[#adc982] w-full sm:w-auto text-white px-6 py-5 sm:p-6 text-base sm:text-md font-semibold tracking-wide rounded-full shadow-md hover:scale-110">
+                <Button className="bg-linear-to-t from-[#465927] to-lime hover:from-[#546b2f] hover:shadow-none transition-all duration-200 border-t border-t-[#adc982] w-full sm:w-auto text-white px-6 py-5 sm:p-6 text-base sm:text-base font-semibold tracking-wide rounded-full shadow-md hover:scale-110">
                   {dict("hero.start")}
                 </Button>
               </Link>
