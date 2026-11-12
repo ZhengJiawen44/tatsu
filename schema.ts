@@ -143,6 +143,9 @@ export const userPreferencesSchema = z.object({
     .nullable()
     .optional(),
   direction: z.enum(["Ascending", "Descending"]).nullable().optional(),
+  showOverdue: z.boolean().nullable().optional(),
+  showUpcoming: z.boolean().nullable().optional()
+
 });
 
 export const pageSchema = z.object({
