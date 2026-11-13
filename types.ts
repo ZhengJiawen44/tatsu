@@ -144,6 +144,8 @@ export type UserPreferences = {
   sortBy: SortBy | null;
   groupBy: GroupBy | null;
   direction: Direction | null;
+  showOverdue: boolean | null;
+  showUpcoming: boolean | null;
 };
 export type userDetail = {
   userID: string;
