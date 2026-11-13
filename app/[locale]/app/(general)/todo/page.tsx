@@ -7,7 +7,9 @@ import {
 import OverDueTodoContainer from "@/features/overdueTodos/component/OverDueTodoContainer";
 import TodayTodoContainer from "@/features/todayTodos/component/TodayTodoContainer";
 import { getOverdueTodos } from "./actions";
+import { getUserPreferences } from "../../actions";
 const Page = async () => {
+  const userPreferences = await getUserPreferences();
   const queryClient = new QueryClient();
   await queryClient.prefetchQuery({
     queryKey: ["overdueTodo"],
@@ -18,7 +20,7 @@ const Page = async () => {
     <HydrationBoundary state={dehydrate(queryClient)}>
       <div className="select-none bg-inherit mt-4">
         <TodayTodoContainer />
-        <OverDueTodoContainer />
+        {userPreferences?.showOverdue != false && <OverDueTodoContainer />}
       </div>
     </HydrationBoundary>
   );
