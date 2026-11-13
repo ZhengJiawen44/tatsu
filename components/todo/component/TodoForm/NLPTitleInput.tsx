@@ -468,7 +468,7 @@ export default function NLPTitleInput({
       />
 
       {!title.length && !(titleRef.current?.textContent ?? "").length && (
-        <span className="select-none pointer-events-none z-10 absolute top-0 left-2">
+        <span className="select-none pointer-events-none text-muted-foreground z-10 absolute top-0 left-2">
           {todayDict("titlePlaceholder")}
         </span>
       )}
