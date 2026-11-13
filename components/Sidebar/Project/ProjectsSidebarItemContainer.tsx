@@ -19,7 +19,7 @@ const ProjectCollapsible = () => {
       <div className={clsx("w-full items-start justify-start ")}>
         <div
           className={clsx(
-            "flex gap-3 items-center pl-5 pr-3! w-full h-11 font-normal hover:bg-inherit cursor-default",
+            "flex gap-3 items-center p-2 w-full h-11 font-normal hover:bg-inherit cursor-default",
           )}
         >
           <Folder className={clsx("w-5 h-5 stroke-muted-foreground")} />
