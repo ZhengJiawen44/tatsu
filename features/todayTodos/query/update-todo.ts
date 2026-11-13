@@ -64,6 +64,7 @@ export const useEditTodo = () => {
     mutationFn: (params: TodoFormItemType) => patchTodo({ todo: params }),
     onMutate: async (newTodo) => {
       await queryClient.cancelQueries({ queryKey: ["todo"] });
+      await queryClient.cancelQueries({ queryKey: ["upcomingTodo"] });
       const oldTodos = queryClient.getQueryData<TodoItemType[]>(["todo"]);
 
       queryClient.setQueryData(["todo"], (oldTodos: TodoItemType[]) =>
@@ -105,11 +106,21 @@ export const useEditTodo = () => {
             ),
         );
 
+      if (newTodo.dtstart && newTodo.dtstart > endOfDay(new Date()))
+        queryClient.setQueryData(
+          ["upcomingTodo"],
+          (oldUpcomingTodos: TodoItemType[] = []) =>
+            [...oldUpcomingTodos, newTodo].sort(
+              (a, b) => a.createdAt.getTime() - b.createdAt.getTime(),
+            ),
+        );
+
       return { oldTodos };
     },
     onSettled: () => {
       queryClient.invalidateQueries({ queryKey: ["calendarTodo"] });
       queryClient.invalidateQueries({ queryKey: ["overdueTodo"] });
+      queryClient.invalidateQueries({ queryKey: ["upcomingTodo"] });
       queryClient.invalidateQueries({ queryKey: ["todo"] });
       queryClient.invalidateQueries({ queryKey: ["projectTodo"] });
     },

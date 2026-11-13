@@ -3,11 +3,13 @@ import { auth } from "@/app/auth";
 import { UnauthorizedError } from "@/lib/customError";
 import { prisma } from "@/lib/prisma/client";
 import { resolveTimezone } from "@/lib/resolveTimeZone";
+import expandAndMergeTodos from "@/lib/RRule/expandAndMergeTodos";
+import { getClosestOccuringInstance } from "@/lib/RRule/getClosestOccuringInstance";
 import { getClosestOverdueOccuringInstance } from "@/lib/RRule/getClosestOverdueOccuringInstance";
 import { getTodoDurationMinutes } from "@/lib/RRule/getTodoDurationMinutes";
 import { mergeWithOverrideInstances } from "@/lib/RRule/mergeWithOverrideInstances";
 import { TodoItemType, recurringTodoItemType } from "@/types";
-import { addMinutes, endOfDay, startOfDay, sub } from "date-fns";
+import { addDays, addMinutes, endOfDay, startOfDay, sub } from "date-fns";
 import { toZonedTime, fromZonedTime } from "date-fns-tz";
 
 export async function getOverdueTodos(): Promise<TodoItemType[]> {
@@ -96,4 +98,97 @@ export async function getOverdueTodos(): Promise<TodoItemType[]> {
     };
   });
   return todoWithFormattedID;
+}
+
+export async function getUpcomingTodo(): Promise<TodoItemType[]> {
+  const session = await auth();
+  const user = session?.user;
+  if (!user?.id) {
+    throw new UnauthorizedError("You must be logged in to do this");
+  }
+  const timeZone = await resolveTimezone(user);
+  const userNow = toZonedTime(new Date(), timeZone);
+  const userTomorrow = addDays(userNow, 1);
+  const dateRangeStart = fromZonedTime(startOfDay(userTomorrow), timeZone);
+  const dateRangeEnd = fromZonedTime(
+    new Date(endOfDay(userTomorrow).getTime() + 365 * 24 * 60 * 60 * 1000),
+    timeZone,
+  );
+  const userTodayEnd = fromZonedTime(endOfDay(userNow), timeZone);
+
+  const oneOffTodos = await prisma.todo.findMany({
+    where: {
+      userID: user.id,
+      rrule: null,
+      completed: false,
+      AND: [
+        {
+          OR: [{ due: null }, { due: { gte: dateRangeStart } }],
+        },
+        {
+          OR: [{ dtstart: null }, { dtstart: { lte: dateRangeEnd } }],
+        },
+      ],
+    },
+    orderBy: { createdAt: "desc" },
+  });
+
+  const recurringTodos = (await prisma.todo.findMany({
+    where: {
+      userID: user.id,
+      rrule: { not: null },
+      dtstart: { not: null, lte: dateRangeEnd },
+      completed: false,
+    },
+    include: { instances: true },
+  })) as recurringTodoItemType[];
+
+  const recurringInstances = recurringTodos.flatMap((todo) => {
+    const instances = expandAndMergeTodos(
+      [todo],
+      timeZone,
+      dateRangeStart,
+      dateRangeEnd,
+    );
+    if (instances.length <= 1) return instances;
+
+    const closestOccurenceDate = getClosestOccuringInstance(
+      todo,
+      todo.instances,
+      timeZone,
+      userTodayEnd,
+      true,
+    );
+    if (!closestOccurenceDate) return [];
+    const instance = {
+      ...todo,
+      dtstart: closestOccurenceDate,
+      due: addMinutes(closestOccurenceDate, getTodoDurationMinutes(todo)),
+      instanceDate: closestOccurenceDate,
+    };
+    return mergeWithOverrideInstances([instance]);
+  });
+
+  const normalizedOneOffTodos = oneOffTodos.map((todo) => ({
+    ...todo,
+    instanceDate: null,
+    instances: null,
+  }));
+
+  return [...normalizedOneOffTodos, ...recurringInstances]
+    .sort((a, b) => a.order - b.order)
+    .map((todo) => {
+      const instanceDate = todo.instanceDate
+        ? new Date(todo.instanceDate)
+        : null;
+      return {
+        ...todo,
+        id: `${todo.id}:${instanceDate?.getTime() ?? null}`,
+        createdAt: new Date(todo.createdAt),
+        dtstart: todo.dtstart ? new Date(todo.dtstart) : null,
+        due: todo.due ? new Date(todo.due) : null,
+        instanceDate,
+        instances: todo.instances ?? null,
+      };
+    });
 }

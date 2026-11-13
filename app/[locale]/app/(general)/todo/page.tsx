@@ -6,7 +6,7 @@ import {
 } from "@tanstack/react-query";
 import OverDueTodoContainer from "@/features/overdueTodos/component/OverDueTodoContainer";
 import TodayTodoContainer from "@/features/todayTodos/component/TodayTodoContainer";
-import { getOverdueTodos } from "./actions";
+import { getOverdueTodos, getUpcomingTodo } from "./actions";
 import { getUserPreferences } from "../../actions";
 import UpcomingTodoContainer from "@/features/upcomingTodos/component/UpcomingTodoContainer";
 const Page = async () => {
@@ -15,6 +15,10 @@ const Page = async () => {
   await queryClient.prefetchQuery({
     queryKey: ["overdueTodo"],
     queryFn: getOverdueTodos,
+  });
+  await queryClient.prefetchQuery({
+    queryKey: ["upcomingTodo"],
+    queryFn: getUpcomingTodo,
   });
 
   return (

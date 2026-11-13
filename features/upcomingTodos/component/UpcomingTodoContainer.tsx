@@ -37,7 +37,6 @@ export default function UpcomingTodoContainer() {
         >
           <TodoGroup
             todos={upcomingTodos.filter((todo) => todo.pinned === false)}
-            overdue={true}
           />
         </TodoMutationProvider>
       </div>
