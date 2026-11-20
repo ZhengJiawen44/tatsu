@@ -50,6 +50,7 @@ export default function NLPTitleInput({
   const locale = useLocale();
   const todayDict = useTranslations("today");
   const isComposing = useRef(false);
+  const [composing, setComposing] = useState(false);
 
   // --- Dropdown state ---
   const [projectDropdownVisible, setProjectDropdownVisible] = useState(false);
@@ -454,8 +455,17 @@ export default function NLPTitleInput({
       <div
         contentEditable
         suppressContentEditableWarning
-        onCompositionStart={() => (isComposing.current = true)}
-        onCompositionEnd={() => (isComposing.current = false)}
+        onCompositionStart={() => {
+          isComposing.current = true;
+          setComposing(true);
+        }}
+        onCompositionEnd={() => {
+          // Committed IME text does not always get a later non-composing input.
+          isComposing.current = false;
+          setComposing(false);
+          handleNLPInput();
+          handleProjectInput();
+        }}
         onInput={() => {
           handleNLPInput();
           handleProjectInput();
@@ -467,11 +477,13 @@ export default function NLPTitleInput({
         aria-multiline="true"
       />
 
-      {!title.length && !(titleRef.current?.textContent ?? "").length && (
-        <span className="select-none pointer-events-none text-muted-foreground z-10 absolute top-0 left-2">
-          {todayDict("titlePlaceholder")}
-        </span>
-      )}
+      {!composing &&
+        !title.length &&
+        !(titleRef.current?.textContent ?? "").length && (
+          <span className="select-none pointer-events-none text-muted-foreground z-10 absolute top-0 left-2">
+            {todayDict("titlePlaceholder")}
+          </span>
+        )}
 
       {projectDropdownVisible && (
         <ProjectAutoComplete
