@@ -14,6 +14,11 @@ import { recurringTodoItemType } from "@/types";
 import expandAndMergeTodos from "@/lib/RRule/expandAndMergeTodos";
 import { genICSData } from "@/lib/sync/genIcsDataFromLocal";
 import createCaldavClientFromDB from "@/lib/sync/createCaldavClientFromDB";
+import { fromZonedTime, toZonedTime } from "date-fns-tz";
+import { addMinutes, endOfDay, startOfDay } from "date-fns";
+import { getClosestOccuringInstance } from "@/lib/RRule/getClosestOccuringInstance";
+import { mergeWithOverrideInstances } from "@/lib/RRule/mergeWithOverrideInstances";
+import { getTodoDurationMinutes } from "@/lib/RRule/getTodoDurationMinutes";
 export async function POST(req: NextRequest) {
   try {
     const session = await auth();
@@ -147,13 +152,31 @@ export async function GET(req: NextRequest) {
     if (!user?.id) {
       throw new UnauthorizedError("You must be logged in to do this");
     }
+    const timeZone = await resolveTimezone(user, req);
+
     const start = req.nextUrl.searchParams.get("start");
     const end = req.nextUrl.searchParams.get("end");
+    const pinned = req.nextUrl.searchParams.get("pinned") === "true";
 
-    if (!start || !end)
-      throw new BadRequestError("date range start or from not specified");
-    const dateRangeStart = new Date(Number(start));
-    const dateRangeEnd = new Date(Number(end));
+    const hasDateRange = start && end;
+
+    let dateRangeStart = new Date(Number(start));
+    let dateRangeEnd = new Date(Number(end));
+    //start of user's day in their time, represented in utc
+
+    // if no start and end is supplied, it means we want all the todos for this user
+    // we still want to have a start and end range tho, since we do not want to return recurring todos that recur infinitely,
+    // so we will only expand reccuring todos and pick the instances closest to user's today
+    if (!start && !end) {
+      dateRangeStart = fromZonedTime(
+        startOfDay(toZonedTime(new Date(), timeZone)),
+        timeZone,
+      );
+      dateRangeEnd = fromZonedTime(
+        endOfDay(toZonedTime(new Date(), timeZone)),
+        timeZone,
+      );
+    }
 
     // Fetch One-Off Todos
     const oneOffTodos = await prisma.todo.findMany({
@@ -161,14 +184,19 @@ export async function GET(req: NextRequest) {
         userID: user.id,
         rrule: null,
         completed: false,
-        AND: [
-          {
-            OR: [{ due: null }, { due: { gte: dateRangeStart } }],
-          },
-          {
-            OR: [{ dtstart: null }, { dtstart: { lte: dateRangeEnd } }],
-          },
-        ],
+        ...(pinned && { pinned: true }),
+        ...(hasDateRange
+          ? {
+              AND: [
+                {
+                  OR: [{ due: null }, { due: { gte: dateRangeStart } }],
+                },
+                {
+                  OR: [{ dtstart: null }, { dtstart: { lte: dateRangeEnd } }],
+                },
+              ],
+            }
+          : {}),
       },
       orderBy: { createdAt: "desc" },
     });
@@ -178,36 +206,70 @@ export async function GET(req: NextRequest) {
       where: {
         userID: user.id,
         rrule: { not: null },
-        dtstart: { not: null, lte: dateRangeEnd },
+        ...(pinned && { pinned: true }),
+        ...(hasDateRange ? { dtstart: { not: null, lte: dateRangeEnd } } : {}),
         completed: false,
       },
       include: { instances: true },
     })) as recurringTodoItemType[];
 
-    const timeZone = await resolveTimezone(user, req);
-    const ghostTodos = expandAndMergeTodos(
-      recurringTodos,
-      timeZone,
-      dateRangeStart,
-      dateRangeEnd,
-    );
-
-    //remove ghosts that are either overdue or completed
-    const filteredGhosts = ghostTodos.filter((todo) => {
-      return (
-        (!todo.due || todo.due >= dateRangeStart) && todo.completed === false
+    if (hasDateRange) {
+      const ghostTodos = expandAndMergeTodos(
+        recurringTodos,
+        timeZone,
+        dateRangeStart,
+        dateRangeEnd,
       );
-    });
-    const allTodos = [...oneOffTodos, ...filteredGhosts].sort(
-      (a, b) => a.order - b.order,
-    );
+      //remove ghosts that are either overdue or completed
+      const filteredGhosts = ghostTodos.filter((todo) => {
+        return (
+          (!todo.due || todo.due >= dateRangeStart) && todo.completed === false
+        );
+      });
+      return NextResponse.json(
+        {
+          todos: [...oneOffTodos, ...filteredGhosts].sort(
+            (a, b) => a.order - b.order,
+          ),
+        },
+        {
+          status: 200,
+        },
+      );
+    } else {
+      // get the instances that due after or equal the date range start, or the nearest one to the left of the date range start
+      // this is so pinned recurring todos always shows in the pinned todo response, even if their occurence doesnt precisely fall in
+      // the date range
+      const closestOccuringTodos = recurringTodos.flatMap((todo) => {
+        const closestOccurenceDate = getClosestOccuringInstance(
+          todo,
+          todo.instances,
+          timeZone,
+          dateRangeEnd,
+          true,
+        );
+        if (!closestOccurenceDate) return [];
+        const instance = {
+          ...todo,
+          dtstart: closestOccurenceDate,
+          due: addMinutes(closestOccurenceDate, getTodoDurationMinutes(todo)),
+          instanceDate: closestOccurenceDate,
+        };
+        const overridenInstance = mergeWithOverrideInstances([instance]);
+        return overridenInstance;
+      });
 
-    return NextResponse.json(
-      { todos: allTodos },
-      {
-        status: 200,
-      },
-    );
+      return NextResponse.json(
+        {
+          todos: [...oneOffTodos, ...closestOccuringTodos].sort(
+            (a, b) => a.order - b.order,
+          ),
+        },
+        {
+          status: 200,
+        },
+      );
+    }
   } catch (error) {
     return errorHandler(error);
   }

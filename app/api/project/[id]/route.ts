@@ -7,7 +7,6 @@ import { errorHandler } from "@/lib/errorHandler";
 import { Prisma } from "@prisma/client";
 import { resolveTimezone } from "@/lib/resolveTimeZone";
 import { recurringTodoItemType, TodoItemType } from "@/types";
-import { mergeWithOverrideInstances } from "@/lib/RRule/mergeWithOverrideInstances";
 import expandAndMergeTodos from "@/lib/RRule/expandAndMergeTodos";
 
 export async function PATCH(
@@ -126,36 +125,16 @@ export async function GET(
       include: { instances: true },
     })) as recurringTodoItemType[];
 
-    //Collect future reccuring todos
-    const futureRecurringTodos = recurringParents.filter(({ dtstart }) => {
-      return dtstart > dateRangeEnd;
-    });
-    //generate ghost todos from first instance occurence of future todo
-    const ghostFutureTodos = futureRecurringTodos.map((todo) => {
-      return { ...todo, instanceDate: todo.dtstart };
-    });
-
-    //Apply overrides
-    const mergedFutureGhostTodos = mergeWithOverrideInstances(
-      ghostFutureTodos,
-    ).sort((a, b) => {
-      return a.dtstart.getTime() - b.dtstart.getTime();
-    });
-
-    //now get recurring todos in date range
     const ghostTodos = expandAndMergeTodos(
       recurringParents,
       timeZone,
       dateRangeStart,
       dateRangeEnd,
     );
-
-    //remove ghosts that are either overdue or completed
-    const filteredGhosts = ghostTodos.filter((todo) => {
-      return (
-        (!todo.due || todo.due >= dateRangeStart) && todo.completed === false
-      );
-    });
+    const filteredGhosts = ghostTodos.filter(
+      (todo) =>
+        (!todo.due || todo.due >= dateRangeStart) && todo.completed === false,
+    );
 
     // Normalize one-off todos to match TodoItemType (add instanceDate: null)
     const normalizedOneOffTodos: TodoItemType[] = oneOffTodos.map((todo) => ({
@@ -164,11 +143,9 @@ export async function GET(
       instances: null,
     }));
 
-    const allTodos = [
-      ...normalizedOneOffTodos,
-      ...mergedFutureGhostTodos,
-      ...filteredGhosts,
-    ].sort((a, b) => a.order - b.order);
+    const allTodos = [...normalizedOneOffTodos, ...filteredGhosts].sort(
+      (a, b) => a.order - b.order,
+    );
 
     return NextResponse.json(
       { todos: allTodos },

@@ -6,8 +6,8 @@ import { Link } from "@/i18n/navigation";
 import { useTodo } from "@/features/todayTodos/query/get-todo";
 import useWindowSize from "@/hooks/useWindowSize";
 import { Sun } from "lucide-react";
-import { Button } from "@/components/ui/button";
 import { useTranslations } from "next-intl";
+import SidebarItem from "../SidebarItem";
 const TodoItem = () => {
   const appDict = useTranslations("app");
 
@@ -17,13 +17,9 @@ const TodoItem = () => {
   const todayTodoCount = todos.length;
 
   return (
-    <Button
+    <SidebarItem
       asChild
-      variant={"ghost"}
-      className={clsx(
-        "flex items-center border border-transparent font-normal! px-2!",
-        activeMenu.name === "Todo" && "bg-sidebar-primary",
-      )}
+      className={activeMenu.name === "Todo" ? "bg-sidebar-primary" : ""}
     >
       <Link
         prefetch={true}
@@ -52,7 +48,7 @@ const TodoItem = () => {
           {todayTodoCount}
         </span>
       </Link>
-    </Button>
+    </SidebarItem>
   );
 };
 

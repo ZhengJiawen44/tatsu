@@ -50,7 +50,7 @@ export function usePinTodo() {
 
       if (todoItem.projectID)
         queryClient.setQueryData<TodoItemType[]>(
-          ["project", todoItem.projectID],
+          ["projectTodo", todoItem.projectID],
           (old) => {
             return old?.map((oldTodo) => {
               if (oldTodo.id === todoItem.id) {
@@ -97,7 +97,7 @@ export function usePinTodo() {
     onSettled: () => {
       queryClient.invalidateQueries({ queryKey: ["overdueTodo"] });
       queryClient.invalidateQueries({ queryKey: ["todo"] });
-      queryClient.invalidateQueries({ queryKey: ["project"] });
+      queryClient.invalidateQueries({ queryKey: ["projectTodo"] });
       queryClient.invalidateQueries({ queryKey: ["pinnedTodo"] });
     },
   });

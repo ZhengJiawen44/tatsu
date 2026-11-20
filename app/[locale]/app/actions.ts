@@ -4,10 +4,12 @@ import { UnauthorizedError } from "@/lib/customError";
 import { prisma } from "@/lib/prisma/client";
 import { resolveTimezone } from "@/lib/resolveTimeZone";
 import { TodoItemType, recurringTodoItemType } from "@/types";
-import { startOfDay, endOfDay } from "date-fns";
+import { addMinutes, startOfDay, endOfDay } from "date-fns";
 import { toZonedTime, fromZonedTime } from "date-fns-tz";
 import expandAndMergeTodos from "@/lib/RRule/expandAndMergeTodos";
 import { getClosestOccuringInstance } from "@/lib/RRule/getClosestOccuringInstance";
+import { mergeWithOverrideInstances } from "@/lib/RRule/mergeWithOverrideInstances";
+import { getTodoDurationMinutes } from "@/lib/RRule/getTodoDurationMinutes";
 
 export async function getUserPreferences() {
   const session = await auth();
@@ -139,7 +141,6 @@ export async function getPinnedTodo(): Promise<TodoItemType[]> {
   const timeZone = await resolveTimezone(user);
   const now = new Date();
   const userNow = toZonedTime(now, timeZone);
-  const dateRangeStart = fromZonedTime(startOfDay(userNow), timeZone);
   const dateRangeEnd = fromZonedTime(endOfDay(userNow), timeZone);
   // Fetch pinned Todos
   const oneOffTodos = await prisma.todo.findMany({
@@ -163,20 +164,24 @@ export async function getPinnedTodo(): Promise<TodoItemType[]> {
     include: { instances: true },
   })) as recurringTodoItemType[];
 
-  const ghostTodos = expandAndMergeTodos(
-    recurringTodos,
-    timeZone,
-    dateRangeStart,
-    dateRangeEnd,
-  );
-
-  // get the instances that due after or equal the date range start, or the nearest one to the left of the date range start
-  // this is so pinned recurring todos always shows in the pinned todo response, even if their occurence doesnt precisely fall in
-  // the date range
-  const closestOccuringInstances = getClosestOccuringInstance(
-    ghostTodos,
-    dateRangeStart,
-  );
+  // so pinned recurring todos always show, even if their occurrence doesn't fall in today
+  const closestOccuringInstances = recurringTodos.flatMap((todo) => {
+    const closestOccurenceDate = getClosestOccuringInstance(
+      todo,
+      todo.instances,
+      timeZone,
+      dateRangeEnd,
+      true,
+    );
+    if (!closestOccurenceDate) return [];
+    const instance = {
+      ...todo,
+      dtstart: closestOccurenceDate,
+      due: addMinutes(closestOccurenceDate, getTodoDurationMinutes(todo)),
+      instanceDate: closestOccurenceDate,
+    };
+    return mergeWithOverrideInstances([instance]);
+  });
 
   // Normalize one-off todos to match TodoItemType (add instanceDate: null)
   const normalizedOneOffTodos: TodoItemType[] = oneOffTodos.map((todo) => ({

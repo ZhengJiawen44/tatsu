@@ -16,7 +16,7 @@ export function usePinProjectTodo() {
     },
 
     onMutate: async (todoItem: TodoItemType) => {
-      await queryClient.cancelQueries({ queryKey: ["project"] });
+      await queryClient.cancelQueries({ queryKey: ["projectTodo"] });
       await queryClient.cancelQueries({ queryKey: ["todo"] });
 
       const oldProjectTodos = queryClient.getQueryData<TodoItemType[]>([
@@ -25,7 +25,7 @@ export function usePinProjectTodo() {
       const oldTodos = queryClient.getQueryData<TodoItemType[]>(["todo"]);
 
       queryClient.setQueriesData<TodoItemType[]>(
-        { queryKey: ["project"] },
+        { queryKey: ["projectTodo"] },
         (old) => {
           return old?.map((oldTodo) => {
             if (oldTodo.id === todoItem.id) {
@@ -60,10 +60,10 @@ export function usePinProjectTodo() {
       return { oldProjectTodos, oldTodos };
     },
 
-    mutationKey: ["project"],
+    mutationKey: ["projectTodo"],
 
     onError: (error, _, context) => {
-      queryClient.setQueryData(["project"], context?.oldProjectTodos);
+      queryClient.setQueryData(["projectTodo"], context?.oldProjectTodos);
       queryClient.setQueryData(["todo"], context?.oldTodos);
 
       toast({

@@ -24,6 +24,7 @@ model User {
   File          File[]
   Project       Project[]
   UserPreferences       UserPreferences[]
+  Page          Page[]
   maxStorage    Decimal             @default(1000000.0) //default 100 mb of storage
   usedStoraged  Decimal             @default(0.0)
   protectedSymmetricKey String?
@@ -61,6 +62,8 @@ model UserPreferences {
   sortBy            SortBy?
   groupBy           GroupBy?
   direction         Direction?
+  showOverdue       Boolean?
+  showUpcoming      Boolean?
 }
  
 model Account {
@@ -306,3 +309,11 @@ model eventLog{
     log         String
   }
 
+model Page{
+    id          String          @id @default(cuid())
+    user          User            @relation(fields: [userID], references: [id])
+    userID        String
+    title       String  
+    from        DateTime
+    to          DateTime
+}

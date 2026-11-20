@@ -102,7 +102,7 @@ async function AuthenticatedApp({ children }: { children: React.ReactNode }) {
 
   return (
     <HydrationBoundary state={dehydrate(queryClient)}>
-      <div className="flex h-screen min-h-screen w-full text-xs sm:text-sm md:text-md">
+      <div className="flex h-screen min-h-screen w-full text-xs sm:text-sm md:text-base">
         <SidebarContainer />
         <div className="flex h-full min-w-0 flex-1 flex-col">{children}</div>
       </div>

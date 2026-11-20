@@ -143,4 +143,21 @@ export const userPreferencesSchema = z.object({
     .nullable()
     .optional(),
   direction: z.enum(["Ascending", "Descending"]).nullable().optional(),
+  showOverdue: z.boolean().nullable().optional(),
+  showUpcoming: z.boolean().nullable().optional(),
+});
+
+export const pageSchema = z.object({
+  title: z
+    .string({ message: "title cannot be left empty" })
+    .trim()
+    .min(1, { message: "title cannot be left empty" }),
+  from: z.date(),
+  to: z.date(),
+});
+
+export const pagePatchSchema = z.object({
+  title: z.string().optional(),
+  from: z.date().optional(),
+  to: z.date().optional(),
 });

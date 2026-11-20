@@ -70,7 +70,7 @@ export const useEditTodoInstance = (
         if (setEditInstanceOnly) setEditInstanceOnly(false);
         queryClient.invalidateQueries({ queryKey: ["calendarTodo"] });
         queryClient.invalidateQueries({ queryKey: ["overdueTodo"] });
-        queryClient.invalidateQueries({ queryKey: ["project"] });
+        queryClient.invalidateQueries({ queryKey: ["projectTodo"] });
       },
       onError: (error, newTodo, context) => {
         queryClient.setQueryData(["todo"], context?.oldTodos);

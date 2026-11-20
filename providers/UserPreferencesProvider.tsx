@@ -4,6 +4,7 @@ import React, { createContext, useContext } from "react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { SortBy, GroupBy, Direction } from "@prisma/client";
 import { userDetail, UserPreferences } from "@/types";
+import { toast } from "@/hooks/use-toast";
 
 type UserPreferencesContextType = {
   preferences: UserPreferences | null;
@@ -93,6 +94,7 @@ function UserPreferencesProviderInner({
           context.previousPreferences,
         );
       }
+      toast({ description: err.message });
       console.error("Failed to update preferences:", err);
     },
     onSuccess: (data) => {

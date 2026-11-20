@@ -30,10 +30,12 @@ export const useCompleteProjectTodo = () => {
       }
     },
     onMutate: async (todoItem: TodoItemType) => {
-      await queryClient.cancelQueries({ queryKey: ["project"] });
-      const oldTodos = queryClient.getQueryData(["project"]) as TodoItemType[];
+      await queryClient.cancelQueries({ queryKey: ["projectTodo"] });
+      const oldTodos = queryClient.getQueryData([
+        "projectTodo",
+      ]) as TodoItemType[];
       queryClient.setQueryData(
-        ["project", todoItem.projectID],
+        ["projectTodo", todoItem.projectID],
         (oldTodos: TodoItemType[]) => {
           return oldTodos.flatMap((oldTodo) => {
             if (oldTodo.id === todoItem.id) return [];
@@ -45,7 +47,7 @@ export const useCompleteProjectTodo = () => {
     },
     onError: (error, newTodo, context) => {
       toast({ description: error.message, variant: "destructive" });
-      queryClient.setQueryData(["project"], context?.oldTodos);
+      queryClient.setQueryData(["projectTodo"], context?.oldTodos);
     },
     onSuccess: () => {},
     onSettled: () => {
@@ -57,7 +59,7 @@ export const useCompleteProjectTodo = () => {
       queryClient.invalidateQueries({ queryKey: ["calendarTodo"] });
       queryClient.invalidateQueries({ queryKey: ["completedTodo"] });
       queryClient.invalidateQueries({ queryKey: ["todo"] });
-      queryClient.invalidateQueries({ queryKey: ["project"] });
+      queryClient.invalidateQueries({ queryKey: ["projectTodo"] });
     },
   });
 

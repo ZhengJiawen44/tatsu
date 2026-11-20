@@ -144,6 +144,8 @@ export type UserPreferences = {
   sortBy: SortBy | null;
   groupBy: GroupBy | null;
   direction: Direction | null;
+  showOverdue: boolean | null;
+  showUpcoming: boolean | null;
 };
 export type userDetail = {
   userID: string;
@@ -169,3 +171,10 @@ export type CaldavCalendar = {
 };
 
 export type syncedTodo = TodoItemType & { syncMetaData: syncMetaDataType };
+
+export type Page = {
+  id: string;
+  title: string;
+  from: Date;
+  to: Date;
+};

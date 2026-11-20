@@ -24,11 +24,13 @@ import {
   Globe,
   Languages,
   RefreshCw,
+  Paintbrush,
 } from "lucide-react";
 import ConfirmLogoutModal from "../Settings/ConfirmLogoutModal";
 import { useLocale } from "next-intl";
 import LanguageDropdown from "./LanguageDropdown";
 import TimezoneModal from "./TimezoneModal";
+import PreferencesModal from "./PreferencesModal";
 import KeyboardShortcutsModal from "./KeyboardShortcutModal";
 import { Link } from "@/i18n/navigation";
 import FeedbackForm from "../Feedback/FeedbackForm";
@@ -45,6 +47,7 @@ const UserCard = ({ className }: { className?: string }) => {
   const { setTheme, theme } = useTheme();
   const [showShortcutModal, setShowShortcutModal] = useState(false);
   const [showTimezoneModal, setShowTimezoneModal] = useState(false);
+  const [showPreferencesModal, setShowPreferencesModal] = useState(false);
 
   const [showLogoutModal, setShowLogoutModal] = useState(false);
   const [open, setOpen] = useState(false);
@@ -70,6 +73,12 @@ const UserCard = ({ className }: { className?: string }) => {
         <TimezoneModal
           open={showTimezoneModal}
           onOpenChange={setShowTimezoneModal}
+        />
+      )}
+      {showPreferencesModal && (
+        <PreferencesModal
+          open={showPreferencesModal}
+          onOpenChange={setShowPreferencesModal}
         />
       )}
       <DropdownMenu open={open} onOpenChange={setOpen} modal={false}>
@@ -154,6 +163,15 @@ const UserCard = ({ className }: { className?: string }) => {
           >
             <Globe className="w-4 h-4" />
             {sidebarDict("settingMenu.timezone")}
+          </DropdownMenuItem>
+          <DropdownMenuItem
+            onClick={(e) => {
+              e.preventDefault();
+              setShowPreferencesModal(true);
+            }}
+          >
+            <Paintbrush className="w-4 h-4" />
+            Preferences
           </DropdownMenuItem>
           <DropdownMenuItem asChild>
             <FeedbackForm />

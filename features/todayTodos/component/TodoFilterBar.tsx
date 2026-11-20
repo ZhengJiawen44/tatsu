@@ -22,12 +22,7 @@ import { SortBy, GroupBy } from "@prisma/client";
 import { useUserPreferences } from "@/providers/UserPreferencesProvider";
 import { useTranslations } from "next-intl";
 
-type TodoFilterBarProps = {
-  containerHovered: boolean;
-};
-export default function TodoFilterBar({
-  containerHovered,
-}: TodoFilterBarProps) {
+export default function TodoFilterBar() {
   const filterDict = useTranslations("filterMenu");
   const appDict = useTranslations("app");
 
@@ -68,11 +63,8 @@ export default function TodoFilterBar({
           <Button
             variant={"ghost"}
             className={clsx(
-              "w-8 h-8 opacity-0 border",
-              (containerHovered ||
-                preferences?.sortBy ||
-                preferences?.groupBy) &&
-                "opacity-100",
+              "w-8 h-8 hidden border group-hover:flex data-[state=open]:flex justify-center items-center",
+              (preferences?.sortBy || preferences?.groupBy) && "flex",
             )}
           >
             <ArrowUpWideNarrowIcon className="w-4 h-4" />

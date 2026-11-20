@@ -11,11 +11,13 @@ export const useDeleteProjectTodo = () => {
       await api.DELETE({ url: `/api/todo/${id.split(":")[0]}` });
     },
     onMutate: async ({ id }: { id: string }) => {
-      await queryClient.cancelQueries({ queryKey: ["project"] });
-      const oldTodos = queryClient.getQueriesData({ queryKey: ["project"] });
+      await queryClient.cancelQueries({ queryKey: ["projectTodo"] });
+      const oldTodos = queryClient.getQueriesData({
+        queryKey: ["projectTodo"],
+      });
       //optimistically update todos
       queryClient.setQueriesData<TodoItemType[]>(
-        { queryKey: ["project"] },
+        { queryKey: ["projectTodo"] },
         (oldTodos) => {
           return oldTodos?.filter((todo) => todo.id != id);
         },
@@ -23,7 +25,7 @@ export const useDeleteProjectTodo = () => {
       return { oldTodos };
     },
     onError: (error, _, context) => {
-      queryClient.setQueryData(["project"], context?.oldTodos);
+      queryClient.setQueryData(["projectTodo"], context?.oldTodos);
       toast({
         description:
           error.message === "Failed to fetch"
@@ -40,7 +42,7 @@ export const useDeleteProjectTodo = () => {
       queryClient.invalidateQueries({ queryKey: ["calendarTodo"] });
       queryClient.invalidateQueries({ queryKey: ["overdueTodo"] });
       queryClient.invalidateQueries({ queryKey: ["todo"] });
-      queryClient.invalidateQueries({ queryKey: ["project"] });
+      queryClient.invalidateQueries({ queryKey: ["projectTodo"] });
 
       toast({ description: "todo deleted" });
     },

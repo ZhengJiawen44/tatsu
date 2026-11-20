@@ -40,7 +40,7 @@ export const usePrioritizeProjectTodo = () => {
         id: string;
         level: "Low" | "Medium" | "High";
       }) => {
-        await queryClient.cancelQueries({ queryKey: ["project"] });
+        await queryClient.cancelQueries({ queryKey: ["projectTodo"] });
         await queryClient.cancelQueries({ queryKey: ["todo"] });
 
         const oldProjectTodos = queryClient.getQueryData<TodoItemType[]>([
@@ -49,7 +49,7 @@ export const usePrioritizeProjectTodo = () => {
         const oldTodos = queryClient.getQueryData<TodoItemType[]>(["todo"]);
 
         queryClient.setQueriesData<TodoItemType[]>(
-          { queryKey: ["project"] },
+          { queryKey: ["projectTodo"] },
           (old) => {
             return old?.map((todo) =>
               todo.id === id ? { ...todo, priority: level } : todo,
@@ -66,10 +66,10 @@ export const usePrioritizeProjectTodo = () => {
         return { oldProjectTodos, oldTodos };
       },
 
-      mutationKey: ["project"],
+      mutationKey: ["projectTodo"],
 
       onError: (error, _, context) => {
-        queryClient.setQueryData(["project"], context?.oldProjectTodos);
+        queryClient.setQueryData(["projectTodo"], context?.oldProjectTodos);
         queryClient.setQueryData(["todo"], context?.oldTodos);
 
         toast({

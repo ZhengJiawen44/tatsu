@@ -1,11 +1,13 @@
 import { RRule, RRuleSet } from "rrule";
 import { recurringTodoItemType } from "@/types";
 import { toZonedTime } from "date-fns-tz";
+import { addMinutes } from "date-fns";
+import { getTodoDurationMinutes } from "./getTodoDurationMinutes";
+
 type bounds = {
   dateRangeStart: Date;
   dateRangeEnd: Date;
 };
-import { addMinutes } from "date-fns";
 
 /**
  * expands todo occurences based on the RRule and dtstart field.
@@ -23,12 +25,7 @@ export default function generateTodosFromRRule(
 ): recurringTodoItemType[] {
   return recurringTodos.flatMap((parent) => {
     try {
-      // duration and due are both optional. getting duration is trickier
-      const calculatedDuration = parent.durationMinutes
-        ? parent.durationMinutes
-        : parent.due
-          ? (parent.due.getTime() - parent.dtstart.getTime()) / 1000
-          : null;
+      const calculatedDuration = getTodoDurationMinutes(parent);
 
       const ruleSet = genRuleSet(
         parent.rrule,
@@ -39,7 +36,9 @@ export default function generateTodosFromRRule(
 
       //enlarge the start of the search window
       const searchStart = calculatedDuration
-        ? new Date(bounds.dateRangeStart.getTime() / 1000 - calculatedDuration)
+        ? new Date(
+            bounds.dateRangeStart.getTime() - calculatedDuration * 60 * 1000,
+          )
         : bounds.dateRangeStart;
 
       const occurrences = ruleSet.between(
@@ -47,6 +46,10 @@ export default function generateTodosFromRRule(
         bounds.dateRangeEnd,
         true,
       );
+      // console.log(searchStart, bounds.dateRangeEnd)
+      // console.log(parent, timeZone)
+
+      // console.log("-----------------------------------------------bounds start and end: ", bounds.dateRangeStart, searchStart, bounds.dateRangeEnd)
 
       return occurrences.map((occ) => {
         return {

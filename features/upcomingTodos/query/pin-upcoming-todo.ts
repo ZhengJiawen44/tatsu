@@ -1,0 +1,48 @@
+import { useQueryClient, useMutation } from "@tanstack/react-query";
+import { api } from "@/lib/api-client";
+import { useToast } from "@/hooks/use-toast";
+import { TodoItemType } from "@/types";
+
+export function usePinUpcomingTodo() {
+  const { toast } = useToast();
+  const queryClient = useQueryClient();
+  const { mutate: pinMutateFn, isPending: pinPending } = useMutation({
+    mutationFn: async (todoItem: TodoItemType) => {
+      await api.PATCH({
+        url: `/api/todo/${todoItem.id.split(":")[0]}`,
+        body: JSON.stringify({ pinned: !todoItem.pinned }),
+      });
+    },
+
+    onMutate: async (todoItem: TodoItemType) => {
+      await queryClient.cancelQueries({ queryKey: ["upcomingTodo"] });
+
+      const oldTodos = queryClient.getQueryData(["upcomingTodo"]);
+      queryClient.setQueryData(["upcomingTodo"], (oldTodos: TodoItemType[]) =>
+        oldTodos.map((oldTodo) => {
+          if (oldTodo.id === todoItem.id) {
+            return {
+              ...todoItem,
+              pinned: !todoItem.pinned,
+            };
+          }
+          return oldTodo;
+        }),
+      );
+      //optimistically update pinned todo
+      queryClient.setQueryData<TodoItemType[]>(["pinnedTodo"], (old) => {
+        if (!old) return [todoItem];
+        return [...old, todoItem];
+      });
+      return { oldTodos };
+    },
+    onSettled: () => {
+      queryClient.invalidateQueries({ queryKey: ["pinnedTodo"] });
+    },
+    onError: (error) => {
+      toast({ description: error.message, variant: "destructive" });
+    },
+  });
+
+  return { pinMutateFn, pinPending };
+}

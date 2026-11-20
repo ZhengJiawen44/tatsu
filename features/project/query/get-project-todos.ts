@@ -16,7 +16,7 @@ export const useProject = ({ projectId }: { projectId: string }) => {
     isFetching,
     isPending,
   } = useQuery<TodoItemType[]>({
-    queryKey: ["project", projectId],
+    queryKey: ["projectTodo", projectId],
     retry: 2,
     staleTime: 5 * 60 * 1000,
     queryFn: async ({ queryKey }) => {

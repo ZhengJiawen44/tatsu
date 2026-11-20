@@ -1,5 +1,5 @@
 "use client";
-import React, { useMemo, useRef, useState } from "react";
+import React, { useMemo, useRef } from "react";
 import CreateTodoBtn from "./CreateTodoBtn";
 import TodoListLoading from "../../../components/todo/component/TodoListLoading";
 import TodoGroup from "@/components/todo/component/TodoGroup";
@@ -30,7 +30,6 @@ const ProjectContainer = ({ projectId }: { projectId: string }) => {
   const { projectMetaData } = useProjectMetaData();
   const { preferences } = useUserPreferences();
   const { projectTodos, projectTodosLoading } = useProject({ projectId });
-  const [containerHovered, setContainerHovered] = useState(false);
 
   const unpinnedTodos = useMemo(
     () => projectTodos.filter(({ pinned }) => !pinned),
@@ -123,16 +122,15 @@ const ProjectContainer = ({ projectId }: { projectId: string }) => {
         usePrioritizeTodo={usePrioritizeProjectTodo}
         useReorderTodo={useReorderProjectTodo}
       >
-        <div
-          className="mb-20"
-          onMouseOver={() => setContainerHovered(true)}
-          onMouseOut={() => setContainerHovered(false)}
-        >
+        <div className="mb-20 group">
           <div className="mb-3">
-            <h3 className="text-2xl font-semibold select-none mb-4">
-              {projectMetaData[projectId]?.name}
-            </h3>
-            <TodoFilterBar containerHovered={containerHovered} />
+            <div className="flex justify-between flex-wrap">
+              <h3 className="text-2xl font-semibold select-none mb-4">
+                {projectMetaData[projectId]?.name}
+              </h3>
+              <TodoFilterBar />
+            </div>
+
             <LineSeparator className="flex-1" />
           </div>
           {projectTodosLoading && <TodoListLoading />}

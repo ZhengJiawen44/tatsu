@@ -15,7 +15,13 @@ export async function GET() {
 
     const userPreferences = await prisma.userPreferences.findUnique({
       where: { userID: user.id },
-      select: { sortBy: true, groupBy: true, direction: true },
+      select: {
+        sortBy: true,
+        groupBy: true,
+        direction: true,
+        showOverdue: true,
+        showUpcoming: true,
+      },
     });
     const userTimezone = await prisma.user.findUnique({
       where: { id: user.id },
@@ -56,6 +62,8 @@ export async function PATCH(req: NextRequest) {
         sortBy: parsedObj.data.sortBy,
         groupBy: parsedObj.data.groupBy,
         direction: parsedObj.data.direction,
+        showUpcoming: parsedObj.data.showUpcoming,
+        showOverdue: parsedObj.data.showOverdue,
       },
     });
 

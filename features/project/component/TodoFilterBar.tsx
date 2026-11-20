@@ -22,21 +22,16 @@ import { SortBy, GroupBy } from "@prisma/client";
 import { useUserPreferences } from "@/providers/UserPreferencesProvider";
 import { useTranslations } from "next-intl";
 
-type TodoFilterBarProps = {
-  containerHovered: boolean;
-};
-export default function TodoFilterBar({
-  containerHovered,
-}: TodoFilterBarProps) {
+export default function TodoFilterBar() {
   const filterDict = useTranslations("filterMenu");
   const appDict = useTranslations("app");
 
   const { updatePreferences, preferences } = useUserPreferences();
   return (
-    <div className="flex w-full justify-between">
+    <div className="flex w-fit justify-between">
       <div className="flex gap-2 items-center flex-wrap">
         {preferences?.groupBy && (
-          <div className="bg-sidebar border py-1.5 px-3  rounded-md flex items-center gap-2 shrink-0">
+          <div className="bg-sidebar border py-1.5 px-3 rounded-md flex items-center gap-2 shrink-0">
             <span>{`${filterDict("groupedBy")}: ${preferences.groupBy}`}</span>
             <span
               className="hover:text-lime cursor-pointer w-4 text-center"
@@ -68,11 +63,8 @@ export default function TodoFilterBar({
           <Button
             variant={"ghost"}
             className={clsx(
-              "w-8 h-8 opacity-0 border",
-              (containerHovered ||
-                preferences?.sortBy ||
-                preferences?.groupBy) &&
-                "opacity-100",
+              "w-8 h-8 hidden border group-hover:flex data-[state=open]:flex justify-center items-center my-auto ml-2",
+              (preferences?.sortBy || preferences?.groupBy) && "flex",
             )}
           >
             <ArrowUpWideNarrowIcon className="w-4 h-4" />

@@ -3,6 +3,7 @@ import { useQueryClient, useMutation } from "@tanstack/react-query";
 import { todoSchema } from "@/schema";
 import { api } from "@/lib/api-client";
 import { TodoItemType } from "@/types";
+import { endOfDay } from "date-fns";
 
 async function postTodo({ todo }: { todo: TodoItemType }) {
   //validate input
@@ -43,9 +44,12 @@ export const useCreateTodo = () => {
     },
     onMutate: async (newTodo) => {
       await queryClient.cancelQueries({ queryKey: ["todo"] });
-      await queryClient.cancelQueries({ queryKey: ["project"] });
+      await queryClient.cancelQueries({ queryKey: ["projectTodo"] });
+      await queryClient.cancelQueries({ queryKey: ["upcomingTodo"] });
 
       const oldTodos = queryClient.getQueryData(["todo"]);
+      const oldPageTodos = queryClient.getQueryData(["pageTodo"]);
+      const oldUpcomingTodos = queryClient.getQueryData(["upcomingTodo"]);
       const oldProjectTodos = queryClient.getQueryData<TodoItemType[]>([
         "project",
         newTodo.projectID,
@@ -55,22 +59,36 @@ export const useCreateTodo = () => {
         ...old,
         newTodo,
       ]);
+      queryClient.setQueriesData(
+        { queryKey: ["pageTodo"] },
+        (old: TodoItemType[]) => [...old, newTodo],
+      );
 
       if (newTodo.projectID) {
         queryClient.setQueriesData(
-          { queryKey: ["project", newTodo.projectID] },
+          { queryKey: ["projectTodo", newTodo.projectID] },
           (old: TodoItemType[]) => {
             return [...old, newTodo];
           },
         );
       }
 
-      return { oldTodos, oldProjectTodos };
+      if (newTodo.dtstart && newTodo.dtstart > endOfDay(new Date())) {
+        queryClient.setQueryData<TodoItemType[]>(
+          ["upcomingTodo"],
+          (old = []) => [...old, newTodo],
+        );
+      }
+
+      return { oldTodos, oldPageTodos, oldProjectTodos, oldUpcomingTodos };
     },
     //if fetch error then revert optimistic updates including form states
     onError: (error, newTodo, context) => {
       queryClient.setQueryData(["todo"], context?.oldTodos);
-      queryClient.setQueryData(["project"], context?.oldProjectTodos);
+      queryClient.setQueryData(["pageTodo"], context?.oldPageTodos);
+      queryClient.setQueryData(["projectTodo"], context?.oldProjectTodos);
+      queryClient.setQueryData(["upcomingTodo"], context?.oldUpcomingTodos);
+
       toast({ description: error.message, variant: "destructive" });
     },
     onSuccess: (createdTodo: TodoItemType, newTodo) => {
@@ -89,11 +107,21 @@ export const useCreateTodo = () => {
         old.map((t) => (t.id === newTodo.id ? formattedTodo : t)),
       );
 
+      queryClient.setQueryData(["pageTodo"], (old: TodoItemType[] = []) =>
+        old.map((t) => (t.id === newTodo.id ? formattedTodo : t)),
+      );
+
       if (createdTodo.projectID) {
         queryClient.setQueryData(
-          ["project", createdTodo.projectID],
+          ["projectTodo", createdTodo.projectID],
           (old: TodoItemType[] = []) =>
             old.map((t) => (t.id === newTodo.id ? formattedTodo : t)),
+        );
+      }
+
+      if (newTodo.dtstart && newTodo.dtstart > endOfDay(new Date())) {
+        queryClient.setQueryData(["upcomingTodo"], (old: TodoItemType[] = []) =>
+          old.map((t) => (t.id === newTodo.id ? formattedTodo : t)),
         );
       }
     },
@@ -103,11 +131,13 @@ export const useCreateTodo = () => {
       }
       queryClient.invalidateQueries({ queryKey: ["todo"] });
       queryClient.invalidateQueries({
-        queryKey: ["project", newTodo.projectID],
+        queryKey: ["projectTodo", newTodo.projectID],
       });
       queryClient.invalidateQueries({ queryKey: ["calendarTodo"] });
       queryClient.invalidateQueries({ queryKey: ["overdueTodo"] });
-      queryClient.invalidateQueries({ queryKey: ["project"] });
+      queryClient.invalidateQueries({ queryKey: ["upcomingTodo"] });
+      queryClient.invalidateQueries({ queryKey: ["projectTodo"] });
+      queryClient.invalidateQueries({ queryKey: ["pageTodo"] });
     },
   });
   return { createMutateFn, createStatus };

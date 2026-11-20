@@ -56,7 +56,7 @@ export const useDeleteCalendarInstanceTodo = () => {
           queryKey: ["overdueTodo"],
         });
         queryClient.invalidateQueries({
-          queryKey: ["project"],
+          queryKey: ["projectTodo"],
         });
       },
     });

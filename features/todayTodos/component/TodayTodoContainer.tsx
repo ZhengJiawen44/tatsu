@@ -1,5 +1,5 @@
 "use client";
-import React, { useMemo, useRef, useState } from "react";
+import React, { useMemo, useRef } from "react";
 import CreateTodoBtn from "./CreateTodoBtn";
 import { useTodo } from "../query/get-todo";
 import TodoListLoading from "../../../components/todo/component/TodoListLoading";
@@ -32,7 +32,6 @@ const TodayTodoContainer = () => {
   const appDict = useTranslations("app");
   const { preferences } = useUserPreferences();
   const { todos, todoLoading } = useTodo();
-  const [containerHovered, setContainerHovered] = useState(false);
 
   const unpinnedTodos = useMemo(
     () => todos.filter(({ pinned }) => !pinned),
@@ -127,14 +126,10 @@ const TodayTodoContainer = () => {
         usePrioritizeTodo={usePrioritizeTodo}
         useReorderTodo={useReorderTodo}
       >
-        <div
-          className="mb-20"
-          onMouseOver={() => setContainerHovered(true)}
-          onMouseOut={() => setContainerHovered(false)}
-        >
+        <div className="mb-20">
           <div
             className={clsx(
-              "mb-3",
+              "mb-3 group",
               !preferences?.groupBy && !preferences?.sortBy && "flex items-end",
             )}
           >
@@ -151,7 +146,7 @@ const TodayTodoContainer = () => {
                 {formatDateInTZ(userTimezone).slice(0, 6)}
               </p>
             </div>
-            <TodoFilterBar containerHovered={containerHovered} />
+            <TodoFilterBar />
           </div>
           <LineSeparator className="flex-1" />
           {todoLoading && <TodoListLoading />}
